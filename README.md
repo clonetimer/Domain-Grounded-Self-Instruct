@@ -4,7 +4,7 @@ Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft
 
 ## Current scope (Phase 1)
 
-- Public indexes: `resources/sources.json`, `resources/terms.json`, `resources/telemetry_channels.csv`, `resources/fault_effects.json`.
+- Public indexes: `resources/sources.json`, `resources/source_passages.json`, `resources/terms.json` (alias-aware v2), `resources/telemetry_channels.csv`, `resources/fault_effects.json`.
 - Run admission contract: `resources/simulation_truth.json` (initially **zero verified runs**).
 - Versioned candidate JSON contract: `resources/seed.schema.json`.
 - Conservative Python preflight CLI: `src/dgsi/quality.py`, 19 adversarial tests.
@@ -25,7 +25,7 @@ python -m unittest discover -s tests -v
 python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
 ```
 
-Success means **structural and rule-based preflight only**; factual correctness and physical causal validity require independent domain review. A `CANDIDATE_CHECKS_PASSED` result is never a Gold Seed. Human review metadata is not proof of reviewer identity; Gold freeze remains a separate governed action.
+`REVIEW_REQUIRED` means suspicious technical compounds need manual terminology review. `CANDIDATE_CHECKS_PASSED` means **structural and rule-based preflight only**; factual correctness, complete terminology coverage and physical causal validity require independent domain review. Mechanism/causal claims use registered passage IDs, not free-text locators. A `CANDIDATE_CHECKS_PASSED` result is never a Gold Seed. Human review metadata is not proof of reviewer identity; Gold freeze remains a separate governed action.
 
 ## Security, provenance and IP
 
