@@ -2,9 +2,9 @@
 
 ## What passes and what does not
 
-The preflight checks registry IDs, known non-domain phrases, self-certifying language, selected causal wording, evidence references, direct input label leakage, physical-claim scope and locators, causal review metadata, admissible simulation runs, and human approval metadata. These checks do not establish that a prose statement is true. Unrecognized technical expressions *not explicitly submitted as term IDs* remain an editorial risk for human review.
+The preflight checks registry IDs, registered source-passage references, alias classes, selected suspicious technical compounds, self-certifying language, selected causal wording, evidence references, direct input label leakage, physical-claim scope, causal review metadata, admissible simulation runs, and human approval metadata. Mechanism/causal claims must cite registered `source_passage_ids` whose `allowed_claim_types` includes the claim type; a free-text locator cannot substitute. These checks do not establish that a prose statement is true. The compound-term scanner is intentionally narrow and cannot guarantee discovery of all unregistered technical expressions.
 
-A result with `decision=CANDIDATE_CHECKS_PASSED` is still an AI/synthetic **candidate**. `HUMAN_REVIEWED` may produce `GOLD_METADATA_ELIGIBLE_MANUAL_AUTHENTICATION_REQUIRED`, but the validator never authenticates reviewer identity and never moves a record into a Gold dataset. An independent curator must confirm the source and approval receipt outside the generated content.
+A result with `decision=REVIEW_REQUIRED` must be manually examined for suspicious compounds. A result with `decision=CANDIDATE_CHECKS_PASSED` is still an AI/synthetic **candidate**; scanner silence is not proof that every term is registered. `HUMAN_REVIEWED` may produce `GOLD_METADATA_ELIGIBLE_MANUAL_AUTHENTICATION_REQUIRED`, but the validator never authenticates reviewer identity and never moves a record into a Gold dataset. An independent curator must confirm the source and approval receipt outside the generated content.
 
 ## Evidence tiers
 
@@ -18,17 +18,17 @@ No run is admitted in v0.1. The public registry intentionally has `runs: []`. AA
 
 ## Mandatory review workflow
 
-1. Register the domain source, section/page locator, terminology IDs and provenance *before* asking an LLM to generate a new task.
+1. Register the domain source and exact `source_passage_id` (section/page locator, allowed claim types, claim boundary), terminology IDs and provenance *before* asking an LLM to generate a new task.
 2. Generate a small candidate with truth-free `input` and explicit observed vs. hypothetical evidence.
 3. Atomize output into typed `claims`. Identify entity, component, channel, operating mode, units and certainty.
-4. Run the offline validator. For every flagged term, citation or logical leap: correct, downgrade to uncertainty, or reject the sample. Never rewrite a wrong physical claim merely to satisfy regex rules.
+4. Run the offline validator. For every flagged term, citation or logical leap: correct, downgrade to uncertainty, or reject the sample. `DOCUMENT_EXCERPT` evidence must match a registered passage ID and its source ID. Do not invent locator strings. Never rewrite a wrong physical claim merely to satisfy regex rules.
 5. A second reviewer verifies complex causal edges and any claimed fault-source localization with independent evidence. Reviewers must distinguish correlated affected components from proven originating components.
 6. Confirm a candidate's artifact IDs, source passages, fault-window receipt, and data split. Record a human decision; freeze Gold in a separate controlled process.
 7. Keep Gold Seed / Synthetic Train / Validation / Test / Rejected nonoverlapping by provenance group (run, scenario, source, model and near-duplicate instructions). Never tune prompts against a test holdout.
 
 ## Editorial risk checklist
 
-- **Coinages:** preferred terminology is DRAFT; reject invented compound terms, verify bilingual aliases against references, manually review unrecognized expressions even if CLI says PASS.
+- **Coinages:** preferred terminology is DRAFT; reject invented compound terms, verify bilingual aliases against references, and manually review unrecognized expressions even if CLI says PASS. Alias types are not interchangeable: exact, alternate translation, informal/contextual short form, broader description and structural subtype.
 - **False causality:** association, affected component, fault event, fault source and mechanism are distinct. Every causal statement needs a precise source locator and at least two *genuinely* independent evidence groups plus explicit human review; metadata group names alone are not independence proof.
 - **Self-attestation:** do not write “already proven”, “fully verified” or similar without independent provenance; the phrase scan is a coarse guard, not an NLP fact verifier.
 - **Disguised labels:** remove simulation `label`, `fault_id`, `onset_s`, `group`, experiment identity, outcome timestamps or source hash from inference prompts even if a different field name is used. Review every prompt by hand for semantic leakage.
