@@ -25,13 +25,13 @@ The RW speed channel is an ideal native state-feedback upper bound. It is not an
 - exactly 12 unique arms plus one replay, 31 samples per execution;
 - all 12 physical-baseline comparisons and six observer-noise isolation checks;
 - explicit false flags for model training, formal train/test eligibility and flight/hardware qualification;
-- SHA-256 of all four JSONL artifacts against the execution manifest;
+- SHA-256 of all four JSONL artifacts and three immutable upstream source archives against the execution manifest and source registry;\n- the Basilisk compatibility report proves all 880 native payload files remain byte-identical to the pinned upstream wheel;
 - unique record IDs across telemetry, IMU, case and physics-QA streams;
-- required channel presence, finite numeric samples and strictly increasing time axes;
+- exact channel whitelists, finite numeric samples and the frozen 0.2 s / 31-point time grid;
 - aligned timestamps between telemetry, IMU and QA records;
 - IMU channels agree between the dedicated IMU stream and model-facing telemetry;
 - QA-only truth, labels, hub state and fault fields are rejected from model-facing telemetry;
-- the replay is linked to one of the 12 unique arms and is sample-exact across telemetry, IMU and QA streams.
+- the frozen 2×3×2 arm matrix and deterministic seed formula;\n- physical baseline deltas remain within the preregistered tolerance;\n- the replay is linked to one of the 12 unique arms and is sample-exact across telemetry, IMU and QA streams.
 
 The adapter does not copy private trace data into the public repository. It emits only a compact local preflight receipt.
 
