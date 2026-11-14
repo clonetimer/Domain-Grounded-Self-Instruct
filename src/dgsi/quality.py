@@ -35,6 +35,7 @@ CLAIM_TYPES = {"OBSERVATION", "MECHANISM", "CAUSAL", "UNCERTAINTY"}
 SELF_ATTESTATION = re.compile(r"(?:已经过权威验证|经过权威验证|完全证明|绝对证明|百分之百确定|已获专家一致认可|经严格验证.*正确)")
 CAUSAL_LANGUAGE = re.compile(r"(?:直接导致|必然导致|证明.*?(?:致使|引起)|根因必然是)")
 TRUTH_KEYS = {"fault_id", "fault_type", "fault_mode", "effect_id", "onset_s", "target_role", "split", "group", "truth", "label", "labels", "source_sha256"}
+UNREGISTERED_COMPOUND = re.compile(r"[\\u4e00-\\u9fff]{2,14}(?:量子|熵耦合|裂解|解耦|坍缩|磁振裂解)")
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -59,15 +60,24 @@ def load_registry(root: str | Path) -> dict[str, Any]:
     resources = Path(root) / "resources"
     sources_file = _load_json(resources / "sources.json")
     terms_file = _load_json(resources / "terms.json")
+    passages_file = _load_json(resources / "source_passages.json")
     effects_file = _load_json(resources / "fault_effects.json")
     simulation_truth = _load_json(resources / "simulation_truth.json")
     with (resources / "telemetry_channels.csv").open(encoding="utf-8-sig", newline="") as f:
         channels_rows = list(csv.DictReader(f))
     sources = _index_unique(sources_file["sources"], "source_id", "sources")
     terms = _index_unique(terms_file["terms"], "term_id", "terms")
+    source_passages = _index_unique(passages_file["passages"], "passage_id", "source_passages")
     effects = _index_unique(effects_file["effects"], "effect_id", "effects")
     channels = _index_unique(channels_rows, "channel_id", "telemetry_channels")
     runs = _index_unique(simulation_truth.get("runs", []), "run_id", "simulation_truth")
+    for passage in source_passages.values():
+        if passage.get("source_id") not in sources:
+            raise ValueError(f"source_passages: unregistered source ref in {passage!r}")
+        if not isinstance(passage.get("locator"), str) or not passage["locator"].strip():
+            raise ValueError(f"source_passages: missing precise locator in {passage!r}")
+        if not isinstance(passage.get("allowed_claim_types"), list) or not passage["allowed_claim_types"]:
+            raise ValueError(f"source_passages: missing allowed_claim_types in {passage!r}")
     for name, records, property_name in (
         ("terms", terms.values(), "source_ids"),
         ("effects", effects.values(), "source_id"),
@@ -78,6 +88,22 @@ def load_registry(root: str | Path) -> dict[str, Any]:
             refs = ref if isinstance(ref, list) else [ref]
             if not refs or any(x not in sources for x in refs):
                 raise ValueError(f"{name}: unregistered source ref in {row!r}")
+            if name == "terms":
+                for passage_id in row.get("source_passage_ids", []):
+                    if passage_id not in source_passages:
+                        raise ValueError(f"term {row['term_id']}: unknown source passage {passage_id!r}")
+                    if source_passages[passage_id].get("source_id") not in refs:
+                        raise ValueError(f"term {row['term_id']}: passage/source mismatch for {passage_id!r}")
+    term_surfaces: dict[str, set[str]] = {}
+    related_terms: dict[str, list[str]] = {}
+    for term_id, row in terms.items():
+        surfaces = {row.get("preferred_zh", ""), row.get("preferred_en", "")}
+        for alias in row.get("aliases", []):
+            surface = alias if isinstance(alias, str) else alias.get("text") if isinstance(alias, dict) else None
+            if isinstance(surface, str) and surface.strip():
+                surfaces.add(surface.strip())
+        term_surfaces[term_id] = {surface for surface in surfaces if surface}
+        related_terms[term_id] = [item["text"] for item in row.get("related_terms", []) if isinstance(item, dict) and isinstance(item.get("text"), str)]
     for effect in effects.values():
         for channel in effect.get("declared_observation_channels", []):
             if channel not in channels:
@@ -86,9 +112,12 @@ def load_registry(root: str | Path) -> dict[str, Any]:
         if run.get("effect_id") not in effects:
             raise ValueError(f"run {run['run_id']}: unknown effect_id")
     return {
-        "sources": sources, "terms": terms, "effects": effects, "channels": channels,
+        "sources": sources, "terms": terms, "source_passages": source_passages,
+        "term_surfaces": term_surfaces, "related_terms": related_terms,
+        "effects": effects, "channels": channels,
         "simulation_truth": simulation_truth, "runs": runs,
         "forbidden_phrases": [item["phrase"] for item in terms_file.get("forbidden_phrases", [])],
+        "approved_compounds": [item["phrase"] for item in terms_file.get("approved_compounds", [])],
     }
 
 
@@ -119,6 +148,17 @@ def _text_fields(seed: dict[str, Any]) -> list[tuple[str, str]]:
                 if isinstance(item.get(key), str):
                     fields.append((f"{coll}[{i}].{key}", item[key]))
     return fields
+
+
+def _unregistered_term_candidates(value: str, registry: Mapping[str, Any]) -> list[str]:
+    known_surfaces = {surface for values in registry.get("term_surfaces", {}).values() for surface in values}
+    approved = set(registry.get("approved_compounds", []))
+    candidates = {
+        match.group(0)
+        for match in UNREGISTERED_COMPOUND.finditer(value)
+        if match.group(0) not in known_surfaces and match.group(0) not in approved
+    }
+    return sorted(candidates)
 
 
 def _truth_paths(value: object, path: str = "input") -> list[str]:
@@ -196,6 +236,8 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                 add("FORBIDDEN_PHRASE", path, f"known coined/non-domain phrase detected: {phrase}")
         if SELF_ATTESTATION.search(value):
             add("SELF_ATTESTATION", path, "unverified self-certifying language requires rewriting and independent evidence")
+        for candidate in _unregistered_term_candidates(value, registry):
+            add("UNREGISTERED_TERM_CANDIDATE", path, f"unregistered technical compound needs terminology review: {candidate}", "REVIEW")
         if path == "answer.summary" and CAUSAL_LANGUAGE.search(value):
             causal_claims = [c for c in claims if isinstance(c, dict) and c.get("claim_type") == "CAUSAL" and c.get("causal_review") == "HUMAN_REVIEWED"]
             if not causal_claims:
@@ -220,8 +262,15 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
         if item.get("origin") == "MEASURED" and inp.get("kind") != "TRACE":
             add("MEASUREMENT_ORIGIN_MISMATCH", f"evidence[{i}].origin", "a hypothetical prompt cannot claim measured evidence")
         if item.get("origin") == "DOCUMENT_EXCERPT":
-            if not item.get("locator"):
-                add("SOURCE_LOCATOR_MISSING", f"evidence[{i}].locator", "document evidence requires a section/page locator")
+            passage_id = item.get("passage_id")
+            passage = registry["source_passages"].get(passage_id)
+            if passage is None:
+                add("SOURCE_PASSAGE_REQUIRED", f"evidence[{i}].passage_id", "document evidence must cite a registered passage ID, not a free-text locator")
+            else:
+                if passage.get("source_id") != item.get("source_id"):
+                    add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"evidence[{i}].passage_id", "passage ID belongs to a different registered source")
+                if item.get("locator") and item.get("locator") != passage.get("locator"):
+                    add("SOURCE_LOCATOR_MISMATCH", f"evidence[{i}].locator", "free-text locator differs from the registered passage locator")
             source = registry["sources"].get(item.get("source_id"), {})
             if source.get("kind") not in {"OFFICIAL_DOMAIN_REFERENCE", "RESEARCH_PAPER", "USER_LIBRARY_REFERENCE", "SIMULATOR_DOCUMENTATION", "RESEARCH_DATASET_REFERENCE"}:
                 add("DOCUMENT_SOURCE_NOT_ADMITTED", f"evidence[{i}].source_id", "catalog/interface metadata is not document evidence")
@@ -260,9 +309,26 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
             add("CAUSAL_SOURCE_NOT_ADMITTED" if kind == "CAUSAL" else "MECHANISM_SOURCE_NOT_ADMITTED",
                 f"{path}.source_ids", "physical/causal claim needs an approved-scope domain reference")
         if kind in {"MECHANISM", "CAUSAL"}:
-            locators = claim.get("source_locators")
-            if not isinstance(locators, dict) or not any(isinstance(locators.get(sid), str) and locators[sid].strip() for sid in sources):
-                add("CLAIM_SOURCE_LOCATOR_MISSING", f"{path}.source_locators", "mechanism/causal claim requires precise source section or page")
+            passage_ids = claim.get("source_passage_ids", [])
+            if not isinstance(passage_ids, list) or not passage_ids:
+                add("SOURCE_PASSAGE_REQUIRED", f"{path}.source_passage_ids", "mechanism/causal claims must cite registered source passage IDs; free-text locators are not sufficient")
+                locators = claim.get("source_locators")
+                if not isinstance(locators, dict) or not any(isinstance(locators.get(sid), str) and locators[sid].strip() for sid in sources):
+                    add("CLAIM_SOURCE_LOCATOR_MISSING", f"{path}.source_locators", "mechanism/causal claim requires a precise source locator")
+            else:
+                required_scope = "MECHANISM" if kind == "MECHANISM" else "CAUSAL"
+                for passage_id in passage_ids:
+                    passage = registry["source_passages"].get(passage_id)
+                    if passage is None:
+                        add("UNKNOWN_SOURCE_PASSAGE", f"{path}.source_passage_ids", f"unknown source passage {passage_id!r}")
+                        continue
+                    if passage.get("source_id") not in sources or passage.get("source_id") not in sources:
+                        add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} has an unregistered source")
+                        continue
+                    if passage.get("source_id") not in claim.get("source_ids", []):
+                        add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} is not included in claim source_ids")
+                    if required_scope not in passage.get("allowed_claim_types", []):
+                        add("SOURCE_PASSAGE_SCOPE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} does not authorize {kind} claims")
         if kind == "CAUSAL":
             if claim.get("causal_review") != "HUMAN_REVIEWED":
                 add("UNREVIEWED_CAUSAL_CLAIM", f"{path}.causal_review", "causal relation requires an explicit human-reviewed record")
@@ -321,14 +387,17 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
 def report(seed: object, registry: Mapping[str, Any]) -> dict[str, Any]:
     findings = validate_seed(seed, registry)
     blocked = any(f.severity == "BLOCK" for f in findings)
+    needs_review = any(f.severity == "REVIEW" for f in findings)
     review_status = seed.get("review", {}).get("status") if isinstance(seed, dict) and isinstance(seed.get("review"), dict) else None
-    gold_eligible = not blocked and review_status == "HUMAN_REVIEWED"
+    gold_eligible = not blocked and not needs_review and review_status == "HUMAN_REVIEWED"
     if blocked:
         decision = "BLOCKED"
-    elif gold_eligible:
-        decision = "GOLD_METADATA_ELIGIBLE_MANUAL_AUTHENTICATION_REQUIRED"
     elif review_status == "REJECTED":
         decision = "REJECTED"
+    elif needs_review:
+        decision = "REVIEW_REQUIRED"
+    elif gold_eligible:
+        decision = "GOLD_METADATA_ELIGIBLE_MANUAL_AUTHENTICATION_REQUIRED"
     else:
         decision = "CANDIDATE_CHECKS_PASSED"
     return {
