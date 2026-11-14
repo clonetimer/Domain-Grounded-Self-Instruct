@@ -11,6 +11,8 @@ from datetime import datetime
 from collections import defaultdict
 from typing import Any
 
+from .schema_validation import SchemaContractError, validate_payload_schema
+
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 TASK_TYPES = {
     "diagnostic_synthesis",
@@ -208,6 +210,11 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     _require(isinstance(review, dict), "review is required")
     _require(review.get("status") in {"DRAFT", "REVIEW_REQUIRED", "APPROVED", "REJECTED"}, "unsupported review status")
 
+    try:
+        validate_payload_schema("case", case)
+    except SchemaContractError as exc:
+        raise DiagnosticContextValidationError(str(exc)) from exc
+
     warnings: list[str] = []
     if not logs:
         warnings.append("NO_DIAGNOSTIC_LOGS")
@@ -267,6 +274,10 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     review = example.get("review")
     _require(isinstance(review, dict), "review is required")
     _require(review.get("status") in {"REVIEW_REQUIRED", "APPROVED", "REJECTED"}, "unsupported SFT review status")
+    try:
+        validate_payload_schema("sft", example)
+    except SchemaContractError as exc:
+        raise DiagnosticContextValidationError(str(exc)) from exc
 
 
 def audit_split_groups(examples: list[dict[str, Any]]) -> dict[str, Any]:
