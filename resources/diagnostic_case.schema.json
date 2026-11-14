@@ -53,7 +53,8 @@
         "machine_diagnosis",
         "diagnostic_logs",
         "spacecraft_context",
-        "operational_context"
+        "operational_context",
+        "analysis_cutoff"
       ],
       "properties": {
         "machine_diagnosis": {
@@ -400,6 +401,11 @@
             "null"
           ],
           "description": "Optional pointer to upstream analysis artifact; never inline raw telemetry."
+        },
+        "analysis_cutoff": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Information cutoff for the LLM decision; logs after this timestamp are prohibited from the prompt."
         }
       }
     },
