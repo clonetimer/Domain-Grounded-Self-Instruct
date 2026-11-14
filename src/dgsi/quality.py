@@ -35,7 +35,7 @@ CLAIM_TYPES = {"OBSERVATION", "MECHANISM", "CAUSAL", "UNCERTAINTY"}
 SELF_ATTESTATION = re.compile(r"(?:已经过权威验证|经过权威验证|完全证明|绝对证明|百分之百确定|已获专家一致认可|经严格验证.*正确)")
 CAUSAL_LANGUAGE = re.compile(r"(?:直接导致|必然导致|证明.*?(?:致使|引起)|根因必然是)")
 TRUTH_KEYS = {"fault_id", "fault_type", "fault_mode", "effect_id", "onset_s", "target_role", "split", "group", "truth", "label", "labels", "source_sha256"}
-UNREGISTERED_COMPOUND = re.compile(r"[\\u4e00-\\u9fff]{2,14}(?:量子|熵耦合|裂解|解耦|坍缩|磁振裂解)")
+UNREGISTERED_COMPOUND = re.compile(r"[\u4e00-\u9fff]{2,14}(?:量子|熵耦合|裂解|解耦|坍缩|磁振裂解)")
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -322,10 +322,10 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                     if passage is None:
                         add("UNKNOWN_SOURCE_PASSAGE", f"{path}.source_passage_ids", f"unknown source passage {passage_id!r}")
                         continue
-                    if passage.get("source_id") not in sources or passage.get("source_id") not in sources:
+                    if passage.get("source_id") not in registry["sources"]:
                         add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} has an unregistered source")
                         continue
-                    if passage.get("source_id") not in claim.get("source_ids", []):
+                    if passage.get("source_id") not in sources:
                         add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} is not included in claim source_ids")
                     if required_scope not in passage.get("allowed_claim_types", []):
                         add("SOURCE_PASSAGE_SCOPE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} does not authorize {kind} claims")
