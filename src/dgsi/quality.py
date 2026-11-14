@@ -392,6 +392,12 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
         for source_id in sources:
             if source_id not in registry["sources"]:
                 add("UNKNOWN_SOURCE", f"{path}.source_ids", f"source {source_id!r} not registered")
+        for passage_id in passage_refs:
+            passage = registry["source_passages"].get(passage_id)
+            if passage is None:
+                add("UNKNOWN_SOURCE_PASSAGE", f"{path}.source_passage_ids", f"unknown source passage {passage_id!r}")
+            elif passage.get("source_id") not in sources:
+                add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} is not included in claim source_ids")
         has_mechanism_source = any(
             "MECHANISM" in registry["sources"][sid].get("scopes", [])
             for sid in sources if sid in registry["sources"]
@@ -413,11 +419,8 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                     if passage is None:
                         add("UNKNOWN_SOURCE_PASSAGE", f"{path}.source_passage_ids", f"unknown source passage {passage_id!r}")
                         continue
-                    if passage.get("source_id") not in registry["sources"]:
-                        add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} has an unregistered source")
+                    if passage is None:
                         continue
-                    if passage.get("source_id") not in sources:
-                        add("SOURCE_PASSAGE_SOURCE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} is not included in claim source_ids")
                     if required_scope not in passage.get("allowed_claim_types", []):
                         add("SOURCE_PASSAGE_SCOPE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} does not authorize {kind} claims")
         if kind == "CAUSAL":
