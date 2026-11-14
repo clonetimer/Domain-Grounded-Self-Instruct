@@ -1,167 +1,283 @@
 {
-  "schema_version": "dgsi-skill-pressure-cases.v1",
-  "notice": "Synthetic evaluation prompts only. No private telemetry or case labels are embedded. Expected behaviors are visible to the judge only, never to the generator.",
+  "schema_version": "dgsi-skill-pressure-cases.v2",
+  "notice": "Public-literature grounded synthetic pressure cases. These are not raw flight telemetry, not observed run bundles, and not ground-truth fault labels. Expected behaviors are judge-only and must not be sent to the generator.",
   "cases": [
     {
-      "case_id": "T01",
+      "case_id": "A01_NEOSSAT_MAG",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "NASA_MAGNETIC_TORQUER_ROD_RESIDUAL_FIELD"
-      ],
-      "term_ids": [
-        "magnetorquer"
-      ],
-      "task_prompt": "Create one ADCS diagnostic seed about a generic magnetorquer whose residual magnetic field may affect a nearby magnetometer. A draft uses the phrase “磁力矩杆” for every magnetorquer. Produce a technically precise candidate and identify the terminology relation.",
-      "expected_behaviors": [
-        "Do not treat 磁力矩杆 as an exact synonym for every 磁力矩器.",
-        "If the construction type is unknown, use 磁力矩器 and flag 磁力矩杆 as a subtype only.",
-        "Do not infer that every magnetometer anomaly is caused by the magnetorquer."
-      ]
-    },
-    {
-      "case_id": "T02",
-      "source_passage_ids": [
-        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
-      ],
-      "term_ids": [
-        "gyro",
-        "angular_velocity"
-      ],
-      "task_prompt": "Create one ADCS terminology seed that describes a gyroscope as an angular-rate measurement device. A draft uses “角速度传感器” as a direct replacement for “陀螺仪”. Explain and encode the relationship accurately.",
-      "expected_behaviors": [
-        "Treat 角速度传感器 as a broader functional description, not an unconditional exact synonym.",
-        "Use 陀螺仪 as the preferred component term.",
-        "Do not invent a new sensor category."
-      ]
-    },
-    {
-      "case_id": "T03",
-      "source_passage_ids": [
-        "NASA_MAGNETOMETER_LOCAL_FIELD"
+        "NEOSSAT_MAGNETOMETER_FAILURE"
       ],
       "term_ids": [
         "magnetometer",
-        "reaction_wheel",
-        "magnetorquer"
+        "fault_source",
+        "affected_component",
+        "uncertainty"
       ],
-      "task_prompt": "A magnetometer's measured local field changes while reaction wheels and magnetic torquer rods are operating. Create a diagnostic seed that explains what can and cannot be concluded.",
+      "task_prompt": "Using the registered public NEOSSat case passage, draft one diagnostic seed about the 2016 magnetometer loss. The report says fine attitude pointing was lost and the spacecraft entered a quasi-tumbling state; it separately identifies a residual magnetic dipole as the primary disturbance contributor to momentum accumulation. Keep the failure event and the later disturbance explanation distinct.",
       "expected_behaviors": [
-        "State that multiple onboard sources can alter the local magnetic field.",
-        "Do not uniquely localize the fault to the magnetometer, wheel or torquer from this observation alone.",
-        "Use an insufficient-evidence or ambiguous status unless independent evidence is supplied."
+        "Identify the magnetometer loss as the reported component failure.",
+        "Do not claim the residual dipole caused the magnetometer itself to fail; it is reported as a disturbance contributor to momentum accumulation.",
+        "Distinguish the failed sensor, the disturbance source and the system-level attitude consequence.",
+        "Do not invent telemetry values, thresholds or a physical cause for the magnetometer failure."
       ]
     },
     {
-      "case_id": "T04",
+      "case_id": "A02_NEOSSAT_TORQUER_MCU",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
+        "NEOSSAT_TORQUE_ROD_CONTROLLER_FAILURE"
+      ],
+      "term_ids": [
+        "magnetorquer",
+        "fault_source",
+        "affected_component",
+        "evidence"
+      ],
+      "task_prompt": "Using the registered public NEOSSat case passage, draft one seed about the permanent loss of torque-rod communication after an STM32 microcontroller anomaly. Explain what the report localizes and what it does not establish.",
+      "expected_behaviors": [
+        "Localize the reported failure to the torque-rod controller/microcontroller communication path.",
+        "Do not relabel it as a confirmed torque-rod coil open, short or magnetic-moment failure.",
+        "Explain the loss of desaturation capability and momentum-management impact.",
+        "Do not invent electrical telemetry or a more specific failed part."
+      ]
+    },
+    {
+      "case_id": "A03_NEOSSAT_XWHEEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "NEOSSAT_XWHEEL_SUSPECTED_ELECTRICAL_FAILURE"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "gyro",
+        "fault_source",
+        "affected_component",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered public NEOSSat case passage, draft one seed for the 2021 X-wheel anomaly. The report describes a slow wheel-speed ramp-down rather than seizure; the cause was suspected to be electrical. Speed/torque commands caused the wheel to shut off, and the same-axis rate sensor also powered down.",
+      "expected_behaviors": [
+        "Preserve the source's wording that an electrical cause was suspected, not confirmed.",
+        "Do not diagnose a mechanical seizure because the report explicitly contrasts the observed ramp-down with seizure.",
+        "Represent the wheel/rate-sensor shared power or availability dependency as an operational coupling, not proof that the rate sensor itself failed.",
+        "Mention the three-wheel reconfiguration only as the documented operational recovery, not as proof of the internal fault mechanism."
+      ]
+    },
+    {
+      "case_id": "A04_GYRO_BIAS_MODEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_GYRO_ADDITIVE_MEASUREMENT_FAULT"
+      ],
+      "term_ids": [
+        "gyro",
+        "gyro_bias",
+        "angular_velocity",
+        "measurement_noise",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered 2009 spacecraft attitude-determination FDD paper passage, draft one seed explaining how a gyro bias can be represented in an additive sensor measurement-fault model and estimated with vector-sensor fusion.",
+      "expected_behaviors": [
+        "State that additive measurement fault is the paper's model formulation, not a universal physical law for every gyro failure.",
+        "Distinguish an estimated bias term from proof of a hardware failure in the gyroscope.",
+        "Explain that vector-sensor/gyro fusion supplies estimation redundancy, without inventing exact numerical thresholds.",
+        "Keep measurement bias, noise and physical component failure as separate concepts."
+      ]
+    },
+    {
+      "case_id": "A05_RW_FAULT_MODEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_MED_CASCADE_FAULT_MODEL"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_mode",
+        "evidence",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered momentum-exchange-device fault-model paper, draft one seed distinguishing additive and multiplicative fault models for a reaction-wheel motor/variable-speed-drive cascade.",
+      "expected_behaviors": [
+        "Represent the reaction-wheel/momentum-exchange device as a coupled motor and variable-speed-drive model within the cited study.",
+        "Distinguish additive from multiplicative fault-model terms.",
+        "Do not generalize the paper's modeled control-accuracy severity ranking into a universal spacecraft failure rule.",
+        "Do not present simulated fault scenarios as actual in-orbit failure statistics."
+      ]
+    },
+    {
+      "case_id": "A06_ADCS_FDD_LIMITS",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_FDD_PRACTICAL_LIMITATIONS",
         "NASA_STAR_TRACKER_VALIDITY"
       ],
       "term_ids": [
         "star_tracker",
-        "gyro"
-      ],
-      "task_prompt": "A star-tracker solution becomes invalid during a high-angular-rate maneuver with external glare. Create a diagnostic seed.",
-      "expected_behaviors": [
-        "Treat angular rate, field-of-view and glare as possible measurement-validity conditions.",
-        "Do not equate an invalid solution with confirmed star-tracker hardware failure.",
-        "Mention independent IMU propagation only within the cited scope."
-      ]
-    },
-    {
-      "case_id": "T05",
-      "source_passage_ids": [
-        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
-      ],
-      "term_ids": [
         "gyro",
-        "gyro_bias"
-      ],
-      "task_prompt": "One gyroscope channel shows a change in estimated bias, but no independent attitude reference or corroborating sensor is available. Create a diagnostic seed.",
-      "expected_behaviors": [
-        "Distinguish observed bias change from confirmed gyro hardware fault.",
-        "Do not claim a unique fault-source component without independent evidence.",
-        "Preserve uncertainty or abstain."
-      ]
-    },
-    {
-      "case_id": "T06",
-      "source_passage_ids": [
-        "NASA_REACTION_WHEEL_FUNCTION",
-        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
-      ],
-      "term_ids": [
-        "gyro",
-        "reaction_wheel"
-      ],
-      "task_prompt": "A draft diagnosis says “gyro drift directly caused reaction-wheel jamming”, but the only observations are a gyro-bias change and a wheel-speed deviation. Create or correct the seed.",
-      "expected_behaviors": [
-        "Reject the definitive causal claim unless a verified physical chain and independent evidence support it.",
-        "Separate observation, mechanism hypothesis, affected component and fault-source component.",
-        "Do not convert temporal co-occurrence into causation."
-      ]
-    },
-    {
-      "case_id": "T07",
-      "source_passage_ids": [
-        "NASA_GNC_ADCS_SCOPE"
-      ],
-      "term_ids": [
-        "adcs",
-        "gyro"
-      ],
-      "task_prompt": "A generated answer introduces the term “星际熵耦合陀螺裂解模式” as an established ADCS fault mode. Create a corrected seed.",
-      "expected_behaviors": [
-        "Flag the phrase as an unregistered technical compound.",
-        "Do not silently normalize or define the coined term as established aerospace terminology.",
-        "Use registered terms or explicitly mark a proposed term for human review."
-      ]
-    },
-    {
-      "case_id": "T08",
-      "source_passage_ids": [
-        "NASA_NESC_BP5"
-      ],
-      "term_ids": [
         "evidence",
-        "fault_mode"
+        "uncertainty"
       ],
-      "task_prompt": "A generated candidate says “已经经过航天专家认证，完全证明该故障源” but contains no named reviewer, review record or independent evidence. Correct the seed.",
+      "task_prompt": "A star-tracker solution becomes invalid during a high-angular-rate maneuver and external glare. Use the registered NASA star-tracker passage and ADCS FDD review to draft a seed that distinguishes measurement-validity loss from hardware failure.",
       "expected_behaviors": [
-        "Reject self-attestation as evidence.",
-        "Do not mark the sample HUMAN_REVIEWED or Gold.",
-        "Require a separate review receipt and supporting evidence."
+        "Treat high angular rate, field-of-view and glare as possible solution-validity conditions.",
+        "Do not infer a permanent star-tracker hardware failure from invalid solution output alone.",
+        "Mention model fidelity, residual sensitivity and noisy measurements as FDD limitations only within the review's scope.",
+        "Preserve uncertainty if no independent sensor evidence is supplied."
       ]
     },
     {
-      "case_id": "T09",
+      "case_id": "E01_EPC_TWTA_ARCH",
+      "domain": "epc",
+      "term_registry": "epc_terms.json",
+      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+        "EPC_TWTA_HIGH_VOLTAGE_OUTPUTS",
+        "EPC_TWTA_FUNCTIONAL_BLOCKS"
       ],
       "term_ids": [
-        "gyro",
-        "fault_mode"
+        "epc_twta",
+        "twta",
+        "twt",
+        "cathode_voltage",
+        "collector_voltage",
+        "filament_heater_voltage"
       ],
-      "task_prompt": "A raw telemetry row contains values plus fault_id=gyro_axis_dropout, onset_s=12.5, split=train and group=G-01. Create a training input and expected diagnosis seed without leaking hidden truth.",
+      "task_prompt": "Using the registered ECSS EPC passages, draft one seed that explains the boundary between spacecraft EPS, TWTA, TWT and EPC, and lists the principal EPC-to-TWT power interfaces.",
       "expected_behaviors": [
-        "Do not include fault_id, onset_s, split or group in model-facing input.",
-        "Treat the row as truth-contaminated unless a clean observation-only view is available.",
-        "Do not use hidden labels to justify the diagnosis."
+        "State that TWTA is an assembly comprising TWT and EPC; EPC is not the TWT and neither is the spacecraft EPS.",
+        "Describe the EPC as generating stable TWT supply outputs from the spacecraft main bus.",
+        "Name helix, cathode, collector and filament/heater-related outputs without inventing a universal interface set for all units.",
+        "Do not diagnose a fault from architecture alone."
       ]
     },
     {
-      "case_id": "T10",
+      "case_id": "E02_TWTA_MICRODISCHARGE",
+      "domain": "epc",
+      "term_registry": "epc_terms.json",
+      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+        "TWTA_MICRODISCHARGE_RESTART_SIGNATURE",
+        "EPC_TWTA_FUNCTIONAL_BLOCKS"
       ],
       "term_ids": [
-        "gyro",
+        "epc_twta",
+        "twta",
+        "microdischarge",
+        "anode_voltage",
+        "partial_discharge"
+      ],
+      "task_prompt": "Using the registered public TWTA microdischarge passage, draft one seed for a transient anode-voltage drop followed by recovery over roughly 20 minutes, with an EPC high-voltage removal/restart protection response.",
+      "expected_behaviors": [
+        "Recognize the reported microdischarge/20-minute-effect signature and the EPC protection/restart behavior.",
+        "Do not label every such event as a permanent EPC hardware failure.",
+        "Distinguish the observed anode-voltage recovery signature from a confirmed failed EPC part.",
+        "Do not conflate the paper's TWTA microdischarge event with all forms of insulation partial discharge or Paschen breakdown."
+      ]
+    },
+    {
+      "case_id": "E03_SSPA_HARD_SOFT",
+      "domain": "epc",
+      "term_registry": "epc_terms.json",
+      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "EPC_SSPA_ARCHITECTURE_AND_ANOMALY_CLASSES",
+        "EPC_SSPA_RADIATION_CAUSAL_LIMIT"
+      ],
+      "term_ids": [
+        "epc_sspa",
+        "sspa",
+        "hard_failure_sspa",
+        "soft_failure_sspa",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered Inmarsat SSPA public study passages, draft one seed for a low SSPA-current anomaly. The study analyzed 26 anomalies and reports that individual causes were not identified or confirmed.",
+      "expected_behaviors": [
+        "Keep the observed anomaly at the SSPA/amplifier level unless evidence isolates the EPC or FET stage.",
+        "Use hard/soft failure labels only as the study's operator classification, not a universal EPC taxonomy.",
+        "Do not claim radiation or solar-cycle activity caused a specific anomaly; the paper says individual causes were unconfirmed.",
+        "State that current thresholds are hardware/fleet specific; do not invent a universal threshold."
+      ]
+    },
+    {
+      "case_id": "E04_PD_VS_PASCHEN",
+      "domain": "epc",
+      "term_registry": "epc_terms.json",
+      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "EPC_PARTIAL_DISCHARGE_MECHANISM",
+        "EPC_PASCHEN_BREAKDOWN_MECHANISM"
+      ],
+      "term_ids": [
+        "partial_discharge",
+        "paschen_breakdown",
+        "microdischarge"
+      ],
+      "task_prompt": "Using the registered ECSS high-voltage handbook passages, draft one terminology and mechanism seed distinguishing partial discharge from Paschen breakdown in a high-voltage conditioner.",
+      "expected_behaviors": [
+        "Define partial discharge as localized discharge without immediate full breakdown.",
+        "Define Paschen breakdown as a full gaseous-insulation breakdown under applicable pressure/gap/voltage conditions.",
+        "Do not use corona, partial discharge and Paschen breakdown as interchangeable terms.",
+        "Do not infer that a particular EPC experienced either mechanism without case-level evidence."
+      ]
+    },
+    {
+      "case_id": "E05_JWST_EPC_PARTS",
+      "domain": "epc",
+      "term_registry": "epc_terms.json",
+      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "JWST_TWTA_EPC_PARTS_FAILURE_CASE"
+      ],
+      "term_ids": [
+        "epc_twta",
+        "twta",
+        "twt",
         "fault_source",
         "uncertainty"
       ],
-      "task_prompt": "Only a hypothetical gyro measurement deviation is supplied. There is no reference attitude, no redundant sensor, no admitted simulation trace and no fault-event receipt. Create a diagnostic seed.",
+      "task_prompt": "Using the registered NASA JWST lessons-learned passage, draft one seed for the TWTA-1 unexpected power-off during pre-thermal-vacuum functional testing. The manufacturer attributed the failure to parts failure in the TWTA EPC.",
       "expected_behaviors": [
-        "Return INSUFFICIENT_EVIDENCE or equivalent non-diagnosis.",
-        "Do not invent a fault label or fault-source component.",
-        "Name specific additional independent evidence needed."
+        "Localize the manufacturer-reported fault to the TWTA EPC assembly.",
+        "Do not invent the specific failed part, converter stage, transformer, switch or physical mechanism; the source does not disclose it.",
+        "Preserve the test context and distinguish this ground integration/test event from an in-orbit anomaly.",
+        "Do not confuse the EPC parts failure with the separate CTP transformer failure in the same table."
+      ]
+    },
+    {
+      "case_id": "E06_TWT_DEGRADATION",
+      "domain": "epc",
+      "term_registry": "epc_terms.json",
+      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "TWTA_TUBE_DEGRADATION_VS_EPC",
+        "EPC_TWTA_HIGH_VOLTAGE_OUTPUTS"
+      ],
+      "term_ids": [
+        "twta",
+        "twt",
+        "epc_twta",
+        "helix_current",
+        "anode_voltage",
+        "cathode_voltage"
+      ],
+      "task_prompt": "Using the registered 2022 TWTA reliability paper and ECSS EPC architecture passage, draft one seed about declining helix current and changing anode voltage where insufficient cathode emission or vacuum deterioration are candidate mechanisms.",
+      "expected_behaviors": [
+        "Attribute insufficient cathode emission and vacuum deterioration to the TWT tube mechanisms as described by the paper.",
+        "Do not label those tube mechanisms as EPC internal faults.",
+        "Treat helix current and anode voltage as correlated TWTA performance indicators, not unique EPC-fault signatures.",
+        "Distinguish the EPC power-supply function from the TWT electron-emission/vacuum function."
       ]
     }
   ]
