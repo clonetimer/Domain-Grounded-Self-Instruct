@@ -38,6 +38,7 @@ CANDIDATE_SCHEMA: dict[str, Any] = {
         "fault_source_component": {"type": ["string", "null"]},
         "claims": {
             "type": "array",
+            "minItems": 1,
             "items": {
                 "type": "object",
                 "properties": {
@@ -297,6 +298,132 @@ def _case_context(root: Path, case: Mapping[str, Any]) -> dict[str, Any]:
     return {"domain": domain, "source_passages": selected_passages, "terms": selected_terms}
 
 
+def extract_skill_treatment(skill_text: str) -> str:
+    """Extract only procedural treatment rules, excluding extra domain-reference material."""
+    heading = "## Blind-evaluation treatment instructions"
+    if skill_text.count(heading) != 1:
+        raise ValueError("Skill must contain exactly one Blind-evaluation treatment instructions section")
+    start = skill_text.index(heading) + len(heading)
+    next_heading = skill_text.find("\n## ", start)
+    section = skill_text[start:] if next_heading < 0 else skill_text[start:next_heading]
+    treatment = section.strip()
+    if not treatment:
+        raise ValueError("Skill treatment instructions section is empty")
+    return treatment
+
+
+CLAIM_SCOPE_COMPATIBILITY = {
+    "OBSERVATION": {
+        "OBSERVATION", "CASE_HISTORY", "STATISTICAL_FINDING", "DEGRADATION",
+        "COMPONENT_LOCALIZATION", "SYSTEM_EFFECT", "PROTECTION_BEHAVIOR",
+    },
+    "MECHANISM": {
+        "MECHANISM", "FAULT_MODEL", "SIMULATION_MODEL", "MEASUREMENT_MODEL",
+        "FAILURE_MODE", "RADIATION_MECHANISM", "THERMAL_MECHANICAL_INTERACTION",
+    },
+    "CAUSAL": {"CAUSAL"},
+    "UNCERTAINTY": {
+        "UNCERTAINTY", "HYPOTHESIS", "COUNTERFACTUAL", "LIMITATION",
+        "METHODOLOGY", "OBSERVABILITY",
+    },
+}
+
+
+def validate_candidate_against_case(
+    candidate: Mapping[str, Any],
+    case: Mapping[str, Any],
+    context: Mapping[str, Any],
+) -> list[dict[str, str]]:
+    """Check generated references against the exact case bundle and domain glossary."""
+    findings: list[dict[str, str]] = []
+    case_passage_ids = set(case.get("source_passage_ids", []))
+    passage_index = {item["passage_id"]: item for item in context.get("source_passages", [])}
+    claims = candidate.get("claims", [])
+    if not claims:
+        findings.append({
+            "code": "MISSING_CLAIMS",
+            "severity": "CRITICAL",
+            "path": "claims",
+            "message": "candidate contains no atomic claims",
+        })
+    for index, claim in enumerate(claims):
+        claim_type = claim.get("claim_type")
+        passage_ids = claim.get("source_passage_ids", [])
+        if not passage_ids:
+            findings.append({
+                "code": "CLAIM_WITHOUT_PASSAGE",
+                "severity": "CRITICAL",
+                "path": f"claims[{index}].source_passage_ids",
+                "message": "each generated claim must cite at least one registered passage from this case",
+            })
+            continue
+        for passage_id in passage_ids:
+            passage = passage_index.get(passage_id)
+            if passage is None or passage_id not in case_passage_ids:
+                findings.append({
+                    "code": "PASSAGE_OUTSIDE_CASE_BUNDLE",
+                    "severity": "CRITICAL",
+                    "path": f"claims[{index}].source_passage_ids",
+                    "message": f"passage {passage_id!r} is not part of this case's registered evidence bundle",
+                })
+                continue
+            allowed = set(passage.get("allowed_claim_types", []))
+            compatible = CLAIM_SCOPE_COMPATIBILITY.get(claim_type, set())
+            if not allowed.intersection(compatible):
+                findings.append({
+                    "code": "CLAIM_SCOPE_MISMATCH",
+                    "severity": "CRITICAL",
+                    "path": f"claims[{index}].source_passage_ids",
+                    "message": f"passage {passage_id!r} does not authorize claim type {claim_type!r}",
+                })
+
+    term_index = {item["term_id"]: item for item in context.get("terms", [])}
+    for index, mention in enumerate(candidate.get("term_mentions", [])):
+        term_id = mention.get("term_id")
+        surface = mention.get("surface")
+        relation = mention.get("relation")
+        term = term_index.get(term_id)
+        path = f"term_mentions[{index}]"
+        if term is None:
+            findings.append({
+                "code": "UNKNOWN_TERM_MENTION",
+                "severity": "REVIEW",
+                "path": path,
+                "message": f"term ID {term_id!r} is not in the case glossary",
+            })
+            continue
+        if surface in {term.get("preferred_zh"), term.get("preferred_en")}:
+            expected_relation = "PREFERRED"
+        else:
+            alias = next((item for item in term.get("aliases", []) if item.get("text") == surface), None)
+            related = next((item for item in term.get("related_terms", []) if item.get("text") == surface), None)
+            if alias is None and related is None:
+                expected_relation = "UNREGISTERED"
+            elif related is not None:
+                expected_relation = "RELATED_TERM"
+            elif alias.get("kind") == "EXACT":
+                expected_relation = "EXACT_ALIAS"
+            elif alias.get("kind") == "ALTERNATE_TRANSLATION":
+                expected_relation = "ALTERNATE_TRANSLATION"
+            else:
+                expected_relation = "CONTEXTUAL_ALIAS"
+        if relation != expected_relation:
+            findings.append({
+                "code": "TERM_RELATION_MISMATCH",
+                "severity": "REVIEW",
+                "path": path,
+                "message": f"surface {surface!r} should be classified as {expected_relation}, not {relation!r}",
+            })
+        if expected_relation == "UNREGISTERED":
+            findings.append({
+                "code": "UNREGISTERED_TERM_SURFACE",
+                "severity": "REVIEW",
+                "path": path,
+                "message": f"surface {surface!r} is not registered for term ID {term_id!r}",
+            })
+    return findings
+
+
 def _api_call_for_json(
     *,
     model: str,
@@ -366,6 +493,14 @@ def run_live_evaluation(
         path: hashlib.sha256(text.encode("utf-8")).hexdigest()
         for path, text in skill_texts.items()
     }
+    skill_treatments = {
+        path: extract_skill_treatment(text)
+        for path, text in skill_texts.items()
+    }
+    treatment_hashes = {
+        path: hashlib.sha256(text.encode("utf-8")).hexdigest()
+        for path, text in skill_treatments.items()
+    }
     term_registry_files = {"adcs": "terms.json", "eps": "eps_terms.json"}
     used_domains = sorted({case.get("domain", "adcs") for case in cases})
     if any(domain not in term_registry_files for domain in used_domains):
@@ -389,6 +524,7 @@ def run_live_evaluation(
         "case_count": len(cases),
         "expected_api_calls": len(cases) * 3,
         "skill_sha256_by_path": skill_hashes,
+        "skill_treatment_sha256_by_path": treatment_hashes,
         "term_registry_sha256_by_domain": term_hashes,
         "cases_sha256": cases_sha,
         "source_passages_sha256": hashlib.sha256(passages_file.read_bytes()).hexdigest(),
@@ -406,7 +542,7 @@ def run_live_evaluation(
     for case in cases:
         context = _case_context(root, case)
         skill_path = case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md")
-        skill_text = skill_texts[skill_path]
+        skill_treatment = skill_treatments[skill_path]
         generator_prompt = json.dumps(
             {"domain": case.get("domain", "adcs"), "task": case["task_prompt"], "registered_context": context},
             ensure_ascii=False,
@@ -422,12 +558,14 @@ def run_live_evaluation(
         )
         treatment = _api_call_for_json(
             model=generator_model,
-            system_prompt=BASELINE_SYSTEM + "\n\nApply this additional domain-grounding Skill:\n" + skill_text,
+            system_prompt=BASELINE_SYSTEM + "\n\nApply only these additional procedural treatment instructions:\n" + skill_treatment,
             user_prompt=generator_prompt,
             api_key=api_key,
             schema_name="adcs_seed_candidate",
             schema=CANDIDATE_SCHEMA,
         )
+        baseline_preflight = validate_candidate_against_case(baseline, case, context)
+        treatment_preflight = validate_candidate_against_case(treatment, case, context)
         pair = blind_pair(seed, case["case_id"], baseline, treatment)
         judge_prompt = json.dumps(
             {
@@ -439,6 +577,12 @@ def run_live_evaluation(
                 "rubric": RUBRIC,
                 "candidate_A": pair["candidates"]["A"],
                 "candidate_B": pair["candidates"]["B"],
+                "candidate_A_preflight": (
+                    baseline_preflight if pair["order"][0] == "baseline" else treatment_preflight
+                ),
+                "candidate_B_preflight": (
+                    treatment_preflight if pair["order"][0] == "baseline" else baseline_preflight
+                ),
             },
             ensure_ascii=False,
             sort_keys=True,
@@ -461,6 +605,10 @@ def run_live_evaluation(
             "candidate_A": pair["candidates"]["A"],
             "candidate_B": pair["candidates"]["B"],
             "judge_result_blind": judged,
+            "preflight_by_condition": {
+                "baseline": baseline_preflight,
+                "treatment": treatment_preflight,
+            },
             "scores_by_condition": mapped,
             "preferred_condition": (
                 "baseline" if judged["preferred_candidate"] == "A" and pair["order"][0] == "baseline"
@@ -477,17 +625,24 @@ def run_live_evaluation(
     summary: dict[str, Any] = {
         "case_count": len(records),
         "conditions": {},
+        "preflight_finding_count_by_condition": {"baseline": 0, "treatment": 0},
+        "preflight_critical_count_by_condition": {"baseline": 0, "treatment": 0},
         "paired_mean_delta": {},
         "preferred_condition_counts": {"baseline": 0, "treatment": 0, "TIE": 0},
     }
     for condition in ("baseline", "treatment"):
         totals = {field: 0 for field in SCORE_FIELDS}
         failures = 0
+        preflight_critical = 0
         for record in records:
             score = record["scores_by_condition"][condition]
             for field in SCORE_FIELDS:
                 totals[field] += score[field]
             failures += len(score["critical_failures"])
+            findings = record["preflight_by_condition"][condition]
+            summary["preflight_finding_count_by_condition"][condition] += len(findings)
+            preflight_critical += sum(item["severity"] == "CRITICAL" for item in findings)
+        summary["preflight_critical_count_by_condition"][condition] = preflight_critical
         summary["conditions"][condition] = {
             "mean_scores": {field: round(totals[field] / max(len(records), 1), 3) for field in SCORE_FIELDS},
             "critical_failure_count": failures,
@@ -511,5 +666,6 @@ def run_live_evaluation(
 __all__ = [
     "API_URL", "CANDIDATE_SCHEMA", "JUDGE_SCHEMA", "SCORE_FIELDS",
     "build_response_request", "extract_output_text", "blind_pair",
-    "map_blind_scores", "validate_live_config", "validate_output_path", "run_live_evaluation",
+    "map_blind_scores", "validate_live_config", "validate_output_path",
+    "extract_skill_treatment", "validate_candidate_against_case", "run_live_evaluation",
 ]
