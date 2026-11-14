@@ -320,7 +320,7 @@
     {
       "passage_id": "IDEASSAT_EPS_RESET_CIRCUIT_SEL",
       "source_id": "IDEASSAT_EPS_CASE_2022",
-      "locator": "§4.3 Anomaly Analysis and Recovery, EPS reset circuit discussion and Figure 27 (Aerospace 2022, 9(2), 110)",
+      "locator": "Abstract; §4.3 Anomaly Analysis and Recovery; Figure 27 and Conclusions (Aerospace 2022, 9(2), 110)",
       "locator_url": "https://www.mdpi.com/2226-4310/9/2/110",
       "allowed_claim_types": [
         "CASE_HISTORY",
@@ -330,8 +330,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "PUBLIC_CASE_ANALYSIS",
-      "claim_boundary": "The paper identifies a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit as the likely cause of extended power-down/communications blackout and discusses SEL as a possible mechanism that could hold the main switch enable in the off state. Keep the source's likely-cause wording; do not state that SEL was conclusively measured.",
-      "evidence_summary": "The IDEASSat paper identifies a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit as the likely cause of extended power-down/blackout. It discusses SEL as a possible mechanism affecting the main power-switch enable."
+      "claim_boundary": "Replay of flight data allowed the authors to attribute the 1.5-month communications blackout to the EPS reset circuit's inability to recover from an ionizing-radiation-induced single-event latch-up (SEL). The single-gate CMOS Schmitt-trigger inverter in the reset circuit was identified as the likely susceptible element; the paper explains that an SEL in this element could hold the main switch enable in the off state until the latch-up cleared. Present this as the authors' flight-data-based diagnosis, while distinguishing it from direct measurement of the internal transistor current waveform.",
+      "evidence_summary": "IDEASSat flight-data replay led the authors to attribute the extended power-down/communications blackout to the EPS reset circuit's inability to recover from radiation-induced SEL. The single-gate CMOS Schmitt-trigger inverter was identified as the likely susceptible element; an SEL there could hold the main switch enable off."
     },
     {
       "passage_id": "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
