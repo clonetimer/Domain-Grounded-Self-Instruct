@@ -21,9 +21,8 @@
       "url": "https://ntrs.nasa.gov/citations/20230005922",
       "kind": "OFFICIAL_DOMAIN_REFERENCE",
       "scopes": [
-        "TERMINOLOGY",
-        "MECHANISM",
-        "METHODOLOGY"
+        "METHODOLOGY",
+        "INDEPENDENCE_REQUIREMENT"
       ],
       "evidence_status": "REFERENCE_INDEXED",
       "scope_note": "NASA/TP-20230005922, including GN&C Best Practice #5 (printed page 68); supports fault-management independence methodology, not case-level fault labels.",
