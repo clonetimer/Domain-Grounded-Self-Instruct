@@ -42,7 +42,7 @@ No run is admitted in v0.1. The public registry intentionally has runs: []. AAS 
 4. Run the offline validator. For every flagged term, citation or logical leap: correct, downgrade to uncertainty, or reject the sample. DOCUMENT_EXCERPT evidence must match a registered passage ID and source ID. Never rewrite a wrong physical claim merely to satisfy a detector.
 5. A second reviewer verifies complex causal edges and any claimed fault-source localization with independent evidence.
 6. Confirm artifact IDs, source passages, fault-window receipt and data split. Record a human decision; freeze Gold in a separate controlled process.
-7. Keep Gold Seed / Synthetic Train / Validation / Test / Rejected nonoverlapping by provenance group (run, scenario, source, model and near-duplicate instructions). Never tune prompts against a test holdout.
+7. Keep Gold Seed / Synthetic Train / Validation / Test / Rejected nonoverlapping by provenance group (run, scenario, source, model and near-duplicate instructions). Never tune prompts against a test holdout. The 8-case public-literature holdout is frozen in `docs/HOLDOUT_FREEZE_MANIFEST.md`; any Skill, term or rubric change based on its outputs retires it from future holdout claims.
 
 ## Pilot measurement contract
 
