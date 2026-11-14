@@ -209,6 +209,7 @@ class SkillEvalTest(unittest.TestCase):
             treatment_call = next(call for call in generator_calls if "Apply only these additional procedural treatment instructions" in call["system_prompt"])
             self.assertNotIn("Do not invent citations", baseline_call["system_prompt"])
             self.assertEqual(baseline_call["user_prompt"], treatment_call["user_prompt"])
+            self.assertNotIn("expected_behaviors", baseline_call["user_prompt"])
             self.assertNotIn("Core public sources include", treatment_call["system_prompt"])
             self.assertEqual(result["metadata"]["api_calls_completed"], 3)
             self.assertEqual(records[-1]["record_type"], "run_summary")
@@ -388,6 +389,134 @@ class SkillEvalTest(unittest.TestCase):
         self.assertEqual(set(orders), {("baseline", "treatment"), ("treatment", "baseline")})
         self.assertGreaterEqual(orders.count(("baseline", "treatment")), 4)
         self.assertGreaterEqual(orders.count(("treatment", "baseline")), 4)
+
+
+
+    def test_holdout_suite_resolves_all_unseen_domain_contexts(self):
+        from dgsi.skill_eval import _case_context
+
+        root = Path(__file__).resolve().parents[1]
+        suite = json.loads((root / "resources" / "skill_holdout_cases.json").read_text(encoding="utf-8"))
+        self.assertEqual(suite["split"], "HOLDOUT_UNSEEN_PUBLIC_CASES")
+        self.assertEqual(len(suite["cases"]), 8)
+        self.assertEqual(sum(case["domain"] == "adcs" for case in suite["cases"]), 4)
+        self.assertEqual(sum(case["domain"] == "eps" for case in suite["cases"]), 4)
+        for case in suite["cases"]:
+            context = _case_context(root, case)
+            self.assertEqual(context["domain"], case["domain"])
+            self.assertTrue(context["source_passages"])
+            self.assertTrue(context["terms"])
+            self.assertTrue(all(p["claim_boundary"] and p["evidence_summary"] for p in context["source_passages"]))
+
+    def test_cli_holdout_dry_run_makes_no_network_calls(self):
+        root = Path(__file__).resolve().parents[1]
+        env = os.environ.copy()
+        env.pop("OPENAI_API_KEY", None)
+        result = subprocess.run(
+            [sys.executable, str(root / "scripts" / "run_skill_blind_eval.py"), "--suite", "skill_holdout_cases.json"],
+            cwd=root,
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["mode"], "DRY_RUN")
+        self.assertEqual(payload["suite"], "skill_holdout_cases.json")
+        self.assertEqual(payload["cases_available"], 8)
+        self.assertEqual(payload["network_calls"], 0)
+
+    def test_live_runner_freezes_holdout_suite_and_hides_judge_only_behaviors(self):
+        from unittest.mock import patch
+        from dgsi.skill_eval import run_live_evaluation
+
+        root = Path(__file__).resolve().parents[1]
+        suite = json.loads((root / "resources" / "skill_holdout_cases.json").read_text(encoding="utf-8"))
+        case = suite["cases"][0]
+        candidate = {
+            "instruction": "SOHO姿态控制异常诊断",
+            "input": "公开调查报告描述陀螺配置和地面操作异常。",
+            "answer": "不能据此判定陀螺硬件故障，应检查陀螺旋转状态、命令序列和故障检测配置。",
+            "diagnostic_status": "DIAGNOSED",
+            "fault_source_component": "地面操作命令序列与陀螺配置",
+            "claims": [{
+                "claim_type": "OBSERVATION",
+                "text": "SOHO调查委员会将事故直接原因归于地面操作错误和自主故障检测被禁用。",
+                "source_passage_ids": ["SOHO_GYRO_B_FALSE_DIAGNOSIS"],
+            }],
+            "term_mentions": [{
+                "surface": "陀螺仪",
+                "term_id": "gyro",
+                "relation": "PREFERRED",
+            }],
+            "uncertainty": "报告没有确认陀螺硬件本体发生故障。",
+        }
+        score = {
+            "terminology": 2,
+            "evidence_traceability": 2,
+            "causal_calibration": 2,
+            "self_attestation_control": 2,
+            "truth_leakage_control": 2,
+            "abstention": 2,
+            "critical_failures": [],
+        }
+        judge = {
+            "candidate_a": score,
+            "candidate_b": score,
+            "preferred_candidate": "TIE",
+            "rationale": "仅用于验证holdout执行契约。",
+        }
+        calls = []
+
+        def fake_api_call(**kwargs):
+            calls.append(kwargs)
+            return judge if kwargs["schema_name"] == "blind_candidate_scores" else candidate
+
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "holdout.jsonl"
+            with patch("dgsi.skill_eval._api_call_for_json", side_effect=fake_api_call):
+                result = run_live_evaluation(
+                    root=root,
+                    output_path=output,
+                    generator_model="generator-model",
+                    judge_model="judge-model",
+                    generator_family="generator-family",
+                    judge_family="independent-judge-family",
+                    api_key="test-key",
+                    independence_note="Mocked API contract test only; not a live evaluation.",
+                    limit=1,
+                    suite_file="skill_holdout_cases.json",
+                )
+            records = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(result["metadata"]["suite_split"], "HOLDOUT_UNSEEN_PUBLIC_CASES")
+            self.assertEqual(result["metadata"]["suite_file"], "skill_holdout_cases.json")
+            self.assertEqual(result["metadata"]["case_ids"], [case["case_id"]])
+            self.assertEqual(result["metadata"]["api_calls_completed"], 3)
+            generator_calls = [call for call in calls if call["schema_name"] == "spacecraft_fault_seed_candidate"]
+            self.assertEqual(len(generator_calls), 2)
+            self.assertTrue(all("expected_behaviors" not in call["user_prompt"] for call in generator_calls))
+            self.assertTrue(all(case["expected_behaviors"][0] not in call["user_prompt"] for call in generator_calls))
+            self.assertEqual(records[-1]["record_type"], "run_summary")
+
+    def test_live_runner_rejects_suite_path_traversal(self):
+        from dgsi.skill_eval import run_live_evaluation
+
+        root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "JSON filename"):
+                run_live_evaluation(
+                    root=root,
+                    output_path=Path(tmp) / "unsafe.jsonl",
+                    generator_model="generator-model",
+                    judge_model="judge-model",
+                    generator_family="generator-family",
+                    judge_family="independent-judge-family",
+                    api_key="test-key",
+                    independence_note="Path validation test only.",
+                    limit=1,
+                    suite_file="../skill_holdout_cases.json",
+                )
 
 
 
