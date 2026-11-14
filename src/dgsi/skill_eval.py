@@ -128,7 +128,7 @@ def validate_live_config(
     generator_model: str,
     judge_model: str,
     api_key: str,
-    independence_note: str = "declared",
+    independence_note: str = "",
 ) -> None:
     if not generator_model.strip() or not judge_model.strip():
         raise ValueError("DGSI_GENERATOR_MODEL and DGSI_JUDGE_MODEL are required")
