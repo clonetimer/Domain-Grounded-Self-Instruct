@@ -43,7 +43,7 @@ CANDIDATE_SCHEMA: dict[str, Any] = {
                 "properties": {
                     "claim_type": {"type": "string", "enum": ["OBSERVATION", "MECHANISM", "CAUSAL", "UNCERTAINTY"]},
                     "text": {"type": "string"},
-                    "source_passage_ids": {"type": "array", "items": {"type": "string"}},
+                    "source_passage_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1},
                 },
                 "required": ["claim_type", "text", "source_passage_ids"],
                 "additionalProperties": False,
