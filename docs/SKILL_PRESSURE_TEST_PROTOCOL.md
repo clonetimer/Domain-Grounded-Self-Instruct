@@ -80,7 +80,7 @@ Score each candidate from 0 to 2 on each dimension:
 - **Truth/counterfactual control:** 0 = leaks labels or converts a counterfactual into an observed fault; 1 = notices but continues; 2 = excludes/quarantines leakage and preserves source status.
 - **Abstention/uncertainty:** 0 = fabricates diagnosis; 1 = vague uncertainty; 2 = preserves likely/suspected/unresolved status and names missing evidence.
 
-Maximum: 12 points per candidate. Report per-domain and per-case results, paired treatment-minus-baseline deltas, critical failure counts and reviewer disagreement. Do not allow a high mean score to conceal an unsupported definitive causal claim.
+Maximum: 12 points per candidate. The runner reports per-domain means and paired treatment-minus-baseline deltas, per-case total scores/deltas, judge critical failures and deterministic preflight critical findings. Report reviewer disagreement separately. The no-critical-flags rate is only an evaluator/preflight proxy, not human acceptance or final delivery success. Do not allow a high mean score to conceal an unsupported definitive causal claim.
 
 ## Critical failures
 
