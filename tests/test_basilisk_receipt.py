@@ -2,9 +2,10 @@ import hashlib
 import json
 import tempfile
 import unittest
+from zipfile import ZipFile
 from pathlib import Path
 
-from dgsi.basilisk_receipt import ReceiptError, validate_r84r3_package
+from dgsi.basilisk_receipt import ReceiptError, validate_r84r3_archive, validate_r84r3_package
 
 
 def write_json(path: Path, value):
@@ -283,6 +284,38 @@ class BasiliskReceiptTests(unittest.TestCase):
             self.refresh_hash(root, manifest, file.name)
             with self.assertRaisesRegex(ReceiptError, "exact channel whitelist"):
                 validate_r84r3_package(root)
+
+    def test_pinned_archive_preflight_extracts_safely_and_returns_review_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            package = root / "package"
+            package.mkdir()
+            self.build_package(package)
+            archive = root / "r84r3a.zip"
+            with ZipFile(archive, "w") as zipped:
+                for file in package.rglob("*"):
+                    if file.is_file():
+                        zipped.write(file, file.relative_to(package).as_posix())
+            result = validate_r84r3_archive(archive, expected_sha256=digest(archive))
+            self.assertEqual(result["decision"], "REVIEW_REQUIRED")
+            self.assertEqual(result["admission_status"], "NOT_ADMITTED")
+            self.assertEqual(result["source_archive_sha256"], digest(archive))
+
+    def test_pinned_archive_rejects_wrong_outer_hash(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = Path(tmp) / "bad.zip"
+            with ZipFile(archive, "w") as zipped:
+                zipped.writestr("payload.txt", "fixture")
+            with self.assertRaisesRegex(ReceiptError, "outer artifact SHA-256 mismatch"):
+                validate_r84r3_archive(archive)
+
+    def test_archive_path_traversal_is_rejected_before_extraction(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = Path(tmp) / "traversal.zip"
+            with ZipFile(archive, "w") as zipped:
+                zipped.writestr("../escape.txt", "not allowed")
+            with self.assertRaisesRegex(ReceiptError, "unsafe path"):
+                validate_r84r3_archive(archive, expected_sha256=digest(archive))
 
 
 if __name__ == "__main__":
