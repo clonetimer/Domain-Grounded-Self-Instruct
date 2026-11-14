@@ -1,5 +1,5 @@
 {
-  "schema_version": "dgsi-skill-pressure-cases.v2",
+  "schema_version": "dgsi-skill-pressure-cases.v3",
   "notice": "Public-literature grounded synthetic pressure cases. These are not raw flight telemetry, not observed run bundles, and not ground-truth fault labels. Expected behaviors are judge-only and must not be sent to the generator.",
   "cases": [
     {
@@ -138,146 +138,160 @@
       ]
     },
     {
-      "case_id": "E01_EPC_TWTA_ARCH",
-      "domain": "epc",
-      "term_registry": "epc_terms.json",
-      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "case_id": "E01_IMAGE_SSPC_INSTANT_TRIP",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "EPC_TWTA_HIGH_VOLTAGE_OUTPUTS",
-        "EPC_TWTA_FUNCTIONAL_BLOCKS"
+        "IMAGE_SSPC_SEU_INSTANT_TRIP",
+        "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH"
       ],
       "term_ids": [
-        "epc_twta",
-        "twta",
-        "twt",
-        "cathode_voltage",
-        "collector_voltage",
-        "filament_heater_voltage"
+        "solid_state_power_controller",
+        "single_event_upset",
+        "power_distribution_unit",
+        "power_bus_voltage"
       ],
-      "task_prompt": "Using the registered ECSS EPC passages, draft one seed that explains the boundary between spacecraft EPS, TWTA, TWT and EPC, and lists the principal EPC-to-TWT power interfaces.",
+      "task_prompt": "Using the public IMAGE Failure Review Board report, draft a diagnostic seed for the transponder power loss. The board considered an SEU-induced SSPC instant trip the likely cause. The instant trip was not reflected in the SSPC status telemetry, so the PDU/FDC could see a closed status while the output was physically off. Keep the board's uncertainty and distinguish physical state from reported state.",
       "expected_behaviors": [
-        "State that TWTA is an assembly comprising TWT and EPC; EPC is not the TWT and neither is the spacecraft EPS.",
-        "Describe the EPC as generating stable TWT supply outputs from the spacecraft main bus.",
-        "Name helix, cathode, collector and filament/heater-related outputs without inventing a universal interface set for all units.",
-        "Do not diagnose a fault from architecture alone."
+        "Preserve 'likely cause' rather than claim conclusive proof of SEU.",
+        "Distinguish SSPC physical output state from stale reported status bit.",
+        "Explain why FDC did not command recovery because status appeared closed.",
+        "Do not claim the battery or solar array failed; the FRB treated battery/array cases as alternatives and telemetry was healthy."
       ]
     },
     {
-      "case_id": "E02_TWTA_MICRODISCHARGE",
-      "domain": "epc",
-      "term_registry": "epc_terms.json",
-      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "case_id": "E02_IDEASSAT_RESET_SEL",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "TWTA_MICRODISCHARGE_RESTART_SIGNATURE",
-        "EPC_TWTA_FUNCTIONAL_BLOCKS"
+        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
       ],
       "term_ids": [
-        "epc_twta",
-        "twta",
-        "microdischarge",
-        "anode_voltage",
-        "partial_discharge"
+        "eps_reset_circuit",
+        "schmitt_trigger_inverter",
+        "single_event_latchup"
       ],
-      "task_prompt": "Using the registered public TWTA microdischarge passage, draft one seed for a transient anode-voltage drop followed by recovery over roughly 20 minutes, with an EPC high-voltage removal/restart protection response.",
+      "task_prompt": "Using the public IDEASSat on-orbit anomaly analysis, draft a seed explaining the likely EPS cause of extended power-down and communication blackout. The paper identifies a single-gate CMOS Schmitt-trigger inverter in the reset circuit and discusses SEL as a possible mechanism. Separate the reported likely cause from the proposed physical mechanism.",
       "expected_behaviors": [
-        "Recognize the reported microdischarge/20-minute-effect signature and the EPC protection/restart behavior.",
-        "Do not label every such event as a permanent EPC hardware failure.",
-        "Distinguish the observed anode-voltage recovery signature from a confirmed failed EPC part.",
-        "Do not conflate the paper's TWTA microdischarge event with all forms of insulation partial discharge or Paschen breakdown."
+        "Localize the likely issue to the EPS reset circuit's Schmitt-trigger inverter/control path.",
+        "Do not state SEL was directly confirmed if the source only discusses it as a possible mechanism.",
+        "Explain how an inverter output affecting the main switch enable could hold spacecraft avionics power off.",
+        "Do not mislabel the event as battery cell failure or DC/DC converter failure."
       ]
     },
     {
-      "case_id": "E03_SSPA_HARD_SOFT",
-      "domain": "epc",
-      "term_registry": "epc_terms.json",
-      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "case_id": "E03_NOAA13_ARRAY_GROUND_SHORT",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "EPC_SSPA_ARCHITECTURE_AND_ANOMALY_CLASSES",
-        "EPC_SSPA_RADIATION_CAUSAL_LIMIT"
+        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT"
       ],
       "term_ids": [
-        "epc_sspa",
-        "sspa",
-        "hard_failure_sspa",
-        "soft_failure_sspa",
-        "uncertainty"
+        "solar_array",
+        "solar_array_bus",
+        "solar_array_bus_ground_short",
+        "battery"
       ],
-      "task_prompt": "Using the registered Inmarsat SSPA public study passages, draft one seed for a low SSPA-current anomaly. The study analyzed 26 anomalies and reports that individual causes were not identified or confirmed.",
+      "task_prompt": "Using NASA Lessons Learned #387 for NOAA-13, draft a seed for the 1993 EPS anomaly. Telemetry indicated that in full sun the solar array was producing power, but no power reached the battery charging unit; the spacecraft was running from batteries. The review surmised a solar-array bus-to-ground short, possibly caused by thermal cycling and mounting bolts penetrating insulation.",
       "expected_behaviors": [
-        "Keep the observed anomaly at the SSPA/amplifier level unless evidence isolates the EPC or FET stage.",
-        "Use hard/soft failure labels only as the study's operator classification, not a universal EPC taxonomy.",
-        "Do not claim radiation or solar-cycle activity caused a specific anomaly; the paper says individual causes were unconfirmed.",
-        "State that current thresholds are hardware/fleet specific; do not invent a universal threshold."
+        "Separate observed telemetry and the board's inferred/surmis ed physical cause.",
+        "Do not state the bolt penetration mechanism was directly confirmed by teardown.",
+        "Do not claim the solar cells themselves were all failed; the proposed short is in the bus/ground path.",
+        "Preserve the downstream effect: batteries not charging, then spacecraft power depletion and loss of contact."
       ]
     },
     {
-      "case_id": "E04_PD_VS_PASCHEN",
-      "domain": "epc",
-      "term_registry": "epc_terms.json",
-      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "case_id": "E04_TDRS8_ARRAY_BVL",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "EPC_PARTIAL_DISCHARGE_MECHANISM",
-        "EPC_PASCHEN_BREAKDOWN_MECHANISM"
+        "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES",
+        "TDRS8_BVL_PARASITIC_SHUNT",
+        "TDRS8_BATTERY_UNDERPERFORMING_CELLS"
       ],
       "term_ids": [
-        "partial_discharge",
-        "paschen_breakdown",
-        "microdischarge"
+        "solar_array_circuit",
+        "bus_voltage_limiter",
+        "parasitic_shunt_current",
+        "battery"
       ],
-      "task_prompt": "Using the registered ECSS high-voltage handbook passages, draft one terminology and mechanism seed distinguishing partial discharge from Paschen breakdown in a high-voltage conditioner.",
+      "task_prompt": "Using the NASA TDRS-8 power status report, draft a seed distinguishing three reported conditions: six of 32 solar-array circuit failures, BVL modules shunting a static current instead of regulating, and four underperforming battery cells. Explain how they affect power margin without inventing their internal component-level root causes.",
       "expected_behaviors": [
-        "Define partial discharge as localized discharge without immediate full breakdown.",
-        "Define Paschen breakdown as a full gaseous-insulation breakdown under applicable pressure/gap/voltage conditions.",
-        "Do not use corona, partial discharge and Paschen breakdown as interchangeable terms.",
-        "Do not infer that a particular EPC experienced either mechanism without case-level evidence."
+        "Keep solar-array circuit failures, BVL parasitic shunting and battery-cell underperformance as distinct observations.",
+        "Do not infer a common root cause across the three conditions.",
+        "Do not invent a failed BVL transistor, array cell crack or battery internal short.",
+        "Preserve source context: the report describes status and mitigation, not detailed physical failure analysis."
       ]
     },
     {
-      "case_id": "E05_JWST_EPC_PARTS",
-      "domain": "epc",
-      "term_registry": "epc_terms.json",
-      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "case_id": "E05_TERRA_BATTERY_HEATER",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "JWST_TWTA_EPC_PARTS_FAILURE_CASE"
+        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY"
       ],
       "term_ids": [
-        "epc_twta",
-        "twta",
-        "twt",
-        "fault_source",
-        "uncertainty"
+        "battery",
+        "battery_cell",
+        "battery_heater_control"
       ],
-      "task_prompt": "Using the registered NASA JWST lessons-learned passage, draft one seed for the TWTA-1 unexpected power-off during pre-thermal-vacuum functional testing. The manufacturer attributed the failure to parts failure in the TWTA EPC.",
+      "task_prompt": "Using the NASA TERRA battery thermal-control anomaly paper, draft a seed for the 2009 event: a battery cell voltage anomaly occurred simultaneously with failures of several battery heater-control circuits, and several cells approached their minimum survival temperature. Distinguish observed conditions from causal conclusions.",
       "expected_behaviors": [
-        "Localize the manufacturer-reported fault to the TWTA EPC assembly.",
-        "Do not invent the specific failed part, converter stage, transformer, switch or physical mechanism; the source does not disclose it.",
-        "Preserve the test context and distinguish this ground integration/test event from an in-orbit anomaly.",
-        "Do not confuse the EPC parts failure with the separate CTP transformer failure in the same table."
+        "Record the battery-cell voltage anomaly and heater-control anomalies as simultaneous observations.",
+        "Do not assert that the cell failure caused heater-control failure or vice versa.",
+        "Explain the thermal risk of approaching electrolyte freeze conditions without inventing an unreported cell failure mechanism.",
+        "Mention that the investigation used pre/post-anomaly telemetry and a thermal model, not direct proof of the root cause."
       ]
     },
     {
-      "case_id": "E06_TWT_DEGRADATION",
-      "domain": "epc",
-      "term_registry": "epc_terms.json",
-      "skill_path": "skills/epc-gold-seed-curation/SKILL.md",
+      "case_id": "E06_WMAP_CELL_COLLAPSE",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "TWTA_TUBE_DEGRADATION_VS_EPC",
-        "EPC_TWTA_HIGH_VOLTAGE_OUTPUTS"
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"
       ],
       "term_ids": [
-        "twta",
-        "twt",
-        "epc_twta",
-        "helix_current",
-        "anode_voltage",
-        "cathode_voltage"
+        "battery",
+        "battery_cell",
+        "battery_cell_voltage_collapse",
+        "electrolyte_bridging"
       ],
-      "task_prompt": "Using the registered 2022 TWTA reliability paper and ECSS EPC architecture passage, draft one seed about declining helix current and changing anode voltage where insufficient cathode emission or vacuum deterioration are candidate mechanisms.",
+      "task_prompt": "Using the NASA NESC WMAP battery assessment, draft a seed for repeated NiH2 cell voltage drops. A 1.4 V reduction is consistent with complete self-discharge of an individual cell. The team could not determine a definitive root cause; electrolyte bridging between two cell stacks was its consensus theory.",
       "expected_behaviors": [
-        "Attribute insufficient cathode emission and vacuum deterioration to the TWT tube mechanisms as described by the paper.",
-        "Do not label those tube mechanisms as EPC internal faults.",
-        "Treat helix current and anode voltage as correlated TWTA performance indicators, not unique EPC-fault signatures.",
-        "Distinguish the EPC power-supply function from the TWT electron-emission/vacuum function."
+        "Distinguish observed cell voltage collapses from the proposed electrolyte-bridging mechanism.",
+        "Do not call the fault a confirmed internal short.",
+        "Preserve the NESC finding that root cause was not definitively determined.",
+        "Mention the limited diagnostic value of a single cell-voltage change without pressure/temperature/charge history."
+      ]
+    },
+    {
+      "case_id": "E07_IMAGE_COUNTERFACTUALS",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL",
+        "IMAGE_BATTERY_OPEN_CELL_COUNTERFACTUAL",
+        "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL"
+      ],
+      "term_ids": [
+        "battery_internal_short",
+        "battery_open_cell",
+        "solar_array_string",
+        "battery"
+      ],
+      "task_prompt": "Using the IMAGE FRB appendix, draft a seed that explains why battery internal-short, battery open-cell and solar-array short/open cases must not be labeled as observed IMAGE faults. The report analyzes these as alternatives and states that available battery and solar-array telemetry were healthy.",
+      "expected_behaviors": [
+        "Explicitly label these as counterfactual/alternative hypotheses, not observed IMAGE anomalies.",
+        "Do not create a positive IMAGE battery or solar-array fault label from this passage.",
+        "Explain that the report used expected electrical behavior and telemetry to rule alternatives out.",
+        "Preserve the actual likely SSPC instant-trip explanation as a separate finding, not a battery/array root cause."
       ]
     }
   ]
