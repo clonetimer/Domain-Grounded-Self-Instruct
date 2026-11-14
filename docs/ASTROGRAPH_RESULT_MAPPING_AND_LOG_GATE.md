@@ -51,7 +51,7 @@ Before a real source packet can enter expert Gold review, check:
 
 1. **Source integrity:** original report/log references, immutable source hashes, source owner and permitted use.
 2. **Case identity:** stable incident/episode ID; all logs, summaries and report revisions linked to one episode group.
-3. **Temporal coherence:** timestamps and time zones normalized; event order consistent; no post-outcome information leaked into the as-of diagnosis context.
+3. **Temporal coherence:** every packet has an explicit timezone-aware analysis_cutoff; timestamps and time zones normalized; event order consistent; logs after the decision cutoff are rejected; no post-outcome information leaks into the as-of diagnosis context.
 4. **Algorithm provenance:** upstream method/model/version, analysis scope, run ID, status, candidate list, score semantics/calibration and known limitations.
 5. **Log authenticity:** distinguish onboard alarm, operator note, engineering interpretation, maintenance action and later retrospective conclusion. Preserve author role and timestamp where available.
 6. **Context sufficiency:** spacecraft/configuration, subsystem/component mapping, mission phase, operating mode, recent operations and relevant constraints.
@@ -67,7 +67,7 @@ Before a real source packet can enter expert Gold review, check:
 `validate_diagnostic_case()` checks packet structure and semantic boundaries.
 
 `evaluate_case_readiness()` checks whether a packet can proceed to expert Gold review:
-- upstream diagnosis run reference and source hashes;
+- upstream diagnosis run reference and source hashes;\n- diagnostic logs have timestamps and do not exceed the analysis cutoff;\n- no hidden injection truth, labels or expected answers are present in the LLM input;
 - recorded algorithm/method version;
 - diagnostic logs;
 - spacecraft configuration and mission context;
