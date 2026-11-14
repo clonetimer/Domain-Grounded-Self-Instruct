@@ -363,6 +363,119 @@
       "evidence_status": "PUBLIC_ON_ORBIT_ANOMALY_SUMMARY",
       "published_or_updated": "2014-06",
       "scope_note": "NASA Terra status summary records BBAT cell #50 near-zero voltage and loss of cell pressure, four of nine heater groups losing temperature control, and a suspected common MMOD strike as the likely cause. Preserve 'likely/suspected'; the summary does not describe a recovered fragment or confirm the impact point."
+    },
+    {
+      "source_id": "SOHO_FAILURE_BOARD_1998",
+      "title": "SOHO Mission Interruption Joint NASA/ESA Investigation Board Final Report",
+      "url": "https://soho.nascom.nasa.gov/operations/Recovery/docs/SOHO_final_report.html",
+      "kind": "NASA_FAILURE_REVIEW_REPORT",
+      "scopes": [
+        "ADCS_OPERATIONAL_FAILURE",
+        "GYRO_CONFIGURATION",
+        "FAULT_DETECTION",
+        "GROUND_OPERATIONS",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_FAILURE_REVIEW",
+      "published_or_updated": "1998-08-31",
+      "scope_note": "The board concluded there were no onboard spacecraft anomalies; ground operational errors, a modified gyro command sequence, inadequate status monitoring and disabling autonomous fault detection led to loss of attitude control. Gyro B was correctly measuring the actual roll rate when it was misdiagnosed."
+    },
+    {
+      "source_id": "NASA_KEPLER_REACTION_WHEELS_2013",
+      "title": "NASA Ends Attempts to Fully Recover Kepler Spacecraft",
+      "url": "https://www.nasa.gov/news-release/nasa-ends-attempts-to-fully-recover-kepler-spacecraft-potential-new-missions-considered/",
+      "kind": "NASA_PUBLIC_CASE_REPORT",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "REACTION_WHEEL_FAILURE",
+        "MISSION_CAPABILITY",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_MISSION_UPDATE",
+      "published_or_updated": "2013-08-15",
+      "scope_note": "NASA reports two of Kepler's four reaction wheels failed, one in July 2012 and one in May 2013. The release does not disclose the internal physical failure mechanism; do not invent bearing, lubrication, motor or electronics causes."
+    },
+    {
+      "source_id": "NASA_SWIFT_GCN_31547",
+      "title": "Swift Reaction Wheel Anomaly Update (GCN Circular 31547)",
+      "url": "https://gcn.nasa.gov/circulars/31547",
+      "kind": "NASA_GCN_CIRCULAR",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "REACTION_WHEEL_FAILURE",
+        "MECHANISM_HYPOTHESIS",
+        "SAFE_MODE",
+        "RECONFIGURATION"
+      ],
+      "evidence_status": "NASA_PUBLIC_OPERATIONAL_UPDATE",
+      "published_or_updated": "2022-02-04",
+      "scope_note": "NASA/GSFC update says Swift reaction wheel #5 of 6 failed and the failure mode was believed mechanical based on preliminary analysis. Five-wheel operations were prepared; the notice does not identify a specific internal failed part or confirmed mechanical mechanism."
+    },
+    {
+      "source_id": "ESA_INTEGRAL_WHEEL_ANOMALY_2021",
+      "title": "Three hours to save Integral",
+      "url": "https://www.esa.int/Enabling_Support/Operations/Three_hours_to_save_Integral",
+      "kind": "ESA_PUBLIC_CASE_REPORT",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "REACTION_WHEEL_FAILURE",
+        "RADIATION_ASSOCIATION",
+        "STAR_TRACKER_VALIDITY",
+        "SAFE_MODE",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
+      "published_or_updated": "2021-10-18",
+      "scope_note": "ESA describes an Integral reaction wheel stopping, a likely trigger from charged particles trapped in Earth's radiation belts, and a later recurrence thought associated with star-tracker occultation/blinding that was not completely understood. Preserve different certainty levels for the two events."
+    },
+    {
+      "source_id": "NASA_SEASAT_FAILURE_REVIEW_1993",
+      "title": "Report of the Seasat Failure Review Board",
+      "url": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930015504.pdf",
+      "kind": "NASA_FAILURE_REVIEW_REPORT",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "SOLAR_ARRAY_ROTARY_INTERFACE",
+        "SLIP_RING_SHORT",
+        "ARC_MECHANISM",
+        "POWER_LOSS"
+      ],
+      "evidence_status": "NASA_PUBLIC_FAILURE_REVIEW",
+      "published_or_updated": "1993",
+      "scope_note": "Seasat lost electrical power after 105 days. The report attributes the loss to a massive progressive short in a slip-ring assembly connecting rotating solar arrays to the power subsystem; an arc between adjacent brush assemblies was the most likely cause, but the initiating contact/contaminant mechanism remained uncertain."
+    },
+    {
+      "source_id": "INTELSAT_FORM20F_2014_POWER_ANOMALIES",
+      "title": "Intelsat S.A. 2014 Form 20-F — Significant Satellite Anomalies",
+      "url": "https://www.sec.gov/Archives/edgar/data/1525773/000119312515052796/d801063d20f.htm",
+      "kind": "SEC_PUBLIC_FILING",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "BATTERY_CIRCUIT",
+        "ELECTROSTATIC_DISCHARGE",
+        "HIGH_VOLTAGE_POWER",
+        "SOLAR_ARRAY_HARNESS",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "PUBLIC_REGULATORY_FILING",
+      "published_or_updated": "2015-02",
+      "scope_note": "The filing summarizes failure-review-board conclusions for IS-804 and IS-802. IS-804 was most likely a battery-circuit high-current event triggered by ESD and propagated to the high-voltage power system; IS-802 was most likely an electrical short inside the south solar-array harness. Both are reported as most-likely conclusions, not direct teardown proof."
+    },
+    {
+      "source_id": "COSMIC_CUBESAT_ADCS_EPS_2026",
+      "title": "Verification and Testing of a Resource-Constrained University CubeSat: On-Orbit Results and Lessons Learned from COSMIC",
+      "url": "https://www.mdpi.com/2226-4310/13/7/654",
+      "kind": "OPEN_ACCESS_RESEARCH_CASE",
+      "scopes": [
+        "ADCS_RECOVERY_LOGIC",
+        "EPS_POWER_GENERATION",
+        "BATTERY_DISCHARGE",
+        "THERMAL_EFFECT",
+        "CROSS_SUBSYSTEM_PROPAGATION"
+      ],
+      "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
+      "published_or_updated": "2026",
+      "scope_note": "The paper attributes repeated reboots to an ADCS recovery-sequence infinite loop. The loop prevented early-orbit-mode completion and solar-array deployment, reducing battery charging; suppressed internal heat generation also lowered battery temperature below heater activation. Ground command terminated the loop and allowed array deployment. This is a cross-subsystem propagation case."
     }
   ]
 }
