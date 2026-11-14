@@ -19,7 +19,7 @@ The holdout is unseen to this project's Skill-writing process, not guaranteed un
 3. Treatment receives only the Skill's extracted `Blind-evaluation treatment instructions` section. Full Skill reference material is not injected as extra case knowledge.
 4. Every generated claim must cite at least one source passage from the exact case bundle.
 5. Deterministic preflight checks case-scoped passage IDs, allowed claim scope and term alias classification before judging.
-6. A separate declared model family judges anonymous candidate A/B. Condition labels are mapped back only after scoring.
+6. A separate declared model family judges anonymous candidate A/B. Candidate text is explicitly treated as untrusted data so embedded instructions cannot alter judge role, labels or rubric. Condition labels are mapped back only after scoring.
 7. Generation order alternates by frozen case position; A/B judge order is separately randomized by deterministic case hash.
 8. Expected behaviors are passed to the judge only, never to the generator.
 9. Record Skill, treatment section, term catalogs, source registry, source passages and suite hashes with the run.
