@@ -210,19 +210,22 @@
       "term_registry": "eps_terms.json",
       "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
       "source_passage_ids": [
-        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY"
+        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
+        "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS"
       ],
       "term_ids": [
         "battery",
         "battery_cell",
-        "battery_heater_control"
+        "battery_heater_control",
+        "mmod_strike"
       ],
-      "task_prompt": "Using the NASA TERRA battery thermal-control anomaly paper, draft a seed for the 2009 event: a battery cell voltage anomaly occurred simultaneously with failures of several battery heater-control circuits, and several cells approached their minimum survival temperature. Distinguish observed conditions from causal conclusions.",
+      "task_prompt": "Using the NASA TERRA anomaly report and NASA on-orbit status summary, draft a seed for the 2009 event: battery cell #50 failed with loss of pressure and near-zero voltage, while four of nine battery heater groups lost temperature control. The later NASA status summary identifies an MMOD strike as the likely/suspected common cause. Preserve the evidence strength and separate direct observations from the proposed common mechanism.",
       "expected_behaviors": [
-        "Record the battery-cell voltage anomaly and heater-control anomalies as simultaneous observations.",
-        "Do not assert that the cell failure caused heater-control failure or vice versa.",
-        "Explain the thermal risk of approaching electrolyte freeze conditions without inventing an unreported cell failure mechanism.",
-        "Mention that the investigation used pre/post-anomaly telemetry and a thermal model, not direct proof of the root cause."
+        "Record cell #50 failure and four-of-nine heater-group control loss as separate observed conditions.",
+        "Preserve the NASA summary's likely/suspected MMOD common-cause wording; do not claim the impact was conclusively confirmed.",
+        "Do not assert that the battery-cell failure caused the heater-control failure or vice versa.",
+        "Do not invent recovered debris, impact location, exact damaged conductor or internal failed heater component.",
+        "Explain the thermal risk and the role of the battery thermal model without inventing an unreported root cause."
       ]
     },
     {
