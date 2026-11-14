@@ -25,7 +25,7 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertEqual(schema["properties"]["schema_version"]["const"], "dgsi-diagnostic-case.v1")
         self.assertIn("machine_diagnosis", schema["properties"]["input"]["required"])
         self.assertIn("diagnostic_logs", schema["properties"]["input"]["required"])
-        self.assertIn("operational_context", schema["properties"]["input"]["required"])
+        self.assertIn("operational_context", schema["properties"]["input"]["required"])\n        self.assertIn("analysis_cutoff", schema["properties"]["input"]["required"])
 
     def test_case_example_obeys_required_context_boundary(self):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
@@ -119,6 +119,31 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         result = evaluate_case_readiness(case)
         self.assertIn("APPROVED_WITHOUT_REVIEWER_ID", result["blockers"])
         self.assertIn("APPROVED_WITHOUT_REVIEW_TIMESTAMP", result["blockers"])
+
+    def test_case_validator_rejects_hidden_truth_fields(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["input"]["machine_diagnosis"]["ground_truth"] = {"fault_id": "secret"}
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "raw telemetry field"):
+            validate_diagnostic_case(case)
+
+    def test_case_validator_rejects_post_cutoff_log_leakage(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["input"]["diagnostic_logs"].append({
+            "log_id": "POST-DECISION",
+            "timestamp": "2026-04-12T09:11:00Z",
+            "log_type": "REVIEW",
+            "content": "Post-decision expert confirmation.",
+            "author_role": "reviewer",
+            "source_ref": "synthetic://post-decision",
+        })
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "post-decision information leakage"):
+            validate_diagnostic_case(case)
+
+    def test_case_validator_rejects_timezone_naive_cutoff(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["input"]["analysis_cutoff"] = "2026-04-12T09:10:00"
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "must include a timezone"):
+            validate_diagnostic_case(case)
 
 
 if __name__ == "__main__":
