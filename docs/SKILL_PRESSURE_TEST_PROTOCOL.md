@@ -9,15 +9,15 @@ Measure whether the domain-specific Skill reduces unsupported terminology, mecha
 The comparison is paired by case:
 - Same generator model and model settings.
 - Same user task, public source-passage evidence bundle and output schema.
-- Baseline receives no domain Skill.
-- Treatment receives the relevant ADCS or EPS Skill.
+- Baseline receives no Skill treatment section.
+- Treatment receives only the separately extracted `Blind-evaluation treatment instructions` section from the relevant ADCS or EPS Skill; other Skill content is excluded from the prompt.
 - The judge receives candidate A/B with condition labels hidden and scores both against the same source boundaries and expected behaviors.
 
 This tests the incremental value of the Skill, not the value of giving the model better source evidence.
 
 ## Current public-literature case suite
 
-The suite is resources/skill_pressure_cases.json, currently **13 cases: 6 ADCS + 7 EPS**.
+The suite is resources/skill_pressure_cases.json, currently **13 cases: 6 ADCS + 7 EPS**. The TERRA case now includes the NASA 2014 status summary's suspected common MMOD cause in addition to the 2010 thermal-control paper.
 
 ### ADCS
 
@@ -48,7 +48,7 @@ These are **public-literature-derived synthetic prompts**, not raw telemetry, no
 
 1. Freeze commit SHA, Skills, source registry, source passages, term registries and pressure cases.
 2. Run every case twice with the same generator: baseline and the domain-specific Skill treatment.
-3. Use the same source bundle and task in both conditions.
+3. Use the same source bundle, task, generator user prompt and output schema in both conditions. Hash both the full Skill and the extracted treatment section.
 4. Randomize A/B presentation order using the configured seed.
 5. Hide condition labels from the judge; reveal them only after scoring.
 6. Use a judge from a separately declared model family, or qualified human reviewers. A different model ID alone is not enough.
@@ -88,7 +88,7 @@ Any of the following is a critical failure regardless of total score:
 
 ## Executable runner
 
-The repository includes scripts/run_skill_blind_eval.py and src/dgsi/skill_eval.py.
+The repository includes scripts/run_skill_blind_eval.py and src/dgsi/skill_eval.py. The runner checks each generated claim's passage IDs against the exact case bundle, checks claim-type scope and term-alias classification, and supplies those unlabeled preflight findings to the blind judge.
 
 Default invocation is a zero-network dry run:
 ~~~bash
@@ -110,7 +110,7 @@ Configure locally (never commit or paste credentials):
 
 Generator and judge model IDs **and declared model-family identifiers** must differ. The runner cannot independently authenticate the provider's model-family taxonomy or the operator's independence note.
 
-The runner makes 3 Responses API calls per case (baseline, treatment, judge):
+The runner makes 3 Responses API calls per case (baseline, treatment, judge). Failed or partial runs append an explicit `run_failure` record and return a nonzero CLI status rather than leaving an ambiguous IN_PROGRESS file.
 - 4-case smoke: 12 calls (first 2 ADCS + first 2 EPS cases after suite ordering is balanced).
 - 13-case full suite: 39 calls.
 - Outputs are written locally under reports/skill_blind_eval/, which is git-ignored. The script refuses to write candidate text into public source paths.
