@@ -227,143 +227,203 @@
       "claim_boundary": "The review discusses residual sensitivity, plant-model fidelity, noisy measurements, tuning, robustness and practical applicability. It supports discussion of FDD limitations, not specific spacecraft fault causes."
     },
     {
-      "passage_id": "EPC_SSPA_ARCHITECTURE_AND_ANOMALY_CLASSES",
-      "source_id": "AGU_SSPA_RADIATION_2013",
-      "locator": "§1 introduction and §2 SSPA anomalies; Lohmeyer & Cahoy, Space Weather 11(8), 476–488",
-      "locator_url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/swe.20071",
+      "passage_id": "IMAGE_SSPC_SEU_INSTANT_TRIP",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Executive Summary and Root Cause Details, printed pp. 1–2 (PDF lines 17–49); §4.5, printed pp. 12–13",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
       "allowed_claim_types": [
-        "ARCHITECTURE",
+        "MECHANISM",
+        "CASE_HISTORY",
+        "HYPOTHESIS",
         "OBSERVATION",
-        "STATISTICAL_FINDING",
-        "UNCERTAINTY"
+        "SYSTEM_EFFECT"
       ],
-      "evidence_status": "RESEARCH_CASE_ANALYSIS",
-      "claim_boundary": "The paper describes SSPA as an electrical power conditioner plus FET amplifier, and classifies observed amplifier anomalies as operator-defined hard/soft failures using hardware-specific current thresholds. It reports 26 anomalies across eight Inmarsat satellites and says no individual anomaly cause was identified or confirmed. SSPA-level current anomalies do not uniquely localize failure to the EPC.",
-      "evidence_summary": "The SSPA study describes an SSPA as an electrical power conditioner plus field-effect-transistor amplifier devices. It analyzes 26 Inmarsat SSPA anomalies; operator categories distinguish recoverable low-current soft failures from unrecoverable hard failures. Current thresholds differ by hardware fleet, and no individual anomaly cause was identified or confirmed."
+      "evidence_status": "NASA_FAILURE_REVIEW",
+      "claim_boundary": "The FRB judged an SEU-induced SSPC instant trip the likely cause of IMAGE transponder power loss, while retaining other unlikely alternatives. Instant-trip current transients were not reflected in the status telemetry, so the SSPC could be physically off while reporting closed. Preserve 'likely'; do not upgrade it to absolute proof."
     },
     {
-      "passage_id": "EPC_SSPA_RADIATION_CAUSAL_LIMIT",
-      "source_id": "AGU_SSPA_RADIATION_2013",
-      "locator": "§4 Summary and Discussions",
-      "locator_url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/swe.20071",
+      "passage_id": "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Root Cause Details, printed p. 2 (PDF lines 38–49); §4.5, printed pp. 12–13",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
       "allowed_claim_types": [
+        "MECHANISM",
         "OBSERVATION",
-        "STATISTICAL_FINDING",
-        "UNCERTAINTY"
+        "SYSTEM_EFFECT"
       ],
-      "evidence_status": "RESEARCH_CASE_ANALYSIS",
-      "claim_boundary": "The paper compares 26 SSPA anomalies with space-weather observations, notes incomplete particle observations for five cases, and does not establish a general causal relationship between anomalies and the solar cycle or a confirmed cause for each anomaly. Radiation is discussed as a suspected influence, not a confirmed root cause.",
-      "evidence_summary": "The study compares the 26 SSPA anomalies with space-weather observations; five cases lack corresponding electron-flux observations. It does not establish a general causal relationship with the solar cycle or confirm the cause of individual anomalies. Radiation is discussed as a possible influence."
+      "evidence_status": "NASA_FAILURE_REVIEW",
+      "claim_boundary": "A design behavior caused instant-trip status not to be reported; FDC read a stale closed status and did not command recovery. Distinguish physical switch state, reported state and FDC decision. Do not generalize to every SSPC."
     },
     {
-      "passage_id": "EPC_TWTA_HIGH_VOLTAGE_OUTPUTS",
-      "source_id": "ECSS_HV_HANDBOOK_2012",
-      "locator": "§4.4.2.1, printed pp. 58–59 (PDF lines 2684–2716)",
-      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
-      "allowed_claim_types": [
-        "ARCHITECTURE",
-        "MECHANISM",
-        "TELEMETRY"
-      ],
-      "evidence_status": "ENGINEERING_HANDBOOK",
-      "claim_boundary": "The handbook defines TWTA as TWT plus EPC and describes stable helix, cathode, collector and heater outputs generated from the spacecraft main bus. These are architectural/design requirements, not a measured failure signature or universal telemetry set for every EPC.",
-      "evidence_summary": "ECSS defines a TWTA as a TWT plus an EPC. The EPC generates stable high-voltage outputs from the spacecraft main bus, including helix, cathode, collector and heater-related voltages. Stability is required across temperature, load and unit life."
-    },
-    {
-      "passage_id": "EPC_TWTA_FUNCTIONAL_BLOCKS",
-      "source_id": "ECSS_HV_HANDBOOK_2012",
-      "locator": "§4.4.2.1–4.4.2.2, printed p. 59 (PDF lines 2720–2810)",
-      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
-      "allowed_claim_types": [
-        "ARCHITECTURE",
-        "MECHANISM",
-        "TELEMETRY"
-      ],
-      "evidence_status": "ENGINEERING_HANDBOOK",
-      "claim_boundary": "Describes EPC telecommand/telemetry, safe TWT start-up, protection against incorrect operation or high-voltage arcing, input filter, preregulator, power converter, high-voltage generation, cathode-current and helix regulators, and filament conversion. The block diagram does not prove a particular component has failed.",
-      "evidence_summary": "ECSS describes EPC telecommand/telemetry, safe start-up logic and protection against incorrect operation or high-voltage arcing. Its functional chain includes input filter, preregulator, power converter, high-voltage generation, cathode-current/helix regulation and filament conversion."
-    },
-    {
-      "passage_id": "EPC_PARTIAL_DISCHARGE_MECHANISM",
-      "source_id": "ECSS_HV_HANDBOOK_2012",
-      "locator": "§4.3.3 Partial discharges, printed pp. 45–46 (PDF lines 2018–2028 and 2083–2102)",
-      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "passage_id": "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Appendix, Battery Failure Case 1, printed p. 24 (PDF lines 1182–1198)",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
       "allowed_claim_types": [
         "MECHANISM",
-        "TERMINOLOGY"
+        "HYPOTHESIS",
+        "COUNTERFACTUAL",
+        "OBSERVABILITY"
       ],
-      "evidence_status": "ENGINEERING_HANDBOOK",
-      "claim_boundary": "A partial discharge is a localized discharge that does not cause immediate full breakdown; in solid/liquid insulation it can accelerate breakdown and ageing. Do not use 'partial discharge', 'corona' and full electrical breakdown as interchangeable terms.",
-      "evidence_summary": "ECSS defines partial discharge as a localized discharge that does not cause immediate full breakdown. In solid/liquid insulation it can accelerate breakdown and ageing. Corona, partial discharge and Paschen breakdown have distinct definitions."
+      "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
+      "claim_boundary": "The report analyzes a single-cell internal short in a 22-cell series battery as a possible alternative. It states that IMAGE telemetry showed healthy batteries and no indication of cell shorting; multiple simultaneous shorts were considered highly improbable. This is not an observed IMAGE battery fault."
     },
     {
-      "passage_id": "EPC_PASCHEN_BREAKDOWN_MECHANISM",
-      "source_id": "ECSS_HV_HANDBOOK_2012",
-      "locator": "§4.3.4 Paschen breakdown, printed p. 48 (PDF lines 2181–2240); distinction from partial discharge at lines 2094–2100",
-      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "passage_id": "IMAGE_BATTERY_OPEN_CELL_COUNTERFACTUAL",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Appendix, Battery Failure Case 2, printed p. 24 (PDF lines 1200–1214)",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
       "allowed_claim_types": [
         "MECHANISM",
-        "TERMINOLOGY"
+        "HYPOTHESIS",
+        "COUNTERFACTUAL",
+        "OBSERVABILITY"
       ],
-      "evidence_status": "ENGINEERING_HANDBOOK",
-      "claim_boundary": "Paschen breakdown is a full gaseous-insulation breakdown mechanism and is distinct from partial discharge. Applicability depends on gas, pressure, gap geometry and voltage; do not infer it from an unspecified high-voltage anomaly.",
-      "evidence_summary": "ECSS describes Paschen breakdown as a full gaseous-insulation breakdown under pressure/gap/voltage conditions. It explicitly distinguishes this from partial discharge, which is localized and does not immediately produce full breakdown."
+      "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
+      "claim_boundary": "The report reasons about a hypothetical open cell in IMAGE's series battery and the expected bus behavior in sunlight/eclipses. It concludes such a failure could not explain the actual loss of communications under the observed continuous-sunlight conditions. Do not label it as an observed IMAGE failure."
     },
     {
-      "passage_id": "EPC_HIGH_VOLTAGE_CONVERTER_PROBLEM_CLASSES",
-      "source_id": "ECSS_HV_HANDBOOK_2012",
-      "locator": "§8.1.1 High voltage converters (PDF lines 9535–9549)",
-      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "passage_id": "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Appendix, Solar Array Failure, printed pp. 24–25 (PDF lines 1239–1276)",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
       "allowed_claim_types": [
         "MECHANISM",
-        "FAILURE_MODE",
-        "LIMITATION"
+        "HYPOTHESIS",
+        "COUNTERFACTUAL",
+        "OBSERVABILITY"
       ],
-      "evidence_status": "ENGINEERING_HANDBOOK",
-      "claim_boundary": "The handbook lists EMC issues, flashover in open circuit and critical-pressure/Paschen effects as typical high-voltage converter problem areas. These are general engineering problem classes, not confirmed causes of any specific flight anomaly.",
-      "evidence_summary": "ECSS lists EMC issues, open-circuit flashover and critical-pressure/Paschen effects among typical high-voltage converter problem classes. These are engineering risk classes, not proof that a specific flight unit experienced them."
+      "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
+      "claim_boundary": "The report analyzes potential cell/string/segment short or open scenarios, including bypass diode effects, but states IMAGE had no solar-array anomaly history and telemetry showed a healthy array. This is a design-level alternative analysis, not an observed IMAGE solar-array failure."
     },
     {
-      "passage_id": "TWTA_MICRODISCHARGE_RESTART_SIGNATURE",
-      "source_id": "TWTA_MICRODISCHARGE_2016",
-      "locator": "Abstract; Introduction; Effect occurrence (Acta Astronautica 126, pp. 163–167)",
-      "locator_url": "https://doi.org/10.1016/j.actaastro.2016.04.021",
-      "allowed_claim_types": [
-        "OBSERVATION",
-        "MECHANISM",
-        "PROTECTION_BEHAVIOR"
-      ],
-      "evidence_status": "RESEARCH_CASE_ANALYSIS",
-      "claim_boundary": "Describes high-voltage microdischarges in TWTAs, EPC high-voltage removal and autonomous restart, including an anode-voltage drop with roughly 20-minute recovery in the '20 min Effect'. This is a transient discharge/recovery phenomenon and does not by itself prove permanent EPC hardware failure.",
-      "evidence_summary": "The satellite TWTA paper describes high-voltage microdischarges and an EPC protection response that temporarily removes high voltage and restarts. A known '20 min Effect' involved a control-anode voltage drop below nominal with recovery over about 20 minutes; this does not itself establish permanent EPC failure."
-    },
-    {
-      "passage_id": "TWTA_TUBE_DEGRADATION_VS_EPC",
-      "source_id": "TWTA_RELIABILITY_2022",
-      "locator": "§2 Performance Degradation Analysis of Space TWTA; §2.1 helix-current degradation",
-      "locator_url": "https://www.mdpi.com/2076-3417/12/3/1575",
-      "allowed_claim_types": [
-        "MECHANISM",
-        "TELEMETRY",
-        "UNCERTAINTY"
-      ],
-      "evidence_status": "OPEN_ACCESS_RESEARCH_MODEL",
-      "claim_boundary": "The paper states that TWTA comprises TWT plus EPC and identifies insufficient cathode emission and vacuum deterioration as TWT failure mechanisms. Helix current and anode voltage are correlated TWTA performance indicators; they do not uniquely diagnose EPC failure.",
-      "evidence_summary": "The TWTA reliability paper describes TWTA as a TWT plus EPC and identifies insufficient cathode emission and vacuum deterioration as major TWT failure mechanisms. Helix current and anode voltage are correlated TWTA performance indicators, not unique EPC fault signatures."
-    },
-    {
-      "passage_id": "JWST_TWTA_EPC_PARTS_FAILURE_CASE",
-      "source_id": "JWST_TWTA_EPC_FAILURE_2024",
-      "locator": "Table 2, 'Avionics box failures during the spacecraft and observatory I&T program', printed p. 33 (PDF lines 1327–1336)",
-      "locator_url": "https://ntrs.nasa.gov/api/citations/20250005920/downloads/26_011208_1.pdf?attachment=true",
+      "passage_id": "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT",
+      "source_id": "NASA_NOAA13_SOLAR_ARRAY_1995",
+      "locator": "NASA Lessons Learned #387, Abstract and Driving Event",
+      "locator_url": "https://llis.nasa.gov/lesson/387",
       "allowed_claim_types": [
         "CASE_HISTORY",
         "OBSERVATION",
-        "COMPONENT_LOCALIZATION"
+        "MECHANISM",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT"
       ],
-      "evidence_status": "NASA_PUBLIC_CASE_REPORT",
-      "claim_boundary": "The report states that TWTA-1 unexpectedly powered off during pre-thermal-vacuum functional testing and the manufacturer attributed it to a parts failure in the TWTA EPC. It does not disclose the specific failed part or physical failure mechanism.",
-      "evidence_summary": "The JWST lessons-learned report says TWTA-1 unexpectedly powered off during functional testing before thermal-vacuum tests; the manufacturer attributed it to a parts failure in the TWTA EPC. The report does not name the failed part or its physical mechanism."
+      "evidence_status": "NASA_LESSONS_LEARNED",
+      "claim_boundary": "NOAA-13 telemetry indicated the solar array was producing power in full sun but no power reached the battery charging unit; the spacecraft ran on batteries and was lost within six orbits. The cause was surmised as a solar-array bus short to spacecraft ground, possibly due to thermal cycling allowing mounting bolts to penetrate insulation. Preserve 'surmised/possible'; do not claim direct teardown confirmation."
+    },
+    {
+      "passage_id": "IDEASSAT_EPS_RESET_CIRCUIT_SEL",
+      "source_id": "IDEASSAT_EPS_CASE_2022",
+      "locator": "§4.3 Anomaly Analysis and Recovery, EPS reset circuit discussion and Figure 27 (Aerospace 2022, 9(2), 110)",
+      "locator_url": "https://www.mdpi.com/2226-4310/9/2/110",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "OBSERVATION",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_ANALYSIS",
+      "claim_boundary": "The paper identifies a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit as the likely cause of extended power-down/communications blackout and discusses SEL as a possible mechanism that could hold the main switch enable in the off state. Keep the source's likely-cause wording; do not state that SEL was conclusively measured."
+    },
+    {
+      "passage_id": "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
+      "source_id": "NASA_TERRA_BATTERY_2009",
+      "locator": "Abstract and §II Anomaly and Investigation, printed pp. 1–2 (PDF lines 4–23, 110–120)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20100021395/downloads/20100021395.pdf?attachment=true",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_FLIGHT_ANOMALY_REPORT",
+      "claim_boundary": "TERRA experienced a battery cell voltage anomaly and simultaneous failures of several battery heater-control circuits after a routine maneuver. Multiple cells approached minimum survival temperature; primary and redundant HCE paths both showed anomalous behavior. The paper does not establish that the cell anomaly caused the HCE anomaly or vice versa."
+    },
+    {
+      "passage_id": "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES",
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "locator": "Slide 8, 'TDRS-8 Power Subsystem Decline', PDF pp. 8–9 (PDF lines 95–102)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "DEGRADATION",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
+      "claim_boundary": "NASA reported at least six failed solar-array circuits out of 32, with array current about 20% below expected after normal degradation was accounted for. The presentation does not identify the internal physical failure mechanism of each circuit."
+    },
+    {
+      "passage_id": "TDRS8_BVL_PARASITIC_SHUNT",
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "locator": "Slide 8, 'TDRS-8 Power Subsystem Decline', PDF p. 9 (PDF lines 103–109)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
+      "claim_boundary": "NASA reported BVL modules shunting a static current rather than regulating bus voltage; disabling one module on each solar wing recovered parasitic shunts. Do not infer a specific internal semiconductor failure not stated in the presentation."
+    },
+    {
+      "passage_id": "TDRS8_BATTERY_UNDERPERFORMING_CELLS",
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "locator": "Slide 8, 'TDRS-8 Power Subsystem Decline', PDF p. 9 (PDF lines 110–113)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "DEGRADATION",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
+      "claim_boundary": "NASA reported four underperforming battery cells but assessed the battery as not an immediate concern and said the spacecraft could survive loss of two additional cells. Do not convert 'underperforming' into confirmed internal short/open failure."
+    },
+    {
+      "passage_id": "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
+      "source_id": "NASA_WMAP_BATTERY_2010",
+      "locator": "§4.0 Executive Summary, printed pp. 8–10 (PDF lines 564–590, 667–723)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20100030608/downloads/20100030608.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "DEGRADATION",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_NESC_TECHNICAL_ASSESSMENT",
+      "claim_boundary": "WMAP NiH2 flight battery cells experienced repeated voltage drops; a 1.4 V reduction was consistent with complete self-discharge of an individual cell. The NESC team could not determine a definitive root cause; its consensus theory involved electrolyte bridging between two cell stacks in a common pressure vessel. Do not label it a confirmed internal short."
+    },
+    {
+      "passage_id": "EPS_ON_ORBIT_FAILURE_STATISTICS",
+      "source_id": "EPS_FAILURE_RELIABILITY_2012",
+      "locator": "Abstract and introduction; Reliability Engineering & System Safety 98(1), pp. 55–65",
+      "locator_url": "https://doi.org/10.1016/j.ress.2011.10.005",
+      "allowed_claim_types": [
+        "STATISTICAL_FINDING",
+        "METHODOLOGY",
+        "LIMITATION"
+      ],
+      "evidence_status": "RESEARCH_STATISTICS",
+      "claim_boundary": "The paper analyzes more than one thousand spacecraft launched 1990–2008 and compares batteries, power distribution and solar arrays. Use for subsystem-level reliability context, not for inferring a particular component mechanism in an individual case."
+    },
+    {
+      "passage_id": "NASA_SMALLSAT_EPS_ARCHITECTURE",
+      "source_id": "NASA_SMALLSAT_POWER_2026",
+      "locator": "Chapter 3.0 Power, §§3.2–3.6, updated 2026-05-07",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/",
+      "allowed_claim_types": [
+        "ARCHITECTURE",
+        "COMPONENT_ROLE",
+        "TERMINOLOGY"
+      ],
+      "evidence_status": "OFFICIAL_DOMAIN_REFERENCE",
+      "claim_boundary": "NASA overview of solar generation, energy storage and power management/distribution. Use for architecture and component role only; it is not a case-specific fault diagnosis source."
     }
   ]
 }
