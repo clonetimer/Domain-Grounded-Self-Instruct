@@ -38,7 +38,8 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertIn("affected_components", case["expected_output"]["fault_source_assessment"])
         self.assertIn("uncertainty", case["expected_output"])
         self.assertEqual(case["review"]["status"], "DRAFT")
-        self.assertIn("hypothetical", case["provenance"]["generation_method"])\n        self.assertIn("NOT_GOLD_REVIEWED", validate_diagnostic_case(case))
+        self.assertIn("hypothetical", case["provenance"]["generation_method"])
+        self.assertIn("NOT_GOLD_REVIEWED", validate_diagnostic_case(case))
 
     def test_chat_sft_example_has_three_roles_and_review_gate(self):
         schema = load_json("resources/diagnostic_sft.schema.json")
@@ -52,7 +53,8 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertTrue(example["provenance"]["diagnostic_log_refs"])
         self.assertTrue(example["provenance"]["knowledge_passage_ids"])
         self.assertIn("原始遥测", example["messages"][1]["content"])
-        self.assertIn("不提供原始遥测", example["messages"][1]["content"])\n        validate_sft_example(example)
+        self.assertIn("不提供原始遥测", example["messages"][1]["content"])
+        validate_sft_example(example)
 
     def test_machine_scores_are_not_promoted_to_probabilities(self):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
