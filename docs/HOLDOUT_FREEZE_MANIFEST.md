@@ -17,6 +17,19 @@ The project-specific Skills and term registries are frozen at commit:
 
 The holdout suite and its source passages were added after this freeze. The listed Skills and term registries were not modified to incorporate these cases.
 
+## Reproducibility artifact hashes
+
+The following Git blob SHAs identify the holdout suite and the evidence/evaluator artifacts at the current implementation baseline:
+
+| Artifact | Git blob SHA |
+|---|---|
+| Holdout cases | `59c28f899549242119d6a9c5a695dc749550fab4` |
+| Public source registry | `9dd949b9050f0c444fbda970225e5758851c8b57` |
+| Public passage registry | `bc1f9250591b147967b7cfd070634b56db05284b` |
+| Blind evaluator | `1a36a528af80859135ed43a7d3b35cb209f8ffef` |
+
+The runner also writes SHA-256 digests of the suite, source registry, passage registry, Skills, extracted treatment sections and term registries into each run's metadata. A new implementation commit changes the evaluator blob SHA but does not by itself change the frozen Skill/term baseline or holdout case content.
+
 ## Holdout suite
 
 File: `resources/skill_holdout_cases.json`
