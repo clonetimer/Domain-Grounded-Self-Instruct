@@ -19,7 +19,7 @@ The RW speed channel is an ideal native state-feedback upper bound. It is not an
 
 ## Intake contract
 
-`dgsi.basilisk_receipt.validate_r84r3_package(path)` verifies:
+`dgsi.basilisk_receipt.validate_r84r3_archive(path)` first pins the complete R84-R3A Actions ZIP SHA-256, checks the ZIP CRC, rejects traversal/symlink entries and safely extracts into a temporary directory; it then calls `validate_r84r3_package()` to verify:
 
 - manifest schema and PASS status;
 - exactly 12 unique arms plus one replay, 31 samples per execution;
@@ -36,7 +36,7 @@ The RW speed channel is an ideal native state-feedback upper bound. It is not an
 - physical baseline deltas remain within the preregistered tolerance;
 - the replay is linked to one of the 12 unique arms and is sample-exact across telemetry, IMU and QA streams.
 
-The adapter does not copy private trace data into the public repository. It emits only a compact local preflight receipt.
+The pinned source archive SHA-256 is `769fcabf1d2cda41a74842653603255292dbbfc73f05c1bd7e3742ece561a775`. The adapter does not copy telemetry into the public repository. It emits only a compact local preflight receipt.
 
 ## Hard boundary
 
