@@ -2,6 +2,8 @@
 import copy
 import json
 from pathlib import Path
+import shutil
+import tempfile
 import unittest
 
 from dgsi.quality import load_registry, report, validate_seed
@@ -193,6 +195,34 @@ class QualityGateTest(unittest.TestCase):
         self.assertNotIn("SOURCE_PASSAGE_REQUIRED", codes)
         self.assertNotIn("SOURCE_PASSAGE_SOURCE_MISMATCH", codes)
         self.assertNotIn("SOURCE_PASSAGE_SCOPE_MISMATCH", codes)
+
+
+
+    def test_registry_rejects_alias_collision_with_another_preferred_term(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            shutil.copytree(ROOT / "resources", root / "resources")
+            terms_path = root / "resources" / "terms.json"
+            terms = json.loads(terms_path.read_text(encoding="utf-8"))
+            terms["terms"][1]["aliases"].append({
+                "text": terms["terms"][0]["preferred_zh"],
+                "kind": "EXACT",
+                "note": "deliberate collision fixture",
+            })
+            terms_path.write_text(json.dumps(terms, ensure_ascii=False), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "ambiguous term surface"):
+                load_registry(root)
+
+    def test_registry_rejects_unknown_source_passage_claim_scope(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            shutil.copytree(ROOT / "resources", root / "resources")
+            passages_path = root / "resources" / "source_passages.json"
+            passages = json.loads(passages_path.read_text(encoding="utf-8"))
+            passages["passages"][0]["allowed_claim_types"].append("FLIGHT_CERTIFIED_ROOT_CAUSE")
+            passages_path.write_text(json.dumps(passages, ensure_ascii=False), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "unknown allowed_claim_types"):
+                load_registry(root)
 
 
 
