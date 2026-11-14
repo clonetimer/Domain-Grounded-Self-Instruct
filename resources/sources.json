@@ -161,6 +161,136 @@
       "published_or_updated": "2026-07-07",
       "version": "2.11.0",
       "scope_note": "Release-specific compatibility and packaging record. It does not by itself establish a fault model, physical effect, or telemetry truth."
+    },
+    {
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "title": "NEOSSat: Operational and Scientific Evolution of Canada’s Resilient Space Telescope",
+      "url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "kind": "PUBLIC_FLIGHT_CASE_REPORT",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "COMPONENT_FAILURE",
+        "OBSERVABILITY",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "published_or_updated": "2023-02",
+      "scope_note": "Public operational history describing magnetometer, torque-rod controller and X reaction-wheel anomalies. Preserve explicit uncertainty: the 2021 X-wheel cause was suspected electrical, not confirmed."
+    },
+    {
+      "source_id": "ADCS_MED_FAULT_MODEL_2020",
+      "title": "Fault modeling of general momentum exchange devices in spacecraft attitude control systems",
+      "url": "https://doi.org/10.1016/j.jfranklin.2020.02.015",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "ADCS_FAULT_MODEL",
+        "MECHANISM_MODEL",
+        "SIMULATION_MODEL"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2020-07",
+      "scope_note": "Models reaction wheels and single-gimbal CMGs as motor/variable-speed-drive cascades. Model-specific additive/multiplicative fault results must not be generalized beyond stated assumptions."
+    },
+    {
+      "source_id": "ADCS_SENSOR_FDD_2009",
+      "title": "Fault detection and diagnosis in a spacecraft attitude determination system",
+      "url": "https://doi.org/10.1016/j.actaastro.2009.03.002",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "ADCS_SENSOR_FDD",
+        "MEASUREMENT_FAULT_MODEL",
+        "ESTIMATION_METHOD"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2009-09",
+      "scope_note": "Uses rate gyros and vector sensors with Kalman filtering and gyro-bias estimation; additive sensor-fault formulation is a model assumption, not a universal physical failure law."
+    },
+    {
+      "source_id": "ADCS_FDD_REVIEW_2023",
+      "title": "Advanced fault detection and diagnosis in spacecraft attitude control systems: Current state and challenges",
+      "url": "https://doi.org/10.1177/09544100231157132",
+      "kind": "RESEARCH_REVIEW",
+      "scopes": [
+        "ADCS_FDD_METHOD",
+        "LIMITATIONS",
+        "METHODOLOGY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2023-02-17",
+      "scope_note": "Review of spacecraft attitude-control FDD methods and practical gaps including residual sensitivity, model fidelity, noise, tuning and robustness."
+    },
+    {
+      "source_id": "AGU_SSPA_RADIATION_2013",
+      "title": "Space weather radiation effects on geostationary satellite solid-state power amplifiers",
+      "url": "https://dspace.mit.edu/entities/publication/713f4fa4-194c-42e9-8c9c-d9acd28f47b4",
+      "kind": "RESEARCH_PAPER_PUBLIC_REPOSITORY",
+      "scopes": [
+        "SSPA_CASE_HISTORY",
+        "EPC_ARCHITECTURE",
+        "SPACE_WEATHER_ASSOCIATION",
+        "TELEMETRY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2013-08",
+      "scope_note": "Analyzes 26 Inmarsat SSPA anomalies from 1996–2012. SSPA current is used for anomaly detection; the paper says the individual causes were not identified or confirmed. It describes SSPA as EPC plus FETs and classifies operator-observed hard/soft anomalies."
+    },
+    {
+      "source_id": "ECSS_HV_HANDBOOK_2012",
+      "title": "ECSS-E-HB-20-05A Space engineering: High voltage engineering and design handbook",
+      "url": "https://escies.org/download/webDocumentFile?id=63541",
+      "kind": "SPACE_ENGINEERING_HANDBOOK",
+      "scopes": [
+        "EPC_TWTA_ARCHITECTURE",
+        "HIGH_VOLTAGE_MECHANISM",
+        "PARTIAL_DISCHARGE",
+        "PASCHEN_BREAKDOWN",
+        "HIGH_VOLTAGE_CONVERTER"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2012-12-12",
+      "scope_note": "ECSS/ESA handbook; §4.4.2 describes TWTA EPC outputs and functional blocks, while §§4.3.3–4.3.5 cover partial discharge, Paschen breakdown and ageing. Design guidance is not proof of a specific in-orbit failure."
+    },
+    {
+      "source_id": "TWTA_MICRODISCHARGE_2016",
+      "title": "Transmitter microdischarges in communications and broadcast Satellites",
+      "url": "https://doi.org/10.1016/j.actaastro.2016.04.021",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "TWTA_MICRODISCHARGE",
+        "EPC_PROTECTION",
+        "ANOMALY_SIGNATURE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2016-09",
+      "scope_note": "Describes high-voltage microdischarges, EPC autonomous restart and the anode-voltage '20 min Effect'. A protection/restart event is not automatically a permanent EPC hardware failure."
+    },
+    {
+      "source_id": "TWTA_RELIABILITY_2022",
+      "title": "In-Orbit Reliability Evaluation of Space TWTA Based on Copula Function and Bivariate Hybrid Stochastic Processes",
+      "url": "https://www.mdpi.com/2076-3417/12/3/1575",
+      "kind": "OPEN_ACCESS_RESEARCH_PAPER",
+      "scopes": [
+        "TWTA_DEGRADATION",
+        "TWT_FAILURE_MECHANISM",
+        "TELEMETRY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2022-02-01",
+      "scope_note": "Describes TWTA as TWT plus EPC; insufficient cathode emission and vacuum degradation are identified as TWT failure causes. Helix current and anode voltage are joint performance indicators and do not uniquely identify EPC failure."
+    },
+    {
+      "source_id": "JWST_TWTA_EPC_FAILURE_2024",
+      "title": "Lessons learned from systems engineering on the James Webb Space Telescope",
+      "url": "https://ntrs.nasa.gov/api/citations/20250005920/downloads/26_011208_1.pdf?attachment=true",
+      "kind": "NASA_PUBLIC_CASE_REPORT",
+      "scopes": [
+        "EPC_COMPONENT_CASE",
+        "PARTS_FAILURE",
+        "SYSTEM_INTEGRATION"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "published_or_updated": "2024-02-05",
+      "scope_note": "Table 2 reports a TWTA-1 unexpected power-off during pre-thermal-vacuum functional testing; manufacturer attributed it to a parts failure in the TWTA electrical power conditioner. The specific failed part/mechanism is not disclosed."
     }
   ]
 }
