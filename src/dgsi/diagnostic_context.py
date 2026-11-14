@@ -6,6 +6,8 @@ correctness. It is intentionally dependency-free and fail-closed.
 from __future__ import annotations
 
 import re
+import math
+from datetime import datetime
 from collections import defaultdict
 from typing import Any
 
@@ -30,6 +32,15 @@ FORBIDDEN_TELEMETRY_KEYS = {
     "timeseries",
     "samples",
     "raw_signal",
+    "injection_truth",
+    "fault_truth",
+    "ground_truth",
+    "hidden_label",
+    "gold_label",
+    "fault_label",
+    "labels_used",
+    "truth_used",
+    "expected_output",
 }
 
 
@@ -102,10 +113,18 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
             _nonempty(finding.get(field), f"{prefix}.{field}")
         if finding.get("score") is not None:
             score = finding["score"]
-            _require(isinstance(score, (int, float)) and not isinstance(score, bool), f"{prefix}.score must be numeric or null")
+            _require(isinstance(score, (int, float)) and not isinstance(score, bool) and math.isfinite(float(score)), f"{prefix}.score must be finite numeric or null")
             _nonempty(finding.get("score_semantics"), f"{prefix}.score_semantics is required whenever score is supplied")
         _string_list(finding.get("supporting_evidence_ids", []), f"{prefix}.supporting_evidence_ids")
         _string_list(finding.get("limitations", []), f"{prefix}.limitations")
+
+    cutoff_text = inputs.get("analysis_cutoff")
+    _nonempty(cutoff_text, "input.analysis_cutoff")
+    try:
+        cutoff = datetime.fromisoformat(cutoff_text.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise DiagnosticContextValidationError("input.analysis_cutoff must be ISO-8601") from exc
+    _require(cutoff.tzinfo is not None, "input.analysis_cutoff must include a timezone")
 
     logs = inputs.get("diagnostic_logs")
     _require(isinstance(logs, list), "diagnostic_logs must be a list")
@@ -119,6 +138,13 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
             _nonempty(log.get(field), f"{prefix}.{field}")
         _require(log["log_id"] not in log_ids, f"duplicate diagnostic log id: {log['log_id']}")
         log_ids.add(log["log_id"])
+        if log.get("timestamp") is not None:
+            try:
+                log_time = datetime.fromisoformat(str(log["timestamp"]).replace("Z", "+00:00"))
+            except ValueError as exc:
+                raise DiagnosticContextValidationError(f"{prefix}.timestamp must be ISO-8601") from exc
+            _require(log_time.tzinfo is not None, f"{prefix}.timestamp must include a timezone")
+            _require(log_time <= cutoff, f"{prefix} occurs after analysis_cutoff; post-decision information leakage")
 
     spacecraft = inputs.get("spacecraft_context")
     _require(isinstance(spacecraft, dict), "spacecraft_context is required")
@@ -268,6 +294,8 @@ def evaluate_case_readiness(case: dict[str, Any]) -> dict[str, Any]:
         blockers.append("UPSTREAM_ALGORITHM_PROVENANCE_INCOMPLETE")
     if not inputs.get("diagnostic_logs"):
         blockers.append("MISSING_DIAGNOSTIC_LOGS")
+    if any(not log.get("timestamp") for log in inputs.get("diagnostic_logs", [])):
+        blockers.append("DIAGNOSTIC_LOG_TIMESTAMP_INCOMPLETE")
     if not inputs["spacecraft_context"].get("configuration"):
         blockers.append("MISSING_SPACECRAFT_CONFIGURATION")
     if not inputs.get("operational_context", {}).get("mission_phase") or not inputs.get("operational_context", {}).get("operating_mode"):
