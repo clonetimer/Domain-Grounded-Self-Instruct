@@ -5,6 +5,7 @@ They never read telemetry and never turn an upstream candidate into confirmed tr
 """
 from __future__ import annotations
 
+import math
 from typing import Any
 
 from .diagnostic_context import DiagnosticContextValidationError
@@ -25,13 +26,17 @@ def normalize_astrograph_diagnosis_result(
     if not isinstance(result, dict):
         raise UpstreamDiagnosisAdapterError("upstream diagnosis result must be an object")
 
-    if result.get("truth_used") is True or result.get("labels_used") is True:
-        raise UpstreamDiagnosisAdapterError(
-            "upstream result used hidden truth/labels and is not eligible for LLM-facing context"
-        )
+    # Treat unknown or malformed provenance flags as unsafe, not as False.
+    # Legacy packets may omit flags; that absence is a separate source-audit
+    # blocker, not proof that labels/truth were excluded upstream.
+    for field in ("truth_used", "labels_used"):
+        if field in result and result[field] is not False:
+            raise UpstreamDiagnosisAdapterError("UPSTREAM_TRUTH_OR_LABEL_PROVENANCE_UNSAFE")
 
     is_unified = result.get("schema_version") == "astrograph-unified-diagnosis.v1"
     if is_unified:
+        if result.get("truth_used") is not False or result.get("labels_used") is not False:
+            raise UpstreamDiagnosisAdapterError("UNVERIFIED_UNIFIED_TRUTH_OR_LABEL_FLAGS")
         status_map = {
             "DIAGNOSED": "FAULT_CANDIDATE",
             "NORMAL": "NORMAL",
@@ -43,18 +48,35 @@ def normalize_astrograph_diagnosis_result(
         }
         status = status_map.get(result.get("status"))
         if status is None:
-            raise UpstreamDiagnosisAdapterError(f"unsupported unified diagnosis status: {result.get('status')!r}")
-        candidates = result.get("candidates") or []
+            raise UpstreamDiagnosisAdapterError("UNSUPPORTED_UNIFIED_DIAGNOSIS_STATUS")
+        candidates = result.get("candidates", [])
+        if not isinstance(candidates, list):
+            raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_CANDIDATES")
+        evidence_items = result.get("diagnostic_evidence", [])
+        if not isinstance(evidence_items, list):
+            raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_EVIDENCE_LIST")
+        evidence_ids: set[str] = set()
+        for item in evidence_items:
+            if not isinstance(item, dict) or not isinstance(item.get("evidence_id"), str) or not item["evidence_id"].strip():
+                raise UpstreamDiagnosisAdapterError("UNIFIED_EVIDENCE_ID_MISSING")
+            if item["evidence_id"] in evidence_ids:
+                raise UpstreamDiagnosisAdapterError("DUPLICATE_UNIFIED_EVIDENCE_ID")
+            evidence_ids.add(item["evidence_id"])
+        seen_effect_ids: set[str] = set()
         findings: list[dict[str, Any]] = []
         for index, candidate in enumerate(candidates):
-            if not isinstance(candidate, dict) or not isinstance(candidate.get("effect_id"), str):
-                raise UpstreamDiagnosisAdapterError(f"malformed unified candidate at index {index}")
-            evidence_ids = [
-                item.get("evidence_id")
-                for item in result.get("diagnostic_evidence", [])
-                if isinstance(item, dict) and isinstance(item.get("evidence_id"), str)
-            ]
+            if not isinstance(candidate, dict) or not isinstance(candidate.get("effect_id"), str) or not candidate["effect_id"].strip():
+                raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_CANDIDATE_EFFECT_ID")
+            if candidate["effect_id"] in seen_effect_ids:
+                raise UpstreamDiagnosisAdapterError("DUPLICATE_UNIFIED_CANDIDATE_EFFECT_ID")
+            seen_effect_ids.add(candidate["effect_id"])
             score = candidate.get("screening_score")
+            if score is not None and (type(score) not in (float, int) or not 0 <= score <= 1 or not math.isfinite(score)):
+                raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_SCREENING_SCORE")
+            for key in ("support_engines", "contradicting_engines"):
+                engines = candidate.get(key, [])
+                if not isinstance(engines, list) or any(not isinstance(v, str) or not v.strip() for v in engines):
+                    raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_ENGINE_REFERENCES")
             findings.append({
                 "finding_id": f"ASTROGRAPH-CANDIDATE-{index + 1:03d}",
                 "finding_type": "FAULT_CLASS",
@@ -65,16 +87,20 @@ def normalize_astrograph_diagnosis_result(
                     "deterministic evidence-coverage screening score; not a calibrated probability"
                     if score is not None else None
                 ),
-                "supporting_evidence_ids": evidence_ids,
+                # UnifiedCandidate does not bind diagnostic_evidence IDs to a
+                # specific candidate. Assigning all evidence to every fault
+                # would fabricate support and contaminate conflict examples.
+                "supporting_evidence_ids": [],
                 "limitations": [
                     "upstream candidate is not a confirmed root cause",
                     "candidate score is not a calibrated probability",
-                    result.get("claim_boundary", "upstream claim boundary not supplied"),
+                    "candidate-specific diagnostic evidence links were not supplied",
+                    "upstream reports contradicting engines; resolution required"
+                    if candidate.get("contradicting_engines") else "no engine-level conflict claim is inferred",
+                    result.get("claim_boundary") or "upstream claim boundary not supplied",
                 ],
             })
-        for index, evidence in enumerate(result.get("diagnostic_evidence") or []):
-            if not isinstance(evidence, dict):
-                continue
+        for index, evidence in enumerate(evidence_items):
             findings.append({
                 "finding_id": f"ASTROGRAPH-EVIDENCE-{index + 1:03d}",
                 "finding_type": "RESIDUAL",
@@ -102,8 +128,11 @@ def normalize_astrograph_diagnosis_result(
         known_limitations = [
             result.get("claim_boundary", "upstream claim boundary not supplied"),
             "upstream diagnosis metadata is a candidate/result summary, not raw telemetry",
+            "unified contract does not establish candidate-to-evidence attribution",
         ]
     else:
+        if result.get("schema_version") not in (None, "external-diagnosis-result.v1"):
+            raise UpstreamDiagnosisAdapterError("UNSUPPORTED_UPSTREAM_DIAGNOSIS_SCHEMA")
         status_value = result.get("status")
         candidate_items = result.get("candidate_faults")
         if isinstance(candidate_items, list):
