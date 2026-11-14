@@ -55,6 +55,20 @@ These are **public-literature-derived synthetic prompts**, not raw telemetry, no
 7. Have a qualified ADCS/EPS reviewer adjudicate disagreements about physical mechanisms, component localization and source interpretation.
 8. If a case is used to revise the Skill or vocabulary, retire it from the blind set before rerunning. Do not tune against a claimed held-out case.
 
+## Separate unseen holdout
+
+The 13 development cases must not be used as a proxy for generalization. A separate 8-case holdout suite (4 ADCS + 4 EPS) was added from SOHO, Kepler, Swift, Integral, Seasat, Intelsat and COSMIC public reports. The project-specific Skills and term registries are frozen at commit `f89bde513eac58a65ef37a3d72cafc9113231079`; the holdout sources were not used to write those Skills.
+
+See `docs/HOLDOUT_FREEZE_MANIFEST.md` for artifact hashes and leakage rules and `docs/HOLDOUT_EVALUATION_PROTOCOL.md` for the transfer-test design. Run it explicitly with:
+
+```bash
+python scripts/run_skill_blind_eval.py --suite skill_holdout_cases.json
+python scripts/run_skill_blind_eval.py --suite skill_holdout_cases.json --execute-live --limit 4
+python scripts/run_skill_blind_eval.py --suite skill_holdout_cases.json --execute-live --limit 8
+```
+
+The 4-case smoke is interleaved (2 ADCS + 2 EPS) and costs 12 API calls; the full holdout costs 24. These are project-process holdouts, not guaranteed unseen to base-model pretraining. If the holdout is used for Skill or rubric remediation, retire it and create a new holdout.
+
 ## Scoring rubric
 
 Score each candidate from 0 to 2 on each dimension:
