@@ -25,7 +25,8 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertEqual(schema["properties"]["schema_version"]["const"], "dgsi-diagnostic-case.v1")
         self.assertIn("machine_diagnosis", schema["properties"]["input"]["required"])
         self.assertIn("diagnostic_logs", schema["properties"]["input"]["required"])
-        self.assertIn("operational_context", schema["properties"]["input"]["required"])\n        self.assertIn("analysis_cutoff", schema["properties"]["input"]["required"])
+        self.assertIn("operational_context", schema["properties"]["input"]["required"])
+        self.assertIn("analysis_cutoff", schema["properties"]["input"]["required"])
 
     def test_case_example_obeys_required_context_boundary(self):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
