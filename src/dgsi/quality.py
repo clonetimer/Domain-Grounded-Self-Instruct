@@ -94,16 +94,38 @@ def load_registry(root: str | Path) -> dict[str, Any]:
                         raise ValueError(f"term {row['term_id']}: unknown source passage {passage_id!r}")
                     if source_passages[passage_id].get("source_id") not in refs:
                         raise ValueError(f"term {row['term_id']}: passage/source mismatch for {passage_id!r}")
+    alias_policy = terms_file.get("alias_policy", {})
+    if not isinstance(alias_policy, dict) or not alias_policy:
+        raise ValueError("terms: alias_policy must define the permitted alias classes")
     term_surfaces: dict[str, set[str]] = {}
+    term_aliases: dict[str, dict[str, dict[str, str]]] = {}
     related_terms: dict[str, list[str]] = {}
+    alias_owners: dict[str, str] = {}
     for term_id, row in terms.items():
         surfaces = {row.get("preferred_zh", ""), row.get("preferred_en", "")}
+        term_aliases[term_id] = {}
         for alias in row.get("aliases", []):
-            surface = alias if isinstance(alias, str) else alias.get("text") if isinstance(alias, dict) else None
-            if isinstance(surface, str) and surface.strip():
-                surfaces.add(surface.strip())
+            if not isinstance(alias, dict):
+                raise ValueError(f"term {term_id}: every alias must have an explicit kind and note")
+            surface, kind, note = alias.get("text"), alias.get("kind"), alias.get("note")
+            if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
+                raise ValueError(f"term {term_id}: malformed or unclassified alias {alias!r}")
+            if surface in alias_owners and alias_owners[surface] != term_id:
+                raise ValueError(f"ambiguous alias {surface!r}: assigned to both {alias_owners[surface]} and {term_id}")
+            alias_owners[surface] = term_id
+            term_aliases[term_id][surface] = {"kind": kind, "note": note}
+            surfaces.add(surface)
         term_surfaces[term_id] = {surface for surface in surfaces if surface}
-        related_terms[term_id] = [item["text"] for item in row.get("related_terms", []) if isinstance(item, dict) and isinstance(item.get("text"), str)]
+        related_terms[term_id] = []
+        for related in row.get("related_terms", []):
+            if not isinstance(related, dict):
+                raise ValueError(f"term {term_id}: related terms must be classified objects")
+            surface, kind, note = related.get("text"), related.get("kind"), related.get("note")
+            if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
+                raise ValueError(f"term {term_id}: malformed related term {related!r}")
+            if surface in term_aliases[term_id]:
+                raise ValueError(f"term {term_id}: {surface!r} cannot be both alias and related term")
+            related_terms[term_id].append(surface)
     for effect in effects.values():
         for channel in effect.get("declared_observation_channels", []):
             if channel not in channels:
@@ -113,7 +135,8 @@ def load_registry(root: str | Path) -> dict[str, Any]:
             raise ValueError(f"run {run['run_id']}: unknown effect_id")
     return {
         "sources": sources, "terms": terms, "source_passages": source_passages,
-        "term_surfaces": term_surfaces, "related_terms": related_terms,
+        "term_surfaces": term_surfaces, "term_aliases": term_aliases,
+        "alias_policy": alias_policy, "related_terms": related_terms,
         "effects": effects, "channels": channels,
         "simulation_truth": simulation_truth, "runs": runs,
         "forbidden_phrases": [item["phrase"] for item in terms_file.get("forbidden_phrases", [])],
@@ -272,7 +295,7 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                 if item.get("locator") and item.get("locator") != passage.get("locator"):
                     add("SOURCE_LOCATOR_MISMATCH", f"evidence[{i}].locator", "free-text locator differs from the registered passage locator")
             source = registry["sources"].get(item.get("source_id"), {})
-            if source.get("kind") not in {"OFFICIAL_DOMAIN_REFERENCE", "RESEARCH_PAPER", "USER_LIBRARY_REFERENCE", "SIMULATOR_DOCUMENTATION", "RESEARCH_DATASET_REFERENCE"}:
+            if source.get("kind") not in {"OFFICIAL_DOMAIN_REFERENCE", "RESEARCH_PAPER", "USER_LIBRARY_REFERENCE", "SIMULATOR_DOCUMENTATION", "SIMULATOR_RELEASE_NOTES", "RESEARCH_DATASET_REFERENCE"}:
                 add("DOCUMENT_SOURCE_NOT_ADMITTED", f"evidence[{i}].source_id", "catalog/interface metadata is not document evidence")
     claim_ids: set[str] = set()
     for i, claim in enumerate(claims):
