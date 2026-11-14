@@ -48,6 +48,16 @@ Report ADCS and EPS separately; each case's baseline and treatment score; paired
 
 Do not report the mean score as diagnostic accuracy. Eight cases are a transfer probe, not a statistically powered benchmark.
 
+## Result contract
+
+The JSONL summary reports:
+- overall paired score deltas, but overall averages must not replace domain-specific interpretation;
+- separate `by_domain.adcs` and `by_domain.eps` means, critical-failure counts, preflight critical counts, paired deltas and judge preferences;
+- `per_case` baseline/treatment total scores, paired delta and critical-failure/preflight counts;
+- `candidate_without_critical_flags_rate`, a model-judge plus deterministic-preflight proxy only. It is **not** first-pass human acceptance, final delivery success or diagnostic accuracy.
+
+Human first-pass approval, corrected-to-approved delivery yield and revision time require a separate human curation workflow and are not measured by this blind runner.
+
 ## Commands
 
 ```bash
