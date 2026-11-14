@@ -4,7 +4,7 @@
 
 **Deliver:** source registry, ADCS terminology draft, fault/effect catalog, telemetry dictionary, empty simulation truth admission registry, JSON contract, offline validator, adversarial tests and draft Skill.
 
-**Exit:** tests pass, CLI preflight passes for a clearly hypothetical abstention example, known fabricated terms/causal overreach/self-attestation/truth leakage fail, source provenance remains distinguishable. Domain-specific aliases and external source passages still need human approval.
+**Exit:** tests pass, CLI preflight passes for a clearly hypothetical abstention example, known fabricated terms/causal overreach/self-attestation/truth leakage fail, source provenance remains distinguishable. Alias semantics and 11 public source-passage locators are now registered; all preferred terms remain draft pending domain review. The draft Skill remains unapproved pending independent blind evaluation.
 
 ## Phase 2 / P2: verified evidence admission
 
@@ -26,7 +26,7 @@ Freeze only human-approved Gold Seed, and keep training-only synthetic expansion
 
 - Source licensing / private dataset distribution and per-reference version pinning.
 - Reviewer authentication and tamper-evident audit receipts (metadata currently insufficient).
-- Technical phrase discovery beyond a controlled glossary and illustrative forbidlist.
+- Technical phrase discovery beyond the current narrow suspicious-compound heuristic; a clean scan does not prove vocabulary completeness.
 - Real multi-sensor conditional independence and causal evidence, not just declared graph edges.
 - Mechanism-to-measurement mapping across Basilisk, SatAgentSimulation and AAS channel schemas.
 - Independent judge calibration and evidence-based factual audit on previously unseen reports.
