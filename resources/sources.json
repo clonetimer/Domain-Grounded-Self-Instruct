@@ -263,7 +263,7 @@
       ],
       "evidence_status": "PUBLIC_CASE_ANALYSIS",
       "published_or_updated": "2022-02-22",
-      "scope_note": "The paper attributes the extended power-down/communications blackout as likely to a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit; it discusses SEL as a plausible mechanism. Do not state SEL was conclusively observed unless the source explicitly confirms it."
+      "scope_note": "The paper's abstract and conclusions attribute the extended power-down/communications blackout to the EPS reset circuit's inability to recover from an ionizing-radiation-induced SEL. The single-gate CMOS Schmitt-trigger inverter is identified as the likely susceptible element. This is the authors' flight-data-based diagnosis; distinguish it from a direct measurement of the internal device current waveform."
     },
     {
       "source_id": "NASA_TERRA_BATTERY_2009",
