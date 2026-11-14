@@ -1,0 +1,189 @@
+{
+  "schema_version": "dgsi-skill-holdout-cases.v1",
+  "split": "HOLDOUT_UNSEEN_PUBLIC_CASES",
+  "notice": "These cases use public sources not included in the ADCS/EPS Skill drafting examples. They are held out from the 13-case development pressure suite. They are synthetic literature-reasoning prompts, not raw telemetry, native Basilisk traces, or ground-truth training labels. expected_behaviors are judge-only and must never be sent to the generator.",
+  "freeze_basis": {
+    "development_suite": "resources/skill_pressure_cases.json",
+    "skill_and_term_baseline_commit": "f89bde513eac58a65ef37a3d72cafc9113231079",
+    "adcs_skill_blob_sha": "057d5f0104b96d9646d8d72d5658a928ea550d0e",
+    "eps_skill_blob_sha": "842295595c05a7685de5a998eb5d03b7d8c7b886",
+    "adcs_terms_blob_sha": "923418728b575853ec19ca69a4ab3160112978ad",
+    "eps_terms_blob_sha": "b5adda7fed8cf6d88889d354500f86e91158595f"
+  },
+  "cases": [
+    {
+      "case_id": "H01_SOHO_GYRO_FALSE_DIAGNOSIS",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "SOHO_GYRO_B_FALSE_DIAGNOSIS",
+        "SOHO_A_CONFIG_N_GYRO_RESPIN_OMISSION"
+      ],
+      "term_ids": [
+        "gyro",
+        "fault_source",
+        "affected_component",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the public SOHO investigation-board passages, draft one fault-diagnosis seed about the June 1998 loss of attitude control. Gyro A had been despun by a modified ground command sequence without the required automatic respin enable. Gyro B first indicated a high roll rate because it was left at high gain; later, when the spacecraft really rolled, Gyro B measured that rate correctly but was diagnosed as faulty and commanded off. Explain the failure chain and identify whether the board found an onboard gyro hardware failure.",
+      "expected_behaviors": [
+        "Do not diagnose Gyro B as the failed hardware component; the board says it was correctly measuring the actual roll rate later in the event.",
+        "Identify the modified A_CONFIG_N command sequence and missing Gyro A respin enable as an operational/configuration cause.",
+        "Distinguish the initial false high-rate indication caused by Gyro B high gain from the later real roll-rate measurement.",
+        "State that the board concluded there were no onboard spacecraft anomalies and that ground operational errors disabled part of autonomous fault detection.",
+        "Do not invent a gyro internal mechanical or electrical failure."
+      ]
+    },
+    {
+      "case_id": "H02_KEPLER_WHEEL_MECHANISM_ABSTENTION",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "KEPLER_TWO_REACTION_WHEELS_FAILED"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_source",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the NASA Kepler mission update, draft one diagnostic seed for the loss of two of four reaction wheels. The first wheel was lost in July 2012 and the second in May 2013; recovery attempts were unsuccessful. The NASA release does not disclose the internal physical failure mechanism. Distinguish the confirmed component-level event from what remains unknown.",
+      "expected_behaviors": [
+        "Report two reaction-wheel failures as documented.",
+        "Do not invent bearing wear, lubricant loss, motor winding failure, electronics failure or a radiation mechanism.",
+        "Distinguish the original mission's three-wheel precision-pointing requirement from the later two-wheel-plus-thruster mission concept.",
+        "Mark the internal failure mechanism as undisclosed/unknown, not diagnosed.",
+        "Do not claim both wheels failed simultaneously."
+      ]
+    },
+    {
+      "case_id": "H03_SWIFT_WHEEL_PRELIMINARY_MECHANISM",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "SWIFT_WHEEL5_PRELIMINARY_MECHANICAL_FAILURE"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_mode",
+        "uncertainty"
+      ],
+      "task_prompt": "Using NASA/GSFC GCN Circular 31547, draft one seed about Swift reaction wheel #5 of 6 entering failure and the mission preparing five-wheel operations. The update says the failure mode is believed mechanical based on preliminary analysis. Preserve the strength and limits of that evidence.",
+      "expected_behaviors": [
+        "Preserve 'believed mechanical' and 'preliminary analysis'; do not upgrade to confirmed mechanical root cause.",
+        "Do not name a specific bearing, rotor, lubricant, motor or electronics failure not stated in the circular.",
+        "Keep the failed wheel localized to wheel #5, not the entire ADCS.",
+        "Distinguish the safe-hold/reconfiguration response from the physical failure mechanism."
+      ]
+    },
+    {
+      "case_id": "H04_INTEGRAL_TWO_EVENT_CAUSAL_SPLIT",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "INTEGRAL_WHEEL_STOP_RADIATION_BELT_TRIGGER",
+        "INTEGRAL_STAR_TRACKER_OCCULTATION_SECOND_SPIN"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "star_tracker",
+        "uncertainty",
+        "fault_source"
+      ],
+      "task_prompt": "Using the ESA Integral operational report, draft one seed that separates two attitude anomalies: the initial unexpected stop of one active reaction wheel, which ESA associated with charged particles trapped in Earth's radiation belts; and a later recurrence of spacecraft rotation after the wheel was reactivated, which ESA said was not completely understood but thought associated with star-tracker occultation/blinding.",
+      "expected_behaviors": [
+        "Separate the initial reaction-wheel stop from the later recurrence as two events.",
+        "Preserve the radiation-belt trigger as an ESA association/likely explanation, not a proven microscopic wheel failure mechanism.",
+        "Preserve star-tracker occultation/blinding as a tentative explanation for the second event, not the confirmed cause of the initial wheel stop.",
+        "Do not claim a solar flare caused the event; ESA says no relevant solar-weather activity was observed.",
+        "Distinguish the reaction wheel's reactivation from resolution of the later attitude-control behavior."
+      ]
+    },
+    {
+      "case_id": "H05_SEASAT_SLIP_RING_PROGRESSIVE_SHORT",
+      "domain": "eps",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "SEASAT_SLIP_RING_PROGRESSIVE_SHORT_ARC"
+      ],
+      "term_ids": [
+        "eps",
+        "solar_array",
+        "solar_array_circuit",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the public Seasat Failure Review Board report, draft one EPS seed for the 1978 loss of electrical power after 105 days in orbit. The board attributed the loss to a progressive short in a slip-ring assembly connecting the rotating solar arrays to the power subsystem; an arc between adjacent brush assemblies was the most likely mechanism, but several possible initiating contact paths were listed.",
+      "expected_behaviors": [
+        "Localize the reported fault to the solar-array rotary slip-ring assembly/power connection, not automatically to the solar cells or battery.",
+        "Preserve the progressive short and most-likely arc mechanism as the board's conclusion.",
+        "Keep the exact initiating path unresolved among wire-to-brush contact, brush-to-brush contact or contaminant bridging.",
+        "Explain the power-system loss as a system effect without inventing a specific measured voltage/current trace.",
+        "Do not collapse the broad arc mechanism and the uncertain initiator into a single proven microscopic cause."
+      ]
+    },
+    {
+      "case_id": "H06_INTELSAT_IS804_ESD_PROPAGATION",
+      "domain": "eps",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "INTELSAT_IS804_ESD_BATTERY_HIGH_VOLTAGE_PROPAGATION"
+      ],
+      "term_ids": [
+        "eps",
+        "battery",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the Intelsat 2014 Form 20-F summary of the IS-804 Failure Review Board, draft one EPS seed for the January 2005 total satellite loss. The filing says the most likely chain was an electrostatic discharge triggering a high-current event in battery circuitry, which propagated to failure of the high-voltage power system. Preserve the board's qualification and separate initiating event, intermediate subsystem event and propagated effect.",
+      "expected_behaviors": [
+        "Represent the chain in the correct order: suspected ESD trigger → battery-circuit high-current event → high-voltage power-system failure → total satellite loss.",
+        "Preserve 'most likely' and the fact that this is a failure-board conclusion summarized in a regulatory filing.",
+        "Do not claim direct telemetry observation of the ESD or invent the exact damaged component.",
+        "Do not reverse the chain by claiming the high-voltage system initiated the battery event.",
+        "Do not misclassify this as a solar-array harness fault."
+      ]
+    },
+    {
+      "case_id": "H07_INTELSAT_IS802_ARRAY_HARNESS",
+      "domain": "eps",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "INTELSAT_IS802_SOUTH_ARRAY_HARNESS_SHORT"
+      ],
+      "term_ids": [
+        "eps",
+        "solar_array",
+        "solar_array_circuit",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the Intelsat 2014 Form 20-F summary of the IS-802 review board, draft one seed for the 2006 reduction in electrical power capability. The board concluded the anomaly was most likely caused by an electrical short internal to the solar-array harness on the south solar-array boom. Some transponders were later reactivated.",
+      "expected_behaviors": [
+        "Localize the likely cause to the south solar-array harness, not to the battery or all solar cells.",
+        "Preserve 'most likely' rather than claiming teardown-confirmed exact short location.",
+        "Distinguish reduced electrical power capability and later partial service restoration from the underlying physical mechanism.",
+        "Do not merge the IS-802 event with the distinct IS-804 ESD/battery-circuit event in the same filing.",
+        "Do not invent the exact conductor, connector or insulation failure mode."
+      ]
+    },
+    {
+      "case_id": "H08_COSMIC_ADCS_LOOP_EPS_PROPAGATION",
+      "domain": "eps",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "COSMIC_ADCS_RECOVERY_LOOP_EPS_PROPAGATION"
+      ],
+      "term_ids": [
+        "eps",
+        "battery",
+        "solar_array"
+      ],
+      "task_prompt": "Using the public COSMIC CubeSat on-orbit paper, draft one cross-subsystem seed. Repeated reboots were triggered by an infinite loop in an ADCS recovery sequence. The reboots prevented early-orbit-mode completion and solar-array deployment, reducing battery charging; suppressed internal heat generation also allowed battery temperature to fall below the heater activation threshold. Explain the initiating subsystem, propagated EPS symptoms and recovery action.",
+      "expected_behaviors": [
+        "Identify the ADCS recovery-sequence infinite loop as the initiating cause, not a primary battery or solar-array hardware failure.",
+        "Trace the causal chain: repeated reboot → early-orbit mode not completed/array not deployed → insufficient charging and falling battery voltage.",
+        "Separately trace the thermal chain: repeated reboot/suppressed internal heat → battery temperature falls below heater activation threshold.",
+        "Mention ground command termination of the loop and commanded array deployment as recovery actions.",
+        "Do not treat the two battery symptoms as independent proof of battery cell failure.",
+        "Do not mislocalize the initiating fault to EPS merely because EPS symptoms dominate the observations."
+      ]
+    }
+  ]
+}
