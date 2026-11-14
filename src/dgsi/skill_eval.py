@@ -100,12 +100,13 @@ JUDGE_SCHEMA: dict[str, Any] = {
 }
 
 BASELINE_SYSTEM = (
-    "Create one candidate instruction-data seed for the supplied spacecraft ADCS task. "
-    "Follow the task prompt and the required output schema. Return only the requested JSON object."
+    "Create one candidate instruction-data seed for the supplied spacecraft fault-diagnosis task. "
+    "Follow the task prompt, supplied evidence context and required output schema. "
+    "Return only the requested JSON object."
 )
 
 JUDGE_SYSTEM = (
-    "You are an independent blind evaluator of two candidate ADCS instruction-data seeds. "
+    "You are an independent blind evaluator of two candidate spacecraft fault-diagnosis instruction-data seeds. "
     "The candidates are randomly ordered and their production conditions are hidden. "
     "Score each candidate from 0 to 2 on every rubric dimension. Use the supplied expected "
     "behaviors and source context. Do not reward verbosity. Flag any unsupported definitive "
@@ -259,8 +260,12 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 
 def _case_context(root: Path, case: Mapping[str, Any]) -> dict[str, Any]:
+    domain = case.get("domain", "adcs")
+    term_registry_files = {"adcs": "terms.json", "epc": "epc_terms.json"}
+    if domain not in term_registry_files:
+        raise ValueError(f"{case['case_id']}: unsupported domain {domain!r}")
     passages = _load_json(root / "resources" / "source_passages.json")
-    terms = _load_json(root / "resources" / "terms.json")
+    terms = _load_json(root / "resources" / term_registry_files[domain])
     passage_index = {item["passage_id"]: item for item in passages["passages"]}
     term_index = {item["term_id"]: item for item in terms["terms"]}
     selected_passages = []
@@ -274,6 +279,7 @@ def _case_context(root: Path, case: Mapping[str, Any]) -> dict[str, Any]:
             "locator": item["locator"],
             "allowed_claim_types": item["allowed_claim_types"],
             "claim_boundary": item["claim_boundary"],
+            "evidence_summary": item.get("evidence_summary", ""),
         })
     selected_terms = []
     for term_id in case["term_ids"]:
@@ -288,7 +294,7 @@ def _case_context(root: Path, case: Mapping[str, Any]) -> dict[str, Any]:
             "aliases": item.get("aliases", []),
             "related_terms": item.get("related_terms", []),
         })
-    return {"source_passages": selected_passages, "terms": selected_terms}
+    return {"domain": domain, "source_passages": selected_passages, "terms": selected_terms}
 
 
 def _api_call_for_json(
@@ -343,11 +349,31 @@ def run_live_evaluation(
     output_path = validate_output_path(root, output_path)
     cases_file = root / "resources" / "skill_pressure_cases.json"
     passages_file = root / "resources" / "source_passages.json"
-    terms_file = root / "resources" / "terms.json"
     cases_payload = _load_json(cases_file)
     cases = cases_payload["cases"][:limit]
-    skill_text = (root / "skills" / "adcs-gold-seed-curation" / "SKILL.md").read_text(encoding="utf-8")
-    skill_sha = hashlib.sha256(skill_text.encode("utf-8")).hexdigest()
+    allowed_skill_paths = {
+        "skills/adcs-gold-seed-curation/SKILL.md",
+        "skills/epc-gold-seed-curation/SKILL.md",
+    }
+    skill_paths = sorted({case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md") for case in cases})
+    if any(path not in allowed_skill_paths for path in skill_paths):
+        raise ValueError("pressure case references an unapproved Skill path")
+    skill_texts = {
+        path: (root / path).read_text(encoding="utf-8")
+        for path in skill_paths
+    }
+    skill_hashes = {
+        path: hashlib.sha256(text.encode("utf-8")).hexdigest()
+        for path, text in skill_texts.items()
+    }
+    term_registry_files = {"adcs": "terms.json", "epc": "epc_terms.json"}
+    used_domains = sorted({case.get("domain", "adcs") for case in cases})
+    if any(domain not in term_registry_files for domain in used_domains):
+        raise ValueError("pressure suite contains an unsupported domain")
+    term_hashes = {
+        domain: hashlib.sha256((root / "resources" / term_registry_files[domain]).read_bytes()).hexdigest()
+        for domain in used_domains
+    }
     cases_sha = hashlib.sha256(cases_file.read_bytes()).hexdigest()
 
     metadata = {
@@ -362,10 +388,10 @@ def run_live_evaluation(
         "seed": seed,
         "case_count": len(cases),
         "expected_api_calls": len(cases) * 3,
-        "skill_sha256": skill_sha,
+        "skill_sha256_by_path": skill_hashes,
+        "term_registry_sha256_by_domain": term_hashes,
         "cases_sha256": cases_sha,
         "source_passages_sha256": hashlib.sha256(passages_file.read_bytes()).hexdigest(),
-        "terms_sha256": hashlib.sha256(terms_file.read_bytes()).hexdigest(),
         "responses_store": False,
         "run_status": "IN_PROGRESS",
     }
@@ -379,8 +405,10 @@ def run_live_evaluation(
     records: list[dict[str, Any]] = []
     for case in cases:
         context = _case_context(root, case)
+        skill_path = case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md")
+        skill_text = skill_texts[skill_path]
         generator_prompt = json.dumps(
-            {"task": case["task_prompt"], "registered_context": context},
+            {"domain": case.get("domain", "adcs"), "task": case["task_prompt"], "registered_context": context},
             ensure_ascii=False,
             sort_keys=True,
         )
@@ -404,6 +432,7 @@ def run_live_evaluation(
         judge_prompt = json.dumps(
             {
                 "case_id": case["case_id"],
+                "domain": case.get("domain", "adcs"),
                 "task": case["task_prompt"],
                 "registered_context": context,
                 "expected_behaviors": case["expected_behaviors"],
@@ -426,6 +455,8 @@ def run_live_evaluation(
         record = {
             "record_type": "case_result",
             "case_id": case["case_id"],
+            "domain": case.get("domain", "adcs"),
+            "skill_path": skill_path,
             "blind_order": pair["order"],
             "candidate_A": pair["candidates"]["A"],
             "candidate_B": pair["candidates"]["B"],
