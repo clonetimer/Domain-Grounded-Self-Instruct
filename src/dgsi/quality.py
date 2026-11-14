@@ -417,9 +417,6 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                 for passage_id in passage_ids:
                     passage = registry["source_passages"].get(passage_id)
                     if passage is None:
-                        add("UNKNOWN_SOURCE_PASSAGE", f"{path}.source_passage_ids", f"unknown source passage {passage_id!r}")
-                        continue
-                    if passage is None:
                         continue
                     if required_scope not in passage.get("allowed_claim_types", []):
                         add("SOURCE_PASSAGE_SCOPE_MISMATCH", f"{path}.source_passage_ids", f"passage {passage_id!r} does not authorize {kind} claims")
