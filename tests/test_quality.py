@@ -177,5 +177,24 @@ class QualityGateTest(unittest.TestCase):
 
 
 
+    def test_contextual_alias_is_not_flattened_into_exact_synonym(self):
+        alias = self.registry["term_aliases"]["adcs"]["姿态控制系统"]
+        self.assertEqual(alias["kind"], "CONTEXTUAL_SHORT_FORM")
+        self.assertIn("姿态确定", alias["note"])
+
+    def test_registered_mechanism_passage_is_accepted_for_mechanism_claim(self):
+        case = copy.deepcopy(self.example)
+        case["claims"][0].update({
+            "claim_type": "MECHANISM",
+            "source_ids": ["NASA_SMALLSAT_GNC"],
+            "source_passage_ids": ["NASA_MAGNETOMETER_LOCAL_FIELD"],
+        })
+        codes = self.codes(case)
+        self.assertNotIn("SOURCE_PASSAGE_REQUIRED", codes)
+        self.assertNotIn("SOURCE_PASSAGE_SOURCE_MISMATCH", codes)
+        self.assertNotIn("SOURCE_PASSAGE_SCOPE_MISMATCH", codes)
+
+
+
 if __name__ == "__main__":
     unittest.main()
