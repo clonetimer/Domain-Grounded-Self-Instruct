@@ -154,9 +154,17 @@ class SkillEvalTest(unittest.TestCase):
             "answer": "证据不足",
             "diagnostic_status": "INSUFFICIENT_EVIDENCE",
             "fault_source_component": None,
-            "claims": [],
-            "term_mentions": [],
-            "uncertainty": "缺少独立证据",
+            "claims": [{
+                "claim_type": "OBSERVATION",
+                "text": "公开案例记录了磁强计失效。",
+                "source_passage_ids": ["NEOSSAT_MAGNETOMETER_FAILURE"],
+            }],
+            "term_mentions": [{
+                "surface": "磁强计",
+                "term_id": "magnetometer",
+                "relation": "PREFERRED",
+            }],
+            "uncertainty": "内部物理失效原因未由该段资料确定。",
         }
         score = {
             "terminology": 2,
@@ -339,6 +347,34 @@ class SkillEvalTest(unittest.TestCase):
 
     def test_candidate_schema_requires_at_least_one_claim(self):
         self.assertEqual(CANDIDATE_SCHEMA["properties"]["claims"]["minItems"], 1)
+
+
+
+    def test_live_runner_records_partial_failure_without_marking_run_complete(self):
+        from unittest.mock import patch
+        from dgsi.skill_eval import run_live_evaluation
+
+        root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "failed.jsonl"
+            with patch("dgsi.skill_eval._api_call_for_json", side_effect=RuntimeError("synthetic API failure")):
+                result = run_live_evaluation(
+                    root=root,
+                    output_path=output,
+                    generator_model="gpt-6-astra",
+                    judge_model="gpt-6.1-sol",
+                    generator_family="gpt-6-astra-family",
+                    judge_family="gpt-6.1-sol-family",
+                    api_key="test-key",
+                    independence_note="Separate declared model family.",
+                    limit=1,
+                )
+            records = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(result["metadata"]["run_status"], "FAILED")
+            self.assertIsNone(result["summary"])
+            self.assertEqual(records[-1]["record_type"], "run_failure")
+            self.assertEqual(records[-1]["completed_case_count"], 0)
+            self.assertEqual(records[-1]["error_type"], "RuntimeError")
 
 
 
