@@ -1,0 +1,146 @@
+{
+  "schema_version": "dgsi-source-passages.v1",
+  "notice": "Passage records are precise locators and claim boundaries, not copied source text. A registered locator does not prove that a candidate claim is correctly interpreted; the cited passage must be checked by a reviewer.",
+  "passages": [
+    {
+      "passage_id": "NASA_GNC_ADCS_SCOPE",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.1 Introduction, HTML lines 267-340",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "TERMINOLOGY",
+        "COMPONENT_ROLE",
+        "ARCHITECTURE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Defines the ADCS expansion and lists representative attitude sensors and actuators. It does not establish any spacecraft-specific fault or root cause."
+    },
+    {
+      "passage_id": "NASA_REACTION_WHEEL_FUNCTION",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.2 Reaction Wheels, HTML lines 391-397",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports reaction-wheel torque and momentum storage, angular-momentum exchange, speed saturation, and redundancy considerations. It does not prove a particular wheel fault or bearing failure."
+    },
+    {
+      "passage_id": "NASA_MAGNETIC_TORQUER_ROD_RESIDUAL_FIELD",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.3 Magnetic Torquers, HTML lines 474-483",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "CAUSAL",
+        "INTERFERENCE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Describes residual fields in ferrous-core torquer bars/rods and their potential effect on magnetometers, and the use of magnetic torquers for wheel momentum desaturation. Do not generalize the rod construction to all magnetorquers."
+    },
+    {
+      "passage_id": "NASA_STAR_TRACKER_VALIDITY",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.5 Star Trackers, HTML lines 534-537",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "OBSERVABILITY",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Describes star-field visibility, field-of-view, angular-rate, external-light and glare conditions that can corrupt or invalidate a solution, and IMU propagation between star-tracker updates. It does not identify the cause of a particular invalid measurement."
+    },
+    {
+      "passage_id": "NASA_MAGNETOMETER_LOCAL_FIELD",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.6 Magnetometers, HTML lines 577-584",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "CAUSAL",
+        "INTERFERENCE",
+        "OBSERVABILITY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "States that a magnetometer cannot differentiate magnetic-field sources and that reaction wheels, magnetic torquer rods, power systems, cabling harnesses and solar cells can change the local field. This is not a unique root-cause signature."
+    },
+    {
+      "passage_id": "NASA_SUN_SENSOR_ESTIMATION",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.7 Sun Sensors, HTML lines 600-603",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "OBSERVABILITY",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Describes body-frame Sun-direction estimates, the need for another independent attitude source for a three-axis estimate, and possible albedo/glint measurement perturbations. It does not prove a specific sensor failure."
+    },
+    {
+      "passage_id": "NASA_INERTIAL_SENSOR_GYRO_BIAS",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.9 Inertial Sensing, HTML lines 678-684",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "TERMINOLOGY",
+        "MECHANISM",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Defines gyroscope/accelerometer roles, IMU propagation between non-inertial sensor updates, and the need to estimate turn-on bias and bias drift. It does not set universal fault thresholds."
+    },
+    {
+      "passage_id": "NASA_NESC_BP5",
+      "source_id": "NASA_NESC_GNC",
+      "locator": "NASA/TP-20230005922, GN&C Best Practice #5, printed page 68",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20230005922/downloads/20230005922.pdf?attachment=true",
+      "allowed_claim_types": [
+        "METHODOLOGY",
+        "INDEPENDENCE_REQUIREMENT"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports independence of autonomous GN&C fault management from hardware/software involved in causing or diagnosing faults, including the warning against using the same gyro to monitor a control loop that uses it. It is a design principle, not a specific ADCS fault signature."
+    },
+    {
+      "passage_id": "CNSA_ADCS_CLOSED_LOOP",
+      "source_id": "CNSA_SATELLITE_ATTITUDE_CONTROL",
+      "locator": "卫星科普：卫星姿态控制，§如何控制卫星姿态，HTML lines 62-77",
+      "locator_url": "https://www.cnsa.gov.cn/n6758968/n6758973/c10578880/content.html",
+      "allowed_claim_types": [
+        "TERMINOLOGY",
+        "ARCHITECTURE",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Provides Chinese-language descriptions of the sensor-controller-actuator loop and common sensor/actuator names. It is educational material, not a normative terminology standard or fault-diagnosis case."
+    },
+    {
+      "passage_id": "ASTROGRAPH_PROJECT_SCHEMA_V3",
+      "source_id": "ASTROGRAPH_KG_SCHEMA",
+      "locator": "src/astrograph/knowledge/schema_v3.py: GraphLayer, KnowledgeNodeTypeV3 and KnowledgeRelationTypeV3",
+      "locator_url": "https://github.com/clonetimer/AstroGraph-LLM/blob/9bdb92e95f1878b7ed057c169fcd116ae29ec83f/src/astrograph/knowledge/schema_v3.py",
+      "allowed_claim_types": [
+        "PROJECT_SCHEMA",
+        "PROJECT_DEFINITION"
+      ],
+      "evidence_status": "SCHEMA_INDEXED",
+      "claim_boundary": "Supports the project's data-model distinctions only; it does not establish domain-standard terminology or physical causality."
+    },
+    {
+      "passage_id": "BASILISK_2_11_0_RELEASE",
+      "source_id": "BASILISK_RELEASE_2_11_0",
+      "locator": "Version 2.11.0 Release Notes, release heading dated July 7, 2026",
+      "locator_url": "https://avslab.github.io/basilisk/Support/bskReleaseNotes/2.11.html",
+      "allowed_claim_types": [
+        "SIM_VERSION",
+        "SIM_INTERFACE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports release identity and documented compatibility changes only; not a substitute for versioned module documentation or an admitted simulation run."
+    }
+  ]
+}
