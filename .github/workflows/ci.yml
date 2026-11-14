@@ -1,4 +1,4 @@
-name: ADCS seed quality gates
+name: ADCS and EPS seed quality gates
 on:
   push:
   pull_request:
@@ -22,4 +22,5 @@ jobs:
           export PYTHONPATH=src
           python -m unittest discover -s tests -v
           python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
+          python -m dgsi.cli validate examples/illustrative_eps_abstain.json --root .
           python -m compileall -q src tests
