@@ -513,6 +513,9 @@ class SkillEvalTest(unittest.TestCase):
             self.assertEqual(len(result["metadata"]["sources_registry_sha256"]), 64)
             self.assertEqual(len(result["metadata"]["source_passages_sha256"]), 64)
             self.assertEqual(len(result["metadata"]["cases_sha256"]), 64)
+            self.assertEqual(len(result["metadata"]["skill_sha256_by_path"]["skills/adcs-gold-seed-curation/SKILL.md"]), 64)
+            self.assertEqual(len(result["metadata"]["skill_treatment_sha256_by_path"]["skills/adcs-gold-seed-curation/SKILL.md"]), 64)
+            self.assertEqual(len(result["metadata"]["term_registry_sha256_by_domain"]["adcs"]), 64)
             generator_calls = [call for call in calls if call["schema_name"] == "spacecraft_fault_seed_candidate"]
             self.assertEqual(len(generator_calls), 4)
             self.assertTrue(all("expected_behaviors" not in call["user_prompt"] for call in generator_calls))
