@@ -260,6 +260,14 @@ class QualityGateTest(unittest.TestCase):
 
 
 
+    def test_claim_without_evidence_or_source_passage_is_blocked(self):
+        case = copy.deepcopy(self.example)
+        case["claims"][0]["evidence_ids"] = []
+        case["claims"][0]["source_passage_ids"] = []
+        self.assertIn("CLAIM_WITHOUT_EVIDENCE", self.codes_for(case))
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
