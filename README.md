@@ -7,7 +7,7 @@ Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft
 - Public indexes: `resources/sources.json` (33 sources), `resources/source_passages.json` (42 passage records), `resources/terms.json` (ADCS), `resources/eps_terms.json` (EPS), `resources/telemetry_channels.csv`, `resources/fault_effects.json`.
 - Run admission contract: `resources/simulation_truth.json` (initially **zero verified runs**).
 - Versioned candidate JSON contract: `resources/seed.schema.json`.
-- Conservative Python preflight CLI: `src/dgsi/quality.py`, 67 adversarial tests.
+- Conservative Python preflight CLI: `src/dgsi/quality.py`, 68 adversarial tests.
 - Human workflows and **draft** reusable Skills: `docs/`, `skills/adcs-gold-seed-curation/SKILL.md`, `skills/eps-gold-seed-curation/SKILL.md`.
 
 ## Run locally (Python 3.11+; no external runtime dependencies)
