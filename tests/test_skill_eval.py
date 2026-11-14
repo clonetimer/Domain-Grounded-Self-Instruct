@@ -430,6 +430,17 @@ class SkillEvalTest(unittest.TestCase):
             self.assertTrue(context["source_passages"])
             self.assertTrue(context["terms"])
             self.assertTrue(all(p["claim_boundary"] and p["evidence_summary"] for p in context["source_passages"]))
+            self.assertTrue(all(p["source_title"] and p["source_kind"] and p["source_evidence_status"] for p in context["source_passages"]))
+            self.assertTrue(all(p["passage_evidence_status"] for p in context["source_passages"]))
+
+    def test_holdout_passages_do_not_overlap_development_suite(self):
+        root = Path(__file__).resolve().parents[1]
+        holdout = json.loads((root / "resources" / "skill_holdout_cases.json").read_text(encoding="utf-8"))
+        development = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))
+        holdout_passages = {p for case in holdout["cases"] for p in case["source_passage_ids"]}
+        development_passages = {p for case in development["cases"] for p in case["source_passage_ids"]}
+        self.assertEqual(len(holdout_passages), 10)
+        self.assertEqual(holdout_passages.intersection(development_passages), set())
 
     def test_cli_holdout_dry_run_makes_no_network_calls(self):
         root = Path(__file__).resolve().parents[1]
