@@ -12,6 +12,7 @@ from dgsi.skill_eval import (
     extract_output_text,
     map_blind_scores,
     validate_live_config,
+    validate_output_path,
 )
 
 
@@ -106,6 +107,18 @@ class SkillEvalTest(unittest.TestCase):
         payload = json.loads(result.stdout)
         self.assertEqual(payload["mode"], "DRY_RUN")
         self.assertEqual(payload["network_calls"], 0)
+
+
+
+    def test_live_output_cannot_be_written_into_public_source_tree(self):
+        root = Path(__file__).resolve().parents[1]
+        with self.assertRaisesRegex(ValueError, "outside the repository or under reports/skill_blind_eval"):
+            validate_output_path(root, root / "resources" / "leaked-candidate.jsonl")
+
+    def test_live_output_is_allowed_in_git_ignored_eval_directory(self):
+        root = Path(__file__).resolve().parents[1]
+        output = validate_output_path(root, root / "reports" / "skill_blind_eval" / "pilot.jsonl")
+        self.assertEqual(output, root / "reports" / "skill_blind_eval" / "pilot.jsonl")
 
 
 
