@@ -352,7 +352,7 @@
       "term_id": "schmitt_trigger_inverter",
       "preferred_zh": "施密特触发反相器",
       "preferred_en": "Schmitt Trigger Inverter",
-      "definition_zh": "具有迟滞输入特性的逻辑反相器；IDEASSat论文指出单门CMOS器件用于其EPS复位电路。",
+      "definition_zh": "具有迟滞输入特性的逻辑反相器；IDEASSat论文指出其单门CMOS器件位于EPS复位电路，并将其识别为导致长时间断电/通信中断的可能敏感器件。",
       "status": "SOURCE_BOUNDED",
       "source_ids": [
         "IDEASSAT_EPS_CASE_2022"
@@ -367,7 +367,7 @@
       "term_id": "single_event_latchup",
       "preferred_zh": "单粒子闩锁",
       "preferred_en": "Single-Event Latchup",
-      "definition_zh": "电离辐射触发寄生导通结构形成低阻状态的单粒子效应；在具体电路中可能导致持续异常电流或控制节点状态改变。",
+      "definition_zh": "电离辐射触发寄生导通结构形成低阻状态的单粒子效应；IDEASSat论文将EPS复位电路无法从辐射诱发SEL中恢复作为该次通信中断的作者诊断，并讨论复位反相器中的SEL如何维持主电源开关关闭。",
       "status": "SOURCE_BOUNDED",
       "source_ids": [
         "IDEASSAT_EPS_CASE_2022"
