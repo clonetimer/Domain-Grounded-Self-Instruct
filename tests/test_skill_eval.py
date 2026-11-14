@@ -1,5 +1,9 @@
 """Offline tests for the opt-in, stateless blind-evaluation runner."""
 import json
+import os
+from pathlib import Path
+import subprocess
+import sys
 import unittest
 
 from dgsi.skill_eval import (
@@ -78,6 +82,31 @@ class SkillEvalTest(unittest.TestCase):
     def test_response_parser_rejects_incomplete_response(self):
         with self.assertRaisesRegex(ValueError, "incomplete"):
             extract_output_text({"status": "incomplete", "output": []})
+
+
+    def test_live_config_requires_explicit_independence_note(self):
+        with self.assertRaisesRegex(ValueError, "INDEPENDENCE_NOTE"):
+            validate_live_config("gpt-6-astra", "gpt-6.1-sol", "key")
+
+    def test_cli_defaults_to_no_network_dry_run(self):
+        root = Path(__file__).resolve().parents[1]
+        env = os.environ.copy()
+        env.pop("OPENAI_API_KEY", None)
+        env.pop("DGSI_GENERATOR_MODEL", None)
+        env.pop("DGSI_JUDGE_MODEL", None)
+        result = subprocess.run(
+            [sys.executable, str(root / "scripts" / "run_skill_blind_eval.py")],
+            cwd=root,
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["mode"], "DRY_RUN")
+        self.assertEqual(payload["network_calls"], 0)
+
 
 
 if __name__ == "__main__":
