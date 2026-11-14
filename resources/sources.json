@@ -374,7 +374,9 @@
         "GYRO_CONFIGURATION",
         "FAULT_DETECTION",
         "GROUND_OPERATIONS",
-        "SYSTEM_EFFECT"
+        "SYSTEM_EFFECT",
+        "MECHANISM",
+        "CAUSAL"
       ],
       "evidence_status": "PUBLIC_FAILURE_REVIEW",
       "published_or_updated": "1998-08-31",
@@ -422,7 +424,9 @@
         "RADIATION_ASSOCIATION",
         "STAR_TRACKER_VALIDITY",
         "SAFE_MODE",
-        "SYSTEM_EFFECT"
+        "SYSTEM_EFFECT",
+        "MECHANISM",
+        "CAUSAL"
       ],
       "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
       "published_or_updated": "2021-10-18",
@@ -438,7 +442,9 @@
         "SOLAR_ARRAY_ROTARY_INTERFACE",
         "SLIP_RING_SHORT",
         "ARC_MECHANISM",
-        "POWER_LOSS"
+        "POWER_LOSS",
+        "MECHANISM",
+        "CAUSAL"
       ],
       "evidence_status": "NASA_PUBLIC_FAILURE_REVIEW",
       "published_or_updated": "1993",
@@ -455,7 +461,9 @@
         "ELECTROSTATIC_DISCHARGE",
         "HIGH_VOLTAGE_POWER",
         "SOLAR_ARRAY_HARNESS",
-        "UNCERTAINTY"
+        "UNCERTAINTY",
+        "MECHANISM",
+        "CAUSAL"
       ],
       "evidence_status": "PUBLIC_REGULATORY_FILING",
       "published_or_updated": "2015-02",
@@ -471,7 +479,9 @@
         "EPS_POWER_GENERATION",
         "BATTERY_DISCHARGE",
         "THERMAL_EFFECT",
-        "CROSS_SUBSYSTEM_PROPAGATION"
+        "CROSS_SUBSYSTEM_PROPAGATION",
+        "MECHANISM",
+        "CAUSAL"
       ],
       "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
       "published_or_updated": "2026",
