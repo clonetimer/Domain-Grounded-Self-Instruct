@@ -27,7 +27,7 @@
       "minLength": 1
     },
     "domain": {
-      "const": "adcs"
+      "enum": ["adcs", "eps"]
     },
     "task_type": {
       "type": "string",
