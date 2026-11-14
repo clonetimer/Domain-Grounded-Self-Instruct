@@ -67,12 +67,14 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(json.dumps({
         "mode": "LIVE",
+        "run_status": result["metadata"]["run_status"],
         "summary": result["summary"],
+        "failure": result.get("failure"),
         "output_path": result["output_path"],
         "responses_store": False,
         "note": "Judge condition labels were hidden until after scoring. Verify the independence note and review critical failures before interpreting the result.",
     }, ensure_ascii=False, indent=2))
-    return 0
+    return 0 if result["metadata"]["run_status"] == "COMPLETED" else 1
 
 
 if __name__ == "__main__":
