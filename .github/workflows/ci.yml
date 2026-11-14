@@ -1,0 +1,25 @@
+name: ADCS seed quality gates
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Adversarial tests + candidate smoke
+        shell: bash
+        run: |
+          export PYTHONPATH=src
+          python -m unittest discover -s tests -v
+          python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
+          python -m compileall -q src tests

@@ -1,0 +1,17 @@
+channel_id,subsystem,component,unit,source_id,provenance
+adcs.pointing_error_deg,adcs,attitude_control,deg,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.star_tracker.valid,adcs,star_tracker,1,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.sun_sensor.valid,adcs,sun_sensor,1,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.sensor.gyro_measured_rad_s_x,adcs,gyroscope,rad/s,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.sensor.gyro_measured_rad_s_y,adcs,gyroscope,rad/s,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.sensor.gyro_measured_rad_s_z,adcs,gyroscope,rad/s,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.magnetometer.tesla_x,adcs,magnetometer,T,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.magnetometer.tesla_y,adcs,magnetometer,T,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.magnetometer.tesla_z,adcs,magnetometer,T,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.star_tracker.q0,adcs,star_tracker,1,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.star_tracker.q1,adcs,star_tracker,1,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.star_tracker.q2,adcs,star_tracker,1,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.star_tracker.q3,adcs,star_tracker,1,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.rw.measured_speed_rad_s_0,adcs,reaction_wheel,rad/s,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.rw.measured_speed_rad_s_1,adcs,reaction_wheel,rad/s,AAS_CHANNEL_CATALOG,CATALOG_ONLY
+adcs.rw.measured_speed_rad_s_2,adcs,reaction_wheel,rad/s,AAS_CHANNEL_CATALOG,CATALOG_ONLY

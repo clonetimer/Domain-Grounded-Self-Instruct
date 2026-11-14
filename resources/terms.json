@@ -1,0 +1,28 @@
+{
+  "schema_version": "dgsi-terms.v1",
+  "review_status": "DRAFT_AWAITING_DOMAIN_REVIEW",
+  "note": "Preferred translations are provisional project vocabulary, not claims of official Chinese normative terminology. Preserve aliases and request expert confirmation.",
+  "terms": [
+    {"term_id":"adcs", "preferred_zh":"姿态确定与控制系统", "preferred_en":"attitude determination and control system", "aliases":["ADCS", "姿态控制系统"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"gyro", "preferred_zh":"陀螺仪", "preferred_en":"gyroscope", "aliases":["陀螺", "角速度传感器"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"reaction_wheel", "preferred_zh":"反作用飞轮", "preferred_en":"reaction wheel", "aliases":["飞轮", "反作用轮"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"star_tracker", "preferred_zh":"星敏感器", "preferred_en":"star tracker", "aliases":["星敏"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"sun_sensor", "preferred_zh":"太阳敏感器", "preferred_en":"sun sensor", "aliases":["太敏"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"magnetometer", "preferred_zh":"磁强计", "preferred_en":"magnetometer", "aliases":[], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"magnetorquer", "preferred_zh":"磁力矩器", "preferred_en":"magnetorquer", "aliases":["磁力矩杆"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"angular_velocity", "preferred_zh":"角速度", "preferred_en":"angular velocity", "aliases":[], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"gyro_bias", "preferred_zh":"陀螺零偏", "preferred_en":"gyroscope bias", "aliases":["角速度测量偏置"], "source_ids":["NASA_SMALLSAT_GNC"]},
+    {"term_id":"measurement_noise", "preferred_zh":"测量噪声", "preferred_en":"measurement noise", "aliases":[], "source_ids":["BASILISK_DOCS"]},
+    {"term_id":"fault_mode", "preferred_zh":"故障模式", "preferred_en":"fault mode", "aliases":[], "source_ids":["SPACECRAFT_FAULT_KG_2023"]},
+    {"term_id":"fault_source", "preferred_zh":"故障源部件", "preferred_en":"fault-source component", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]},
+    {"term_id":"affected_component", "preferred_zh":"受影响部件", "preferred_en":"affected component", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]},
+    {"term_id":"telemetry", "preferred_zh":"遥测数据", "preferred_en":"telemetry", "aliases":["遥测"], "source_ids":["AAS_CHANNEL_CATALOG"]},
+    {"term_id":"uncertainty", "preferred_zh":"诊断不确定性", "preferred_en":"diagnostic uncertainty", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]},
+    {"term_id":"evidence", "preferred_zh":"诊断证据", "preferred_en":"diagnostic evidence", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]}
+  ],
+  "forbidden_phrases": [
+    {"phrase":"姿态量子解耦故障", "reason":"Illustrative coined phrase, not an admitted ADCS fault mode"},
+    {"phrase":"飞轮磁振裂解", "reason":"Illustrative coined term, not an admitted physical fault"},
+    {"phrase":"自证式故障确认", "reason":"Unsupported self-attestation framing"}
+  ]
+}

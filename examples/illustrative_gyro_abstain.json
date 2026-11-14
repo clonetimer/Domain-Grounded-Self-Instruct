@@ -1,0 +1,37 @@
+{
+  "schema_version": "dgsi-seed.v1",
+  "seed_id": "DEMO-ADCS-ABSTAIN-001",
+  "domain": "adcs",
+  "task_type": "fault_diagnosis",
+  "instruction": "仅依据提供的观测描述，判断能否确定故障源部件；证据不足时明确说明需要补充哪些独立证据。",
+  "input": {
+    "kind": "HYPOTHETICAL",
+    "context": "人为构造的审核流程示例；没有观测到真实遥测，不可用于标注任何航天器实际故障。",
+    "observations": [{"channel_id":"adcs.sensor.gyro_measured_rad_s_x", "note":"假设该通道存在持续偏离参考值的现象；没有提供原始数据、参考值或故障时间区间。"}]
+  },
+  "answer": {
+    "status": "INSUFFICIENT_EVIDENCE",
+    "effect_id": null,
+    "summary": "仅依据这一假设性通道描述，不能确认故障源部件。需要结合姿态机动指令、参考角速度以及其他独立传感器观测区分传感器异常与正常动力学变化。",
+    "evidence_ids": ["E_DEMO_01"],
+    "limitations": ["本例没有经核验的遥测轨迹，也没有故障注入真值。"]
+  },
+  "evidence": [{
+    "evidence_id": "E_DEMO_01",
+    "origin": "HYPOTHETICAL",
+    "source_id": "AAS_CHANNEL_CATALOG",
+    "channel_id": "adcs.sensor.gyro_measured_rad_s_x",
+    "statement": "假设存在持续偏离；该目录只证明通道名称，不能证明该现象确曾发生。",
+    "independence_group": "DEMO_INPUT"
+  }],
+  "claims": [{
+    "claim_id": "C_DEMO_01",
+    "claim_type": "OBSERVATION",
+    "text": "输入仅有假设性的陀螺 X 轴测量偏离描述。",
+    "source_ids": ["AAS_CHANNEL_CATALOG"],
+    "evidence_ids": ["E_DEMO_01"]
+  }],
+  "term_ids": ["adcs", "gyro", "telemetry", "fault_source", "evidence"],
+  "provenance": {"generation_mode": "ILLUSTRATIVE_HUMAN_AUTHORED", "trace_used": false, "truth_in_prompt": false},
+  "review": {"status": "CANDIDATE", "reviewer_id": null, "reviewed_at": null, "decision": null, "review_mode": null}
+}

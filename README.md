@@ -1,9 +1,34 @@
 # Domain-Grounded Self-Instruct
 
-**Purpose:** Human-reviewed, evidence-grounded instruction seed curation for spacecraft fault diagnosis, starting with ADCS.
+Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft fault diagnosis, starting with ADCS. The first deliverable is a deterministic, offline **candidate preflight gate** — not an LLM generating, fact-checking, diagnosis engine, or Gold certification service.
 
-This repository is public. It must not contain private telemetry, unpublished R21 traces, proprietary source documents, credentials, or unlicensed copyrighted content. Only source indexes, reusable contracts, synthetic examples explicitly marked as illustrative, and independently tested tooling belong here.
+## Current scope (Phase 1)
 
-**Project stage:** Phase 1 — evidence/source registry, terminology, fault ontology, simulation-truth admission contracts and seed annotation quality gates. Automated generation and any Gold Seed designation are out of scope until human review is recorded.
+- Public indexes: `resources/sources.json`, `resources/terms.json`, `resources/telemetry_channels.csv`, `resources/fault_effects.json`.
+- Run admission contract: `resources/simulation_truth.json` (initially **zero verified runs**).
+- Versioned candidate JSON contract: `resources/seed.schema.json`.
+- Conservative Python preflight CLI: `src/dgsi/quality.py`, 19 adversarial tests.
+- Human workflows and **draft** reusable Skill: `docs/`, `skills/adcs-gold-seed-curation/SKILL.md`.
 
-Development happens via feature branches and pull requests. See `docs/` in the working branch for the plan.
+## Run locally (Python 3.11+; no external runtime dependencies)
+
+```bash
+PYTHONPATH=src python -m unittest discover -s tests -v
+PYTHONPATH=src python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
+```
+
+PowerShell:
+
+```powershell
+$env:PYTHONPATH = 'src'
+python -m unittest discover -s tests -v
+python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
+```
+
+Success means **structural and rule-based preflight only**; factual correctness and physical causal validity require independent domain review. A `CANDIDATE_CHECKS_PASSED` result is never a Gold Seed. Human review metadata is not proof of reviewer identity; Gold freeze remains a separate governed action.
+
+## Security, provenance and IP
+
+**This repository is public.** Never commit R21/other nonpublic telemetry, unpublished experiment archives, commercial FMEA tables, credentials, personal data, or copyrighted source PDFs. Public source URLs and a small set of reviewed *metadata* are not a blanket license to reproduce texts. Input prompts must be truth-free; fault injection metadata, labels, and future holdouts are isolated. Published demo data are explicitly hypothetical.
+
+Start with [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/QUALITY_PROTOCOL.md`](docs/QUALITY_PROTOCOL.md). The plan and design are under `docs/superpowers/`.
