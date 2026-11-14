@@ -49,10 +49,10 @@ def normalize_astrograph_diagnosis_result(
         status = status_map.get(result.get("status"))
         if status is None:
             raise UpstreamDiagnosisAdapterError("UNSUPPORTED_UNIFIED_DIAGNOSIS_STATUS")
-        candidates = result.get("candidates") or []
+        candidates = result.get("candidates", [])
         if not isinstance(candidates, list):
             raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_CANDIDATES")
-        evidence_items = result.get("diagnostic_evidence") or []
+        evidence_items = result.get("diagnostic_evidence", [])
         if not isinstance(evidence_items, list):
             raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_EVIDENCE_LIST")
         evidence_ids: set[str] = set()
@@ -71,7 +71,7 @@ def normalize_astrograph_diagnosis_result(
                 raise UpstreamDiagnosisAdapterError("DUPLICATE_UNIFIED_CANDIDATE_EFFECT_ID")
             seen_effect_ids.add(candidate["effect_id"])
             score = candidate.get("screening_score")
-            if score is not None and (type(score) not in (float, int) or not math.isfinite(score) or not 0 <= score <= 1):
+            if score is not None and (type(score) not in (float, int) or not 0 <= score <= 1 or not math.isfinite(score)):
                 raise UpstreamDiagnosisAdapterError("INVALID_UNIFIED_SCREENING_SCORE")
             for key in ("support_engines", "contradicting_engines"):
                 engines = candidate.get(key, [])
