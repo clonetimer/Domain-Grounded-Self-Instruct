@@ -239,7 +239,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "NASA_FAILURE_REVIEW",
-      "claim_boundary": "The FRB judged an SEU-induced SSPC instant trip the likely cause of IMAGE transponder power loss, while retaining other unlikely alternatives. Instant-trip current transients were not reflected in the status telemetry, so the SSPC could be physically off while reporting closed. Preserve 'likely'; do not upgrade it to absolute proof."
+      "claim_boundary": "The FRB judged an SEU-induced SSPC instant trip the likely cause of IMAGE transponder power loss, while retaining other unlikely alternatives. Instant-trip current transients were not reflected in the status telemetry, so the SSPC could be physically off while reporting closed. Preserve 'likely'; do not upgrade it to absolute proof.",
+      "evidence_summary": "The IMAGE FRB judged an SEU-induced SSPC instant trip the likely cause of the transponder power loss, while retaining unlikely alternatives. The device's instant-trip event was not reflected in status telemetry."
     },
     {
       "passage_id": "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH",
@@ -252,7 +253,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "NASA_FAILURE_REVIEW",
-      "claim_boundary": "A design behavior caused instant-trip status not to be reported; FDC read a stale closed status and did not command recovery. Distinguish physical switch state, reported state and FDC decision. Do not generalize to every SSPC."
+      "claim_boundary": "A design behavior caused instant-trip status not to be reported; FDC read a stale closed status and did not command recovery. Distinguish physical switch state, reported state and FDC decision. Do not generalize to every SSPC.",
+      "evidence_summary": "The SSPC could be physically off after an instant trip while its status bit still reported closed. The PDU FDC therefore did not detect an off state and did not issue the expected recovery command."
     },
     {
       "passage_id": "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL",
@@ -266,7 +268,8 @@
         "OBSERVABILITY"
       ],
       "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
-      "claim_boundary": "The report analyzes a single-cell internal short in a 22-cell series battery as a possible alternative. It states that IMAGE telemetry showed healthy batteries and no indication of cell shorting; multiple simultaneous shorts were considered highly improbable. This is not an observed IMAGE battery fault."
+      "claim_boundary": "The report analyzes a single-cell internal short in a 22-cell series battery as a possible alternative. It states that IMAGE telemetry showed healthy batteries and no indication of cell shorting; multiple simultaneous shorts were considered highly improbable. This is not an observed IMAGE battery fault.",
+      "evidence_summary": "The FRB analyzed a single-cell internal short as an alternative but reported healthy battery telemetry and no indication of cell shorting in IMAGE. Multiple simultaneous cell shorts were considered highly improbable."
     },
     {
       "passage_id": "IMAGE_BATTERY_OPEN_CELL_COUNTERFACTUAL",
@@ -280,7 +283,8 @@
         "OBSERVABILITY"
       ],
       "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
-      "claim_boundary": "The report reasons about a hypothetical open cell in IMAGE's series battery and the expected bus behavior in sunlight/eclipses. It concludes such a failure could not explain the actual loss of communications under the observed continuous-sunlight conditions. Do not label it as an observed IMAGE failure."
+      "claim_boundary": "The report reasons about a hypothetical open cell in IMAGE's series battery and the expected bus behavior in sunlight/eclipses. It concludes such a failure could not explain the actual loss of communications under the observed continuous-sunlight conditions. Do not label it as an observed IMAGE failure.",
+      "evidence_summary": "The FRB analyzed a hypothetical open battery cell and reasoned about expected bus behavior under sunlight and eclipse. It concluded this could not explain the actual communications loss under the observed continuous-sunlight conditions."
     },
     {
       "passage_id": "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL",
@@ -294,7 +298,8 @@
         "OBSERVABILITY"
       ],
       "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
-      "claim_boundary": "The report analyzes potential cell/string/segment short or open scenarios, including bypass diode effects, but states IMAGE had no solar-array anomaly history and telemetry showed a healthy array. This is a design-level alternative analysis, not an observed IMAGE solar-array failure."
+      "claim_boundary": "The report analyzes potential cell/string/segment short or open scenarios, including bypass diode effects, but states IMAGE had no solar-array anomaly history and telemetry showed a healthy array. This is a design-level alternative analysis, not an observed IMAGE solar-array failure.",
+      "evidence_summary": "The FRB analyzed possible solar-array cell/string/segment short or open conditions, including bypass protection, but stated IMAGE had no solar-array anomaly history and telemetry showed a healthy array."
     },
     {
       "passage_id": "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT",
@@ -309,7 +314,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "NASA_LESSONS_LEARNED",
-      "claim_boundary": "NOAA-13 telemetry indicated the solar array was producing power in full sun but no power reached the battery charging unit; the spacecraft ran on batteries and was lost within six orbits. The cause was surmised as a solar-array bus short to spacecraft ground, possibly due to thermal cycling allowing mounting bolts to penetrate insulation. Preserve 'surmised/possible'; do not claim direct teardown confirmation."
+      "claim_boundary": "NOAA-13 telemetry indicated the solar array was producing power in full sun but no power reached the battery charging unit; the spacecraft ran on batteries and was lost within six orbits. The cause was surmised as a solar-array bus short to spacecraft ground, possibly due to thermal cycling allowing mounting bolts to penetrate insulation. Preserve 'surmised/possible'; do not claim direct teardown confirmation.",
+      "evidence_summary": "NOAA-13 telemetry showed the array producing power in full sun but no power reaching the battery charger. The review surmised a bus-to-ground short, possibly caused by thermal cycling allowing mounting bolts to penetrate insulation."
     },
     {
       "passage_id": "IDEASSAT_EPS_RESET_CIRCUIT_SEL",
@@ -324,7 +330,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "PUBLIC_CASE_ANALYSIS",
-      "claim_boundary": "The paper identifies a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit as the likely cause of extended power-down/communications blackout and discusses SEL as a possible mechanism that could hold the main switch enable in the off state. Keep the source's likely-cause wording; do not state that SEL was conclusively measured."
+      "claim_boundary": "The paper identifies a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit as the likely cause of extended power-down/communications blackout and discusses SEL as a possible mechanism that could hold the main switch enable in the off state. Keep the source's likely-cause wording; do not state that SEL was conclusively measured.",
+      "evidence_summary": "The IDEASSat paper identifies a single-gate CMOS Schmitt-trigger inverter in the EPS reset circuit as the likely cause of extended power-down/blackout. It discusses SEL as a possible mechanism affecting the main power-switch enable."
     },
     {
       "passage_id": "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
@@ -339,7 +346,8 @@
         "UNCERTAINTY"
       ],
       "evidence_status": "NASA_FLIGHT_ANOMALY_REPORT",
-      "claim_boundary": "TERRA experienced a battery cell voltage anomaly and simultaneous failures of several battery heater-control circuits after a routine maneuver. Multiple cells approached minimum survival temperature; primary and redundant HCE paths both showed anomalous behavior. The paper does not establish that the cell anomaly caused the HCE anomaly or vice versa."
+      "claim_boundary": "TERRA experienced a battery cell voltage anomaly and simultaneous failures of several battery heater-control circuits after a routine maneuver. Multiple cells approached minimum survival temperature; primary and redundant HCE paths both showed anomalous behavior. The paper does not establish that the cell anomaly caused the HCE anomaly or vice versa.",
+      "evidence_summary": "TERRA experienced a battery-cell voltage anomaly together with failures of several battery heater-control circuits. Multiple cells approached minimum survival temperature; primary and redundant heater-control paths showed anomalous performance."
     },
     {
       "passage_id": "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES",
@@ -353,7 +361,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
-      "claim_boundary": "NASA reported at least six failed solar-array circuits out of 32, with array current about 20% below expected after normal degradation was accounted for. The presentation does not identify the internal physical failure mechanism of each circuit."
+      "claim_boundary": "NASA reported at least six failed solar-array circuits out of 32, with array current about 20% below expected after normal degradation was accounted for. The presentation does not identify the internal physical failure mechanism of each circuit.",
+      "evidence_summary": "NASA reported at least six failed solar-array circuits out of 32 and array current about 20% below expected after normal degradation was accounted for. The presentation does not identify the internal cause of each circuit failure."
     },
     {
       "passage_id": "TDRS8_BVL_PARASITIC_SHUNT",
@@ -367,7 +376,8 @@
         "SYSTEM_EFFECT"
       ],
       "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
-      "claim_boundary": "NASA reported BVL modules shunting a static current rather than regulating bus voltage; disabling one module on each solar wing recovered parasitic shunts. Do not infer a specific internal semiconductor failure not stated in the presentation."
+      "claim_boundary": "NASA reported BVL modules shunting a static current rather than regulating bus voltage; disabling one module on each solar wing recovered parasitic shunts. Do not infer a specific internal semiconductor failure not stated in the presentation.",
+      "evidence_summary": "NASA reported BVL modules shunting a static current instead of regulating bus voltage. Disabling one module on each solar wing recovered parasitic shunts; internal failed parts were not identified."
     },
     {
       "passage_id": "TDRS8_BATTERY_UNDERPERFORMING_CELLS",
@@ -381,7 +391,8 @@
         "UNCERTAINTY"
       ],
       "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
-      "claim_boundary": "NASA reported four underperforming battery cells but assessed the battery as not an immediate concern and said the spacecraft could survive loss of two additional cells. Do not convert 'underperforming' into confirmed internal short/open failure."
+      "claim_boundary": "NASA reported four underperforming battery cells but assessed the battery as not an immediate concern and said the spacecraft could survive loss of two additional cells. Do not convert 'underperforming' into confirmed internal short/open failure.",
+      "evidence_summary": "NASA reported four underperforming TDRS-8 battery cells but assessed the battery as not an immediate concern and said two additional cell losses could be tolerated."
     },
     {
       "passage_id": "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
@@ -397,7 +408,8 @@
         "UNCERTAINTY"
       ],
       "evidence_status": "NASA_NESC_TECHNICAL_ASSESSMENT",
-      "claim_boundary": "WMAP NiH2 flight battery cells experienced repeated voltage drops; a 1.4 V reduction was consistent with complete self-discharge of an individual cell. The NESC team could not determine a definitive root cause; its consensus theory involved electrolyte bridging between two cell stacks in a common pressure vessel. Do not label it a confirmed internal short."
+      "claim_boundary": "WMAP NiH2 flight battery cells experienced repeated voltage drops; a 1.4 V reduction was consistent with complete self-discharge of an individual cell. The NESC team could not determine a definitive root cause; its consensus theory involved electrolyte bridging between two cell stacks in a common pressure vessel. Do not label it a confirmed internal short.",
+      "evidence_summary": "WMAP NiH2 cells experienced repeated voltage drops; a 1.4 V reduction was consistent with complete self-discharge of one cell. NESC could not determine a definitive root cause; electrolyte bridging was the team's consensus theory."
     },
     {
       "passage_id": "EPS_ON_ORBIT_FAILURE_STATISTICS",
@@ -410,7 +422,8 @@
         "LIMITATION"
       ],
       "evidence_status": "RESEARCH_STATISTICS",
-      "claim_boundary": "The paper analyzes more than one thousand spacecraft launched 1990–2008 and compares batteries, power distribution and solar arrays. Use for subsystem-level reliability context, not for inferring a particular component mechanism in an individual case."
+      "claim_boundary": "The paper analyzes more than one thousand spacecraft launched 1990–2008 and compares batteries, power distribution and solar arrays. Use for subsystem-level reliability context, not for inferring a particular component mechanism in an individual case.",
+      "evidence_summary": "The paper analyzed more than one thousand spacecraft launched from 1990 to 2008 and compared EPS failures/degradation across batteries, power distribution and solar arrays. It supports subsystem-level reliability analysis, not case-level component causality."
     },
     {
       "passage_id": "NASA_SMALLSAT_EPS_ARCHITECTURE",
@@ -423,7 +436,8 @@
         "TERMINOLOGY"
       ],
       "evidence_status": "OFFICIAL_DOMAIN_REFERENCE",
-      "claim_boundary": "NASA overview of solar generation, energy storage and power management/distribution. Use for architecture and component role only; it is not a case-specific fault diagnosis source."
+      "claim_boundary": "NASA overview of solar generation, energy storage and power management/distribution. Use for architecture and component role only; it is not a case-specific fault diagnosis source.",
+      "evidence_summary": "NASA's SmallSat Power chapter reviews solar power generation, battery energy storage and power management/distribution architectures. It provides component roles and design context, not a fault diagnosis for a specific spacecraft."
     }
   ]
 }
