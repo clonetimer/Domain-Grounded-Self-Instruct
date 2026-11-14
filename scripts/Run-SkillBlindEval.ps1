@@ -83,7 +83,7 @@ try {
     }
 }
 catch {
-    Write-Error $_
+    Write-Host $_ -ForegroundColor Red
     $exitCode = 1
 }
 finally {
