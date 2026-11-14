@@ -212,6 +212,12 @@ def blind_pair(seed: int, case_id: str, baseline: Any, treatment: Any) -> dict[s
     }
 
 
+def generation_order(seed: int, case_id: str) -> list[str]:
+    """Deterministically counterbalance which condition is generated first."""
+    digest = hashlib.sha256(f"generation:{seed}:{case_id}".encode("utf-8")).digest()
+    return ["baseline", "treatment"] if digest[0] % 2 == 0 else ["treatment", "baseline"]
+
+
 def map_blind_scores(judged: Mapping[str, Any], pair: Mapping[str, Any]) -> dict[str, Any]:
     order = pair["order"]
     if order == ["baseline", "treatment"]:
@@ -554,7 +560,7 @@ def run_live_evaluation(
                 system_prompt=BASELINE_SYSTEM,
                 user_prompt=generator_prompt,
                 api_key=api_key,
-                schema_name="adcs_seed_candidate",
+                schema_name="spacecraft_fault_seed_candidate",
                 schema=CANDIDATE_SCHEMA,
             )
             treatment = _api_call_for_json(
@@ -602,6 +608,7 @@ def run_live_evaluation(
                 "case_id": case["case_id"],
                 "domain": case.get("domain", "adcs"),
                 "skill_path": skill_path,
+                "generation_order": generation_sequence,
                 "blind_order": pair["order"],
                 "candidate_A": pair["candidates"]["A"],
                 "candidate_B": pair["candidates"]["B"],
@@ -628,6 +635,9 @@ def run_live_evaluation(
             "record_type": "run_failure",
             "run_status": "FAILED",
             "completed_case_count": len(records),
+            "failed_case_id": current_case_id,
+            "api_calls_completed": api_calls_completed,
+            "expected_api_calls": metadata["expected_api_calls"],
             "error_type": type(exc).__name__,
             "error": str(exc)[:1200],
         }
@@ -635,6 +645,7 @@ def run_live_evaluation(
             stream.write(json.dumps(failure_record, ensure_ascii=False) + "\n")
         metadata["run_status"] = "FAILED"
         metadata["completed_case_count"] = len(records)
+        metadata["api_calls_completed"] = api_calls_completed
         return {
             "metadata": metadata,
             "summary": None,
@@ -642,8 +653,10 @@ def run_live_evaluation(
             "output_path": str(output_path),
         }
 
+    metadata["api_calls_completed"] = api_calls_completed
     summary: dict[str, Any] = {
         "case_count": len(records),
+        "api_calls_completed": api_calls_completed,
         "conditions": {},
         "preflight_finding_count_by_condition": {"baseline": 0, "treatment": 0},
         "preflight_critical_count_by_condition": {"baseline": 0, "treatment": 0},
@@ -686,6 +699,6 @@ def run_live_evaluation(
 __all__ = [
     "API_URL", "CANDIDATE_SCHEMA", "JUDGE_SCHEMA", "SCORE_FIELDS",
     "build_response_request", "extract_output_text", "blind_pair",
-    "map_blind_scores", "validate_live_config", "validate_output_path",
+    "map_blind_scores", "generation_order", "validate_live_config", "validate_output_path",
     "extract_skill_treatment", "validate_candidate_against_case", "run_live_evaluation",
 ]
