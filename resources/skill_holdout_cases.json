@@ -44,8 +44,7 @@
       "term_ids": [
         "eps",
         "solar_array",
-        "solar_array_circuit",
-        "uncertainty"
+        "solar_array_circuit"
       ],
       "task_prompt": "Using the public Seasat Failure Review Board report, draft one EPS seed for the 1978 loss of electrical power after 105 days in orbit. The board attributed the loss to a progressive short in a slip-ring assembly connecting the rotating solar arrays to the power subsystem; an arc between adjacent brush assemblies was the most likely mechanism, but several possible initiating contact paths were listed.",
       "expected_behaviors": [
@@ -86,8 +85,7 @@
       ],
       "term_ids": [
         "eps",
-        "battery",
-        "uncertainty"
+        "battery"
       ],
       "task_prompt": "Using the Intelsat 2014 Form 20-F summary of the IS-804 Failure Review Board, draft one EPS seed for the January 2005 total satellite loss. The filing says the most likely chain was an electrostatic discharge triggering a high-current event in battery circuitry, which propagated to failure of the high-voltage power system. Preserve the board's qualification and separate initiating event, intermediate subsystem event and propagated effect.",
       "expected_behaviors": [
@@ -128,8 +126,7 @@
       "term_ids": [
         "eps",
         "solar_array",
-        "solar_array_circuit",
-        "uncertainty"
+        "solar_array_circuit"
       ],
       "task_prompt": "Using the Intelsat 2014 Form 20-F summary of the IS-802 review board, draft one seed for the 2006 reduction in electrical power capability. The board concluded the anomaly was most likely caused by an electrical short internal to the solar-array harness on the south solar-array boom. Some transponders were later reactivated.",
       "expected_behaviors": [
