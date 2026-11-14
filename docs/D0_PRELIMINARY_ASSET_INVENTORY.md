@@ -85,3 +85,16 @@ All TC01–TC09 fixtures are explicitly synthetic. Their `expected_output.json` 
 - Generated example contract: `configs/training/generated-example.schema.json`.
 - Diagnostic memory policy/profile: `configs/memory/diagnostic.policy.json`, `diagnostic.profile.json`.
 - R21 real-data limitations and exposure controls: `docs/ASTROGRAPH_R21_REAL_DATA_FAILURE_MECHANISMS.md`, `configs/evaluation/r21_data_exposure_registry.v1.json`.
+
+
+## Local restricted-case inventory
+
+A read-only local inventory utility is available:
+
+```powershell
+python scripts/inventory_diagnostic_case_assets.py --root "D:\\restricted\\diagnostic-cases" --output "D:\\restricted\\dgsi-inventory.json"
+```
+
+The tool writes only aggregate metadata and hashed case references. It does not export diagnosis text, log lines, reference contents or telemetry rows. It flags synthetic fixtures, hidden-truth/label-assisted results, incomplete diagnosis/log/context packets, missing expert approval and CSV files that may be telemetry rather than event logs.
+
+The inventory output is intended to remain in the restricted local workspace. Do not upload it if hashed case identifiers or file counts are considered sensitive by the data owner. A result of `READY_FOR_MANUAL_CONTENT_REVIEW` is not Gold approval; a qualified reviewer must inspect the actual local packet.
