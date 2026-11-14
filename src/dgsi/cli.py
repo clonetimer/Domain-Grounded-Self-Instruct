@@ -10,7 +10,7 @@ from .quality import load_registry, report
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="dgsi", description="Preflight ADCS Self-Instruct seed candidate (not a fact verifier)")
+    parser = argparse.ArgumentParser(prog="dgsi", description="Preflight ADCS/EPS Self-Instruct seed candidate (not a fact verifier)")
     subparsers = parser.add_subparsers(dest="command", required=True)
     validate = subparsers.add_parser("validate", help="Validate a single seed JSON file")
     validate.add_argument("file", type=Path)
