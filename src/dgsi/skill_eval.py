@@ -57,7 +57,7 @@ CANDIDATE_SCHEMA: dict[str, Any] = {
                 "properties": {
                     "surface": {"type": "string"},
                     "term_id": {"type": "string"},
-                    "relation": {"type": "string", "enum": ["PREFERRED", "EXACT_ALIAS", "CONTEXTUAL_ALIAS", "RELATED_TERM", "UNREGISTERED"]},
+                    "relation": {"type": "string", "enum": ["PREFERRED", "EXACT_ALIAS", "ALTERNATE_TRANSLATION", "CONTEXTUAL_ALIAS", "RELATED_TERM", "UNREGISTERED"]},
                 },
                 "required": ["surface", "term_id", "relation"],
                 "additionalProperties": False,
@@ -539,88 +539,108 @@ def run_live_evaluation(
     except OSError:
         pass
     records: list[dict[str, Any]] = []
-    for case in cases:
-        context = _case_context(root, case)
-        skill_path = case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md")
-        skill_treatment = skill_treatments[skill_path]
-        generator_prompt = json.dumps(
-            {"domain": case.get("domain", "adcs"), "task": case["task_prompt"], "registered_context": context},
-            ensure_ascii=False,
-            sort_keys=True,
-        )
-        baseline = _api_call_for_json(
-            model=generator_model,
-            system_prompt=BASELINE_SYSTEM,
-            user_prompt=generator_prompt,
-            api_key=api_key,
-            schema_name="adcs_seed_candidate",
-            schema=CANDIDATE_SCHEMA,
-        )
-        treatment = _api_call_for_json(
-            model=generator_model,
-            system_prompt=BASELINE_SYSTEM + "\n\nApply only these additional procedural treatment instructions:\n" + skill_treatment,
-            user_prompt=generator_prompt,
-            api_key=api_key,
-            schema_name="adcs_seed_candidate",
-            schema=CANDIDATE_SCHEMA,
-        )
-        baseline_preflight = validate_candidate_against_case(baseline, case, context)
-        treatment_preflight = validate_candidate_against_case(treatment, case, context)
-        pair = blind_pair(seed, case["case_id"], baseline, treatment)
-        judge_prompt = json.dumps(
-            {
+    try:
+        for case in cases:
+            context = _case_context(root, case)
+            skill_path = case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md")
+            skill_treatment = skill_treatments[skill_path]
+            generator_prompt = json.dumps(
+                {"domain": case.get("domain", "adcs"), "task": case["task_prompt"], "registered_context": context},
+                ensure_ascii=False,
+                sort_keys=True,
+            )
+            baseline = _api_call_for_json(
+                model=generator_model,
+                system_prompt=BASELINE_SYSTEM,
+                user_prompt=generator_prompt,
+                api_key=api_key,
+                schema_name="adcs_seed_candidate",
+                schema=CANDIDATE_SCHEMA,
+            )
+            treatment = _api_call_for_json(
+                model=generator_model,
+                system_prompt=BASELINE_SYSTEM + "\n\nApply only these additional procedural treatment instructions:\n" + skill_treatment,
+                user_prompt=generator_prompt,
+                api_key=api_key,
+                schema_name="adcs_seed_candidate",
+                schema=CANDIDATE_SCHEMA,
+            )
+            baseline_preflight = validate_candidate_against_case(baseline, case, context)
+            treatment_preflight = validate_candidate_against_case(treatment, case, context)
+            pair = blind_pair(seed, case["case_id"], baseline, treatment)
+            judge_prompt = json.dumps(
+                {
+                    "case_id": case["case_id"],
+                    "domain": case.get("domain", "adcs"),
+                    "task": case["task_prompt"],
+                    "registered_context": context,
+                    "expected_behaviors": case["expected_behaviors"],
+                    "rubric": RUBRIC,
+                    "candidate_A": pair["candidates"]["A"],
+                    "candidate_B": pair["candidates"]["B"],
+                    "candidate_A_preflight": (
+                        baseline_preflight if pair["order"][0] == "baseline" else treatment_preflight
+                    ),
+                    "candidate_B_preflight": (
+                        treatment_preflight if pair["order"][0] == "baseline" else baseline_preflight
+                    ),
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            )
+            judged = _api_call_for_json(
+                model=judge_model,
+                system_prompt=JUDGE_SYSTEM,
+                user_prompt=judge_prompt,
+                api_key=api_key,
+                schema_name="blind_candidate_scores",
+                schema=JUDGE_SCHEMA,
+            )
+            mapped = map_blind_scores(judged, pair)
+            record = {
+                "record_type": "case_result",
                 "case_id": case["case_id"],
                 "domain": case.get("domain", "adcs"),
-                "task": case["task_prompt"],
-                "registered_context": context,
-                "expected_behaviors": case["expected_behaviors"],
-                "rubric": RUBRIC,
+                "skill_path": skill_path,
+                "blind_order": pair["order"],
                 "candidate_A": pair["candidates"]["A"],
                 "candidate_B": pair["candidates"]["B"],
-                "candidate_A_preflight": (
-                    baseline_preflight if pair["order"][0] == "baseline" else treatment_preflight
+                "judge_result_blind": judged,
+                "preflight_by_condition": {
+                    "baseline": baseline_preflight,
+                    "treatment": treatment_preflight,
+                },
+                "scores_by_condition": mapped,
+                "preferred_condition": (
+                    "baseline" if judged["preferred_candidate"] == "A" and pair["order"][0] == "baseline"
+                    else "treatment" if judged["preferred_candidate"] == "A" and pair["order"][0] == "treatment"
+                    else "baseline" if judged["preferred_candidate"] == "B" and pair["order"][1] == "baseline"
+                    else "treatment" if judged["preferred_candidate"] == "B" and pair["order"][1] == "treatment"
+                    else "TIE"
                 ),
-                "candidate_B_preflight": (
-                    treatment_preflight if pair["order"][0] == "baseline" else baseline_preflight
-                ),
-            },
-            ensure_ascii=False,
-            sort_keys=True,
-        )
-        judged = _api_call_for_json(
-            model=judge_model,
-            system_prompt=JUDGE_SYSTEM,
-            user_prompt=judge_prompt,
-            api_key=api_key,
-            schema_name="blind_candidate_scores",
-            schema=JUDGE_SCHEMA,
-        )
-        mapped = map_blind_scores(judged, pair)
-        record = {
-            "record_type": "case_result",
-            "case_id": case["case_id"],
-            "domain": case.get("domain", "adcs"),
-            "skill_path": skill_path,
-            "blind_order": pair["order"],
-            "candidate_A": pair["candidates"]["A"],
-            "candidate_B": pair["candidates"]["B"],
-            "judge_result_blind": judged,
-            "preflight_by_condition": {
-                "baseline": baseline_preflight,
-                "treatment": treatment_preflight,
-            },
-            "scores_by_condition": mapped,
-            "preferred_condition": (
-                "baseline" if judged["preferred_candidate"] == "A" and pair["order"][0] == "baseline"
-                else "treatment" if judged["preferred_candidate"] == "A" and pair["order"][0] == "treatment"
-                else "baseline" if judged["preferred_candidate"] == "B" and pair["order"][1] == "baseline"
-                else "treatment" if judged["preferred_candidate"] == "B" and pair["order"][1] == "treatment"
-                else "TIE"
-            ),
+            }
+            records.append(record)
+            with output_path.open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps(record, ensure_ascii=False) + "\n")
+    
+    except Exception as exc:
+        failure_record = {
+            "record_type": "run_failure",
+            "run_status": "FAILED",
+            "completed_case_count": len(records),
+            "error_type": type(exc).__name__,
+            "error": str(exc)[:1200],
         }
-        records.append(record)
         with output_path.open("a", encoding="utf-8") as stream:
-            stream.write(json.dumps(record, ensure_ascii=False) + "\n")
+            stream.write(json.dumps(failure_record, ensure_ascii=False) + "\n")
+        metadata["run_status"] = "FAILED"
+        metadata["completed_case_count"] = len(records)
+        return {
+            "metadata": metadata,
+            "summary": None,
+            "failure": failure_record,
+            "output_path": str(output_path),
+        }
 
     summary: dict[str, Any] = {
         "case_count": len(records),
