@@ -3,7 +3,7 @@ name: adcs-gold-seed-curation
 description: Use when drafting or reviewing Self-Instruct seed tasks for spacecraft ADCS fault diagnosis, especially when AI outputs contain invented technical terms, unsupported causal inferences, self-certifying claims, fabricated telemetry, or uncertain source provenance.
 ---
 
-# ADCS Gold Seed Curation (DRAFT, P1)
+# ADCS Gold Seed Curation (DRAFT, P1-B)
 
 Generate **candidate** tasks, never self-authorize Gold. A citation, catalog entry, or syntactically valid trace is not physical proof. Human-domain review decides final status.
 
@@ -15,7 +15,7 @@ Generate **candidate** tasks, never self-authorize Gold. A citation, catalog ent
 4. Prefer concise technical prose using admitted `term_ids`. Preserve the alias class: exact alias, alternate translation, informal/contextual short form, broader functional description, or structural subtype. For example, `磁力矩杆` is a structural subtype, not an exact alias for every `磁力矩器`. The compound-term scanner is deliberately narrow and only flags some suspicious constructions; its silence does not certify vocabulary coverage.
 5. Apply `PYTHONPATH=src python -m dgsi.cli validate <seed.json> --root .`. Correct blocking findings by revisiting the actual evidence, **not** by simply rewording the claim to evade a detector. Treat `REVIEW_REQUIRED` as an unresolved terminology review, not a pass.
 6. When independent evidence is insufficient, use `INSUFFICIENT_EVIDENCE` or `AMBIGUOUS` and state what measurements would resolve the case. A confirmed fault result requires an admitted run receipt and measured evidence.
-7. Present original text, source locators, suggested correction and uncertainty to the human curator; preserve each approval/rejection/edit in an independent audit. The validator can check review metadata but cannot authenticate a person or freeze Gold itself.
+7. Present original text, registered passage IDs and resolved locators, suggested correction and uncertainty to the human curator; preserve each approval/rejection/edit in an independent audit. The validator can check review metadata but cannot authenticate a person or freeze Gold itself.
 
 ## Quick reference
 
@@ -28,4 +28,4 @@ Generate **candidate** tasks, never self-authorize Gold. A citation, catalog ent
 | Vague sensor anomaly | Preserve uncertainty; request independent channels and operating-mode context |
 | Tool reports PASS | Candidate only; request human review before Gold |
 
-**Validation status:** automated gates and fixture tests cover known bad patterns. This draft Skill itself still requires independent blind/pressure evaluation before it can be designated production-ready.
+**Validation status:** automated gates and fixture tests cover known bad patterns. This draft Skill itself has not yet undergone independent blind/pressure evaluation. Run `docs/SKILL_PRESSURE_TEST_PROTOCOL.md` with a separate evaluator before designating it production-ready.
