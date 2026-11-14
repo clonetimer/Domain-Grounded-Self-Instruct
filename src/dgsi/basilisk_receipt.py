@@ -8,10 +8,15 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from pathlib import Path
+import stat
+import tempfile
+from pathlib import Path, PurePosixPath
 from typing import Any
+from zipfile import ZipFile, BadZipFile
 
 MANIFEST_NAME = "r84r3_execution_manifest.json"
+PINNED_R84R3A_ARCHIVE_SHA256 = "769fcabf1d2cda41a74842653603255292dbbfc73f05c1bd7e3742ece561a775"
+MAX_ARCHIVE_UNCOMPRESSED_BYTES = 100_000_000
 COMPAT_REPORT = "compat_payload_review.json"
 REQUIRED_ARTIFACTS = {
     "r84r3_multichannel_telemetry.jsonl",
@@ -389,3 +394,63 @@ def validate_r84r3_package(package_dir: str | Path) -> dict[str, Any]:
             "R84-R3 pilot is not training, validation, test, flight, or hardware qualification evidence",
         ],
     }
+
+
+
+def validate_r84r3_archive(
+    archive_path: str | Path,
+    *,
+    expected_sha256: str = PINNED_R84R3A_ARCHIVE_SHA256,
+) -> dict[str, Any]:
+    """Verify the immutable Actions ZIP, safely extract it, then run package preflight."""
+    archive = Path(archive_path)
+    if not archive.is_file():
+        raise ReceiptError("R84-R3A evidence archive does not exist")
+    actual_archive_sha = _sha256(archive)
+    if actual_archive_sha != expected_sha256:
+        raise ReceiptError("R84-R3A outer artifact SHA-256 mismatch")
+
+    try:
+        with ZipFile(archive) as zipped:
+            if zipped.testzip() is not None:
+                raise ReceiptError("R84-R3A archive CRC check failed")
+            infos = zipped.infolist()
+            names = [item.filename for item in infos]
+            if len(names) != len(set(names)):
+                raise ReceiptError("R84-R3A archive contains duplicate paths")
+            total_size = sum(item.file_size for item in infos)
+            if total_size > MAX_ARCHIVE_UNCOMPRESSED_BYTES:
+                raise ReceiptError("R84-R3A archive exceeds the uncompressed size limit")
+
+            with tempfile.TemporaryDirectory(prefix="dgsi-r84r3a-") as temporary:
+                root = Path(temporary).resolve()
+                for info in infos:
+                    raw_name = info.filename
+                    relative = PurePosixPath(raw_name)
+                    if (
+                        not raw_name
+                        or "\\" in raw_name
+                        or relative.is_absolute()
+                        or ".." in relative.parts
+                        or (relative.parts and relative.parts[0].endswith(":"))
+                    ):
+                        raise ReceiptError(f"unsafe path in R84-R3A archive: {raw_name!r}")
+                    mode = (info.external_attr >> 16) & 0o170000
+                    if stat.S_ISLNK(mode):
+                        raise ReceiptError(f"symlink entry is forbidden in R84-R3A archive: {raw_name}")
+                    if mode not in (0, stat.S_IFREG, stat.S_IFDIR):
+                        raise ReceiptError(f"non-regular archive entry is forbidden: {raw_name}")
+                    destination = (root / Path(*relative.parts)).resolve()
+                    if destination != root and root not in destination.parents:
+                        raise ReceiptError(f"archive path escapes extraction root: {raw_name}")
+                    if info.is_dir():
+                        destination.mkdir(parents=True, exist_ok=True)
+                    else:
+                        destination.parent.mkdir(parents=True, exist_ok=True)
+                        destination.write_bytes(zipped.read(info))
+                result = validate_r84r3_package(root)
+                result["source_archive_sha256"] = actual_archive_sha
+                result["source_archive_file_name"] = archive.name
+                return result
+    except BadZipFile as exc:
+        raise ReceiptError("invalid R84-R3A ZIP archive") from exc
