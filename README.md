@@ -1,6 +1,6 @@
 # Domain-Grounded Self-Instruct
 
-Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft fault diagnosis, starting with ADCS. The first deliverable is a deterministic, offline **candidate preflight gate** — not an LLM generating, fact-checking, diagnosis engine, or Gold certification service.
+Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft fault diagnosis, starting with ADCS and EPS. The first deliverable is a deterministic, offline **candidate preflight gate** — not an LLM generating, fact-checking, diagnosis engine, or Gold certification service.
 
 ## Current scope (Phase 1)
 
@@ -8,7 +8,7 @@ Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft
 - Run admission contract: `resources/simulation_truth.json` (initially **zero verified runs**).
 - Versioned candidate JSON contract: `resources/seed.schema.json`.
 - Conservative Python preflight CLI: `src/dgsi/quality.py`, 44 adversarial tests.
-- Human workflows and **draft** reusable Skill: `docs/`, `skills/adcs-gold-seed-curation/SKILL.md`.
+- Human workflows and **draft** reusable Skills: `docs/`, `skills/adcs-gold-seed-curation/SKILL.md`, `skills/eps-gold-seed-curation/SKILL.md`.
 
 ## Run locally (Python 3.11+; no external runtime dependencies)
 
