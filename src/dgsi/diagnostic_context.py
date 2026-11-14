@@ -220,6 +220,28 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     return warnings
 
 
+
+# A case's expected answer and expert adjudication are targets/metadata, NEVER
+# user-facing evidence. This check catches serialized JSON fields embedded in
+# a chat message, including the nested full-case leak in the original fixture.
+# It is deliberately conservative and not a substitute for source inspection.
+_FORBIDDEN_PROMPT_JSON_KEYS = re.compile(
+    r'"(?:expected_output|review|answer_key|target_report|gold_answer|'
+    r'ground_truth|fault_truth|injection_truth|hidden_label|gold_label|'
+    r'labels_used|truth_used|raw_telemetry|telemetry_rows|waveforms?|'
+    r'time_series|timeseries|raw_signal|samples)"\s*:',
+    re.IGNORECASE,
+)
+
+
+def _reject_sft_target_leakage(user_prompt: str) -> None:
+    match = _FORBIDDEN_PROMPT_JSON_KEYS.search(user_prompt)
+    _require(
+        match is None,
+        "SFT user prompt contains a forbidden target, review, truth or raw-telemetry JSON key",
+    )
+
+
 def validate_sft_example(example: dict[str, Any]) -> None:
     """Validate a chat SFT example and enforce its provenance/review boundary."""
     _require(isinstance(example, dict), "SFT example must be an object")
@@ -232,6 +254,7 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     for index, message in enumerate(messages):
         _nonempty(message.get("content"), f"messages[{index}].content")
     _require("raw telemetry" in messages[1]["content"].lower() or "原始遥测" in messages[1]["content"], "user prompt must state the raw-telemetry boundary")
+    _reject_sft_target_leakage(messages[1]["content"])
     _nonempty(example.get("case_ref"), "case_ref")
     _nonempty(example.get("source_group"), "source_group")
     _require(example.get("split") in SPLITS, "unsupported split")
