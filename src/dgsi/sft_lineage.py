@@ -98,9 +98,9 @@ def audit_sft_lineage(examples: list[dict[str, Any]]) -> dict[str, Any]:
             no_diagnosis_ref_count += 1
 
         # Only compare same-task inputs. Ignore harmless formatting variance.
-        user = re.sub(r"\\s+", " ", example["messages"][1]["content"]).strip()
-        assistant = re.sub(r"\\s+", " ", example["messages"][2]["content"]).strip()
-        prompt_digest = _digest(task + "\\x00" + user)
+        user = re.sub(r"\s+", " ", example["messages"][1]["content"]).strip()
+        assistant = re.sub(r"\s+", " ", example["messages"][2]["content"]).strip()
+        prompt_digest = _digest(task + "\x00" + user)
         target_digest = _digest(assistant)
         if prompt_digest in same_task_prompt:
             previous_split, previous_target = same_task_prompt[prompt_digest]
