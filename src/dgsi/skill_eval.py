@@ -261,7 +261,7 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def _case_context(root: Path, case: Mapping[str, Any]) -> dict[str, Any]:
     domain = case.get("domain", "adcs")
-    term_registry_files = {"adcs": "terms.json", "epc": "epc_terms.json"}
+    term_registry_files = {"adcs": "terms.json", "eps": "eps_terms.json"}
     if domain not in term_registry_files:
         raise ValueError(f"{case['case_id']}: unsupported domain {domain!r}")
     passages = _load_json(root / "resources" / "source_passages.json")
@@ -353,7 +353,7 @@ def run_live_evaluation(
     cases = cases_payload["cases"][:limit]
     allowed_skill_paths = {
         "skills/adcs-gold-seed-curation/SKILL.md",
-        "skills/epc-gold-seed-curation/SKILL.md",
+        "skills/eps-gold-seed-curation/SKILL.md",
     }
     skill_paths = sorted({case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md") for case in cases})
     if any(path not in allowed_skill_paths for path in skill_paths):
@@ -366,7 +366,7 @@ def run_live_evaluation(
         path: hashlib.sha256(text.encode("utf-8")).hexdigest()
         for path, text in skill_texts.items()
     }
-    term_registry_files = {"adcs": "terms.json", "epc": "epc_terms.json"}
+    term_registry_files = {"adcs": "terms.json", "eps": "eps_terms.json"}
     used_domains = sorted({case.get("domain", "adcs") for case in cases})
     if any(domain not in term_registry_files for domain in used_domains):
         raise ValueError("pressure suite contains an unsupported domain")
