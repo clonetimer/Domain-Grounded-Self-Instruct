@@ -697,6 +697,8 @@ def run_live_evaluation(
     with output_path.open("a", encoding="utf-8") as stream:
         stream.write(json.dumps(summary_record, ensure_ascii=False) + "\n")
     metadata["run_status"] = "COMPLETED"
+    metadata["completed_case_count"] = len(records)
+    metadata["api_calls_completed"] = api_calls_completed
     return {"metadata": metadata, "summary": summary, "output_path": str(output_path)}
 
 
