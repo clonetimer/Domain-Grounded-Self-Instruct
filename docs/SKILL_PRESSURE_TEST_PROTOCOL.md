@@ -1,84 +1,120 @@
-# Draft Skill Blind / Pressure-Test Protocol
+# ADCS + EPS Skill Blind / Pressure-Test Protocol
 
-**Status:** prepared, not yet executed by an independent evaluator. Do not describe the Skill as production-ready until this protocol has been run and reviewed.
+**Status:** protocol and executable runner prepared; no live OpenAI run has been executed yet. Both Skills remain DRAFT until a live blind run and independent domain review are complete.
 
 ## Objective
 
-Measure whether loading `skills/adcs-gold-seed-curation/SKILL.md` reduces domain-grounding errors compared with a no-Skill Self-Instruct baseline. Both conditions receive the same task, registered evidence context, output schema and generator model; only the Skill treatment receives the Skill text. This isolates the incremental effect of the Skill rather than changing evidence availability.
+Measure whether the domain-specific Skill reduces unsupported terminology, mechanism and causal errors relative to a no-Skill Self-Instruct baseline.
 
-## Blind test design
+The comparison is paired by case:
+- Same generator model and model settings.
+- Same user task, public source-passage evidence bundle and output schema.
+- Baseline receives no domain Skill.
+- Treatment receives the relevant ADCS or EPS Skill.
+- The judge receives candidate A/B with condition labels hidden and scores both against the same source boundaries and expected behaviors.
 
-1. Freeze the Skill version, source registry, term registry and candidate prompts by commit SHA.
-2. Run each case twice: baseline (no Skill) and treatment (Skill loaded). Use the same generator model, generation defaults, output schema and evidence bundle.
-3. Randomize and conceal baseline/treatment labels from the evaluator.
-4. Use a judge from a different declared model family or a qualified human reviewer. The generator must not judge its own output. Model-family labels are supplied by the operator and are not independently authenticated by the runner.
-5. Have two domain reviewers adjudicate disagreements for physical mechanism, fault-source localization and terminology.
-6. Do not tune the prompt, Skill or terminology against any held-out test case. If a case is used for remediation, retire it from the blind set.
+This tests the incremental value of the Skill, not the value of giving the model better source evidence.
 
-## Pressure cases
+## Current public-literature case suite
 
-| ID | Adversarial input | Required behavior |
+The suite is resources/skill_pressure_cases.json, currently **13 cases: 6 ADCS + 7 EPS**.
+
+### ADCS
+
+| Case | Public source | Main failure/diagnostic boundary |
 |---|---|---|
-| T01 | A text calls a generic magnetorquer a “磁力矩杆” | Identify “磁力矩杆” as a structural subtype, not an exact synonym for all magnetorquers |
-| T02 | A text calls a gyroscope an “角速度传感器” | Preserve the broader functional description; do not silently normalize it as an exact synonym |
-| T03 | Magnetometer output changes while reaction wheels and torquer rods operate | Explain multiple possible magnetic sources; do not uniquely localize a fault from this observation alone |
-| T04 | Star-tracker solution becomes invalid during high angular rate and external glare | Treat these as possible measurement-validity conditions, not proof of sensor hardware failure |
-| T05 | Gyro bias changes in one channel without independent reference | Distinguish bias observation from a confirmed gyro fault; abstain on fault-source localization |
-| T06 | A candidate says “gyro drift directly caused reaction-wheel jamming” without a verified physical chain | Reject or downgrade the causal assertion; request independent mechanism/effect evidence |
-| T07 | Candidate invents “星际熵耦合陀螺裂解模式” | Flag as an unregistered technical compound and request terminology review |
-| T08 | Candidate says “经过专家认证、完全证明” but provides no independent receipt | Remove self-attestation; do not treat model-generated review metadata as human approval |
-| T09 | The input contains `fault_id`, `onset_s`, `split` or equivalent disguised labels | Keep truth out of the inference prompt; quarantine contaminated input |
-| T10 | Only one hypothetical gyro observation is supplied | Return `INSUFFICIENT_EVIDENCE` and name useful independent measurements; do not invent a fault |
+| A01 | NEOSSat operational history | Magnetometer loss vs residual-dipole momentum disturbance |
+| A02 | NEOSSat operational history | Torque-rod controller communication failure vs torque-rod coil failure |
+| A03 | NEOSSat operational history | X-wheel slow ramp-down, suspected electrical cause vs confirmed mechanical seizure |
+| A04 | Spacecraft attitude determination FDD paper | Estimated gyro bias vs confirmed gyro hardware failure |
+| A05 | Momentum-exchange-device fault-model paper | Additive/multiplicative model terms vs universal flight-failure rules |
+| A06 | NASA Star Tracker guidance + ADCS FDD review | Invalid attitude solution vs confirmed hardware failure |
+
+### EPS
+
+| Case | Public source | Main failure/diagnostic boundary |
+|---|---|---|
+| E01 | NASA IMAGE Failure Review Board | Likely SEU-induced SSPC instant trip; stale status telemetry vs physical switch state |
+| E02 | IDEASSat on-orbit anomaly analysis | Likely EPS reset-circuit inverter issue vs SEL as a proposed mechanism |
+| E03 | NASA NOAA-13 Lessons Learned | Observed no-charge condition vs surmised solar-array bus-to-ground short |
+| E04 | NASA TDRS-8 power status | Solar-array circuit failures, BVL parasitic shunting and battery underperformance are separate conditions |
+| E05 | NASA TERRA battery thermal-control anomaly | Simultaneous battery-cell and heater-control anomalies; no invented causal direction |
+| E06 | NASA WMAP NESC battery assessment | Cell voltage collapse vs unresolved root cause / electrolyte-bridging consensus theory |
+| E07 | NASA IMAGE FRB alternative analyses | Battery and solar-array alternatives are counterfactuals, not observed IMAGE failures |
+
+These are **public-literature-derived synthetic prompts**, not raw telemetry, not native Basilisk traces and not ground-truth fault labels. Some cases deliberately preserve a source's suspected/likely/consensus status.
+
+## Blind test procedure
+
+1. Freeze commit SHA, Skills, source registry, source passages, term registries and pressure cases.
+2. Run every case twice with the same generator: baseline and the domain-specific Skill treatment.
+3. Use the same source bundle and task in both conditions.
+4. Randomize A/B presentation order using the configured seed.
+5. Hide condition labels from the judge; reveal them only after scoring.
+6. Use a judge from a separately declared model family, or qualified human reviewers. A different model ID alone is not enough.
+7. Have a qualified ADCS/EPS reviewer adjudicate disagreements about physical mechanisms, component localization and source interpretation.
+8. If a case is used to revise the Skill or vocabulary, retire it from the blind set before rerunning. Do not tune against a claimed held-out case.
 
 ## Scoring rubric
 
-Score each output from 0 to 2 on each dimension:
+Score each candidate from 0 to 2 on each dimension:
 
-- **Terminology:** 0 = incorrect/invented; 1 = ambiguous or inconsistent; 2 = uses registered concept and preserves alias scope.
-- **Evidence traceability:** 0 = fabricated/absent; 1 = source ID only or weak locator; 2 = registered passage ID and correct applicability boundary.
-- **Causal calibration:** 0 = asserts unsupported cause; 1 = hedges but still overstates; 2 = distinguishes observation, mechanism, affected component and fault source.
-- **Self-attestation control:** 0 = accepts unsupported self-certification; 1 = flags wording only; 2 = requires independent evidence/approval.
-- **Truth-leakage control:** 0 = uses hidden labels; 1 = notices but continues; 2 = excludes/quarantines contaminated inputs.
-- **Abstention:** 0 = fabricates a diagnosis; 1 = vague uncertainty; 2 = correct non-diagnosis with concrete evidence gaps.
+- **Terminology:** 0 = invented/wrong; 1 = ambiguous or scope lost; 2 = registered term and alias/context used correctly.
+- **Evidence traceability:** 0 = fabricated/absent; 1 = source name only or weak locator; 2 = correct registered passage ID and claim boundary.
+- **Causal calibration:** 0 = unsupported cause asserted; 1 = hedged but still overstates; 2 = separates observation, mechanism hypothesis, fault source and system effect.
+- **Self-attestation control:** 0 = accepts unsupported self-certification; 1 = flags wording only; 2 = requires independent evidence and review receipt.
+- **Truth/counterfactual control:** 0 = leaks labels or converts a counterfactual into an observed fault; 1 = notices but continues; 2 = excludes/quarantines leakage and preserves source status.
+- **Abstention/uncertainty:** 0 = fabricates diagnosis; 1 = vague uncertainty; 2 = preserves likely/suspected/unresolved status and names missing evidence.
 
-Maximum: 12 points per case. Report per-dimension scores, baseline/treatment paired differences, severe error counts, and reviewer disagreement. Do not collapse a severe causal or truth-leakage error into a high aggregate score.
+Maximum: 12 points per candidate. Report per-domain and per-case results, paired treatment-minus-baseline deltas, critical failure counts and reviewer disagreement. Do not allow a high mean score to conceal an unsupported definitive causal claim.
+
+## Critical failures
+
+Any of the following is a critical failure regardless of total score:
+- Fabricated source, passage, telemetry, threshold or flight event.
+- Treating a counterfactual or design-level failure mode as an observed flight anomaly.
+- Upgrading a suspected/likely/consensus mechanism to a confirmed root cause.
+- Unsupported definitive fault-source localization.
+- Using hidden labels or injection truth in model-facing input.
+- Claiming human expert approval without an independent review receipt.
 
 ## Acceptance gate
 
-- No fabricated citation, hidden-label use, or unsupported definitive fault-source claim in the treatment outputs.
-- No worsening of any severe-error category relative to baseline.
-- Improvement in first-pass human acceptability and/or revision time must be measured, not inferred from judge scores.
-- All terminology and causal disagreements must be resolved by domain review before the Skill is promoted from DRAFT.
-
-## Limitations
-
-The current deterministic compound scanner catches only a narrow set of suspicious constructions. A clean CLI result does not prove terminology completeness. This pressure test is a human/model review protocol, not an automated scientific truth benchmark.
-
+- No treatment output may contain a fabricated source, truth leak, or unsupported definitive root-cause assertion.
+- Treatment must not worsen any critical-failure category compared with baseline.
+- Improvement in first-pass human acceptability or revision time must be measured, not inferred from judge preference.
+- ADCS and EPS results must be reported separately; do not pool them to hide a weak domain.
+- All domain disagreements must be resolved before promoting either Skill from DRAFT.
 
 ## Executable runner
 
-The repository includes `scripts/run_skill_blind_eval.py` and `src/dgsi/skill_eval.py`.
+The repository includes scripts/run_skill_blind_eval.py and src/dgsi/skill_eval.py.
 
-- Default invocation is a dry run and makes zero network calls:
-  `python scripts/run_skill_blind_eval.py`
-- Live mode requires an explicit positive case limit:
-  `python scripts/run_skill_blind_eval.py --execute-live --limit 2`
-- Configure locally (never commit credentials): `OPENAI_API_KEY`, `DGSI_GENERATOR_MODEL`, `DGSI_JUDGE_MODEL`, `DGSI_GENERATOR_FAMILY`, `DGSI_JUDGE_FAMILY`, and `DGSI_JUDGE_INDEPENDENCE_NOTE`.
-- Generator and judge model IDs **and declared family identifiers** must differ. The independence note records the operator's declared separation; the script cannot independently verify that the provider's model-family taxonomy is accurate.
-- The runner randomizes candidate A/B order, withholds baseline/treatment labels from the judge, maps scores back only after judging, and writes local JSONL under `reports/skill_blind_eval/` (git-ignored).
-- All Responses API calls set `store=false`, which disables standard response application-state storage for later retrieval. It does **not** disable abuse-monitoring retention: OpenAI's current data-controls documentation lists up to 30 days of abuse-monitoring retention for the Responses API. API content is not used to train models unless the customer explicitly opts in. Use only public reference metadata and synthetic pressure cases in this pilot; do not send private R21 telemetry or confidential material without your organization's explicit data-control approval. See [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data) and [Responses API reference](https://developers.openai.com/api/reference/resources/responses/methods/create).
-
-Example PowerShell setup (the key is entered without echo):
-```powershell
-$secure = Read-Host "OpenAI API key" -AsSecureString
-$env:OPENAI_API_KEY = [System.Net.NetworkCredential]::new("", $secure).Password
-$env:DGSI_GENERATOR_MODEL = "<generator-model-id>"
-$env:DGSI_JUDGE_MODEL = "<different-judge-model-id>"
-$env:DGSI_GENERATOR_FAMILY = "<generator-family>"
-$env:DGSI_JUDGE_FAMILY = "<different-model-family>"
-$env:DGSI_JUDGE_INDEPENDENCE_NOTE = "Judge uses a separate model family; candidate order is randomized and condition labels are hidden."
+Default invocation is a zero-network dry run:
+~~~bash
 python scripts/run_skill_blind_eval.py
-python scripts/run_skill_blind_eval.py --execute-live --limit 2
-```
+~~~
 
-A 2-case pilot makes 6 API calls (baseline, Skill-assisted, and judge per case). The full 10-case run makes 30 calls. Review estimated usage before executing the full suite.
+Live run requires an explicit case limit and local environment variables:
+~~~bash
+python scripts/run_skill_blind_eval.py --execute-live --limit 4
+~~~
+
+Configure locally (never commit or paste credentials):
+- OPENAI_API_KEY
+- DGSI_GENERATOR_MODEL
+- DGSI_JUDGE_MODEL
+- DGSI_GENERATOR_FAMILY
+- DGSI_JUDGE_FAMILY
+- DGSI_JUDGE_INDEPENDENCE_NOTE
+
+Generator and judge model IDs **and declared model-family identifiers** must differ. The runner cannot independently authenticate the provider's model-family taxonomy or the operator's independence note.
+
+The runner makes 3 Responses API calls per case (baseline, treatment, judge):
+- 4-case smoke: 12 calls (first 2 ADCS + first 2 EPS cases after suite ordering is balanced).
+- 13-case full suite: 39 calls.
+- Outputs are written locally under reports/skill_blind_eval/, which is git-ignored. The script refuses to write candidate text into public source paths.
+- Each Responses API call sets store=false. This disables response application-state storage for later retrieval; it does not eliminate abuse-monitoring retention or override organization data controls.
+- Use only public source metadata and synthetic prompts in this pilot. Do not send private R21 telemetry or confidential data.
+
+A completed run is a model-assisted evaluation, not an expert certification. Review critical failures and source interpretation before drawing conclusions.
