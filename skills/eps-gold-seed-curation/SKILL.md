@@ -43,7 +43,7 @@ Core public sources include:
 - NASA IMAGE Failure Review Board: SSPC instant trip, stale status telemetry, and alternative battery/solar-array hypotheses.
 - NASA NOAA-13 Lessons Learned: suspected solar-array bus-to-ground short following thermal/mechanical interaction.
 - IDEASSat on-orbit analysis: likely EPS reset-circuit cause involving a CMOS Schmitt-trigger inverter; SEL is discussed as a plausible mechanism, not a conclusively observed event.
-- NASA TERRA: battery cell voltage anomaly and simultaneous battery-heater control-circuit anomalies.
+- NASA TERRA: battery cell #50 failure and heater-control anomalies; a later NASA status summary identifies an MMOD strike as the likely/suspected common cause.
 - NASA TDRS-8: six failed solar-array circuits, BVL parasitic shunting and underperforming battery cells.
 - NASA WMAP NESC assessment: repeated NiH2 cell voltage collapses; definitive root cause remained unresolved, with electrolyte bridging as the team's consensus theory.
 - NASA SmallSat Power chapter and EPS reliability research: architecture and subsystem-level context, not case-specific fault proof.
@@ -64,7 +64,7 @@ Examples:
 - IMAGE: the FRB considered an SEU-induced SSPC instant trip the *likely* cause of lost transponder power; it also explicitly said battery short/open and solar-array short/open were not indicated by telemetry. Do not label those alternatives as actual IMAGE failures.
 - NOAA-13: preserve that the bus-to-ground short and protruding mounting bolts were surmised by the review; do not claim destructive inspection confirmed the exact contact point.
 - IDEASSat: preserve “likely cause” for the reset-circuit inverter; SEL is a possible mechanism, not a directly confirmed event unless separately evidenced.
-- TERRA: battery cell and heater-control anomalies occurred together; do not invent a causal direction between them.
+- TERRA: NASA's later status summary identifies an MMOD strike as the likely/suspected common cause of the cell #50 failure and heater-group control loss. Preserve that qualified common-cause hypothesis; do not claim impact confirmation, exact impact location or a specific damaged internal part.
 - TDRS-8: six array circuits were reported failed; BVL modules shunted static current instead of regulating; the source does not specify the failed internal semiconductor.
 - WMAP: a 1.4 V cell drop is consistent with complete self-discharge; the NESC team did not determine a definitive root cause. Electrolyte bridging is a consensus theory, not a proven failure mechanism.
 
@@ -105,7 +105,7 @@ Do not infer root cause from one scalar:
 | “IMAGE SSPC instant trip was conclusively caused by SEU” | Preserve FRB's “likely cause” wording and alternatives |
 | “NOAA-13 bolts were proven to penetrate insulation” | Preserve the source's surmised mechanism and review-board conclusion |
 | “IDEASSat SEL was directly observed” | Source identifies the reset inverter as likely cause and discusses SEL as a possible mechanism |
-| “TERRA heater failure caused the battery cell failure” | The report records simultaneous anomalies, not a proven causal direction |
+| “TERRA heater failure caused the battery cell failure” | The NASA status summary proposes a suspected common MMOD cause; it does not establish a causal direction between the two anomalies or confirm the impact location |
 | “WMAP voltage collapse proves internal short” | NESC did not determine a definitive root cause; electrolyte bridging was a consensus theory |
 | “TDRS-8 BVL anomaly proves a specific transistor failure” | Source reports parasitic shunting, not the failed internal part |
 
