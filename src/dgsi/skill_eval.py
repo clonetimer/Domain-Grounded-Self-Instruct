@@ -275,19 +275,30 @@ def _case_context(root: Path, case: Mapping[str, Any]) -> dict[str, Any]:
     if domain not in term_registry_files:
         raise ValueError(f"{case['case_id']}: unsupported domain {domain!r}")
     passages = _load_json(root / "resources" / "source_passages.json")
+    sources = _load_json(root / "resources" / "sources.json")
     terms = _load_json(root / "resources" / term_registry_files[domain])
     passage_index = {item["passage_id"]: item for item in passages["passages"]}
+    source_index = {item["source_id"]: item for item in sources["sources"]}
     term_index = {item["term_id"]: item for item in terms["terms"]}
     selected_passages = []
     for passage_id in case["source_passage_ids"]:
         if passage_id not in passage_index:
             raise ValueError(f"{case['case_id']}: unknown source passage {passage_id}")
         item = passage_index[passage_id]
+        source = source_index.get(item["source_id"])
+        if source is None:
+            raise ValueError(f"{case['case_id']}: passage {passage_id} references an unregistered source {item['source_id']}")
         selected_passages.append({
             "passage_id": item["passage_id"],
             "source_id": item["source_id"],
+            "source_title": source["title"],
+            "source_kind": source["kind"],
+            "source_evidence_status": source["evidence_status"],
+            "source_published_or_updated": source.get("published_or_updated"),
+            "source_scope_note": source.get("scope_note", ""),
             "locator": item["locator"],
             "allowed_claim_types": item["allowed_claim_types"],
+            "passage_evidence_status": item.get("evidence_status", ""),
             "claim_boundary": item["claim_boundary"],
             "evidence_summary": item.get("evidence_summary", ""),
         })
