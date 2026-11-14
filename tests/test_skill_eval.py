@@ -224,6 +224,12 @@ class SkillEvalTest(unittest.TestCase):
 
 
 
+    def test_candidate_schema_requires_a_source_passage_for_each_claim(self):
+        passage_schema = CANDIDATE_SCHEMA["properties"]["claims"]["items"]["properties"]["source_passage_ids"]
+        self.assertEqual(passage_schema["minItems"], 1)
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
