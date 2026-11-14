@@ -19,30 +19,52 @@ def digest(path: Path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def sample():
+def sample(index: int):
+    t = index * 0.2
     return {
-        "time_s": 0.0,
-        "imu.raw_gyro_rad_s_x": 0.0,
-        "imu.raw_gyro_rad_s_y": 0.0,
-        "imu.raw_gyro_rad_s_z": 0.0,
-        "sensor.adcs.rw.speed_rad_s_0": 0.0,
-        "sensor.adcs.rw.speed_rad_s_1": 0.0,
-        "sensor.adcs.rw.speed_rad_s_2": 0.0,
-        "command.adcs.rw.motor_torque_nm_0": 0.0,
-        "command.adcs.rw.motor_torque_nm_1": 0.0,
-        "command.adcs.rw.motor_torque_nm_2": 0.0,
-        "estimate.adcs.pointing_error_deg": 0.0,
+        "time_s": t,
+        "imu.raw_gyro_rad_s_x": 0.001 * index,
+        "imu.raw_gyro_rad_s_y": 0.002 * index,
+        "imu.raw_gyro_rad_s_z": -0.001 * index,
+        "sensor.adcs.rw.speed_rad_s_0": 100.0 + index,
+        "sensor.adcs.rw.speed_rad_s_1": 200.0 + index,
+        "sensor.adcs.rw.speed_rad_s_2": 300.0 + index,
+        "command.adcs.rw.motor_torque_nm_0": 0.001 * index,
+        "command.adcs.rw.motor_torque_nm_1": 0.002 * index,
+        "command.adcs.rw.motor_torque_nm_2": 0.003 * index,
+        "estimate.adcs.pointing_error_deg": 0.01 * index,
     }
 
 
 class BasiliskReceiptTests(unittest.TestCase):
     def build_package(self, root: Path):
-        ids = [f"r84r3_{i:02d}" for i in range(12)] + ["r84r3_replay"]
-        telemetry = [{"record_id": item, "rows": [sample() for _ in range(31)]} for item in ids]
-        imu = [{"record_id": item, "rows": [{"time_s": 0.0} for _ in range(31)]} for item in ids]
-        qa = [{"record_id": item, "qa_rows": [{"time_s": 0.0} for _ in range(31)]} for item in ids]
-        cases = [{"record_id": item} for item in ids[:-1]] + [{
-            "record_id": ids[-1], "repeatability_control": True, "replay_of_record_id": ids[-2]
+        ids = [f"r84r3_{i:02d}" for i in range(12)]
+        replay_id = "r84r3_seeded_replay"
+        replay_target = ids[-1]
+        all_ids = ids + [replay_id]
+        base_rows = [sample(i) for i in range(31)]
+        telemetry = [
+            {"record_id": item, "rows": json.loads(json.dumps(base_rows))}
+            for item in ids
+        ] + [{"record_id": replay_id, "rows": json.loads(json.dumps(base_rows))}]
+        imu = [
+            {"record_id": item, "rows": [
+                {"time_s": row["time_s"], **{k: row[k] for k in (
+                    "imu.raw_gyro_rad_s_x", "imu.raw_gyro_rad_s_y", "imu.raw_gyro_rad_s_z"
+                )}} for row in base_rows
+            ]}
+            for item in ids
+        ] + [{"record_id": replay_id, "rows": [
+            {"time_s": row["time_s"], **{k: row[k] for k in (
+                "imu.raw_gyro_rad_s_x", "imu.raw_gyro_rad_s_y", "imu.raw_gyro_rad_s_z"
+            )}} for row in base_rows
+        ]}]
+        qa_rows = [{"time_s": row["time_s"], "qa_value": float(i)} for i, row in enumerate(base_rows)]
+        qa = [{"record_id": item, "qa_rows": json.loads(json.dumps(qa_rows))} for item in all_ids]
+        cases = [{"record_id": item} for item in ids] + [{
+            "record_id": replay_id,
+            "repeatability_control": True,
+            "replay_of_record_id": replay_target,
         }]
         for name, rows in (
             ("r84r3_multichannel_telemetry.jsonl", telemetry),
@@ -76,6 +98,10 @@ class BasiliskReceiptTests(unittest.TestCase):
         write_json(root / "r84r3_execution_manifest.json", manifest)
         return manifest
 
+    def refresh_hash(self, root: Path, manifest: dict, artifact: str):
+        manifest["artifact_sha256"][artifact] = digest(root / artifact)
+        write_json(root / "r84r3_execution_manifest.json", manifest)
+
     def test_valid_package_requires_human_review_and_is_not_admitted(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -98,13 +124,11 @@ class BasiliskReceiptTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             manifest = self.build_package(root)
-            rows = json.loads((root / "r84r3_multichannel_telemetry.jsonl").read_text().splitlines()[0])
-            rows["rows"][0]["label.fault_active"] = True
-            write_jsonl(root / "r84r3_multichannel_telemetry.jsonl", [rows] + [
-                json.loads(line) for line in (root / "r84r3_multichannel_telemetry.jsonl").read_text().splitlines()[1:]
-            ])
-            manifest["artifact_sha256"]["r84r3_multichannel_telemetry.jsonl"] = digest(root / "r84r3_multichannel_telemetry.jsonl")
-            write_json(root / "r84r3_execution_manifest.json", manifest)
+            file = root / "r84r3_multichannel_telemetry.jsonl"
+            rows = [json.loads(line) for line in file.read_text().splitlines()]
+            rows[0]["rows"][0]["label.fault_active"] = True
+            write_jsonl(file, rows)
+            self.refresh_hash(root, manifest, file.name)
             with self.assertRaisesRegex(ReceiptError, "truth/QA field leaked"):
                 validate_r84r3_package(root)
 
@@ -120,16 +144,49 @@ class BasiliskReceiptTests(unittest.TestCase):
     def test_artifact_path_traversal_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            self.build_package(root)
-            manifest = _ = json.loads((root / "r84r3_execution_manifest.json").read_text())
-            manifest["artifact_sha256"]["r84r3_multichannel_telemetry.jsonl"] = digest(root / "r84r3_multichannel_telemetry.jsonl")
-            # Required artifact lookup is rooted in the package; symlinks cannot escape it.
-            (root / "r84r3_multichannel_telemetry.jsonl").unlink()
+            manifest = self.build_package(root)
+            target = root / "r84r3_multichannel_telemetry.jsonl"
+            target.unlink()
             outside = root.parent / (root.name + "_outside.jsonl")
             outside.write_text("{}\n")
-            (root / "r84r3_multichannel_telemetry.jsonl").symlink_to(outside)
-            write_json(root / "r84r3_execution_manifest.json", manifest)
+            target.symlink_to(outside)
             with self.assertRaises(ReceiptError):
+                validate_r84r3_package(root)
+
+    def test_replay_must_match_referenced_arm(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = self.build_package(root)
+            file = root / "r84r3_multichannel_telemetry.jsonl"
+            rows = [json.loads(line) for line in file.read_text().splitlines()]
+            rows[-1]["rows"][0]["sensor.adcs.rw.speed_rad_s_0"] += 0.5
+            write_jsonl(file, rows)
+            self.refresh_hash(root, manifest, file.name)
+            with self.assertRaisesRegex(ReceiptError, "replay is not exact"):
+                validate_r84r3_package(root)
+
+    def test_stream_time_axis_must_align(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = self.build_package(root)
+            file = root / "r84r3_imu_sensor_observations.jsonl"
+            rows = [json.loads(line) for line in file.read_text().splitlines()]
+            rows[0]["rows"][3]["time_s"] += 0.01
+            write_jsonl(file, rows)
+            self.refresh_hash(root, manifest, file.name)
+            with self.assertRaisesRegex(ReceiptError, "time axis|time mismatch"):
+                validate_r84r3_package(root)
+
+    def test_nonfinite_telemetry_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = self.build_package(root)
+            file = root / "r84r3_multichannel_telemetry.jsonl"
+            rows = [json.loads(line) for line in file.read_text().splitlines()]
+            rows[0]["rows"][2]["imu.raw_gyro_rad_s_x"] = float("nan")
+            write_jsonl(file, rows)
+            self.refresh_hash(root, manifest, file.name)
+            with self.assertRaisesRegex(ReceiptError, "non-finite"):
                 validate_r84r3_package(root)
 
 
