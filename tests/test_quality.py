@@ -17,6 +17,7 @@ class QualityGateTest(unittest.TestCase):
     def setUpClass(cls):
         cls.registry = load_registry(ROOT)
         cls.example = json.loads((ROOT / "examples/illustrative_gyro_abstain.json").read_text(encoding="utf-8"))
+        cls.eps_example = json.loads((ROOT / "examples/illustrative_eps_abstain.json").read_text(encoding="utf-8"))
 
     def codes(self, record):
         return {f.code for f in validate_seed(record, self.registry)}
@@ -223,6 +224,40 @@ class QualityGateTest(unittest.TestCase):
             passages_path.write_text(json.dumps(passages, ensure_ascii=False), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "unknown allowed_claim_types"):
                 load_registry(root)
+
+
+    def test_eps_catalog_is_loaded_as_a_separate_domain(self):
+        self.assertIn("eps", self.registry["term_catalogs"])
+        self.assertIn("battery_cell_voltage_collapse", self.registry["term_catalogs"]["eps"]["terms"])
+        self.assertNotIn("battery_cell_voltage_collapse", self.registry["term_catalogs"]["adcs"]["terms"])
+
+    def test_eps_illustrative_abstention_passes_candidate_preflight(self):
+        result = report(self.eps_example, self.registry)
+        self.assertEqual(result["decision"], "CANDIDATE_CHECKS_PASSED")
+        self.assertEqual(result["findings"], [])
+        self.assertFalse(result["gold_eligible"])
+
+    def test_eps_mechanism_claim_requires_registered_eps_passage(self):
+        case = copy.deepcopy(self.eps_example)
+        case["claims"][1].update({
+            "claim_type": "MECHANISM",
+            "text": "电解液桥接是WMAP团队提出的候选机理，并非已确认根因。",
+            "source_ids": ["NASA_WMAP_BATTERY_2010"],
+            "source_passage_ids": ["WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"],
+        })
+        codes = self.codes_for(case)
+        self.assertNotIn("MECHANISM_SOURCE_NOT_ADMITTED", codes)
+        self.assertNotIn("SOURCE_PASSAGE_REQUIRED", codes)
+        self.assertNotIn("SOURCE_PASSAGE_SCOPE_MISMATCH", codes)
+
+    def test_eps_terms_cannot_be_used_in_adcs_seed(self):
+        case = copy.deepcopy(self.example)
+        case["term_ids"].append("electrolyte_bridging")
+        self.assertIn("UNKNOWN_TERM", self.codes(case))
+
+    def codes_for(self, record):
+        return {finding.code for finding in validate_seed(record, self.registry)}
+
 
 
 
