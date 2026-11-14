@@ -357,6 +357,7 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                 "NASA_FAILURE_REVIEW_REPORT", "NASA_LESSONS_LEARNED_CASE", "OPEN_ACCESS_RESEARCH_CASE",
                 "NASA_PUBLIC_TECHNICAL_PAPER", "NASA_PUBLIC_ENGINEERING_PRESENTATION",
                 "NASA_NESC_TECHNICAL_ASSESSMENT", "NASA_PUBLIC_CASE_REPORT",
+                "NASA_GCN_CIRCULAR", "ESA_PUBLIC_CASE_REPORT", "SEC_PUBLIC_FILING",
             }:
                 add("DOCUMENT_SOURCE_NOT_ADMITTED", f"evidence[{i}].source_id", "catalog/interface metadata is not document evidence")
     claim_ids: set[str] = set()
