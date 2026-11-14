@@ -314,7 +314,7 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                 add("FORBIDDEN_PHRASE", path, f"known coined/non-domain phrase detected: {phrase}")
         if SELF_ATTESTATION.search(value):
             add("SELF_ATTESTATION", path, "unverified self-certifying language requires rewriting and independent evidence")
-        for candidate in _unregistered_term_candidates(value, registry):
+        for candidate in _unregistered_term_candidates(value, domain_catalog):
             add("UNREGISTERED_TERM_CANDIDATE", path, f"unregistered technical compound needs terminology review: {candidate}", "REVIEW")
         if path == "answer.summary" and CAUSAL_LANGUAGE.search(value):
             causal_claims = [c for c in claims if isinstance(c, dict) and c.get("claim_type") == "CAUSAL" and c.get("causal_review") == "HUMAN_REVIEWED"]
