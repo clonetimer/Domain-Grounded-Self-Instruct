@@ -306,6 +306,20 @@ def _api_call_for_json(
     )
 
 
+
+def validate_output_path(root: Path, output_path: Path) -> Path:
+    """Keep generated candidate text outside public source paths."""
+    root_resolved = root.resolve()
+    output_resolved = output_path.expanduser().resolve()
+    try:
+        relative = output_resolved.relative_to(root_resolved)
+    except ValueError:
+        return output_resolved
+    if relative.parts[:2] != ("reports", "skill_blind_eval"):
+        raise ValueError("live output must be outside the repository or under reports/skill_blind_eval")
+    return output_resolved
+
+
 def run_live_evaluation(
     *,
     root: Path,
@@ -318,7 +332,12 @@ def run_live_evaluation(
     limit: int = 10,
 ) -> dict[str, Any]:
     validate_live_config(generator_model, judge_model, api_key, independence_note)
+    if limit <= 0:
+        raise ValueError("limit must be positive")
+    output_path = validate_output_path(root, output_path)
     cases_file = root / "resources" / "skill_pressure_cases.json"
+    passages_file = root / "resources" / "source_passages.json"
+    terms_file = root / "resources" / "terms.json"
     cases_payload = _load_json(cases_file)
     cases = cases_payload["cases"][:limit]
     skill_text = (root / "skills" / "adcs-gold-seed-curation" / "SKILL.md").read_text(encoding="utf-8")
@@ -337,6 +356,8 @@ def run_live_evaluation(
         "expected_api_calls": len(cases) * 3,
         "skill_sha256": skill_sha,
         "cases_sha256": cases_sha,
+        "source_passages_sha256": hashlib.sha256(passages_file.read_bytes()).hexdigest(),
+        "terms_sha256": hashlib.sha256(terms_file.read_bytes()).hexdigest(),
         "responses_store": False,
         "run_status": "IN_PROGRESS",
     }
@@ -437,5 +458,5 @@ def run_live_evaluation(
 __all__ = [
     "API_URL", "CANDIDATE_SCHEMA", "JUDGE_SCHEMA", "SCORE_FIELDS",
     "build_response_request", "extract_output_text", "blind_pair",
-    "map_blind_scores", "validate_live_config", "run_live_evaluation",
+    "map_blind_scores", "validate_live_config", "validate_output_path", "run_live_evaluation",
 ]
