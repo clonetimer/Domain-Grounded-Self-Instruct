@@ -679,11 +679,14 @@ def run_live_evaluation(
         "preflight_critical_count_by_condition": {"baseline": 0, "treatment": 0},
         "paired_mean_delta": {},
         "preferred_condition_counts": {"baseline": 0, "treatment": 0, "TIE": 0},
+        "by_domain": {},
+        "per_case": [],
     }
     for condition in ("baseline", "treatment"):
         totals = {field: 0 for field in SCORE_FIELDS}
         failures = 0
         preflight_critical = 0
+        no_critical = 0
         for record in records:
             score = record["scores_by_condition"][condition]
             for field in SCORE_FIELDS:
@@ -692,10 +695,17 @@ def run_live_evaluation(
             findings = record["preflight_by_condition"][condition]
             summary["preflight_finding_count_by_condition"][condition] += len(findings)
             preflight_critical += sum(item["severity"] == "CRITICAL" for item in findings)
+            if not score["critical_failures"] and not any(item["severity"] == "CRITICAL" for item in findings):
+                no_critical += 1
         summary["preflight_critical_count_by_condition"][condition] = preflight_critical
+        mean_scores = {field: round(totals[field] / max(len(records), 1), 3) for field in SCORE_FIELDS}
         summary["conditions"][condition] = {
-            "mean_scores": {field: round(totals[field] / max(len(records), 1), 3) for field in SCORE_FIELDS},
+            "mean_scores": mean_scores,
+            "mean_total_score_out_of_12": round(sum(totals.values()) / max(len(records), 1), 3),
             "critical_failure_count": failures,
+            "preflight_critical_count": preflight_critical,
+            "candidate_without_critical_flags_count": no_critical,
+            "candidate_without_critical_flags_rate": round(no_critical / max(len(records), 1), 3),
         }
     for field in SCORE_FIELDS:
         delta = sum(
@@ -703,9 +713,87 @@ def run_live_evaluation(
             for record in records
         )
         summary["paired_mean_delta"][field] = round(delta / max(len(records), 1), 3)
+    summary["paired_mean_delta"]["total_score_out_of_12"] = round(
+        sum(
+            sum(record["scores_by_condition"]["treatment"][field] for field in SCORE_FIELDS)
+            - sum(record["scores_by_condition"]["baseline"][field] for field in SCORE_FIELDS)
+            for record in records
+        ) / max(len(records), 1),
+        3,
+    )
     for record in records:
         preferred = record["preferred_condition"]
         summary["preferred_condition_counts"][preferred] += 1
+        baseline_score = record["scores_by_condition"]["baseline"]
+        treatment_score = record["scores_by_condition"]["treatment"]
+        summary["per_case"].append({
+            "case_id": record["case_id"],
+            "domain": record["domain"],
+            "baseline_total_score_out_of_12": sum(baseline_score[field] for field in SCORE_FIELDS),
+            "treatment_total_score_out_of_12": sum(treatment_score[field] for field in SCORE_FIELDS),
+            "paired_delta_treatment_minus_baseline": sum(
+                treatment_score[field] - baseline_score[field] for field in SCORE_FIELDS
+            ),
+            "baseline_critical_failure_count": len(baseline_score["critical_failures"]),
+            "treatment_critical_failure_count": len(treatment_score["critical_failures"]),
+            "baseline_preflight_critical_count": sum(
+                item["severity"] == "CRITICAL" for item in record["preflight_by_condition"]["baseline"]
+            ),
+            "treatment_preflight_critical_count": sum(
+                item["severity"] == "CRITICAL" for item in record["preflight_by_condition"]["treatment"]
+            ),
+            "preferred_condition": preferred,
+        })
+    for domain in sorted({record["domain"] for record in records}):
+        domain_records = [record for record in records if record["domain"] == domain]
+        domain_summary: dict[str, Any] = {
+            "case_count": len(domain_records),
+            "conditions": {},
+            "paired_mean_delta": {},
+            "preferred_condition_counts": {"baseline": 0, "treatment": 0, "TIE": 0},
+        }
+        for condition in ("baseline", "treatment"):
+            totals = {field: 0 for field in SCORE_FIELDS}
+            judge_critical = 0
+            preflight_critical = 0
+            clean = 0
+            for record in domain_records:
+                score = record["scores_by_condition"][condition]
+                for field in SCORE_FIELDS:
+                    totals[field] += score[field]
+                judge_critical += len(score["critical_failures"])
+                findings = record["preflight_by_condition"][condition]
+                preflight_critical += sum(item["severity"] == "CRITICAL" for item in findings)
+                if not score["critical_failures"] and not any(item["severity"] == "CRITICAL" for item in findings):
+                    clean += 1
+            domain_summary["conditions"][condition] = {
+                "mean_scores": {field: round(totals[field] / len(domain_records), 3) for field in SCORE_FIELDS},
+                "mean_total_score_out_of_12": round(sum(totals.values()) / len(domain_records), 3),
+                "judge_critical_failure_count": judge_critical,
+                "preflight_critical_count": preflight_critical,
+                "candidate_without_critical_flags_count": clean,
+                "candidate_without_critical_flags_rate": round(clean / len(domain_records), 3),
+            }
+        for field in SCORE_FIELDS:
+            domain_summary["paired_mean_delta"][field] = round(
+                sum(
+                    record["scores_by_condition"]["treatment"][field]
+                    - record["scores_by_condition"]["baseline"][field]
+                    for record in domain_records
+                ) / len(domain_records),
+                3,
+            )
+        domain_summary["paired_mean_delta"]["total_score_out_of_12"] = round(
+            sum(
+                sum(record["scores_by_condition"]["treatment"][field] for field in SCORE_FIELDS)
+                - sum(record["scores_by_condition"]["baseline"][field] for field in SCORE_FIELDS)
+                for record in domain_records
+            ) / len(domain_records),
+            3,
+        )
+        for record in domain_records:
+            domain_summary["preferred_condition_counts"][record["preferred_condition"]] += 1
+        summary["by_domain"][domain] = domain_summary
     summary_record = {"record_type": "run_summary", "run_status": "COMPLETED", "summary": summary}
     with output_path.open("a", encoding="utf-8") as stream:
         stream.write(json.dumps(summary_record, ensure_ascii=False) + "\n")
