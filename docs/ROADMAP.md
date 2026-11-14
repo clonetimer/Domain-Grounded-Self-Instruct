@@ -2,11 +2,11 @@
 
 ## Phase 1 / P1: grounded curation foundation
 
-**Deliver:** source registry, ADCS and EPS terminology drafts, fault/effect catalog, telemetry dictionary, empty simulation truth admission registry, JSON contract, offline validator, adversarial tests and draft ADCS/EPS Skills.
+**Deliver:** public source registry and passage index, separate ADCS/EPS terminology catalogs, ADCS/EPS draft Skills, fault/effect catalog, telemetry dictionary, empty simulation truth admission registry, versioned JSON contract, offline validator, adversarial tests and literature-based blind evaluation suite.
 
 **Exit:** tests pass, CLI preflight passes for a clearly hypothetical abstention example, known fabricated terms/causal overreach/self-attestation/truth leakage fail, source provenance remains distinguishable. Alias semantics and 11 public source-passage locators are now registered; all preferred terms remain draft pending domain review. The draft Skill remains unapproved pending independent blind evaluation.
 
-**P1-B status:** deterministic source-passage binding, alias-aware terminology, suspicious-compound review and an opt-in blind runner are implemented. The runner uses the same generator/evidence bundle in both conditions, hides condition labels from a declared different-family judge, records paired score deltas, and defaults to a zero-network dry run. The Skill remains DRAFT pending a live independent evaluation and domain review.
+**P1-B status:** source-passage binding, alias-aware ADCS/EPS terminology, domain-specific Skills, suspicious-compound review and an opt-in blind runner are implemented. The public-literature suite contains 13 cases (6 ADCS, 7 EPS) covering NEOSSat, IMAGE, NOAA-13, IDEASSat, TERRA, TDRS-8 and WMAP. The runner uses the same generator/evidence bundle in both conditions, hides condition labels from a declared different-family judge, records paired score deltas, and defaults to a zero-network dry run. The Skills remain DRAFT pending a live independent evaluation and qualified domain review.
 
 ## Phase 2 / P2: verified evidence admission
 
