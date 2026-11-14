@@ -7,34 +7,49 @@
       "title": "NASA SmallSat State of the Art: Guidance, Navigation, and Control",
       "url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
       "kind": "OFFICIAL_DOMAIN_REFERENCE",
-      "scopes": ["TERMINOLOGY", "MECHANISM"],
+      "scopes": [
+        "TERMINOLOGY",
+        "MECHANISM"
+      ],
       "evidence_status": "REFERENCE_INDEXED",
-      "scope_note": "Technical descriptions of hardware and relationships; not spacecraft-specific fault proof."
+      "scope_note": "Chapter 5.0, updated 2026-05-07. Use the registered section-level passage locators; technical descriptions do not prove spacecraft-specific fault occurrences.",
+      "published_or_updated": "2026-05-07"
     },
     {
       "source_id": "NASA_NESC_GNC",
       "title": "NESC GN&C Robust and Reliable Space Vehicle Best Practices",
       "url": "https://ntrs.nasa.gov/citations/20230005922",
       "kind": "OFFICIAL_DOMAIN_REFERENCE",
-      "scopes": ["TERMINOLOGY", "MECHANISM", "METHODOLOGY"],
+      "scopes": [
+        "TERMINOLOGY",
+        "MECHANISM",
+        "METHODOLOGY"
+      ],
       "evidence_status": "REFERENCE_INDEXED",
-      "scope_note": "Independent fault management principles; not a flight diagnostic case label."
+      "scope_note": "NASA/TP-20230005922, including GN&C Best Practice #5 (printed page 68); supports fault-management independence methodology, not case-level fault labels.",
+      "download_url": "https://ntrs.nasa.gov/api/citations/20230005922/downloads/20230005922.pdf?attachment=true",
+      "published_or_updated": "2023-04-01"
     },
     {
       "source_id": "BASILISK_DOCS",
       "title": "Basilisk spacecraft simulation official documentation",
       "url": "https://avslab.github.io/basilisk/",
       "kind": "SIMULATOR_DOCUMENTATION",
-      "scopes": ["SIM_INTERFACE", "TERMINOLOGY"],
+      "scopes": [
+        "SIM_INTERFACE",
+        "TERMINOLOGY"
+      ],
       "evidence_status": "REFERENCE_INDEXED",
-      "scope_note": "Version must be pinned before using specific module interfaces; does not establish trace fidelity."
+      "scope_note": "Official documentation landing page. Pin the installed Basilisk release and exact versioned module page before making API or model-behavior claims."
     },
     {
       "source_id": "AAS_CHANNEL_CATALOG",
       "title": "User-supplied AAS 56-channel telemetry catalog (2026-10-20)",
       "url": null,
       "kind": "PRIVATE_CATALOG_POINTER",
-      "scopes": ["CHANNEL_SCHEMA"],
+      "scopes": [
+        "CHANNEL_SCHEMA"
+      ],
       "evidence_status": "CATALOG_ONLY",
       "scope_note": "Public repository stores no source CSV or raw telemetry; channel names and units in this repo are selected metadata, not observed samples."
     },
@@ -43,7 +58,9 @@
       "title": "User-supplied AAS fault type catalog (2026-10-20)",
       "url": null,
       "kind": "PRIVATE_CATALOG_POINTER",
-      "scopes": ["FAULT_CATALOG"],
+      "scopes": [
+        "FAULT_CATALOG"
+      ],
       "evidence_status": "CATALOG_ONLY",
       "scope_note": "Fault identity and sample group metadata are not admissible prediction inputs."
     },
@@ -52,7 +69,9 @@
       "title": "User-supplied AAS 19-run observability summary (2026-10-23)",
       "url": null,
       "kind": "PRIVATE_CATALOG_POINTER",
-      "scopes": ["OBSERVABILITY_CATALOG"],
+      "scopes": [
+        "OBSERVABILITY_CATALOG"
+      ],
       "evidence_status": "CATALOG_ONLY",
       "scope_note": "Direct observation channel count in catalog does not prove per-run observability or observed fault severity."
     },
@@ -61,7 +80,11 @@
       "title": "SatAgentSimulation Basilisk ADCS unified capability manifest",
       "url": "https://github.com/clonetimer/SatAgentSimulation/blob/62cf8bfb45d7f07d14ff6d0f2e2ca49e85f66e23/src/sat_sim/capabilities/subsystem.adcs_unified_native.v1.yaml",
       "kind": "PROJECT_INTERFACE_DECLARATION",
-      "scopes": ["SIM_INTERFACE", "FAULT_CATALOG", "CHANNEL_SCHEMA"],
+      "scopes": [
+        "SIM_INTERFACE",
+        "FAULT_CATALOG",
+        "CHANNEL_SCHEMA"
+      ],
       "evidence_status": "DECLARED_ONLY",
       "scope_note": "Declared/candidate capability or effect is not a verified fault-injection run."
     },
@@ -70,7 +93,9 @@
       "title": "AstroGraph-LLM knowledge schema v3",
       "url": "https://github.com/clonetimer/AstroGraph-LLM/blob/9bdb92e95f1878b7ed057c169fcd116ae29ec83f/src/astrograph/knowledge/schema_v3.py",
       "kind": "PROJECT_KNOWLEDGE_SCHEMA",
-      "scopes": ["KNOWLEDGE_SCHEMA"],
+      "scopes": [
+        "KNOWLEDGE_SCHEMA"
+      ],
       "evidence_status": "SCHEMA_INDEXED",
       "scope_note": "Contains structural definitions and human-review states, not validated physical relationships."
     },
@@ -79,7 +104,9 @@
       "title": "Self-Instruct: Aligning Language Models with Self-Generated Instructions (ACL 2023)",
       "url": "https://aclanthology.org/2023.acl-long.754/",
       "kind": "RESEARCH_PAPER",
-      "scopes": ["METHODOLOGY"],
+      "scopes": [
+        "METHODOLOGY"
+      ],
       "evidence_status": "REFERENCE_INDEXED",
       "scope_note": "Methodology only; cannot validate aerospace facts."
     },
@@ -88,7 +115,11 @@
       "title": "面向多源异构数据的航天器故障知识图谱构建方法 (2023)",
       "url": null,
       "kind": "USER_LIBRARY_REFERENCE",
-      "scopes": ["METHODOLOGY", "TERMINOLOGY", "KNOWLEDGE_SCHEMA"],
+      "scopes": [
+        "METHODOLOGY",
+        "TERMINOLOGY",
+        "KNOWLEDGE_SCHEMA"
+      ],
       "evidence_status": "REFERENCE_INDEXED",
       "scope_note": "Title only, no copyrighted PDF or text copied to this repository."
     },
@@ -97,9 +128,40 @@
       "title": "ESA benchmark for anomaly detection in satellite telemetry (Scientific Data)",
       "url": "https://www.nature.com/articles/s41597-025-05035-3",
       "kind": "RESEARCH_DATASET_REFERENCE",
-      "scopes": ["BENCHMARK", "METHODOLOGY"],
+      "scopes": [
+        "BENCHMARK",
+        "METHODOLOGY"
+      ],
       "evidence_status": "REFERENCE_INDEXED",
       "scope_note": "Anomaly labels must not be converted into component-level root-cause labels."
+    },
+    {
+      "source_id": "CNSA_SATELLITE_ATTITUDE_CONTROL",
+      "title": "卫星科普：卫星姿态控制",
+      "url": "https://www.cnsa.gov.cn/n6758968/n6758973/c10578880/content.html",
+      "kind": "OFFICIAL_DOMAIN_REFERENCE",
+      "scopes": [
+        "TERMINOLOGY",
+        "ARCHITECTURE",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2024-07-19",
+      "scope_note": "Chinese-language official educational description of attitude frames and the sensor-controller-actuator loop; not a normative terminology standard or a fault-specific diagnosis source."
+    },
+    {
+      "source_id": "BASILISK_RELEASE_2_11_0",
+      "title": "Basilisk Version 2.11.0 Release Notes",
+      "url": "https://avslab.github.io/basilisk/Support/bskReleaseNotes/2.11.html",
+      "kind": "SIMULATOR_RELEASE_NOTES",
+      "scopes": [
+        "SIM_VERSION",
+        "SIM_INTERFACE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2026-07-07",
+      "version": "2.11.0",
+      "scope_note": "Release-specific compatibility and packaging record. It does not by itself establish a fault model, physical effect, or telemetry truth."
     }
   ]
 }
