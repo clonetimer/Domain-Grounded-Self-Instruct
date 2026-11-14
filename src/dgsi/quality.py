@@ -41,6 +41,7 @@ PASSAGE_CLAIM_TYPES = {
     "METHOD", "LIMITATION", "TELEMETRY", "PROTECTION_BEHAVIOR",
     "FAILURE_MODE", "COMPONENT_LOCALIZATION", "DEGRADATION",
     "THERMAL_MECHANICAL_INTERACTION", "RADIATION_MECHANISM",
+    "OBSERVATION", "UNCERTAINTY", "SIMULATION_RESULT",
 }
 SELF_ATTESTATION = re.compile(r"(?:已经过权威验证|经过权威验证|完全证明|绝对证明|百分之百确定|已获专家一致认可|经严格验证.*正确)")
 CAUSAL_LANGUAGE = re.compile(r"(?:直接导致|必然导致|证明.*?(?:致使|引起)|根因必然是)")
