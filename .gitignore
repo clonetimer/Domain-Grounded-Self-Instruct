@@ -20,3 +20,6 @@ run_bundles/
 *.db
 *.npy
 *.npz
+
+# Local blind-evaluation outputs may contain model-generated candidate text
+reports/skill_blind_eval/
