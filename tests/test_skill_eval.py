@@ -29,11 +29,11 @@ SCHEMA = {
 class SkillEvalTest(unittest.TestCase):
     def test_live_config_requires_distinct_generator_and_judge(self):
         with self.assertRaisesRegex(ValueError, "must be different"):
-            validate_live_config("gpt-6-astra", "gpt-6-astra", "key")
+            validate_live_config("gpt-6-astra", "gpt-6-astra", "family-a", "family-a", "key", "independent setup")
 
     def test_live_config_requires_api_key(self):
         with self.assertRaisesRegex(ValueError, "OPENAI_API_KEY"):
-            validate_live_config("gpt-6-astra", "gpt-6.1-sol", "")
+            validate_live_config("gpt-6-astra", "gpt-6.1-sol", "family-a", "family-b", "", "independent setup")
 
     def test_responses_request_is_stateless_and_uses_strict_schema(self):
         request = build_response_request(
@@ -89,7 +89,7 @@ class SkillEvalTest(unittest.TestCase):
 
     def test_live_config_requires_explicit_independence_note(self):
         with self.assertRaisesRegex(ValueError, "INDEPENDENCE_NOTE"):
-            validate_live_config("gpt-6-astra", "gpt-6.1-sol", "key")
+            validate_live_config("gpt-6-astra", "gpt-6.1-sol", "family-a", "family-b", "key", "")
 
     def test_cli_defaults_to_no_network_dry_run(self):
         root = Path(__file__).resolve().parents[1]
