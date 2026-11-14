@@ -17,17 +17,25 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--execute-live", action="store_true", help="Make paid API calls. Omitted by default.")
     parser.add_argument("--limit", type=int, default=0, help="Explicit maximum case count; required for live runs.")
     parser.add_argument("--seed", type=int, default=20261114, help="Deterministic blind-order seed.")
+    parser.add_argument(
+        "--suite",
+        choices=("skill_pressure_cases.json", "skill_holdout_cases.json"),
+        default="skill_pressure_cases.json",
+        help="Frozen case suite; holdout suite is for final generalization testing.",
+    )
     parser.add_argument("--output", type=Path, help="Local JSONL output path; never committed by default.")
     args = parser.parse_args(argv)
 
     root = Path(__file__).resolve().parents[1]
-    cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+    suite_path = root / "resources" / args.suite
+    cases = json.loads(suite_path.read_text(encoding="utf-8"))["cases"]
     selected_count = min(args.limit, len(cases)) if args.limit > 0 else len(cases)
 
     if not args.execute_live:
         print(json.dumps({
             "mode": "DRY_RUN",
             "network_calls": 0,
+            "suite": args.suite,
             "cases_available": len(cases),
             "cases_selected": selected_count,
             "generator_model_configured": bool(os.environ.get("DGSI_GENERATOR_MODEL")),
@@ -50,7 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     independence_note = os.environ.get("DGSI_JUDGE_INDEPENDENCE_NOTE", "").strip()
     output = args.output or (
         root / "reports" / "skill_blind_eval" /
-        f"skill-eval-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.jsonl"
+        f"{Path(args.suite).stem}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.jsonl"
     )
 
     result = run_live_evaluation(
@@ -64,9 +72,12 @@ def main(argv: list[str] | None = None) -> int:
         independence_note=independence_note,
         seed=args.seed,
         limit=min(args.limit, len(cases)),
+        suite_file=args.suite,
     )
     print(json.dumps({
         "mode": "LIVE",
+        "suite": result["metadata"]["suite_file"],
+        "suite_split": result["metadata"]["suite_split"],
         "run_status": result["metadata"]["run_status"],
         "summary": result["summary"],
         "failure": result.get("failure"),
