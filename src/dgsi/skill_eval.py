@@ -529,6 +529,7 @@ def run_live_evaluation(
         "seed": seed,
         "case_count": len(cases),
         "expected_api_calls": len(cases) * 3,
+        "api_calls_completed": 0,
         "skill_sha256_by_path": skill_hashes,
         "skill_treatment_sha256_by_path": treatment_hashes,
         "term_registry_sha256_by_domain": term_hashes,
@@ -545,8 +546,11 @@ def run_live_evaluation(
     except OSError:
         pass
     records: list[dict[str, Any]] = []
+    api_calls_completed = 0
+    current_case_id: str | None = None
     try:
         for case in cases:
+            current_case_id = case["case_id"]
             context = _case_context(root, case)
             skill_path = case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md")
             skill_treatment = skill_treatments[skill_path]
@@ -555,22 +559,23 @@ def run_live_evaluation(
                 ensure_ascii=False,
                 sort_keys=True,
             )
-            baseline = _api_call_for_json(
-                model=generator_model,
-                system_prompt=BASELINE_SYSTEM,
-                user_prompt=generator_prompt,
-                api_key=api_key,
-                schema_name="spacecraft_fault_seed_candidate",
-                schema=CANDIDATE_SCHEMA,
-            )
-            treatment = _api_call_for_json(
-                model=generator_model,
-                system_prompt=BASELINE_SYSTEM + "\n\nApply only these additional procedural treatment instructions:\n" + skill_treatment,
-                user_prompt=generator_prompt,
-                api_key=api_key,
-                schema_name="adcs_seed_candidate",
-                schema=CANDIDATE_SCHEMA,
-            )
+            generation_sequence = generation_order(seed, current_case_id)
+            generated: dict[str, dict[str, Any]] = {}
+            for condition in generation_sequence:
+                system_prompt = BASELINE_SYSTEM
+                if condition == "treatment":
+                    system_prompt += "\n\nApply only these additional procedural treatment instructions:\n" + skill_treatment
+                generated[condition] = _api_call_for_json(
+                    model=generator_model,
+                    system_prompt=system_prompt,
+                    user_prompt=generator_prompt,
+                    api_key=api_key,
+                    schema_name="spacecraft_fault_seed_candidate",
+                    schema=CANDIDATE_SCHEMA,
+                )
+                api_calls_completed += 1
+            baseline = generated["baseline"]
+            treatment = generated["treatment"]
             baseline_preflight = validate_candidate_against_case(baseline, case, context)
             treatment_preflight = validate_candidate_against_case(treatment, case, context)
             pair = blind_pair(seed, case["case_id"], baseline, treatment)
@@ -602,6 +607,7 @@ def run_live_evaluation(
                 schema_name="blind_candidate_scores",
                 schema=JUDGE_SCHEMA,
             )
+            api_calls_completed += 1
             mapped = map_blind_scores(judged, pair)
             record = {
                 "record_type": "case_result",
@@ -629,7 +635,6 @@ def run_live_evaluation(
             records.append(record)
             with output_path.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(record, ensure_ascii=False) + "\n")
-    
     except Exception as exc:
         failure_record = {
             "record_type": "run_failure",
@@ -653,7 +658,6 @@ def run_live_evaluation(
             "output_path": str(output_path),
         }
 
-    metadata["api_calls_completed"] = api_calls_completed
     summary: dict[str, Any] = {
         "case_count": len(records),
         "api_calls_completed": api_calls_completed,
