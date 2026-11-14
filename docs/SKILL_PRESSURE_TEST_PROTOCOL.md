@@ -53,3 +53,30 @@ Maximum: 12 points per case. Report per-dimension scores, baseline/treatment pai
 ## Limitations
 
 The current deterministic compound scanner catches only a narrow set of suspicious constructions. A clean CLI result does not prove terminology completeness. This pressure test is a human/model review protocol, not an automated scientific truth benchmark.
+
+
+## Executable runner
+
+The repository includes `scripts/run_skill_blind_eval.py` and `src/dgsi/skill_eval.py`.
+
+- Default invocation is a dry run and makes zero network calls:
+  `python scripts/run_skill_blind_eval.py`
+- Live mode requires an explicit positive case limit:
+  `python scripts/run_skill_blind_eval.py --execute-live --limit 2`
+- Configure locally (never commit credentials): `OPENAI_API_KEY`, `DGSI_GENERATOR_MODEL`, `DGSI_JUDGE_MODEL`, and `DGSI_JUDGE_INDEPENDENCE_NOTE`.
+- Generator and judge model IDs must differ. The independence note records the operator's declared separation; the script cannot independently verify model-family independence.
+- The runner randomizes candidate A/B order, withholds baseline/treatment labels from the judge, maps scores back only after judging, and writes local JSONL under `reports/skill_blind_eval/` (git-ignored).
+- All Responses API calls set `store=false`. This disables standard response-state storage for later retrieval; it does not override organization-specific retention or abuse-monitoring policies.
+
+Example PowerShell setup (the key is entered without echo):
+```powershell
+$secure = Read-Host "OpenAI API key" -AsSecureString
+$env:OPENAI_API_KEY = [System.Net.NetworkCredential]::new("", $secure).Password
+$env:DGSI_GENERATOR_MODEL = "<generator-model-id>"
+$env:DGSI_JUDGE_MODEL = "<different-judge-model-id>"
+$env:DGSI_JUDGE_INDEPENDENCE_NOTE = "Judge uses a separate model family; candidate order is randomized and condition labels are hidden."
+python scripts/run_skill_blind_eval.py
+python scripts/run_skill_blind_eval.py --execute-live --limit 2
+```
+
+A 2-case pilot makes 6 API calls (baseline, Skill-assisted, and judge per case). The full 10-case run makes 30 calls. Review estimated usage before executing the full suite.
