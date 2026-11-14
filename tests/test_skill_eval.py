@@ -384,7 +384,7 @@ class SkillEvalTest(unittest.TestCase):
     def test_generation_order_is_counterbalanced_across_case_suite(self):
         root = Path(__file__).resolve().parents[1]
         cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
-        orders = [tuple(generation_order(20261114, case["case_id"])) for case in cases]
+        orders = [tuple(generation_order(20261114, case["case_id"], index)) for index, case in enumerate(cases)]
         self.assertEqual(set(orders), {("baseline", "treatment"), ("treatment", "baseline")})
         self.assertGreaterEqual(orders.count(("baseline", "treatment")), 4)
         self.assertGreaterEqual(orders.count(("treatment", "baseline")), 4)
