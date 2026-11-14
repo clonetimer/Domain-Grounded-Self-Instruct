@@ -383,6 +383,12 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
         if not isinstance(sources, list):
             add("INVALID_CLAIM_SOURCE", f"{path}.source_ids", "must be a list")
             sources = []
+        passage_refs = claim.get("source_passage_ids", [])
+        if not isinstance(passage_refs, list):
+            add("INVALID_CLAIM_PASSAGES", f"{path}.source_passage_ids", "must be a list")
+            passage_refs = []
+        if not refs and not passage_refs:
+            add("CLAIM_WITHOUT_EVIDENCE", path, "each claim must reference evidence_ids or registered source_passage_ids")
         for source_id in sources:
             if source_id not in registry["sources"]:
                 add("UNKNOWN_SOURCE", f"{path}.source_ids", f"source {source_id!r} not registered")
@@ -394,8 +400,8 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
             add("CAUSAL_SOURCE_NOT_ADMITTED" if kind == "CAUSAL" else "MECHANISM_SOURCE_NOT_ADMITTED",
                 f"{path}.source_ids", "physical/causal claim needs an approved-scope domain reference")
         if kind in {"MECHANISM", "CAUSAL"}:
-            passage_ids = claim.get("source_passage_ids", [])
-            if not isinstance(passage_ids, list) or not passage_ids:
+            passage_ids = passage_refs
+            if not passage_ids:
                 add("SOURCE_PASSAGE_REQUIRED", f"{path}.source_passage_ids", "mechanism/causal claims must cite registered source passage IDs; free-text locators are not sufficient")
                 locators = claim.get("source_locators")
                 if not isinstance(locators, dict) or not any(isinstance(locators.get(sid), str) and locators[sid].strip() for sid in sources):
