@@ -463,6 +463,27 @@
         }
       ],
       "related_terms": []
+    },
+    {
+      "term_id": "mmod_strike",
+      "preferred_zh": "微流星体或轨道碎片撞击",
+      "preferred_en": "Micrometeoroid or Orbital Debris (MMOD) Impact",
+      "definition_zh": "由微流星体或轨道碎片高速撞击航天器结构或部件引起的损伤事件。具体损伤形态和影响范围需由遥测、结构检查或其他独立证据确定。",
+      "status": "SOURCE_BOUNDED_HYPOTHESIS",
+      "source_ids": [
+        "NASA_TERRA_ANOMALY_SUMMARY_2014"
+      ],
+      "source_passage_ids": [
+        "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS"
+      ],
+      "aliases": [
+        {
+          "text": "MMOD撞击",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "工程语境常用缩写表达，正式首次出现时建议给出全称。"
+        }
+      ],
+      "related_terms": []
     }
   ],
   "forbidden_phrases": [
