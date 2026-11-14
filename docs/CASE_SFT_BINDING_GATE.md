@@ -28,6 +28,7 @@ with `gold_eligible=false`. Never treat that result as expert approval.
 The strict preflight requires:
 - Each Case and SFT object to pass its current semantic and JSON Schema gates.
 - Identical case ID, task type, and physical incident family (`source_group`).
+- An exact, versioned safe system prompt and user preamble: arbitrary instructions before the JSON (including a hidden answer, override or fabricated expert verdict) are refused. At present only the reviewed Chinese illustration template is allowed; adding new languages requires explicit source review and regression tests.
 - One trailing JSON case packet in the SFT user message with **exactly** the
   keys `case_id`, `task_type`, `instruction`, `input`; the entire input must
   match the source Case, including ML scores and their uncalibrated semantics,
@@ -52,8 +53,9 @@ individual results to the public repository.
 An exact match can still reproduce a poor or unauthorized source Case. This
 gate **cannot** verify truth, privacy permission, algorithm score calibration,
 expert independence, source-log authenticity, near-duplicate event families,
-causal correctness or whether narrative text *outside* JSON contains semantic
-answer contamination. Existing lineage auditing remains mandatory, and Gold
+causal correctness or whether log/knowledge content *inside* the bound source JSON contains
+instruction injection or a semantically leaked expert answer. It does reject
+unaudited text outside the JSON and unaudited system instructions. Existing lineage auditing remains mandatory, and Gold
 still requires real case-source checks and independent expert sign-off.
 
 The shipped fixture and all unit tests are **SYNTHETIC/ILLUSTRATIVE** only.

@@ -17,6 +17,15 @@ from .diagnostic_context import (
 )
 
 
+# Versioned and explicitly reviewed instructional channel templates. Arbitrary
+# preambles/system messages can reveal the answer while the JSON case packet
+# still binds exactly; only enumerated templates may precede the case input.
+_SYSTEM_TEMPLATE_ZH_V1 = "你是航天器故障研判助手。仅依据提供的机器诊断结果、诊断日志、运行上下文、历史案例和知识证据进行综合研判。不得将未校准分数解释为概率，不得把候选结论写成确诊；区分故障源部件与受影响部件。"
+_USER_PREAMBLE_ZH_V1 = "请仅根据以下上游机器诊断结果、日志和航天器任务上下文进行二次研判，保留证据缺口、矛盾、候选状态和未校准分数语义。原始遥测由上游机器学习算法处理；本任务不提供原始遥测。\n\n"
+_ALLOWED_SYSTEM_TEMPLATES = frozenset({_SYSTEM_TEMPLATE_ZH_V1})
+_ALLOWED_USER_PREAMBLES = frozenset({_USER_PREAMBLE_ZH_V1})
+
+
 class CaseSftBindingError(ValueError):
     """Payload-free rejection code; never includes restricted case content."""
 
@@ -82,6 +91,16 @@ def verify_case_sft_binding(case: dict[str, Any], example: dict[str, Any]) -> di
         validate_sft_example(example)
     except (DiagnosticContextValidationError, TypeError, KeyError, ValueError):
         _fail("INVALID_SFT_EXAMPLE")
+
+    # Both instruction-bearing channels must use a reviewed static template.
+    # Otherwise the preamble or system role could leak the target even though
+    # the trailing JSON packet still matches the source byte-for-byte.
+    if example["messages"][0]["content"] not in _ALLOWED_SYSTEM_TEMPLATES:
+        _fail("UNAPPROVED_SYSTEM_PROMPT_TEMPLATE")
+    user_content = example["messages"][1]["content"]
+    packet_start = user_content.find("{")
+    if packet_start < 0 or user_content[:packet_start] not in _ALLOWED_USER_PREAMBLES:
+        _fail("UNAPPROVED_USER_PROMPT_PREAMBLE")
 
     if example["case_ref"] != case["case_id"]:
         _fail("CASE_REFERENCE_MISMATCH")
