@@ -13,6 +13,7 @@ from dgsi.skill_eval import (
     blind_pair,
     extract_output_text,
     extract_skill_treatment,
+    generation_order,
     map_blind_scores,
     validate_candidate_against_case,
     validate_live_config,
