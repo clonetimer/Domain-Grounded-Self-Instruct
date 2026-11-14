@@ -32,7 +32,7 @@ No run is admitted in v0.1. The public registry intentionally has runs: []. AAS 
 - Solar-array current reduction does not by itself prove a cell failure; check illumination, temperature, array topology, bus state and regulation.
 - A distribution switch/SSPC state bit may differ from its physical conduction state.
 - Distinguish an observed event, a likely cause, a hypothesis and a counterfactual failure analysis.
-- Preserve WMAP's unresolved root cause, TERRA's simultaneous battery/heater anomalies, NOAA-13's surmised ground short, and IMAGE's counterfactual battery/array hypotheses.
+- Preserve WMAP's unresolved root cause, TERRA's suspected common MMOD cause without claiming a confirmed impact location, NOAA-13's surmised ground short, and IMAGE's counterfactual battery/array hypotheses.
 
 ## Mandatory review workflow
 
