@@ -35,70 +35,6 @@
       ]
     },
     {
-      "case_id": "H02_KEPLER_WHEEL_MECHANISM_ABSTENTION",
-      "domain": "adcs",
-      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "KEPLER_TWO_REACTION_WHEELS_FAILED"
-      ],
-      "term_ids": [
-        "reaction_wheel",
-        "fault_source",
-        "uncertainty"
-      ],
-      "task_prompt": "Using the NASA Kepler mission update, draft one diagnostic seed for the loss of two of four reaction wheels. The first wheel was lost in July 2012 and the second in May 2013; recovery attempts were unsuccessful. The NASA release does not disclose the internal physical failure mechanism. Distinguish the confirmed component-level event from what remains unknown.",
-      "expected_behaviors": [
-        "Report two reaction-wheel failures as documented.",
-        "Do not invent bearing wear, lubricant loss, motor winding failure, electronics failure or a radiation mechanism.",
-        "Distinguish the original mission's three-wheel precision-pointing requirement from the later two-wheel-plus-thruster mission concept.",
-        "Mark the internal failure mechanism as undisclosed/unknown, not diagnosed.",
-        "Do not claim both wheels failed simultaneously."
-      ]
-    },
-    {
-      "case_id": "H03_SWIFT_WHEEL_PRELIMINARY_MECHANISM",
-      "domain": "adcs",
-      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "SWIFT_WHEEL5_PRELIMINARY_MECHANICAL_FAILURE"
-      ],
-      "term_ids": [
-        "reaction_wheel",
-        "fault_mode",
-        "uncertainty"
-      ],
-      "task_prompt": "Using NASA/GSFC GCN Circular 31547, draft one seed about Swift reaction wheel #5 of 6 entering failure and the mission preparing five-wheel operations. The update says the failure mode is believed mechanical based on preliminary analysis. Preserve the strength and limits of that evidence.",
-      "expected_behaviors": [
-        "Preserve 'believed mechanical' and 'preliminary analysis'; do not upgrade to confirmed mechanical root cause.",
-        "Do not name a specific bearing, rotor, lubricant, motor or electronics failure not stated in the circular.",
-        "Keep the failed wheel localized to wheel #5, not the entire ADCS.",
-        "Distinguish the safe-hold/reconfiguration response from the physical failure mechanism."
-      ]
-    },
-    {
-      "case_id": "H04_INTEGRAL_TWO_EVENT_CAUSAL_SPLIT",
-      "domain": "adcs",
-      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "INTEGRAL_WHEEL_STOP_RADIATION_BELT_TRIGGER",
-        "INTEGRAL_STAR_TRACKER_OCCULTATION_SECOND_SPIN"
-      ],
-      "term_ids": [
-        "reaction_wheel",
-        "star_tracker",
-        "uncertainty",
-        "fault_source"
-      ],
-      "task_prompt": "Using the ESA Integral operational report, draft one seed that separates two attitude anomalies: the initial unexpected stop of one active reaction wheel, which ESA associated with charged particles trapped in Earth's radiation belts; and a later recurrence of spacecraft rotation after the wheel was reactivated, which ESA said was not completely understood but thought associated with star-tracker occultation/blinding.",
-      "expected_behaviors": [
-        "Separate the initial reaction-wheel stop from the later recurrence as two events.",
-        "Preserve the radiation-belt trigger as an ESA association/likely explanation, not a proven microscopic wheel failure mechanism.",
-        "Preserve star-tracker occultation/blinding as a tentative explanation for the second event, not the confirmed cause of the initial wheel stop.",
-        "Do not claim a solar flare caused the event; ESA says no relevant solar-weather activity was observed.",
-        "Distinguish the reaction wheel's reactivation from resolution of the later attitude-control behavior."
-      ]
-    },
-    {
       "case_id": "H05_SEASAT_SLIP_RING_PROGRESSIVE_SHORT",
       "domain": "eps",
       "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
@@ -118,6 +54,27 @@
         "Keep the exact initiating path unresolved among wire-to-brush contact, brush-to-brush contact or contaminant bridging.",
         "Explain the power-system loss as a system effect without inventing a specific measured voltage/current trace.",
         "Do not collapse the broad arc mechanism and the uncertain initiator into a single proven microscopic cause."
+      ]
+    },
+    {
+      "case_id": "H02_KEPLER_WHEEL_MECHANISM_ABSTENTION",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "KEPLER_TWO_REACTION_WHEELS_FAILED"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_source",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the NASA Kepler mission update, draft one diagnostic seed for the loss of two of four reaction wheels. The first wheel was lost in July 2012 and the second in May 2013; recovery attempts were unsuccessful. The NASA release does not disclose the internal physical failure mechanism. Distinguish the confirmed component-level event from what remains unknown.",
+      "expected_behaviors": [
+        "Report two reaction-wheel failures as documented.",
+        "Do not invent bearing wear, lubricant loss, motor winding failure, electronics failure or a radiation mechanism.",
+        "Distinguish the original mission's three-wheel precision-pointing requirement from the later two-wheel-plus-thruster mission concept.",
+        "Mark the internal failure mechanism as undisclosed/unknown, not diagnosed.",
+        "Do not claim both wheels failed simultaneously."
       ]
     },
     {
@@ -142,6 +99,26 @@
       ]
     },
     {
+      "case_id": "H03_SWIFT_WHEEL_PRELIMINARY_MECHANISM",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "SWIFT_WHEEL5_PRELIMINARY_MECHANICAL_FAILURE"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_mode",
+        "uncertainty"
+      ],
+      "task_prompt": "Using NASA/GSFC GCN Circular 31547, draft one seed about Swift reaction wheel #5 of 6 entering failure and the mission preparing five-wheel operations. The update says the failure mode is believed mechanical based on preliminary analysis. Preserve the strength and limits of that evidence.",
+      "expected_behaviors": [
+        "Preserve 'believed mechanical' and 'preliminary analysis'; do not upgrade to confirmed mechanical root cause.",
+        "Do not name a specific bearing, rotor, lubricant, motor or electronics failure not stated in the circular.",
+        "Keep the failed wheel localized to wheel #5, not the entire ADCS.",
+        "Distinguish the safe-hold/reconfiguration response from the physical failure mechanism."
+      ]
+    },
+    {
       "case_id": "H07_INTELSAT_IS802_ARRAY_HARNESS",
       "domain": "eps",
       "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
@@ -161,6 +138,29 @@
         "Distinguish reduced electrical power capability and later partial service restoration from the underlying physical mechanism.",
         "Do not merge the IS-802 event with the distinct IS-804 ESD/battery-circuit event in the same filing.",
         "Do not invent the exact conductor, connector or insulation failure mode."
+      ]
+    },
+    {
+      "case_id": "H04_INTEGRAL_TWO_EVENT_CAUSAL_SPLIT",
+      "domain": "adcs",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "INTEGRAL_WHEEL_STOP_RADIATION_BELT_TRIGGER",
+        "INTEGRAL_STAR_TRACKER_OCCULTATION_SECOND_SPIN"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "star_tracker",
+        "uncertainty",
+        "fault_source"
+      ],
+      "task_prompt": "Using the ESA Integral operational report, draft one seed that separates two attitude anomalies: the initial unexpected stop of one active reaction wheel, which ESA associated with charged particles trapped in Earth's radiation belts; and a later recurrence of spacecraft rotation after the wheel was reactivated, which ESA said was not completely understood but thought associated with star-tracker occultation/blinding.",
+      "expected_behaviors": [
+        "Separate the initial reaction-wheel stop from the later recurrence as two events.",
+        "Preserve the radiation-belt trigger as an ESA association/likely explanation, not a proven microscopic wheel failure mechanism.",
+        "Preserve star-tracker occultation/blinding as a tentative explanation for the second event, not the confirmed cause of the initial wheel stop.",
+        "Do not claim a solar flare caused the event; ESA says no relevant solar-weather activity was observed.",
+        "Distinguish the reaction wheel's reactivation from resolution of the later attitude-control behavior."
       ]
     },
     {
