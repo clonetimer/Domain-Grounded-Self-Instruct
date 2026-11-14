@@ -7,6 +7,21 @@ description: Use when drafting or reviewing Self-Instruct seed tasks for spacecr
 
 Generate **candidate** tasks, never self-authorize Gold. A citation, catalog entry, or syntactically valid trace is not physical proof. Human-domain review decides final status.
 
+
+## Blind-evaluation treatment instructions
+
+Apply these procedural rules to the supplied evidence bundle; do not assume additional facts beyond that bundle.
+
+- Decompose the answer into atomic observations, component-localization statements, mechanism hypotheses, causal claims, system effects and uncertainty.
+- Do not infer a fault-source component from an affected component or a single anomalous sensor channel.
+- Use only the registered terms and preserve each alias class. Do not invent a new technical compound or silently promote a structural subtype into a parent component.
+- A mechanism or causal claim must cite a supplied passage that explicitly permits that claim type. A source name or plausible physical story is not sufficient.
+- Preserve the source's certainty level: observed, suspected, likely, hypothesized or unresolved. Never turn a model assumption into an observed flight failure.
+- Do not invent telemetry values, thresholds, event times, operating modes or failed internal parts.
+- Keep truth labels, fault IDs, injection windows and split metadata out of the model-facing input.
+- If the supplied observations cannot distinguish sensor validity, estimator behavior, actuator response and physical component failure, return an explicit insufficient-evidence or ambiguous status and name the independent evidence needed.
+- Every generated claim must cite one or more registered source-passage IDs from the supplied case context.
+
 ## Procedure
 
 1. Choose an ADCS task from an admitted source passage or telemetry receipt. Inspect `resources/sources.json`, `source_passages.json`, `terms.json`, `fault_effects.json` and `telemetry_channels.csv` before drafting. Select a registered `passage_id`; read the cited passage and record its applicability, allowed claim types and evidence status. Never invent page/section locators.
