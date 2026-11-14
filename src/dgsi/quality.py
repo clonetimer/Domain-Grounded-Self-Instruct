@@ -32,6 +32,11 @@ DIAGNOSIS_STATUSES = {
 }
 REVIEW_STATES = {"CANDIDATE", "MACHINE_CHECKED", "HUMAN_REVIEWED", "REJECTED"}
 CLAIM_TYPES = {"OBSERVATION", "MECHANISM", "CAUSAL", "UNCERTAINTY"}
+PASSAGE_CLAIM_TYPES = {
+    "TERMINOLOGY", "COMPONENT_ROLE", "ARCHITECTURE", "MECHANISM", "CAUSAL",
+    "INTERFERENCE", "OBSERVABILITY", "METHODOLOGY", "INDEPENDENCE_REQUIREMENT",
+    "PROJECT_SCHEMA", "PROJECT_DEFINITION", "SIM_VERSION", "SIM_INTERFACE",
+}
 SELF_ATTESTATION = re.compile(r"(?:已经过权威验证|经过权威验证|完全证明|绝对证明|百分之百确定|已获专家一致认可|经严格验证.*正确)")
 CAUSAL_LANGUAGE = re.compile(r"(?:直接导致|必然导致|证明.*?(?:致使|引起)|根因必然是)")
 TRUTH_KEYS = {"fault_id", "fault_type", "fault_mode", "effect_id", "onset_s", "target_role", "split", "group", "truth", "label", "labels", "source_sha256"}
@@ -78,6 +83,9 @@ def load_registry(root: str | Path) -> dict[str, Any]:
             raise ValueError(f"source_passages: missing precise locator in {passage!r}")
         if not isinstance(passage.get("allowed_claim_types"), list) or not passage["allowed_claim_types"]:
             raise ValueError(f"source_passages: missing allowed_claim_types in {passage!r}")
+        unknown_scopes = set(passage["allowed_claim_types"]) - PASSAGE_CLAIM_TYPES
+        if unknown_scopes:
+            raise ValueError(f"source_passages: unknown allowed_claim_types {sorted(unknown_scopes)!r}")
     for name, records, property_name in (
         ("terms", terms.values(), "source_ids"),
         ("effects", effects.values(), "source_id"),
@@ -100,9 +108,16 @@ def load_registry(root: str | Path) -> dict[str, Any]:
     term_surfaces: dict[str, set[str]] = {}
     term_aliases: dict[str, dict[str, dict[str, str]]] = {}
     related_terms: dict[str, list[str]] = {}
-    alias_owners: dict[str, str] = {}
+    surface_owners: dict[str, str] = {}
     for term_id, row in terms.items():
-        surfaces = {row.get("preferred_zh", ""), row.get("preferred_en", "")}
+        preferred = {row.get("preferred_zh", ""), row.get("preferred_en", "")}
+        if any(not isinstance(surface, str) or not surface.strip() for surface in preferred):
+            raise ValueError(f"term {term_id}: preferred_zh and preferred_en must be nonempty")
+        surfaces = set(preferred)
+        for surface in surfaces:
+            if surface in surface_owners and surface_owners[surface] != term_id:
+                raise ValueError(f"ambiguous term surface {surface!r}: assigned to both {surface_owners[surface]} and {term_id}")
+            surface_owners[surface] = term_id
         term_aliases[term_id] = {}
         for alias in row.get("aliases", []):
             if not isinstance(alias, dict):
@@ -110,9 +125,9 @@ def load_registry(root: str | Path) -> dict[str, Any]:
             surface, kind, note = alias.get("text"), alias.get("kind"), alias.get("note")
             if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
                 raise ValueError(f"term {term_id}: malformed or unclassified alias {alias!r}")
-            if surface in alias_owners and alias_owners[surface] != term_id:
-                raise ValueError(f"ambiguous alias {surface!r}: assigned to both {alias_owners[surface]} and {term_id}")
-            alias_owners[surface] = term_id
+            if surface in surface_owners and surface_owners[surface] != term_id:
+                raise ValueError(f"ambiguous term surface {surface!r}: assigned to both {surface_owners[surface]} and {term_id}")
+            surface_owners[surface] = term_id
             term_aliases[term_id][surface] = {"kind": kind, "note": note}
             surfaces.add(surface)
         term_surfaces[term_id] = {surface for surface in surfaces if surface}
