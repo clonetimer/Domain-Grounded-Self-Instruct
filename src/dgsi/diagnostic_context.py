@@ -79,6 +79,59 @@ def _reject_raw_telemetry(value: Any, path: str = "$") -> None:
             _reject_raw_telemetry(child, f"{path}[{index}]")
 
 
+
+def _validate_evidence_reference_integrity(case: dict[str, Any]) -> None:
+    """Check evidence IDs cited by the target against the supplied case packet.
+
+    Machine evidence IDs are *declared* by upstream findings; this gate checks
+    referential consistency, not whether the upstream evidence is authentic.
+    """
+    inputs = case["input"]
+    expected = case["expected_output"]
+    findings = inputs["machine_diagnosis"]["findings"]
+    machine_finding_ids = [item["finding_id"] for item in findings]
+    machine_evidence_ids = {
+        ref for finding in findings for ref in finding.get("supporting_evidence_ids", [])
+    }
+    log_ids = [item["log_id"] for item in inputs["diagnostic_logs"]]
+    knowledge_ids = [item["evidence_id"] for item in inputs.get("knowledge_evidence", [])]
+    history_ids = [item["case_ref"] for item in inputs.get("historical_cases", [])]
+
+    for group, code in (
+        (machine_finding_ids, "DUPLICATE_MACHINE_FINDING_ID"),
+        (knowledge_ids, "DUPLICATE_KNOWLEDGE_EVIDENCE_ID"),
+        (history_ids, "DUPLICATE_HISTORICAL_CASE_REFERENCE"),
+    ):
+        _require(len(group) == len(set(group)), code)
+
+    # All citations must resolve unambiguously to one namespace. Machine
+    # evidence may legitimately support several different upstream findings.
+    groups = [
+        set(machine_finding_ids), machine_evidence_ids,
+        set(log_ids), set(knowledge_ids), set(history_ids),
+    ]
+    seen: set[str] = set()
+    for group in groups:
+        _require(not (seen & group), "AMBIGUOUS_CROSS_SOURCE_EVIDENCE_ID")
+        seen.update(group)
+
+    evidence = expected["evidence_assessment"]
+    refs = [*evidence["supporting_refs"], *evidence["contradicting_refs"]]
+    for candidate in expected["fault_source_assessment"]["candidates"]:
+        refs.extend(candidate["supporting_refs"])
+    _require(all(ref in seen for ref in refs), "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE")
+
+    previous_cases = set(history_ids)
+    _require(
+        all(item["case_ref"] in previous_cases for item in expected.get("historical_experience_relevance", [])),
+        "UNRESOLVED_HISTORICAL_EXPERIENCE_REFERENCE",
+    )
+    _require(
+        all(ref in previous_cases for ref in case["provenance"].get("historical_case_refs", [])),
+        "UNRESOLVED_PROVENANCE_HISTORY_REFERENCE",
+    )
+
+
 def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     """Validate a diagnosis-result/log/context case and return non-fatal warnings."""
     _require(isinstance(case, dict), "case must be an object")
@@ -214,6 +267,7 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
         validate_payload_schema("case", case)
     except SchemaContractError as exc:
         raise DiagnosticContextValidationError(str(exc)) from exc
+    _validate_evidence_reference_integrity(case)
 
     warnings: list[str] = []
     if not logs:
