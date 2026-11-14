@@ -36,6 +36,11 @@ PASSAGE_CLAIM_TYPES = {
     "TERMINOLOGY", "COMPONENT_ROLE", "ARCHITECTURE", "MECHANISM", "CAUSAL",
     "INTERFERENCE", "OBSERVABILITY", "METHODOLOGY", "INDEPENDENCE_REQUIREMENT",
     "PROJECT_SCHEMA", "PROJECT_DEFINITION", "SIM_VERSION", "SIM_INTERFACE",
+    "CASE_HISTORY", "SYSTEM_EFFECT", "HYPOTHESIS", "COUNTERFACTUAL",
+    "STATISTICAL_FINDING", "FAULT_MODEL", "SIMULATION_MODEL", "MEASUREMENT_MODEL",
+    "METHOD", "LIMITATION", "TELEMETRY", "PROTECTION_BEHAVIOR",
+    "FAILURE_MODE", "COMPONENT_LOCALIZATION", "DEGRADATION",
+    "THERMAL_MECHANICAL_INTERACTION", "RADIATION_MECHANISM",
 }
 SELF_ATTESTATION = re.compile(r"(?:已经过权威验证|经过权威验证|完全证明|绝对证明|百分之百确定|已获专家一致认可|经严格验证.*正确)")
 CAUSAL_LANGUAGE = re.compile(r"(?:直接导致|必然导致|证明.*?(?:致使|引起)|根因必然是)")
@@ -153,7 +158,7 @@ def load_registry(root: str | Path) -> dict[str, Any]:
             raise ValueError(f"source_passages: unknown allowed_claim_types {sorted(unknown_scopes)!r}")
     term_catalogs = {
         "adcs": _load_term_catalog(resources, "terms.json", "adcs", sources, source_passages),
-        "epc": _load_term_catalog(resources, "epc_terms.json", "epc", sources, source_passages),
+        "eps": _load_term_catalog(resources, "eps_terms.json", "eps", sources, source_passages),
     }
     for name, records, property_name in (
         ("effects", effects.values(), "source_id"),
@@ -188,6 +193,7 @@ def load_registry(root: str | Path) -> dict[str, Any]:
         "runs": runs,
         "forbidden_phrases": adcs["forbidden_phrases"],
         "approved_compounds": adcs["approved_compounds"],
+        "forbidden_phrases_by_domain": {domain: catalog["forbidden_phrases"] for domain, catalog in term_catalogs.items()},
     }
 
 
@@ -270,8 +276,10 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
             add("REQUIRED_FIELD_MISSING", key, "required field absent")
     if seed.get("schema_version") != "dgsi-seed.v1":
         add("SCHEMA_VERSION_MISMATCH", "schema_version", "expected dgsi-seed.v1")
-    if seed.get("domain") != "adcs":
-        add("DOMAIN_NOT_ADMITTED", "domain", "v1 pilot supports adcs only")
+    domain = seed.get("domain")
+    if domain not in registry.get("term_catalogs", {}):
+        add("DOMAIN_NOT_ADMITTED", "domain", "supported domains are adcs and eps")
+    domain_catalog = registry.get("term_catalogs", {}).get(domain, registry.get("term_catalogs", {}).get("adcs", {}))
     for key in ("seed_id", "instruction", "task_type"):
         if not isinstance(seed.get(key), str) or not seed[key].strip():
             add("INVALID_REQUIRED_TEXT", key, "must be a nonempty string")
@@ -298,10 +306,10 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
         if not isinstance(row, dict) or row.get("channel_id") not in registry["channels"]:
             add("UNKNOWN_CHANNEL", f"input.observations[{i}].channel_id", "channel must exist in curated public catalog")
     for i, term in enumerate(term_ids):
-        if not isinstance(term, str) or term not in registry["terms"]:
-            add("UNKNOWN_TERM", f"term_ids[{i}]", "unknown technical term: require terminology curation")
+        if not isinstance(term, str) or term not in domain_catalog.get("terms", {}):
+            add("UNKNOWN_TERM", f"term_ids[{i}]", f"unknown {domain} technical term: require terminology curation")
     for path, value in _text_fields(seed):
-        for phrase in registry["forbidden_phrases"]:
+        for phrase in domain_catalog.get("forbidden_phrases", []):
             if phrase in value:
                 add("FORBIDDEN_PHRASE", path, f"known coined/non-domain phrase detected: {phrase}")
         if SELF_ATTESTATION.search(value):
@@ -342,7 +350,13 @@ def validate_seed(seed: object, registry: Mapping[str, Any]) -> list[Finding]:
                 if item.get("locator") and item.get("locator") != passage.get("locator"):
                     add("SOURCE_LOCATOR_MISMATCH", f"evidence[{i}].locator", "free-text locator differs from the registered passage locator")
             source = registry["sources"].get(item.get("source_id"), {})
-            if source.get("kind") not in {"OFFICIAL_DOMAIN_REFERENCE", "RESEARCH_PAPER", "USER_LIBRARY_REFERENCE", "SIMULATOR_DOCUMENTATION", "SIMULATOR_RELEASE_NOTES", "RESEARCH_DATASET_REFERENCE"}:
+            if source.get("kind") not in {
+                "OFFICIAL_DOMAIN_REFERENCE", "RESEARCH_PAPER", "USER_LIBRARY_REFERENCE",
+                "SIMULATOR_DOCUMENTATION", "SIMULATOR_RELEASE_NOTES", "RESEARCH_DATASET_REFERENCE",
+                "NASA_FAILURE_REVIEW_REPORT", "NASA_LESSONS_LEARNED_CASE", "OPEN_ACCESS_RESEARCH_CASE",
+                "NASA_PUBLIC_TECHNICAL_PAPER", "NASA_PUBLIC_ENGINEERING_PRESENTATION",
+                "NASA_NESC_TECHNICAL_ASSESSMENT", "NASA_PUBLIC_CASE_REPORT",
+            }:
                 add("DOCUMENT_SOURCE_NOT_ADMITTED", f"evidence[{i}].source_id", "catalog/interface metadata is not document evidence")
     claim_ids: set[str] = set()
     for i, claim in enumerate(claims):
