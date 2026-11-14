@@ -127,5 +127,55 @@ class QualityGateTest(unittest.TestCase):
         self.assertEqual(self.registry["simulation_truth"]["runs"], [])
 
 
+    def test_source_passage_registry_contains_precise_public_locators(self):
+        passage = self.registry["source_passages"]["NASA_MAGNETOMETER_LOCAL_FIELD"]
+        self.assertEqual(passage["source_id"], "NASA_SMALLSAT_GNC")
+        self.assertIn("§5.2.6", passage["locator"])
+        self.assertIn("MECHANISM", passage["allowed_claim_types"])
+
+    def test_free_text_locator_cannot_replace_registered_source_passage(self):
+        case = copy.deepcopy(self.example)
+        case["claims"][0].update({
+            "claim_type": "MECHANISM",
+            "source_ids": ["NASA_SMALLSAT_GNC"],
+            "source_locators": {"NASA_SMALLSAT_GNC": "§5.2.6 Magnetometers, lines 577-584"},
+        })
+        self.assertIn("SOURCE_PASSAGE_REQUIRED", self.codes(case))
+
+    def test_mechanism_claim_rejects_methodology_only_passage(self):
+        case = copy.deepcopy(self.example)
+        case["claims"][0].update({
+            "claim_type": "MECHANISM",
+            "source_ids": ["NASA_NESC_GNC"],
+            "source_passage_ids": ["NASA_NESC_BP5"],
+        })
+        self.assertIn("SOURCE_PASSAGE_SCOPE_MISMATCH", self.codes(case))
+
+    def test_document_excerpt_must_match_registered_passage_source(self):
+        case = copy.deepcopy(self.example)
+        case["evidence"][0].update({
+            "origin": "DOCUMENT_EXCERPT",
+            "source_id": "AAS_CHANNEL_CATALOG",
+            "passage_id": "NASA_MAGNETOMETER_LOCAL_FIELD",
+        })
+        self.assertIn("SOURCE_PASSAGE_SOURCE_MISMATCH", self.codes(case))
+
+    def test_magnetorquer_rod_is_not_an_exact_alias_for_all_magnetorquers(self):
+        self.assertNotIn("磁力矩杆", self.registry["term_surfaces"]["magnetorquer"])
+        self.assertIn("磁力矩杆", self.registry["related_terms"]["magnetorquer"])
+
+    def test_unregistered_technical_compound_is_flagged_for_review(self):
+        case = copy.deepcopy(self.example)
+        case["answer"]["summary"] += " 该现象被命名为星际熵耦合陀螺裂解模式。"
+        self.assertIn("UNREGISTERED_TERM_CANDIDATE", self.codes(case))
+        self.assertEqual(report(case, self.registry)["decision"], "REVIEW_REQUIRED")
+
+    def test_registered_domain_terms_do_not_trigger_compound_review(self):
+        case = copy.deepcopy(self.example)
+        case["answer"]["summary"] += " 星敏感器观测可能受杂散光影响。"
+        self.assertNotIn("UNREGISTERED_TERM_CANDIDATE", self.codes(case))
+
+
+
 if __name__ == "__main__":
     unittest.main()
