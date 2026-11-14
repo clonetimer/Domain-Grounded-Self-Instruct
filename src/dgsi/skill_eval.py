@@ -8,7 +8,6 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import random
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -36,7 +35,7 @@ CANDIDATE_SCHEMA: dict[str, Any] = {
             "type": "string",
             "enum": ["NORMAL", "DIAGNOSED", "AMBIGUOUS", "INSUFFICIENT_EVIDENCE", "UNKNOWN_FAULT"],
         },
-        "fault_source_component": {"type": "string"},
+        "fault_source_component": {"type": ["string", "null"]},
         "claims": {
             "type": "array",
             "items": {
@@ -101,9 +100,8 @@ JUDGE_SCHEMA: dict[str, Any] = {
 }
 
 BASELINE_SYSTEM = (
-    "You create one candidate instruction-data seed for spacecraft ADCS fault diagnosis. "
-    "Use only the supplied task and registered evidence context. Do not invent citations, "
-    "fault modes, physical mechanisms, or human-review claims. Return the requested JSON schema."
+    "Create one candidate instruction-data seed for the supplied spacecraft ADCS task. "
+    "Follow the task prompt and the required output schema. Return only the requested JSON object."
 )
 
 JUDGE_SYSTEM = (
@@ -127,6 +125,8 @@ RUBRIC = {
 def validate_live_config(
     generator_model: str,
     judge_model: str,
+    generator_family: str,
+    judge_family: str,
     api_key: str,
     independence_note: str = "",
 ) -> None:
@@ -134,6 +134,10 @@ def validate_live_config(
         raise ValueError("DGSI_GENERATOR_MODEL and DGSI_JUDGE_MODEL are required")
     if generator_model.strip() == judge_model.strip():
         raise ValueError("generator and judge model IDs must be different")
+    if not generator_family.strip() or not judge_family.strip():
+        raise ValueError("DGSI_GENERATOR_FAMILY and DGSI_JUDGE_FAMILY are required")
+    if generator_family.strip().casefold() == judge_family.strip().casefold():
+        raise ValueError("generator and judge model families must be different")
     if not api_key.strip():
         raise ValueError("OPENAI_API_KEY is required for live evaluation")
     if not independence_note.strip():
@@ -326,12 +330,14 @@ def run_live_evaluation(
     output_path: Path,
     generator_model: str,
     judge_model: str,
+    generator_family: str,
+    judge_family: str,
     api_key: str,
     independence_note: str,
     seed: int = 20261114,
     limit: int = 10,
 ) -> dict[str, Any]:
-    validate_live_config(generator_model, judge_model, api_key, independence_note)
+    validate_live_config(generator_model, judge_model, generator_family, judge_family, api_key, independence_note)
     if limit <= 0:
         raise ValueError("limit must be positive")
     output_path = validate_output_path(root, output_path)
@@ -350,6 +356,8 @@ def run_live_evaluation(
         "created_at": datetime.now(timezone.utc).isoformat(),
         "generator_model": generator_model,
         "judge_model": judge_model,
+        "generator_family": generator_family,
+        "judge_family": judge_family,
         "judge_independence_note": independence_note,
         "seed": seed,
         "case_count": len(cases),
@@ -435,7 +443,12 @@ def run_live_evaluation(
         with output_path.open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-    summary: dict[str, Any] = {"case_count": len(records), "conditions": {}}
+    summary: dict[str, Any] = {
+        "case_count": len(records),
+        "conditions": {},
+        "paired_mean_delta": {},
+        "preferred_condition_counts": {"baseline": 0, "treatment": 0, "TIE": 0},
+    }
     for condition in ("baseline", "treatment"):
         totals = {field: 0 for field in SCORE_FIELDS}
         failures = 0
@@ -448,6 +461,15 @@ def run_live_evaluation(
             "mean_scores": {field: round(totals[field] / max(len(records), 1), 3) for field in SCORE_FIELDS},
             "critical_failure_count": failures,
         }
+    for field in SCORE_FIELDS:
+        delta = sum(
+            record["scores_by_condition"]["treatment"][field] - record["scores_by_condition"]["baseline"][field]
+            for record in records
+        )
+        summary["paired_mean_delta"][field] = round(delta / max(len(records), 1), 3)
+    for record in records:
+        preferred = record["preferred_condition"]
+        summary["preferred_condition_counts"][preferred] += 1
     summary_record = {"record_type": "run_summary", "run_status": "COMPLETED", "summary": summary}
     with output_path.open("a", encoding="utf-8") as stream:
         stream.write(json.dumps(summary_record, ensure_ascii=False) + "\n")
