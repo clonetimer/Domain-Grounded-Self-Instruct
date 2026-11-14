@@ -2,7 +2,13 @@ import json
 import unittest
 from pathlib import Path
 
-from dgsi.diagnostic_context import (\n    DiagnosticContextValidationError,\n    audit_split_groups,\n    validate_diagnostic_case,\n    validate_sft_example,\n)\n
+from dgsi.diagnostic_context import (
+    DiagnosticContextValidationError,
+    audit_split_groups,
+    validate_diagnostic_case,
+    validate_sft_example,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
