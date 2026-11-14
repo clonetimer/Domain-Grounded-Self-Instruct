@@ -212,10 +212,11 @@ def blind_pair(seed: int, case_id: str, baseline: Any, treatment: Any) -> dict[s
     }
 
 
-def generation_order(seed: int, case_id: str) -> list[str]:
-    """Deterministically counterbalance which condition is generated first."""
-    digest = hashlib.sha256(f"generation:{seed}:{case_id}".encode("utf-8")).digest()
-    return ["baseline", "treatment"] if digest[0] % 2 == 0 else ["treatment", "baseline"]
+def generation_order(seed: int, case_id: str, position: int = 0) -> list[str]:
+    """Alternate condition order by frozen case position to guarantee suite balance."""
+    if position < 0:
+        raise ValueError("position must be non-negative")
+    return ["baseline", "treatment"] if position % 2 == 0 else ["treatment", "baseline"]
 
 
 def map_blind_scores(judged: Mapping[str, Any], pair: Mapping[str, Any]) -> dict[str, Any]:
@@ -549,7 +550,7 @@ def run_live_evaluation(
     api_calls_completed = 0
     current_case_id: str | None = None
     try:
-        for case in cases:
+        for case_index, case in enumerate(cases):
             current_case_id = case["case_id"]
             context = _case_context(root, case)
             skill_path = case.get("skill_path", "skills/adcs-gold-seed-curation/SKILL.md")
@@ -559,7 +560,7 @@ def run_live_evaluation(
                 ensure_ascii=False,
                 sort_keys=True,
             )
-            generation_sequence = generation_order(seed, current_case_id)
+            generation_sequence = generation_order(seed, current_case_id, case_index)
             generated: dict[str, dict[str, Any]] = {}
             for condition in generation_sequence:
                 system_prompt = BASELINE_SYSTEM
