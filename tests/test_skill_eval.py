@@ -230,6 +230,23 @@ class SkillEvalTest(unittest.TestCase):
 
 
 
+    def test_all_public_literature_cases_resolve_domain_terms_and_passages(self):
+        from dgsi.skill_eval import _case_context
+
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        self.assertEqual(len(cases), 13)
+        self.assertEqual(sum(case["domain"] == "adcs" for case in cases), 6)
+        self.assertEqual(sum(case["domain"] == "eps" for case in cases), 7)
+        for case in cases:
+            context = _case_context(root, case)
+            self.assertEqual(context["domain"], case["domain"])
+            self.assertTrue(context["terms"])
+            self.assertTrue(context["source_passages"])
+            self.assertTrue(all(passage["claim_boundary"] for passage in context["source_passages"]))
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
