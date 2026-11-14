@@ -493,6 +493,9 @@ class SkillEvalTest(unittest.TestCase):
             self.assertEqual(result["metadata"]["suite_file"], "skill_holdout_cases.json")
             self.assertEqual(result["metadata"]["case_ids"], [case["case_id"]])
             self.assertEqual(result["metadata"]["api_calls_completed"], 3)
+            self.assertEqual(len(result["metadata"]["sources_registry_sha256"]), 64)
+            self.assertEqual(len(result["metadata"]["source_passages_sha256"]), 64)
+            self.assertEqual(len(result["metadata"]["cases_sha256"]), 64)
             generator_calls = [call for call in calls if call["schema_name"] == "spacecraft_fault_seed_candidate"]
             self.assertEqual(len(generator_calls), 2)
             self.assertTrue(all("expected_behaviors" not in call["user_prompt"] for call in generator_calls))
