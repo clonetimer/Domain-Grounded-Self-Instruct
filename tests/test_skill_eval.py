@@ -203,11 +203,13 @@ class SkillEvalTest(unittest.TestCase):
                 )
             records = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(calls), 3)
-            self.assertEqual(calls[0]["system_prompt"], BASELINE_SYSTEM)
-            self.assertNotIn("Do not invent citations", calls[0]["system_prompt"])
-            self.assertIn("Apply only these additional procedural treatment instructions", calls[1]["system_prompt"])
-            self.assertEqual(calls[0]["user_prompt"], calls[1]["user_prompt"])
-            self.assertNotIn("Core public sources include", calls[1]["system_prompt"])
+            generator_calls = [call for call in calls if call["schema_name"] == "spacecraft_fault_seed_candidate"]
+            baseline_call = next(call for call in generator_calls if call["system_prompt"] == BASELINE_SYSTEM)
+            treatment_call = next(call for call in generator_calls if "Apply only these additional procedural treatment instructions" in call["system_prompt"])
+            self.assertNotIn("Do not invent citations", baseline_call["system_prompt"])
+            self.assertEqual(baseline_call["user_prompt"], treatment_call["user_prompt"])
+            self.assertNotIn("Core public sources include", treatment_call["system_prompt"])
+            self.assertEqual(result["metadata"]["api_calls_completed"], 3)
             self.assertEqual(records[-1]["record_type"], "run_summary")
             self.assertEqual(records[-1]["run_status"], "COMPLETED")
             self.assertEqual(result["metadata"]["generator_family"], "gpt-6-astra-family")
@@ -375,6 +377,16 @@ class SkillEvalTest(unittest.TestCase):
             self.assertEqual(records[-1]["record_type"], "run_failure")
             self.assertEqual(records[-1]["completed_case_count"], 0)
             self.assertEqual(records[-1]["error_type"], "RuntimeError")
+
+
+
+    def test_generation_order_is_counterbalanced_across_case_suite(self):
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        orders = [tuple(generation_order(20261114, case["case_id"])) for case in cases]
+        self.assertEqual(set(orders), {("baseline", "treatment"), ("treatment", "baseline")})
+        self.assertGreaterEqual(orders.count(("baseline", "treatment")), 4)
+        self.assertGreaterEqual(orders.count(("treatment", "baseline")), 4)
 
 
 
