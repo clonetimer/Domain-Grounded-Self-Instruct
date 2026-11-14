@@ -5,8 +5,10 @@ from pathlib import Path
 import subprocess
 import sys
 import unittest
+import tempfile
 
 from dgsi.skill_eval import (
+    CANDIDATE_SCHEMA,
     build_response_request,
     blind_pair,
     extract_output_text,
@@ -119,6 +121,86 @@ class SkillEvalTest(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         output = validate_output_path(root, root / "reports" / "skill_blind_eval" / "pilot.jsonl")
         self.assertEqual(output, root / "reports" / "skill_blind_eval" / "pilot.jsonl")
+
+
+
+    def test_live_config_rejects_same_model_family_even_when_model_ids_differ(self):
+        with self.assertRaisesRegex(ValueError, "model families must be different"):
+            validate_live_config(
+                "gpt-6-astra",
+                "gpt-6.1-sol",
+                "gpt-6",
+                "gpt-6",
+                "key",
+                "separate judge family",
+            )
+
+    def test_candidate_schema_allows_no_fault_source_when_abstaining(self):
+        self.assertEqual(
+            CANDIDATE_SCHEMA["properties"]["fault_source_component"]["type"],
+            ["string", "null"],
+        )
+
+    def test_live_runner_uses_neutral_baseline_and_writes_completion_record(self):
+        from unittest.mock import patch
+        from dgsi.skill_eval import BASELINE_SYSTEM, run_live_evaluation
+
+        root = Path(__file__).resolve().parents[1]
+        candidate = {
+            "instruction": "诊断任务",
+            "input": "假设观测",
+            "answer": "证据不足",
+            "diagnostic_status": "INSUFFICIENT_EVIDENCE",
+            "fault_source_component": None,
+            "claims": [],
+            "term_mentions": [],
+            "uncertainty": "缺少独立证据",
+        }
+        score = {
+            "terminology": 2,
+            "evidence_traceability": 2,
+            "causal_calibration": 2,
+            "self_attestation_control": 2,
+            "truth_leakage_control": 2,
+            "abstention": 2,
+            "critical_failures": [],
+        }
+        judge = {
+            "candidate_a": score,
+            "candidate_b": score,
+            "preferred_candidate": "TIE",
+            "rationale": "两者表现相同",
+        }
+        calls = []
+
+        def fake_api_call(**kwargs):
+            calls.append(kwargs)
+            return judge if kwargs["schema_name"] == "blind_candidate_scores" else candidate
+
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "blind.jsonl"
+            with patch("dgsi.skill_eval._api_call_for_json", side_effect=fake_api_call):
+                result = run_live_evaluation(
+                    root=root,
+                    output_path=output,
+                    generator_model="gpt-6-astra",
+                    judge_model="gpt-6.1-sol",
+                    generator_family="gpt-6-astra-family",
+                    judge_family="gpt-6.1-sol-family",
+                    api_key="test-key",
+                    independence_note="A separate model family is used as judge.",
+                    limit=1,
+                )
+            records = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(len(calls), 3)
+            self.assertEqual(calls[0]["system_prompt"], BASELINE_SYSTEM)
+            self.assertNotIn("Do not invent citations", calls[0]["system_prompt"])
+            self.assertIn("Apply this additional domain-grounding Skill", calls[1]["system_prompt"])
+            self.assertEqual(records[-1]["record_type"], "run_summary")
+            self.assertEqual(records[-1]["run_status"], "COMPLETED")
+            self.assertEqual(result["metadata"]["generator_family"], "gpt-6-astra-family")
+            self.assertEqual(result["metadata"]["judge_family"], "gpt-6.1-sol-family")
+            self.assertEqual(result["summary"]["paired_mean_delta"]["terminology"], 0.0)
 
 
 
