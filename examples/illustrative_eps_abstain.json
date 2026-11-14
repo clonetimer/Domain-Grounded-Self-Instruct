@@ -1,0 +1,76 @@
+{
+  "schema_version": "dgsi-seed.v1",
+  "seed_id": "DEMO-EPS-ABSTAIN-001",
+  "domain": "eps",
+  "task_type": "fault_diagnosis",
+  "instruction": "仅依据公开资料中给出的电池单体电压异常描述，判断能否确定具体失效机理；证据不足时明确说明需要补充哪些独立证据。",
+  "input": {
+    "kind": "HYPOTHETICAL",
+    "context": "根据NASA NESC公开WMAP电池评估报告构造的文献理解示例，不包含原始飞行遥测，也不代表新的在轨故障事件。",
+    "observations": []
+  },
+  "answer": {
+    "status": "INSUFFICIENT_EVIDENCE",
+    "effect_id": null,
+    "summary": "公开报告记录了NiH2电池单体电压塌陷，但NESC团队未能确定唯一根因。电解液桥接是团队提出的共识理论，不能据此把该事件标记为已确认的内部短路。若要区分电解液迁移、单体自放电及其他电化学退化机制，还需要单体级电压、温度、压力、充电历史和可比试验结果。",
+    "evidence_ids": [
+      "E_EPS_DEMO_01"
+    ],
+    "limitations": [
+      "本例仅用于检验文献证据边界，不包含原始遥测或经核验的仿真真值。"
+    ]
+  },
+  "evidence": [
+    {
+      "evidence_id": "E_EPS_DEMO_01",
+      "origin": "DOCUMENT_EXCERPT",
+      "source_id": "NASA_WMAP_BATTERY_2010",
+      "passage_id": "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
+      "statement": "NASA NESC报告记录了WMAP NiH2电池多个单体的电压下降；报告指出1.4 V下降与单体完全自放电相符，但团队未确定唯一根因，电解液桥接仅为团队共识理论。",
+      "independence_group": "NASA_WMAP_REPORT"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "C_EPS_DEMO_01",
+      "claim_type": "OBSERVATION",
+      "text": "公开报告记录了WMAP电池单体电压下降事件。",
+      "source_ids": [
+        "NASA_WMAP_BATTERY_2010"
+      ],
+      "evidence_ids": [
+        "E_EPS_DEMO_01"
+      ]
+    },
+    {
+      "claim_id": "C_EPS_DEMO_02",
+      "claim_type": "UNCERTAINTY",
+      "text": "电解液桥接是团队提出的共识理论，并非经确认的唯一根因。",
+      "source_ids": [
+        "NASA_WMAP_BATTERY_2010"
+      ],
+      "evidence_ids": [
+        "E_EPS_DEMO_01"
+      ]
+    }
+  ],
+  "term_ids": [
+    "eps",
+    "battery",
+    "battery_cell",
+    "battery_cell_voltage_collapse",
+    "electrolyte_bridging"
+  ],
+  "provenance": {
+    "generation_mode": "ILLUSTRATIVE_HUMAN_AUTHORED",
+    "trace_used": false,
+    "truth_in_prompt": false
+  },
+  "review": {
+    "status": "CANDIDATE",
+    "reviewer_id": null,
+    "reviewed_at": null,
+    "decision": null,
+    "review_mode": null
+  }
+}
