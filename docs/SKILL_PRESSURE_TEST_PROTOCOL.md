@@ -38,7 +38,7 @@ The suite is resources/skill_pressure_cases.json, currently **13 cases: 6 ADCS +
 | E02 | IDEASSat on-orbit anomaly analysis | Likely EPS reset-circuit inverter issue vs SEL as a proposed mechanism |
 | E03 | NASA NOAA-13 Lessons Learned | Observed no-charge condition vs surmised solar-array bus-to-ground short |
 | E04 | NASA TDRS-8 power status | Solar-array circuit failures, BVL parasitic shunting and battery underperformance are separate conditions |
-| E05 | NASA TERRA battery thermal-control anomaly | Simultaneous battery-cell and heater-control anomalies; no invented causal direction |
+| E05 | NASA TERRA battery thermal-control anomaly + 2014 NASA status summary | Cell #50 failure and heater-group control loss; preserve suspected common MMOD cause without claiming confirmed impact location |
 | E06 | NASA WMAP NESC battery assessment | Cell voltage collapse vs unresolved root cause / electrolyte-bridging consensus theory |
 | E07 | NASA IMAGE FRB alternative analyses | Battery and solar-array alternatives are counterfactuals, not observed IMAGE failures |
 
