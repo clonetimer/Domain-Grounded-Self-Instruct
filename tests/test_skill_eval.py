@@ -12,7 +12,9 @@ from dgsi.skill_eval import (
     build_response_request,
     blind_pair,
     extract_output_text,
+    extract_skill_treatment,
     map_blind_scores,
+    validate_candidate_against_case,
     validate_live_config,
     validate_output_path,
 )
@@ -195,7 +197,9 @@ class SkillEvalTest(unittest.TestCase):
             self.assertEqual(len(calls), 3)
             self.assertEqual(calls[0]["system_prompt"], BASELINE_SYSTEM)
             self.assertNotIn("Do not invent citations", calls[0]["system_prompt"])
-            self.assertIn("Apply this additional domain-grounding Skill", calls[1]["system_prompt"])
+            self.assertIn("Apply only these additional procedural treatment instructions", calls[1]["system_prompt"])
+            self.assertEqual(calls[0]["user_prompt"], calls[1]["user_prompt"])
+            self.assertNotIn("Core public sources include", calls[1]["system_prompt"])
             self.assertEqual(records[-1]["record_type"], "run_summary")
             self.assertEqual(records[-1]["run_status"], "COMPLETED")
             self.assertEqual(result["metadata"]["generator_family"], "gpt-6-astra-family")
@@ -244,6 +248,97 @@ class SkillEvalTest(unittest.TestCase):
             self.assertTrue(context["terms"])
             self.assertTrue(context["source_passages"])
             self.assertTrue(all(passage["claim_boundary"] for passage in context["source_passages"]))
+
+
+
+    def test_skill_treatment_extraction_excludes_domain_reference_sections(self):
+        root = Path(__file__).resolve().parents[1]
+        skill = (root / "skills" / "eps-gold-seed-curation" / "SKILL.md").read_text(encoding="utf-8")
+        treatment = extract_skill_treatment(skill)
+        self.assertIn("preserve the source's certainty", treatment)
+        self.assertNotIn("NASA IMAGE Failure Review Board", treatment)
+        self.assertNotIn("Quick checks", treatment)
+
+    def test_skill_treatment_extraction_rejects_missing_or_duplicate_section(self):
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            extract_skill_treatment("# no treatment section")
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            extract_skill_treatment("## Blind-evaluation treatment instructions\nA\n## Blind-evaluation treatment instructions\nB")
+
+    def test_candidate_preflight_rejects_passage_outside_case_bundle(self):
+        from dgsi.skill_eval import _case_context
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        case = next(item for item in cases if item["case_id"] == "E01_IMAGE_SSPC_INSTANT_TRIP")
+        context = _case_context(root, case)
+        candidate = {
+            "claims": [{
+                "claim_type": "OBSERVATION",
+                "text": "unsupported passage",
+                "source_passage_ids": ["WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"],
+            }],
+            "term_mentions": [],
+        }
+        findings = validate_candidate_against_case(candidate, case, context)
+        self.assertIn("PASSAGE_OUTSIDE_CASE_BUNDLE", {item["code"] for item in findings})
+
+    def test_candidate_preflight_rejects_claim_scope_mismatch(self):
+        from dgsi.skill_eval import _case_context
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        case = next(item for item in cases if item["case_id"] == "E06_WMAP_CELL_COLLAPSE")
+        context = _case_context(root, case)
+        candidate = {
+            "claims": [{
+                "claim_type": "CAUSAL",
+                "text": "the report proves a cause",
+                "source_passage_ids": ["WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"],
+            }],
+            "term_mentions": [],
+        }
+        findings = validate_candidate_against_case(candidate, case, context)
+        self.assertIn("CLAIM_SCOPE_MISMATCH", {item["code"] for item in findings})
+
+    def test_candidate_preflight_checks_term_alias_class(self):
+        from dgsi.skill_eval import _case_context
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        case = next(item for item in cases if item["case_id"] == "A02_NEOSSAT_TORQUER_MCU")
+        context = _case_context(root, case)
+        candidate = {
+            "claims": [],
+            "term_mentions": [{
+                "surface": "磁力矩杆",
+                "term_id": "magnetorquer",
+                "relation": "EXACT_ALIAS",
+            }],
+        }
+        findings = validate_candidate_against_case(candidate, case, context)
+        self.assertIn("TERM_RELATION_MISMATCH", {item["code"] for item in findings})
+        self.assertIn("MISSING_CLAIMS", {item["code"] for item in findings})
+
+    def test_candidate_preflight_accepts_case_passage_and_preferred_term(self):
+        from dgsi.skill_eval import _case_context
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        case = next(item for item in cases if item["case_id"] == "E01_IMAGE_SSPC_INSTANT_TRIP")
+        context = _case_context(root, case)
+        candidate = {
+            "claims": [{
+                "claim_type": "OBSERVATION",
+                "text": "The report describes an SSPC instant trip.",
+                "source_passage_ids": ["IMAGE_SSPC_SEU_INSTANT_TRIP"],
+            }],
+            "term_mentions": [{
+                "surface": "固态功率控制器",
+                "term_id": "solid_state_power_controller",
+                "relation": "PREFERRED",
+            }],
+        }
+        self.assertEqual(validate_candidate_against_case(candidate, case, context), [])
+
+    def test_candidate_schema_requires_at_least_one_claim(self):
+        self.assertEqual(CANDIDATE_SCHEMA["properties"]["claims"]["minItems"], 1)
 
 
 
