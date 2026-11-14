@@ -488,6 +488,7 @@ def run_live_evaluation(
     if not cases_file.is_file():
         raise ValueError(f"case suite does not exist: {suite_file}")
     passages_file = root / "resources" / "source_passages.json"
+    sources_file = root / "resources" / "sources.json"
     cases_payload = _load_json(cases_file)
     cases = cases_payload["cases"][:limit]
     if not cases:
@@ -546,6 +547,7 @@ def run_live_evaluation(
         "term_registry_sha256_by_domain": term_hashes,
         "cases_sha256": cases_sha,
         "source_passages_sha256": hashlib.sha256(passages_file.read_bytes()).hexdigest(),
+        "sources_registry_sha256": hashlib.sha256(sources_file.read_bytes()).hexdigest(),
         "responses_store": False,
         "run_status": "IN_PROGRESS",
     }
