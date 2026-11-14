@@ -263,7 +263,7 @@ class SkillEvalTest(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         skill = (root / "skills" / "eps-gold-seed-curation" / "SKILL.md").read_text(encoding="utf-8")
         treatment = extract_skill_treatment(skill)
-        self.assertIn("preserve the source's certainty", treatment)
+        self.assertIn("Preserve the source's certainty", treatment)
         self.assertNotIn("NASA IMAGE Failure Review Board", treatment)
         self.assertNotIn("Quick checks", treatment)
 
