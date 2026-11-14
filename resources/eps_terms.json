@@ -7,7 +7,8 @@
     "ALTERNATE_TRANSLATION": "Alternative rendering; preserve the preferred form in canonical output.",
     "CONTEXTUAL_SHORT_FORM": "Meaning depends on the spacecraft architecture or source context; do not normalize without context.",
     "BROADER_FUNCTIONAL_DESCRIPTION": "Describes a broader function or class, not an exact synonym.",
-    "RELATED_COMPONENT": "Related but physically distinct component; never collapse into the same entity."
+    "RELATED_COMPONENT": "Related but physically distinct component; never collapse into the same entity.",
+    "RELATED_CONCEPT": "A distinct but semantically related concept; not an alias."
   },
   "terms": [
     {
@@ -405,7 +406,7 @@
       "related_terms": [
         {
           "text": "单粒子闩锁",
-          "kind": "RELATED_COMPONENT",
+          "kind": "RELATED_CONCEPT",
           "note": "不同单粒子效应，不能互换。"
         }
       ]
@@ -447,11 +448,11 @@
       "definition_zh": "表征蓄电池剩余可用电量相对于规定容量的状态指标。",
       "status": "SOURCE_BOUNDED",
       "source_ids": [
-        "NASA_IMAGE_FRB_EPS_2006",
+        "NASA_WMAP_BATTERY_2010",
         "NASA_TDRS8_POWER_2019"
       ],
       "source_passage_ids": [
-        "IMAGE_SSPC_SEU_INSTANT_TRIP",
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
         "TDRS8_BATTERY_UNDERPERFORMING_CELLS"
       ],
       "aliases": [
