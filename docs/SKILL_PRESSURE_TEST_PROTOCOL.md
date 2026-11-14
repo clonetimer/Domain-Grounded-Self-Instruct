@@ -4,14 +4,14 @@
 
 ## Objective
 
-Measure whether loading `skills/adcs-gold-seed-curation/SKILL.md` reduces domain-grounding errors compared with an ungrounded Self-Instruct prompt, without merely making answers longer or more conservative.
+Measure whether loading `skills/adcs-gold-seed-curation/SKILL.md` reduces domain-grounding errors compared with a no-Skill Self-Instruct baseline. Both conditions receive the same task, registered evidence context, output schema and generator model; only the Skill treatment receives the Skill text. This isolates the incremental effect of the Skill rather than changing evidence availability.
 
 ## Blind test design
 
 1. Freeze the Skill version, source registry, term registry and candidate prompts by commit SHA.
-2. Run each case twice: baseline (no Skill) and treatment (Skill loaded). Use the same model, generation settings and evidence bundle.
+2. Run each case twice: baseline (no Skill) and treatment (Skill loaded). Use the same generator model, generation defaults, output schema and evidence bundle.
 3. Randomize and conceal baseline/treatment labels from the evaluator.
-4. Use an independent judge model family or qualified human reviewer. The generator must not judge its own output.
+4. Use a judge from a different declared model family or a qualified human reviewer. The generator must not judge its own output. Model-family labels are supplied by the operator and are not independently authenticated by the runner.
 5. Have two domain reviewers adjudicate disagreements for physical mechanism, fault-source localization and terminology.
 6. Do not tune the prompt, Skill or terminology against any held-out test case. If a case is used for remediation, retire it from the blind set.
 
@@ -63,10 +63,10 @@ The repository includes `scripts/run_skill_blind_eval.py` and `src/dgsi/skill_ev
   `python scripts/run_skill_blind_eval.py`
 - Live mode requires an explicit positive case limit:
   `python scripts/run_skill_blind_eval.py --execute-live --limit 2`
-- Configure locally (never commit credentials): `OPENAI_API_KEY`, `DGSI_GENERATOR_MODEL`, `DGSI_JUDGE_MODEL`, and `DGSI_JUDGE_INDEPENDENCE_NOTE`.
-- Generator and judge model IDs must differ. The independence note records the operator's declared separation; the script cannot independently verify model-family independence.
+- Configure locally (never commit credentials): `OPENAI_API_KEY`, `DGSI_GENERATOR_MODEL`, `DGSI_JUDGE_MODEL`, `DGSI_GENERATOR_FAMILY`, `DGSI_JUDGE_FAMILY`, and `DGSI_JUDGE_INDEPENDENCE_NOTE`.
+- Generator and judge model IDs **and declared family identifiers** must differ. The independence note records the operator's declared separation; the script cannot independently verify that the provider's model-family taxonomy is accurate.
 - The runner randomizes candidate A/B order, withholds baseline/treatment labels from the judge, maps scores back only after judging, and writes local JSONL under `reports/skill_blind_eval/` (git-ignored).
-- All Responses API calls set `store=false`. This disables standard response-state storage for later retrieval; it does not override organization-specific retention or abuse-monitoring policies.
+- All Responses API calls set `store=false`, which disables standard response application-state storage for later retrieval. It does **not** disable abuse-monitoring retention: OpenAI's current data-controls documentation lists up to 30 days of abuse-monitoring retention for the Responses API. API content is not used to train models unless the customer explicitly opts in. Use only public reference metadata and synthetic pressure cases in this pilot; do not send private R21 telemetry or confidential material without your organization's explicit data-control approval. See [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data) and [Responses API reference](https://developers.openai.com/api/reference/resources/responses/methods/create).
 
 Example PowerShell setup (the key is entered without echo):
 ```powershell
@@ -74,6 +74,8 @@ $secure = Read-Host "OpenAI API key" -AsSecureString
 $env:OPENAI_API_KEY = [System.Net.NetworkCredential]::new("", $secure).Password
 $env:DGSI_GENERATOR_MODEL = "<generator-model-id>"
 $env:DGSI_JUDGE_MODEL = "<different-judge-model-id>"
+$env:DGSI_GENERATOR_FAMILY = "<generator-family>"
+$env:DGSI_JUDGE_FAMILY = "<different-model-family>"
 $env:DGSI_JUDGE_INDEPENDENCE_NOTE = "Judge uses a separate model family; candidate order is randomized and condition labels are hidden."
 python scripts/run_skill_blind_eval.py
 python scripts/run_skill_blind_eval.py --execute-live --limit 2
