@@ -8,10 +8,12 @@ from dgsi.basilisk_receipt import ReceiptError, validate_r84r3_package
 
 
 def write_json(path: Path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
 def write_jsonl(path: Path, rows):
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
 
 
@@ -38,34 +40,57 @@ def sample(index: int):
 
 class BasiliskReceiptTests(unittest.TestCase):
     def build_package(self, root: Path):
-        ids = [f"r84r3_{i:02d}" for i in range(12)]
-        replay_id = "r84r3_seeded_replay"
-        replay_target = ids[-1]
-        all_ids = ids + [replay_id]
+        arm_specs = [
+            (reference, capacity, noise)
+            for reference in ("zero", "pulse09")
+            for capacity in ("healthy", "loss50", "loss75")
+            for noise in (0.0, 0.0001)
+        ]
+        cases = []
+        telemetry = []
+        imu = []
+        qa = []
         base_rows = [sample(i) for i in range(31)]
-        telemetry = [
-            {"record_id": item, "rows": json.loads(json.dumps(base_rows))}
-            for item in ids
-        ] + [{"record_id": replay_id, "rows": json.loads(json.dumps(base_rows))}]
-        imu = [
-            {"record_id": item, "rows": [
-                {"time_s": row["time_s"], **{k: row[k] for k in (
+        qa_rows = [{"time_s": row["time_s"], "qa_value": float(i)} for i, row in enumerate(base_rows)]
+
+        for index, (reference, capacity, noise) in enumerate(arm_specs, 1):
+            record_id = f"r84r3_{index:02d}"
+            reference_index = 0 if reference == "zero" else 1
+            capacity_index = {"healthy": 0, "loss50": 1, "loss75": 2}[capacity]
+            noise_index = 0 if noise == 0.0 else 1
+            seed = 50_000_000 + reference_index * 100_000 + capacity_index * 10_000 + noise_index * 1_000 + 331
+            case_id = f"case_{record_id}"
+            cases.append({
+                "record_id": record_id, "case_id": case_id,
+                "reference_mode": reference, "capacity_mode_QA_ONLY": capacity,
+                "gyro_noise_std_rad_s": noise, "rng_seed": seed,
+            })
+            telemetry.append({"record_id": record_id, "rows": json.loads(json.dumps(base_rows))})
+            imu.append({"record_id": record_id, "rows": [
+                {"time_s": row["time_s"], **{key: row[key] for key in (
                     "imu.raw_gyro_rad_s_x", "imu.raw_gyro_rad_s_y", "imu.raw_gyro_rad_s_z"
                 )}} for row in base_rows
-            ]}
-            for item in ids
-        ] + [{"record_id": replay_id, "rows": [
-            {"time_s": row["time_s"], **{k: row[k] for k in (
-                "imu.raw_gyro_rad_s_x", "imu.raw_gyro_rad_s_y", "imu.raw_gyro_rad_s_z"
-            )}} for row in base_rows
-        ]}]
-        qa_rows = [{"time_s": row["time_s"], "qa_value": float(i)} for i, row in enumerate(base_rows)]
-        qa = [{"record_id": item, "qa_rows": json.loads(json.dumps(qa_rows))} for item in all_ids]
-        cases = [{"record_id": item} for item in ids] + [{
-            "record_id": replay_id,
-            "repeatability_control": True,
+            ]})
+            qa.append({
+                "record_id": record_id, "qa_rows": json.loads(json.dumps(qa_rows)),
+                "max_abs_physics_delta": 0.0,
+            })
+
+        replay_target = "r84r3_12"
+        replay_id = "r84r3_seeded_replay"
+        target_case = next(row for row in cases if row["record_id"] == replay_target)
+        cases.append({
+            **target_case, "record_id": replay_id,
+            "repeatability_control": True, "replay_of_record_id": replay_target,
+        })
+        telemetry.append({"record_id": replay_id, "rows": json.loads(json.dumps(base_rows))})
+        imu.append({"record_id": replay_id, "rows": json.loads(json.dumps(imu[-1]["rows"]))})
+        qa.append({
+            "record_id": replay_id, "qa_rows": json.loads(json.dumps(qa_rows)),
+            "max_abs_physics_delta": 0.0, "repeatability_control": True,
             "replay_of_record_id": replay_target,
-        }]
+        })
+
         for name, rows in (
             ("r84r3_multichannel_telemetry.jsonl", telemetry),
             ("r84r3_imu_sensor_observations.jsonl", imu),
@@ -73,6 +98,40 @@ class BasiliskReceiptTests(unittest.TestCase):
             ("r84r3_physics_qa.jsonl", qa),
         ):
             write_jsonl(root / name, rows)
+
+        source_files = {
+            "source/r83m-original.zip": b"fixture-r83m",
+            "source/r84r0-reference.zip": b"fixture-r84r0",
+            "source/r84r1-reference.zip": b"fixture-r84r1",
+        }
+        for name, payload in source_files.items():
+            (root / name).parent.mkdir(parents=True, exist_ok=True)
+            (root / name).write_bytes(payload)
+
+        write_json(root / "compat_payload_review.json", {
+            "status": "PASS",
+            "results": [{
+                "payload_bytes_unchanged": True,
+                "payload_file_count": 880,
+                "source_sha256": "d51fe1ffa1b0b03dc415034b210497b28a2504428d4d8e71b481542a08c08a0a",
+            }],
+        })
+
+        noise_checks = [{
+            "reference_mode": reference,
+            "capacity_mode_QA_ONLY": capacity,
+            "non_imu_channels_unchanged": True,
+            "max_abs_non_imu_delta": 0.0,
+            "max_abs_imu_noise_on_off_delta": 0.0001,
+        } for reference in ("zero", "pulse09") for capacity in ("healthy", "loss50", "loss75")]
+
+        tracked = [
+            "r84r3_multichannel_telemetry.jsonl",
+            "r84r3_imu_sensor_observations.jsonl",
+            "r84r3_case_manifest.jsonl",
+            "r84r3_physics_qa.jsonl",
+            *source_files,
+        ]
         manifest = {
             "schema_version": "sat-sim.r84r3.multichannel-pilot-summary.v1",
             "status": "PASS",
@@ -85,14 +144,12 @@ class BasiliskReceiptTests(unittest.TestCase):
             "formal_training_or_test_eligible": False,
             "flight_or_hardware_safety_qualified": False,
             "stable_release_eligible": False,
-            "noise_on_off_checks": [{"non_imu_channels_unchanged": True} for _ in range(6)],
-            "artifact_sha256": {
-                name: digest(root / name) for name in (
-                    "r84r3_multichannel_telemetry.jsonl",
-                    "r84r3_imu_sensor_observations.jsonl",
-                    "r84r3_case_manifest.jsonl",
-                    "r84r3_physics_qa.jsonl",
-                )
+            "noise_on_off_checks": noise_checks,
+            "artifact_sha256": {name: digest(root / name) for name in tracked},
+            "source_sha256": {
+                "r83m_original_sha256": digest(root / "source/r83m-original.zip"),
+                "r84r0_reference_sha256": digest(root / "source/r84r0-reference.zip"),
+                "r84r1_reference_sha256": digest(root / "source/r84r1-reference.zip"),
             },
         }
         write_json(root / "r84r3_execution_manifest.json", manifest)
@@ -100,6 +157,13 @@ class BasiliskReceiptTests(unittest.TestCase):
 
     def refresh_hash(self, root: Path, manifest: dict, artifact: str):
         manifest["artifact_sha256"][artifact] = digest(root / artifact)
+        if artifact.startswith("source/"):
+            key = {
+                "source/r83m-original.zip": "r83m_original_sha256",
+                "source/r84r0-reference.zip": "r84r0_reference_sha256",
+                "source/r84r1-reference.zip": "r84r1_reference_sha256",
+            }[artifact]
+            manifest["source_sha256"][key] = digest(root / artifact)
         write_json(root / "r84r3_execution_manifest.json", manifest)
 
     def test_valid_package_requires_human_review_and_is_not_admitted(self):
@@ -110,6 +174,7 @@ class BasiliskReceiptTests(unittest.TestCase):
             self.assertEqual(result["decision"], "REVIEW_REQUIRED")
             self.assertEqual(result["admission_status"], "NOT_ADMITTED")
             self.assertEqual(result["telemetry_sample_count"], 13 * 31)
+            self.assertEqual(result["basilisk_native_payload_file_count"], 880)
 
     def test_hash_mismatch_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -129,7 +194,7 @@ class BasiliskReceiptTests(unittest.TestCase):
             rows[0]["rows"][0]["label.fault_active"] = True
             write_jsonl(file, rows)
             self.refresh_hash(root, manifest, file.name)
-            with self.assertRaisesRegex(ReceiptError, "truth/QA field leaked"):
+            with self.assertRaisesRegex(ReceiptError, "exact channel whitelist"):
                 validate_r84r3_package(root)
 
     def test_training_eligibility_flag_must_remain_false(self):
@@ -174,7 +239,7 @@ class BasiliskReceiptTests(unittest.TestCase):
             rows[0]["rows"][3]["time_s"] += 0.01
             write_jsonl(file, rows)
             self.refresh_hash(root, manifest, file.name)
-            with self.assertRaisesRegex(ReceiptError, "time axis|time mismatch"):
+            with self.assertRaisesRegex(ReceiptError, "time grid"):
                 validate_r84r3_package(root)
 
     def test_nonfinite_telemetry_is_rejected(self):
@@ -187,6 +252,36 @@ class BasiliskReceiptTests(unittest.TestCase):
             write_jsonl(file, rows)
             self.refresh_hash(root, manifest, file.name)
             with self.assertRaisesRegex(ReceiptError, "non-finite"):
+                validate_r84r3_package(root)
+
+    def test_source_archive_hash_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = self.build_package(root)
+            with (root / "source/r83m-original.zip").open("ab") as stream:
+                stream.write(b"tamper")
+            with self.assertRaisesRegex(ReceiptError, "SHA-256 mismatch"):
+                validate_r84r3_package(root)
+
+    def test_noise_matrix_must_cover_all_six_pairs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = self.build_package(root)
+            manifest["noise_on_off_checks"].pop()
+            write_json(root / "r84r3_execution_manifest.json", manifest)
+            with self.assertRaisesRegex(ReceiptError, "six IMU noise-isolation"):
+                validate_r84r3_package(root)
+
+    def test_unregistered_extra_telemetry_channel_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = self.build_package(root)
+            file = root / "r84r3_multichannel_telemetry.jsonl"
+            rows = [json.loads(line) for line in file.read_text().splitlines()]
+            rows[0]["rows"][0]["debug_internal_truth"] = 1.0
+            write_jsonl(file, rows)
+            self.refresh_hash(root, manifest, file.name)
+            with self.assertRaisesRegex(ReceiptError, "exact channel whitelist"):
                 validate_r84r3_package(root)
 
 
