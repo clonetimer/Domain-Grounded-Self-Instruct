@@ -26,9 +26,9 @@ The following Git blob SHAs identify the holdout suite and the evidence/evaluato
 | Holdout cases | `59c28f899549242119d6a9c5a695dc749550fab4` |
 | Public source registry | `9dd949b9050f0c444fbda970225e5758851c8b57` |
 | Public passage registry | `bc1f9250591b147967b7cfd070634b56db05284b` |
-| Blind evaluator | `1a36a528af80859135ed43a7d3b35cb209f8ffef` |
+| Blind evaluator | `e866e90ce0f0e856c95b6a7843de10b65ec9bcbc` |
 
-The runner also writes SHA-256 digests of the suite, source registry, passage registry, Skills, extracted treatment sections and term registries into each run's metadata. A new implementation commit changes the evaluator blob SHA but does not by itself change the frozen Skill/term baseline or holdout case content.
+The runner also writes SHA-256 digests of the suite, source registry, passage registry, Skills, extracted treatment sections and term registries into each run's metadata. The blind judge also treats candidate text and quoted material as untrusted data, ignoring embedded instructions to change roles, reveal labels or alter scoring. A new implementation commit changes the evaluator blob SHA but does not by itself change the frozen Skill/term baseline or holdout case content.
 
 ## Holdout suite
 
