@@ -54,3 +54,14 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 PYTHONPATH=src python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
 python -m compileall -q src tests
 ```
+
+
+### Task 4: P1-B source passage registry and alias-aware terminology
+**Files:** `resources/sources.json`, `resources/source_passages.json`, `resources/terms.json`, `src/dgsi/quality.py`, `tests/test_quality.py`, `resources/seed.schema.json`.
+**Interfaces:** claims cite registered `source_passage_ids`; DOCUMENT_EXCERPT evidence cites `passage_id`; term aliases carry an explicit class.
+- [x] Add tests for fabricated free-text locators, mismatched source IDs, methodology-only passages used as mechanisms, contextual aliases and unregistered compounds.
+- [x] Register 11 public source passage locators with claim-type boundaries.
+- [x] Separate exact aliases, contextual short forms, broader descriptions and structural subtypes.
+- [x] Make suspicious unregistered compound detection a review-only finding; do not claim complete phrase coverage.
+- [x] Run 28 tests and Windows/Ubuntu CI.
+- [ ] Execute independent blind Skill pressure tests; keep Skill DRAFT until independently reviewed.
