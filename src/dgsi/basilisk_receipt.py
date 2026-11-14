@@ -1,12 +1,13 @@
 """Conservative intake checks for native Basilisk R84-R3 evidence packages.
 
-This module validates provenance and separation boundaries only. It never
-promotes a run to training eligibility or certifies scientific truth.
+Validates immutable provenance, aligned native observations and truth boundaries.
+A successful check is review-only: it never admits data or certifies science.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,21 @@ REQUIRED_ARTIFACTS = {
     "r84r3_case_manifest.jsonl",
     "r84r3_physics_qa.jsonl",
 }
+IMU_FIELDS = (
+    "imu.raw_gyro_rad_s_x",
+    "imu.raw_gyro_rad_s_y",
+    "imu.raw_gyro_rad_s_z",
+)
+TELEMETRY_FIELDS = (
+    *IMU_FIELDS,
+    "sensor.adcs.rw.speed_rad_s_0",
+    "sensor.adcs.rw.speed_rad_s_1",
+    "sensor.adcs.rw.speed_rad_s_2",
+    "command.adcs.rw.motor_torque_nm_0",
+    "command.adcs.rw.motor_torque_nm_1",
+    "command.adcs.rw.motor_torque_nm_2",
+    "estimate.adcs.pointing_error_deg",
+)
 TELEMETRY_FORBIDDEN_TOKENS = ("QA_ONLY", "label.", "fault_", "hub.", "capacity_mode")
 
 
@@ -73,6 +89,49 @@ def _safe_artifact(root: Path, relative: str) -> Path:
     return candidate
 
 
+def _records_by_id(records: list[dict[str, Any]], stream_name: str) -> dict[str, dict[str, Any]]:
+    result: dict[str, dict[str, Any]] = {}
+    for row in records:
+        record_id = row.get("record_id")
+        if not isinstance(record_id, str) or not record_id:
+            raise ReceiptError(f"{stream_name} record_id must be a non-empty string")
+        if record_id in result:
+            raise ReceiptError(f"duplicate {stream_name} record_id: {record_id}")
+        result[record_id] = row
+    return result
+
+
+def _numeric(value: Any, context: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ReceiptError(f"non-numeric value in {context}")
+    number = float(value)
+    if not math.isfinite(number):
+        raise ReceiptError(f"non-finite value in {context}")
+    return number
+
+
+def _validate_rows(rows: Any, required_fields: tuple[str, ...], context: str) -> list[dict[str, Any]]:
+    if not isinstance(rows, list) or len(rows) != 31:
+        raise ReceiptError(f"{context} must contain exactly 31 samples")
+    validated: list[dict[str, Any]] = []
+    previous_time: float | None = None
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise ReceiptError(f"{context} sample {index} must be an object")
+        missing = set(required_fields) - set(row)
+        if missing:
+            raise ReceiptError(f"{context} sample {index} missing fields: {sorted(missing)}")
+        time_s = _numeric(row["time_s"], f"{context}[{index}].time_s")
+        if previous_time is not None and time_s <= previous_time:
+            raise ReceiptError(f"{context} time axis is not strictly increasing")
+        previous_time = time_s
+        for field in required_fields:
+            if field != "time_s":
+                _numeric(row[field], f"{context}[{index}].{field}")
+        validated.append(row)
+    return validated
+
+
 def validate_r84r3_package(package_dir: str | Path) -> dict[str, Any]:
     """Return REVIEW_REQUIRED for a structurally valid package; never ADMITTED."""
     root = Path(package_dir)
@@ -107,7 +166,7 @@ def validate_r84r3_package(package_dir: str | Path) -> dict[str, Any]:
     noise_checks = manifest.get("noise_on_off_checks")
     if not isinstance(noise_checks, list) or len(noise_checks) != 6:
         raise ReceiptError("six IMU noise-isolation checks are required")
-    if any(item.get("non_imu_channels_unchanged") is not True for item in noise_checks):
+    if any(not isinstance(item, dict) or item.get("non_imu_channels_unchanged") is not True for item in noise_checks):
         raise ReceiptError("IMU observer noise changed non-IMU channels")
 
     artifact_hashes = manifest.get("artifact_sha256")
@@ -132,41 +191,73 @@ def validate_r84r3_package(package_dir: str | Path) -> dict[str, Any]:
 
     if not (len(telemetry) == len(case_manifest) == len(qa_records) == len(imu_records) == 13):
         raise ReceiptError("all four record streams must contain 13 aligned executions")
-    expected_ids = [row.get("record_id") for row in case_manifest]
-    if len(set(expected_ids)) != 13 or any(not isinstance(item, str) for item in expected_ids):
-        raise ReceiptError("case record IDs must be 13 unique non-empty strings")
+    case_by_id = _records_by_id(case_manifest, "case manifest")
+    telemetry_by_id = _records_by_id(telemetry, "telemetry")
+    imu_by_id = _records_by_id(imu_records, "IMU")
+    qa_by_id = _records_by_id(qa_records, "physics QA")
+    expected_ids = list(case_by_id)
     for stream_name, records in (
-        ("telemetry", telemetry),
-        ("imu", imu_records),
-        ("physics QA", qa_records),
+        ("telemetry", telemetry_by_id),
+        ("imu", imu_by_id),
+        ("physics QA", qa_by_id),
     ):
-        ids = [row.get("record_id") for row in records]
-        if ids != expected_ids:
-            raise ReceiptError(f"{stream_name} record order/IDs do not match case manifest")
+        if set(records) != set(expected_ids):
+            raise ReceiptError(f"{stream_name} record IDs do not match case manifest")
+
+    replay_rows = [row for row in case_manifest if row.get("repeatability_control") is True]
+    if len(replay_rows) != 1:
+        raise ReceiptError("exactly one replay control record is required")
+    replay_id = replay_rows[0]["record_id"]
+    replay_target = replay_rows[0].get("replay_of_record_id")
+    if replay_target not in case_by_id or replay_target == replay_id:
+        raise ReceiptError("replay must reference one of the 12 unique native arms")
+    arm_ids = set(expected_ids) - {replay_id}
+    if len(arm_ids) != 12 or any(case_by_id[item].get("repeatability_control") is True for item in arm_ids):
+        raise ReceiptError("case manifest must contain exactly 12 unique arms and one replay")
 
     total_samples = 0
-    for record in telemetry:
-        rows = record.get("rows")
-        if not isinstance(rows, list) or len(rows) != 31:
-            raise ReceiptError("each telemetry execution must contain 31 samples")
-        total_samples += len(rows)
-        for sample in rows:
-            if not isinstance(sample, dict):
-                raise ReceiptError("telemetry sample must be an object")
-            for key in sample:
+    for record_id in expected_ids:
+        telemetry_rows = _validate_rows(
+            telemetry_by_id[record_id].get("rows"), ("time_s", *TELEMETRY_FIELDS), f"telemetry:{record_id}"
+        )
+        imu_rows = _validate_rows(
+            imu_by_id[record_id].get("rows"), ("time_s", *IMU_FIELDS), f"imu:{record_id}"
+        )
+        qa_payload = qa_by_id[record_id].get("qa_rows")
+        if not isinstance(qa_payload, list) or len(qa_payload) != 31:
+            raise ReceiptError(f"physics QA:{record_id} must contain exactly 31 samples")
+        qa_rows = _validate_rows(qa_payload, ("time_s",), f"physics-qa:{record_id}")
+        total_samples += len(telemetry_rows)
+
+        for index, (telemetry_row, imu_row, qa_row) in enumerate(zip(telemetry_rows, imu_rows, qa_rows)):
+            for key in telemetry_row:
                 if any(token in key for token in TELEMETRY_FORBIDDEN_TOKENS):
                     raise ReceiptError(f"truth/QA field leaked into model-facing telemetry: {key}")
-            if not {"time_s", "imu.raw_gyro_rad_s_x", "imu.raw_gyro_rad_s_y",
-                    "imu.raw_gyro_rad_s_z", "sensor.adcs.rw.speed_rad_s_0",
-                    "sensor.adcs.rw.speed_rad_s_1", "sensor.adcs.rw.speed_rad_s_2",
-                    "command.adcs.rw.motor_torque_nm_0", "command.adcs.rw.motor_torque_nm_1",
-                    "command.adcs.rw.motor_torque_nm_2", "estimate.adcs.pointing_error_deg"} <= set(sample):
-                raise ReceiptError("telemetry sample is missing required native channels")
+            if abs(_numeric(telemetry_row["time_s"], "telemetry time") - _numeric(imu_row["time_s"], "IMU time")) > 1e-12:
+                raise ReceiptError(f"telemetry/IMU time mismatch: {record_id}:{index}")
+            if abs(_numeric(telemetry_row["time_s"], "telemetry time") - _numeric(qa_row["time_s"], "QA time")) > 1e-12:
+                raise ReceiptError(f"telemetry/QA time mismatch: {record_id}:{index}")
+            for field in IMU_FIELDS:
+                if abs(_numeric(telemetry_row[field], field) - _numeric(imu_row[field], field)) > 1e-12:
+                    raise ReceiptError(f"IMU channel mismatch between streams: {record_id}:{index}:{field}")
 
-    # The replay is retained as an audit/control record, not a distinct scenario.
-    replay_rows = [row for row in case_manifest if row.get("repeatability_control") is True]
-    if len(replay_rows) != 1 or replay_rows[0].get("replay_of_record_id") not in expected_ids:
-        raise ReceiptError("exactly one replay linked to a recorded arm is required")
+    # The replay must be byte-equivalent at the sampled-value level to its referenced arm.
+    for stream_name, records, row_key, fields in (
+        ("telemetry", telemetry_by_id, "rows", ("time_s", *TELEMETRY_FIELDS)),
+        ("IMU", imu_by_id, "rows", ("time_s", *IMU_FIELDS)),
+        ("physics QA", qa_by_id, "qa_rows", None),
+    ):
+        replay_values = records[replay_id].get(row_key)
+        target_values = records[replay_target].get(row_key)
+        if not isinstance(replay_values, list) or not isinstance(target_values, list) or len(replay_values) != 31 or len(target_values) != 31:
+            raise ReceiptError(f"{stream_name} replay rows are malformed")
+        if fields is None:
+            fields = tuple(sorted(set(replay_values[0]) | set(target_values[0])))
+        for index, (replay_sample, target_sample) in enumerate(zip(replay_values, target_values)):
+            if any(field not in replay_sample or field not in target_sample for field in fields):
+                raise ReceiptError(f"{stream_name} replay field mismatch")
+            if any(_numeric(replay_sample[field], field) != _numeric(target_sample[field], field) for field in fields):
+                raise ReceiptError(f"{stream_name} replay is not exact: sample {index}")
 
     return {
         "schema_version": "dgsi.basilisk-intake-check.v1",
