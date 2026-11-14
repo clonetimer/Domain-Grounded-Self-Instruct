@@ -2,7 +2,7 @@
 
 ## Phase 1 / P1: grounded curation foundation
 
-**Deliver:** source registry, ADCS terminology draft, fault/effect catalog, telemetry dictionary, empty simulation truth admission registry, JSON contract, offline validator, adversarial tests and draft Skill.
+**Deliver:** source registry, ADCS and EPS terminology drafts, fault/effect catalog, telemetry dictionary, empty simulation truth admission registry, JSON contract, offline validator, adversarial tests and draft ADCS/EPS Skills.
 
 **Exit:** tests pass, CLI preflight passes for a clearly hypothetical abstention example, known fabricated terms/causal overreach/self-attestation/truth leakage fail, source provenance remains distinguishable. Alias semantics and 11 public source-passage locators are now registered; all preferred terms remain draft pending domain review. The draft Skill remains unapproved pending independent blind evaluation.
 
