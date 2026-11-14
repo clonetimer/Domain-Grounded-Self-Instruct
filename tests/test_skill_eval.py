@@ -186,7 +186,24 @@ class SkillEvalTest(unittest.TestCase):
 
         def fake_api_call(**kwargs):
             calls.append(kwargs)
-            return judge if kwargs["schema_name"] == "blind_candidate_scores" else candidate
+            if kwargs["schema_name"] == "blind_candidate_scores":
+                return judge
+            prompt = json.loads(kwargs["user_prompt"])
+            if prompt["domain"] == "eps":
+                eps_candidate = json.loads(json.dumps(candidate))
+                eps_candidate["instruction"] = "Seasat电源异常诊断"
+                eps_candidate["input"] = "公开故障审查报告描述太阳阵滑环短路。"
+                eps_candidate["answer"] = "故障定位于太阳阵旋转滑环组件；电弧是最可能机理，具体起始路径仍不确定。"
+                eps_candidate["fault_source_component"] = "太阳电池阵旋转滑环组件"
+                eps_candidate["claims"][0]["text"] = "Seasat故障审查委员会将失电归因于太阳阵滑环组件的渐进短路。"
+                eps_candidate["claims"][0]["source_passage_ids"] = ["SEASAT_SLIP_RING_PROGRESSIVE_SHORT_ARC"]
+                eps_candidate["term_mentions"] = [{
+                    "surface": "太阳电池阵",
+                    "term_id": "solar_array",
+                    "relation": "PREFERRED",
+                }]
+                return eps_candidate
+            return candidate
 
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "blind.jsonl"
@@ -485,22 +502,29 @@ class SkillEvalTest(unittest.TestCase):
                     judge_family="independent-judge-family",
                     api_key="test-key",
                     independence_note="Mocked API contract test only; not a live evaluation.",
-                    limit=1,
+                    limit=2,
                     suite_file="skill_holdout_cases.json",
                 )
             records = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(result["metadata"]["suite_split"], "HOLDOUT_UNSEEN_PUBLIC_CASES")
             self.assertEqual(result["metadata"]["suite_file"], "skill_holdout_cases.json")
-            self.assertEqual(result["metadata"]["case_ids"], [case["case_id"]])
-            self.assertEqual(result["metadata"]["api_calls_completed"], 3)
+            self.assertEqual(result["metadata"]["case_ids"], [case["case_id"], suite["cases"][1]["case_id"]])
+            self.assertEqual(result["metadata"]["api_calls_completed"], 6)
             self.assertEqual(len(result["metadata"]["sources_registry_sha256"]), 64)
             self.assertEqual(len(result["metadata"]["source_passages_sha256"]), 64)
             self.assertEqual(len(result["metadata"]["cases_sha256"]), 64)
             generator_calls = [call for call in calls if call["schema_name"] == "spacecraft_fault_seed_candidate"]
-            self.assertEqual(len(generator_calls), 2)
+            self.assertEqual(len(generator_calls), 4)
             self.assertTrue(all("expected_behaviors" not in call["user_prompt"] for call in generator_calls))
             self.assertTrue(all(case["expected_behaviors"][0] not in call["user_prompt"] for call in generator_calls))
             self.assertEqual(records[-1]["record_type"], "run_summary")
+            self.assertEqual(set(result["summary"]["by_domain"]), {"adcs", "eps"})
+            self.assertEqual(result["summary"]["by_domain"]["adcs"]["case_count"], 1)
+            self.assertEqual(result["summary"]["by_domain"]["eps"]["case_count"], 1)
+            self.assertEqual(len(result["summary"]["per_case"]), 2)
+            self.assertEqual(result["summary"]["per_case"][0]["case_id"], "H01_SOHO_GYRO_FALSE_DIAGNOSIS")
+            self.assertIn("total_score_out_of_12", result["summary"]["paired_mean_delta"])
+            self.assertIn("candidate_without_critical_flags_rate", result["summary"]["by_domain"]["eps"]["conditions"]["treatment"])
 
     def test_live_runner_rejects_suite_path_traversal(self):
         from dgsi.skill_eval import run_live_evaluation
