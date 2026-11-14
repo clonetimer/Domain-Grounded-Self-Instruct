@@ -6,7 +6,7 @@ Connect the ADCS research line to the R84-R3A native IMU–reaction-wheel multic
 
 The intake path is deliberately two-stage:
 
-1. **Package preflight:** verify immutable manifest/artifact hashes, record alignment, channel whitelist, replay control, observer-noise isolation and explicit non-training flags.
+1. **Package preflight:** verify immutable manifest/artifact hashes, per-record sample structure, time-axis monotonicity and cross-stream alignment, channel whitelist, replay equality, observer-noise isolation and explicit non-training flags.
 2. **Human research admission:** independently review source archive provenance, simulator version/build, event-to-observable mapping, units, physical effect, truth separation and run/source/scenario split groups.
 
 A package passing stage 1 receives `REVIEW_REQUIRED`, never `ADMITTED`.
@@ -22,13 +22,16 @@ The RW speed channel is an ideal native state-feedback upper bound. It is not an
 `dgsi.basilisk_receipt.validate_r84r3_package(path)` verifies:
 
 - manifest schema and PASS status;
-- exactly 12 unique arms + one replay, 31 samples per execution;
+- exactly 12 unique arms plus one replay, 31 samples per execution;
 - all 12 physical-baseline comparisons and six observer-noise isolation checks;
-- `model_trained=false`, `formal_training_or_test_eligible=false`, and no flight/hardware qualification;
+- explicit false flags for model training, formal train/test eligibility and flight/hardware qualification;
 - SHA-256 of all four JSONL artifacts against the execution manifest;
-- 13 aligned record IDs across telemetry, IMU, case and physics-QA streams;
-- 31 telemetry samples per record, required channel presence and no QA/truth/label fields in model-facing telemetry;
-- exactly one replay control linked to a recorded arm.
+- unique record IDs across telemetry, IMU, case and physics-QA streams;
+- required channel presence, finite numeric samples and strictly increasing time axes;
+- aligned timestamps between telemetry, IMU and QA records;
+- IMU channels agree between the dedicated IMU stream and model-facing telemetry;
+- QA-only truth, labels, hub state and fault fields are rejected from model-facing telemetry;
+- the replay is linked to one of the 12 unique arms and is sample-exact across telemetry, IMU and QA streams.
 
 The adapter does not copy private trace data into the public repository. It emits only a compact local preflight receipt.
 
