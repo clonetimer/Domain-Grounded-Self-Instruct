@@ -25,6 +25,29 @@
       ]
     },
     {
+      "case_id": "E01_IMAGE_SSPC_INSTANT_TRIP",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "IMAGE_SSPC_SEU_INSTANT_TRIP",
+        "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH"
+      ],
+      "term_ids": [
+        "solid_state_power_controller",
+        "single_event_upset",
+        "power_distribution_unit",
+        "power_bus_voltage"
+      ],
+      "task_prompt": "Using the public IMAGE Failure Review Board report, draft a diagnostic seed for the transponder power loss. The board considered an SEU-induced SSPC instant trip the likely cause. The instant trip was not reflected in the SSPC status telemetry, so the PDU/FDC could see a closed status while the output was physically off. Keep the board's uncertainty and distinguish physical state from reported state.",
+      "expected_behaviors": [
+        "Preserve 'likely cause' rather than claim conclusive proof of SEU.",
+        "Distinguish SSPC physical output state from stale reported status bit.",
+        "Explain why FDC did not command recovery because status appeared closed.",
+        "Do not claim the battery or solar array failed; the FRB treated battery/array cases as alternatives and telemetry was healthy."
+      ]
+    },
+    {
       "case_id": "A02_NEOSSAT_TORQUER_MCU",
       "domain": "adcs",
       "term_registry": "terms.json",
@@ -44,6 +67,27 @@
         "Do not relabel it as a confirmed torque-rod coil open, short or magnetic-moment failure.",
         "Explain the loss of desaturation capability and momentum-management impact.",
         "Do not invent electrical telemetry or a more specific failed part."
+      ]
+    },
+    {
+      "case_id": "E02_IDEASSAT_RESET_SEL",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
+      ],
+      "term_ids": [
+        "eps_reset_circuit",
+        "schmitt_trigger_inverter",
+        "single_event_latchup"
+      ],
+      "task_prompt": "Using the public IDEASSat on-orbit anomaly analysis, draft a seed explaining the likely EPS cause of extended power-down and communication blackout. The paper identifies a single-gate CMOS Schmitt-trigger inverter in the reset circuit and discusses SEL as a possible mechanism. Separate the reported likely cause from the proposed physical mechanism.",
+      "expected_behaviors": [
+        "Localize the likely issue to the EPS reset circuit's Schmitt-trigger inverter/control path.",
+        "Do not state SEL was directly confirmed if the source only discusses it as a possible mechanism.",
+        "Explain how an inverter output affecting the main switch enable could hold spacecraft avionics power off.",
+        "Do not mislabel the event as battery cell failure or DC/DC converter failure."
       ]
     },
     {
@@ -70,6 +114,28 @@
       ]
     },
     {
+      "case_id": "E03_NOAA13_ARRAY_GROUND_SHORT",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT"
+      ],
+      "term_ids": [
+        "solar_array",
+        "solar_array_bus",
+        "solar_array_bus_ground_short",
+        "battery"
+      ],
+      "task_prompt": "Using NASA Lessons Learned #387 for NOAA-13, draft a seed for the 1993 EPS anomaly. Telemetry indicated that in full sun the solar array was producing power, but no power reached the battery charging unit; the spacecraft was running from batteries. The review surmised a solar-array bus-to-ground short, possibly caused by thermal cycling and mounting bolts penetrating insulation.",
+      "expected_behaviors": [
+        "Separate observed telemetry and the board's inferred/surmis ed physical cause.",
+        "Do not state the bolt penetration mechanism was directly confirmed by teardown.",
+        "Do not claim the solar cells themselves were all failed; the proposed short is in the bus/ground path.",
+        "Preserve the downstream effect: batteries not charging, then spacecraft power depletion and loss of contact."
+      ]
+    },
+    {
       "case_id": "A04_GYRO_BIAS_MODEL",
       "domain": "adcs",
       "term_registry": "terms.json",
@@ -90,117 +156,6 @@
         "Distinguish an estimated bias term from proof of a hardware failure in the gyroscope.",
         "Explain that vector-sensor/gyro fusion supplies estimation redundancy, without inventing exact numerical thresholds.",
         "Keep measurement bias, noise and physical component failure as separate concepts."
-      ]
-    },
-    {
-      "case_id": "A05_RW_FAULT_MODEL",
-      "domain": "adcs",
-      "term_registry": "terms.json",
-      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "ADCS_MED_CASCADE_FAULT_MODEL"
-      ],
-      "term_ids": [
-        "reaction_wheel",
-        "fault_mode",
-        "evidence",
-        "uncertainty"
-      ],
-      "task_prompt": "Using the registered momentum-exchange-device fault-model paper, draft one seed distinguishing additive and multiplicative fault models for a reaction-wheel motor/variable-speed-drive cascade.",
-      "expected_behaviors": [
-        "Represent the reaction-wheel/momentum-exchange device as a coupled motor and variable-speed-drive model within the cited study.",
-        "Distinguish additive from multiplicative fault-model terms.",
-        "Do not generalize the paper's modeled control-accuracy severity ranking into a universal spacecraft failure rule.",
-        "Do not present simulated fault scenarios as actual in-orbit failure statistics."
-      ]
-    },
-    {
-      "case_id": "A06_ADCS_FDD_LIMITS",
-      "domain": "adcs",
-      "term_registry": "terms.json",
-      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "ADCS_FDD_PRACTICAL_LIMITATIONS",
-        "NASA_STAR_TRACKER_VALIDITY"
-      ],
-      "term_ids": [
-        "star_tracker",
-        "gyro",
-        "evidence",
-        "uncertainty"
-      ],
-      "task_prompt": "A star-tracker solution becomes invalid during a high-angular-rate maneuver and external glare. Use the registered NASA star-tracker passage and ADCS FDD review to draft a seed that distinguishes measurement-validity loss from hardware failure.",
-      "expected_behaviors": [
-        "Treat high angular rate, field-of-view and glare as possible solution-validity conditions.",
-        "Do not infer a permanent star-tracker hardware failure from invalid solution output alone.",
-        "Mention model fidelity, residual sensitivity and noisy measurements as FDD limitations only within the review's scope.",
-        "Preserve uncertainty if no independent sensor evidence is supplied."
-      ]
-    },
-    {
-      "case_id": "E01_IMAGE_SSPC_INSTANT_TRIP",
-      "domain": "eps",
-      "term_registry": "eps_terms.json",
-      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "IMAGE_SSPC_SEU_INSTANT_TRIP",
-        "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH"
-      ],
-      "term_ids": [
-        "solid_state_power_controller",
-        "single_event_upset",
-        "power_distribution_unit",
-        "power_bus_voltage"
-      ],
-      "task_prompt": "Using the public IMAGE Failure Review Board report, draft a diagnostic seed for the transponder power loss. The board considered an SEU-induced SSPC instant trip the likely cause. The instant trip was not reflected in the SSPC status telemetry, so the PDU/FDC could see a closed status while the output was physically off. Keep the board's uncertainty and distinguish physical state from reported state.",
-      "expected_behaviors": [
-        "Preserve 'likely cause' rather than claim conclusive proof of SEU.",
-        "Distinguish SSPC physical output state from stale reported status bit.",
-        "Explain why FDC did not command recovery because status appeared closed.",
-        "Do not claim the battery or solar array failed; the FRB treated battery/array cases as alternatives and telemetry was healthy."
-      ]
-    },
-    {
-      "case_id": "E02_IDEASSAT_RESET_SEL",
-      "domain": "eps",
-      "term_registry": "eps_terms.json",
-      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
-      ],
-      "term_ids": [
-        "eps_reset_circuit",
-        "schmitt_trigger_inverter",
-        "single_event_latchup"
-      ],
-      "task_prompt": "Using the public IDEASSat on-orbit anomaly analysis, draft a seed explaining the likely EPS cause of extended power-down and communication blackout. The paper identifies a single-gate CMOS Schmitt-trigger inverter in the reset circuit and discusses SEL as a possible mechanism. Separate the reported likely cause from the proposed physical mechanism.",
-      "expected_behaviors": [
-        "Localize the likely issue to the EPS reset circuit's Schmitt-trigger inverter/control path.",
-        "Do not state SEL was directly confirmed if the source only discusses it as a possible mechanism.",
-        "Explain how an inverter output affecting the main switch enable could hold spacecraft avionics power off.",
-        "Do not mislabel the event as battery cell failure or DC/DC converter failure."
-      ]
-    },
-    {
-      "case_id": "E03_NOAA13_ARRAY_GROUND_SHORT",
-      "domain": "eps",
-      "term_registry": "eps_terms.json",
-      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
-      "source_passage_ids": [
-        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT"
-      ],
-      "term_ids": [
-        "solar_array",
-        "solar_array_bus",
-        "solar_array_bus_ground_short",
-        "battery"
-      ],
-      "task_prompt": "Using NASA Lessons Learned #387 for NOAA-13, draft a seed for the 1993 EPS anomaly. Telemetry indicated that in full sun the solar array was producing power, but no power reached the battery charging unit; the spacecraft was running from batteries. The review surmised a solar-array bus-to-ground short, possibly caused by thermal cycling and mounting bolts penetrating insulation.",
-      "expected_behaviors": [
-        "Separate observed telemetry and the board's inferred/surmis ed physical cause.",
-        "Do not state the bolt penetration mechanism was directly confirmed by teardown.",
-        "Do not claim the solar cells themselves were all failed; the proposed short is in the bus/ground path.",
-        "Preserve the downstream effect: batteries not charging, then spacecraft power depletion and loss of contact."
       ]
     },
     {
@@ -228,6 +183,28 @@
       ]
     },
     {
+      "case_id": "A05_RW_FAULT_MODEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_MED_CASCADE_FAULT_MODEL"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_mode",
+        "evidence",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered momentum-exchange-device fault-model paper, draft one seed distinguishing additive and multiplicative fault models for a reaction-wheel motor/variable-speed-drive cascade.",
+      "expected_behaviors": [
+        "Represent the reaction-wheel/momentum-exchange device as a coupled motor and variable-speed-drive model within the cited study.",
+        "Distinguish additive from multiplicative fault-model terms.",
+        "Do not generalize the paper's modeled control-accuracy severity ranking into a universal spacecraft failure rule.",
+        "Do not present simulated fault scenarios as actual in-orbit failure statistics."
+      ]
+    },
+    {
       "case_id": "E05_TERRA_BATTERY_HEATER",
       "domain": "eps",
       "term_registry": "eps_terms.json",
@@ -246,6 +223,29 @@
         "Do not assert that the cell failure caused heater-control failure or vice versa.",
         "Explain the thermal risk of approaching electrolyte freeze conditions without inventing an unreported cell failure mechanism.",
         "Mention that the investigation used pre/post-anomaly telemetry and a thermal model, not direct proof of the root cause."
+      ]
+    },
+    {
+      "case_id": "A06_ADCS_FDD_LIMITS",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_FDD_PRACTICAL_LIMITATIONS",
+        "NASA_STAR_TRACKER_VALIDITY"
+      ],
+      "term_ids": [
+        "star_tracker",
+        "gyro",
+        "evidence",
+        "uncertainty"
+      ],
+      "task_prompt": "A star-tracker solution becomes invalid during a high-angular-rate maneuver and external glare. Use the registered NASA star-tracker passage and ADCS FDD review to draft a seed that distinguishes measurement-validity loss from hardware failure.",
+      "expected_behaviors": [
+        "Treat high angular rate, field-of-view and glare as possible solution-validity conditions.",
+        "Do not infer a permanent star-tracker hardware failure from invalid solution output alone.",
+        "Mention model fidelity, residual sensitivity and noisy measurements as FDD limitations only within the review's scope.",
+        "Preserve uncertainty if no independent sensor evidence is supplied."
       ]
     },
     {
