@@ -7,7 +7,7 @@
 The current LLM-facing contracts are:
 - [Diagnostic context case schema](resources/diagnostic_case.schema.json)
 - [Chat SFT export schema](resources/diagnostic_sft.schema.json)
-- [Hypothetical case example](examples/diagnostic_context_case_illustrative.json) — schema illustration only, not a training example
+- [Hypothetical case example](examples/diagnostic_context_case_illustrative.json) — schema illustration only, not a training example\n- [Hypothetical chat SFT serialization](examples/diagnostic_context_sft_illustrative.json) — review-required illustration, not approved training data
 - [Corrected dataset purpose and roadmap](docs/DATASET_PURPOSE_CORRECTION.md)
 
 Raw telemetry remains in the upstream ML pipeline. DGSI may retain restricted artifact references for lineage, but must not inline raw waveforms/high-rate telemetry into the LLM prompt. Uncalibrated ML scores are not probabilities; fault candidates are not confirmed root causes; historical unresolved cases remain unresolved.
