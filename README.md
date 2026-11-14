@@ -7,7 +7,7 @@ Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft
 - Public indexes: `resources/sources.json`, `resources/source_passages.json`, `resources/terms.json` (alias-aware v2), `resources/telemetry_channels.csv`, `resources/fault_effects.json`.
 - Run admission contract: `resources/simulation_truth.json` (initially **zero verified runs**).
 - Versioned candidate JSON contract: `resources/seed.schema.json`.
-- Conservative Python preflight CLI: `src/dgsi/quality.py`, 19 adversarial tests.
+- Conservative Python preflight CLI: `src/dgsi/quality.py`, 28 adversarial tests.
 - Human workflows and **draft** reusable Skill: `docs/`, `skills/adcs-gold-seed-curation/SKILL.md`.
 
 ## Run locally (Python 3.11+; no external runtime dependencies)
@@ -31,4 +31,4 @@ python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
 
 **This repository is public.** Never commit R21/other nonpublic telemetry, unpublished experiment archives, commercial FMEA tables, credentials, personal data, or copyrighted source PDFs. Public source URLs and a small set of reviewed *metadata* are not a blanket license to reproduce texts. Input prompts must be truth-free; fault injection metadata, labels, and future holdouts are isolated. Published demo data are explicitly hypothetical.
 
-Start with [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/QUALITY_PROTOCOL.md`](docs/QUALITY_PROTOCOL.md). The plan and design are under `docs/superpowers/`.
+See [`docs/SKILL_PRESSURE_TEST_PROTOCOL.md`](docs/SKILL_PRESSURE_TEST_PROTOCOL.md) for the still-pending independent Skill evaluation. Start with [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/QUALITY_PROTOCOL.md`](docs/QUALITY_PROTOCOL.md). The plan and design are under `docs/superpowers/`.
