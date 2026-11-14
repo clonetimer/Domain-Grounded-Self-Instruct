@@ -438,6 +438,23 @@
       "evidence_status": "OFFICIAL_DOMAIN_REFERENCE",
       "claim_boundary": "NASA overview of solar generation, energy storage and power management/distribution. Use for architecture and component role only; it is not a case-specific fault diagnosis source.",
       "evidence_summary": "NASA's SmallSat Power chapter reviews solar power generation, battery energy storage and power management/distribution architectures. It provides component roles and design context, not a fault diagnosis for a specific spacecraft."
+    },
+    {
+      "passage_id": "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS",
+      "source_id": "NASA_TERRA_ANOMALY_SUMMARY_2014",
+      "locator": "Spacecraft Anomalies, printed PDF pp. 3–4: BBAT Heater Control Anomaly and BBAT Cell Failure, Oct. 13, 2009",
+      "locator_url": "https://terra.nasa.gov/wp-content/uploads/2014/03/ESMO_TerraWebStatus_June2014.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_ON_ORBIT_ANOMALY_SUMMARY",
+      "claim_boundary": "NASA records four of nine BBAT heater groups unable to provide temperature control, a failed BBAT cell #50 identified by loss of cell pressure and near-zero voltage, and a suspected common MMOD strike as the likely cause of both anomalies. Preserve 'likely/suspected'; the source does not report recovered impact debris or a confirmed impact location.",
+      "evidence_summary": "The NASA Terra status summary records four of nine BBAT heater groups losing temperature control and cell #50 failing with loss of pressure and near-zero voltage, later tripping its bypass switch. It identifies MMOD strike as the likely/suspected common cause, not a confirmed impact finding."
     }
   ]
 }
