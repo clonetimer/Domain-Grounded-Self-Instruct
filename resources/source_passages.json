@@ -455,6 +455,176 @@
       "evidence_status": "NASA_PUBLIC_ON_ORBIT_ANOMALY_SUMMARY",
       "claim_boundary": "NASA records four of nine BBAT heater groups unable to provide temperature control, a failed BBAT cell #50 identified by loss of cell pressure and near-zero voltage, and a suspected common MMOD strike as the likely cause of both anomalies. Preserve 'likely/suspected'; the source does not report recovered impact debris or a confirmed impact location.",
       "evidence_summary": "The NASA Terra status summary records four of nine BBAT heater groups losing temperature control and cell #50 failing with loss of pressure and near-zero voltage, later tripping its bypass switch. It identifies MMOD strike as the likely/suspected common cause, not a confirmed impact finding."
+    },
+    {
+      "passage_id": "SOHO_GYRO_B_FALSE_DIAGNOSIS",
+      "source_id": "SOHO_FAILURE_BOARD_1998",
+      "locator": "Factors Directly Contributing to the Loss, printed pp. 6–7; HTML lines 202–213",
+      "locator_url": "https://soho.nascom.nasa.gov/operations/Recovery/docs/SOHO_final_report.html",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_ESA_FAILURE_REVIEW",
+      "claim_boundary": "The board states Gyro A was despun and not active for roll control; Gyro B's gain was erroneously high and initially indicated 20 times the actual roll rate. After the spacecraft developed a real roll rate, Gyro B correctly measured it, but ground operations misdiagnosed Gyro B as faulty and commanded it off. Loss of autonomous fault detection and continued use of despun Gyro A contributed to loss of attitude control. The board concluded there were no onboard spacecraft anomalies.",
+      "evidence_summary": "SOHO's loss was not caused by a confirmed gyro hardware failure. A despun Gyro A was used for roll control, a high-gain Gyro B initially generated a false high-rate indication, then Gyro B correctly measured the later actual roll rate but was misdiagnosed and disabled by ground operations, removing an autonomous safety net."
+    },
+    {
+      "passage_id": "SOHO_A_CONFIG_N_GYRO_RESPIN_OMISSION",
+      "source_id": "SOHO_FAILURE_BOARD_1998",
+      "locator": "Appendix E, A_CONFIG_N Modification History, printed pp. 18–19; HTML lines 234–237 and 703–757",
+      "locator_url": "https://soho.nascom.nasa.gov/operations/Recovery/docs/SOHO_final_report.html",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "CAUSAL",
+        "METHODOLOGY",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_ESA_FAILURE_REVIEW",
+      "claim_boundary": "The A_CONFIG_N procedure was modified to despin Gyro A but omitted the software enable command needed to respin it when emergency safe mode was entered. The modification was not properly communicated and reviewed. Do not label this as an onboard gyro component failure; it was a ground procedure/software-configuration error.",
+      "evidence_summary": "The modified A_CONFIG_N sequence despun Gyro A without re-enabling the automatic respin function required for emergency sun-reacquisition mode. The failure board traced this to an inadequately reviewed and communicated ground procedure change."
+    },
+    {
+      "passage_id": "KEPLER_TWO_REACTION_WHEELS_FAILED",
+      "source_id": "NASA_KEPLER_REACTION_WHEELS_2013",
+      "locator": "NASA Release 13-254, paragraphs 2–5, 2013-08-15",
+      "locator_url": "https://www.nasa.gov/news-release/nasa-ends-attempts-to-fully-recover-kepler-spacecraft-potential-new-missions-considered/",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_MISSION_UPDATE",
+      "claim_boundary": "NASA reports two of four reaction wheels failed, one in July 2012 and one in May 2013, and restoration attempts were unsuccessful. The release gives no internal physical failure mechanism. Three functioning wheels were required for the original precision-pointing mission; two remaining wheels and thrusters were considered for a different mission profile. Do not invent a bearing, lubrication, motor or electronics root cause.",
+      "evidence_summary": "Kepler lost two of its four reaction wheels and could no longer meet the original three-wheel precision-pointing requirement. NASA's public release does not disclose why the wheels failed internally."
+    },
+    {
+      "passage_id": "SWIFT_WHEEL5_PRELIMINARY_MECHANICAL_FAILURE",
+      "source_id": "NASA_SWIFT_GCN_31547",
+      "locator": "GCN Circular 31547, paragraphs 1–4, 2022-02-04",
+      "locator_url": "https://gcn.nasa.gov/circulars/31547",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_GCN_OPERATIONAL_UPDATE",
+      "claim_boundary": "The Swift team reported reaction wheel #5 of 6 failed and stated that the failure mode was believed to be mechanical based on preliminary analysis. The notice does not identify the specific mechanical part or confirm a detailed mechanism. Five-wheel reconfiguration was being prepared; do not convert the preliminary belief into a confirmed bearing or rotor failure.",
+      "evidence_summary": "NASA/GSFC identified Swift wheel #5 as failed and described a mechanical failure mode as a preliminary belief. No internal failed part or detailed mechanism is specified."
+    },
+    {
+      "passage_id": "INTEGRAL_WHEEL_STOP_RADIATION_BELT_TRIGGER",
+      "source_id": "ESA_INTEGRAL_WHEEL_ANOMALY_2021",
+      "locator": "Sections 'What on Earth?' and 'Darmstadt, we have a problem', paragraphs 1–4, 2021-10-18",
+      "locator_url": "https://www.esa.int/Enabling_Support/Operations/Three_hours_to_save_Integral",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
+      "claim_boundary": "ESA reports one of Integral's three active reaction wheels stopped without warning, causing spacecraft rotation and safe-mode entry. ESA says the trigger appeared associated with charged particles trapped in Earth's radiation belts, while explicitly distinguishing this from solar-weather activity. Do not state a confirmed microscopic wheel failure mechanism or assert a solar flare caused it.",
+      "evidence_summary": "Integral's active reaction wheel stopped; ESA associated the trigger with charged particles trapped in Earth's radiation belts, not a contemporaneous solar-weather event. The public account does not identify the wheel's internal failed part."
+    },
+    {
+      "passage_id": "INTEGRAL_STAR_TRACKER_OCCULTATION_SECOND_SPIN",
+      "source_id": "ESA_INTEGRAL_WHEEL_ANOMALY_2021",
+      "locator": "Section 'An Apollo 13 moment', paragraphs 1–2, 2021-10-18",
+      "locator_url": "https://www.esa.int/Enabling_Support/Operations/Three_hours_to_save_Integral",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
+      "claim_boundary": "After the initial wheel recovery, Integral began rotating again with reaction wheels at high speed. ESA says the reason was not completely understood and was thought to be associated with star-tracker occultation or blinding that the control system did not handle correctly. Preserve this as a tentative explanation for the recurrence, not the confirmed cause of the original wheel stop.",
+      "evidence_summary": "The second rotation episode occurred after initial wheel recovery and was only tentatively associated with star-tracker occultation/blinding. It is a separate event from the initial reaction-wheel stop."
+    },
+    {
+      "passage_id": "SEASAT_SLIP_RING_PROGRESSIVE_SHORT_ARC",
+      "source_id": "NASA_SEASAT_FAILURE_REVIEW_1993",
+      "locator": "Failure Review Board report, Executive Summary and findings on power loss / solar-array slip-ring assembly",
+      "locator_url": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930015504.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_FAILURE_REVIEW",
+      "claim_boundary": "Seasat failed after 105 days following loss of electrical power in the Agena bus. The board attributed the loss to a massive progressive short in a slip-ring assembly connecting rotating solar arrays into the power subsystem. An arc between adjacent brush assemblies was the most likely cause; the initiating path could have been wire-to-brush contact, brush-to-brush contact or a contaminant bridge. Preserve uncertainty about the exact initiator.",
+      "evidence_summary": "The Seasat board identified a progressive short in the solar-array rotary slip-ring assembly and considered arcing between adjacent brushes the most likely mechanism. It did not uniquely determine the initiating contact or contaminant path."
+    },
+    {
+      "passage_id": "INTELSAT_IS804_ESD_BATTERY_HIGH_VOLTAGE_PROPAGATION",
+      "source_id": "INTELSAT_FORM20F_2014_POWER_ANOMALIES",
+      "locator": "Form 20-F, Item 4B, 'Significant Anomalies', printed pp. 39–40; SEC HTML lines 1485–1487",
+      "locator_url": "https://www.sec.gov/Archives/edgar/data/1525773/000119312515052796/d801063d20f.htm",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "PUBLIC_REGULATORY_FILING_SUMMARIZING_FRB",
+      "claim_boundary": "IS-804 was lost after a sudden EPS anomaly on 2005-01-14. The filing summarizes the failure board's belief that an electrostatic discharge triggered a high-current event in the battery circuitry, which propagated to cause failure of the high-voltage power system. Preserve 'most likely' and do not claim direct observation of the initiating ESD or exact failed internal part.",
+      "evidence_summary": "The filing reports the failure board's most-likely chain: ESD → battery-circuit high-current event → propagated high-voltage power-system failure. This is a board conclusion summarized in a regulatory filing, not direct telemetry or teardown proof."
+    },
+    {
+      "passage_id": "INTELSAT_IS802_SOUTH_ARRAY_HARNESS_SHORT",
+      "source_id": "INTELSAT_FORM20F_2014_POWER_ANOMALIES",
+      "locator": "Form 20-F, Item 4B, 'Significant Anomalies', printed p. 40; SEC HTML lines 1488–1497",
+      "locator_url": "https://www.sec.gov/Archives/edgar/data/1525773/000119312515052796/d801063d20f.htm",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "PUBLIC_REGULATORY_FILING_SUMMARIZING_FRB",
+      "claim_boundary": "IS-802 experienced reduced electrical power capability in 2006, with some transponders later reactivated. The failure review board concluded the anomaly was most likely caused by an electrical short inside the solar-array harness on the south solar-array boom. Do not relabel it as a solar-cell failure or claim the precise short location/physical initiator was confirmed.",
+      "evidence_summary": "The reported root-cause localization is an internal electrical short in the south solar-array harness, described as most likely by the review board; the filing does not identify a specific wire, connector or cell."
+    },
+    {
+      "passage_id": "COSMIC_ADCS_RECOVERY_LOOP_EPS_PROPAGATION",
+      "source_id": "COSMIC_CUBESAT_ADCS_EPS_2026",
+      "locator": "Abstract and on-orbit anomaly analysis; Aerospace 2026, 13(7), 654",
+      "locator_url": "https://www.mdpi.com/2226-4310/13/7/654",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "THERMAL_MECHANICAL_INTERACTION",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
+      "claim_boundary": "The paper attributes repeated reboots to an infinite loop in an ADCS recovery sequence. Reboots prevented completion of early-orbit mode and solar-array deployment, reducing charging current and battery voltage. They also suppressed internal heat generation, allowing battery temperature to fall below the heater activation threshold. The loop was terminated by ground command and arrays were deployed using a worst-case burn time validated during thermal-vacuum testing. This is a cross-subsystem causal chain: ADCS recovery logic produced EPS energy and thermal symptoms.",
+      "evidence_summary": "An ADCS recovery infinite loop caused repeated reboots; the spacecraft did not complete early orbit mode or deploy solar arrays, leading to low battery charging and cooling below heater activation temperature. Recovery involved terminating the loop and commanding array deployment."
     }
   ]
 }
