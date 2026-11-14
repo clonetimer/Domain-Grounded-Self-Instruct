@@ -6,7 +6,7 @@
 
 **Exit:** tests pass, CLI preflight passes for a clearly hypothetical abstention example, known fabricated terms/causal overreach/self-attestation/truth leakage fail, source provenance remains distinguishable. Alias semantics and 11 public source-passage locators are now registered; all preferred terms remain draft pending domain review. The draft Skill remains unapproved pending independent blind evaluation.
 
-**P1-B status:** deterministic source-passage binding, alias-aware terminology and suspicious-compound review are implemented. The Skill remains DRAFT pending the independent blind evaluation in `docs/SKILL_PRESSURE_TEST_PROTOCOL.md`.
+**P1-B status:** deterministic source-passage binding, alias-aware terminology, suspicious-compound review and an opt-in blind runner are implemented. The runner uses the same generator/evidence bundle in both conditions, hides condition labels from a declared different-family judge, records paired score deltas, and defaults to a zero-network dry run. The Skill remains DRAFT pending a live independent evaluation and domain review.
 
 ## Phase 2 / P2: verified evidence admission
 
