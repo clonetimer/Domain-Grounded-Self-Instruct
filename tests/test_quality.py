@@ -268,6 +268,40 @@ class QualityGateTest(unittest.TestCase):
 
 
 
+    def test_new_public_holdout_source_kinds_are_admitted_as_document_evidence(self):
+        cases = [
+            ("SOHO_FAILURE_BOARD_1998", "SOHO_GYRO_B_FALSE_DIAGNOSIS", "adcs"),
+            ("NASA_KEPLER_REACTION_WHEELS_2013", "KEPLER_TWO_REACTION_WHEELS_FAILED", "adcs"),
+            ("NASA_SWIFT_GCN_31547", "SWIFT_WHEEL5_PRELIMINARY_MECHANICAL_FAILURE", "adcs"),
+            ("ESA_INTEGRAL_WHEEL_ANOMALY_2021", "INTEGRAL_WHEEL_STOP_RADIATION_BELT_TRIGGER", "adcs"),
+            ("NASA_SEASAT_FAILURE_REVIEW_1993", "SEASAT_SLIP_RING_PROGRESSIVE_SHORT_ARC", "eps"),
+            ("INTELSAT_FORM20F_2014_POWER_ANOMALIES", "INTELSAT_IS804_ESD_BATTERY_HIGH_VOLTAGE_PROPAGATION", "eps"),
+            ("COSMIC_CUBESAT_ADCS_EPS_2026", "COSMIC_ADCS_RECOVERY_LOOP_EPS_PROPAGATION", "eps"),
+            ("NASA_TERRA_ANOMALY_SUMMARY_2014", "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS", "eps"),
+            ("NEOSSAT_ADCS_CASE_2023", "NEOSSAT_MAGNETOMETER_FAILURE", "adcs"),
+            ("ADCS_FDD_REVIEW_2023", "ADCS_FDD_PRACTICAL_LIMITATIONS", "adcs"),
+        ]
+        for source_id, passage_id, domain in cases:
+            with self.subTest(source_id=source_id):
+                case = copy.deepcopy(self.example if domain == "adcs" else self.eps_example)
+                passage = self.registry["source_passages"][passage_id]
+                evidence = case["evidence"][0]
+                evidence.update({
+                    "origin": "DOCUMENT_EXCERPT",
+                    "source_id": source_id,
+                    "passage_id": passage_id,
+                    "locator": passage["locator"],
+                    "statement": passage.get("evidence_summary", "Registered public source passage."),
+                })
+                claim = case["claims"][0]
+                claim["source_ids"] = [source_id]
+                claim["source_passage_ids"] = [passage_id]
+                findings = {item.code for item in validate_seed(case, self.registry)}
+                self.assertNotIn("DOCUMENT_SOURCE_NOT_ADMITTED", findings)
+                self.assertNotIn("SOURCE_PASSAGE_SOURCE_MISMATCH", findings)
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
