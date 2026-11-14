@@ -346,6 +346,23 @@
       "evidence_status": "REFERENCE_INDEXED",
       "published_or_updated": "2026-05-07",
       "scope_note": "NASA chapter on solar generation, battery energy storage, power management and distribution. It is architecture/technology reference material, not evidence that a specific flight fault occurred."
+    },
+    {
+      "source_id": "NASA_TERRA_ANOMALY_SUMMARY_2014",
+      "title": "Terra Spacecraft Anomalies — Hex Bay Battery Cell and Heater Control",
+      "url": "https://terra.nasa.gov/wp-content/uploads/2014/03/ESMO_TerraWebStatus_June2014.pdf",
+      "kind": "NASA_PUBLIC_ON_ORBIT_STATUS_REPORT",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "BATTERY",
+        "THERMAL_CONTROL",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_ON_ORBIT_ANOMALY_SUMMARY",
+      "published_or_updated": "2014-06",
+      "scope_note": "NASA Terra status summary records BBAT cell #50 near-zero voltage and loss of cell pressure, four of nine heater groups losing temperature control, and a suspected common MMOD strike as the likely cause. Preserve 'likely/suspected'; the summary does not describe a recovered fragment or confirm the impact point."
     }
   ]
 }
