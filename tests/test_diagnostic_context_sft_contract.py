@@ -5,6 +5,7 @@ from pathlib import Path
 from dgsi.diagnostic_context import (
     DiagnosticContextValidationError,
     audit_split_groups,
+    evaluate_case_readiness,
     validate_diagnostic_case,
     validate_sft_example,
 )
@@ -103,6 +104,21 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         result = audit_split_groups(examples)
         self.assertEqual(result["example_count"], 3)
         self.assertEqual(result["source_group_count"], 3)
+
+    def test_hypothetical_case_is_not_gold_eligible(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        result = evaluate_case_readiness(case)
+        self.assertEqual(result["decision"], "BLOCKED")
+        self.assertFalse(result["gold_eligible"])
+        self.assertIn("EXPERT_APPROVAL_REQUIRED", result["blockers"])
+        self.assertIn("MISSING_SOURCE_ARTIFACT_HASH", result["blockers"])
+
+    def test_approved_case_requires_reviewer_identity_and_timestamp(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["review"]["status"] = "APPROVED"
+        result = evaluate_case_readiness(case)
+        self.assertIn("APPROVED_WITHOUT_REVIEWER_ID", result["blockers"])
+        self.assertIn("APPROVED_WITHOUT_REVIEW_TIMESTAMP", result["blockers"])
 
 
 if __name__ == "__main__":
