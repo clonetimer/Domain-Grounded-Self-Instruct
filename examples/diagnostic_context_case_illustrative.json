@@ -135,7 +135,8 @@
       }
     ],
     "raw_telemetry_included": false,
-    "telemetry_reference": "restricted upstream ML evidence package; not supplied to the LLM"
+    "telemetry_reference": "restricted upstream ML evidence package; not supplied to the LLM",
+    "analysis_cutoff": "2026-04-12T09:10:00Z"
   },
   "expected_output": {
     "disposition": "ACCEPT_WITH_QUALIFICATION",
