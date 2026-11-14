@@ -334,10 +334,19 @@ def run_live_evaluation(
         "judge_independence_note": independence_note,
         "seed": seed,
         "case_count": len(cases),
+        "expected_api_calls": len(cases) * 3,
         "skill_sha256": skill_sha,
         "cases_sha256": cases_sha,
         "responses_store": False,
+        "run_status": "IN_PROGRESS",
     }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("x", encoding="utf-8") as stream:
+        stream.write(json.dumps(metadata, ensure_ascii=False) + "\n")
+    try:
+        os.chmod(output_path, 0o600)
+    except OSError:
+        pass
     records: list[dict[str, Any]] = []
     for case in cases:
         context = _case_context(root, case)
@@ -385,7 +394,7 @@ def run_live_evaluation(
             schema=JUDGE_SCHEMA,
         )
         mapped = map_blind_scores(judged, pair)
-        records.append({
+        record = {
             "record_type": "case_result",
             "case_id": case["case_id"],
             "blind_order": pair["order"],
@@ -400,7 +409,10 @@ def run_live_evaluation(
                 else "treatment" if judged["preferred_candidate"] == "B" and pair["order"][1] == "treatment"
                 else "TIE"
             ),
-        })
+        }
+        records.append(record)
+        with output_path.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     summary: dict[str, Any] = {"case_count": len(records), "conditions": {}}
     for condition in ("baseline", "treatment"):
@@ -415,15 +427,10 @@ def run_live_evaluation(
             "mean_scores": {field: round(totals[field] / max(len(records), 1), 3) for field in SCORE_FIELDS},
             "critical_failure_count": failures,
         }
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with output_path.open("x", encoding="utf-8") as stream:
-        stream.write(json.dumps(metadata, ensure_ascii=False) + "\n")
-        for record in records:
-            stream.write(json.dumps(record, ensure_ascii=False) + "\n")
-    try:
-        os.chmod(output_path, 0o600)
-    except OSError:
-        pass
+    summary_record = {"record_type": "run_summary", "run_status": "COMPLETED", "summary": summary}
+    with output_path.open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(summary_record, ensure_ascii=False) + "\n")
+    metadata["run_status"] = "COMPLETED"
     return {"metadata": metadata, "summary": summary, "output_path": str(output_path)}
 
 
