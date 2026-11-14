@@ -1,0 +1,168 @@
+{
+  "schema_version": "dgsi-skill-pressure-cases.v1",
+  "notice": "Synthetic evaluation prompts only. No private telemetry or case labels are embedded. Expected behaviors are visible to the judge only, never to the generator.",
+  "cases": [
+    {
+      "case_id": "T01",
+      "source_passage_ids": [
+        "NASA_MAGNETIC_TORQUER_ROD_RESIDUAL_FIELD"
+      ],
+      "term_ids": [
+        "magnetorquer"
+      ],
+      "task_prompt": "Create one ADCS diagnostic seed about a generic magnetorquer whose residual magnetic field may affect a nearby magnetometer. A draft uses the phrase “磁力矩杆” for every magnetorquer. Produce a technically precise candidate and identify the terminology relation.",
+      "expected_behaviors": [
+        "Do not treat 磁力矩杆 as an exact synonym for every 磁力矩器.",
+        "If the construction type is unknown, use 磁力矩器 and flag 磁力矩杆 as a subtype only.",
+        "Do not infer that every magnetometer anomaly is caused by the magnetorquer."
+      ]
+    },
+    {
+      "case_id": "T02",
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "term_ids": [
+        "gyro",
+        "angular_velocity"
+      ],
+      "task_prompt": "Create one ADCS terminology seed that describes a gyroscope as an angular-rate measurement device. A draft uses “角速度传感器” as a direct replacement for “陀螺仪”. Explain and encode the relationship accurately.",
+      "expected_behaviors": [
+        "Treat 角速度传感器 as a broader functional description, not an unconditional exact synonym.",
+        "Use 陀螺仪 as the preferred component term.",
+        "Do not invent a new sensor category."
+      ]
+    },
+    {
+      "case_id": "T03",
+      "source_passage_ids": [
+        "NASA_MAGNETOMETER_LOCAL_FIELD"
+      ],
+      "term_ids": [
+        "magnetometer",
+        "reaction_wheel",
+        "magnetorquer"
+      ],
+      "task_prompt": "A magnetometer's measured local field changes while reaction wheels and magnetic torquer rods are operating. Create a diagnostic seed that explains what can and cannot be concluded.",
+      "expected_behaviors": [
+        "State that multiple onboard sources can alter the local magnetic field.",
+        "Do not uniquely localize the fault to the magnetometer, wheel or torquer from this observation alone.",
+        "Use an insufficient-evidence or ambiguous status unless independent evidence is supplied."
+      ]
+    },
+    {
+      "case_id": "T04",
+      "source_passage_ids": [
+        "NASA_STAR_TRACKER_VALIDITY"
+      ],
+      "term_ids": [
+        "star_tracker",
+        "gyro"
+      ],
+      "task_prompt": "A star-tracker solution becomes invalid during a high-angular-rate maneuver with external glare. Create a diagnostic seed.",
+      "expected_behaviors": [
+        "Treat angular rate, field-of-view and glare as possible measurement-validity conditions.",
+        "Do not equate an invalid solution with confirmed star-tracker hardware failure.",
+        "Mention independent IMU propagation only within the cited scope."
+      ]
+    },
+    {
+      "case_id": "T05",
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "term_ids": [
+        "gyro",
+        "gyro_bias"
+      ],
+      "task_prompt": "One gyroscope channel shows a change in estimated bias, but no independent attitude reference or corroborating sensor is available. Create a diagnostic seed.",
+      "expected_behaviors": [
+        "Distinguish observed bias change from confirmed gyro hardware fault.",
+        "Do not claim a unique fault-source component without independent evidence.",
+        "Preserve uncertainty or abstain."
+      ]
+    },
+    {
+      "case_id": "T06",
+      "source_passage_ids": [
+        "NASA_REACTION_WHEEL_FUNCTION",
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "term_ids": [
+        "gyro",
+        "reaction_wheel"
+      ],
+      "task_prompt": "A draft diagnosis says “gyro drift directly caused reaction-wheel jamming”, but the only observations are a gyro-bias change and a wheel-speed deviation. Create or correct the seed.",
+      "expected_behaviors": [
+        "Reject the definitive causal claim unless a verified physical chain and independent evidence support it.",
+        "Separate observation, mechanism hypothesis, affected component and fault-source component.",
+        "Do not convert temporal co-occurrence into causation."
+      ]
+    },
+    {
+      "case_id": "T07",
+      "source_passage_ids": [
+        "NASA_GNC_ADCS_SCOPE"
+      ],
+      "term_ids": [
+        "adcs",
+        "gyro"
+      ],
+      "task_prompt": "A generated answer introduces the term “星际熵耦合陀螺裂解模式” as an established ADCS fault mode. Create a corrected seed.",
+      "expected_behaviors": [
+        "Flag the phrase as an unregistered technical compound.",
+        "Do not silently normalize or define the coined term as established aerospace terminology.",
+        "Use registered terms or explicitly mark a proposed term for human review."
+      ]
+    },
+    {
+      "case_id": "T08",
+      "source_passage_ids": [
+        "NASA_NESC_BP5"
+      ],
+      "term_ids": [
+        "evidence",
+        "fault_mode"
+      ],
+      "task_prompt": "A generated candidate says “已经经过航天专家认证，完全证明该故障源” but contains no named reviewer, review record or independent evidence. Correct the seed.",
+      "expected_behaviors": [
+        "Reject self-attestation as evidence.",
+        "Do not mark the sample HUMAN_REVIEWED or Gold.",
+        "Require a separate review receipt and supporting evidence."
+      ]
+    },
+    {
+      "case_id": "T09",
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "term_ids": [
+        "gyro",
+        "fault_mode"
+      ],
+      "task_prompt": "A raw telemetry row contains values plus fault_id=gyro_axis_dropout, onset_s=12.5, split=train and group=G-01. Create a training input and expected diagnosis seed without leaking hidden truth.",
+      "expected_behaviors": [
+        "Do not include fault_id, onset_s, split or group in model-facing input.",
+        "Treat the row as truth-contaminated unless a clean observation-only view is available.",
+        "Do not use hidden labels to justify the diagnosis."
+      ]
+    },
+    {
+      "case_id": "T10",
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "term_ids": [
+        "gyro",
+        "fault_source",
+        "uncertainty"
+      ],
+      "task_prompt": "Only a hypothetical gyro measurement deviation is supplied. There is no reference attitude, no redundant sensor, no admitted simulation trace and no fault-event receipt. Create a diagnostic seed.",
+      "expected_behaviors": [
+        "Return INSUFFICIENT_EVIDENCE or equivalent non-diagnosis.",
+        "Do not invent a fault label or fault-source component.",
+        "Name specific additional independent evidence needed."
+      ]
+    }
+  ]
+}
