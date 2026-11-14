@@ -141,6 +141,214 @@
       ],
       "evidence_status": "REFERENCE_INDEXED",
       "claim_boundary": "Supports release identity and documented compatibility changes only; not a substitute for versioned module documentation or an admitted simulation run."
+    },
+    {
+      "passage_id": "NEOSSAT_MAGNETOMETER_FAILURE",
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "locator": "§2.2 Attitude Control Anomalies & Recovery, lines 53–59 (PDF pp. 2–3)",
+      "locator_url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "CASE_HISTORY",
+        "SYSTEM_EFFECT",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report states that the magnetometer ceased functioning in 2016, the spacecraft lost fine pointing and entered a quasi-tumbling state; a residual magnetic dipole was identified as the primary disturbance contributor to momentum accumulation. Do not infer the physical cause of the magnetometer failure or generalize the case to all magnetometers."
+    },
+    {
+      "passage_id": "NEOSSAT_TORQUE_ROD_CONTROLLER_FAILURE",
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "locator": "§2.2 Attitude Control Anomalies & Recovery, lines 65–69 (PDF p. 3)",
+      "locator_url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "CASE_HISTORY",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report attributes permanent loss of torque-rod communication to an STM32 microcontroller anomaly. This is a controller/communication failure description; it does not establish a torque-rod coil open/short or magnetic-moment hardware failure."
+    },
+    {
+      "passage_id": "NEOSSAT_XWHEEL_SUSPECTED_ELECTRICAL_FAILURE",
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "locator": "§2.2 Attitude Control Anomalies & Recovery, lines 70–75 (PDF p. 3)",
+      "locator_url": "https://conference.sdo.esoc.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "CASE_HISTORY",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report says the 2021 X-wheel failure was suspected to be electrical because wheel speed ramped down slowly rather than showing a seizure; commands to speed/torque caused shutdown. The same-axis rate sensor also powered down when the wheel was off. Preserve 'suspected'; the report does not identify the failed internal part."
+    },
+    {
+      "passage_id": "ADCS_MED_CASCADE_FAULT_MODEL",
+      "source_id": "ADCS_MED_FAULT_MODEL_2020",
+      "locator": "Abstract and Introduction; motor/variable-speed-drive cascade fault model and simulation results",
+      "locator_url": "https://doi.org/10.1016/j.jfranklin.2020.02.015",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "FAULT_MODEL",
+        "SIMULATION_RESULT"
+      ],
+      "evidence_status": "RESEARCH_MODEL",
+      "claim_boundary": "The paper models momentum-exchange devices as cascaded electric motor and variable-speed-drive systems, considers additive and multiplicative fault models, and compares modeled control-accuracy effects. Do not treat model fault classes or relative severity as universal flight failure statistics."
+    },
+    {
+      "passage_id": "ADCS_GYRO_ADDITIVE_MEASUREMENT_FAULT",
+      "source_id": "ADCS_SENSOR_FDD_2009",
+      "locator": "Abstract; §2 sensor fault model; §3 integrated attitude determination/FDD filters (Acta Astronautica 65, pp. 710–729)",
+      "locator_url": "https://doi.org/10.1016/j.actaastro.2009.03.002",
+      "allowed_claim_types": [
+        "MEASUREMENT_MODEL",
+        "METHOD",
+        "MECHANISM"
+      ],
+      "evidence_status": "RESEARCH_MODEL",
+      "claim_boundary": "The paper formulates sensor faults as additive terms in a measurement equation and estimates gyro bias using fused gyro/vector-sensor measurements. This is a modeling and estimation approach, not proof that every observed bias change is a physical gyro failure."
+    },
+    {
+      "passage_id": "ADCS_FDD_PRACTICAL_LIMITATIONS",
+      "source_id": "ADCS_FDD_REVIEW_2023",
+      "locator": "Abstract and review summary",
+      "locator_url": "https://doi.org/10.1177/09544100231157132",
+      "allowed_claim_types": [
+        "METHODOLOGY",
+        "LIMITATION"
+      ],
+      "evidence_status": "RESEARCH_REVIEW",
+      "claim_boundary": "The review discusses residual sensitivity, plant-model fidelity, noisy measurements, tuning, robustness and practical applicability. It supports discussion of FDD limitations, not specific spacecraft fault causes."
+    },
+    {
+      "passage_id": "EPC_SSPA_ARCHITECTURE_AND_ANOMALY_CLASSES",
+      "source_id": "AGU_SSPA_RADIATION_2013",
+      "locator": "§1 introduction and §2 SSPA anomalies; Lohmeyer & Cahoy, Space Weather 11(8), 476–488",
+      "locator_url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/swe.20071",
+      "allowed_claim_types": [
+        "ARCHITECTURE",
+        "OBSERVATION",
+        "STATISTICAL_FINDING",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "RESEARCH_CASE_ANALYSIS",
+      "claim_boundary": "The paper describes SSPA as an electrical power conditioner plus FET amplifier, and classifies observed amplifier anomalies as operator-defined hard/soft failures using hardware-specific current thresholds. It reports 26 anomalies across eight Inmarsat satellites and says no individual anomaly cause was identified or confirmed. SSPA-level current anomalies do not uniquely localize failure to the EPC."
+    },
+    {
+      "passage_id": "EPC_SSPA_RADIATION_CAUSAL_LIMIT",
+      "source_id": "AGU_SSPA_RADIATION_2013",
+      "locator": "§4 Summary and Discussions",
+      "locator_url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/swe.20071",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "STATISTICAL_FINDING",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "RESEARCH_CASE_ANALYSIS",
+      "claim_boundary": "The paper compares 26 SSPA anomalies with space-weather observations, notes incomplete particle observations for five cases, and does not establish a general causal relationship between anomalies and the solar cycle or a confirmed cause for each anomaly. Radiation is discussed as a suspected influence, not a confirmed root cause."
+    },
+    {
+      "passage_id": "EPC_TWTA_HIGH_VOLTAGE_OUTPUTS",
+      "source_id": "ECSS_HV_HANDBOOK_2012",
+      "locator": "§4.4.2.1, printed pp. 58–59 (PDF lines 2684–2716)",
+      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "allowed_claim_types": [
+        "ARCHITECTURE",
+        "MECHANISM",
+        "TELEMETRY"
+      ],
+      "evidence_status": "ENGINEERING_HANDBOOK",
+      "claim_boundary": "The handbook defines TWTA as TWT plus EPC and describes stable helix, cathode, collector and heater outputs generated from the spacecraft main bus. These are architectural/design requirements, not a measured failure signature or universal telemetry set for every EPC."
+    },
+    {
+      "passage_id": "EPC_TWTA_FUNCTIONAL_BLOCKS",
+      "source_id": "ECSS_HV_HANDBOOK_2012",
+      "locator": "§4.4.2.1–4.4.2.2, printed p. 59 (PDF lines 2720–2810)",
+      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "allowed_claim_types": [
+        "ARCHITECTURE",
+        "MECHANISM",
+        "TELEMETRY"
+      ],
+      "evidence_status": "ENGINEERING_HANDBOOK",
+      "claim_boundary": "Describes EPC telecommand/telemetry, safe TWT start-up, protection against incorrect operation or high-voltage arcing, input filter, preregulator, power converter, high-voltage generation, cathode-current and helix regulators, and filament conversion. The block diagram does not prove a particular component has failed."
+    },
+    {
+      "passage_id": "EPC_PARTIAL_DISCHARGE_MECHANISM",
+      "source_id": "ECSS_HV_HANDBOOK_2012",
+      "locator": "§4.3.3 Partial discharges, printed pp. 45–46 (PDF lines 2018–2028 and 2083–2102)",
+      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "TERMINOLOGY"
+      ],
+      "evidence_status": "ENGINEERING_HANDBOOK",
+      "claim_boundary": "A partial discharge is a localized discharge that does not cause immediate full breakdown; in solid/liquid insulation it can accelerate breakdown and ageing. Do not use 'partial discharge', 'corona' and full electrical breakdown as interchangeable terms."
+    },
+    {
+      "passage_id": "EPC_PASCHEN_BREAKDOWN_MECHANISM",
+      "source_id": "ECSS_HV_HANDBOOK_2012",
+      "locator": "§4.3.4 Paschen breakdown, printed p. 48 (PDF lines 2181–2240); distinction from partial discharge at lines 2094–2100",
+      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "TERMINOLOGY"
+      ],
+      "evidence_status": "ENGINEERING_HANDBOOK",
+      "claim_boundary": "Paschen breakdown is a full gaseous-insulation breakdown mechanism and is distinct from partial discharge. Applicability depends on gas, pressure, gap geometry and voltage; do not infer it from an unspecified high-voltage anomaly."
+    },
+    {
+      "passage_id": "EPC_HIGH_VOLTAGE_CONVERTER_PROBLEM_CLASSES",
+      "source_id": "ECSS_HV_HANDBOOK_2012",
+      "locator": "§8.1.1 High voltage converters (PDF lines 9535–9549)",
+      "locator_url": "https://escies.org/download/webDocumentFile?id=63541",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "FAILURE_MODE",
+        "LIMITATION"
+      ],
+      "evidence_status": "ENGINEERING_HANDBOOK",
+      "claim_boundary": "The handbook lists EMC issues, flashover in open circuit and critical-pressure/Paschen effects as typical high-voltage converter problem areas. These are general engineering problem classes, not confirmed causes of any specific flight anomaly."
+    },
+    {
+      "passage_id": "TWTA_MICRODISCHARGE_RESTART_SIGNATURE",
+      "source_id": "TWTA_MICRODISCHARGE_2016",
+      "locator": "Abstract; Introduction; Effect occurrence (Acta Astronautica 126, pp. 163–167)",
+      "locator_url": "https://doi.org/10.1016/j.actaastro.2016.04.021",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "MECHANISM",
+        "PROTECTION_BEHAVIOR"
+      ],
+      "evidence_status": "RESEARCH_CASE_ANALYSIS",
+      "claim_boundary": "Describes high-voltage microdischarges in TWTAs, EPC high-voltage removal and autonomous restart, including an anode-voltage drop with roughly 20-minute recovery in the '20 min Effect'. This is a transient discharge/recovery phenomenon and does not by itself prove permanent EPC hardware failure."
+    },
+    {
+      "passage_id": "TWTA_TUBE_DEGRADATION_VS_EPC",
+      "source_id": "TWTA_RELIABILITY_2022",
+      "locator": "§2 Performance Degradation Analysis of Space TWTA; §2.1 helix-current degradation",
+      "locator_url": "https://www.mdpi.com/2076-3417/12/3/1575",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "TELEMETRY",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "OPEN_ACCESS_RESEARCH_MODEL",
+      "claim_boundary": "The paper states that TWTA comprises TWT plus EPC and identifies insufficient cathode emission and vacuum deterioration as TWT failure mechanisms. Helix current and anode voltage are correlated TWTA performance indicators; they do not uniquely diagnose EPC failure."
+    },
+    {
+      "passage_id": "JWST_TWTA_EPC_PARTS_FAILURE_CASE",
+      "source_id": "JWST_TWTA_EPC_FAILURE_2024",
+      "locator": "Table 2, 'Avionics box failures during the spacecraft and observatory I&T program', printed p. 33 (PDF lines 1327–1336)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20250005920/downloads/26_011208_1.pdf?attachment=true",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "COMPONENT_LOCALIZATION"
+      ],
+      "evidence_status": "NASA_PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report states that TWTA-1 unexpectedly powered off during pre-thermal-vacuum functional testing and the manufacturer attributed it to a parts failure in the TWTA EPC. It does not disclose the specific failed part or physical failure mechanism."
     }
   ]
 }
