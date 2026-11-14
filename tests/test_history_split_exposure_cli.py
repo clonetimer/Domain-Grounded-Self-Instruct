@@ -67,6 +67,7 @@ class HistorySplitCliTests(unittest.TestCase):
             a, b = make_case("ONE"), make_case("TWO")
             a["input"]["historical_cases"][0]["case_ref"] = b["case_id"]
             a["provenance"]["historical_case_refs"] = [b["case_id"]]
+            a["expected_output"]["historical_experience_relevance"][0]["case_ref"] = b["case_id"]
             rows = [
                 {"split": "train", "case_path": self.save(root, a, "a")},
                 {"split": "test", "case_path": self.save(root, b, "b")},
