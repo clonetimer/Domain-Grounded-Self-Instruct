@@ -229,7 +229,7 @@ _FORBIDDEN_PROMPT_JSON_KEYS = re.compile(
     r'"(?:expected_output|review|answer_key|target_report|gold_answer|'
     r'ground_truth|fault_truth|injection_truth|hidden_label|gold_label|'
     r'labels_used|truth_used|raw_telemetry|telemetry_rows|waveforms?|'
-    r'time_series|timeseries|raw_signal|samples)"\\s*:',
+    r'time_series|timeseries|raw_signal|samples)"\s*:',
     re.IGNORECASE,
 )
 
