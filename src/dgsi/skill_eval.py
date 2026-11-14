@@ -476,15 +476,22 @@ def run_live_evaluation(
     independence_note: str,
     seed: int = 20261114,
     limit: int = 10,
+    suite_file: str = "skill_pressure_cases.json",
 ) -> dict[str, Any]:
     validate_live_config(generator_model, judge_model, generator_family, judge_family, api_key, independence_note)
     if limit <= 0:
         raise ValueError("limit must be positive")
     output_path = validate_output_path(root, output_path)
-    cases_file = root / "resources" / "skill_pressure_cases.json"
+    if Path(suite_file).name != suite_file or not suite_file.endswith(".json"):
+        raise ValueError("suite_file must be a JSON filename directly under resources/")
+    cases_file = root / "resources" / suite_file
+    if not cases_file.is_file():
+        raise ValueError(f"case suite does not exist: {suite_file}")
     passages_file = root / "resources" / "source_passages.json"
     cases_payload = _load_json(cases_file)
     cases = cases_payload["cases"][:limit]
+    if not cases:
+        raise ValueError("selected case suite contains no cases")
     allowed_skill_paths = {
         "skills/adcs-gold-seed-curation/SKILL.md",
         "skills/eps-gold-seed-curation/SKILL.md",
@@ -528,6 +535,9 @@ def run_live_evaluation(
         "judge_family": judge_family,
         "judge_independence_note": independence_note,
         "seed": seed,
+        "suite_file": suite_file,
+        "suite_split": cases_payload.get("split", "DEVELOPMENT"),
+        "case_ids": [case["case_id"] for case in cases],
         "case_count": len(cases),
         "expected_api_calls": len(cases) * 3,
         "api_calls_completed": 0,
