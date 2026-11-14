@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -35,7 +36,8 @@ def _read_json(path: Path):
     try:
         with path.open("r", encoding="utf-8") as f:
             return json.load(f, object_pairs_hook=_unique_object,
-                             parse_constant=lambda _x: _invalid_number())
+                             parse_constant=lambda _x: _invalid_number(),
+                             parse_float=_finite_float)
     except (OSError, UnicodeError):
         raise LocalAuditInputError("LOCAL_READ_FAILED") from None
     except json.JSONDecodeError:
@@ -44,6 +46,13 @@ def _read_json(path: Path):
 
 def _invalid_number():
     raise LocalAuditInputError("NONFINITE_JSON_NUMBER")
+
+
+def _finite_float(value):
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise LocalAuditInputError("NONFINITE_JSON_NUMBER")
+    return parsed
 
 
 def main(argv=None) -> int:
@@ -70,7 +79,8 @@ def main(argv=None) -> int:
         text = json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True)
         if args.output:
             try:
-                Path(args.output).write_text(text + "\n", encoding="utf-8")
+                with Path(args.output).open("x", encoding="utf-8") as output:
+                    output.write(text + "\n")
             except (OSError, UnicodeError):
                 raise LocalAuditInputError("LOCAL_WRITE_FAILED") from None
         print(text)
