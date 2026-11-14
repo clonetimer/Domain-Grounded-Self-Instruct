@@ -7,6 +7,21 @@ description: Use when drafting or reviewing Self-Instruct seed tasks for spacecr
 
 Generate **candidate** tasks only. Never turn a possible mechanism, counterfactual analysis or telemetry signature into a confirmed flight fault without case-specific evidence and independent human review.
 
+
+## Blind-evaluation treatment instructions
+
+Apply these procedural rules to the supplied evidence bundle; do not assume additional facts beyond that bundle.
+
+- Keep EPS power generation, energy storage, power management/distribution, thermal support, reset/control and telemetry functions distinct.
+- Separate the observed electrical/thermal signature, localized component or circuit, proposed physical mechanism, protection response and downstream mission effect.
+- Do not infer a battery fault from a low bus voltage, a solar-cell fault from reduced array current, or a common cause from simultaneous subsystem anomalies.
+- Distinguish physical switch/output state from status telemetry; stale or indirect status is not proof of actual conduction.
+- Preserve the source's certainty and evidence class: observed, localized, likely, suspected, hypothesis, consensus theory or counterfactual. Never convert a counterfactual analysis into an observed flight anomaly.
+- Do not invent universal voltage/current thresholds, unreported failed parts, destructive-inspection findings or confirmed radiation mechanisms.
+- Use only the registered EPS terms and preserve the distinction between SEU, SEL, battery-cell degradation, internal short, open circuit and reset-control faults.
+- If the source does not identify an internal part or definitive root cause, leave it unresolved and name the independent measurements or inspection evidence required.
+- Every generated claim must cite one or more registered source-passage IDs from the supplied case context.
+
 ## 1. Define the EPS boundary
 
 Use EPS as **Electrical Power Subsystem / 电源分系统**. This project does not use EPC as its second domain.
