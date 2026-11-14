@@ -60,18 +60,83 @@ def _index_unique(rows: list[dict[str, Any]], field: str, name: str) -> dict[str
     return result
 
 
+def _load_term_catalog(
+    resources: Path,
+    filename: str,
+    domain: str,
+    sources: Mapping[str, Any],
+    source_passages: Mapping[str, Any],
+) -> dict[str, Any]:
+    terms_file = _load_json(resources / filename)
+    terms = _index_unique(terms_file["terms"], "term_id", f"{domain}_terms")
+    alias_policy = terms_file.get("alias_policy", {})
+    if not isinstance(alias_policy, dict) or not alias_policy:
+        raise ValueError(f"{domain} terms: alias_policy must define the permitted alias classes")
+    term_surfaces: dict[str, set[str]] = {}
+    term_aliases: dict[str, dict[str, dict[str, str]]] = {}
+    related_terms: dict[str, list[str]] = {}
+    surface_owners: dict[str, str] = {}
+    for term_id, row in terms.items():
+        refs = row.get("source_ids", [])
+        if not isinstance(refs, list) or not refs or any(source_id not in sources for source_id in refs):
+            raise ValueError(f"{domain} term {term_id}: unregistered or missing source_ids")
+        for passage_id in row.get("source_passage_ids", []):
+            if passage_id not in source_passages:
+                raise ValueError(f"{domain} term {term_id}: unknown source passage {passage_id!r}")
+            if source_passages[passage_id].get("source_id") not in refs:
+                raise ValueError(f"{domain} term {term_id}: passage/source mismatch for {passage_id!r}")
+        preferred = {row.get("preferred_zh", ""), row.get("preferred_en", "")}
+        if any(not isinstance(surface, str) or not surface.strip() for surface in preferred):
+            raise ValueError(f"{domain} term {term_id}: preferred_zh and preferred_en must be nonempty")
+        surfaces = set(preferred)
+        for surface in surfaces:
+            if surface in surface_owners and surface_owners[surface] != term_id:
+                raise ValueError(f"ambiguous term surface {surface!r}: assigned to both {surface_owners[surface]} and {term_id}")
+            surface_owners[surface] = term_id
+        term_aliases[term_id] = {}
+        for alias in row.get("aliases", []):
+            if not isinstance(alias, dict):
+                raise ValueError(f"{domain} term {term_id}: every alias must have an explicit kind and note")
+            surface, kind, note = alias.get("text"), alias.get("kind"), alias.get("note")
+            if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
+                raise ValueError(f"{domain} term {term_id}: malformed or unclassified alias {alias!r}")
+            if surface in surface_owners and surface_owners[surface] != term_id:
+                raise ValueError(f"ambiguous term surface {surface!r}: assigned to both {surface_owners[surface]} and {term_id}")
+            surface_owners[surface] = term_id
+            term_aliases[term_id][surface] = {"kind": kind, "note": note}
+            surfaces.add(surface)
+        term_surfaces[term_id] = surfaces
+        related_terms[term_id] = []
+        for related in row.get("related_terms", []):
+            if not isinstance(related, dict):
+                raise ValueError(f"{domain} term {term_id}: related terms must be classified objects")
+            surface, kind, note = related.get("text"), related.get("kind"), related.get("note")
+            if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
+                raise ValueError(f"{domain} term {term_id}: malformed related term {related!r}")
+            if surface in term_aliases[term_id]:
+                raise ValueError(f"{domain} term {term_id}: {surface!r} cannot be both alias and related term")
+            related_terms[term_id].append(surface)
+    return {
+        "terms": terms,
+        "term_surfaces": term_surfaces,
+        "term_aliases": term_aliases,
+        "alias_policy": alias_policy,
+        "related_terms": related_terms,
+        "forbidden_phrases": [item["phrase"] for item in terms_file.get("forbidden_phrases", [])],
+        "approved_compounds": [item["phrase"] for item in terms_file.get("approved_compounds", [])],
+    }
+
+
 def load_registry(root: str | Path) -> dict[str, Any]:
-    """Read and cross-check only the public source/metadata catalogs."""
+    """Read and cross-check public ADCS and EPC source/metadata catalogs."""
     resources = Path(root) / "resources"
     sources_file = _load_json(resources / "sources.json")
-    terms_file = _load_json(resources / "terms.json")
     passages_file = _load_json(resources / "source_passages.json")
     effects_file = _load_json(resources / "fault_effects.json")
     simulation_truth = _load_json(resources / "simulation_truth.json")
     with (resources / "telemetry_channels.csv").open(encoding="utf-8-sig", newline="") as f:
         channels_rows = list(csv.DictReader(f))
     sources = _index_unique(sources_file["sources"], "source_id", "sources")
-    terms = _index_unique(terms_file["terms"], "term_id", "terms")
     source_passages = _index_unique(passages_file["passages"], "passage_id", "source_passages")
     effects = _index_unique(effects_file["effects"], "effect_id", "effects")
     channels = _index_unique(channels_rows, "channel_id", "telemetry_channels")
@@ -86,8 +151,11 @@ def load_registry(root: str | Path) -> dict[str, Any]:
         unknown_scopes = set(passage["allowed_claim_types"]) - PASSAGE_CLAIM_TYPES
         if unknown_scopes:
             raise ValueError(f"source_passages: unknown allowed_claim_types {sorted(unknown_scopes)!r}")
+    term_catalogs = {
+        "adcs": _load_term_catalog(resources, "terms.json", "adcs", sources, source_passages),
+        "epc": _load_term_catalog(resources, "epc_terms.json", "epc", sources, source_passages),
+    }
     for name, records, property_name in (
-        ("terms", terms.values(), "source_ids"),
         ("effects", effects.values(), "source_id"),
         ("channels", channels.values(), "source_id"),
     ):
@@ -96,51 +164,6 @@ def load_registry(root: str | Path) -> dict[str, Any]:
             refs = ref if isinstance(ref, list) else [ref]
             if not refs or any(x not in sources for x in refs):
                 raise ValueError(f"{name}: unregistered source ref in {row!r}")
-            if name == "terms":
-                for passage_id in row.get("source_passage_ids", []):
-                    if passage_id not in source_passages:
-                        raise ValueError(f"term {row['term_id']}: unknown source passage {passage_id!r}")
-                    if source_passages[passage_id].get("source_id") not in refs:
-                        raise ValueError(f"term {row['term_id']}: passage/source mismatch for {passage_id!r}")
-    alias_policy = terms_file.get("alias_policy", {})
-    if not isinstance(alias_policy, dict) or not alias_policy:
-        raise ValueError("terms: alias_policy must define the permitted alias classes")
-    term_surfaces: dict[str, set[str]] = {}
-    term_aliases: dict[str, dict[str, dict[str, str]]] = {}
-    related_terms: dict[str, list[str]] = {}
-    surface_owners: dict[str, str] = {}
-    for term_id, row in terms.items():
-        preferred = {row.get("preferred_zh", ""), row.get("preferred_en", "")}
-        if any(not isinstance(surface, str) or not surface.strip() for surface in preferred):
-            raise ValueError(f"term {term_id}: preferred_zh and preferred_en must be nonempty")
-        surfaces = set(preferred)
-        for surface in surfaces:
-            if surface in surface_owners and surface_owners[surface] != term_id:
-                raise ValueError(f"ambiguous term surface {surface!r}: assigned to both {surface_owners[surface]} and {term_id}")
-            surface_owners[surface] = term_id
-        term_aliases[term_id] = {}
-        for alias in row.get("aliases", []):
-            if not isinstance(alias, dict):
-                raise ValueError(f"term {term_id}: every alias must have an explicit kind and note")
-            surface, kind, note = alias.get("text"), alias.get("kind"), alias.get("note")
-            if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
-                raise ValueError(f"term {term_id}: malformed or unclassified alias {alias!r}")
-            if surface in surface_owners and surface_owners[surface] != term_id:
-                raise ValueError(f"ambiguous term surface {surface!r}: assigned to both {surface_owners[surface]} and {term_id}")
-            surface_owners[surface] = term_id
-            term_aliases[term_id][surface] = {"kind": kind, "note": note}
-            surfaces.add(surface)
-        term_surfaces[term_id] = {surface for surface in surfaces if surface}
-        related_terms[term_id] = []
-        for related in row.get("related_terms", []):
-            if not isinstance(related, dict):
-                raise ValueError(f"term {term_id}: related terms must be classified objects")
-            surface, kind, note = related.get("text"), related.get("kind"), related.get("note")
-            if not isinstance(surface, str) or not surface.strip() or kind not in alias_policy or not isinstance(note, str) or not note.strip():
-                raise ValueError(f"term {term_id}: malformed related term {related!r}")
-            if surface in term_aliases[term_id]:
-                raise ValueError(f"term {term_id}: {surface!r} cannot be both alias and related term")
-            related_terms[term_id].append(surface)
     for effect in effects.values():
         for channel in effect.get("declared_observation_channels", []):
             if channel not in channels:
@@ -148,14 +171,23 @@ def load_registry(root: str | Path) -> dict[str, Any]:
     for run in runs.values():
         if run.get("effect_id") not in effects:
             raise ValueError(f"run {run['run_id']}: unknown effect_id")
+    adcs = term_catalogs["adcs"]
     return {
-        "sources": sources, "terms": terms, "source_passages": source_passages,
-        "term_surfaces": term_surfaces, "term_aliases": term_aliases,
-        "alias_policy": alias_policy, "related_terms": related_terms,
-        "effects": effects, "channels": channels,
-        "simulation_truth": simulation_truth, "runs": runs,
-        "forbidden_phrases": [item["phrase"] for item in terms_file.get("forbidden_phrases", [])],
-        "approved_compounds": [item["phrase"] for item in terms_file.get("approved_compounds", [])],
+        "sources": sources,
+        "terms": adcs["terms"],
+        "terms_by_domain": {domain: catalog["terms"] for domain, catalog in term_catalogs.items()},
+        "term_catalogs": term_catalogs,
+        "source_passages": source_passages,
+        "term_surfaces": adcs["term_surfaces"],
+        "term_aliases": adcs["term_aliases"],
+        "alias_policy": adcs["alias_policy"],
+        "related_terms": adcs["related_terms"],
+        "effects": effects,
+        "channels": channels,
+        "simulation_truth": simulation_truth,
+        "runs": runs,
+        "forbidden_phrases": adcs["forbidden_phrases"],
+        "approved_compounds": adcs["approved_compounds"],
     }
 
 
