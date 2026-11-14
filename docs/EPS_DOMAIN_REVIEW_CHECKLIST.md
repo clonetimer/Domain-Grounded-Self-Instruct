@@ -32,6 +32,7 @@ Review the exact source passage and claim boundary, not only the generated summa
 | electrolyte_bridging | 电解液桥接 | Electrolyte Bridging | WMAP consensus theory, not proven root cause |  |  |
 | solar_array_bus_ground_short | 太阳电池阵母线对地短路 | Solar Array Bus-to-Ground Short | NOAA-13 review's surmised mechanism |  |  |
 | battery_state_of_charge | 荷电状态 | State of Charge | SOC estimate vs direct cell health measurement |  |  |
+| mmod_strike | 微流星体或轨道碎片撞击 | Micrometeoroid or Orbital Debris Impact | TERRA report's likely/suspected cause; not confirmed impact location |  |  |
 
 ## 2. Source-passage review
 
@@ -44,7 +45,8 @@ Review the exact source passage and claim boundary, not only the generated summa
 | IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL | NASA IMAGE FRB | array architecture and no observed array anomaly |  |  |
 | NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT | NASA Lessons Learned #387 | thermal/mechanical short is surmised, not teardown-confirmed |  |  |
 | IDEASSAT_EPS_RESET_CIRCUIT_SEL | IDEASSat 2022 | inverter likely cause; SEL possible mechanism |  |  |
-| TERRA_BATTERY_HEATER_CONTROL_ANOMALY | NASA TERRA 2009 | cell and heater-control anomalies simultaneous; no causal direction |  |  |
+| TERRA_BATTERY_HEATER_CONTROL_ANOMALY | NASA TERRA 2010 paper | simultaneous cell and heater-control anomalies; thermal model and corrective actions |  |  |
+| TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS | NASA Terra status summary 2014 | suspected MMOD common cause; no confirmed impact location or recovered debris |  |  |
 | TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES | NASA TDRS-8 2019 | six of 32 circuits failed; physical root cause not specified |  |  |
 | TDRS8_BVL_PARASITIC_SHUNT | NASA TDRS-8 2019 | static parasitic shunt vs voltage regulation |  |  |
 | TDRS8_BATTERY_UNDERPERFORMING_CELLS | NASA TDRS-8 2019 | underperformance is not a confirmed internal short/open |  |  |
