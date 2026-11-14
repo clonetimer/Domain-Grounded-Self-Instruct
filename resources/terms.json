@@ -1,28 +1,355 @@
 {
-  "schema_version": "dgsi-terms.v1",
+  "schema_version": "dgsi-terms.v2",
   "review_status": "DRAFT_AWAITING_DOMAIN_REVIEW",
-  "note": "Preferred translations are provisional project vocabulary, not claims of official Chinese normative terminology. Preserve aliases and request expert confirmation.",
+  "note": "Preferred Chinese labels are project-preferred translations, not declarations of official normative terminology. Source-backed English concepts, Chinese usage examples, contextual aliases, broader descriptions and structural subtypes are kept distinct. All terms remain open to domain-expert review.",
+  "alias_policy": {
+    "EXACT": "Same concept; safe to normalize in the declared context.",
+    "ALTERNATE_TRANSLATION": "Alternative Chinese rendering; preserve the preferred form in canonical output.",
+    "INFORMAL_SHORT_FORM": "Colloquial abbreviation; normalize only when context is unambiguous.",
+    "CONTEXTUAL_SHORT_FORM": "May omit part of the full system/function boundary; do not expand or replace without context.",
+    "BROADER_FUNCTIONAL_DESCRIPTION": "Describes a broader class or role; not an exact synonym.",
+    "STRUCTURAL_SUBTYPE": "A specific implementation subtype; never substitute for the parent concept."
+  },
   "terms": [
-    {"term_id":"adcs", "preferred_zh":"姿态确定与控制系统", "preferred_en":"attitude determination and control system", "aliases":["ADCS", "姿态控制系统"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"gyro", "preferred_zh":"陀螺仪", "preferred_en":"gyroscope", "aliases":["陀螺", "角速度传感器"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"reaction_wheel", "preferred_zh":"反作用飞轮", "preferred_en":"reaction wheel", "aliases":["飞轮", "反作用轮"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"star_tracker", "preferred_zh":"星敏感器", "preferred_en":"star tracker", "aliases":["星敏"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"sun_sensor", "preferred_zh":"太阳敏感器", "preferred_en":"sun sensor", "aliases":["太敏"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"magnetometer", "preferred_zh":"磁强计", "preferred_en":"magnetometer", "aliases":[], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"magnetorquer", "preferred_zh":"磁力矩器", "preferred_en":"magnetorquer", "aliases":["磁力矩杆"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"angular_velocity", "preferred_zh":"角速度", "preferred_en":"angular velocity", "aliases":[], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"gyro_bias", "preferred_zh":"陀螺零偏", "preferred_en":"gyroscope bias", "aliases":["角速度测量偏置"], "source_ids":["NASA_SMALLSAT_GNC"]},
-    {"term_id":"measurement_noise", "preferred_zh":"测量噪声", "preferred_en":"measurement noise", "aliases":[], "source_ids":["BASILISK_DOCS"]},
-    {"term_id":"fault_mode", "preferred_zh":"故障模式", "preferred_en":"fault mode", "aliases":[], "source_ids":["SPACECRAFT_FAULT_KG_2023"]},
-    {"term_id":"fault_source", "preferred_zh":"故障源部件", "preferred_en":"fault-source component", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]},
-    {"term_id":"affected_component", "preferred_zh":"受影响部件", "preferred_en":"affected component", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]},
-    {"term_id":"telemetry", "preferred_zh":"遥测数据", "preferred_en":"telemetry", "aliases":["遥测"], "source_ids":["AAS_CHANNEL_CATALOG"]},
-    {"term_id":"uncertainty", "preferred_zh":"诊断不确定性", "preferred_en":"diagnostic uncertainty", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]},
-    {"term_id":"evidence", "preferred_zh":"诊断证据", "preferred_en":"diagnostic evidence", "aliases":[], "source_ids":["ASTROGRAPH_KG_SCHEMA"]}
+    {
+      "term_id": "adcs",
+      "preferred_zh": "姿态确定与控制系统",
+      "preferred_en": "attitude determination and control system",
+      "definition_zh": "用于确定航天器姿态并通过控制执行机构调节姿态的系统。具体组成和功能边界取决于任务架构。",
+      "status": "PROJECT_PREFERRED_TRANSLATION",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC",
+        "CNSA_SATELLITE_ATTITUDE_CONTROL"
+      ],
+      "source_passage_ids": [
+        "NASA_GNC_ADCS_SCOPE",
+        "CNSA_ADCS_CLOSED_LOOP"
+      ],
+      "aliases": [
+        {
+          "text": "ADCS",
+          "kind": "EXACT",
+          "note": "英文缩写。"
+        },
+        {
+          "text": "姿态控制系统",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "可能只强调控制功能；严格描述姿态确定与控制整体时使用首选术语。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "gyro",
+      "preferred_zh": "陀螺仪",
+      "preferred_en": "gyroscope",
+      "definition_zh": "惯性敏感器的一类，用于测量角变化或角速度相关信息；具体输出语义由器件和接口定义。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC",
+        "CNSA_SATELLITE_ATTITUDE_CONTROL"
+      ],
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS",
+        "CNSA_ADCS_CLOSED_LOOP"
+      ],
+      "aliases": [
+        {
+          "text": "陀螺",
+          "kind": "INFORMAL_SHORT_FORM",
+          "note": "工程语境常用简称。"
+        }
+      ],
+      "related_terms": [
+        {
+          "text": "角速度传感器",
+          "kind": "BROADER_FUNCTIONAL_DESCRIPTION",
+          "note": "功能描述较宽泛，不作为陀螺仪的无条件同义词。"
+        }
+      ]
+    },
+    {
+      "term_id": "reaction_wheel",
+      "preferred_zh": "反作用飞轮",
+      "preferred_en": "reaction wheel",
+      "definition_zh": "通过改变飞轮角动量并与航天器本体交换角动量，产生姿态控制力矩的执行机构。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC",
+        "CNSA_SATELLITE_ATTITUDE_CONTROL"
+      ],
+      "source_passage_ids": [
+        "NASA_REACTION_WHEEL_FUNCTION",
+        "CNSA_ADCS_CLOSED_LOOP"
+      ],
+      "aliases": [
+        {
+          "text": "反作用轮",
+          "kind": "ALTERNATE_TRANSLATION",
+          "note": "可作为替代表述；项目规范输出统一使用首选术语。"
+        },
+        {
+          "text": "飞轮",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "上下文明确指姿态控制反作用飞轮时可用；脱离上下文时含义较宽。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "star_tracker",
+      "preferred_zh": "星敏感器",
+      "preferred_en": "star tracker",
+      "definition_zh": "通过观测星场并与星表匹配，提供航天器绝对姿态解算信息的光学敏感器。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC",
+        "CNSA_SATELLITE_ATTITUDE_CONTROL"
+      ],
+      "source_passage_ids": [
+        "NASA_STAR_TRACKER_VALIDITY",
+        "CNSA_ADCS_CLOSED_LOOP"
+      ],
+      "aliases": [
+        {
+          "text": "星敏",
+          "kind": "INFORMAL_SHORT_FORM",
+          "note": "工程语境常用简称。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "sun_sensor",
+      "preferred_zh": "太阳敏感器",
+      "preferred_en": "sun sensor",
+      "definition_zh": "测量太阳相对于航天器本体方向的姿态敏感器。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC",
+        "CNSA_SATELLITE_ATTITUDE_CONTROL"
+      ],
+      "source_passage_ids": [
+        "NASA_SUN_SENSOR_ESTIMATION",
+        "CNSA_ADCS_CLOSED_LOOP"
+      ],
+      "aliases": [
+        {
+          "text": "太敏",
+          "kind": "INFORMAL_SHORT_FORM",
+          "note": "工程语境常用简称。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "magnetometer",
+      "preferred_zh": "磁强计",
+      "preferred_en": "magnetometer",
+      "definition_zh": "测量所在位置局部磁场的敏感器；测量结果可能同时包含多个磁场源的贡献。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC"
+      ],
+      "source_passage_ids": [
+        "NASA_MAGNETOMETER_LOCAL_FIELD"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "magnetorquer",
+      "preferred_zh": "磁力矩器",
+      "preferred_en": "magnetorquer",
+      "definition_zh": "利用磁偶极矩与外部磁场相互作用产生控制力矩的姿态控制执行机构。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC"
+      ],
+      "source_passage_ids": [
+        "NASA_MAGNETIC_TORQUER_ROD_RESIDUAL_FIELD"
+      ],
+      "aliases": [],
+      "related_terms": [
+        {
+          "text": "磁力矩杆",
+          "kind": "STRUCTURAL_SUBTYPE",
+          "note": "杆式/磁棒式磁力矩器的结构形式，不代表所有磁力矩器；不得作为无条件同义词。"
+        }
+      ]
+    },
+    {
+      "term_id": "angular_velocity",
+      "preferred_zh": "角速度",
+      "preferred_en": "angular velocity",
+      "definition_zh": "描述角位置随时间变化快慢的物理量。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC"
+      ],
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "gyro_bias",
+      "preferred_zh": "陀螺仪零偏",
+      "preferred_en": "gyroscope bias",
+      "definition_zh": "陀螺仪输出中相对于真实输入的偏置项；零偏稳定性、零偏变化和零偏估计应分别描述。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_GNC"
+      ],
+      "source_passage_ids": [
+        "NASA_INERTIAL_SENSOR_GYRO_BIAS"
+      ],
+      "aliases": [
+        {
+          "text": "陀螺零偏",
+          "kind": "INFORMAL_SHORT_FORM",
+          "note": "常见简称；正式输出使用“陀螺仪零偏”。"
+        }
+      ],
+      "related_terms": [
+        {
+          "text": "角速度测量偏置",
+          "kind": "BROADER_FUNCTIONAL_DESCRIPTION",
+          "note": "可描述角速度测量链的偏置，不必然专指陀螺仪本体。"
+        }
+      ]
+    },
+    {
+      "term_id": "measurement_noise",
+      "preferred_zh": "测量噪声",
+      "preferred_en": "measurement noise",
+      "definition_zh": "测量输出中由传感器及测量链引入的随机或随机过程误差分量；需区分白噪声、相关噪声和偏置等不同模型。",
+      "status": "PROJECT_PREFERRED_TRANSLATION",
+      "source_ids": [
+        "CNSA_SATELLITE_ATTITUDE_CONTROL",
+        "BASILISK_DOCS"
+      ],
+      "source_passage_ids": [
+        "CNSA_ADCS_CLOSED_LOOP"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "fault_mode",
+      "preferred_zh": "故障模式",
+      "preferred_en": "fault mode",
+      "definition_zh": "项目故障分类体系中对部件失效表现或失效方式的标识；不得与遥测异常现象、注入事件或根因结论混为一谈。",
+      "status": "PROJECT_DEFINED",
+      "source_ids": [
+        "ASTROGRAPH_KG_SCHEMA"
+      ],
+      "source_passage_ids": [
+        "ASTROGRAPH_PROJECT_SCHEMA_V3"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "fault_source",
+      "preferred_zh": "故障源部件",
+      "preferred_en": "fault-source component",
+      "definition_zh": "在当前诊断假设中被认为发生故障的部件。必须与仅受到故障传播或耦合影响的部件区分。",
+      "status": "PROJECT_DEFINED",
+      "source_ids": [
+        "ASTROGRAPH_KG_SCHEMA"
+      ],
+      "source_passage_ids": [
+        "ASTROGRAPH_PROJECT_SCHEMA_V3"
+      ],
+      "aliases": [],
+      "related_terms": [
+        {
+          "text": "故障源",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "省略“部件”后可能指故障机理、事件或来源，需结合上下文。"
+        }
+      ]
+    },
+    {
+      "term_id": "affected_component",
+      "preferred_zh": "受影响部件",
+      "preferred_en": "affected component",
+      "definition_zh": "因故障传播、耦合或系统响应而表现出变化的部件；不据此单独判定其为故障源。",
+      "status": "PROJECT_DEFINED",
+      "source_ids": [
+        "ASTROGRAPH_KG_SCHEMA"
+      ],
+      "source_passage_ids": [
+        "ASTROGRAPH_PROJECT_SCHEMA_V3"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "telemetry",
+      "preferred_zh": "遥测数据",
+      "preferred_en": "telemetry data",
+      "definition_zh": "由航天器测量、状态监视或设备接口形成并传输/记录的参数数据；目录字段定义不等于已观测样本。",
+      "status": "PROJECT_DEFINED",
+      "source_ids": [
+        "AAS_CHANNEL_CATALOG"
+      ],
+      "source_passage_ids": [],
+      "aliases": [
+        {
+          "text": "遥测",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "作为“遥测数据”的简称使用。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "uncertainty",
+      "preferred_zh": "诊断不确定性",
+      "preferred_en": "diagnostic uncertainty",
+      "definition_zh": "由观测不足、候选解释竞争、模型适用范围或证据冲突造成的诊断结论不确定程度。",
+      "status": "PROJECT_DEFINED",
+      "source_ids": [
+        "ASTROGRAPH_KG_SCHEMA"
+      ],
+      "source_passage_ids": [
+        "ASTROGRAPH_PROJECT_SCHEMA_V3"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "evidence",
+      "preferred_zh": "诊断证据",
+      "preferred_en": "diagnostic evidence",
+      "definition_zh": "用于支持、反驳或限定诊断假设的可追溯观测、文献陈述、模型结果或仿真记录。",
+      "status": "PROJECT_DEFINED",
+      "source_ids": [
+        "ASTROGRAPH_KG_SCHEMA"
+      ],
+      "source_passage_ids": [
+        "ASTROGRAPH_PROJECT_SCHEMA_V3"
+      ],
+      "aliases": [],
+      "related_terms": []
+    }
   ],
   "forbidden_phrases": [
-    {"phrase":"姿态量子解耦故障", "reason":"Illustrative coined phrase, not an admitted ADCS fault mode"},
-    {"phrase":"飞轮磁振裂解", "reason":"Illustrative coined term, not an admitted physical fault"},
-    {"phrase":"自证式故障确认", "reason":"Unsupported self-attestation framing"}
-  ]
+    {
+      "phrase": "姿态量子解耦故障",
+      "reason": "Illustrative coined phrase, not an admitted ADCS fault mode"
+    },
+    {
+      "phrase": "飞轮磁振裂解",
+      "reason": "Illustrative coined term, not an admitted physical fault"
+    },
+    {
+      "phrase": "自证式故障确认",
+      "reason": "Unsupported self-attestation framing"
+    }
+  ],
+  "suspicious_compound_note": "The deterministic scanner flags only a narrow set of unusual Chinese compound constructions (e.g. quantum-coupled, cracking, decoupling or collapse language). It is a review aid, not a Chinese tokenizer or proof that all unregistered terms have been found."
 }
