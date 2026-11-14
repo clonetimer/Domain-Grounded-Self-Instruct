@@ -246,3 +246,54 @@ def audit_split_groups(examples: list[dict[str, Any]]) -> dict[str, Any]:
         "leaking_source_groups": leaking_groups,
         "leaking_cases": leaking_cases,
     }
+
+
+def evaluate_case_readiness(case: dict[str, Any]) -> dict[str, Any]:
+    """Assess whether a structurally valid case may enter expert review for Gold SFT.
+
+    This is a fail-closed intake gate, not an automated scientific approval.
+    """
+    warnings = validate_diagnostic_case(case)
+    inputs = case["input"]
+    provenance = case["provenance"]
+    review = case["review"]
+    blockers: list[str] = []
+
+    if not provenance.get("diagnosis_run_refs"):
+        blockers.append("MISSING_UPSTREAM_DIAGNOSIS_RUN_REFERENCE")
+    if not provenance.get("source_artifact_hashes"):
+        blockers.append("MISSING_SOURCE_ARTIFACT_HASH")
+    producer = inputs["machine_diagnosis"]["producer"]
+    if producer.get("method") == "NOT_RECORDED" or producer.get("version") == "NOT_RECORDED":
+        blockers.append("UPSTREAM_ALGORITHM_PROVENANCE_INCOMPLETE")
+    if not inputs.get("diagnostic_logs"):
+        blockers.append("MISSING_DIAGNOSTIC_LOGS")
+    if not inputs["spacecraft_context"].get("configuration"):
+        blockers.append("MISSING_SPACECRAFT_CONFIGURATION")
+    if not inputs.get("operational_context", {}).get("mission_phase") or not inputs.get("operational_context", {}).get("operating_mode"):
+        blockers.append("MISSING_OPERATIONAL_CONTEXT")
+    if not inputs.get("knowledge_evidence") and any(
+        claim_type in {"MECHANISM", "CAUSAL"}
+        for claim_type in case.get("expected_output", {}).get("claim_types", [])
+    ):
+        blockers.append("MISSING_KNOWLEDGE_SUPPORT_FOR_MECHANISM_OR_CAUSAL_CLAIM")
+    if review.get("status") == "APPROVED":
+        if not review.get("reviewer_id"):
+            blockers.append("APPROVED_WITHOUT_REVIEWER_ID")
+        if not review.get("reviewed_at"):
+            blockers.append("APPROVED_WITHOUT_REVIEW_TIMESTAMP")
+    else:
+        blockers.append("EXPERT_APPROVAL_REQUIRED")
+
+    # A history item may be absent in a new incident, but it must not be fabricated.
+    if not inputs.get("historical_cases"):
+        warnings.append("HISTORICAL_CASE_NOT_AVAILABLE")
+
+    return {
+        "schema_version": "dgsi-case-readiness.v1",
+        "decision": "BLOCKED" if blockers else "READY_FOR_EXPERT_GOLD_REVIEW",
+        "gold_eligible": False,
+        "blockers": sorted(set(blockers)),
+        "warnings": sorted(set(warnings)),
+        "note": "READY_FOR_EXPERT_GOLD_REVIEW is not Gold approval; only the authorized expert review workflow may approve a Gold case.",
+    }
