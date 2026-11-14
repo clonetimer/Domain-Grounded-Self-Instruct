@@ -1,0 +1,46 @@
+"""Validate the published diagnostic Case/SFT JSON Schemas at runtime.
+
+JSON Schema validation complements (does not replace) semantic safety gates.
+Errors deliberately omit case contents and identifiers, which may be restricted.
+"""
+from __future__ import annotations
+
+import json
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+from jsonschema import Draft202012Validator, FormatChecker
+
+_SCHEMA_FILES = {
+    "case": "diagnostic_case.schema.json",
+    "sft": "diagnostic_sft.schema.json",
+}
+_SCHEMA_ROOT = Path(__file__).resolve().parents[2] / "resources"
+
+
+class SchemaContractError(ValueError):
+    """Schema violation with a payload-free error code."""
+
+
+@lru_cache(maxsize=2)
+def _validator(kind: str) -> Draft202012Validator:
+    try:
+        name = _SCHEMA_FILES[kind]
+    except KeyError as exc:
+        raise SchemaContractError("UNKNOWN_SCHEMA_KIND") from exc
+    with (_SCHEMA_ROOT / name).open(encoding="utf-8") as handle:
+        schema = json.load(handle)
+    Draft202012Validator.check_schema(schema)
+    return Draft202012Validator(schema, format_checker=FormatChecker())
+
+
+def validate_payload_schema(kind: str, payload: Any) -> None:
+    """Enforce the complete Draft 2020-12 contract, including nested properties.
+
+    Do not expose jsonschema's raw error message: it may contain sensitive
+    instance values, field names, or file paths from restricted cases.
+    """
+    error = next(_validator(kind).iter_errors(payload), None)
+    if error is not None:
+        raise SchemaContractError(f"JSON_SCHEMA_{str(error.validator).upper()}")
