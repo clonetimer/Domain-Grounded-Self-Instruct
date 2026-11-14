@@ -203,6 +203,27 @@ class SkillEvalTest(unittest.TestCase):
             self.assertEqual(result["summary"]["paired_mean_delta"]["terminology"], 0.0)
 
 
+    def test_eps_pressure_case_loads_eps_glossary_and_evidence_context(self):
+        from dgsi.skill_eval import _case_context
+
+        root = Path(__file__).resolve().parents[1]
+        cases = json.loads((root / "resources" / "skill_pressure_cases.json").read_text(encoding="utf-8"))["cases"]
+        case = next(item for item in cases if item["case_id"] == "E01_IMAGE_SSPC_INSTANT_TRIP")
+        context = _case_context(root, case)
+        self.assertEqual(context["domain"], "eps")
+        self.assertIn("solid_state_power_controller", {term["term_id"] for term in context["terms"]})
+        self.assertIn("IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH", {p["passage_id"] for p in context["source_passages"]})
+        self.assertTrue(all(p["claim_boundary"] for p in context["source_passages"]))
+
+    def test_epc_domain_is_not_admitted_by_blind_runner(self):
+        from dgsi.skill_eval import _case_context
+
+        root = Path(__file__).resolve().parents[1]
+        with self.assertRaisesRegex(ValueError, "unsupported domain"):
+            _case_context(root, {"case_id": "LEGACY_EPC", "domain": "epc", "source_passage_ids": [], "term_ids": []})
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
