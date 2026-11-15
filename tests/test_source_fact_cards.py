@@ -179,7 +179,7 @@ class SourceFactCardTests(unittest.TestCase):
         report = validate_source_fact_card_collection(payload["cards"])
         self.assertEqual(report["card_count"], 12)
         self.assertEqual(report["knowledge_source_not_event_count"], 1)
-        self.assertEqual(report["multi_episode_family_count"], 1)
+        self.assertEqual(report["multi_episode_family_count"], 3)
         self.assertEqual(report["sft_eligible_count"], 0)
 
     def test_literature_year_and_ntrs_accession_year_are_not_collapsed(self):
