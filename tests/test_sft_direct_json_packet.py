@@ -77,7 +77,7 @@ class DirectSftJsonPacketTests(unittest.TestCase):
     def test_direct_validator_blocks_inline_telemetry(self):
         example = self.case()
         self.change_packet(example, lambda p: p["input"].update(raw_telemetry=[0.1, 0.2]))
-        with self.assertRaisesRegex(DiagnosticContextValidationError, "raw telemetry field is forbidden"):
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "forbidden target"):
             validate_sft_example(example)
 
 
