@@ -240,3 +240,71 @@ def validate_l1_task_packet(
         "training_authorized": False,
         "note": "L1 structural/provenance/context checks only; expert review and separate SFT admission remain mandatory.",
     }
+
+
+def validate_l1_task_packet_collection(
+    collection: dict[str, Any],
+    *,
+    source_fact_cards: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Validate one-track L1 collection and audit event-family split isolation.
+
+    Collection-level PASS is structural/provenance readiness only. It never
+    authorizes fine-tuning or Gold promotion.
+    """
+    if not isinstance(collection, dict):
+        _fail("L1_COLLECTION_NOT_OBJECT")
+    try:
+        validate_payload_schema("l1_task_packet_collection", collection)
+    except SchemaContractError:
+        _fail("INVALID_L1_COLLECTION_SCHEMA")
+    packets = collection["packets"]
+    if collection["packet_count"] != len(packets):
+        _fail("L1_COLLECTION_PACKET_COUNT_MISMATCH")
+
+    task_ids: set[str] = set()
+    source_groups: dict[str, str] = {}
+    decisions: list[str] = []
+    for packet in packets:
+        result = validate_l1_task_packet(packet, source_fact_cards=source_fact_cards)
+        if packet["track"] != collection["track"]:
+            _fail("MIXED_TRACKS_IN_L1_COLLECTION")
+        task_id = packet["task_id"]
+        if task_id in task_ids:
+            _fail("DUPLICATE_L1_TASK_ID")
+        task_ids.add(task_id)
+        source_group = packet["case"]["provenance"]["source_group"]
+        source_groups[task_id] = source_group
+        decisions.append(result["decision"])
+
+    assignments = collection.get("split_assignments", [])
+    if assignments:
+        assigned: dict[str, str] = {}
+        for item in assignments:
+            task_id = item["task_id"]
+            if task_id not in task_ids:
+                _fail("SPLIT_ASSIGNMENT_UNKNOWN_TASK")
+            if task_id in assigned:
+                _fail("DUPLICATE_L1_SPLIT_ASSIGNMENT")
+            assigned[task_id] = item["split"]
+        if set(assigned) != task_ids:
+            _fail("L1_SPLIT_ASSIGNMENTS_INCOMPLETE")
+        group_splits: dict[str, set[str]] = {}
+        for task_id, split in assigned.items():
+            group_splits.setdefault(source_groups[task_id], set()).add(split)
+        if any(len(splits) > 1 for splits in group_splits.values()):
+            _fail("L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS")
+
+    return {
+        "schema_version": "dgsi-l1-collection-audit.v1",
+        "decision": "VALID_L1_COLLECTION",
+        "collection_id": collection["collection_id"],
+        "track": collection["track"],
+        "packet_count": len(packets),
+        "event_family_count": len(set(source_groups.values())),
+        "split_assignment_count": len(assignments),
+        "split_audit_performed": bool(assignments),
+        "packet_decisions": decisions,
+        "gold_eligible_count": 0,
+        "training_authorized": False,
+    }
