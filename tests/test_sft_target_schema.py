@@ -97,7 +97,7 @@ class StandaloneSftTargetSchemaTests(unittest.TestCase):
         example = case()
         edit_target(
             example,
-            lambda x: x["recommended_next_steps"][0].update(priority="URGENT_GOLD"),
+            lambda x: x["follow_up_actions"][0].update(priority="URGENT_GOLD"),
         )
         self.rejects(example, "JSON_SCHEMA_TARGET_ENUM")
 
