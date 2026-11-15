@@ -1,6 +1,17 @@
 # Domain-Grounded Self-Instruct
 
-Evidence-grounded, **human-approved** Self-Instruct seed curation for spacecraft fault diagnosis, starting with ADCS and EPS. The first deliverable is a deterministic, offline **candidate preflight gate** — not an LLM generating, fact-checking, diagnosis engine, or Gold certification service.
+**Product objective:** build a high-quality spacecraft fault-diagnosis SFT dataset for an LLM that interprets upstream machine-learning diagnosis results together with diagnostic logs, operational context, historical experience and reviewed domain knowledge.
+
+**Responsibility boundary:** upstream ML/statistical methods process raw telemetry and produce anomaly/fault candidates, localization and evidence summaries. The LLM does not re-diagnose raw telemetry in this SFT task. DGSI trains second-stage engineering synthesis, historical-case reuse, conflict reconciliation, evidence sufficiency, uncertainty handling and next-step recommendations.
+
+The current LLM-facing contracts are:
+- [Diagnostic context case schema](resources/diagnostic_case.schema.json)
+- [Chat SFT export schema](resources/diagnostic_sft.schema.json)
+- [Hypothetical case example](examples/diagnostic_context_case_illustrative.json) — schema illustration only, not a training example\n- [Hypothetical chat SFT serialization](examples/diagnostic_context_sft_illustrative.json) — review-required illustration, not approved training data
+- [Corrected dataset purpose and roadmap](docs/DATASET_PURPOSE_CORRECTION.md)\n- [D0 preliminary asset inventory](docs/D0_PRELIMINARY_ASSET_INVENTORY.md)\n- [Local read-only inventory script](scripts/inventory_diagnostic_case_assets.py)\n- [AstroGraph result mapping and diagnostic-log intake gate](docs/ASTROGRAPH_RESULT_MAPPING_AND_LOG_GATE.md)
+
+Raw telemetry remains in the upstream ML pipeline. DGSI may retain restricted artifact references for lineage, but must not inline raw waveforms/high-rate telemetry into the LLM prompt. Uncalibrated ML scores are not probabilities; fault candidates are not confirmed root causes; historical unresolved cases remain unresolved.
+
 
 ## Current scope (Phase 1)
 

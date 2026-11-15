@@ -1,0 +1,45 @@
+{
+  "schema_version": "dgsi-diagnostic-sft.v1",
+  "example_id": "DGSI-ADCS-ILLUSTRATIVE-SFT-0001",
+  "task_type": "diagnostic_synthesis",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是航天器故障研判助手。仅依据提供的机器诊断结果、诊断日志、运行上下文、历史案例和知识证据进行综合研判。不得将未校准分数解释为概率，不得把候选结论写成确诊；区分故障源部件与受影响部件。"
+    },
+    {
+      "role": "user",
+      "content": "请依据上游机器诊断结果、诊断日志、航天器/任务上下文及历史经验，形成规范的二次研判结论。输出仅包含现象分析、原因定位、处置措施及必要的证据/不确定性说明；不要输出内部审核提示或思考清单。原始遥测由上游算法处理，本任务不提供原始遥测。\n\n{\n  \"instruction\": \"结合算法诊断结果、历史诊断记录和当前任务上下文，形成有证据边界的综合研判。\",\n  \"machine_diagnosis\": {\n    \"producer\": {\n      \"method\": \"IllustrativeResidualAndRuleFusion\",\n      \"version\": \"0.1\",\n      \"model_id\": null\n    },\n    \"analysis_scope\": \"ADCS reaction-wheel command/response consistency; synthetic illustrative case\",\n    \"status\": \"FAULT_CANDIDATE\",\n    \"findings\": [\n      {\n        \"finding_id\": \"F-01\",\n        \"finding_type\": \"FAULT_CLASS\",\n        \"target\": \"reaction_wheel_2\",\n        \"result\": \"torque_authority_loss_candidate\",\n        \"score\": 0.82,\n        \"score_semantics\": \"uncalibrated ranking score; not a probability\",\n        \"supporting_evidence_ids\": [\n          \"ML-E-01\",\n          \"ML-E-02\"\n        ],\n        \"limitations\": [\n          \"algorithm output is a candidate requiring engineering review\"\n        ]\n      },\n      {\n        \"finding_id\": \"F-02\",\n        \"finding_type\": \"ANOMALY\",\n        \"target\": \"attitude_control_loop\",\n        \"result\": \"command_response_residual elevated\",\n        \"score\": 0.76,\n        \"score_semantics\": \"screening score\",\n        \"supporting_evidence_ids\": [\n          \"ML-E-03\"\n        ],\n        \"limitations\": [\n          \"residual alone does not uniquely identify the failed component\"\n        ]\n      }\n    ],\n    \"machine_summary\": \"The upstream algorithm flags a possible loss of reaction-wheel torque authority and an elevated command-response residual.\"\n  },\n  \"diagnostic_logs\": [\n    {\n      \"log_id\": \"LOG-01\",\n      \"timestamp\": \"2026-04-12T08:15:00Z\",\n      \"log_type\": \"ALARM\",\n      \"content\": \"ADCS tracking error exceeded the operational warning threshold during the scheduled slew.\",\n      \"author_role\": \"onboard_monitor\",\n      \"source_ref\": \"synthetic://log/01\"\n    },\n    {\n      \"log_id\": \"LOG-02\",\n      \"timestamp\": \"2026-04-12T08:18:00Z\",\n      \"log_type\": \"OPERATOR_NOTE\",\n      \"content\": \"The slew command was completed; no contemporaneous power-bus undervoltage alarm was recorded.\",\n      \"author_role\": \"flight_operator\",\n      \"source_ref\": \"synthetic://log/02\"\n    },\n    {\n      \"log_id\": \"LOG-03\",\n      \"timestamp\": \"2026-04-12T09:05:00Z\",\n      \"log_type\": \"ENGINEERING_ANALYSIS\",\n      \"content\": \"A prior review noted intermittent wheel response degradation under high torque demand, but the earlier event was not confirmed as a component failure.\",\n      \"author_role\": \"adcs_engineer\",\n      \"source_ref\": \"synthetic://log/03\"\n    }\n  ],\n  \"spacecraft_context\": {\n    \"spacecraft_id\": \"ILLUSTRATIVE-LEO-01\",\n    \"spacecraft_type\": \"LEO small satellite\",\n    \"configuration\": {\n      \"adcs_architecture\": \"three-axis control with reaction-wheel assembly\"\n    },\n    \"subsystem_context\": [\n      {\n        \"subsystem\": \"ADCS\",\n        \"components\": [\n          \"IMU\",\n          \"star_tracker\",\n          \"reaction_wheel_1\",\n          \"reaction_wheel_2\",\n          \"reaction_wheel_3\",\n          \"controller\"\n        ],\n        \"configuration_notes\": [\n          \"illustrative configuration only\"\n        ]\n      }\n    ]\n  },\n  \"operational_context\": {\n    \"mission_phase\": \"scheduled attitude slew\",\n    \"operating_mode\": \"three-axis attitude control\",\n    \"recent_operations\": [\n      \"slew command issued\",\n      \"tracking error warning raised\"\n    ],\n    \"environmental_context\": [],\n    \"maintenance_history\": [\n      \"no relevant maintenance record supplied\"\n    ],\n    \"known_constraints\": [\n      \"no hardware inspection evidence in the case packet\"\n    ]\n  },\n  \"historical_cases\": [\n    {\n      \"case_ref\": \"HIST-ADCS-017\",\n      \"similarity_basis\": [\n        \"same subsystem\",\n        \"similar command-response symptom\"\n      ],\n      \"prior_conclusion\": \"Intermittent actuator response degradation was suspected; root cause remained unresolved.\",\n      \"outcome_status\": \"UNRESOLVED\",\n      \"applicability_limitations\": [\n        \"historical case did not confirm torque-authority loss\",\n        \"different spacecraft configuration\"\n      ]\n    }\n  ],\n  \"knowledge_evidence\": [\n    {\n      \"evidence_id\": \"DOC-E-01\",\n      \"source_id\": \"NASA_SMALLSAT_GNC\",\n      \"passage_id\": \"NASA_REACTION_WHEEL_FUNCTION\",\n      \"claim_boundary\": \"Supports the role of reaction wheels in attitude torque and momentum exchange; does not prove a specific failure.\",\n      \"excerpt\": null\n    }\n  ],\n  \"analysis_cutoff\": \"2026-04-12T09:10:00Z\",\n  \"raw_telemetry_included\": false\n}"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"disposition\": \"ACCEPT_WITH_QUALIFICATION\",\n  \"phenomenon_analysis\": \"姿态机动期间出现跟踪误差告警。上游算法报告反作用飞轮2力矩权限下降候选，并检测到控制指令—响应残差升高；同期日志未记录电源母线欠压告警。现有材料尚未提供独立执行机构输出证据。\",\n  \"cause_localization\": {\n    \"status\": \"CANDIDATE\",\n    \"fault_source\": \"reaction_wheel_2\",\n    \"affected_components\": [\n      \"ADCS control loop\"\n    ],\n    \"cause_mechanism\": \"可能存在反作用飞轮2力矩输出能力下降；现有证据尚不足以确认具体失效机理。\",\n    \"qualification\": \"上游算法结果为未校准排序分数，不代表故障概率；该结论保持候选状态。\"\n  },\n  \"disposal_measures\": [],\n  \"evidence_assessment\": {\n    \"supporting_refs\": [\n      \"ML-E-01\",\n      \"ML-E-02\",\n      \"ML-E-03\",\n      \"LOG-01\"\n    ],\n    \"contradicting_refs\": [\n      \"LOG-02\"\n    ],\n    \"missing_information\": [\n      \"飞轮独立状态确认\",\n      \"执行机构实际输出证据\",\n      \"同工况健康基线比较\"\n    ]\n  },\n  \"uncertainty\": {\n    \"level\": \"MODERATE\",\n    \"reasons\": [\n      \"算法输出为候选而非确诊\",\n      \"关键执行机构独立证据缺失\",\n      \"历史案例结论未确认\"\n    ]\n  },\n  \"report_text\": \"姿态机动期间出现跟踪误差告警。上游算法提示反作用飞轮2力矩权限下降候选，伴随控制指令—响应残差升高。现有证据尚不足以确认单机故障及具体机理；本示意案例未提供实际处置记录。\",\n  \"disposal_status\": \"NOT_RECORDED\"\n}"
+    }
+  ],
+  "case_ref": "DGSI-ADCS-ILLUSTRATIVE-0001",
+  "source_group": "illustrative-group-001",
+  "split": "train",
+  "provenance": {
+    "diagnosis_result_refs": [
+      "synthetic://diagnosis/001"
+    ],
+    "diagnostic_log_refs": [
+      "LOG-01",
+      "LOG-02",
+      "LOG-03"
+    ],
+    "context_refs": [
+      "ILLUSTRATIVE-LEO-01",
+      "mission:scheduled attitude slew"
+    ],
+    "knowledge_passage_ids": [
+      "NASA_REACTION_WHEEL_FUNCTION"
+    ],
+    "source_artifact_hashes": []
+  },
+  "review": {
+    "status": "REVIEW_REQUIRED",
+    "reviewer_id": null,
+    "reviewed_at": null
+  }
+}

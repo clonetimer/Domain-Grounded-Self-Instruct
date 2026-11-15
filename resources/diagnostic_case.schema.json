@@ -1,0 +1,683 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/diagnostic_case.schema.json",
+  "title": "DGSI Diagnostic Context Case v1",
+  "description": "LLM-facing case packet built from upstream machine-learning diagnosis results, diagnostic logs and operational context. Raw telemetry is not an input.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "domain",
+    "task_type",
+    "input",
+    "expected_output",
+    "provenance",
+    "review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-diagnostic-case.v1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domain": {
+      "enum": [
+        "adcs",
+        "eps",
+        "comm",
+        "thermal",
+        "integrated"
+      ]
+    },
+    "task_type": {
+      "enum": [
+        "diagnostic_synthesis",
+        "historical_case_reuse",
+        "conflict_reconciliation",
+        "evidence_sufficiency",
+        "next_step_recommendation",
+        "handover_summary"
+      ]
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "machine_diagnosis",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "analysis_cutoff"
+      ],
+      "properties": {
+        "machine_diagnosis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "producer",
+            "analysis_scope",
+            "status",
+            "findings"
+          ],
+          "properties": {
+            "producer": {
+              "type": "object",
+              "required": [
+                "method",
+                "version"
+              ],
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "model_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "analysis_scope": {
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "NORMAL",
+                "ANOMALY",
+                "FAULT_CANDIDATE",
+                "MULTIPLE_CANDIDATES",
+                "INSUFFICIENT_DATA",
+                "DATA_QUALITY_ERROR"
+              ]
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "finding_id",
+                  "finding_type",
+                  "target",
+                  "result"
+                ],
+                "properties": {
+                  "finding_id": {
+                    "type": "string"
+                  },
+                  "finding_type": {
+                    "enum": [
+                      "ANOMALY",
+                      "FAULT_CLASS",
+                      "COMPONENT_LOCALIZATION",
+                      "ROOT_CAUSE_CANDIDATE",
+                      "RESIDUAL",
+                      "DATA_QUALITY",
+                      "OTHER"
+                    ]
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "result": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "score_semantics": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "supporting_evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "limitations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "machine_summary": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "known_limitations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "diagnostic_logs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "log_id",
+              "timestamp",
+              "log_type",
+              "content"
+            ],
+            "properties": {
+              "log_id": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "log_type": {
+                "enum": [
+                  "ALARM",
+                  "EVENT",
+                  "OPERATOR_NOTE",
+                  "ENGINEERING_ANALYSIS",
+                  "MAINTENANCE",
+                  "TELECOMMAND",
+                  "REVIEW",
+                  "OTHER"
+                ]
+              },
+              "content": {
+                "type": "string"
+              },
+              "author_role": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "source_ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "spacecraft_context": {
+          "type": "object",
+          "required": [
+            "spacecraft_id",
+            "configuration",
+            "subsystem_context"
+          ],
+          "properties": {
+            "spacecraft_id": {
+              "type": "string"
+            },
+            "spacecraft_type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "configuration": {
+              "type": "object"
+            },
+            "subsystem_context": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "subsystem",
+                  "components"
+                ],
+                "properties": {
+                  "subsystem": {
+                    "type": "string"
+                  },
+                  "components": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "configuration_notes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": true
+        },
+        "operational_context": {
+          "type": "object",
+          "required": [
+            "mission_phase",
+            "operating_mode"
+          ],
+          "properties": {
+            "mission_phase": {
+              "type": "string"
+            },
+            "operating_mode": {
+              "type": "string"
+            },
+            "recent_operations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "environmental_context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "maintenance_history": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "known_constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "historical_cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "case_ref",
+              "similarity_basis",
+              "prior_conclusion",
+              "outcome_status"
+            ],
+            "properties": {
+              "case_ref": {
+                "type": "string"
+              },
+              "similarity_basis": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "prior_conclusion": {
+                "type": "string"
+              },
+              "outcome_status": {
+                "enum": [
+                  "CONFIRMED",
+                  "PARTIALLY_CONFIRMED",
+                  "REJECTED",
+                  "UNRESOLVED",
+                  "UNKNOWN"
+                ]
+              },
+              "applicability_limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "knowledge_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "evidence_id",
+              "source_id",
+              "passage_id",
+              "claim_boundary"
+            ],
+            "properties": {
+              "evidence_id": {
+                "type": "string"
+              },
+              "source_id": {
+                "type": "string"
+              },
+              "passage_id": {
+                "type": "string"
+              },
+              "claim_boundary": {
+                "type": "string"
+              },
+              "excerpt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "raw_telemetry_included": {
+          "const": false
+        },
+        "telemetry_reference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional pointer to upstream analysis artifact; never inline raw telemetry."
+        },
+        "analysis_cutoff": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Information cutoff for the LLM decision; logs after this timestamp are prohibited from the prompt."
+        }
+      }
+    },
+    "expected_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disposition",
+        "phenomenon_analysis",
+        "cause_localization",
+        "disposal_status",
+        "disposal_measures",
+        "evidence_assessment",
+        "uncertainty"
+      ],
+      "properties": {
+        "disposition": {
+          "enum": [
+            "ACCEPT_MACHINE_FINDING",
+            "ACCEPT_WITH_QUALIFICATION",
+            "REQUEST_ADDITIONAL_ANALYSIS",
+            "CONFLICTING_EVIDENCE",
+            "INSUFFICIENT_CONTEXT",
+            "NO_FAULT_INDICATED"
+          ]
+        },
+        "evidence_assessment": {
+          "type": "object",
+          "required": [
+            "supporting_refs",
+            "contradicting_refs",
+            "missing_information"
+          ],
+          "properties": {
+            "supporting_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "contradicting_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "missing_information": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "uncertainty": {
+          "type": "object",
+          "required": [
+            "level",
+            "reasons"
+          ],
+          "properties": {
+            "level": {
+              "enum": [
+                "LOW",
+                "MODERATE",
+                "HIGH",
+                "UNRESOLVED"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "report_text": {
+          "type": "string",
+          "description": "Optional concise engineering report formed only from the formal conclusion fields."
+        },
+        "phenomenon_analysis": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Formal conclusion: concise analysis of observed symptoms and recorded relationships."
+        },
+        "cause_localization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "fault_source",
+            "affected_components",
+            "cause_mechanism"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "CONFIRMED",
+                "MOST_LIKELY",
+                "CANDIDATE",
+                "UNRESOLVED",
+                "NOT_LOCALIZED"
+              ]
+            },
+            "fault_source": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "affected_components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "cause_mechanism": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "qualification": {
+              "type": "string",
+              "description": "State the evidence-supported certainty level; do not add speculative reasoning."
+            }
+          }
+        },
+        "disposal_measures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "measure",
+              "condition",
+              "source_ref"
+            ],
+            "properties": {
+              "measure": {
+                "type": "string"
+              },
+              "condition": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "source_ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "disposal_status": {
+          "enum": [
+            "RECORDED",
+            "NOT_RECORDED",
+            "NOT_APPLICABLE"
+          ],
+          "description": "Whether an actual measure is documented in the source. Do not replace missing historical action with a newly invented recommendation."
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_group",
+        "source_artifact_hashes",
+        "diagnosis_run_refs"
+      ],
+      "properties": {
+        "source_group": {
+          "type": "string"
+        },
+        "source_artifact_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "diagnosis_run_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "historical_case_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "generation_method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "DRAFT",
+            "REVIEW_REQUIRED",
+            "APPROVED",
+            "REJECTED"
+          ]
+        },
+        "reviewer_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "review_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "internal_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Dataset-curator QA only. Must never be serialized into LLM user input or assistant target.",
+      "required": [
+        "review_prompts",
+        "unverified_assumptions"
+      ],
+      "properties": {
+        "review_prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unverified_assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
