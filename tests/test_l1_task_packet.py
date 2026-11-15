@@ -390,7 +390,7 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         collection["packet_count"] += 1
-        with self.assertRaisesRegex(L1TaskPacketError, "INVALID_L1_COLLECTION_SCHEMA"):
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_COLLECTION_PACKET_COUNT_MISMATCH"):
             validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
 
     def test_l1_collection_requires_one_track(self):
