@@ -299,7 +299,7 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         self.assertEqual(collection["track"], "LITERATURE_DERIVED_SYNTHETIC")
-        self.assertEqual(collection["packet_count"], 11)
+        self.assertEqual(collection["packet_count"], 12)
         cards = {card["case_id"]: card for card in literature["cards"]}
         decisions = []
         for packet in collection["packets"]:
@@ -311,7 +311,7 @@ class L1TaskPacketTests(unittest.TestCase):
             self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
             self.assertNotIn("internal_review", packet["formal_target"])
             self.assertNotIn("curator_prompts", packet["formal_target"])
-        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 11)
+        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 12)
 
     def test_l1_pilot_has_both_no_hit_and_history_context_variants(self):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
@@ -385,8 +385,8 @@ class L1TaskPacketTests(unittest.TestCase):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
         self.assertEqual(result["decision"], "VALID_L1_COLLECTION")
-        self.assertEqual(result["packet_count"], 11)
-        self.assertEqual(result["event_family_count"], 8)
+        self.assertEqual(result["packet_count"], 12)
+        self.assertEqual(result["event_family_count"], 9)
         self.assertFalse(result["split_audit_performed"])
         self.assertFalse(result["training_authorized"])
 
@@ -452,6 +452,22 @@ class L1TaskPacketTests(unittest.TestCase):
         packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
         with self.assertRaisesRegex(L1TaskPacketError, "INCOMPATIBLE_HISTORY_CANNOT_SUPPORT_CURRENT_CAUSE"):
             self.validate(packet)
+
+    def test_history_reuse_packet_preserves_partial_cassini_context_as_unknown_hardware(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        cards = {card["case_id"]: card for card in literature["cards"]}
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        packet = next(p for p in collection["packets"] if p["task_id"] == "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012")
+        result = validate_l1_task_packet(packet, source_fact_cards=[cards[ref] for ref in set(packet["source_fact_refs"] + packet["history_context"]["items"][0]["source_refs"])])
+        self.assertEqual(result["decision"], "READY_FOR_L1_EXPERT_REVIEW")
+        self.assertEqual(packet["case"]["task_type"], "historical_case_reuse")
+        history = packet["history_context"]["items"][0]
+        self.assertEqual(history["outcome_status"], "PARTIALLY_CONFIRMED")
+        self.assertEqual(history["hardware_compatibility"], "UNKNOWN")
+        self.assertTrue(history["applicability_limitations"])
+        self.assertFalse(history["hit_metadata"]["diagnostic_vote_allowed"])
+        self.assertNotIn(history["case_ref"], packet["formal_target"]["cause_localization"]["candidates"][0]["supporting_refs"])
+        self.assertIn(history["case_ref"], packet["formal_target"]["historical_experience_relevance"][0]["case_ref"])
 
 
 if __name__ == "__main__":
