@@ -216,6 +216,22 @@ def validate_l1_task_packet(
     }
     if unresolved_history_refs:
         _fail("UNRESOLVED_HISTORY_SOURCE_REFERENCE")
+    # A history hit is not independent when it belongs to the current L0
+    # incident family. The Case source group may carry a track prefix, so
+    # comparing only the two free-text group strings is insufficient.
+    current_l0_families = {cards_by_id[ref]["event_family_id"] for ref in refs}
+    for history_hit in packet["history_context"]["items"]:
+        if history_hit["event_family_id"] in current_l0_families:
+            _fail("CURRENT_L0_EVENT_FAMILY_CANNOT_BE_HISTORY")
+        # A publicly cited history card must actually describe the claimed
+        # prior event family. The prior's own metadata cannot self-certify
+        # that relationship. Clearly labeled SYNTHETIC refs have no L0 card.
+        for source_ref in history_hit["source_refs"]:
+            source_card = cards_by_id.get(source_ref)
+            if source_card is not None and (
+                source_card["event_family_id"] != history_hit["event_family_id"]
+            ):
+                _fail("HISTORY_HIT_L0_SOURCE_FAMILY_MISMATCH")
     resolved_history_refs = history_source_refs & set(cards_by_id)
     bound_source_cards = [
         cards_by_id[ref] for ref in sorted(set(refs) | resolved_history_refs)
