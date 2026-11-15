@@ -208,6 +208,11 @@
     },
     "sft_eligible": {
       "const": false
+    },
+    "event_family_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pseudonymous event family; use the same value for multiple observations from one incident/report so they remain grouped."
     }
   }
 }
