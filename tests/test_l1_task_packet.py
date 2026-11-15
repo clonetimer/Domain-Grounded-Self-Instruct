@@ -126,6 +126,8 @@ def make_history_context(case, *, include=True, future=False):
         "items": [{
             "case_ref": history["case_ref"],
             "event_family_id": "SYNTHETIC-PRIOR-EVENT-017",
+            "historical_equipment_scope": "reaction_wheel_2",
+            "hardware_compatibility": "COMPATIBLE",
             "outcome_status": outcome,
             "summary": history["prior_conclusion"],
             "source_refs": ["SYNTHETIC-HISTORY-SOURCE-017"],
@@ -355,6 +357,8 @@ class L1TaskPacketTests(unittest.TestCase):
         packet["history_context"]["items"].append({
             "case_ref": second_ref,
             "event_family_id": "SYNTHETIC-PRIOR-CONNECTOR-FAMILY",
+            "historical_equipment_scope": "reaction_wheel_2",
+            "hardware_compatibility": "COMPATIBLE",
             "outcome_status": "REJECTED",
             "summary": second_summary,
             "source_refs": ["SYNTHETIC-HISTORY-REVIEW-REF-002"],
@@ -425,6 +429,46 @@ class L1TaskPacketTests(unittest.TestCase):
         ]
         with self.assertRaisesRegex(L1TaskPacketError, "L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS"):
             validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+
+    def test_incompatible_historical_hardware_is_context_only_not_support(self):
+        packet = make_packet(history_status="CONFIRMED")
+        item = packet["history_context"]["items"][0]
+        item["historical_equipment_scope"] = "reaction_wheel_legacy_type"
+        item["hardware_compatibility"] = "INCOMPATIBLE"
+        item["applicability_limitations"] = ["不同代际反作用轮，轴承和润滑结构不同，不可迁移根因与处置方法"]
+        prior = packet["case"]["input"]["historical_cases"][0]
+        prior["applicability_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["historical_experience_relevance"][0]["transfer_limitations"] = list(item["applicability_limitations"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        result = self.validate(packet)
+        self.assertEqual(result["history_item_count"], 1)
+        self.assertFalse(result["gold_eligible"])
+
+    def test_incompatible_history_cannot_be_used_as_current_cause_evidence(self):
+        packet = make_packet(history_status="CONFIRMED")
+        item = packet["history_context"]["items"][0]
+        item["historical_equipment_scope"] = "reaction_wheel_legacy_type"
+        item["hardware_compatibility"] = "INCOMPATIBLE"
+        item["applicability_limitations"] = ["硬件结构不同，不能直接迁移"]
+        prior = packet["case"]["input"]["historical_cases"][0]
+        prior["applicability_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["historical_experience_relevance"][0]["transfer_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["cause_localization"]["candidates"][0]["supporting_refs"].append(prior["case_ref"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "INCOMPATIBLE_HISTORY_CANNOT_SUPPORT_CURRENT_CAUSE"):
+            self.validate(packet)
+
+    def test_incompatible_history_requires_explicit_target_limitation(self):
+        packet = make_packet(history_status="CONFIRMED")
+        item = packet["history_context"]["items"][0]
+        item["historical_equipment_scope"] = "reaction_wheel_legacy_type"
+        item["hardware_compatibility"] = "INCOMPATIBLE"
+        item["applicability_limitations"] = ["不同硬件构型，不能直接迁移"]
+        packet["case"]["input"]["historical_cases"][0]["applicability_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["historical_experience_relevance"][0]["transfer_limitations"] = []
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "INCOMPATIBLE_HISTORY_MUST_BE_QUALIFIED_IN_TARGET"):
+            self.validate(packet)
 
 
 if __name__ == "__main__":
