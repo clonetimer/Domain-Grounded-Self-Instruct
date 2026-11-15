@@ -126,6 +126,7 @@ class L1CoverageReviewTests(unittest.TestCase):
     def test_review_disagreement_requires_adjudication(self):
         form = _blind_form()
         form["assessments"][0]["scores"]["fault_source"] = 1
+        form["assessments"][0]["finding_codes"] = ["FAULT_SOURCE_UNSUPPORTED"]
         out = validate_blind_l1_review(form)
         self.assertEqual(out["decision"], "NEEDS_SECURE_ADJUDICATION")
         self.assertEqual(out["disagreement_dimensions"], ["fault_source"])

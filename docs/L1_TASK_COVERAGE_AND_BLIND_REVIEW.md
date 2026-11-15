@@ -19,7 +19,7 @@ Every packet must retain one L0 event family, explicit source fact references, a
 
 ## 2. Baseline pilot: independently observed coverage
 
-The expanded pilot contains **15 literature-derived SYNTHETIC tasks from 9 source event families**. Ten are `diagnostic_synthesis`; one each are `conflict_reconciliation`, `historical_case_reuse`, `evidence_sufficiency`, `next_step_recommendation` and `handover_summary`. Twelve use `NO_HIT`; two include a historical `REJECTED` hypothesis; one includes a `PARTIALLY_CONFIRMED` Cassini history item with `UNKNOWN` hardware compatibility. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 11 require independent expert review. No real Gold packet or formal split exists.
+The expanded pilot contains **15 literature-derived SYNTHETIC tasks from 9 source event families**. Ten are `diagnostic_synthesis`; one each are `conflict_reconciliation`, `historical_case_reuse`, `evidence_sufficiency`, `next_step_recommendation` and `handover_summary`. Twelve use `NO_HIT`; two include a historical `REJECTED` hypothesis; one includes a `PARTIALLY_CONFIRMED` Cassini history item with `UNKNOWN` hardware compatibility. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 15 require independent expert review. No real Gold packet or formal split exists.
 
 History Context needs controlled, *separately labeled* variants: no hit; confirmed and appropriately scoped; rejected; unresolved; conflicting confirmed/rejected; incompatible hardware; available after cutoff; and same event family. The last three should be **blocked/rejected adversarial tests**, not admitted as valid historical context. Keep hardware and time-incompatible candidates out of model-visible context unless the specific educational objective is to reject an explicitly marked untrusted candidate.
 
@@ -46,7 +46,7 @@ Store expert identities, source permissions, and rich narrative notes in the **a
 
 Each scorecard uses `dgsi-l1-blind-review.v1`: `blinded_packet_ref`, exactly two `assessments`, each having `reviewer_token`, all ten `scores`, `finding_codes`, and `decision` in `ACCEPT_L1 | REVISE | REJECT`. The validator accepts only fixed codes, no source text or private payload. Reviewers independently submit **before seeing each other's scores**.
 
-Any 2-point-or-greater disagreement on any dimension, any differing overall decision, or a `REVISE` / `REJECT` verdict routes to secure adjudication; no automated approval. Even two matching `ACCEPT_L1` decisions are **only awaiting independent reviewer authentication**. L1 approval, release permission, SFT admission, data split, real Gold and training remain separate controlled decisions.
+Any 2-point-or-greater disagreement on any dimension, any differing overall decision, any substantive finding code, or a `REVISE` / `REJECT` verdict routes to secure adjudication; no automated approval. Even two matching `ACCEPT_L1` decisions are **only awaiting independent reviewer authentication**. L1 approval, release permission, SFT admission, data split, real Gold and training remain separate controlled decisions.
 
 ## 4. Coverage and admission gate
 
@@ -63,10 +63,15 @@ This is intentionally *not* a real Gold inventory or data leakage certification.
 
 Before any model training (requires explicit authorization): freeze holdout incident families and source reports; freeze generation recipes; review upstream score semantics, model/run version, evidence IDs, mission cutoff, history `available_at`/`verified_at`; pre-register arms A (Base), B (Generic Self-Instruct), C (DGSI literature synthetic), D (DGSI real Gold, if admitted), E (same model + historical Context). Match independent holdouts, report synthetic versus real strata separately, include abstention and false-disposal rates. Record `NOT_RUN` for any unavailable real holdout or training arm.
 
-**Current checkpoint:** 3 synthetic L1 tasks, 3 event families, 0 verified real Gold, 0 approved splits, 0 fine-tuning runs, and no effectiveness claim.
+**Current checkpoint:** 15 literature-derived synthetic L1 tasks, 9 source event families, 0 verified real Gold, 0 approved splits, 0 fine-tuning runs, and no effectiveness claim.
 
 
 The FUSE history-reuse task uses the Cassini RWA case only as qualified Context. The Cassini case is PARTIALLY_CONFIRMED, its actual equipment scope differs from the current FUSE wheel, and hardware compatibility is UNKNOWN. The formal target must retain this limitation and must not cite the Cassini case as support for the FUSE cause. Its synthetic `available_at` is conservatively normalized to end-of-day on the 2004-05-10 NASA LLIS lesson date.
 
 
 The pilot covers all six declared Case task types. The evidence-sufficiency variant shares the TROPICS Pathfinder event family with the diagnostic-synthesis task; the next-step variant shares the Cassini RWA event family; the handover variant shares the S-band TWTA ground-test family. These are task-type variants, not additional independent fault episodes, and must stay in their source-family split.
+
+
+## 6. Immutable scorecard-to-source binding
+
+The existing ten-dimension scorecard remains the sole selected review rubric. The separate integrity sidecar introduced by PR #43 fingerprints the exact model-visible L1 task and the referenced L0 cards, then validates the scorecard against those digests and the pending secure-adjudication state. See [L1 blind-review receipt binding](L1_BLIND_REVIEW_RECEIPT_BINDING.md). This does not provide reviewer authentication, source-licensing proof, Gold approval or training authorization.

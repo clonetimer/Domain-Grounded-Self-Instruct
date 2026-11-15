@@ -162,6 +162,7 @@ def validate_blind_l1_review(
         _fail("TWO_INDEPENDENT_ASSESSMENTS_REQUIRED")
     reviewer_tokens: set[str] = set()
     decisions: set[str] = set()
+    has_material_finding = False
     scores_by_dimension: dict[str, list[int]] = {k: [] for k in REVIEW_DIMENSIONS}
     for item in assessments:
         if not isinstance(item, dict) or set(item) != {
@@ -169,9 +170,9 @@ def validate_blind_l1_review(
         }:
             _fail("INVALID_REVIEW_ASSESSMENT_STRUCTURE")
         token = item["reviewer_token"]
-        if not isinstance(token, str) or not token.strip() or token in reviewer_tokens:
+        if not isinstance(token, str) or not token.strip() or token.strip() in reviewer_tokens:
             _fail("REVIEWER_TOKENS_MUST_BE_DISTINCT")
-        reviewer_tokens.add(token)
+        reviewer_tokens.add(token.strip())
         if item["decision"] not in DECISIONS:
             _fail("INVALID_REVIEW_DECISION")
         decisions.add(item["decision"])
@@ -188,10 +189,19 @@ def validate_blind_l1_review(
             _fail("INVALID_REVIEW_FINDING_CODES")
         if len(codes) != len(set(codes)):
             _fail("DUPLICATE_REVIEW_FINDING_CODE")
+        if "NO_ISSUE" in codes and (
+            len(codes) != 1 or any(score < 3 for score in scores.values())
+        ):
+            _fail("NO_ISSUE_CONTRADICTS_REVIEW_FINDINGS")
+        if any(code != "NO_ISSUE" for code in codes):
+            has_material_finding = True
     disagreements = sorted(
         d for d, pair in scores_by_dimension.items() if abs(pair[0] - pair[1]) >= 2
     )
-    needs_adjudication = bool(disagreements) or len(decisions) > 1 or decisions != {"ACCEPT_L1"}
+    needs_adjudication = (
+        bool(disagreements) or len(decisions) > 1
+        or decisions != {"ACCEPT_L1"} or has_material_finding
+    )
     return {
         "schema_version": "dgsi-l1-blind-review-audit.v1",
         "decision": "NEEDS_SECURE_ADJUDICATION" if needs_adjudication else "AWAITING_INDEPENDENT_REVIEWER_AUTHENTICATION",
