@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/source_fact_card.schema.json",
+  "title": "DGSI L0 Source Fact Card v1",
+  "description": "Source-grounded fact inventory for a spacecraft fault case. Not a diagnosis-context Case and not an SFT example.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "source_class",
+    "source_reference",
+    "phenomenon_analysis",
+    "cause_localization",
+    "disposal_status",
+    "disposal_measures",
+    "available_materials",
+    "internal_review",
+    "sft_eligible"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-source-fact-card.v1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_class": {
+      "enum": [
+        "USER_SUPPLIED_CASE",
+        "PUBLIC_FLIGHT_REPORT",
+        "PUBLIC_GROUND_TEST_REPORT",
+        "PUBLIC_ENGINEERING_TEST",
+        "PUBLIC_EXPERT_SYSTEM_STUDY",
+        "LITERATURE_DERIVED_SYNTHETIC",
+        "SYNTHETIC_FIXTURE"
+      ]
+    },
+    "source_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_locator",
+        "source_title"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publication_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "page_or_section": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "phenomenon_analysis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cause_localization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_statement",
+        "certainty_in_source",
+        "fault_source",
+        "affected_components"
+      ],
+      "properties": {
+        "source_statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "certainty_in_source": {
+          "enum": [
+            "EXPLICIT_CONFIRMED",
+            "EXPLICIT_MOST_LIKELY",
+            "EXPLICIT_CANDIDATE",
+            "NOT_STATED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "fault_source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "affected_components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mechanism_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "disposal_status": {
+      "enum": [
+        "SOURCE_RECORDS_MEASURE",
+        "SOURCE_RECORDS_CONDITIONAL_PROCEDURE",
+        "SOURCE_TEXT_AMBIGUOUS",
+        "NOT_RECORDED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "disposal_measures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "available_materials": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "properties": {
+        "upstream_ml_result": {
+          "type": "boolean"
+        },
+        "diagnostic_logs": {
+          "type": "boolean"
+        },
+        "spacecraft_context": {
+          "type": "boolean"
+        },
+        "operational_context": {
+          "type": "boolean"
+        },
+        "historical_cases": {
+          "type": "boolean"
+        },
+        "expert_adjudicated_target": {
+          "type": "boolean"
+        }
+      }
+    },
+    "internal_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "not_for_sft",
+        "reviewer_questions",
+        "quality_flags"
+      ],
+      "properties": {
+        "not_for_sft": {
+          "const": true
+        },
+        "reviewer_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "curator_prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sft_eligible": {
+      "const": false
+    }
+  }
+}
