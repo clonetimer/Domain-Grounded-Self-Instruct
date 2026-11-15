@@ -83,6 +83,13 @@ def verify_case_sft_binding(case: dict[str, Any], example: dict[str, Any]) -> di
     except (DiagnosticContextValidationError, TypeError, KeyError, ValueError) as exc:
         # Preserve known payload-free prompt rejection codes for
         # Case/SFT binding callers; all other validator details stay redacted.
+        # Preserve established Case→SFT diagnostics when the stricter
+        # standalone identity gate detects the same failure earlier.
+        if isinstance(exc, DiagnosticContextValidationError):
+            if str(exc) == "SFT_PROMPT_CASE_REFERENCE_MISMATCH":
+                _fail("CASE_REFERENCE_MISMATCH")
+            if str(exc) == "SFT_PROMPT_TASK_TYPE_MISMATCH":
+                _fail("TASK_TYPE_MISMATCH")
         if isinstance(exc, DiagnosticContextValidationError) and str(exc) in {
             "UNAPPROVED_SYSTEM_PROMPT_TEMPLATE",
             "UNAPPROVED_USER_PROMPT_PREAMBLE",
