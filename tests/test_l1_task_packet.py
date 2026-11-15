@@ -542,7 +542,7 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
-        self.assertEqual(result["source_fact_domain_review_status_counts"]["AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION"], 15)
+        self.assertEqual(result["source_fact_domain_review_status_counts"]["AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION"], 12)
         self.assertEqual(result["source_fact_domain_review_status_counts"]["DOMAIN_EXPERT_CONFIRMED"], 0)
 
 
