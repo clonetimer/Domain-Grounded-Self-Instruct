@@ -902,6 +902,82 @@
         ]
       },
       "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-FUSE-RWA-KAPTON-001",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "FUSE-RWA-2000-2001",
+      "event_episode_id": "FUSE-PITCH-RWA-2000-08-04",
+      "source_reference": {
+        "source_id": "FUSE-SPIE-2002-RWA",
+        "source_locator": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control",
+        "source_title": "FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes",
+        "publication_date": null,
+        "publication_year": 2002,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": "2002 SPIE Proceedings paper; exact publication day not asserted.",
+        "source_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+        "page_or_section": "Section 3"
+      },
+      "phenomenon_analysis": "2000年8月4日，FUSE姿态控制飞行软件因俯仰轴反作用轮拖曳增大而将其关闭。重新启动后，异常拖曳持续数分钟，随后消失。",
+      "cause_localization": {
+        "source_statement": "供应商分析认为，轮组件内壳体衬层Kapton胶带中的小气泡可能导致局部凸起并接触转子；胶带逐渐磨损后，异常拖曳消失。该解释为供应商给出的可能原因。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "FUSE俯仰轴反作用轮组件内壳体Kapton胶带局部起泡并与转子接触",
+        "affected_components": [
+          "FUSE俯仰轴反作用轮组件",
+          "ADCS俯仰轴控制能力"
+        ],
+        "mechanism_notes": [
+          "该来源还记录了2001年其他轮组件失效，并将后续轮失效归因于热致壳体变形；不得将后续事件的归因合并到2000年8月4日episode。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "重新启动该反作用轮；异常拖曳持续数分钟后消失。"
+      ],
+      "migration_assessment": {
+        "tier": "CONDITIONAL_MECHANISM",
+        "rationale": "可作为反作用轮拖曳异常的历史对照，但不能据此把Cassini低速润滑剂重新分布机理迁移到FUSE，也不能直接复制其他型号的轮速管理措施。",
+        "constraints": [
+          "核实轮组件壳体衬层、转子间隙、材料和热环境后再讨论机理迁移。",
+          "FUSE 2000年俯仰轴事件与2001年其他轮组件失效必须保持不同episode。",
+          "供应商给出的Kapton起泡解释保留为最可能原因，不升级为独立确诊。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [],
+        "quality_flags": [
+          "REAL_FLIGHT_EVENT",
+          "VENDOR_LIKELY_CAUSE_NOT_INDEPENDENTLY_CONFIRMED",
+          "MULTIPLE_WHEEL_EPISODES_MUST_REMAIN_SEPARATE"
+        ],
+        "curator_prompts": [
+          "仅把2000年8月4日俯仰轴轮拖曳事件及其Kapton起泡可能原因用于本episode；不得将2001年其他轮失效归因合并。"
+        ]
+      },
+      "sft_eligible": false
     }
   ]
 }
