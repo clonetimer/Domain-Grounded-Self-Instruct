@@ -182,10 +182,19 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
         "ACCEPT_MACHINE_FINDING", "ACCEPT_WITH_QUALIFICATION", "REQUEST_ADDITIONAL_ANALYSIS",
         "CONFLICTING_EVIDENCE", "INSUFFICIENT_CONTEXT", "NO_FAULT_INDICATED",
     }, "unsupported expected disposition")
-    fault = expected.get("fault_source_assessment")
-    _require(isinstance(fault, dict), "fault_source_assessment is required")
-    _require(fault.get("status") in {"SUPPORTED", "CANDIDATE_ONLY", "UNRESOLVED", "NOT_APPLICABLE"}, "unsupported fault-source status")
-    _string_list(fault.get("affected_components"), "fault_source_assessment.affected_components")
+    _nonempty(expected.get("phenomenon_analysis"), "expected_output.phenomenon_analysis")
+    cause = expected.get("cause_localization")
+    _require(isinstance(cause, dict), "cause_localization is required")
+    _require(cause.get("status") in {"CONFIRMED", "MOST_LIKELY", "CANDIDATE", "UNRESOLVED", "NOT_LOCALIZED"}, "unsupported cause localization status")
+    _require(cause.get("fault_source") is None or isinstance(cause.get("fault_source"), str), "cause_localization.fault_source must be string or null")
+    _string_list(cause.get("affected_components"), "cause_localization.affected_components")
+    _nonempty(cause.get("qualification"), "cause_localization.qualification")
+    _require(isinstance(expected.get("disposal_measures"), list), "disposal_measures must be a list")
+    for index, measure in enumerate(expected["disposal_measures"]):
+        _require(isinstance(measure, dict), f"disposal_measures[{index}] must be an object")
+        _nonempty(measure.get("measure"), f"disposal_measures[{index}].measure")
+        _require(measure.get("condition") is None or isinstance(measure.get("condition"), str), f"disposal_measures[{index}].condition must be string or null")
+        _require(measure.get("source_ref") is None or isinstance(measure.get("source_ref"), str), f"disposal_measures[{index}].source_ref must be string or null")
     evidence_assessment = expected.get("evidence_assessment")
     _require(isinstance(evidence_assessment, dict), "evidence_assessment is required")
     for field in ("supporting_refs", "contradicting_refs", "missing_information"):
@@ -194,7 +203,13 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     _require(isinstance(uncertainty, dict), "uncertainty is required")
     _require(uncertainty.get("level") in {"LOW", "MODERATE", "HIGH", "UNRESOLVED"}, "unsupported uncertainty level")
     _string_list(uncertainty.get("reasons"), "uncertainty.reasons")
-    _require(isinstance(expected.get("recommended_next_steps"), list), "recommended_next_steps must be a list")
+
+    internal_review = case.get("internal_review")
+    if internal_review is not None:
+        _require(isinstance(internal_review, dict), "internal_review must be an object")
+        for field in ("review_prompts", "unverified_assumptions", "reviewer_notes"):
+            if field in internal_review:
+                _string_list(internal_review[field], f"internal_review.{field}")
 
     provenance = case.get("provenance")
     _require(isinstance(provenance, dict), "provenance is required")
