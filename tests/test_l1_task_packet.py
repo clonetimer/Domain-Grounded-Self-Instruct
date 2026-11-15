@@ -603,6 +603,18 @@ class L1TaskPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_CONFIGURATION_PROVENANCE"):
             self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
 
+    def test_real_case_track_rejects_synthetic_source_group(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        packet["case"]["provenance"]["source_group"] = "SYNTHETIC-EVENT-FAMILY"
+        with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_SOURCE_GROUP"):
+            self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
+
+    def test_real_case_track_rejects_synthetic_log_content(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        packet["case"]["input"]["diagnostic_logs"][0]["content"] = "SYNTHETIC_TEST_ONLY generated log"
+        with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_LOG_PROVENANCE"):
+            self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
+
 
 if __name__ == "__main__":
     unittest.main()
