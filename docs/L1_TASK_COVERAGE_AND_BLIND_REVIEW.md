@@ -19,7 +19,7 @@ Every packet must retain one L0 event family, explicit source fact references, a
 
 ## 2. Baseline pilot: independently observed coverage
 
-The expanded pilot contains **12 literature-derived SYNTHETIC tasks from 9 source event families**. Ten are `diagnostic_synthesis`; one is `conflict_reconciliation`; one is `historical_case_reuse`. Ten use `NO_HIT`; one includes a historical `REJECTED` hypothesis; one includes a `PARTIALLY_CONFIRMED` Cassini history item with `UNKNOWN` hardware compatibility. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 11 require independent expert review. No real Gold packet or formal split exists.
+The expanded pilot contains **15 literature-derived SYNTHETIC tasks from 9 source event families**. Ten are `diagnostic_synthesis`; one each are `conflict_reconciliation`, `historical_case_reuse`, `evidence_sufficiency`, `next_step_recommendation` and `handover_summary`. Twelve use `NO_HIT`; two include a historical `REJECTED` hypothesis; one includes a `PARTIALLY_CONFIRMED` Cassini history item with `UNKNOWN` hardware compatibility. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 11 require independent expert review. No real Gold packet or formal split exists.
 
 History Context needs controlled, *separately labeled* variants: no hit; confirmed and appropriately scoped; rejected; unresolved; conflicting confirmed/rejected; incompatible hardware; available after cutoff; and same event family. The last three should be **blocked/rejected adversarial tests**, not admitted as valid historical context. Keep hardware and time-incompatible candidates out of model-visible context unless the specific educational objective is to reject an explicitly marked untrusted candidate.
 
@@ -67,3 +67,6 @@ Before any model training (requires explicit authorization): freeze holdout inci
 
 
 The FUSE history-reuse task uses the Cassini RWA case only as qualified Context. The Cassini case is PARTIALLY_CONFIRMED, its actual equipment scope differs from the current FUSE wheel, and hardware compatibility is UNKNOWN. The formal target must retain this limitation and must not cite the Cassini case as support for the FUSE cause. Its synthetic `available_at` is conservatively normalized to end-of-day on the 2004-05-10 NASA LLIS lesson date.
+
+
+The pilot covers all six declared Case task types. The evidence-sufficiency variant shares the TROPICS Pathfinder event family with the diagnostic-synthesis task; the next-step variant shares the Cassini RWA event family; the handover variant shares the S-band TWTA ground-test family. These are task-type variants, not additional independent fault episodes, and must stay in their source-family split.
