@@ -90,6 +90,12 @@ def verify_case_sft_binding(case: dict[str, Any], example: dict[str, Any]) -> di
                 _fail("CASE_REFERENCE_MISMATCH")
             if str(exc) == "SFT_PROMPT_TASK_TYPE_MISMATCH":
                 _fail("TASK_TYPE_MISMATCH")
+            if str(exc) == "SFT_DIAGNOSTIC_LOG_PROVENANCE_MISMATCH":
+                _fail("DIAGNOSTIC_LOG_LINEAGE_MISMATCH")
+            if str(exc) == "SFT_KNOWLEDGE_PASSAGE_PROVENANCE_MISMATCH":
+                _fail("KNOWLEDGE_PASSAGE_LINEAGE_MISMATCH")
+            if str(exc) == "SFT_SPACECRAFT_CONTEXT_PROVENANCE_MISSING":
+                _fail("SPACECRAFT_CONTEXT_REFERENCE_MISSING")
             if str(exc) == "UNAPPROVED_PACKET_INSTRUCTION_TEMPLATE":
                 # Preserve the pre-existing Case→SFT mismatch diagnostic.
                 _fail("PROMPT_INSTRUCTION_MISMATCH")
