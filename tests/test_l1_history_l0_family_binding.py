@@ -56,7 +56,7 @@ class L1HistoryL0FamilyBindingTests(unittest.TestCase):
         out = validate_l1_task_packet_collection(
             collection, source_fact_cards=cards
         )
-        self.assertFalse(out["gold_eligible"])
+        self.assertEqual(out["gold_eligible_count"], 0)
         self.assertFalse(out["training_authorized"])
 
     def test_distinct_cassini_history_card_passes_without_gold_promotion(self):
