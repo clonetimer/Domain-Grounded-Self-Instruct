@@ -486,6 +486,20 @@
       "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
       "published_or_updated": "2026",
       "scope_note": "The paper attributes repeated reboots to an ADCS recovery-sequence infinite loop. The loop prevented early-orbit-mode completion and solar-array deployment, reducing battery charging; suppressed internal heat generation also lowered battery temperature below heater activation. Ground command terminated the loop and allowed array deployment. This is a cross-subsystem propagation case."
+    },
+    {
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "title": "FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes",
+      "url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "kind": "PUBLIC_FLIGHT_ANOMALY_REPORT",
+      "scopes": [
+        "FAULT_EVENT",
+        "MECHANISM",
+        "CASE_HISTORY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Section 3 documents FUSE reaction-wheel drag and shutdown episodes. The 2000 pitch-axis drag episode is distinct from later 2001 wheel failures; vendor explanations remain source-attributed, not independent ground truth.",
+      "publication_year": 2002
     }
   ]
 }
