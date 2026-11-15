@@ -89,6 +89,9 @@ def audit_l1_coverage(
     family_sets: dict[str, set[str]] = {track: set() for track in TRACKS}
     not_reviewed = Counter()
     split_counts = Counter()
+    source_review_counts = {
+        track: Counter() for track in TRACKS
+    }
 
     for collection in collections:
         # Fail with the coverage-review domain error before the lower-level
@@ -110,6 +113,18 @@ def audit_l1_coverage(
         )
         track = collection["track"]
         packets = collection["packets"]
+        cards_by_id = {card["case_id"]: card for card in source_fact_cards}
+        referenced_card_ids: set[str] = set()
+        for packet in packets:
+            referenced_card_ids.update(packet["source_fact_refs"])
+            referenced_card_ids.update(
+                source_ref
+                for item in packet["history_context"]["items"]
+                for source_ref in item["source_refs"]
+                if source_ref in cards_by_id
+            )
+        for card_id in referenced_card_ids:
+            source_review_counts[track][cards_by_id[card_id]["domain_review_status"]] += 1
         for packet in packets:
             task_id = packet["task_id"]
             if task_id in seen_tasks:
@@ -133,6 +148,10 @@ def audit_l1_coverage(
         "packet_count_by_track": {t: tracks[t] for t in TRACKS},
         "event_family_count_by_track": {t: len(family_sets[t]) for t in TRACKS},
         "unreviewed_count_by_track": {t: not_reviewed[t] for t in TRACKS},
+        "source_fact_domain_review_status_by_track": {
+            track: dict(sorted(source_review_counts[track].items()))
+            for track in TRACKS
+        },
         "split_assignment_count_by_track": {t: split_counts[t] for t in TRACKS},
         "task_coverage": {t: tasks[t] for t in TASK_TYPES},
         "uncovered_task_types": [t for t in TASK_TYPES if tasks[t] == 0],
