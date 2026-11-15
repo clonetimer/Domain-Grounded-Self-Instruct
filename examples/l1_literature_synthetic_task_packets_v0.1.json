@@ -1211,7 +1211,7 @@
             "field_path": "case.input.historical_cases",
             "origin": "SYNTHETIC_SCENARIO_VALUE",
             "source_fact_refs": [
-              "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+              "SYNTHETIC-HISTORY-REVIEW-REF-001"
             ],
             "assumption": "A prior rejected-history context is synthetic and used to test non-promotion behavior."
           }
@@ -5147,7 +5147,7 @@
             "field_path": "case.input.historical_cases",
             "origin": "SYNTHETIC_SCENARIO_VALUE",
             "source_fact_refs": [
-              "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+              "SYNTHETIC-HISTORY-REVIEW-REF-001"
             ],
             "assumption": "A prior rejected-history context is synthetic and used to test non-promotion behavior."
           }
