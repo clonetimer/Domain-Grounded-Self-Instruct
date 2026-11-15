@@ -39,6 +39,7 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertIn("phenomenon_analysis", case["expected_output"])
         self.assertIn("cause_localization", case["expected_output"])
         self.assertIn("disposal_measures", case["expected_output"])
+        self.assertEqual(case["expected_output"]["disposal_status"], "NOT_RECORDED")
         self.assertIn("internal_review", case)
         self.assertNotIn("internal_review", case["expected_output"])
         self.assertIn("uncertainty", case["expected_output"])
@@ -155,7 +156,8 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertTrue(output["phenomenon_analysis"])
         self.assertEqual(output["cause_localization"]["status"], "CANDIDATE")
         self.assertTrue(output["cause_localization"]["qualification"])
-        self.assertTrue(output["disposal_measures"])
+        self.assertEqual(output["disposal_status"], "NOT_RECORDED")
+        self.assertEqual(output["disposal_measures"], [])
         self.assertIn("现象", output["report_text"])
         self.assertNotIn("不能因观测对象", output["report_text"])
 
@@ -176,6 +178,14 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertIn("cause_localization", target)
         self.assertIn("disposal_measures", target)
         self.assertNotIn("internal_review", target)
+
+    def test_not_recorded_disposal_cannot_contain_made_up_actions(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_measures"] = [
+            {"measure": "invented action", "condition": None, "source_ref": None}
+        ]
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "must not contain invented measures"):
+            validate_diagnostic_case(case)
 
 
 if __name__ == "__main__":
