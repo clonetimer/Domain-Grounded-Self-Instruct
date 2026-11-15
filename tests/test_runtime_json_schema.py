@@ -28,7 +28,7 @@ class RuntimeJsonSchemaTests(unittest.TestCase):
 
     def test_unknown_nested_target_key_is_rejected(self):
         case = copy.deepcopy(CASE)
-        case["expected_output"]["fault_source_assessment"]["candidates"][0]["expert_secret"] = "SYNTHETIC"
+        case["expected_output"]["cause_localization"]["candidates"][0]["expert_secret"] = "SYNTHETIC"
         with self.assertRaisesRegex(DiagnosticContextValidationError, "JSON_SCHEMA_ADDITIONALPROPERTIES"):
             validate_diagnostic_case(case)
 
@@ -46,13 +46,13 @@ class RuntimeJsonSchemaTests(unittest.TestCase):
 
     def test_invalid_next_step_priority_is_rejected(self):
         case = copy.deepcopy(CASE)
-        case["expected_output"]["recommended_next_steps"][0]["priority"] = "IMMEDIATE"
+        case["expected_output"]["follow_up_actions"][0]["priority"] = "IMMEDIATE"
         with self.assertRaisesRegex(DiagnosticContextValidationError, "JSON_SCHEMA_ENUM"):
             validate_diagnostic_case(case)
 
     def test_missing_required_review_field_is_rejected(self):
         case = copy.deepcopy(CASE)
-        del case["expected_output"]["fault_source_assessment"]["candidates"][0]["fault_mode"]
+        del case["expected_output"]["cause_localization"]["candidates"][0]["fault_mode"]
         with self.assertRaisesRegex(DiagnosticContextValidationError, "JSON_SCHEMA_REQUIRED"):
             validate_diagnostic_case(case)
 
