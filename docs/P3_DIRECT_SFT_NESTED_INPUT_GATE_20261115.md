@@ -9,10 +9,11 @@ The reviewed system/user templates and JSON packet parser of PR #22 check the en
 ## Scoped implementation
 
 - Reuse `resources/diagnostic_case.schema.json#/properties/input` with JSON Schema Draft 2020-12 and a date-time format checker on standalone SFT input.
-- Require explicit `raw_telemetry_included: false`; reject unsupported nested keys, invalid enums, missing source method/context and malformed date-times.
-- Include twelve tests that are strictly **SYNTHETIC** and exercise both direct validation and batch audit paths.
+- Require explicit `raw_telemetry_included: false`; reject unsupported nested keys, invalid enums and missing source method/context.
+- Add explicit ISO-8601 timezone and post-cutoff log checks, since the existing Case schema does not mark diagnostic-log timestamps with a `format`, and JSON Schema date-time checking may depend on optional runtime validators.
+- Include fifteen tests that are strictly **SYNTHETIC** and exercise both direct validation and batch audit paths.
 - Never serialize input content or a case identifier in a validation error.
 
-This is a **structural** gate. It does not verify log-to-cutoff ordering, score meaning, upstream causal correctness, real source/IP authorization, independent expert judgement, Case→SFT source binding, or Gold eligibility. Those are separate mandatory checks.
+This is a **structural** gate. It does not verify upstream result creation time, score meaning, upstream causal correctness, real source/IP authorization, independent expert judgement, Case→SFT source binding, or Gold eligibility. Those are separate mandatory checks.
 
 No restricted engineering records, R21 telemetry, private reports, model API usage, fine-tuning or main-branch merge.
