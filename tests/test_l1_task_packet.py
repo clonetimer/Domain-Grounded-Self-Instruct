@@ -480,6 +480,34 @@ class L1TaskPacketTests(unittest.TestCase):
             for name in names:
                 self.assertIn(f"def {name}(", source, msg=variant["id"])
 
+    def test_unknown_hardware_compatibility_requires_limitation(self):
+        packet = make_packet()
+        item = packet["history_context"]["items"][0]
+        item["hardware_compatibility"] = "UNKNOWN"
+        item["applicability_limitations"] = []
+        packet["case"]["input"]["historical_cases"][0]["applicability_limitations"] = []
+        with self.assertRaisesRegex(L1TaskPacketError, "UNKNOWN_HISTORY_REQUIRES_TRANSFER_LIMITATION"):
+            self.validate(packet)
+
+    def test_compatible_hardware_must_match_historical_scope(self):
+        packet = make_packet()
+        item = packet["history_context"]["items"][0]
+        item["historical_equipment_scope"] = "reaction_wheel_legacy_type"
+        item["hardware_compatibility"] = "COMPATIBLE"
+        with self.assertRaisesRegex(L1TaskPacketError, "HISTORY_COMPATIBILITY_SCOPE_CONTRADICTION"):
+            self.validate(packet)
+
+    def test_incompatible_hardware_cannot_claim_same_scope(self):
+        packet = make_packet()
+        item = packet["history_context"]["items"][0]
+        item["hardware_compatibility"] = "INCOMPATIBLE"
+        item["applicability_limitations"] = ["不同硬件构型，不能直接迁移"]
+        packet["case"]["input"]["historical_cases"][0]["applicability_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["historical_experience_relevance"][0]["transfer_limitations"] = list(item["applicability_limitations"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "HISTORY_INCOMPATIBILITY_SCOPE_CONTRADICTION"):
+            self.validate(packet)
+
 
 if __name__ == "__main__":
     unittest.main()
