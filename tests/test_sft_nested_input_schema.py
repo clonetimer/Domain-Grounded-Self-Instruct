@@ -84,7 +84,7 @@ class StandaloneSftInputSchemaTests(unittest.TestCase):
     def test_invalid_cutoff_timestamp_rejected(self):
         example = fixture()
         edit_input(example, lambda x: x.update(analysis_cutoff="not-a-date"))
-        self.assert_invalid(example, "JSON_SCHEMA_INPUT_FORMAT")
+        self.assert_invalid(example, "INVALID_SFT_ANALYSIS_CUTOFF")
 
     def test_invalid_log_timestamp_rejected(self):
         example = fixture()
@@ -92,7 +92,34 @@ class StandaloneSftInputSchemaTests(unittest.TestCase):
             example,
             lambda x: x["diagnostic_logs"][0].update(timestamp="not-a-date"),
         )
-        self.assert_invalid(example, "JSON_SCHEMA_INPUT_FORMAT")
+        self.assert_invalid(example, "INVALID_SFT_LOG_TIMESTAMP")
+
+    def test_naive_analysis_cutoff_rejected(self):
+        example = fixture()
+        edit_input(
+            example, lambda x: x.update(analysis_cutoff="2026-04-12T09:10:00")
+        )
+        self.assert_invalid(example, "INVALID_SFT_ANALYSIS_CUTOFF")
+
+    def test_naive_log_timestamp_rejected(self):
+        example = fixture()
+        edit_input(
+            example,
+            lambda x: x["diagnostic_logs"][0].update(
+                timestamp="2026-04-12T08:15:00"
+            ),
+        )
+        self.assert_invalid(example, "INVALID_SFT_LOG_TIMESTAMP")
+
+    def test_log_after_cutoff_rejected(self):
+        example = fixture()
+        edit_input(
+            example,
+            lambda x: x["diagnostic_logs"][0].update(
+                timestamp="2026-04-12T09:11:00Z"
+            ),
+        )
+        self.assert_invalid(example, "SFT_LOG_AFTER_ANALYSIS_CUTOFF")
 
     def test_unauthorized_nested_machine_field_rejected(self):
         example = fixture()
