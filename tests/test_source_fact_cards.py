@@ -1,9 +1,12 @@
 import copy
+import json
 import unittest
+from pathlib import Path
 
 from dgsi.source_fact_cards import (
     SourceFactCardValidationError,
     validate_source_fact_card,
+    validate_source_fact_card_collection,
 )
 
 
@@ -169,6 +172,22 @@ class SourceFactCardTests(unittest.TestCase):
         result = validate_source_fact_card_collection([a, b])
         self.assertEqual(result["multi_episode_family_count"], 1)
         self.assertEqual(result["card_count"], 2)
+
+    def test_reviewed_public_literature_cards_validate_and_keep_event_types(self):
+        path = Path(__file__).resolve().parents[1] / "examples" / "l0_public_literature_fact_cards_2026-11-15.json"
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        report = validate_source_fact_card_collection(payload["cards"])
+        self.assertEqual(report["card_count"], 12)
+        self.assertEqual(report["knowledge_source_not_event_count"], 1)
+        self.assertEqual(report["multi_episode_family_count"], 1)
+        self.assertEqual(report["sft_eligible_count"], 0)
+
+    def test_literature_year_and_ntrs_accession_year_are_not_collapsed(self):
+        path = Path(__file__).resolve().parents[1] / "examples" / "l0_public_literature_fact_cards_2026-11-15.json"
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        card = next(item for item in payload["cards"] if item["case_id"] == "LIT-NASA-HYDRAZINE-INJECTOR-009")
+        self.assertEqual(card["source_reference"]["publication_year"], 1987)
+        self.assertEqual(card["source_reference"]["ntrs_accession_year"], 1988)
 
 
 if __name__ == "__main__":
