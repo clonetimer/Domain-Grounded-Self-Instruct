@@ -64,7 +64,7 @@ class L1CoverageReviewTests(unittest.TestCase):
         collection["split_assignments"] = [
             {"task_id": p["task_id"], "split": "train"} for p in collection["packets"]
         ]
-        with self.assertRaisesRegex(L1QualityGateError, "L1_SPLIT_BEFORE_INDEPENDENT_REVIEW"):
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_SPLIT_BEFORE_INDEPENDENT_REVIEW"):
             audit_l1_coverage([collection], source_fact_cards=cards)
 
     def test_canonical_collection_validator_blocks_review_required_split(self):
