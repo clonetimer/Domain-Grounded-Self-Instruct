@@ -13,11 +13,11 @@ SFT exports. It rejects:
 
 - Assistant cited ML evidence/log/candidate support IDs absent from the prompt.
 - Historical-case references not supplied to the model.
-- Duplicate finding/knowledge/history IDs and ambiguous cross-namespace IDs.
+- Duplicate finding/log/knowledge/history IDs and ambiguous cross-namespace IDs.
 - Case or task identity in the JSON prompt differing from the SFT metadata.
 - Attempts to bypass these checks through batch lineage audit.
 
-**Test data:** 11 new adversarial tests, all explicitly SYNTHETIC.
+**Test data:** 12 new adversarial tests, all explicitly SYNTHETIC.
 No real case data or raw telemetry was introduced.
 
 ## Limits
