@@ -101,7 +101,6 @@ class HandoffCaseBindingSyntheticTests(unittest.TestCase):
 
     def test_forged_knowledge_file_declaration_is_caught(self):
         self.case["input"]["knowledge_evidence"] = []
-        self.manifest["available_files"].append("historical_cases.json") if False else None
         self.assertIn("OPTIONAL_EVIDENCE_FILE_BINDING_MISMATCH", self.assess()["blocker_codes"])
 
     def test_missing_upstream_run_ref_blocks_binding(self):
