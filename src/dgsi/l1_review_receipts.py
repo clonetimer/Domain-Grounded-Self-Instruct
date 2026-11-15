@@ -148,7 +148,7 @@ def audit_l1_review_receipt_batch(
     """
     from .l1_task_packet import validate_l1_task_packet_collection
 
-    validate_l1_task_packet_collection(
+    collection_audit = validate_l1_task_packet_collection(
         collection, source_fact_cards=source_fact_cards
     )
     if not isinstance(receipts, list):
@@ -202,6 +202,9 @@ def audit_l1_review_receipt_batch(
             "AWAITING_INDEPENDENT_REVIEWER_AUTHENTICATION"
         ),
         "aggregate_source_card_binding_count": source_card_count,
+        "source_fact_domain_review_status_counts": collection_audit[
+            "source_fact_domain_review_status_counts"
+        ],
         "l1_experiment_approval_count": 0,
         "gold_eligible_count": 0,
         "training_authorized": False,
