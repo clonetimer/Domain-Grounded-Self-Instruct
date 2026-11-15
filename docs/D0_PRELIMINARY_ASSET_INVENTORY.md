@@ -98,3 +98,19 @@ python scripts/inventory_diagnostic_case_assets.py --root "D:\\restricted\\diagn
 The tool writes only aggregate metadata and hashed case references. It does not export diagnosis text, log lines, reference contents or telemetry rows. It flags synthetic fixtures, hidden-truth/label-assisted results, incomplete diagnosis/log/context packets, missing expert approval and CSV files that may be telemetry rather than event logs.
 
 The inventory output is intended to remain in the restricted local workspace. Do not upload it if hashed case identifiers or file counts are considered sensitive by the data owner. A result of `READY_FOR_MANUAL_CONTENT_REVIEW` is not Gold approval; a qualified reviewer must inspect the actual local packet.
+
+
+## User-supplied real-case candidates (outside this repository)
+
+The user has supplied `故障案例参考.docx`, subsequently normalized into the user-side artifact `DGSI_用户原始5例_正式结论与内部审核分离_v0.1.docx`. It contains five L0 source summaries:
+- SADA short circuit;
+- communications TWTA helix-current anomaly;
+- Ku-TWTA helix-current anomaly;
+- No. 2 thruster temperature anomaly;
+- reaction-wheel bearing temperature anomaly.
+
+The user indicated that the cause localizations are basically accurate and the common fault mechanisms are transferable. This is a useful source-level assessment, but it is not independent per-case Gold adjudication.
+
+The five records currently lack the actual upstream ML diagnosis result/version, timestamped diagnostic-log bundle, complete spacecraft/mission context and independently adjudicated target evidence. Their formal source wording and disposal semantics are preserved in the user-side L0 artifact. The original/private case payload is **not copied into this repository**.
+
+A case-specific acquisition checklist is available as `DGSI_真实案例L1补料与准入清单_v0.1.docx` in the current ChatGPT conversation. The checklist does not invent missing ML outputs or logs; it specifies the material needed to construct a real-case L1 packet. Until those inputs are supplied and reviewed, the five records remain real-case L0 candidates, not complete L1 tasks or Gold SFT.
