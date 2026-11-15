@@ -141,6 +141,41 @@
       "items": {
         "type": "string"
       }
+    },
+    "input_file_sha256": {
+      "type": "object",
+      "description": "Optional, untrusted local-input SHA-256 mapping; expert target prohibited. Actual local files must be hashed separately by authorized custodian.",
+      "additionalProperties": false,
+      "properties": {
+        "diagnosis_result.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "diagnostic_logs.jsonl": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "diagnostic_logs.csv": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "spacecraft_context.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "operational_context.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "historical_cases.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "knowledge_refs.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
     }
   }
 }
