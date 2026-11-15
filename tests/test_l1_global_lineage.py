@@ -86,6 +86,13 @@ class GlobalL1HoldoutTests(unittest.TestCase):
         with self.assertRaisesRegex(L1GlobalLineageError, "GLOBAL_HYPOTHETICAL_COLLECTION_COVERAGE_INCOMPLETE"):
             audit_l1_cross_collection_lineage(batches, hypothetical_splits=plan)
 
+    def test_empty_hypothetical_task_map_fails_closed(self):
+        batches = _fixtures()
+        plan = _plans(batches)
+        plan[batches[1]["collection"]["collection_id"]] = {}
+        with self.assertRaisesRegex(L1GlobalLineageError, "GLOBAL_SPLIT_MAP_INCOMPLETE"):
+            audit_l1_cross_collection_lineage(batches, hypothetical_splits=plan)
+
     def test_task_identifier_reuse_across_collections_is_blocked(self):
         batches = _fixtures(FUSE, FUSE)
         with self.assertRaisesRegex(L1GlobalLineageError, "GLOBAL_DUPLICATE_TASK_ID"):
