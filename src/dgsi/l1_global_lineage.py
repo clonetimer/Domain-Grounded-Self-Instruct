@@ -116,6 +116,11 @@ def audit_l1_cross_collection_lineage(
 
     target_splits: dict[str, set[str]] = {}
     history_links: list[tuple[str, str, str | None]] = []
+    # The same diagnostic Case or upstream run may legitimately feed task
+    # variants within one event family. It may never identify a different
+    # source event family, even before a training split is assigned.
+    case_families: dict[str, frozenset[str]] = {}
+    run_families: dict[str, frozenset[str]] = {}
     tracked_task_count = 0
     tracks: dict[str, int] = {}
     track_families: dict[str, set[str]] = {}
@@ -145,6 +150,15 @@ def audit_l1_cross_collection_lineage(
                 for ref in packet["source_fact_refs"]
             }
             track_families.setdefault(packet["track"], set()).update(current)
+            family_key = frozenset(current)
+            case_id = packet["case"]["case_id"]
+            if case_id in case_families and case_families[case_id] != family_key:
+                _reject("GLOBAL_CASE_ID_FAMILY_COLLISION")
+            case_families[case_id] = family_key
+            for run_ref in packet["case"]["provenance"]["diagnosis_run_refs"]:
+                if run_ref in run_families and run_families[run_ref] != family_key:
+                    _reject("GLOBAL_DIAGNOSIS_RUN_FAMILY_COLLISION")
+                run_families[run_ref] = family_key
             for family in current:
                 if task_split is not None:
                     target_splits.setdefault(family, set()).add(task_split)
