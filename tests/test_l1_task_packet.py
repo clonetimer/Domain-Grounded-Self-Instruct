@@ -126,6 +126,8 @@ def make_history_context(case, *, include=True, future=False):
         "items": [{
             "case_ref": history["case_ref"],
             "event_family_id": "SYNTHETIC-PRIOR-EVENT-017",
+            "historical_equipment_scope": "reaction_wheel_2",
+            "hardware_compatibility": "COMPATIBLE",
             "outcome_status": outcome,
             "summary": history["prior_conclusion"],
             "source_refs": ["SYNTHETIC-HISTORY-SOURCE-017"],
@@ -297,7 +299,7 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         self.assertEqual(collection["track"], "LITERATURE_DERIVED_SYNTHETIC")
-        self.assertEqual(collection["packet_count"], 3)
+        self.assertEqual(collection["packet_count"], 11)
         cards = {card["case_id"]: card for card in literature["cards"]}
         decisions = []
         for packet in collection["packets"]:
@@ -309,7 +311,7 @@ class L1TaskPacketTests(unittest.TestCase):
             self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
             self.assertNotIn("internal_review", packet["formal_target"])
             self.assertNotIn("curator_prompts", packet["formal_target"])
-        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 3)
+        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 11)
 
     def test_l1_pilot_has_both_no_hit_and_history_context_variants(self):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
@@ -355,6 +357,8 @@ class L1TaskPacketTests(unittest.TestCase):
         packet["history_context"]["items"].append({
             "case_ref": second_ref,
             "event_family_id": "SYNTHETIC-PRIOR-CONNECTOR-FAMILY",
+            "historical_equipment_scope": "reaction_wheel_2",
+            "hardware_compatibility": "COMPATIBLE",
             "outcome_status": "REJECTED",
             "summary": second_summary,
             "source_refs": ["SYNTHETIC-HISTORY-REVIEW-REF-002"],
@@ -381,8 +385,8 @@ class L1TaskPacketTests(unittest.TestCase):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
         self.assertEqual(result["decision"], "VALID_L1_COLLECTION")
-        self.assertEqual(result["packet_count"], 3)
-        self.assertEqual(result["event_family_count"], 3)
+        self.assertEqual(result["packet_count"], 11)
+        self.assertEqual(result["event_family_count"], 8)
         self.assertFalse(result["split_audit_performed"])
         self.assertFalse(result["training_authorized"])
 
@@ -425,6 +429,22 @@ class L1TaskPacketTests(unittest.TestCase):
         ]
         with self.assertRaisesRegex(L1TaskPacketError, "L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS"):
             validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+
+    def test_incompatible_history_is_qualified_and_cannot_support_current_cause(self):
+        packet = make_packet(history_status="CONFIRMED")
+        item = packet["history_context"]["items"][0]
+        item["historical_equipment_scope"] = "reaction_wheel_legacy_type"
+        item["hardware_compatibility"] = "INCOMPATIBLE"
+        item["applicability_limitations"] = ["不同代际轮组结构不同，不可直接迁移故障原因与处置方法"]
+        prior = packet["case"]["input"]["historical_cases"][0]
+        prior["applicability_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["historical_experience_relevance"][0]["transfer_limitations"] = list(item["applicability_limitations"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        self.assertEqual(self.validate(packet)["history_item_count"], 1)
+        packet["case"]["expected_output"]["cause_localization"]["candidates"][0]["supporting_refs"].append(prior["case_ref"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "INCOMPATIBLE_HISTORY_CANNOT_SUPPORT_CURRENT_CAUSE"):
+            self.validate(packet)
 
 
 if __name__ == "__main__":
