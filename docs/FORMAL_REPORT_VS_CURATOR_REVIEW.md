@@ -84,3 +84,17 @@ The contract tests cover:
 7. all target citations resolve to the supplied diagnosis/log/history/knowledge evidence.
 
 Schema validity and reference integrity do not establish factual correctness or Gold approval. Independent domain review remains mandatory.
+
+
+## L0 source fact cards are a separate staging layer
+
+Public literature and user-supplied case summaries may not contain an upstream ML result, diagnostic logs or mission context. Do not fabricate those missing fields just to satisfy the full Case schema.
+
+Use `resources/source_fact_card.schema.json` and `validate_source_fact_card()` for source-grounded L0 records:
+- preserve the source's phenomenon statement, cause statement and disposal wording;
+- record the certainty exactly as stated by the source, or NOT_STATED;
+- record which upstream ML/log/context/history/expert-target materials are actually available;
+- keep curator questions in root-level internal_review with not_for_sft=true;
+- enforce that L0 cards always have sft_eligible=false.
+
+An L0 card is not a complete diagnostic-context Case and is not an SFT example. It may be promoted to a full Case only after the required ML diagnosis result and context are available or a separately approved literature-derived SYNTHETIC task is intentionally created and labelled as such. The validator reports missing material; it never generates it.
