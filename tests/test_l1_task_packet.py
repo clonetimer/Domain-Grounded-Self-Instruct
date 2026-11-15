@@ -142,6 +142,22 @@ def make_history_context(case, *, include=True, future=False):
 
 def make_packet(*, track="LITERATURE_DERIVED_SYNTHETIC", history_status="UNRESOLVED", with_history=True):
     case = make_case(synthetic=(track == "LITERATURE_DERIVED_SYNTHETIC"), history_status=history_status, with_history=with_history)
+    if track == "REAL_CASE_CANDIDATE":
+        # Synthetic test fixture representing a complete user-supplied packet;
+        # identifiers are placeholders and are not real engineering records.
+        case["input"]["machine_diagnosis"]["producer"] = {
+            "method": "USER_SUPPLIED_ML_PIPELINE",
+            "version": "USER-ML-VERSION-01",
+            "model_id": "USER-ML-MODEL-01",
+        }
+        case["input"]["machine_diagnosis"]["findings"][0]["finding_id"] = "USER-ML-FINDING-01"
+        case["input"]["machine_diagnosis"]["findings"][0]["supporting_evidence_ids"] = ["USER-ML-EVIDENCE-01"]
+        for index, log in enumerate(case["input"]["diagnostic_logs"], start=1):
+            log["log_id"] = f"USER-LOG-{index:02d}"
+            log["source_ref"] = f"USER-LOG-SOURCE-{index:02d}"
+            log["author_role"] = "operator"
+        case["input"]["spacecraft_context"]["spacecraft_id"] = "USER-SC-001"
+        case["input"]["spacecraft_context"]["configuration"]["configuration_origin"] = "USER_SUPPLIED_CONFIGURATION"
     refs = ["L0-SEASAT-001"]
     synthetic_provenance = None
     if track == "LITERATURE_DERIVED_SYNTHETIC":
@@ -559,6 +575,36 @@ class L1TaskPacketTests(unittest.TestCase):
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
         self.assertEqual(result["source_fact_domain_review_status_counts"]["AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION"], 12)
         self.assertEqual(result["source_fact_domain_review_status_counts"]["DOMAIN_EXPERT_CONFIRMED"], 0)
+
+    def test_real_case_candidate_uses_non_synthetic_input_fixture(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        result = self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
+        self.assertEqual(result["track"], "REAL_CASE_CANDIDATE")
+        self.assertFalse(result["gold_eligible"])
+
+    def test_real_case_track_rejects_synthetic_ml_producer(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        packet["case"]["input"]["machine_diagnosis"]["producer"]["method"] = "SYNTHETIC_SCENARIO_UPSTREAM_ML"
+        with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_ML_PROVENANCE"):
+            self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
+
+    def test_real_case_track_rejects_synthetic_run_reference(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        packet["case"]["provenance"]["diagnosis_run_refs"] = ["SYNTHETIC-MLRUN-001"]
+        with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_DIAGNOSIS_RUN_REF"):
+            self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
+
+    def test_real_case_track_rejects_synthetic_log_provenance(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        packet["case"]["input"]["diagnostic_logs"][0]["source_ref"] = "SYNTHETIC-LOG-001"
+        with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_LOG_PROVENANCE"):
+            self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
+
+    def test_real_case_track_rejects_synthetic_spacecraft_configuration(self):
+        packet = make_packet(track="REAL_CASE_CANDIDATE", with_history=False)
+        packet["case"]["input"]["spacecraft_context"]["configuration"]["configuration_origin"] = "SYNTHETIC_ASSUMPTION"
+        with self.assertRaisesRegex(L1TaskPacketError, "REAL_TRACK_SYNTHETIC_CONFIGURATION_PROVENANCE"):
+            self.validate(packet, [source_card("USER_SUPPLIED_CASE")])
 
 
 if __name__ == "__main__":
