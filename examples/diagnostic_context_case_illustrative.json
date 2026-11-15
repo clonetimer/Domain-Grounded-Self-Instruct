@@ -140,29 +140,28 @@
   },
   "expected_output": {
     "disposition": "ACCEPT_WITH_QUALIFICATION",
-    "diagnostic_summary": "当前证据支持将反作用飞轮2的力矩权限下降列为重点候选，但尚不足以确认单机故障。",
-    "machine_result_interpretation": "算法输出提供了故障候选和控制指令响应残差线索；0.82为未校准排序分数，不能解释为82%的故障概率。",
-    "fault_source_assessment": {
-      "status": "CANDIDATE_ONLY",
-      "candidates": [
-        {
-          "component": "reaction_wheel_2",
-          "fault_mode": "torque_authority_loss_candidate",
-          "supporting_refs": [
-            "ML-E-01",
-            "ML-E-02",
-            "LOG-01"
-          ],
-          "limitations": [
-            "缺少实际执行力矩或独立轮速测量证据",
-            "历史案例未确认相同故障"
-          ]
-        }
-      ],
+    "phenomenon_analysis": "姿态机动期间出现跟踪误差告警。上游算法报告反作用飞轮2力矩权限下降候选，并检测到控制指令—响应残差升高；同期日志未记录电源母线欠压告警。现有材料尚未提供独立执行机构输出证据。",
+    "cause_localization": {
+      "status": "CANDIDATE",
+      "fault_source": "reaction_wheel_2",
       "affected_components": [
         "ADCS control loop"
-      ]
+      ],
+      "cause_mechanism": "可能存在反作用飞轮2力矩输出能力下降；现有证据尚不足以确认具体失效机理。",
+      "qualification": "上游算法结果为未校准排序分数，不代表故障概率；该结论保持候选状态。"
     },
+    "disposal_measures": [
+      {
+        "measure": "核查反作用飞轮2的独立状态与执行机构输出记录",
+        "condition": "在获得独立执行机构证据前",
+        "source_ref": null
+      },
+      {
+        "measure": "与相同姿态机动工况下的健康基线进行对比",
+        "condition": "用于复核控制指令—响应残差是否具有工况特异性",
+        "source_ref": null
+      }
+    ],
     "evidence_assessment": {
       "supporting_refs": [
         "ML-E-01",
@@ -179,15 +178,6 @@
         "同工况健康基线比较"
       ]
     },
-    "historical_experience_relevance": [
-      {
-        "case_ref": "HIST-ADCS-017",
-        "relevance": "可用于提示类似控制指令响应异常的排查方向。",
-        "transfer_limitations": [
-          "该历史案例未确诊，不能作为当前故障的确诊证据"
-        ]
-      }
-    ],
     "uncertainty": {
       "level": "MODERATE",
       "reasons": [
@@ -196,19 +186,7 @@
         "历史案例结论未确认"
       ]
     },
-    "recommended_next_steps": [
-      {
-        "action": "核查反作用飞轮2的独立状态与执行机构遥测证据",
-        "rationale": "区分控制指令异常与实际执行能力下降",
-        "priority": "HIGH"
-      },
-      {
-        "action": "与相同姿态机动工况下的健康基线进行对比",
-        "rationale": "验证残差是否具有工况特异性",
-        "priority": "MEDIUM"
-      }
-    ],
-    "report_text": "示例报告：当前结果支持将反作用飞轮2力矩权限下降列为重点候选，尚不能确诊。建议先核查独立执行机构证据，并结合相同工况健康基线复核。"
+    "report_text": "姿态机动期间出现跟踪误差告警。上游算法提示反作用飞轮2力矩权限下降候选，伴随控制指令—响应残差升高。现有证据尚不足以确认单机故障及具体机理，建议核查独立执行机构输出并结合健康基线复核。"
   },
   "provenance": {
     "source_group": "illustrative-group-001",
@@ -228,5 +206,19 @@
       "纯示意案例，用于说明输入输出边界，不可作为训练样本"
     ],
     "reviewed_at": null
+  },
+  "internal_review": {
+    "review_prompts": [
+      "检查是否把未校准排序分数误写为概率。",
+      "检查故障源部件与受影响分系统是否分开表述。",
+      "检查历史未确认案例是否被错误用作当前确诊依据。"
+    ],
+    "unverified_assumptions": [
+      "示意案例并非真实航天器诊断记录。",
+      "示例中拟定的核查措施需要由领域专家确认适用性。"
+    ],
+    "reviewer_notes": [
+      "内部审核提示仅供数据策划和质检使用，不进入模型可见输入或assistant目标答案。"
+    ]
   }
 }
