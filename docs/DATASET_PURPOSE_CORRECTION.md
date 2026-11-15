@@ -91,3 +91,27 @@ LLM 输入默认不包含原始遥测。必要时可有受控证据引用或上�
 4. 盘点历史诊断日志和已审核案例是否足够支撑第一批样本。
 5. 先制作 20 个高质量人工审核样本，验证任务覆盖和 schema。
 5. 再扩大到 300–500 条小规模 SFT 实验数据；效果成立后扩展正式数据集。
+
+
+## 正式诊断结论与内部研判过程分离
+
+assistant target 只保留规范诊断报告结论：
+- `phenomenon_analysis`：现象分析；
+- `machine_result_interpretation`：对上游 ML 结果的解释；
+- `cause_localization`：原因定位、故障源、受影响部件及结论确定程度；
+- `evidence_assessment`：支持证据、反证和缺失信息；
+- `uncertainty`：结论的不确定程度；
+- `disposal_status` / `disposal_measures`：原始材料实际记载的处置状态和措施；
+- `follow_up_actions`：当前报告建议的后续检查，不能冒充已经执行的历史处置。
+
+案例根节点的 `internal_review` 专门保存数据构建者/审核者的思考提示、反例、备选假设核查点和专家问题，并强制标记 `not_for_sft=true`。它不进入 LLM user prompt，也不进入 assistant target。
+
+例如“不能因观测对象是 TWTA 就把根因定位到电子枪”是内部审核提示，不是诊断结论。只有当来源证据支持时，才可将其改写成“现有证据不足以将故障定位到行波管本体”这样的正式结论，并附对应证据。
+
+处置措施也必须区分：
+- 原始记录明确已执行的措施：`EXECUTED`，必须有来源证据；
+- 原始记录中的计划/建议：按 `PLANNED` 或 `RECOMMENDED` 记录；
+- 原始材料未记录：`disposal_status=NOT_RECORDED` 且 `disposal_measures=[]`；
+- 当前模型提出的新检查建议：进入 `follow_up_actions`，不得冒充历史处置。
+
+详细规范见 `docs/FORMAL_REPORT_VS_CURATOR_REVIEW.md`。
