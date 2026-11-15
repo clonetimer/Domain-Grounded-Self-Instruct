@@ -19,7 +19,7 @@ Every packet must retain one L0 event family, explicit source fact references, a
 
 ## 2. Baseline pilot: independently observed coverage
 
-The first three L1 packets contain **3 literature-derived SYNTHETIC tasks from 3 source event families**. Two are `diagnostic_synthesis` with `NO_HIT`; one is `conflict_reconciliation` with a historical `REJECTED` hypothesis. The other four task families have **zero** pilot packets. All three require expert review. No real Gold packet or formal split exists.
+The expanded pilot contains **11 literature-derived SYNTHETIC tasks from 8 source event families**. Ten are `diagnostic_synthesis`; one is `conflict_reconciliation`. Ten use `NO_HIT`; one includes a historical `REJECTED` hypothesis. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 11 require independent expert review. No real Gold packet or formal split exists.
 
 History Context needs controlled, *separately labeled* variants: no hit; confirmed and appropriately scoped; rejected; unresolved; conflicting confirmed/rejected; incompatible hardware; available after cutoff; and same event family. The last three should be **blocked/rejected adversarial tests**, not admitted as valid historical context. Keep hardware and time-incompatible candidates out of model-visible context unless the specific educational objective is to reject an explicitly marked untrusted candidate.
 
@@ -29,19 +29,22 @@ Do not create 20 variants of one incident to claim 20 independent cases. For an 
 
 For each L1 packet, two independent domain experts see the same **authorized model-visible context and formal report**, without internal curator prompts, proposed alternative target, reviewer names, experiment arm, or Gold/synthetic marketing labels that would reveal an experimental arm. The reviewers must still be told when upstream diagnostic inputs are SYNTHETIC; blinding never removes provenance safety labeling.
 
-Store expert identities, source permissions, and rich narrative notes in the **authorized review workspace**, not the public DGSI repository. Public code accepts only pseudonymous reviewer tokens, fixed finding codes and seven integer scores (1–5). It cannot verify independence or identity.
+Store expert identities, source permissions, and rich narrative notes in the **authorized review workspace**, not the public DGSI repository. Public code accepts only pseudonymous reviewer tokens, fixed finding codes and ten integer scores (1–5). It cannot verify independence or identity.
 
 | Dimension | 1: unacceptable | 3: partially supported | 5: strong |
 | --- | --- | --- | --- |
+| `source_fidelity` | Represents synthetic data as real or strengthens source certainty | Minor source-boundary omissions | Historical source certainty and synthetic provenance preserved |
+| `phenomenon_analysis` | Adds unsupported observations or confuses symptom and cause | Timeline/symptom summary incomplete | Only supplied observations, correct sequence and clear symptom/cause boundary |
+| `ml_interpretation` | Promotes candidate to confirmation or score to probability | Candidate/status semantics partly preserved | Algorithm result, score semantics and limitations faithfully explained |
 | `fault_source` | Incorrect or fabricated origin | Candidate plausible but poorly bounded | Source distinct from affected units, conclusion faithful |
 | `affected_components` | Confuses affected units with source | Some affected units omitted | Scope consistent with upstream evidence |
 | `evidence_fidelity` | Unsupported/misattributed references | Minor gaps | Traceable, correctly scoped and contradictory evidence addressed |
-| `uncertainty` | Treats ranking score as probability or falsely confirms | Over/under-calibrated wording | Explicit unknowns, abstention and proper score semantics |
+| `uncertainty` | False certainty or unjustified confidence | Over/under-calibrated wording | Explicit unknowns, abstention and appropriate certainty |
 | `disposal_fidelity` | Invents performed actions | Partly supported disposition | Executed/planned/suggested/NOT_RECORDED faithfully separated |
-| `historical_context_transfer` | Uses future/rejected/incompatible history to prove cause | Transfer limits incomplete | Time-safe, status-preserving, mechanism/configuration qualified |
+| `historical_context_transfer` | Uses future/rejected/incompatible history to prove cause | Transfer limits incomplete | Time-safe, status-preserving, hardware/mechanism qualified |
 | `engineering_actionability` | Unsupported unsafe instructions | Some checks useful | Source-aligned, bounded and feasible follow-up |
 
-Each scorecard uses `dgsi-l1-blind-review.v1`: `blinded_packet_ref`, exactly two `assessments`, each having `reviewer_token`, all seven `scores`, `finding_codes`, and `decision` in `ACCEPT_L1 | REVISE | REJECT`. The validator accepts only fixed codes, no source text or private payload. Reviewers independently submit **before seeing each other's scores**.
+Each scorecard uses `dgsi-l1-blind-review.v1`: `blinded_packet_ref`, exactly two `assessments`, each having `reviewer_token`, all ten `scores`, `finding_codes`, and `decision` in `ACCEPT_L1 | REVISE | REJECT`. The validator accepts only fixed codes, no source text or private payload. Reviewers independently submit **before seeing each other's scores**.
 
 Any 2-point-or-greater disagreement on any dimension, any differing overall decision, or a `REVISE` / `REJECT` verdict routes to secure adjudication; no automated approval. Even two matching `ACCEPT_L1` decisions are **only awaiting independent reviewer authentication**. L1 approval, release permission, SFT admission, data split, real Gold and training remain separate controlled decisions.
 
