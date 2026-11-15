@@ -24,7 +24,7 @@ class SchemaContractError(ValueError):
     """Schema violation with a payload-free error code."""
 
 
-@lru_cache(maxsize=2)
+@lru_cache(maxsize=3)
 def _validator(kind: str) -> Draft202012Validator:
     try:
         name = _SCHEMA_FILES[kind]
