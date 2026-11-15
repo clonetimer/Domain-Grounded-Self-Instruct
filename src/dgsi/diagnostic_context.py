@@ -190,7 +190,10 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     _require(cause.get("fault_source") is None or isinstance(cause.get("fault_source"), str), "cause_localization.fault_source must be string or null")
     _string_list(cause.get("affected_components"), "cause_localization.affected_components")
     _nonempty(cause.get("qualification"), "cause_localization.qualification")
+    _require(expected.get("disposal_status") in {"RECORDED", "NOT_RECORDED", "NOT_APPLICABLE"}, "unsupported disposal_status")
     _require(isinstance(expected.get("disposal_measures"), list), "disposal_measures must be a list")
+    if expected.get("disposal_status") == "NOT_RECORDED":
+        _require(not expected["disposal_measures"], "NOT_RECORDED disposal_status must not contain invented measures")
     for index, measure in enumerate(expected["disposal_measures"]):
         _require(isinstance(measure, dict), f"disposal_measures[{index}] must be an object")
         _nonempty(measure.get("measure"), f"disposal_measures[{index}].measure")
