@@ -177,7 +177,7 @@ class SourceFactCardTests(unittest.TestCase):
         path = Path(__file__).resolve().parents[1] / "examples" / "l0_public_literature_fact_cards_2026-11-15.json"
         payload = json.loads(path.read_text(encoding="utf-8"))
         report = validate_source_fact_card_collection(payload["cards"])
-        self.assertEqual(report["card_count"], 12)
+        self.assertEqual(report["card_count"], 13)
         self.assertEqual(report["knowledge_source_not_event_count"], 1)
         self.assertEqual(report["multi_episode_family_count"], 3)
         self.assertEqual(report["sft_eligible_count"], 0)

@@ -625,6 +625,21 @@
       "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
       "claim_boundary": "The paper attributes repeated reboots to an infinite loop in an ADCS recovery sequence. Reboots prevented completion of early-orbit mode and solar-array deployment, reducing charging current and battery voltage. They also suppressed internal heat generation, allowing battery temperature to fall below the heater activation threshold. The loop was terminated by ground command and arrays were deployed using a worst-case burn time validated during thermal-vacuum testing. This is a cross-subsystem causal chain: ADCS recovery logic produced EPS energy and thermal symptoms.",
       "evidence_summary": "An ADCS recovery infinite loop caused repeated reboots; the spacecraft did not complete early orbit mode or deploy solar arrays, leading to low battery charging and cooling below heater activation temperature. Recovery involved terminating the loop and commanding array deployment."
+    },
+    {
+      "passage_id": "FUSE_RWA_PITCH_DRAG_KAPTON_2000",
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "locator": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control",
+      "locator_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "MECHANISM",
+        "CAUSAL",
+        "FAILURE_MODE",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports the 2000-08-04 FUSE pitch-axis reaction-wheel drag shutdown, restart outcome and vendor's likely Kapton-tape-bubble explanation. The paper separately describes later 2001 wheel failures and a broader vendor attribution to thermally induced housing distortion; do not merge those episodes or treat the likely cause as independently confirmed."
     }
   ]
 }

@@ -101,6 +101,34 @@ def _validate_history_context(packet: dict[str, Any], case: dict[str, Any]) -> N
         if hit.get("diagnostic_vote_allowed") is not False:
             _fail("HISTORY_CANNOT_VOTE_CURRENT_ROOT_CAUSE")
 
+        historical_scope = item["historical_equipment_scope"]
+        compatibility = item["hardware_compatibility"]
+        limitations = item["applicability_limitations"]
+        if compatibility == "COMPATIBLE" and historical_scope != query["equipment_scope"]:
+            _fail("HISTORY_COMPATIBILITY_SCOPE_CONTRADICTION")
+        if compatibility == "INCOMPATIBLE":
+            if historical_scope == query["equipment_scope"]:
+                _fail("HISTORY_INCOMPATIBILITY_SCOPE_CONTRADICTION")
+            if not limitations:
+                _fail("INCOMPATIBLE_HISTORY_REQUIRES_TRANSFER_LIMITATION")
+            relevance = next(
+                (entry for entry in case["expected_output"].get("historical_experience_relevance", [])
+                 if entry["case_ref"] == item["case_ref"]),
+                None,
+            )
+            if relevance is None or not relevance["transfer_limitations"]:
+                _fail("INCOMPATIBLE_HISTORY_MUST_BE_QUALIFIED_IN_TARGET")
+            cited_as_support = set(
+                case["expected_output"]["evidence_assessment"]["supporting_refs"]
+                + case["expected_output"]["evidence_assessment"]["contradicting_refs"]
+            )
+            for candidate in case["expected_output"]["cause_localization"]["candidates"]:
+                cited_as_support.update(candidate["supporting_refs"])
+            if item["case_ref"] in cited_as_support:
+                _fail("INCOMPATIBLE_HISTORY_CANNOT_SUPPORT_CURRENT_CAUSE")
+        if compatibility == "UNKNOWN" and not limitations:
+            _fail("UNKNOWN_HISTORY_REQUIRES_TRANSFER_LIMITATION")
+
         if item["outcome_status"] == "CONFIRMED":
             confirmed_hits.append(hit)
         else:
@@ -177,6 +205,29 @@ def validate_l1_task_packet(
         _fail("UNRESOLVED_L0_SOURCE_REFERENCE")
     cards = [cards_by_id[ref] for ref in refs]
 
+    history_source_refs = {
+        source_ref
+        for item in packet["history_context"]["items"]
+        for source_ref in item["source_refs"]
+    }
+    unresolved_history_refs = {
+        source_ref for source_ref in history_source_refs
+        if source_ref not in cards_by_id and not source_ref.startswith("SYNTHETIC-")
+    }
+    if unresolved_history_refs:
+        _fail("UNRESOLVED_HISTORY_SOURCE_REFERENCE")
+    resolved_history_refs = history_source_refs & set(cards_by_id)
+    if any(
+        cards_by_id[source_ref]["source_class"] not in {
+            "PUBLIC_FLIGHT_REPORT", "PUBLIC_GROUND_TEST_REPORT",
+            "PUBLIC_ENGINEERING_TEST", "PUBLIC_EXPERT_SYSTEM_STUDY"
+        }
+        or cards_by_id[source_ref]["knowledge_source_not_event"]
+        for source_ref in resolved_history_refs
+    ):
+        _fail("HISTORY_SOURCE_NOT_EVENT_OR_PUBLIC")
+    allowed_refs = set(refs) | history_source_refs
+
     track = packet["track"]
     synthetic = packet["synthetic_provenance"]
     if track == "LITERATURE_DERIVED_SYNTHETIC":
@@ -212,7 +263,6 @@ def validate_l1_task_packet(
         }
         if not required_paths.issubset(generated_paths):
             _fail("SYNTHETIC_INPUT_FIELD_PROVENANCE_INCOMPLETE")
-        allowed_refs = set(refs)
         for item in synthetic["generated_fields"]:
             if set(item["source_fact_refs"]) - allowed_refs:
                 _fail("SYNTHETIC_FIELD_SOURCE_REFERENCE_UNRESOLVED")
@@ -294,6 +344,12 @@ def validate_l1_task_packet_collection(
             group_splits.setdefault(source_groups[task_id], set()).add(split)
         if any(len(splits) > 1 for splits in group_splits.values()):
             _fail("L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS")
+        # Source/event-family validation alone cannot authorize a training split.
+        # Preserve earlier error priority for malformed or leaking assignments.
+        if collection["data_status"] != "APPROVED_FOR_L1_EXPERIMENT" or any(
+            p["review"]["status"] != "APPROVED_FOR_L1_EXPERIMENT" for p in packets
+        ):
+            _fail("L1_SPLIT_BEFORE_INDEPENDENT_REVIEW")
 
     return {
         "schema_version": "dgsi-l1-collection-audit.v1",

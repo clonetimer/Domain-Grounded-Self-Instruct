@@ -126,6 +126,8 @@ def make_history_context(case, *, include=True, future=False):
         "items": [{
             "case_ref": history["case_ref"],
             "event_family_id": "SYNTHETIC-PRIOR-EVENT-017",
+            "historical_equipment_scope": "reaction_wheel_2",
+            "hardware_compatibility": "COMPATIBLE",
             "outcome_status": outcome,
             "summary": history["prior_conclusion"],
             "source_refs": ["SYNTHETIC-HISTORY-SOURCE-017"],
@@ -297,11 +299,18 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         self.assertEqual(collection["track"], "LITERATURE_DERIVED_SYNTHETIC")
-        self.assertEqual(collection["packet_count"], 3)
+        self.assertEqual(collection["packet_count"], 15)
         cards = {card["case_id"]: card for card in literature["cards"]}
         decisions = []
         for packet in collection["packets"]:
-            bound_cards = [cards[ref] for ref in packet["source_fact_refs"]]
+            bound_refs = set(packet["source_fact_refs"])
+            bound_refs.update(
+                source_ref
+                for item in packet["history_context"]["items"]
+                for source_ref in item["source_refs"]
+                if source_ref in cards
+            )
+            bound_cards = [cards[ref] for ref in bound_refs]
             result = validate_l1_task_packet(packet, source_fact_cards=bound_cards)
             decisions.append(result["decision"])
             self.assertFalse(result["gold_eligible"])
@@ -309,7 +318,7 @@ class L1TaskPacketTests(unittest.TestCase):
             self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
             self.assertNotIn("internal_review", packet["formal_target"])
             self.assertNotIn("curator_prompts", packet["formal_target"])
-        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 3)
+        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 15)
 
     def test_l1_pilot_has_both_no_hit_and_history_context_variants(self):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
@@ -355,6 +364,8 @@ class L1TaskPacketTests(unittest.TestCase):
         packet["history_context"]["items"].append({
             "case_ref": second_ref,
             "event_family_id": "SYNTHETIC-PRIOR-CONNECTOR-FAMILY",
+            "historical_equipment_scope": "reaction_wheel_2",
+            "hardware_compatibility": "COMPATIBLE",
             "outcome_status": "REJECTED",
             "summary": second_summary,
             "source_refs": ["SYNTHETIC-HISTORY-REVIEW-REF-002"],
@@ -381,8 +392,8 @@ class L1TaskPacketTests(unittest.TestCase):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
         self.assertEqual(result["decision"], "VALID_L1_COLLECTION")
-        self.assertEqual(result["packet_count"], 3)
-        self.assertEqual(result["event_family_count"], 3)
+        self.assertEqual(result["packet_count"], 15)
+        self.assertEqual(result["event_family_count"], 9)
         self.assertFalse(result["split_audit_performed"])
         self.assertFalse(result["training_authorized"])
 
@@ -417,14 +428,65 @@ class L1TaskPacketTests(unittest.TestCase):
         variant["case"]["provenance"]["diagnosis_run_refs"] = ["SYNTHETIC-MLRUN-SEASAT-VARIANT"]
         collection["packets"].append(variant)
         collection["packet_count"] = len(collection["packets"])
+        # This fixture tests leakage after review; the statuses below are
+        # synthetic test metadata, not real expert approvals.
+        collection["data_status"] = "APPROVED_FOR_L1_EXPERIMENT"
+        for packet in collection["packets"]:
+            packet["review"]["status"] = "APPROVED_FOR_L1_EXPERIMENT"
         collection["split_assignments"] = [
-            {"task_id": original["task_id"], "split": "train"},
-            {"task_id": collection["packets"][1]["task_id"], "split": "validation"},
-            {"task_id": collection["packets"][2]["task_id"], "split": "test"},
-            {"task_id": variant["task_id"], "split": "test"},
+            {"task_id": packet["task_id"], "split": (
+                "train" if packet["task_id"] == original["task_id"] else
+                "validation" if packet["task_id"] == variant["task_id"] else
+                "test"
+            )}
+            for packet in collection["packets"]
         ]
         with self.assertRaisesRegex(L1TaskPacketError, "L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS"):
             validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+
+    def test_incompatible_history_is_qualified_and_cannot_support_current_cause(self):
+        packet = make_packet(history_status="CONFIRMED")
+        item = packet["history_context"]["items"][0]
+        item["historical_equipment_scope"] = "reaction_wheel_legacy_type"
+        item["hardware_compatibility"] = "INCOMPATIBLE"
+        item["applicability_limitations"] = ["不同代际轮组结构不同，不可直接迁移故障原因与处置方法"]
+        prior = packet["case"]["input"]["historical_cases"][0]
+        prior["applicability_limitations"] = list(item["applicability_limitations"])
+        packet["case"]["expected_output"]["historical_experience_relevance"][0]["transfer_limitations"] = list(item["applicability_limitations"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        self.assertEqual(self.validate(packet)["history_item_count"], 1)
+        packet["case"]["expected_output"]["cause_localization"]["candidates"][0]["supporting_refs"].append(prior["case_ref"])
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "INCOMPATIBLE_HISTORY_CANNOT_SUPPORT_CURRENT_CAUSE"):
+            self.validate(packet)
+
+    def test_history_reuse_packet_preserves_partial_cassini_context_as_unknown_hardware(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        cards = {card["case_id"]: card for card in literature["cards"]}
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        packet = next(p for p in collection["packets"] if p["task_id"] == "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012")
+        result = validate_l1_task_packet(packet, source_fact_cards=[cards[ref] for ref in set(packet["source_fact_refs"] + packet["history_context"]["items"][0]["source_refs"])])
+        self.assertEqual(result["decision"], "READY_FOR_L1_EXPERT_REVIEW")
+        self.assertEqual(packet["case"]["task_type"], "historical_case_reuse")
+        history = packet["history_context"]["items"][0]
+        self.assertEqual(history["outcome_status"], "PARTIALLY_CONFIRMED")
+        self.assertEqual(history["hardware_compatibility"], "UNKNOWN")
+        self.assertTrue(history["applicability_limitations"])
+        self.assertFalse(history["hit_metadata"]["diagnostic_vote_allowed"])
+        self.assertNotIn(history["case_ref"], packet["formal_target"]["cause_localization"]["candidates"][0]["supporting_refs"])
+        self.assertIn(history["case_ref"], packet["formal_target"]["historical_experience_relevance"][0]["case_ref"])
+
+    def test_l1_pilot_covers_all_six_declared_task_types(self):
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        task_types = {packet["case"]["task_type"] for packet in collection["packets"]}
+        self.assertEqual(task_types, {
+            "diagnostic_synthesis",
+            "historical_case_reuse",
+            "conflict_reconciliation",
+            "evidence_sufficiency",
+            "next_step_recommendation",
+            "handover_summary",
+        })
 
 
 if __name__ == "__main__":
