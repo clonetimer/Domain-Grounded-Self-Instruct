@@ -293,6 +293,32 @@ class L1TaskPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(L1TaskPacketError, "L1_SYNTHETIC_SOURCE_GROUP_NOT_BOUND_TO_L0_FAMILY"):
             self.validate(packet)
 
+    def test_reviewed_l0_backed_synthetic_pilot_packets_validate(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        self.assertEqual(collection["track"], "LITERATURE_DERIVED_SYNTHETIC")
+        self.assertEqual(collection["packet_count"], 3)
+        cards = {card["case_id"]: card for card in literature["cards"]}
+        decisions = []
+        for packet in collection["packets"]:
+            bound_cards = [cards[ref] for ref in packet["source_fact_refs"]]
+            result = validate_l1_task_packet(packet, source_fact_cards=bound_cards)
+            decisions.append(result["decision"])
+            self.assertFalse(result["gold_eligible"])
+            self.assertFalse(result["training_authorized"])
+            self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
+            self.assertNotIn("internal_review", packet["formal_target"])
+            self.assertNotIn("curator_prompts", packet["formal_target"])
+        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 3)
+
+    def test_l1_pilot_has_both_no_hit_and_history_context_variants(self):
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        statuses = {packet["history_context"]["retrieval_status"] for packet in collection["packets"]}
+        self.assertEqual(statuses, {"NO_HIT", "HIT"})
+        history_packet = next(packet for packet in collection["packets"] if packet["history_context"]["retrieval_status"] == "HIT")
+        self.assertEqual(history_packet["history_context"]["items"][0]["outcome_status"], "REJECTED")
+        self.assertFalse(history_packet["history_context"]["items"][0]["hit_metadata"]["diagnostic_vote_allowed"])
+
 
 if __name__ == "__main__":
     unittest.main()
