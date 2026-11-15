@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import unittest
 
-from dgsi.l1_task_packet import L1TaskPacketError, validate_l1_task_packet
+from dgsi.l1_task_packet import L1TaskPacketError, validate_l1_task_packet, validate_l1_task_packet_collection
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -375,6 +375,56 @@ class L1TaskPacketTests(unittest.TestCase):
             {item["outcome_status"] for item in packet["history_context"]["items"]},
             {"CONFIRMED", "REJECTED"},
         )
+
+    def test_l1_collection_validates_pilot_and_reports_track_counts(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+        self.assertEqual(result["decision"], "VALID_L1_COLLECTION")
+        self.assertEqual(result["packet_count"], 3)
+        self.assertEqual(result["event_family_count"], 3)
+        self.assertFalse(result["split_audit_performed"])
+        self.assertFalse(result["training_authorized"])
+
+    def test_l1_collection_rejects_packet_count_mismatch(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        collection["packet_count"] += 1
+        with self.assertRaisesRegex(L1TaskPacketError, "INVALID_L1_COLLECTION_SCHEMA"):
+            validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+
+    def test_l1_collection_requires_one_track(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        collection["track"] = "REAL_CASE_CANDIDATE"
+        with self.assertRaisesRegex(L1TaskPacketError, "MIXED_TRACKS_IN_L1_COLLECTION"):
+            validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+
+    def test_l1_collection_split_assignments_must_cover_every_packet(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        collection["split_assignments"] = [{"task_id": collection["packets"][0]["task_id"], "split": "train"}]
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_SPLIT_ASSIGNMENTS_INCOMPLETE"):
+            validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+
+    def test_l1_collection_blocks_event_family_cross_split_leakage(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        original = copy.deepcopy(collection["packets"][0])
+        variant = copy.deepcopy(original)
+        variant["task_id"] = "L1-SEASAT-SLIPRING-SYNTH-001-VARIANT"
+        variant["case"]["case_id"] = "CASE-SEASAT-SYNTH-001-VARIANT"
+        variant["case"]["provenance"]["diagnosis_run_refs"] = ["SYNTHETIC-MLRUN-SEASAT-VARIANT"]
+        collection["packets"].append(variant)
+        collection["packet_count"] = len(collection["packets"])
+        collection["split_assignments"] = [
+            {"task_id": original["task_id"], "split": "train"},
+            {"task_id": collection["packets"][1]["task_id"], "split": "validation"},
+            {"task_id": collection["packets"][2]["task_id"], "split": "test"},
+            {"task_id": variant["task_id"], "split": "test"},
+        ]
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS"):
+            validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
 
 
 if __name__ == "__main__":
