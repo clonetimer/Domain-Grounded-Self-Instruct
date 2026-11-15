@@ -160,6 +160,16 @@ def make_packet(*, track="LITERATURE_DERIVED_SYNTHETIC", history_status="UNRESOL
             "gold_eligible": False,
             "real_flight_record": False,
         }
+        if with_history:
+            # The synthetic fixture includes an explicit generated history input;
+            # its source is a declared synthetic history reference, not real
+            # engineering experience or a historical confirmation.
+            synthetic_provenance["generated_fields"].append({
+                "field_path": "case.input.historical_cases",
+                "origin": "SYNTHETIC_SCENARIO_VALUE",
+                "source_fact_refs": ["SYNTHETIC-HISTORY-SOURCE-017"],
+                "assumption": "Historical context is an illustrative synthetic fixture.",
+            })
     return {
         "schema_version": "dgsi-l1-task-packet.v1",
         "task_id": "L1-SYNTH-001" if synthetic_provenance else "L1-REAL-CANDIDATE-001",
