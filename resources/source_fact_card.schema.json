@@ -16,7 +16,13 @@
     "disposal_measures",
     "available_materials",
     "internal_review",
-    "sft_eligible"
+    "sft_eligible",
+    "event_status",
+    "knowledge_source_not_event",
+    "event_family_id",
+    "event_episode_id",
+    "migration_assessment",
+    "missing_materials"
   ],
   "properties": {
     "schema_version": {
@@ -77,6 +83,28 @@
             "string",
             "null"
           ]
+        },
+        "publication_year": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        "ntrs_accession_year": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        "publication_metadata_note": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },
@@ -133,7 +161,9 @@
         "SOURCE_RECORDS_CONDITIONAL_PROCEDURE",
         "SOURCE_TEXT_AMBIGUOUS",
         "NOT_RECORDED",
-        "NOT_APPLICABLE"
+        "NOT_APPLICABLE",
+        "SOURCE_RECORDS_CONDITIONAL_MEASURE",
+        "SOURCE_RECORDS_PLANNED_PROCEDURE"
       ]
     },
     "disposal_measures": {
@@ -213,6 +243,61 @@
       "type": "string",
       "minLength": 1,
       "description": "Pseudonymous event family; use the same value for multiple observations from one incident/report so they remain grouped."
+    },
+    "event_status": {
+      "enum": [
+        "FLIGHT_EVENT",
+        "GROUND_TEST_EVENT",
+        "KNOWLEDGE_SOURCE_NOT_EVENT",
+        "USER_REPORTED_CASE",
+        "UNCLASSIFIED_SOURCE"
+      ]
+    },
+    "knowledge_source_not_event": {
+      "type": "boolean"
+    },
+    "event_episode_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Distinct unit/event episode within an event family. Multiple episodes may share event_family_id."
+    },
+    "disposal_source_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "missing_materials": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "migration_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tier",
+        "rationale",
+        "constraints"
+      ],
+      "properties": {
+        "tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
