@@ -81,11 +81,18 @@ def verify_case_sft_binding(case: dict[str, Any], example: dict[str, Any]) -> di
     try:
         validate_sft_example(example)
     except (DiagnosticContextValidationError, TypeError, KeyError, ValueError) as exc:
-        # Preserve the two existing payload-free template rejection codes for
+        # Preserve known payload-free prompt rejection codes for
         # Case/SFT binding callers; all other validator details stay redacted.
         if isinstance(exc, DiagnosticContextValidationError) and str(exc) in {
             "UNAPPROVED_SYSTEM_PROMPT_TEMPLATE",
             "UNAPPROVED_USER_PROMPT_PREAMBLE",
+            "DUPLICATE_JSON_KEY",
+            "NONFINITE_JSON_NUMBER",
+            "MISSING_JSON_PACKET",
+            "MALFORMED_JSON_PACKET",
+            "TRAILING_JSON_PACKET_CONTENT",
+            "JSON_PACKET_NOT_OBJECT",
+            "PROMPT_PACKET_FIELDS_MISMATCH",
         }:
             _fail(str(exc))
         _fail("INVALID_SFT_EXAMPLE")
