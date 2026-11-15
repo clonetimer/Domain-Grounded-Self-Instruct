@@ -510,6 +510,41 @@ class L1TaskPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(L1TaskPacketError, "L1_FLIGHT_SOURCE_MISLABELED_AS_GROUND_CONTEXT"):
             self.validate(packet)
 
+    def test_l1_packet_rejects_domain_expert_rejected_source_fact(self):
+        packet = make_packet()
+        card = source_card()
+        card["domain_review_status"] = "DOMAIN_EXPERT_REJECTED"
+        card["domain_review_evidence_sha256"] = "d" * 64
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_SOURCE_FACT_CARD_DOMAIN_REVIEW_REJECTED"):
+            self.validate(packet, [card])
+
+    def test_l1_experiment_approval_requires_domain_confirmed_l0_source(self):
+        packet = make_packet()
+        packet["review"]["status"] = "APPROVED_FOR_L1_EXPERIMENT"
+        packet["review"]["reviewer_id"] = "SYNTHETIC-REVIEWER"
+        packet["review"]["reviewed_at"] = "2026-11-16T08:00:00Z"
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_SOURCE_FACTS_NOT_DOMAIN_REVIEWED"):
+            self.validate(packet)
+
+    def test_l1_experiment_approval_accepts_confirmed_l0_with_receipt_digest(self):
+        packet = make_packet()
+        packet["review"]["status"] = "APPROVED_FOR_L1_EXPERIMENT"
+        packet["review"]["reviewer_id"] = "SYNTHETIC-REVIEWER"
+        packet["review"]["reviewed_at"] = "2026-11-16T08:00:00Z"
+        card = source_card()
+        card["domain_review_status"] = "DOMAIN_EXPERT_CONFIRMED"
+        card["domain_review_evidence_sha256"] = "e" * 64
+        result = self.validate(packet, [card])
+        self.assertEqual(result["decision"], "READY_FOR_L1_EXPERIMENT")
+        self.assertEqual(result["source_fact_domain_review_status_counts"]["DOMAIN_EXPERT_CONFIRMED"], 1)
+
+    def test_collection_audit_reports_pending_l0_domain_review_count(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
+        self.assertEqual(result["source_fact_domain_review_status_counts"]["AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION"], 15)
+        self.assertEqual(result["source_fact_domain_review_status_counts"]["DOMAIN_EXPERT_CONFIRMED"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
