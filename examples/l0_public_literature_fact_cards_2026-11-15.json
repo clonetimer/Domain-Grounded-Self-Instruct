@@ -12,7 +12,7 @@
       "event_status": "FLIGHT_EVENT",
       "knowledge_source_not_event": false,
       "event_family_id": "SEASAT-SLIPRING-1978",
-      "event_episode_id": "SEASAT-SLIPRING-1978",
+      "event_episode_id": "LIT-SEASAT-SLIPRING-001-EPISODE",
       "source_reference": {
         "source_id": "NASA-NTRS-20040171604",
         "source_locator": "NASA NTRS report summary",
@@ -66,7 +66,8 @@
       ],
       "internal_review": {
         "not_for_sft": true,
-        "reviewer_questions": [
+        "reviewer_questions": [],
+        "quality_flags": [
           "REAL_FLIGHT_FAILURE_REVIEW",
           "CAUSE_MOST_LIKELY_NOT_UNIQUE_TRIGGER"
         ]
@@ -499,7 +500,8 @@
       ],
       "internal_review": {
         "not_for_sft": true,
-        "reviewer_questions": [
+        "reviewer_questions": [],
+        "quality_flags": [
           "MEASUREMENT_CHAIN_EFFECT",
           "NOT_CONFIRMED_RF_POWER_LOSS"
         ]
@@ -513,7 +515,7 @@
       "event_status": "FLIGHT_EVENT",
       "knowledge_source_not_event": false,
       "event_family_id": "CASSINI-RWA-LOW-SPEED-2001",
-      "event_episode_id": "CASSINI-RWA-LOW-SPEED-2001",
+      "event_episode_id": "LIT-CASSINI-RWA-DRAG-007-EPISODE",
       "source_reference": {
         "source_id": "NASA-LLIS-1416",
         "source_locator": "NASA Lessons Learned 1416, Driving Event / Lessons Learned",
