@@ -70,6 +70,9 @@
         "quality_flags": [
           "REAL_FLIGHT_FAILURE_REVIEW",
           "CAUSE_MOST_LIKELY_NOT_UNIQUE_TRIGGER"
+        ],
+        "curator_prompts": [
+          "可用于SADA滑环短路类比，但SEASAT报告的起弧触发原因存在多个候选；不得替用户案例断言碎屑确证。"
         ]
       },
       "sft_eligible": false
@@ -144,6 +147,9 @@
           "GROUND_QUALIFICATION_EVENT",
           "NOT_FLIGHT_FAILURE",
           "LIKELY_SLIPRING_DISCONTINUITY"
+        ],
+        "curator_prompts": [
+          "地面TVAC/资格试验。CRC接触间断与SADA功率短路不是同一现象；可借鉴鉴别方法，不可迁移为在轨恢复操作。"
         ]
       },
       "sft_eligible": false
@@ -217,6 +223,9 @@
           "REAL_FLIGHT_OPERATION",
           "UNIT_A_RECOVERED_AFTER_REVERSE_ROTATION",
           "ROOT_CAUSE_NOT_FULLY_RESOLVED"
+        ],
+        "curator_prompts": [
+          "单台载荷反向旋转有效，另一台失效。应分别保存事件与效果；处置状态宜为来源已记载措施。"
         ]
       },
       "sft_eligible": false
@@ -288,6 +297,9 @@
           "REAL_FLIGHT_OPERATION",
           "UNIT_B_DEGRADED_AND_PAYLOAD_CEASED",
           "NO_DISPOSAL_RECORDED"
+        ],
+        "curator_prompts": [
+          "单台载荷反向旋转有效，另一台失效。应分别保存事件与效果；不得将另一台载荷的恢复结果并入本episode。"
         ]
       },
       "sft_eligible": false
@@ -363,6 +375,9 @@
           "REAL_FLIGHT_ANOMALY",
           "COMMON_CAUSE_HYPOTHESIS",
           "AUTHOR_SAYS_MORE_LIKELY_NOT_CERTAIN"
+        ],
+        "curator_prompts": [
+          "12V母线与串行线短接是作者最可能解释，须加可能性限定；可迁移共同原因分析，不可回填为其他SADA确认根因。"
         ]
       },
       "sft_eligible": false
@@ -436,6 +451,9 @@
           "REAL_FLIGHT_TELEMETRY_SUMMARY",
           "MULTIPLE_CAUSE_HYPOTHESES",
           "NO_UNIQUE_ROOT_CAUSE"
+        ],
+        "curator_prompts": [
+          "首次启动螺流短时异常，原因有两个候选。原文仅表示将制定启动约束，不能误写成已实施措施，也不等于Ku-TWTA EPDF故障。"
         ]
       },
       "sft_eligible": false
@@ -504,6 +522,9 @@
         "quality_flags": [
           "MEASUREMENT_CHAIN_EFFECT",
           "NOT_CONFIRMED_RF_POWER_LOSS"
+        ],
+        "curator_prompts": [
+          "监测二极管温漂造成的功率遥测变化并不证明真实射频功率下降；需核对用户功率指标的测量点。"
         ]
       },
       "sft_eligible": false
@@ -578,6 +599,9 @@
           "REAL_FLIGHT_ANOMALY",
           "LIKELY_LUBRICATION_MECHANISM",
           "HARDWARE_COMPARABILITY_REQUIRED"
+        ],
+        "curator_prompts": [
+          "该例针对低转速润滑剂重新分布；不可将升速手段用于未知动量轮，更不可推定供油管堵塞。"
         ]
       },
       "sft_eligible": false
@@ -647,6 +671,9 @@
           "EXPERT_SYSTEM_FEASIBILITY_DEMONSTRATION",
           "NOT_A_REAL_FLIGHT_INCIDENT",
           "KNOWLEDGE_SOURCE_NOT_EVENT"
+        ],
+        "curator_prompts": [
+          "这是专家系统知识/模拟遥测演示，不是真实在轨故障episode；仅适合作为诊断规则来源。"
         ]
       },
       "sft_eligible": false
@@ -718,6 +745,9 @@
         "quality_flags": [
           "GROUND_LIFE_TEST",
           "NOT_FLIGHT_EVENT"
+        ],
+        "curator_prompts": [
+          "堵塞是热灯诱发阀内残余推进剂自分解及阀座材料脱落导致。与用户2号推力器低温/结构损伤情景不同，禁止直接迁移。"
         ]
       },
       "sft_eligible": false
@@ -789,6 +819,9 @@
           "GROUND_LIFE_TEST",
           "CATALYST_CHEMISTRY_EVIDENCE",
           "DISTINCT_FROM_INJECTOR_BLOCKAGE"
+        ],
+        "curator_prompts": [
+          "金属污染经试验分析定位，不应与同试验的喷注管堵塞合并；用户案例没有污染证据，不能用作确诊标签。"
         ]
       },
       "sft_eligible": false
@@ -863,6 +896,9 @@
           "GROUND_SYSTEM_TEST",
           "ROOT_CAUSE_CONFIRMED_IN_PUBLISHED_ABSTRACT",
           "PUBLIC_ABSTRACT_ONLY"
+        ],
+        "curator_prompts": [
+          "真实地面测试机制位于线性化通道LNA芯片，不能因为功率下降幅度近似就替代用户电缆/隔离器故障定位。"
         ]
       },
       "sft_eligible": false
