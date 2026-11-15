@@ -303,6 +303,31 @@ def _reject_sft_target_leakage(user_prompt: str) -> None:
     )
 
 
+# Review-controlled versioned instruction envelopes. A stand-alone SFT record
+# must not bypass the template check merely because no source Case was passed.
+# Only the Chinese SYNTHETIC illustration template has been reviewed.
+_SFT_SYSTEM_TEMPLATE_ZH_V1 = "你是航天器故障研判助手。仅依据提供的机器诊断结果、诊断日志、运行上下文、历史案例和知识证据进行综合研判。不得将未校准分数解释为概率，不得把候选结论写成确诊；区分故障源部件与受影响部件。"
+_SFT_USER_PREAMBLE_ZH_V1 = "请仅根据以下上游机器诊断结果、日志和航天器任务上下文进行二次研判，保留证据缺口、矛盾、候选状态和未校准分数语义。原始遥测由上游机器学习算法处理；本任务不提供原始遥测。\n\n"
+
+
+def _validate_sft_reviewed_templates(messages: list[dict[str, Any]]) -> None:
+    """Fail closed on unreviewed system instructions and text before the JSON.
+
+    This does not certify evidence, sanitize text inside a source case or approve
+    Gold. Case-to-SFT binding remains a separate required source-lineage gate.
+    """
+    _require(
+        messages[0]["content"] == _SFT_SYSTEM_TEMPLATE_ZH_V1,
+        "UNAPPROVED_SYSTEM_PROMPT_TEMPLATE",
+    )
+    user_content = messages[1]["content"]
+    packet_start = user_content.find("{")
+    _require(
+        packet_start >= 0 and user_content[:packet_start] == _SFT_USER_PREAMBLE_ZH_V1,
+        "UNAPPROVED_USER_PROMPT_PREAMBLE",
+    )
+
+
 def validate_sft_example(example: dict[str, Any]) -> None:
     """Validate a chat SFT example and enforce its provenance/review boundary."""
     _require(isinstance(example, dict), "SFT example must be an object")
@@ -316,6 +341,7 @@ def validate_sft_example(example: dict[str, Any]) -> None:
         _nonempty(message.get("content"), f"messages[{index}].content")
     _require("raw telemetry" in messages[1]["content"].lower() or "原始遥测" in messages[1]["content"], "user prompt must state the raw-telemetry boundary")
     _reject_sft_target_leakage(messages[1]["content"])
+    _validate_sft_reviewed_templates(messages)
     _nonempty(example.get("case_ref"), "case_ref")
     _nonempty(example.get("source_group"), "source_group")
     _require(example.get("split") in SPLITS, "unsupported split")
