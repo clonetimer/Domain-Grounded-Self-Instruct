@@ -10,7 +10,6 @@ applicable, and a time-safe historical context snapshot.
 from datetime import datetime
 from typing import Any
 
-from .case_history_asof import audit_case_history_asof
 from .diagnostic_context import validate_diagnostic_case
 from .history_temporal_gate import screen_historical_memory_hit
 from .schema_validation import SchemaContractError, validate_payload_schema
@@ -120,13 +119,14 @@ def _validate_history_context(packet: dict[str, Any], case: dict[str, Any]) -> N
                 if verified is None or verified > cutoff:
                     _fail("HISTORY_VERIFICATION_TIME_INVALID_OR_FUTURE")
 
-    if confirmed_hits:
-        result = audit_case_history_asof(
-            case,
-            confirmed_hits,
+    for hit in confirmed_hits:
+        screened = screen_historical_memory_hit(
+            hit,
+            analysis_cutoff=case["input"]["analysis_cutoff"],
+            current_source_group_id=case["provenance"]["source_group"],
             equipment_scope=query["equipment_scope"],
         )
-        if result["decision"] != "PASS_ASOF_METADATA_ONLY":
+        if screened["decision"] != "PASS_TEMPORAL_METADATA_ONLY":
             _fail("CONFIRMED_HISTORY_ASOF_GATE_BLOCKED")
 
 
