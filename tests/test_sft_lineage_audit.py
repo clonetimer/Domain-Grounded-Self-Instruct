@@ -17,7 +17,13 @@ def make_case(tag, split):
     example["case_ref"] = "SYNTH-CASE-" + tag
     example["source_group"] = "SYNTH-EPISODE-" + tag
     example["split"] = split
-    example["messages"][1]["content"] += "\nSynthetic case tag: " + tag
+    # Keep every SYNTHETIC test variant within the reviewed JSON envelope;
+    # a free-form suffix is now correctly rejected by direct SFT validation.
+    user = example["messages"][1]["content"]
+    start = user.index("{")
+    packet = json.loads(user[start:])
+    packet["instruction"] += " [SYNTHETIC case tag: " + tag + "]"
+    example["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
     example["provenance"]["diagnosis_result_refs"] = ["synthetic://diagnosis/" + tag]
     example["provenance"]["source_artifact_hashes"] = [
         hashlib.sha256(("synthetic-artifact:" + tag).encode()).hexdigest()
@@ -86,7 +92,11 @@ class SftLineageTests(unittest.TestCase):
         b["case_ref"] = a["case_ref"]
         b["source_group"] = a["source_group"]
         b["task_type"] = "handover_summary"
-        b["messages"][1]["content"] += "\nTask: handover summary"
+        user = b["messages"][1]["content"]
+        start = user.index("{")
+        packet = json.loads(user[start:])
+        packet["task_type"] = b["task_type"]
+        b["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
         report = audit_sft_lineage([a, b])
         self.assertEqual(report["example_count"], 2)
 
