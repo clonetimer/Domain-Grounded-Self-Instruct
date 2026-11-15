@@ -137,7 +137,7 @@
                 "component": "solar_array_slip_ring",
                 "fault_mode": "slip_ring_brush_arc_short_candidate",
                 "supporting_refs": [
-                  "ML-E-01",
+                  "ML-E-001",
                   "LOG-01",
                   "LOG-02",
                   "L0-E-01"
@@ -157,7 +157,7 @@
           },
           "evidence_assessment": {
             "supporting_refs": [
-              "ML-E-01",
+              "ML-E-001",
               "LOG-01",
               "LOG-02",
               "L0-E-01"
@@ -249,7 +249,7 @@
               "component": "solar_array_slip_ring",
               "fault_mode": "slip_ring_brush_arc_short_candidate",
               "supporting_refs": [
-                "ML-E-01",
+                "ML-E-001",
                 "LOG-01",
                 "LOG-02",
                 "L0-E-01"
@@ -269,7 +269,7 @@
         },
         "evidence_assessment": {
           "supporting_refs": [
-            "ML-E-01",
+            "ML-E-001",
             "LOG-01",
             "LOG-02",
             "L0-E-01"
@@ -518,7 +518,7 @@
                 "component": "twta_power_monitor",
                 "fault_mode": "temperature_dependent_power_monitor_indication",
                 "supporting_refs": [
-                  "ML-E-11",
+                  "ML-E-002",
                   "LOG-11",
                   "LOG-12",
                   "L0-E-11"
@@ -537,7 +537,7 @@
           },
           "evidence_assessment": {
             "supporting_refs": [
-              "ML-E-11",
+              "ML-E-002",
               "LOG-11",
               "LOG-12",
               "L0-E-11"
@@ -629,7 +629,7 @@
               "component": "twta_power_monitor",
               "fault_mode": "temperature_dependent_power_monitor_indication",
               "supporting_refs": [
-                "ML-E-11",
+                "ML-E-002",
                 "LOG-11",
                 "LOG-12",
                 "L0-E-11"
@@ -648,7 +648,7 @@
         },
         "evidence_assessment": {
           "supporting_refs": [
-            "ML-E-11",
+            "ML-E-002",
             "LOG-11",
             "LOG-12",
             "L0-E-11"
@@ -922,7 +922,7 @@
                 "component": "slip_ring_interface",
                 "fault_mode": "slip_ring_debris_power_serial_cross_short_candidate",
                 "supporting_refs": [
-                  "ML-E-21",
+                  "ML-E-003",
                   "LOG-21",
                   "LOG-22",
                   "LOG-23",
@@ -945,7 +945,7 @@
           },
           "evidence_assessment": {
             "supporting_refs": [
-              "ML-E-21",
+              "ML-E-003",
               "LOG-21",
               "LOG-22",
               "LOG-23",
@@ -1050,7 +1050,7 @@
               "component": "slip_ring_interface",
               "fault_mode": "slip_ring_debris_power_serial_cross_short_candidate",
               "supporting_refs": [
-                "ML-E-21",
+                "ML-E-003",
                 "LOG-21",
                 "LOG-22",
                 "LOG-23",
@@ -1073,7 +1073,7 @@
         },
         "evidence_assessment": {
           "supporting_refs": [
-            "ML-E-21",
+            "ML-E-003",
             "LOG-21",
             "LOG-22",
             "LOG-23",
