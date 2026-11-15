@@ -299,7 +299,7 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         self.assertEqual(collection["track"], "LITERATURE_DERIVED_SYNTHETIC")
-        self.assertEqual(collection["packet_count"], 12)
+        self.assertEqual(collection["packet_count"], 15)
         cards = {card["case_id"]: card for card in literature["cards"]}
         decisions = []
         for packet in collection["packets"]:
@@ -318,7 +318,7 @@ class L1TaskPacketTests(unittest.TestCase):
             self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
             self.assertNotIn("internal_review", packet["formal_target"])
             self.assertNotIn("curator_prompts", packet["formal_target"])
-        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 12)
+        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 15)
 
     def test_l1_pilot_has_both_no_hit_and_history_context_variants(self):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
@@ -392,7 +392,7 @@ class L1TaskPacketTests(unittest.TestCase):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
         self.assertEqual(result["decision"], "VALID_L1_COLLECTION")
-        self.assertEqual(result["packet_count"], 12)
+        self.assertEqual(result["packet_count"], 15)
         self.assertEqual(result["event_family_count"], 9)
         self.assertFalse(result["split_audit_performed"])
         self.assertFalse(result["training_authorized"])
@@ -475,6 +475,18 @@ class L1TaskPacketTests(unittest.TestCase):
         self.assertFalse(history["hit_metadata"]["diagnostic_vote_allowed"])
         self.assertNotIn(history["case_ref"], packet["formal_target"]["cause_localization"]["candidates"][0]["supporting_refs"])
         self.assertIn(history["case_ref"], packet["formal_target"]["historical_experience_relevance"][0]["case_ref"])
+
+    def test_l1_pilot_covers_all_six_declared_task_types(self):
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        task_types = {packet["case"]["task_type"] for packet in collection["packets"]}
+        self.assertEqual(task_types, {
+            "diagnostic_synthesis",
+            "historical_case_reuse",
+            "conflict_reconciliation",
+            "evidence_sufficiency",
+            "next_step_recommendation",
+            "handover_summary",
+        })
 
 
 if __name__ == "__main__":
