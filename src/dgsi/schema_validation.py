@@ -18,6 +18,7 @@ _SCHEMA_FILES = {
     "source_fact_card": "source_fact_card.schema.json",
     "l1_task_packet": "l1_task_packet.schema.json",
     "l1_task_packet_collection": "l1_task_packet_collection.schema.json",
+    "l1_quality_review": "l1_quality_review.schema.json",
 }
 _SCHEMA_ROOT = Path(__file__).resolve().parents[2] / "resources"
 
@@ -82,4 +83,9 @@ def validate_payload_schema(kind: str, payload: Any) -> None:
     """
     error = next(_validator(kind).iter_errors(payload), None)
     if error is not None:
-        raise SchemaContractError(f"JSON_SCHEMA_{str(error.validator).upper()}")
+        # The path contains schema property names and array indexes only; it
+        # never echoes the offending value or any source text/identifier.
+        path = ".".join(str(part) for part in error.absolute_path) or "ROOT"
+        raise SchemaContractError(
+            f"JSON_SCHEMA_{str(error.validator).upper()}_AT_{path}"
+        )

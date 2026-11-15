@@ -99,3 +99,26 @@ This is a task-coverage fixture set, not an approved training corpus. Every pack
 ## Collection and split audit
 
 The L1 collection contract (`resources/l1_task_packet_collection.schema.json`) requires a single data track per collection. The collection validator checks packet count, task-ID uniqueness, source-card binding and optional split assignments. When split assignments are supplied, every packet must be assigned exactly once and all tasks derived from the same `source_group` / L0 event family must remain in one split. The current three-packet pilot has no train/validation/test assignments because it has not completed review.
+
+
+## Hardware applicability is explicit
+
+Each retrieved history item records:
+- `historical_equipment_scope`: the equipment scope of the prior case;
+- `hardware_compatibility`: `COMPATIBLE`, `INCOMPATIBLE` or `UNKNOWN`;
+- `applicability_limitations`: source-backed reasons why transfer is limited.
+
+The Context query's `equipment_scope` is the current case retrieval target; it is not a substitute for the prior case's actual equipment scope.
+
+For `INCOMPATIBLE`:
+- the item may remain visible as a contrast or negative precedent;
+- the formal target must explicitly preserve transfer limitations;
+- its case reference cannot be used as supporting evidence for the current fault source.
+
+For `UNKNOWN`, explicit limitations are mandatory. Unknown compatibility is not treated as compatible.
+
+## Context coverage and review rubric
+
+- `examples/history_context_coverage_matrix_v0.1.json` maps ten history-retrieval variants to executable synthetic tests, including no-hit, confirmed, unresolved, rejected, incompatible hardware, conflicting history, post-cutoff, same-family and attempted status-upgrade cases.
+- `docs/L1_TARGET_QUALITY_REVIEW_RUBRIC.md` defines independent expert scoring for source fidelity, phenomenon analysis, ML-result interpretation, fault-source/affected-component separation, evidence, uncertainty, Context use, disposal fidelity and follow-up action quality.
+- Numeric review scores never override automatic rejection gates and never grant Gold status.

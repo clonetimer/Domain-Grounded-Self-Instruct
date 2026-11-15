@@ -1,0 +1,80 @@
+{
+  "schema_version": "dgsi-history-context-coverage.v1",
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "purpose": "Coverage manifest for the history-as-Context protocol; these are validation scenarios, not claims about real historical spacecraft incidents.",
+  "variants": [
+    {
+      "id": "CTX-01-NO-HIT",
+      "scenario": "No historical retrieval result; Case history and Context items both empty.",
+      "expected": "PASS_NO_HISTORY",
+      "test": "test_no_hit_context_is_explicit_and_empty"
+    },
+    {
+      "id": "CTX-02-CONFIRMED-RELEVANT",
+      "scenario": "A confirmed historical case is relevant, available and independently verified before the analysis cutoff; it remains precedent only.",
+      "expected": "PASS_METADATA_ONLY",
+      "test": "test_confirmed_history_requires_asof_metadata_gate"
+    },
+    {
+      "id": "CTX-03-UNRESOLVED",
+      "scenario": "An unresolved historical case is shown with its original status and cannot be promoted to confirmed.",
+      "expected": "PASS_QUALIFIED_CONTEXT",
+      "test": "test_unresolved_history_is_context_but_not_confirmed_memory"
+    },
+    {
+      "id": "CTX-04-REJECTED",
+      "scenario": "A rejected historical hypothesis is available as a negative precedent and cannot vote for the current root cause.",
+      "expected": "PASS_QUALIFIED_CONTEXT",
+      "test": "test_rejected_history_remains_rejected_and_is_not_positive_precedent"
+    },
+    {
+      "id": "CTX-05-HARDWARE-INCOMPATIBLE",
+      "scenario": "A retrieved case has a different historical hardware scope; it can be displayed only with explicit transfer limitations and cannot support the current cause.",
+      "expected": "PASS_LIMITED_CONTEXT_OR_BLOCK_IF_MISUSED",
+      "tests": [
+        "test_incompatible_historical_hardware_is_context_only_not_support",
+        "test_incompatible_history_cannot_be_used_as_current_cause_evidence",
+        "test_incompatible_history_requires_explicit_target_limitation"
+      ]
+    },
+    {
+      "id": "CTX-06-CONFLICTING-HISTORY",
+      "scenario": "A confirmed case and a rejected case coexist; each conclusion state remains distinct.",
+      "expected": "PASS_PRESERVED_CONFLICT",
+      "test": "test_conflicting_confirmed_and_rejected_history_can_be_preserved_with_status"
+    },
+    {
+      "id": "CTX-07-POST-CUTOFF",
+      "scenario": "A history item became available after the current analysis cutoff and is blocked.",
+      "expected": "BLOCKED",
+      "test": "test_future_history_availability_is_blocked"
+    },
+    {
+      "id": "CTX-08-SAME-EVENT-FAMILY",
+      "scenario": "The current event family is returned as historical precedent and is blocked to prevent self-retrieval leakage.",
+      "expected": "BLOCKED",
+      "test": "test_current_event_family_cannot_be_reused_as_history"
+    },
+    {
+      "id": "CTX-09-UNKNOWN-HARDWARE",
+      "scenario": "A history query requests equipment that does not exist in the current spacecraft configuration.",
+      "expected": "BLOCKED",
+      "test": "test_history_query_cannot_select_unknown_equipment"
+    },
+    {
+      "id": "CTX-10-UNRESOLVED-UPGRADE-ATTACK",
+      "scenario": "A memory hit attempts to relabel an unresolved case as confirmed.",
+      "expected": "BLOCKED",
+      "test": "test_unresolved_history_cannot_be_upgraded_to_confirmed"
+    }
+  ],
+  "invariants": [
+    "Retrieved history is context, never a vote that confirms the current root cause.",
+    "Historical availability and independent verification must be no later than analysis_cutoff.",
+    "Hardware applicability is explicit: COMPATIBLE, INCOMPATIBLE or UNKNOWN.",
+    "INCOMPATIBLE history requires explicit transfer limitations in both Context and target and cannot support current cause evidence.",
+    "Unresolved, rejected, partially confirmed and unknown statuses are preserved.",
+    "Same event family and post-cutoff history are blocked.",
+    "All examples and test fixtures are synthetic and are not Gold."
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/l1_quality_review.schema.json",
+  "title": "DGSI L1 Quality Review v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "packet_sha256",
+    "track",
+    "reviewer_pseudonym",
+    "reviewer_role",
+    "reviewed_at",
+    "dimension_scores",
+    "dimension_rationales",
+    "failed_gates",
+    "review_outcome",
+    "gold_eligible"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-l1-quality-review.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "packet_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "track": {
+      "enum": [
+        "REAL_CASE_CANDIDATE",
+        "LITERATURE_DERIVED_SYNTHETIC"
+      ]
+    },
+    "reviewer_pseudonym": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer_role": {
+      "enum": [
+        "DOMAIN_EXPERT",
+        "INDEPENDENT_REVIEWER",
+        "CURATOR"
+      ]
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dimension_scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_fidelity",
+        "phenomenon_analysis",
+        "ml_interpretation",
+        "localization",
+        "evidence",
+        "uncertainty",
+        "history_context",
+        "disposal_fidelity",
+        "follow_up_actions"
+      ],
+      "properties": {
+        "source_fidelity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "phenomenon_analysis": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "ml_interpretation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "localization": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "evidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "uncertainty": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "history_context": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "disposal_fidelity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "follow_up_actions": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        }
+      }
+    },
+    "dimension_rationales": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_fidelity",
+        "phenomenon_analysis",
+        "ml_interpretation",
+        "localization",
+        "evidence",
+        "uncertainty",
+        "history_context",
+        "disposal_fidelity",
+        "follow_up_actions"
+      ],
+      "properties": {
+        "source_fidelity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phenomenon_analysis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ml_interpretation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "localization": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 1
+        },
+        "history_context": {
+          "type": "string",
+          "minLength": 1
+        },
+        "disposal_fidelity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "follow_up_actions": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "failed_gates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "SYNTHETIC_AS_REAL",
+          "SOURCE_CERTAINTY_STRENGTHENED",
+          "INTERNAL_REVIEW_LEAK",
+          "INVALID_HISTORY_PROMOTION",
+          "FUTURE_OR_SAME_FAMILY_HISTORY",
+          "UNCALIBRATED_SCORE_AS_PROBABILITY",
+          "FABRICATED_DISPOSAL",
+          "FAULT_AFFECTED_CONFLATION",
+          "INVALID_EVIDENCE_REFERENCE",
+          "SPLIT_LEAKAGE"
+        ]
+      }
+    },
+    "review_outcome": {
+      "enum": [
+        "ACCEPT_FOR_L1_EXPERIMENT",
+        "REVISE",
+        "REJECT"
+      ]
+    },
+    "gold_eligible": {
+      "const": false
+    },
+    "adjudication_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
