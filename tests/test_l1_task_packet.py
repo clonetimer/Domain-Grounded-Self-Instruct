@@ -422,6 +422,11 @@ class L1TaskPacketTests(unittest.TestCase):
 
     def test_l1_collection_blocks_event_family_cross_split_leakage(self):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        # Synthetic review metadata allows this fixture to reach the split
+        # leakage branch; it is not a real expert review.
+        for card in literature["cards"]:
+            card["domain_review_status"] = "DOMAIN_EXPERT_CONFIRMED"
+            card["domain_review_evidence_sha256"] = "f" * 64
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         original = copy.deepcopy(collection["packets"][0])
         variant = copy.deepcopy(original)
