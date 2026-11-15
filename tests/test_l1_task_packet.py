@@ -303,7 +303,14 @@ class L1TaskPacketTests(unittest.TestCase):
         cards = {card["case_id"]: card for card in literature["cards"]}
         decisions = []
         for packet in collection["packets"]:
-            bound_cards = [cards[ref] for ref in packet["source_fact_refs"]]
+            bound_refs = set(packet["source_fact_refs"])
+            bound_refs.update(
+                source_ref
+                for item in packet["history_context"]["items"]
+                for source_ref in item["source_refs"]
+                if source_ref in cards
+            )
+            bound_cards = [cards[ref] for ref in bound_refs]
             result = validate_l1_task_packet(packet, source_fact_cards=bound_cards)
             decisions.append(result["decision"])
             self.assertFalse(result["gold_eligible"])
