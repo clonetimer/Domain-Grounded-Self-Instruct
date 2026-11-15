@@ -294,6 +294,12 @@ def validate_l1_task_packet_collection(
             group_splits.setdefault(source_groups[task_id], set()).add(split)
         if any(len(splits) > 1 for splits in group_splits.values()):
             _fail("L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS")
+        # Source/event-family validation alone cannot authorize a training split.
+        # Preserve earlier error priority for malformed or leaking assignments.
+        if collection["data_status"] != "APPROVED_FOR_L1_EXPERIMENT" or any(
+            p["review"]["status"] != "APPROVED_FOR_L1_EXPERIMENT" for p in packets
+        ):
+            _fail("L1_SPLIT_BEFORE_INDEPENDENT_REVIEW")
 
     return {
         "schema_version": "dgsi-l1-collection-audit.v1",
