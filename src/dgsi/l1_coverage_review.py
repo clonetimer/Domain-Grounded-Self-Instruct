@@ -88,17 +88,25 @@ def audit_l1_coverage(
     split_counts = Counter()
 
     for collection in collections:
+        # Fail with the coverage-review domain error before the lower-level
+        # collection validator applies its equivalent hard gate.
+        if isinstance(collection, dict):
+            packets = collection.get("packets", [])
+            has_unreviewed = (
+                collection.get("data_status") != "APPROVED_FOR_L1_EXPERIMENT"
+                or any(
+                    not isinstance(p, dict)
+                    or p.get("review", {}).get("status") != "APPROVED_FOR_L1_EXPERIMENT"
+                    for p in packets
+                )
+            )
+            if collection.get("split_assignments") and has_unreviewed:
+                _fail("L1_SPLIT_BEFORE_INDEPENDENT_REVIEW")
         validate_l1_task_packet_collection(
             collection, source_fact_cards=source_fact_cards
         )
         track = collection["track"]
         packets = collection["packets"]
-        has_unreviewed = (
-            collection["data_status"] != "APPROVED_FOR_L1_EXPERIMENT"
-            or any(p["review"]["status"] != "APPROVED_FOR_L1_EXPERIMENT" for p in packets)
-        )
-        if collection.get("split_assignments") and has_unreviewed:
-            _fail("L1_SPLIT_BEFORE_INDEPENDENT_REVIEW")
         for packet in packets:
             task_id = packet["task_id"]
             if task_id in seen_tasks:
