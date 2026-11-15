@@ -150,18 +150,7 @@
       "cause_mechanism": "可能存在反作用飞轮2力矩输出能力下降；现有证据尚不足以确认具体失效机理。",
       "qualification": "上游算法结果为未校准排序分数，不代表故障概率；该结论保持候选状态。"
     },
-    "disposal_measures": [
-      {
-        "measure": "核查反作用飞轮2的独立状态与执行机构输出记录",
-        "condition": "在获得独立执行机构证据前",
-        "source_ref": null
-      },
-      {
-        "measure": "与相同姿态机动工况下的健康基线进行对比",
-        "condition": "用于复核控制指令—响应残差是否具有工况特异性",
-        "source_ref": null
-      }
-    ],
+    "disposal_measures": [],
     "evidence_assessment": {
       "supporting_refs": [
         "ML-E-01",
@@ -186,7 +175,8 @@
         "历史案例结论未确认"
       ]
     },
-    "report_text": "姿态机动期间出现跟踪误差告警。上游算法提示反作用飞轮2力矩权限下降候选，伴随控制指令—响应残差升高。现有证据尚不足以确认单机故障及具体机理，建议核查独立执行机构输出并结合健康基线复核。"
+    "report_text": "姿态机动期间出现跟踪误差告警。上游算法提示反作用飞轮2力矩权限下降候选，伴随控制指令—响应残差升高。现有证据尚不足以确认单机故障及具体机理；本示意案例未提供实际处置记录。",
+    "disposal_status": "NOT_RECORDED"
   },
   "provenance": {
     "source_group": "illustrative-group-001",
