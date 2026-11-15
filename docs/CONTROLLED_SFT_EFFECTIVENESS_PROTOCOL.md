@@ -15,7 +15,7 @@ Report each source class separately:
 - `SYNTHETIC_TEST_ONLY`: validator/adapter fixtures; not counted as training examples or Gold.
 - `KNOWLEDGE_SOURCE_NOT_EVENT`: manuals, expert-system demonstrations or technical knowledge; not counted as fault episodes.
 
-The current three-packet pilot is L1, review-required and synthetic. It is not yet a training set. Do not report it as three real incidents.
+The current 15-packet L1 pilot covers nine literature event families and all six task types. All 15 are literature-derived SYNTHETIC, REVIEW_REQUIRED and not training-authorized. They are not 15 real incidents or an approved SFT training set; all 13 underlying L0 cards still await independent domain-expert confirmation.
 
 ## Experimental arms
 
@@ -101,7 +101,7 @@ If gains appear only on literature-derived synthetic holdout but not real engine
 ## Current status
 
 - Experimental protocol: draft, not pre-registered.
-- Three L1 literature-derived synthetic task packets: created, review required.
+- Fifteen L1 literature-derived synthetic task packets across nine event families: created, review required; no split assigned and no approved training permission.
 - Gold real-case training data: none admitted.
 - Model fine-tuning: not started.
 - Effectiveness result: not measured.
