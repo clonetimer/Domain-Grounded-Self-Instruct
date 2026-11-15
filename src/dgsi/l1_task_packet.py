@@ -317,6 +317,14 @@ def validate_l1_task_packet(
                 # hit's declared source, including clearly synthetic sources.
                 if not cited_refs.intersection(history_source_refs):
                     _fail("SYNTHETIC_HISTORY_FIELD_NOT_BOUND_TO_HIT_SOURCE")
+                # A single cited history hit must not mask an uncited second
+                # retrieved hit. Cover every item independently, including
+                # unresolved and rejected priors, without asserting truth.
+                if any(
+                    not cited_refs.intersection(hit["source_refs"])
+                    for hit in packet["history_context"]["items"]
+                ):
+                    _fail("SYNTHETIC_HISTORY_HIT_SOURCE_COVERAGE_INCOMPLETE")
             elif cited_refs - set(refs):
                 _fail("SYNTHETIC_CURRENT_FIELD_CITES_HISTORY_ONLY_SOURCE")
             # Upstream ML findings and logs are invented scenario inputs here,
