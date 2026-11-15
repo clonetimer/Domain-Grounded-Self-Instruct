@@ -16,6 +16,7 @@ from .schema_validation import (
     SchemaContractError,
     validate_payload_schema,
     validate_diagnostic_input_schema,
+    validate_diagnostic_report_schema,
 )
 
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -418,6 +419,54 @@ def _validate_sft_prompt_json_packet(user_content: str) -> None:
         _require(occurred <= cutoff, "SFT_LOG_AFTER_ANALYSIS_CUTOFF")
 
 
+
+def _validate_sft_assistant_target(content: str) -> None:
+    """Require one structured reviewed-report target, without extra text.
+
+    This verifies target syntax and schema only. A Case→SFT binding check and
+    independent expert judgement are still mandatory for any Gold candidate.
+    No error may echo the target text.
+    """
+    def no_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            _require(key not in result, "DUPLICATE_JSON_KEY")
+            result[key] = value
+        return result
+
+    def no_nonfinite_token(_token: str) -> None:
+        raise DiagnosticContextValidationError("NONFINITE_JSON_NUMBER")
+
+    try:
+        target = json.loads(
+            content,
+            object_pairs_hook=no_duplicate_keys,
+            parse_constant=no_nonfinite_token,
+        )
+    except DiagnosticContextValidationError:
+        raise
+    except (ValueError, TypeError):
+        raise DiagnosticContextValidationError("MALFORMED_SFT_TARGET_JSON") from None
+
+    _require(isinstance(target, dict), "SFT_TARGET_NOT_OBJECT")
+
+    def check_finite(value: Any) -> None:
+        if isinstance(value, float):
+            _require(math.isfinite(value), "NONFINITE_JSON_NUMBER")
+        elif isinstance(value, dict):
+            for child in value.values():
+                check_finite(child)
+        elif isinstance(value, list):
+            for child in value:
+                check_finite(child)
+
+    check_finite(target)
+    try:
+        validate_diagnostic_report_schema(target)
+    except SchemaContractError as exc:
+        raise DiagnosticContextValidationError(str(exc)) from None
+
+
 def validate_sft_example(example: dict[str, Any]) -> None:
     """Validate a chat SFT example and enforce its provenance/review boundary."""
     _require(isinstance(example, dict), "SFT example must be an object")
@@ -433,6 +482,7 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     _reject_sft_target_leakage(messages[1]["content"])
     _validate_sft_reviewed_templates(messages)
     _validate_sft_prompt_json_packet(messages[1]["content"])
+    _validate_sft_assistant_target(messages[2]["content"])
     _nonempty(example.get("case_ref"), "case_ref")
     _nonempty(example.get("source_group"), "source_group")
     _require(example.get("split") in SPLITS, "unsupported split")

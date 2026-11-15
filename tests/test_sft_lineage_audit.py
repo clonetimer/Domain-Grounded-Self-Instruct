@@ -74,7 +74,9 @@ class SftLineageTests(unittest.TestCase):
     def test_inconsistent_targets_for_identical_prompt_rejected(self):
         a, b = make_case("one", "train"), make_case("two", "train")
         b["messages"][1]["content"] = a["messages"][1]["content"]
-        b["messages"][2]["content"] += "\nConflicting answer"
+        target = json.loads(b["messages"][2]["content"])
+        target["diagnostic_summary"] += " [SYNTHETIC contradictory expert draft]"
+        b["messages"][2]["content"] = json.dumps(target, ensure_ascii=False)
         self.assert_rejected([a, b], "CONFLICTING_TARGETS_FOR_IDENTICAL_PROMPT")
 
     def test_duplicate_content_different_example_ids_rejected(self):
