@@ -6,6 +6,7 @@ correctness. It is intentionally dependency-free and fail-closed.
 from __future__ import annotations
 
 import re
+import json
 import math
 from datetime import datetime
 from collections import defaultdict
@@ -247,6 +248,34 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     for index, message in enumerate(messages):
         _nonempty(message.get("content"), f"messages[{index}].content")
     _require("raw telemetry" in messages[1]["content"].lower() or "原始遥测" in messages[1]["content"], "user prompt must state the raw-telemetry boundary")
+
+    # If the user message embeds a structured case packet, only the input-side
+    # material may appear. Gold targets, review prompts and curator notes are
+    # never part of the model-visible prompt.
+    user_content = messages[1]["content"]
+    json_start = user_content.find("{")
+    if json_start >= 0:
+        try:
+            payload = json.loads(user_content[json_start:])
+        except json.JSONDecodeError:
+            payload = None
+        if isinstance(payload, dict):
+            forbidden_prompt_keys = {
+                "expected_output", "internal_review", "review_prompts",
+                "unverified_assumptions", "reviewer_notes", "expert_target",
+                "ground_truth", "fault_truth", "injection_truth",
+            }
+            def inspect_prompt(value: Any, prefix: str = "$") -> None:
+                if isinstance(value, dict):
+                    for key, child in value.items():
+                        _require(key not in forbidden_prompt_keys, f"internal/target-only field leaked into user prompt: {prefix}.{key}")
+                        inspect_prompt(child, f"{prefix}.{key}")
+                elif isinstance(value, list):
+                    for index, child in enumerate(value):
+                        inspect_prompt(child, f"{prefix}[{index}]")
+            inspect_prompt(payload)
+    for forbidden in ("不能因观测对象", "思考提示", "内部审核提示", "review_prompts"):
+        _require(forbidden not in messages[2]["content"], f"internal review prompt leaked into assistant target: {forbidden}")
     _nonempty(example.get("case_ref"), "case_ref")
     _nonempty(example.get("source_group"), "source_group")
     _require(example.get("split") in SPLITS, "unsupported split")
