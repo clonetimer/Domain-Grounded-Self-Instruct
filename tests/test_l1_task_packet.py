@@ -319,6 +319,63 @@ class L1TaskPacketTests(unittest.TestCase):
         self.assertEqual(history_packet["history_context"]["items"][0]["outcome_status"], "REJECTED")
         self.assertFalse(history_packet["history_context"]["items"][0]["hit_metadata"]["diagnostic_vote_allowed"])
 
+    def test_rejected_history_remains_rejected_and_is_not_positive_precedent(self):
+        packet = make_packet(history_status="REJECTED")
+        result = self.validate(packet)
+        self.assertEqual(result["history_item_count"], 1)
+        self.assertEqual(packet["history_context"]["items"][0]["outcome_status"], "REJECTED")
+        self.assertFalse(packet["history_context"]["items"][0]["hit_metadata"]["diagnostic_vote_allowed"])
+
+    def test_history_hardware_scope_mismatch_is_blocked(self):
+        packet = make_packet()
+        packet["history_context"]["items"][0]["hit_metadata"]["equipment_scope"] = "reaction_wheel_3"
+        with self.assertRaisesRegex(L1TaskPacketError, "HISTORY_METADATA_EQUIPMENT_SCOPE_MISMATCH"):
+            self.validate(packet)
+
+    def test_conflicting_confirmed_and_rejected_history_can_be_preserved_with_status(self):
+        packet = make_packet(history_status="CONFIRMED")
+        case = packet["case"]
+        second_ref = "SYNTHETIC-HISTORY-REJECTED-002"
+        second_summary = "A separate historical contact-resistance hypothesis was rejected after connector inspection."
+        second_history = {
+            "case_ref": second_ref,
+            "similarity_basis": ["similar communication symptom"],
+            "prior_conclusion": second_summary,
+            "outcome_status": "REJECTED",
+            "applicability_limitations": ["different connector design", "rejected cause is not positive precedent"],
+        }
+        case["input"]["historical_cases"].append(second_history)
+        case["provenance"]["historical_case_refs"].append(second_ref)
+        case["expected_output"]["historical_experience_relevance"].append({
+            "case_ref": second_ref,
+            "relevance": "该历史假设已被否决，仅作为排除相似错误归因的对照。",
+            "transfer_limitations": second_history["applicability_limitations"],
+        })
+        packet["formal_target"] = copy.deepcopy(case["expected_output"])
+        packet["history_context"]["items"].append({
+            "case_ref": second_ref,
+            "event_family_id": "SYNTHETIC-PRIOR-CONNECTOR-FAMILY",
+            "outcome_status": "REJECTED",
+            "summary": second_summary,
+            "source_refs": ["SYNTHETIC-HISTORY-REVIEW-REF-002"],
+            "relevance_basis": second_history["similarity_basis"],
+            "applicability_limitations": second_history["applicability_limitations"],
+            "hit_metadata": {
+                "case_id": second_ref,
+                "source_group_id": "SYNTHETIC-PRIOR-CONNECTOR-FAMILY",
+                "equipment_scope": "reaction_wheel_2",
+                "diagnostic_vote_allowed": False,
+                "available_at": "2026-04-10T10:00:00Z",
+                "status": "REJECTED_HISTORICAL_CASE_NOT_CURRENT_TRUTH",
+            },
+        })
+        result = self.validate(packet)
+        self.assertEqual(result["history_item_count"], 2)
+        self.assertEqual(
+            {item["outcome_status"] for item in packet["history_context"]["items"]},
+            {"CONFIRMED", "REJECTED"},
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
