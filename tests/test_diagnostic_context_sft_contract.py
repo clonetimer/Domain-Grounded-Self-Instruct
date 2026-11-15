@@ -158,7 +158,7 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertTrue(output["cause_localization"]["qualification"])
         self.assertEqual(output["disposal_status"], "NOT_RECORDED")
         self.assertEqual(output["disposal_measures"], [])
-        self.assertIn("现象", output["report_text"])
+        self.assertTrue(output["phenomenon_analysis"])
         self.assertNotIn("不能因观测对象", output["report_text"])
 
     def test_internal_review_prompts_never_enter_sft_prompt_or_target(self):
