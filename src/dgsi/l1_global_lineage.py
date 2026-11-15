@@ -105,8 +105,10 @@ def audit_l1_cross_collection_lineage(
         covered = {all_cards[ref]["event_family_id"] for ref in refs}
         if not {alias, canonical}.issubset(covered):
             _reject("GLOBAL_ALIAS_SOURCE_FAMILY_MISMATCH")
-        if alias in aliases and aliases[alias] != canonical:
-            _reject("GLOBAL_ALIAS_AMBIGUOUS_CANONICAL")
+        if alias in aliases:
+            if aliases[alias] != canonical:
+                _reject("GLOBAL_ALIAS_AMBIGUOUS_CANONICAL")
+            _reject("GLOBAL_ALIAS_DUPLICATE_DECLARATION")
         aliases[alias] = canonical
         canonical_ids.add(canonical)
     if set(aliases) & canonical_ids:
@@ -116,6 +118,7 @@ def audit_l1_cross_collection_lineage(
     history_links: list[tuple[str, str, str | None]] = []
     tracked_task_count = 0
     tracks: dict[str, int] = {}
+    track_families: dict[str, set[str]] = {}
     for cid, collection in collections.items():
         packets = collection["packets"]
         if hypothetical_splits is not None:
@@ -141,6 +144,7 @@ def audit_l1_cross_collection_lineage(
                             all_cards[ref]["event_family_id"])
                 for ref in packet["source_fact_refs"]
             }
+            track_families.setdefault(packet["track"], set()).update(current)
             for family in current:
                 if task_split is not None:
                     target_splits.setdefault(family, set()).add(task_split)
@@ -171,6 +175,9 @@ def audit_l1_cross_collection_lineage(
         "history_hit_count": len(history_links),
         "reviewed_alias_declaration_count": len(aliases),
         "track_task_counts": tracks,
+        "track_family_counts": {
+            track: len(families) for track, families in sorted(track_families.items())
+        },
         "split_check_mode": ("HYPOTHETICAL_TEST_ONLY" if hypothetical_splits is not None
                              else "EXISTING_ASSIGNMENTS_ONLY"),
         "gold_eligible_count": 0,
