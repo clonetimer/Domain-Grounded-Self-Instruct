@@ -57,7 +57,13 @@ class SftPromptIsolationTests(unittest.TestCase):
 
     def test_ordinary_discussion_of_review_is_not_json_field(self):
         example = fixture("diagnostic_context_sft_illustrative.json")
-        example["messages"][1]["content"] += "\nPrior review is unresolved; do not infer expected_output."
+        # Natural discussion of prior review is permitted as source log data,
+        # not as an unreviewed instruction appended after the JSON packet.
+        user = example["messages"][1]["content"]
+        start = user.index("{")
+        packet = json.loads(user[start:])
+        packet["input"]["diagnostic_logs"][0]["content"] += " Prior review is unresolved."
+        example["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
         validate_sft_example(example)
 
 

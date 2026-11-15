@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import re
 import math
+import json
 from datetime import datetime
 from collections import defaultdict
 from typing import Any
@@ -328,6 +329,57 @@ def _validate_sft_reviewed_templates(messages: list[dict[str, Any]]) -> None:
     )
 
 
+def _validate_sft_prompt_json_packet(user_content: str) -> None:
+    """Validate a single JSON case packet with no appended instructions.
+
+    This is the standalone SFT syntax boundary. A Case/SFT binding check is
+    still mandatory to verify exact source identity, input, target and lineage.
+    Rejection messages intentionally contain no source text or identifiers.
+    """
+    def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            _require(key not in result, "DUPLICATE_JSON_KEY")
+            result[key] = value
+        return result
+
+    def reject_nonfinite_token(_token: str) -> None:
+        raise DiagnosticContextValidationError("NONFINITE_JSON_NUMBER")
+
+    packet_start = user_content.find("{")
+    _require(packet_start >= 0, "MISSING_JSON_PACKET")
+    decoder = json.JSONDecoder(
+        object_pairs_hook=reject_duplicate_keys,
+        parse_constant=reject_nonfinite_token,
+    )
+    try:
+        packet, offset = decoder.raw_decode(user_content, packet_start)
+    except DiagnosticContextValidationError:
+        raise
+    except (ValueError, TypeError):
+        raise DiagnosticContextValidationError("MALFORMED_JSON_PACKET") from None
+    _require(not user_content[offset:].strip(), "TRAILING_JSON_PACKET_CONTENT")
+    _require(isinstance(packet, dict), "JSON_PACKET_NOT_OBJECT")
+    _require(
+        set(packet) == {"case_id", "task_type", "instruction", "input"},
+        "PROMPT_PACKET_FIELDS_MISMATCH",
+    )
+    _require(isinstance(packet["input"], dict), "PROMPT_INPUT_NOT_OBJECT")
+
+    def reject_nonfinite(value: Any) -> None:
+        if isinstance(value, float):
+            _require(math.isfinite(value), "NONFINITE_JSON_NUMBER")
+        elif isinstance(value, dict):
+            for child in value.values():
+                reject_nonfinite(child)
+        elif isinstance(value, list):
+            for child in value:
+                reject_nonfinite(child)
+
+    reject_nonfinite(packet)
+    _reject_raw_telemetry(packet["input"])
+
+
 def validate_sft_example(example: dict[str, Any]) -> None:
     """Validate a chat SFT example and enforce its provenance/review boundary."""
     _require(isinstance(example, dict), "SFT example must be an object")
@@ -342,6 +394,7 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     _require("raw telemetry" in messages[1]["content"].lower() or "原始遥测" in messages[1]["content"], "user prompt must state the raw-telemetry boundary")
     _reject_sft_target_leakage(messages[1]["content"])
     _validate_sft_reviewed_templates(messages)
+    _validate_sft_prompt_json_packet(messages[1]["content"])
     _nonempty(example.get("case_ref"), "case_ref")
     _nonempty(example.get("source_group"), "source_group")
     _require(example.get("split") in SPLITS, "unsupported split")
