@@ -66,6 +66,22 @@ def synthetic_recommended():
     return case, review
 
 
+def synthetic_multi_source():
+    """Two independent SYNTHETIC records citing the same stated action."""
+    case, review = synthetic_executed()
+    case["input"]["diagnostic_logs"][0]["content"] += (
+        " SYNTHETIC ONLY: The slew command was completed and recorded."
+    )
+    case["expected_output"]["disposal_measures"][0]["evidence_refs"] = [
+        "LOG-02", "LOG-01",
+    ]
+    second = copy.deepcopy(review["attestations"][0])
+    second["evidence_ref"] = "LOG-01"
+    second["verbatim_excerpt"] = "SYNTHETIC ONLY: The slew command was completed"
+    review["attestations"].append(second)
+    return case, review
+
+
 class SyntheticDisposalSourceReviewTests(unittest.TestCase):
     def rejects(self, case, review, code):
         with self.assertRaisesRegex(DisposalSourceReviewError, code):
@@ -162,6 +178,52 @@ class SyntheticDisposalSourceReviewTests(unittest.TestCase):
         case["expected_output"]["disposal_status"] = "RECORDED"
         case["expected_output"]["disposal_measures"][0]["measure_type"] = "EXECUTED"
         self.rejects(case, review, "INVALID_SOURCE_CASE")
+
+    def test_all_cited_sources_need_individual_review(self):
+        case, review = synthetic_multi_source()
+        result = audit_disposal_source_review(case, review)
+        self.assertEqual(result["measure_count"], 1)
+        self.assertEqual(result["source_review_count"], 2)
+        self.assertEqual(result["reviewed_source_reference_count"], 2)
+        self.assertFalse(result["gold_approved"])
+
+    def test_second_source_unreviewed_cannot_be_blessed(self):
+        case, review = synthetic_multi_source()
+        review["attestations"].pop()
+        self.rejects(case, review, "DISPOSAL_REVIEW_COVERAGE_MISMATCH")
+
+    def test_duplicate_attestation_cannot_replace_second_source(self):
+        case, review = synthetic_multi_source()
+        review["attestations"][1] = copy.deepcopy(review["attestations"][0])
+        self.rejects(case, review, "DUPLICATE_DISPOSAL_MEASURE_REVIEW")
+
+    def test_duplicate_citation_in_measure_is_blocked(self):
+        case, review = synthetic_executed()
+        case["expected_output"]["disposal_measures"][0]["evidence_refs"].append("LOG-02")
+        self.rejects(case, review, "DUPLICATE_DISPOSAL_EVIDENCE_REF")
+
+    def test_secondary_source_excerpt_must_exist(self):
+        case, review = synthetic_multi_source()
+        review["attestations"][1]["verbatim_excerpt"] = (
+            "SYNTHETIC ONLY: an entirely different disposal occurred"
+        )
+        self.rejects(case, review, "DISPOSAL_EXCERPT_NOT_IN_CITED_SOURCE")
+
+    def test_secondary_attestation_action_type_cannot_change(self):
+        case, review = synthetic_multi_source()
+        review["attestations"][1]["source_action_type"] = "PLANNED"
+        self.rejects(case, review, "DISPOSAL_ACTION_TYPE_MISMATCH")
+
+    def test_secondary_source_after_cutoff_is_blocked(self):
+        case, review = synthetic_multi_source()
+        case["input"]["diagnostic_logs"][0]["timestamp"] = "2026-04-12T09:11:00Z"
+        # Case validation itself fails closed on post-cutoff diagnostic logs.
+        self.rejects(case, review, "INVALID_SOURCE_CASE")
+
+    def test_multi_source_review_packet_remains_not_for_sft(self):
+        case, review = synthetic_multi_source()
+        review["not_for_sft"] = False
+        self.rejects(case, review, "SOURCE_REVIEW_MUST_BE_INTERNAL")
 
 
 if __name__ == "__main__":
