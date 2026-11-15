@@ -267,18 +267,39 @@ def validate_l1_task_packet(
             not ref.startswith("SYNTHETIC-") for ref in case["provenance"]["diagnosis_run_refs"]
         ):
             _fail("SYNTHETIC_DIAGNOSIS_RUN_REFS_REQUIRED")
-        generated_paths = {item["field_path"] for item in synthetic["generated_fields"]}
+        # Field-level lineage is a closed contract: unrecognized paths, repeated
+        # claims, or a missing historical-context declaration must never pass
+        # merely because the four broad input objects were listed somewhere.
+        generated_fields = synthetic["generated_fields"]
+        generated_paths = [item["field_path"] for item in generated_fields]
         required_paths = {
             "case.input.machine_diagnosis",
             "case.input.diagnostic_logs",
             "case.input.spacecraft_context",
             "case.input.operational_context",
         }
+        allowed_paths = required_paths | {"case.input.historical_cases"}
+        if len(generated_paths) != len(set(generated_paths)):
+            _fail("DUPLICATE_SYNTHETIC_FIELD_PROVENANCE")
+        if not set(generated_paths).issubset(allowed_paths):
+            _fail("SYNTHETIC_FIELD_PATH_NOT_INPUT")
         if not required_paths.issubset(generated_paths):
             _fail("SYNTHETIC_INPUT_FIELD_PROVENANCE_INCOMPLETE")
-        for item in synthetic["generated_fields"]:
+        history_declared = "case.input.historical_cases" in generated_paths
+        history_has_items = packet["history_context"]["retrieval_status"] == "HIT"
+        if history_declared != history_has_items:
+            _fail("SYNTHETIC_HISTORY_FIELD_LINEAGE_MISMATCH")
+        for item in generated_fields:
+            if not item["source_fact_refs"]:
+                _fail("SYNTHETIC_FIELD_REQUIRES_SOURCE_FACT_REF")
             if set(item["source_fact_refs"]) - allowed_refs:
                 _fail("SYNTHETIC_FIELD_SOURCE_REFERENCE_UNRESOLVED")
+            # Upstream ML findings and logs are invented scenario inputs here,
+            # never a literal ML run or operations log supplied by the paper.
+            if item["field_path"] in {
+                "case.input.machine_diagnosis", "case.input.diagnostic_logs"
+            } and item["origin"] == "DERIVED_FROM_SOURCE_FACT":
+                _fail("SYNTHETIC_ML_OR_LOG_CLAIMED_AS_SOURCE_FACT")
         if case["review"]["status"] == "APPROVED":
             _fail("SYNTHETIC_L1_CANNOT_BE_GOLD_APPROVED")
     else:
