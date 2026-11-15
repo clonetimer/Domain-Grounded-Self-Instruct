@@ -2,7 +2,7 @@
   "schema_version": "dgsi-l1-task-packet-collection.v1",
   "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-001",
   "track": "LITERATURE_DERIVED_SYNTHETIC",
-  "packet_count": 11,
+  "packet_count": 12,
   "data_status": "REVIEW_REQUIRED",
   "split_policy": "All variants derived from the same L0 event family must remain in one split; no variants from the same family may cross train/validation/test.",
   "packets": [
@@ -4227,6 +4227,476 @@
         "reviewed_at": null,
         "notes": [
           "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+        "domain": "adcs",
+        "task_type": "historical_case_reuse",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器构型和任务工况，判断历史案例是否适用于当前故障研判。保留历史案例的原始结论状态和硬件适用性限制，不得将历史经验作为当前根因确诊证据。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.2",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "ADCS / FUSE_pitch_axis_reaction_wheel",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-012",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "FUSE_pitch_axis_reaction_wheel",
+                "result": "rotor_housing_local_contact_candidate",
+                "score": 0.76,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-012"
+                ],
+                "limitations": [
+                  "Synthetic ML result, not an actual FUSE model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for a literature-derived history-reuse task.",
+            "known_limitations": [
+              "No raw telemetry is supplied to the LLM.",
+              "The ML result and score are synthetic scenario values."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-121",
+              "timestamp": "2026-04-12T08:21:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：FUSE俯仰轴反作用轮拖曳指标高于健康基线。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG-121"
+            },
+            {
+              "log_id": "LOG-122",
+              "timestamp": "2026-04-12T08:26:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：一次重启后拖曳短时维持高位，随后逐渐回落。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG-122"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-FUSE-CONTEXT-012",
+            "spacecraft_type": "FUSE-derived illustrative spacecraft configuration",
+            "configuration": {
+              "equipment_scope": "FUSE_pitch_axis_reaction_wheel",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "ADCS",
+                "components": [
+                  "FUSE_pitch_axis_reaction_wheel",
+                  "FUSE_ADCS_pitch_axis"
+                ],
+                "configuration_notes": [
+                  "Illustrative FUSE-like wheel configuration; exact mechanical drawings and part numbers are not supplied."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_OPERATION",
+            "operating_mode": "three_axis_attitude_control",
+            "recent_operations": [
+              "synthetic wheel restart event"
+            ],
+            "environmental_context": [
+              "thermal environment is not specified by the public L0 source and is not asserted as a source fact"
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, hardware inspection or actual operation logs supplied."
+            ]
+          },
+          "historical_cases": [
+            {
+              "case_ref": "HIST-CASSINI-RWA-DRAG-007",
+              "similarity_basis": [
+                "reaction-wheel drag/friction anomaly",
+                "reaction-wheel assembly in spacecraft ADCS",
+                "restart/drag behavior is relevant as a diagnostic comparison"
+              ],
+              "prior_conclusion": "Cassini反作用轮拖曳异常被认为可能与长期近零转速运行导致润滑剂分布变化有关；该来源保留了其他促成因素，属于来源支持的可能解释，并非对FUSE当前事件的确诊。",
+              "outcome_status": "PARTIALLY_CONFIRMED",
+              "applicability_limitations": [
+                "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
+                "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
+                "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+              ]
+            }
+          ],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-012",
+              "source_id": "FUSE-SPIE-2002-RWA",
+              "passage_id": "FUSE_RWA_PITCH_DRAG_KAPTON_2000",
+              "claim_boundary": "Supports the 2000 FUSE pitch-axis drag event and the vendor's likely Kapton-liner explanation only; it does not verify this synthetic current event.",
+              "excerpt": "供应商分析认为，轮组件内壳体衬层Kapton胶带中的小气泡可能导致局部凸起并接触转子；胶带逐渐磨损后，异常拖曳消失。该解释为供应商给出的可能原因。"
+            },
+            {
+              "evidence_id": "HIST-L0-E-008",
+              "source_id": "NASA-LLIS-1416",
+              "passage_id": "NASA Lessons Learned 1416, Driving Event / Lessons Learned",
+              "claim_boundary": "Supports the Cassini prior drag anomaly and its likely low-speed lubricant-distribution explanation only; hardware compatibility with FUSE is UNKNOWN.",
+              "excerpt": "过量摩擦被认为与长期近零转速运行导致润滑剂分布变化有关，速度在零附近频繁振荡也可能有贡献。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "合成场景中，FUSE俯仰轴反作用轮拖曳指标高于健康基线；在一次合成重启后，拖曳短时维持在高位并逐渐回落。该现象与FUSE来源记录的2000年俯仰轴轮拖曳事件相似，但本任务的ML结果和日志均为合成输入。",
+          "machine_result_interpretation": "上游合成ML将反作用轮转子—壳体局部接触异常列为候选，排序分数0.76仅用于合成场景内排序，不代表故障概率。FUSE来源将Kapton衬层起泡视为可能原因；该来源归因不能替代当前场景的独立物理检查。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "FUSE_pitch_axis_reaction_wheel",
+                "fault_mode": "rotor_housing_local_contact_due_to_Kapton_liner_bubble_candidate",
+                "supporting_refs": [
+                  "ML-E-012",
+                  "LOG-121",
+                  "LOG-122",
+                  "L0-E-012"
+                ],
+                "limitations": [
+                  "当前合成场景没有壳体衬层拆检或转子间隙直接测量。",
+                  "FUSE来源的供应商解释是最可能原因，不是独立专家确诊。"
+                ]
+              }
+            ],
+            "affected_components": [
+              "FUSE_pitch_axis_reaction_wheel",
+              "ADCS_pitch_axis_control_authority"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "FUSE来源支持Kapton衬层起泡造成转子局部接触的可能机理。Cassini历史案例涉及低速运行下润滑剂分布变化；由于轮组硬件兼容性未知且机理不同，只能作为对照排查经验，不能支持当前根因确诊。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-012",
+              "LOG-121",
+              "LOG-122",
+              "L0-E-012"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "FUSE轮组件壳体衬层及转子接触检查",
+              "当前轮组的热环境和间隙测量",
+              "不同转速区间的拖曳变化与独立润滑状态证据"
+            ]
+          },
+          "historical_experience_relevance": [
+            {
+              "case_ref": "HIST-CASSINI-RWA-DRAG-007",
+              "relevance": "Cassini案例提示应检查长期低速运行和润滑状态，但其来源归因与FUSE的Kapton衬层接触候选不同；该历史案例只作为差异化排查对照，不支持当前根因。",
+              "transfer_limitations": [
+                "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
+                "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
+                "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+              ]
+            }
+          ],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "上游ML结果和日志均为合成场景值。",
+              "FUSE来源对Kapton衬层起泡给出的是供应商可能原因。",
+              "Cassini历史案例仅部分确认且硬件适用性未知。",
+              "缺少当前轮组壳体、转子间隙和润滑状态直接证据。"
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "核查FUSE当前轮组壳体衬层、转子间隙和局部接触痕迹",
+              "rationale": "验证Kapton衬层起泡/磨损是否适用于当前候选",
+              "priority": "HIGH"
+            },
+            {
+              "action": "结合当前轮组型号和热环境复核拖曳随转速变化的特征",
+              "rationale": "区分局部转子—壳体接触与润滑状态变化",
+              "priority": "HIGH"
+            },
+            {
+              "action": "仅将Cassini低速润滑经验作为对照检查项，不直接迁移其轮速管理处置",
+              "rationale": "历史轮组硬件兼容性未知且机理不同",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "合成场景中FUSE俯仰轴反作用轮拖曳指标升高。上游算法将转子—壳体局部接触列为候选，FUSE历史来源记录的Kapton衬层起泡机理与该候选相符，但尚缺少当前轮组拆检和间隙测量证据。Cassini历史案例涉及低速润滑剂分布变化，硬件适用性未知，只能作为对照排查经验，不能用于确认当前根因或直接迁移其轮速处置。当前任务未记录已执行处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-012"
+          ],
+          "historical_case_refs": [
+            "HIST-CASSINI-RWA-DRAG-007"
+          ],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task; no Gold approval."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not treat Cassini's low-speed lubrication explanation as confirmation of FUSE's Kapton-liner contact candidate.",
+            "Do not transfer Cassini's wheel-speed operating recommendation to FUSE as a current action."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check thermal housing distortion and other rotor-housing contact causes separately from the 2000 Kapton-liner hypothesis."
+          ],
+          "counterexamples": [
+            "Similar drag symptoms can arise from different RWA mechanical designs and failure mechanisms."
+          ],
+          "reviewer_questions": [
+            "Does the model preserve PARTIALLY_CONFIRMED historical status?",
+            "Does it explicitly retain UNKNOWN hardware compatibility and avoid using Cassini as positive cause evidence?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "HISTORY_CONTEXT_SYNTHETIC_SNAPSHOT",
+            "HARDWARE_COMPATIBILITY_UNKNOWN",
+            "NOT_GOLD"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "合成场景中，FUSE俯仰轴反作用轮拖曳指标高于健康基线；在一次合成重启后，拖曳短时维持在高位并逐渐回落。该现象与FUSE来源记录的2000年俯仰轴轮拖曳事件相似，但本任务的ML结果和日志均为合成输入。",
+        "machine_result_interpretation": "上游合成ML将反作用轮转子—壳体局部接触异常列为候选，排序分数0.76仅用于合成场景内排序，不代表故障概率。FUSE来源将Kapton衬层起泡视为可能原因；该来源归因不能替代当前场景的独立物理检查。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "FUSE_pitch_axis_reaction_wheel",
+              "fault_mode": "rotor_housing_local_contact_due_to_Kapton_liner_bubble_candidate",
+              "supporting_refs": [
+                "ML-E-012",
+                "LOG-121",
+                "LOG-122",
+                "L0-E-012"
+              ],
+              "limitations": [
+                "当前合成场景没有壳体衬层拆检或转子间隙直接测量。",
+                "FUSE来源的供应商解释是最可能原因，不是独立专家确诊。"
+              ]
+            }
+          ],
+          "affected_components": [
+            "FUSE_pitch_axis_reaction_wheel",
+            "ADCS_pitch_axis_control_authority"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "FUSE来源支持Kapton衬层起泡造成转子局部接触的可能机理。Cassini历史案例涉及低速运行下润滑剂分布变化；由于轮组硬件兼容性未知且机理不同，只能作为对照排查经验，不能支持当前根因确诊。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-012",
+            "LOG-121",
+            "LOG-122",
+            "L0-E-012"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "FUSE轮组件壳体衬层及转子接触检查",
+            "当前轮组的热环境和间隙测量",
+            "不同转速区间的拖曳变化与独立润滑状态证据"
+          ]
+        },
+        "historical_experience_relevance": [
+          {
+            "case_ref": "HIST-CASSINI-RWA-DRAG-007",
+            "relevance": "Cassini案例提示应检查长期低速运行和润滑状态，但其来源归因与FUSE的Kapton衬层接触候选不同；该历史案例只作为差异化排查对照，不支持当前根因。",
+            "transfer_limitations": [
+              "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
+              "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
+              "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+            ]
+          }
+        ],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "上游ML结果和日志均为合成场景值。",
+            "FUSE来源对Kapton衬层起泡给出的是供应商可能原因。",
+            "Cassini历史案例仅部分确认且硬件适用性未知。",
+            "缺少当前轮组壳体、转子间隙和润滑状态直接证据。"
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "核查FUSE当前轮组壳体衬层、转子间隙和局部接触痕迹",
+            "rationale": "验证Kapton衬层起泡/磨损是否适用于当前候选",
+            "priority": "HIGH"
+          },
+          {
+            "action": "结合当前轮组型号和热环境复核拖曳随转速变化的特征",
+            "rationale": "区分局部转子—壳体接触与润滑状态变化",
+            "priority": "HIGH"
+          },
+          {
+            "action": "仅将Cassini低速润滑经验作为对照检查项，不直接迁移其轮速管理处置",
+            "rationale": "历史轮组硬件兼容性未知且机理不同",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "合成场景中FUSE俯仰轴反作用轮拖曳指标升高。上游算法将转子—壳体局部接触列为候选，FUSE历史来源记录的Kapton衬层起泡机理与该候选相符，但尚缺少当前轮组拆检和间隙测量证据。Cassini历史案例涉及低速润滑剂分布变化，硬件适用性未知，只能作为对照排查经验，不能用于确认当前根因或直接迁移其轮速处置。当前任务未记录已执行处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "HIT",
+        "query": {
+          "equipment_scope": "FUSE_pitch_axis_reaction_wheel",
+          "subsystem": "ADCS",
+          "mission_phase": "IN_ORBIT_OPERATION",
+          "operating_mode": "three_axis_attitude_control",
+          "fault_modes": [
+            "reaction_wheel_drag_increase"
+          ],
+          "configuration_keys": [
+            "wheel_model",
+            "housing_liner",
+            "rotor_clearance"
+          ]
+        },
+        "items": [
+          {
+            "case_ref": "HIST-CASSINI-RWA-DRAG-007",
+            "event_family_id": "CASSINI-RWA-LOW-SPEED-2001",
+            "historical_equipment_scope": "Cassini_reaction_wheel_assembly",
+            "hardware_compatibility": "UNKNOWN",
+            "outcome_status": "PARTIALLY_CONFIRMED",
+            "summary": "Cassini反作用轮拖曳异常被认为可能与长期近零转速运行导致润滑剂分布变化有关；该来源保留了其他促成因素，属于来源支持的可能解释，并非对FUSE当前事件的确诊。",
+            "source_refs": [
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "relevance_basis": [
+              "reaction-wheel drag/friction anomaly",
+              "reaction-wheel assembly in spacecraft ADCS",
+              "restart/drag behavior is relevant as a diagnostic comparison"
+            ],
+            "applicability_limitations": [
+              "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
+              "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
+              "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+            ],
+            "hit_metadata": {
+              "case_id": "HIST-CASSINI-RWA-DRAG-007",
+              "source_group_id": "CASSINI-RWA-LOW-SPEED-2001",
+              "equipment_scope": "FUSE_pitch_axis_reaction_wheel",
+              "diagnostic_vote_allowed": false,
+              "available_at": "2004-05-10T23:59:59Z",
+              "status": "PARTIALLY_CONFIRMED_HISTORICAL_CASE_NOT_CURRENT_TRUTH"
+            }
+          }
+        ]
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Construct a FUSE-derived current diagnostic scenario and retrieve the public Cassini RWA drag case as a partially confirmed, hardware-unknown historical contrast. The historical source date is normalized conservatively to end-of-day on the NASA LLIS lesson date.",
+        "recipe_version": "dgsi-literature-recipe-0.1.2",
+        "source_fact_refs": [
+          "LIT-FUSE-RWA-KAPTON-001"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run ID; not an actual FUSE ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Synthetic log content and timestamps; not FUSE flight logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Illustrative FUSE-like hardware configuration; exact component design is not asserted."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Mission phase and operating mode are synthetic scenario values."
+          },
+          {
+            "field_path": "case.input.historical_cases",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001",
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "assumption": "Cassini L0 source is included as a partially confirmed prior case; hardware compatibility is UNKNOWN. available_at is normalized to 2004-05-10T23:59:59Z using the public NASA LLIS lesson date, not an asserted publication time."
+          }
+        ],
+        "scenario_assumptions": [
+          "All current ML findings, scores, log IDs, timestamps, spacecraft IDs and current configuration details are synthetic.",
+          "Historical Case metadata is a synthetic retrieval snapshot; its summary is bounded by the public Cassini L0 source."
+        ],
+        "not_simulated": [
+          "Raw telemetry",
+          "Actual FUSE or Cassini ML runs",
+          "Actual flight logs",
+          "Independent expert verification of the synthetic history snapshot",
+          "Mechanical inspection"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 history-reuse task; independent domain review required."
         ]
       }
     }
