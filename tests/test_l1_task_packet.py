@@ -488,6 +488,26 @@ class L1TaskPacketTests(unittest.TestCase):
             "handover_summary",
         })
 
+    def test_ground_test_source_cannot_be_mislabeled_as_flight_context(self):
+        packet = make_packet()
+        card = source_card("PUBLIC_GROUND_TEST_REPORT")
+        card["event_status"] = "GROUND_TEST_EVENT"
+        card["event_family_id"] = "L0-SEASAT-FAMILY"
+        card["event_episode_id"] = "L0-SEASAT-GROUND-TEST"
+        packet["case"]["input"]["operational_context"]["mission_phase"] = "IN_ORBIT_OPERATION"
+        packet["history_context"]["query"]["mission_phase"] = "IN_ORBIT_OPERATION"
+        packet["synthetic_provenance"]["generated_fields"][3]["assumption"] = "Synthetic flight operations context"
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_GROUND_TEST_SOURCE_MISLABELED_AS_FLIGHT_CONTEXT"):
+            self.validate(packet, [card])
+
+    def test_flight_source_cannot_be_mislabeled_as_ground_test_context(self):
+        packet = make_packet()
+        packet["case"]["input"]["operational_context"]["mission_phase"] = "GROUND_THERMAL_VACUUM_TEST"
+        packet["history_context"]["query"]["mission_phase"] = "GROUND_THERMAL_VACUUM_TEST"
+        packet["synthetic_provenance"]["generated_fields"][3]["assumption"] = "Synthetic ground test context"
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_FLIGHT_SOURCE_MISLABELED_AS_GROUND_CONTEXT"):
+            self.validate(packet)
+
 
 if __name__ == "__main__":
     unittest.main()
