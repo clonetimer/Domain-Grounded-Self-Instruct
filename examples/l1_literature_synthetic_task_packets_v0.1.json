@@ -2465,8 +2465,8 @@
             "status": "CANDIDATE_ONLY",
             "candidates": [
               {
-                "component": "twta_helix_power_supply",
-                "fault_mode": "transient_helix_current_abnormality",
+                "component": "TWTA_helix_power_supply",
+                "fault_mode": "launch_mechanical_stress_release_candidate",
                 "supporting_refs": [
                   "ML-E-007",
                   "LOG-71",
@@ -2474,8 +2474,22 @@
                   "L0-E-007"
                 ],
                 "limitations": [
-                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                  "The source presents this as one possible explanation only.",
+                  "The synthetic scenario provides no direct mechanical inspection or thermal-cycle evidence."
+                ]
+              },
+              {
+                "component": "TWTA_helix_power_supply",
+                "fault_mode": "post_launch_internal_pressure_decay_candidate",
+                "supporting_refs": [
+                  "ML-E-007",
+                  "LOG-71",
+                  "LOG-72",
+                  "L0-E-007"
+                ],
+                "limitations": [
+                  "The source presents this as one possible explanation only.",
+                  "The synthetic scenario provides no internal-pressure measurement."
                 ]
               }
             ],
@@ -2483,7 +2497,7 @@
               "TWTA_helix_startup_operating_state"
             ],
             "certainty": "CANDIDATE",
-            "mechanism_summary": "来源保留两种候选解释；拟制定的启动时间约束是报告提出的计划措施，不能写成已经实施或验证的处置。"
+            "mechanism_summary": "文献保留发射机械应力经温度循环释放、发射后内部压力缓慢衰减两种解释；当前合成场景未提供证据区分两者，因此均保持候选，不选定唯一根因。"
           },
           "evidence_assessment": {
             "supporting_refs": [
@@ -2505,7 +2519,8 @@
             "reasons": [
               "The upstream ML result and logs are synthetic scenario values.",
               "The public source constrains the historical mechanism but does not confirm this synthetic event.",
-              "No independent physical inspection or raw telemetry is supplied."
+              "No independent physical inspection or raw telemetry is supplied.",
+              "The public source does not select one of the two startup-current explanations."
             ]
           },
           "disposal_status": "NOT_RECORDED",
@@ -2522,7 +2537,7 @@
               "priority": "MEDIUM"
             }
           ],
-          "report_text": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。 上游合成ML识别到螺流启动瞬态异常，排序分数0.66不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+          "report_text": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。上游合成ML识别到螺流启动瞬态异常。文献保留发射机械应力释放与发射后内部压力缓慢衰减两种解释；现有证据不足以区分两者，不能确定唯一根因。当前任务未记录实际处置措施。"
         },
         "provenance": {
           "source_group": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
@@ -2574,8 +2589,8 @@
           "status": "CANDIDATE_ONLY",
           "candidates": [
             {
-              "component": "twta_helix_power_supply",
-              "fault_mode": "transient_helix_current_abnormality",
+              "component": "TWTA_helix_power_supply",
+              "fault_mode": "launch_mechanical_stress_release_candidate",
               "supporting_refs": [
                 "ML-E-007",
                 "LOG-71",
@@ -2583,8 +2598,22 @@
                 "L0-E-007"
               ],
               "limitations": [
-                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                "The source presents this as one possible explanation only.",
+                "The synthetic scenario provides no direct mechanical inspection or thermal-cycle evidence."
+              ]
+            },
+            {
+              "component": "TWTA_helix_power_supply",
+              "fault_mode": "post_launch_internal_pressure_decay_candidate",
+              "supporting_refs": [
+                "ML-E-007",
+                "LOG-71",
+                "LOG-72",
+                "L0-E-007"
+              ],
+              "limitations": [
+                "The source presents this as one possible explanation only.",
+                "The synthetic scenario provides no internal-pressure measurement."
               ]
             }
           ],
@@ -2592,7 +2621,7 @@
             "TWTA_helix_startup_operating_state"
           ],
           "certainty": "CANDIDATE",
-          "mechanism_summary": "来源保留两种候选解释；拟制定的启动时间约束是报告提出的计划措施，不能写成已经实施或验证的处置。"
+          "mechanism_summary": "文献保留发射机械应力经温度循环释放、发射后内部压力缓慢衰减两种解释；当前合成场景未提供证据区分两者，因此均保持候选，不选定唯一根因。"
         },
         "evidence_assessment": {
           "supporting_refs": [
@@ -2614,7 +2643,8 @@
           "reasons": [
             "The upstream ML result and logs are synthetic scenario values.",
             "The public source constrains the historical mechanism but does not confirm this synthetic event.",
-            "No independent physical inspection or raw telemetry is supplied."
+            "No independent physical inspection or raw telemetry is supplied.",
+            "The public source does not select one of the two startup-current explanations."
           ]
         },
         "disposal_status": "NOT_RECORDED",
@@ -2631,7 +2661,7 @@
             "priority": "MEDIUM"
           }
         ],
-        "report_text": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。 上游合成ML识别到螺流启动瞬态异常，排序分数0.66不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        "report_text": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。上游合成ML识别到螺流启动瞬态异常。文献保留发射机械应力释放与发射后内部压力缓慢衰减两种解释；现有证据不足以区分两者，不能确定唯一根因。当前任务未记录实际处置措施。"
       },
       "history_context": {
         "schema_version": "dgsi-history-context.v1",
