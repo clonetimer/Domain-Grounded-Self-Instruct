@@ -136,6 +136,12 @@ def _validate_evidence_reference_integrity(
     source_record_refs = set(log_ids) | set(knowledge_ids)
     for measure in expected["disposal_measures"]:
         measure_refs = measure["evidence_refs"]
+        # Preserve the existing dangling-citation contract before applying
+        # the more specific source-type restrictions.
+        _require(
+            all(ref in seen for ref in measure_refs),
+            "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE",
+        )
         if measure["measure_type"] == "EXECUTED":
             _require(bool(measure_refs), "EXECUTED_DISPOSAL_REQUIRES_SOURCE_EVIDENCE")
             _require(
