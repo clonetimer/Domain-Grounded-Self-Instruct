@@ -12,6 +12,8 @@ from datetime import datetime
 from collections import defaultdict
 from typing import Any
 
+from .sft_provenance import SftProvenanceReferenceError, validate_sft_input_provenance
+
 from .schema_validation import (
     SchemaContractError,
     validate_payload_schema,
@@ -515,6 +517,13 @@ def validate_sft_example(example: dict[str, Any]) -> None:
         _string_list(provenance.get(field), f"provenance.{field}")
     for index, digest in enumerate(provenance["source_artifact_hashes"]):
         _require(bool(HEX_SHA256.fullmatch(digest)), f"provenance.source_artifact_hashes[{index}] must be lowercase SHA-256")
+    # Do not let a standalone SFT export invent or omit its source log,
+    # knowledge-passage or spacecraft provenance identifiers.
+    try:
+        validate_sft_input_provenance(packet["input"], provenance)
+    except SftProvenanceReferenceError as exc:
+        raise DiagnosticContextValidationError(str(exc)) from None
+
     review = example.get("review")
     _require(isinstance(review, dict), "review is required")
     _require(review.get("status") in {"REVIEW_REQUIRED", "APPROVED", "REJECTED"}, "unsupported SFT review status")
