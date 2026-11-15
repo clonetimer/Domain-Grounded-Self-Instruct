@@ -187,6 +187,8 @@ def _validate_real_track_input_not_synthetic(case: dict[str, Any]) -> None:
         for field in ("method", "version", "model_id")
     ):
         _fail("REAL_TRACK_SYNTHETIC_ML_PROVENANCE")
+    if _contains_synthetic_provenance_marker(case["provenance"].get("source_group")):
+        _fail("REAL_TRACK_SYNTHETIC_SOURCE_GROUP")
     if any(
         _contains_synthetic_provenance_marker(ref)
         for ref in case["provenance"]["diagnosis_run_refs"]
@@ -203,7 +205,7 @@ def _validate_real_track_input_not_synthetic(case: dict[str, Any]) -> None:
     for log in inputs["diagnostic_logs"]:
         if any(
             _contains_synthetic_provenance_marker(log.get(field))
-            for field in ("log_id", "source_ref", "author_role")
+            for field in ("log_id", "source_ref", "author_role", "content")
         ):
             _fail("REAL_TRACK_SYNTHETIC_LOG_PROVENANCE")
     spacecraft = inputs["spacecraft_context"]
