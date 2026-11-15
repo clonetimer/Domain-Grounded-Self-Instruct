@@ -632,10 +632,11 @@
       "locator": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control",
       "locator_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
       "allowed_claim_types": [
-        "EVENT",
+        "CASE_HISTORY",
         "MECHANISM",
         "CAUSAL",
-        "DISPOSAL"
+        "FAILURE_MODE",
+        "COMPONENT_ROLE"
       ],
       "evidence_status": "REFERENCE_INDEXED",
       "claim_boundary": "Supports the 2000-08-04 FUSE pitch-axis reaction-wheel drag shutdown, restart outcome and vendor's likely Kapton-tape-bubble explanation. The paper separately describes later 2001 wheel failures and a broader vendor attribution to thermally induced housing distortion; do not merge those episodes or treat the likely cause as independently confirmed."
