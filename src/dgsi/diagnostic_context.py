@@ -128,7 +128,7 @@ def _validate_evidence_reference_integrity(
 
     evidence = expected["evidence_assessment"]
     refs = [*evidence["supporting_refs"], *evidence["contradicting_refs"]]
-    for candidate in expected["fault_source_assessment"]["candidates"]:
+    for candidate in expected["cause_localization"]["candidates"]:
         refs.extend(candidate["supporting_refs"])
     _require(all(ref in seen for ref in refs), "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE")
 
@@ -248,10 +248,20 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
         "ACCEPT_MACHINE_FINDING", "ACCEPT_WITH_QUALIFICATION", "REQUEST_ADDITIONAL_ANALYSIS",
         "CONFLICTING_EVIDENCE", "INSUFFICIENT_CONTEXT", "NO_FAULT_INDICATED",
     }, "unsupported expected disposition")
-    fault = expected.get("fault_source_assessment")
-    _require(isinstance(fault, dict), "fault_source_assessment is required")
-    _require(fault.get("status") in {"SUPPORTED", "CANDIDATE_ONLY", "UNRESOLVED", "NOT_APPLICABLE"}, "unsupported fault-source status")
-    _string_list(fault.get("affected_components"), "fault_source_assessment.affected_components")
+    _nonempty(expected.get("phenomenon_analysis"), "expected_output.phenomenon_analysis")
+    _nonempty(expected.get("machine_result_interpretation"), "expected_output.machine_result_interpretation")
+    cause = expected.get("cause_localization")
+    _require(isinstance(cause, dict), "cause_localization is required")
+    _require(cause.get("status") in {"SUPPORTED", "CANDIDATE_ONLY", "UNRESOLVED", "NOT_APPLICABLE"}, "unsupported cause-localization status")
+    _require(cause.get("certainty") in {"CONFIRMED", "MOST_LIKELY", "CANDIDATE", "UNRESOLVED", "NOT_APPLICABLE"}, "unsupported cause certainty")
+    _nonempty(cause.get("mechanism_summary"), "cause_localization.mechanism_summary")
+    _string_list(cause.get("affected_components"), "cause_localization.affected_components")
+    _require(isinstance(cause.get("candidates"), list), "cause_localization.candidates must be a list")
+    for index, candidate in enumerate(cause["candidates"]):
+        _nonempty(candidate.get("component"), f"cause_localization.candidates[{index}].component")
+        _nonempty(candidate.get("fault_mode"), f"cause_localization.candidates[{index}].fault_mode")
+        _string_list(candidate.get("supporting_refs"), f"cause_localization.candidates[{index}].supporting_refs")
+        _string_list(candidate.get("limitations"), f"cause_localization.candidates[{index}].limitations")
     evidence_assessment = expected.get("evidence_assessment")
     _require(isinstance(evidence_assessment, dict), "evidence_assessment is required")
     for field in ("supporting_refs", "contradicting_refs", "missing_information"):
@@ -260,7 +270,24 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     _require(isinstance(uncertainty, dict), "uncertainty is required")
     _require(uncertainty.get("level") in {"LOW", "MODERATE", "HIGH", "UNRESOLVED"}, "unsupported uncertainty level")
     _string_list(uncertainty.get("reasons"), "uncertainty.reasons")
-    _require(isinstance(expected.get("recommended_next_steps"), list), "recommended_next_steps must be a list")
+    disposal_status = expected.get("disposal_status")
+    disposal_measures = expected.get("disposal_measures")
+    _require(disposal_status in {"RECORDED", "NOT_RECORDED", "RECOMMENDED_ONLY", "NOT_APPLICABLE"}, "unsupported disposal_status")
+    _require(isinstance(disposal_measures, list), "disposal_measures must be a list")
+    executed = [item for item in disposal_measures if item.get("measure_type") == "EXECUTED"]
+    if disposal_status == "NOT_RECORDED":
+        _require(not disposal_measures, "NOT_RECORDED disposal must have an empty disposal_measures list")
+    elif disposal_status == "RECORDED":
+        _require(bool(executed), "RECORDED disposal requires at least one EXECUTED measure")
+    elif disposal_status == "RECOMMENDED_ONLY":
+        _require(not executed and bool(disposal_measures), "RECOMMENDED_ONLY requires non-executed recommendations")
+    _require(isinstance(expected.get("follow_up_actions"), list), "follow_up_actions must be a list")
+
+    internal_review = case.get("internal_review")
+    _require(isinstance(internal_review, dict), "internal_review is required")
+    _require(internal_review.get("not_for_sft") is True, "internal_review must be explicitly excluded from SFT")
+    for field in ("curator_prompts", "alternative_hypotheses_to_check", "counterexamples", "reviewer_questions", "quality_flags"):
+        _string_list(internal_review.get(field), f"internal_review.{field}")
 
     provenance = case.get("provenance")
     _require(isinstance(provenance, dict), "provenance is required")
@@ -301,7 +328,7 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
 # a chat message, including the nested full-case leak in the original fixture.
 # It is deliberately conservative and not a substitute for source inspection.
 _FORBIDDEN_PROMPT_JSON_KEYS = re.compile(
-    r'"(?:expected_output|review|answer_key|target_report|gold_answer|'
+    r'"(?:expected_output|review|internal_review|curator_prompts|alternative_hypotheses_to_check|counterexamples|reviewer_questions|answer_key|target_report|gold_answer|'
     r'ground_truth|fault_truth|injection_truth|hidden_label|gold_label|'
     r'labels_used|truth_used|raw_telemetry|telemetry_rows|waveforms?|'
     r'time_series|timeseries|raw_signal|samples)"\s*:',
