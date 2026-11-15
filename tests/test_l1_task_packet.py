@@ -299,7 +299,7 @@ class L1TaskPacketTests(unittest.TestCase):
         literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         self.assertEqual(collection["track"], "LITERATURE_DERIVED_SYNTHETIC")
-        self.assertEqual(collection["packet_count"], 3)
+        self.assertEqual(collection["packet_count"], 11)
         cards = {card["case_id"]: card for card in literature["cards"]}
         decisions = []
         for packet in collection["packets"]:
@@ -311,7 +311,7 @@ class L1TaskPacketTests(unittest.TestCase):
             self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
             self.assertNotIn("internal_review", packet["formal_target"])
             self.assertNotIn("curator_prompts", packet["formal_target"])
-        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 3)
+        self.assertEqual(decisions, ["READY_FOR_L1_EXPERT_REVIEW"] * 11)
 
     def test_l1_pilot_has_both_no_hit_and_history_context_variants(self):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
@@ -385,8 +385,8 @@ class L1TaskPacketTests(unittest.TestCase):
         collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
         result = validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
         self.assertEqual(result["decision"], "VALID_L1_COLLECTION")
-        self.assertEqual(result["packet_count"], 3)
-        self.assertEqual(result["event_family_count"], 3)
+        self.assertEqual(result["packet_count"], 11)
+        self.assertEqual(result["event_family_count"], 8)
         self.assertFalse(result["split_audit_performed"])
         self.assertFalse(result["training_authorized"])
 
@@ -507,6 +507,46 @@ class L1TaskPacketTests(unittest.TestCase):
         packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
         with self.assertRaisesRegex(L1TaskPacketError, "HISTORY_INCOMPATIBILITY_SCOPE_CONTRADICTION"):
             self.validate(packet)
+
+    def test_l1_expanded_pilot_keeps_related_episodes_in_same_source_family(self):
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        by_id = {packet["task_id"]: packet for packet in collection["packets"]}
+        tropics_a = by_id["L1-TROPICS-FLIGHT-CRC-A-SYNTH-005"]
+        tropics_b = by_id["L1-TROPICS-FLIGHT-CRC-B-SYNTH-006"]
+        self.assertEqual(tropics_a["case"]["provenance"]["source_group"], tropics_b["case"]["provenance"]["source_group"])
+        self.assertNotEqual(tropics_a["source_fact_refs"], tropics_b["source_fact_refs"])
+        injector = by_id["L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"]
+        catalyst = by_id["L1-NASA-HYDRAZINE-CATALYST-SYNTH-010"]
+        self.assertEqual(injector["case"]["provenance"]["source_group"], catalyst["case"]["provenance"]["source_group"])
+        self.assertNotEqual(injector["source_fact_refs"], catalyst["source_fact_refs"])
+
+    def test_l1_expanded_pilot_distinguishes_flight_and_ground_test_source_types(self):
+        literature = json.loads((ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text(encoding="utf-8"))
+        cards = {card["case_id"]: card for card in literature["cards"]}
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        packet_by_id = {packet["task_id"]: packet for packet in collection["packets"]}
+        ground_tasks = [
+            "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+            "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+            "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+            "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        ]
+        for task_id in ground_tasks:
+            packet = packet_by_id[task_id]
+            card = cards[packet["source_fact_refs"][0]]
+            self.assertIn(card["event_status"], {"GROUND_TEST_EVENT"})
+            self.assertIn("GROUND", packet["case"]["input"]["operational_context"]["mission_phase"])
+
+    def test_l1_expanded_pilot_contains_no_real_run_or_real_flight_claims(self):
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        for packet in collection["packets"]:
+            self.assertEqual(packet["track"], "LITERATURE_DERIVED_SYNTHETIC")
+            self.assertFalse(packet["synthetic_provenance"]["real_flight_record"])
+            self.assertFalse(packet["synthetic_provenance"]["gold_eligible"])
+            self.assertTrue(all(ref.startswith("SYNTHETIC-") for ref in packet["case"]["provenance"]["diagnosis_run_refs"]))
+            self.assertEqual(packet["case"]["input"]["raw_telemetry_included"], False)
+            self.assertEqual(packet["case"]["expected_output"]["disposal_status"], "NOT_RECORDED")
+            self.assertEqual(packet["case"]["expected_output"]["disposal_measures"], [])
 
 
 if __name__ == "__main__":
