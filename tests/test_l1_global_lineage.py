@@ -155,5 +155,36 @@ class GlobalL1HoldoutTests(unittest.TestCase):
             )
 
 
+    def test_global_report_stratifies_task_and_source_families(self):
+        result = audit_l1_cross_collection_lineage(_fixtures(FUSE, CASSINI))
+        self.assertEqual(result["track_task_counts"]["LITERATURE_DERIVED_SYNTHETIC"], 2)
+        self.assertEqual(result["track_family_counts"]["LITERATURE_DERIVED_SYNTHETIC"], 2)
+        self.assertEqual(result["gold_eligible_count"], 0)
+        self.assertFalse(result["training_authorized"])
+
+    def test_two_tasks_from_one_event_family_are_not_two_source_families(self):
+        result = audit_l1_cross_collection_lineage(_fixtures(TROPICS_A, TROPICS_B))
+        self.assertEqual(result["track_task_counts"]["LITERATURE_DERIVED_SYNTHETIC"], 2)
+        self.assertEqual(result["track_family_counts"]["LITERATURE_DERIVED_SYNTHETIC"], 1)
+
+    def test_duplicate_alias_review_assertions_are_blocked(self):
+        batches = _fixtures()
+        fuse = next(c for c in batches[0]["source_fact_cards"]
+                    if c["case_id"] == "LIT-FUSE-RWA-KAPTON-001")
+        cassini = next(c for c in batches[0]["source_fact_cards"]
+                       if c["case_id"] == "LIT-CASSINI-RWA-DRAG-007")
+        # FALSE identity assertion used ONLY to exercise the structural gate.
+        alias = {
+            "alias_family_id": cassini["event_family_id"],
+            "canonical_family_id": fuse["event_family_id"],
+            "source_fact_refs": [fuse["case_id"], cassini["case_id"]],
+            "review_status": "DOMAIN_EXPERT_CONFIRMED",
+        }
+        with self.assertRaisesRegex(
+            L1GlobalLineageError, "GLOBAL_ALIAS_DUPLICATE_DECLARATION"
+        ):
+            audit_l1_cross_collection_lineage(batches, reviewed_aliases=[alias, dict(alias)])
+
+
 if __name__ == "__main__":
     unittest.main()
