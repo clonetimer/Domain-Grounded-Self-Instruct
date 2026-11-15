@@ -90,3 +90,15 @@ No repository-visible real spacecraft diagnosis/log/context packet with verifiab
 - Have a qualified reviewer adjudicate the final LLM report target.
 - Only then assemble 20 schema-valid, human-approved examples for a controlled pilot.
 - Synthetic fixtures remain a separate test suite and never inflate real-case counts.
+
+## Formal output vs. curator-only reasoning
+
+The assistant target is not a reasoning checklist. The formal diagnostic report must separate:
+- `phenomenon_analysis`: recorded symptoms and their established relationships;
+- `cause_localization`: fault source, affected components, mechanism and certainty status;
+- `disposal_status` / `disposal_measures`: actions actually documented in the source case. If absent, set NOT_RECORDED and keep the list empty;
+- concise evidence and uncertainty qualification.
+
+Curator-only review prompts, alternative hypotheses to check, common misdiagnosis warnings and questions for the user belong in the root-level `internal_review` field. They must not enter the model-visible input or assistant target. A conclusion such as “the current evidence does not localize the fault to the TWTA itself” may appear in the target only when it is supported by the case evidence and expressed as a conclusion, not as an imperative thought prompt.
+
+Do not relabel a proposed troubleshooting action as a historical disposal measure. Keep actual recorded recovery actions separate from any optional, clearly labelled follow-up recommendation.
