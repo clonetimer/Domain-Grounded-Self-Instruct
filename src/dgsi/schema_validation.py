@@ -82,4 +82,9 @@ def validate_payload_schema(kind: str, payload: Any) -> None:
     """
     error = next(_validator(kind).iter_errors(payload), None)
     if error is not None:
-        raise SchemaContractError(f"JSON_SCHEMA_{str(error.validator).upper()}")
+        # The path contains schema property names and array indexes only; it
+        # never echoes the offending value or any source text/identifier.
+        path = ".".join(str(part) for part in error.absolute_path) or "ROOT"
+        raise SchemaContractError(
+            f"JSON_SCHEMA_{str(error.validator).upper()}_AT_{path}"
+        )
