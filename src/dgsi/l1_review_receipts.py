@@ -132,3 +132,81 @@ def validate_l1_review_receipt(
             "source rights, secure adjudication, or Gold."
         ),
     }
+
+
+def audit_l1_review_receipt_batch(
+    collection: dict[str, Any],
+    *,
+    source_fact_cards: list[dict[str, Any]],
+    receipts: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Require one immutable review receipt for every task in an L1 collection.
+
+    The batch result reports only aggregate counts. Receipt validation proves
+    that a scorecard is bound to the current task/L0 bytes; it does not
+    authenticate the humans behind reviewer tokens or approve SFT admission.
+    """
+    from .l1_task_packet import validate_l1_task_packet_collection
+
+    validate_l1_task_packet_collection(
+        collection, source_fact_cards=source_fact_cards
+    )
+    if not isinstance(receipts, list):
+        _fail("L1_REVIEW_RECEIPT_BATCH_NOT_LIST")
+
+    packets_by_id = {
+        packet["task_id"]: packet for packet in collection["packets"]
+    }
+    receipt_by_id: dict[str, dict[str, Any]] = {}
+    for entry in receipts:
+        if not isinstance(entry, dict) or set(entry) != {"task_id", "receipt"}:
+            _fail("INVALID_L1_REVIEW_RECEIPT_BATCH_ENTRY")
+        task_id = entry["task_id"]
+        if not isinstance(task_id, str) or not task_id:
+            _fail("INVALID_L1_REVIEW_RECEIPT_TASK_ID")
+        if task_id not in packets_by_id:
+            _fail("UNKNOWN_L1_REVIEW_RECEIPT_TASK")
+        if task_id in receipt_by_id:
+            _fail("DUPLICATE_L1_REVIEW_RECEIPT_TASK")
+        receipt_by_id[task_id] = entry["receipt"]
+
+    if set(receipt_by_id) != set(packets_by_id):
+        _fail("L1_REVIEW_RECEIPT_COVERAGE_INCOMPLETE")
+
+    decisions: list[str] = []
+    adjudication: dict[str, int] = {}
+    source_card_count = 0
+    for task_id, packet in packets_by_id.items():
+        result = validate_l1_review_receipt(
+            packet,
+            source_fact_cards=source_fact_cards,
+            receipt=receipt_by_id[task_id],
+        )
+        decisions.append(result["decision"])
+        adjudication[result["adjudication_status"]] = (
+            adjudication.get(result["adjudication_status"], 0) + 1
+        )
+        source_card_count += result["source_fact_count"]
+
+    return {
+        "schema_version": "dgsi-l1-review-receipt-batch-audit.v1",
+        "decision": "RECEIPTS_BOUND_REVIEWER_AUTHENTICATION_PENDING",
+        "collection_id": collection["collection_id"],
+        "packet_count": len(packets_by_id),
+        "receipt_count": len(receipt_by_id),
+        "packet_binding_valid_count": len(packets_by_id),
+        "source_binding_valid_count": len(packets_by_id),
+        "adjudication_status_counts": dict(sorted(adjudication.items())),
+        "secure_adjudication_required_count": decisions.count("NEEDS_SECURE_ADJUDICATION"),
+        "reviewer_authentication_pending_count": decisions.count(
+            "AWAITING_INDEPENDENT_REVIEWER_AUTHENTICATION"
+        ),
+        "aggregate_source_card_binding_count": source_card_count,
+        "l1_experiment_approval_count": 0,
+        "gold_eligible_count": 0,
+        "training_authorized": False,
+        "note": (
+            "Complete receipt coverage and immutable binding do not prove reviewer "
+            "identity/independence, source rights, or semantic approval."
+        ),
+    }
