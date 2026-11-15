@@ -15,6 +15,8 @@ The current LLM-facing contracts are:
 - [L1 task packet schema](resources/l1_task_packet.schema.json)
 - [L1 collection/split manifest schema](resources/l1_task_packet_collection.schema.json)
 - [First L1 literature-derived synthetic pilot](examples/l1_literature_synthetic_task_packets_v0.1.json)
+- [L1 pilot coverage and family grouping](docs/L1_LITERATURE_PILOT_COVERAGE.md)
+- [L1 pilot machine-readable coverage manifest](examples/l1_literature_pilot_coverage_v0.1.json)
 - [Controlled SFT effectiveness protocol](docs/CONTROLLED_SFT_EFFECTIVENESS_PROTOCOL.md)
 - [History Context coverage matrix](examples/history_context_coverage_matrix_v0.1.json)
 - [L1 target-quality review rubric](docs/L1_TARGET_QUALITY_REVIEW_RUBRIC.md)
