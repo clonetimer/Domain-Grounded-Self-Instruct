@@ -205,6 +205,24 @@ def validate_l1_task_packet(
         _fail("UNRESOLVED_L0_SOURCE_REFERENCE")
     cards = [cards_by_id[ref] for ref in refs]
 
+    history_source_refs = {
+        source_ref
+        for item in packet["history_context"]["items"]
+        for source_ref in item["source_refs"]
+    }
+    if history_source_refs - set(cards_by_id):
+        _fail("UNRESOLVED_HISTORY_SOURCE_REFERENCE")
+    if any(
+        cards_by_id[source_ref]["source_class"] not in {
+            "PUBLIC_FLIGHT_REPORT", "PUBLIC_GROUND_TEST_REPORT",
+            "PUBLIC_ENGINEERING_TEST", "PUBLIC_EXPERT_SYSTEM_STUDY"
+        }
+        or cards_by_id[source_ref]["knowledge_source_not_event"]
+        for source_ref in history_source_refs
+    ):
+        _fail("HISTORY_SOURCE_NOT_EVENT_OR_PUBLIC")
+    allowed_refs = set(refs) | history_source_refs
+
     track = packet["track"]
     synthetic = packet["synthetic_provenance"]
     if track == "LITERATURE_DERIVED_SYNTHETIC":
@@ -240,7 +258,6 @@ def validate_l1_task_packet(
         }
         if not required_paths.issubset(generated_paths):
             _fail("SYNTHETIC_INPUT_FIELD_PROVENANCE_INCOMPLETE")
-        allowed_refs = set(refs)
         for item in synthetic["generated_fields"]:
             if set(item["source_fact_refs"]) - allowed_refs:
                 _fail("SYNTHETIC_FIELD_SOURCE_REFERENCE_UNRESOLVED")
