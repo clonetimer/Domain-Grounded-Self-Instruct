@@ -13,7 +13,8 @@
     "input",
     "expected_output",
     "provenance",
-    "review"
+    "review",
+    "internal_review"
   ],
   "properties": {
     "schema_version": {
@@ -414,12 +415,14 @@
       "additionalProperties": false,
       "required": [
         "disposition",
-        "diagnostic_summary",
+        "phenomenon_analysis",
         "machine_result_interpretation",
-        "fault_source_assessment",
+        "cause_localization",
         "evidence_assessment",
         "uncertainty",
-        "recommended_next_steps"
+        "disposal_status",
+        "disposal_measures",
+        "follow_up_actions"
       ],
       "properties": {
         "disposition": {
@@ -432,18 +435,23 @@
             "NO_FAULT_INDICATED"
           ]
         },
-        "diagnostic_summary": {
-          "type": "string"
+        "phenomenon_analysis": {
+          "type": "string",
+          "minLength": 1
         },
         "machine_result_interpretation": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
-        "fault_source_assessment": {
+        "cause_localization": {
           "type": "object",
+          "additionalProperties": false,
           "required": [
             "status",
             "candidates",
-            "affected_components"
+            "affected_components",
+            "certainty",
+            "mechanism_summary"
           ],
           "properties": {
             "status": {
@@ -458,10 +466,12 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "required": [
                   "component",
                   "fault_mode",
-                  "supporting_refs"
+                  "supporting_refs",
+                  "limitations"
                 ],
                 "properties": {
                   "component": {
@@ -482,8 +492,7 @@
                       "type": "string"
                     }
                   }
-                },
-                "additionalProperties": false
+                }
               }
             },
             "affected_components": {
@@ -491,12 +500,24 @@
               "items": {
                 "type": "string"
               }
+            },
+            "certainty": {
+              "enum": [
+                "CONFIRMED",
+                "MOST_LIKELY",
+                "CANDIDATE",
+                "UNRESOLVED",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "mechanism_summary": {
+              "type": "string"
             }
-          },
-          "additionalProperties": false
+          }
         },
         "evidence_assessment": {
           "type": "object",
+          "additionalProperties": false,
           "required": [
             "supporting_refs",
             "contradicting_refs",
@@ -521,13 +542,13 @@
                 "type": "string"
               }
             }
-          },
-          "additionalProperties": false
+          }
         },
         "historical_experience_relevance": {
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "required": [
               "case_ref",
               "relevance",
@@ -546,12 +567,12 @@
                   "type": "string"
                 }
               }
-            },
-            "additionalProperties": false
+            }
           }
         },
         "uncertainty": {
           "type": "object",
+          "additionalProperties": false,
           "required": [
             "level",
             "reasons"
@@ -571,13 +592,51 @@
                 "type": "string"
               }
             }
-          },
-          "additionalProperties": false
+          }
         },
-        "recommended_next_steps": {
+        "disposal_status": {
+          "enum": [
+            "RECORDED",
+            "NOT_RECORDED",
+            "RECOMMENDED_ONLY",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "disposal_measures": {
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "measure",
+              "measure_type",
+              "evidence_refs"
+            ],
+            "properties": {
+              "measure": {
+                "type": "string"
+              },
+              "measure_type": {
+                "enum": [
+                  "EXECUTED",
+                  "PLANNED",
+                  "RECOMMENDED"
+                ]
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "follow_up_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
             "required": [
               "action",
               "rationale",
@@ -597,8 +656,7 @@
                   "LOW"
                 ]
               }
-            },
-            "additionalProperties": false
+            }
           }
         },
         "report_text": {
@@ -679,6 +737,60 @@
         }
       },
       "additionalProperties": false
+    },
+    "internal_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "not_for_sft",
+        "curator_prompts",
+        "alternative_hypotheses_to_check",
+        "counterexamples",
+        "reviewer_questions",
+        "quality_flags"
+      ],
+      "properties": {
+        "not_for_sft": {
+          "const": true
+        },
+        "curator_prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "alternative_hypotheses_to_check": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counterexamples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "REVIEWED",
+            "RESOLVED"
+          ]
+        }
+      }
     }
   }
 }

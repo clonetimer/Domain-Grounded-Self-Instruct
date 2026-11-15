@@ -93,7 +93,7 @@ class SftLineageTests(unittest.TestCase):
         b["messages"][1]["content"] = a["messages"][1]["content"]
         b["case_ref"] = a["case_ref"]
         target = json.loads(b["messages"][2]["content"])
-        target["diagnostic_summary"] += " [SYNTHETIC contradictory expert draft]"
+        target["phenomenon_analysis"] += " [SYNTHETIC contradictory expert draft]"
         b["messages"][2]["content"] = json.dumps(target, ensure_ascii=False)
         self.assert_rejected([a, b], "CONFLICTING_TARGETS_FOR_IDENTICAL_PROMPT")
 

@@ -33,7 +33,7 @@ class EvidenceReferenceIntegrityTests(unittest.TestCase):
 
     def test_fabricated_candidate_supporting_ref_is_rejected(self):
         x = self.case()
-        x["expected_output"]["fault_source_assessment"]["candidates"][0]["supporting_refs"].append("SYNTHETIC-ABSENT")
+        x["expected_output"]["cause_localization"]["candidates"][0]["supporting_refs"].append("SYNTHETIC-ABSENT")
         self.reject(x, "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE")
 
     def test_duplicate_machine_finding_id_is_rejected(self):

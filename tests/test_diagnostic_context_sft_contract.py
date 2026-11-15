@@ -36,8 +36,8 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertTrue(case["input"]["diagnostic_logs"])
         self.assertTrue(case["input"]["historical_cases"])
         self.assertTrue(case["input"]["knowledge_evidence"])
-        self.assertIn("fault_source_assessment", case["expected_output"])
-        self.assertIn("affected_components", case["expected_output"]["fault_source_assessment"])
+        self.assertIn("cause_localization", case["expected_output"])
+        self.assertIn("affected_components", case["expected_output"]["cause_localization"])
         self.assertIn("uncertainty", case["expected_output"])
         self.assertEqual(case["review"]["status"], "DRAFT")
         self.assertIn("hypothetical", case["provenance"]["generation_method"])
@@ -62,7 +62,7 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
         finding = case["input"]["machine_diagnosis"]["findings"][0]
         self.assertEqual(finding["score_semantics"], "uncalibrated ranking score; not a probability")
-        self.assertEqual(case["expected_output"]["fault_source_assessment"]["status"], "CANDIDATE_ONLY")
+        self.assertEqual(case["expected_output"]["cause_localization"]["status"], "CANDIDATE_ONLY")
 
     def test_historical_unresolved_case_remains_unresolved(self):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
@@ -144,6 +144,72 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
         case["input"]["analysis_cutoff"] = "2026-04-12T09:10:00"
         with self.assertRaisesRegex(DiagnosticContextValidationError, "must include a timezone"):
+            validate_diagnostic_case(case)
+
+    def test_internal_review_prompts_are_not_serialized_into_sft(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        example = load_json("examples/diagnostic_context_sft_illustrative.json")
+        prompt = example["messages"][1]["content"]
+        target = example["messages"][2]["content"]
+        for note in case["internal_review"]["curator_prompts"] + case["internal_review"]["reviewer_questions"]:
+            self.assertNotIn(note, prompt)
+            self.assertNotIn(note, target)
+        self.assertNotIn("internal_review", prompt)
+        self.assertNotIn("internal_review", target)
+
+    def test_report_contains_only_conclusion_fields_and_distinguishes_disposal(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        target = case["expected_output"]
+        self.assertIn("phenomenon_analysis", target)
+        self.assertIn("cause_localization", target)
+        self.assertIn("disposal_status", target)
+        self.assertIn("disposal_measures", target)
+        self.assertNotIn("curator_prompts", target)
+        self.assertNotIn("reviewer_questions", target)
+        self.assertNotIn("alternative_hypotheses_to_check", target)
+
+    def test_not_recorded_disposal_cannot_contain_invented_measures(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_measures"] = [{
+            "measure": "切换备份飞轮",
+            "measure_type": "EXECUTED",
+            "evidence_refs": ["LOG-01"],
+        }]
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "NOT_RECORDED disposal"):
+            validate_diagnostic_case(case)
+
+    def test_recommended_follow_up_is_not_historical_disposal(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_status"] = "NOT_RECORDED"
+        case["expected_output"]["disposal_measures"] = []
+        case["expected_output"]["follow_up_actions"] = [{
+            "action": "检查飞轮独立状态",
+            "rationale": "补充执行机构证据",
+            "priority": "HIGH",
+        }]
+        self.assertNotIn("NOT_GOLD_REVIEWED", [])
+        validate_diagnostic_case(case)
+
+    def test_executed_disposal_requires_a_source_reference(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_status"] = "RECORDED"
+        case["expected_output"]["disposal_measures"] = [{
+            "measure": "已执行反作用轮构型切换",
+            "measure_type": "EXECUTED",
+            "evidence_refs": [],
+        }]
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "EXECUTED_DISPOSAL_REQUIRES_SOURCE_EVIDENCE"):
+            validate_diagnostic_case(case)
+
+    def test_disposal_measure_cannot_cite_unprovided_log(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_status"] = "RECORDED"
+        case["expected_output"]["disposal_measures"] = [{
+            "measure": "已执行反作用轮构型切换",
+            "measure_type": "EXECUTED",
+            "evidence_refs": ["LOG-POST-EVENT-NOT-SUPPLIED"],
+        }]
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE"):
             validate_diagnostic_case(case)
 
 

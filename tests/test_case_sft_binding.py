@@ -86,7 +86,7 @@ class CaseSftBindingTests(unittest.TestCase):
     def test_assistant_target_tampering(self):
         case, sft = pair()
         target = json.loads(sft["messages"][2]["content"])
-        target["fault_source_assessment"]["status"] = "SUPPORTED"
+        target["cause_localization"]["status"] = "SUPPORTED"
         sft["messages"][2]["content"] = json.dumps(target, ensure_ascii=False)
         self.reject(case, sft, "ASSISTANT_TARGET_MISMATCH")
 

@@ -140,9 +140,9 @@
   },
   "expected_output": {
     "disposition": "ACCEPT_WITH_QUALIFICATION",
-    "diagnostic_summary": "当前证据支持将反作用飞轮2的力矩权限下降列为重点候选，但尚不足以确认单机故障。",
-    "machine_result_interpretation": "算法输出提供了故障候选和控制指令响应残差线索；0.82为未校准排序分数，不能解释为82%的故障概率。",
-    "fault_source_assessment": {
+    "phenomenon_analysis": "在计划姿态机动期间，姿态跟踪误差超过运行告警阈值；上游算法同时报告反作用飞轮2力矩权限下降候选及控制指令响应残差升高。现有日志未记录同期母线欠压告警。",
+    "machine_result_interpretation": "上游算法提供了飞轮2力矩权限下降候选及控制响应残差异常。0.82为未校准排序分数，不代表故障概率；残差异常本身不能唯一确定故障源。",
+    "cause_localization": {
       "status": "CANDIDATE_ONLY",
       "candidates": [
         {
@@ -161,7 +161,9 @@
       ],
       "affected_components": [
         "ADCS control loop"
-      ]
+      ],
+      "certainty": "CANDIDATE",
+      "mechanism_summary": "现有结果支持将反作用飞轮2力矩权限下降列为候选原因，但尚无独立执行机构输出证据确认该机理。"
     },
     "evidence_assessment": {
       "supporting_refs": [
@@ -196,7 +198,9 @@
         "历史案例结论未确认"
       ]
     },
-    "recommended_next_steps": [
+    "disposal_status": "NOT_RECORDED",
+    "disposal_measures": [],
+    "follow_up_actions": [
       {
         "action": "核查反作用飞轮2的独立状态与执行机构遥测证据",
         "rationale": "区分控制指令异常与实际执行能力下降",
@@ -208,7 +212,7 @@
         "priority": "MEDIUM"
       }
     ],
-    "report_text": "示例报告：当前结果支持将反作用飞轮2力矩权限下降列为重点候选，尚不能确诊。建议先核查独立执行机构证据，并结合相同工况健康基线复核。"
+    "report_text": "计划姿态机动期间出现姿态跟踪误差告警。上游算法将反作用飞轮2力矩权限下降列为候选，并检测到控制响应残差升高；现有证据尚不足以确认飞轮单机故障。当前材料未记录实际处置措施。"
   },
   "provenance": {
     "source_group": "illustrative-group-001",
@@ -228,5 +232,28 @@
       "纯示意案例，用于说明输入输出边界，不可作为训练样本"
     ],
     "reviewed_at": null
+  },
+  "internal_review": {
+    "not_for_sft": true,
+    "curator_prompts": [
+      "不要把未校准排序分数解释为故障概率。",
+      "不要把控制响应残差单独作为唯一故障源证据。"
+    ],
+    "alternative_hypotheses_to_check": [
+      "检查控制指令、执行机构实际输出与状态反馈之间是否存在一致性偏差。"
+    ],
+    "counterexamples": [
+      "同类残差也可能由控制模式变化或状态估计偏差引起；当前示例未提供足以排除这些情况的证据。"
+    ],
+    "reviewer_questions": [
+      "是否有独立飞轮输出或状态测量证据？",
+      "该历史未确认案例是否与当前构型具有足够可比性？"
+    ],
+    "quality_flags": [
+      "HYPOTHETICAL_ONLY",
+      "NOT_GOLD",
+      "NO_HISTORICAL_DISPOSAL_RECORDED"
+    ],
+    "status": "OPEN"
   }
 }

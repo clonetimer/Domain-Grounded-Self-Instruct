@@ -77,7 +77,7 @@ class StandaloneSftEvidenceTests(unittest.TestCase):
         example = synthetic_example()
         edit_target(
             example,
-            lambda t: t["fault_source_assessment"]["candidates"][0]["supporting_refs"].append("FUTURE-REF"),
+            lambda t: t["cause_localization"]["candidates"][0]["supporting_refs"].append("FUTURE-REF"),
         )
         self.reject(example, "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE")
 

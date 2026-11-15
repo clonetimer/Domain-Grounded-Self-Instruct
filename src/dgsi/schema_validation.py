@@ -15,6 +15,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 _SCHEMA_FILES = {
     "case": "diagnostic_case.schema.json",
     "sft": "diagnostic_sft.schema.json",
+    "source_fact_card": "source_fact_card.schema.json",
 }
 _SCHEMA_ROOT = Path(__file__).resolve().parents[2] / "resources"
 
@@ -23,7 +24,7 @@ class SchemaContractError(ValueError):
     """Schema violation with a payload-free error code."""
 
 
-@lru_cache(maxsize=2)
+@lru_cache(maxsize=3)
 def _validator(kind: str) -> Draft202012Validator:
     try:
         name = _SCHEMA_FILES[kind]

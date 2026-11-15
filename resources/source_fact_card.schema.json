@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/source_fact_card.schema.json",
+  "title": "DGSI L0 Source Fact Card v1",
+  "description": "Source-grounded fact inventory for a spacecraft fault case. Not a diagnosis-context Case and not an SFT example.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "source_class",
+    "source_reference",
+    "phenomenon_analysis",
+    "cause_localization",
+    "disposal_status",
+    "disposal_measures",
+    "available_materials",
+    "internal_review",
+    "sft_eligible",
+    "event_status",
+    "knowledge_source_not_event",
+    "event_family_id",
+    "event_episode_id",
+    "migration_assessment",
+    "missing_materials"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-source-fact-card.v1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_class": {
+      "enum": [
+        "USER_SUPPLIED_CASE",
+        "PUBLIC_FLIGHT_REPORT",
+        "PUBLIC_GROUND_TEST_REPORT",
+        "PUBLIC_ENGINEERING_TEST",
+        "PUBLIC_EXPERT_SYSTEM_STUDY",
+        "LITERATURE_DERIVED_SYNTHETIC",
+        "SYNTHETIC_FIXTURE"
+      ]
+    },
+    "source_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_locator",
+        "source_title"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publication_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "page_or_section": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publication_year": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        "ntrs_accession_year": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        "publication_metadata_note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "phenomenon_analysis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cause_localization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_statement",
+        "certainty_in_source",
+        "fault_source",
+        "affected_components"
+      ],
+      "properties": {
+        "source_statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "certainty_in_source": {
+          "enum": [
+            "EXPLICIT_CONFIRMED",
+            "EXPLICIT_MOST_LIKELY",
+            "EXPLICIT_CANDIDATE",
+            "NOT_STATED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "fault_source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "affected_components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mechanism_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "disposal_status": {
+      "enum": [
+        "SOURCE_RECORDS_MEASURE",
+        "SOURCE_RECORDS_CONDITIONAL_PROCEDURE",
+        "SOURCE_TEXT_AMBIGUOUS",
+        "NOT_RECORDED",
+        "NOT_APPLICABLE",
+        "SOURCE_RECORDS_CONDITIONAL_MEASURE",
+        "SOURCE_RECORDS_PLANNED_PROCEDURE"
+      ]
+    },
+    "disposal_measures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "available_materials": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "properties": {
+        "upstream_ml_result": {
+          "type": "boolean"
+        },
+        "diagnostic_logs": {
+          "type": "boolean"
+        },
+        "spacecraft_context": {
+          "type": "boolean"
+        },
+        "operational_context": {
+          "type": "boolean"
+        },
+        "historical_cases": {
+          "type": "boolean"
+        },
+        "expert_adjudicated_target": {
+          "type": "boolean"
+        }
+      }
+    },
+    "internal_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "not_for_sft",
+        "reviewer_questions",
+        "quality_flags"
+      ],
+      "properties": {
+        "not_for_sft": {
+          "const": true
+        },
+        "reviewer_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "curator_prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sft_eligible": {
+      "const": false
+    },
+    "event_family_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pseudonymous event family; use the same value for multiple observations from one incident/report so they remain grouped."
+    },
+    "event_status": {
+      "enum": [
+        "FLIGHT_EVENT",
+        "GROUND_TEST_EVENT",
+        "KNOWLEDGE_SOURCE_NOT_EVENT",
+        "USER_REPORTED_CASE",
+        "UNCLASSIFIED_SOURCE"
+      ]
+    },
+    "knowledge_source_not_event": {
+      "type": "boolean"
+    },
+    "event_episode_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Distinct unit/event episode within an event family. Multiple episodes may share event_family_id."
+    },
+    "disposal_source_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "missing_materials": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "migration_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tier",
+        "rationale",
+        "constraints"
+      ],
+      "properties": {
+        "tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}
