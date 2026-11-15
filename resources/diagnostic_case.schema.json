@@ -416,6 +416,7 @@
         "disposition",
         "phenomenon_analysis",
         "cause_localization",
+        "disposal_status",
         "disposal_measures",
         "evidence_assessment",
         "uncertainty"
@@ -564,6 +565,14 @@
               }
             }
           }
+        },
+        "disposal_status": {
+          "enum": [
+            "RECORDED",
+            "NOT_RECORDED",
+            "NOT_APPLICABLE"
+          ],
+          "description": "Whether an actual measure is documented in the source. Do not replace missing historical action with a newly invented recommendation."
         }
       }
     },
