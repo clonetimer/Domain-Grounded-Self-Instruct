@@ -421,11 +421,18 @@ class L1TaskPacketTests(unittest.TestCase):
         variant["case"]["provenance"]["diagnosis_run_refs"] = ["SYNTHETIC-MLRUN-SEASAT-VARIANT"]
         collection["packets"].append(variant)
         collection["packet_count"] = len(collection["packets"])
+        # This fixture tests leakage after review; the statuses below are
+        # synthetic test metadata, not real expert approvals.
+        collection["data_status"] = "APPROVED_FOR_L1_EXPERIMENT"
+        for packet in collection["packets"]:
+            packet["review"]["status"] = "APPROVED_FOR_L1_EXPERIMENT"
         collection["split_assignments"] = [
-            {"task_id": original["task_id"], "split": "train"},
-            {"task_id": collection["packets"][1]["task_id"], "split": "validation"},
-            {"task_id": collection["packets"][2]["task_id"], "split": "test"},
-            {"task_id": variant["task_id"], "split": "test"},
+            {"task_id": packet["task_id"], "split": (
+                "train" if packet["task_id"] == original["task_id"] else
+                "validation" if packet["task_id"] == variant["task_id"] else
+                "test"
+            )}
+            for packet in collection["packets"]
         ]
         with self.assertRaisesRegex(L1TaskPacketError, "L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS"):
             validate_l1_task_packet_collection(collection, source_fact_cards=literature["cards"])
