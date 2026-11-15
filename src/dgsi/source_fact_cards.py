@@ -25,13 +25,11 @@ def validate_source_fact_card(card: dict[str, Any]) -> list[str]:
 
     domain_review_status = card["domain_review_status"]
     review_digest = card["domain_review_evidence_sha256"]
-    if domain_review_status == "DOMAIN_EXPERT_CONFIRMED":
+    if domain_review_status in {"DOMAIN_EXPERT_CONFIRMED", "DOMAIN_EXPERT_REJECTED"}:
         if not review_digest:
-            raise SourceFactCardValidationError("DOMAIN_EXPERT_CONFIRMATION_REQUIRES_REVIEW_EVIDENCE_DIGEST")
+            raise SourceFactCardValidationError("DOMAIN_EXPERT_DECISION_REQUIRES_REVIEW_EVIDENCE_DIGEST")
     elif review_digest is not None:
-        raise SourceFactCardValidationError("UNCONFIRMED_SOURCE_CARD_CANNOT_CARRY_CONFIRMATION_DIGEST")
-    if domain_review_status == "DOMAIN_EXPERT_REJECTED" and review_digest is None:
-        raise SourceFactCardValidationError("DOMAIN_EXPERT_REJECTION_REQUIRES_REVIEW_EVIDENCE_DIGEST")
+        raise SourceFactCardValidationError("PENDING_SOURCE_CARD_CANNOT_CARRY_DOMAIN_REVIEW_DIGEST")
 
     status = card["disposal_status"]
     measures = card["disposal_measures"]
