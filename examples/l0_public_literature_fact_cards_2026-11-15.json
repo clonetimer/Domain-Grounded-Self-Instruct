@@ -1,0 +1,869 @@
+{
+  "schema_version": "dgsi-source-fact-card-collection.v1",
+  "review_basis": "DGSI_word2_文献迁移审校与批注版.docx; DGSI_两份Word审核总意见.md",
+  "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+  "event_family_policy": "TROPICS payload outcomes are separate episodes under one shared event family.",
+  "publication_metadata_policy": "publication_year and ntrs_accession_year are separate; exact publication_date remains null when not verified.",
+  "cards": [
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-SEASAT-SLIPRING-001",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "SEASAT-SLIPRING-1978",
+      "event_episode_id": "SEASAT-SLIPRING-1978",
+      "source_reference": {
+        "source_id": "NASA-NTRS-20040171604",
+        "source_locator": "NASA NTRS report summary",
+        "source_title": "Report of the Seasat Failure Review Board",
+        "publication_date": null,
+        "publication_year": 1978,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.gov/20040171604.pdf",
+        "page_or_section": "report summary"
+      },
+      "phenomenon_analysis": "SEASAT在轨运行105天后失效，Agena母线电源丢失；调查报告将失效与连接旋转太阳翼和电源分系统的滑环组件发生渐进性短路联系起来。",
+      "cause_localization": {
+        "source_statement": "调查报告认为相邻滑环电刷组件间起弧是最可能原因；触发方式可能包括导线与电刷接触、电刷间接触或污染物跨接相反极性部件。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "太阳翼旋转接口滑环组件内相邻电刷组件之间的电弧/短路路径",
+        "affected_components": [
+          "Agena母线电源",
+          "旋转太阳翼电源连接通路"
+        ],
+        "mechanism_notes": [
+          "报告对起弧触发方式保留多个候选，不能把碎屑认定为唯一触发机制。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "CONDITIONAL_MECHANISM",
+        "rationale": "可用于SADA滑环/电刷风险识别；不能据此确证用户案例的碎屑起弧路径。",
+        "constraints": [
+          "核实电刷极性、滑环几何、绝缘结构及短路时序。",
+          "用户案例须有碎屑、弧光或短路路径直接证据。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "REAL_FLIGHT_FAILURE_REVIEW",
+          "CAUSE_MOST_LIKELY_NOT_UNIQUE_TRIGGER"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-SLIPRING-TVAC-002",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-SLIPRING-QUALIFICATION",
+      "event_episode_id": "TROPICS-FIRST-FLIGHT-PAYLOAD-TVAC",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, pp.3–4",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, pp.3–4"
+      },
+      "phenomenon_analysis": "首个飞行载荷在热真空校准期间出现UART CRC错误；线束走线调整后问题仍存在，旋转状态下接触电阻在不同湿度环境中差异明显。",
+      "cause_localization": {
+        "source_statement": "调查认为间断可能发生在滑环，讨论了stick-slip及接触电阻波动。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "TROPICS载荷滑环旋转接触界面",
+        "affected_components": [
+          "载荷UART串行通信链路"
+        ],
+        "mechanism_notes": [
+          "stick-slip为可能机制，不等于已确认的碎屑短路。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "飞行滑环筛选、重新加工、润滑、跑合、检查碎屑、清洁和复测；重新装配后未再检测到CRC错误。"
+      ],
+      "migration_assessment": {
+        "tier": "DIAGNOSTIC_METHOD_ONLY",
+        "rationale": "仅迁移接触可靠性与地面资格测试诊断方法。",
+        "constraints": [
+          "不得迁移地面重工、润滑和清洁动作作为在轨处置。",
+          "CRC接触间断与SADA功率短路不是同一现象。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "线束调整未消除CRC，不能写为最终原因。",
+          "湿度和stick-slip解释保留可能性边界。"
+        ],
+        "quality_flags": [
+          "GROUND_QUALIFICATION_EVENT",
+          "NOT_FLIGHT_FAILURE",
+          "LIKELY_SLIPRING_DISCONTINUITY"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-FLIGHT-CRC-003-A",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
+      "event_episode_id": "TROPICS-FLIGHT-PAYLOAD-A",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, p.4",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, p.4"
+      },
+      "phenomenon_analysis": "2023年7月，TROPICS其中一台载荷出现CRC错误；通过反向旋转载荷获得成功缓解并继续工作。",
+      "cause_localization": {
+        "source_statement": "论文将CRC错误与前述滑环问题联系，但该飞行单元的具体失效机理未完全解决。",
+        "certainty_in_source": "EXPLICIT_CANDIDATE",
+        "fault_source": "TROPICS载荷滑环/旋转接触界面（候选）",
+        "affected_components": [
+          "该载荷串行通信链路"
+        ],
+        "mechanism_notes": [
+          "反向旋转是该台载荷的历史缓解结果，不是根因确证。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "该台载荷通过反向旋转获得缓解并继续工作。"
+      ],
+      "migration_assessment": {
+        "tier": "SPECIFIC_UNIT_ONLY",
+        "rationale": "仅限该台载荷的在轨运控经验。",
+        "constraints": [
+          "与另一台载荷拆分为独立episode。",
+          "反向旋转不能作为SADA或其他卫星通用操作。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "该缓解结果不能单独确认stick-slip或碎屑为根因。"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_OPERATION",
+          "UNIT_A_RECOVERED_AFTER_REVERSE_ROTATION",
+          "ROOT_CAUSE_NOT_FULLY_RESOLVED"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-FLIGHT-CRC-003-B",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
+      "event_episode_id": "TROPICS-FLIGHT-PAYLOAD-B",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, p.4",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, p.4"
+      },
+      "phenomenon_analysis": "2023年7月，另一台TROPICS载荷出现CRC错误；问题持续恶化，最终载荷不再工作。",
+      "cause_localization": {
+        "source_statement": "论文将CRC错误与前述滑环问题联系，但该飞行单元的具体失效机理未完全解决。",
+        "certainty_in_source": "EXPLICIT_CANDIDATE",
+        "fault_source": "TROPICS载荷滑环/旋转接触界面（候选）",
+        "affected_components": [
+          "该载荷串行通信链路"
+        ],
+        "mechanism_notes": [
+          "另一台载荷的反向旋转缓解结果不得移植到本episode。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "SPECIFIC_UNIT_ONLY",
+        "rationale": "仅记录该台载荷的恶化与停止工作结果。",
+        "constraints": [
+          "与另一台载荷共用事件族但独立保存结局。",
+          "无来源处置记录则保持NOT_RECORDED。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "不得把另一台载荷的反向旋转缓解归到本台载荷。"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_OPERATION",
+          "UNIT_B_DEGRADED_AND_PAYLOAD_CEASED",
+          "NO_DISPOSAL_RECORDED"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "event_episode_id": "TROPICS-PATHFINDER-SPACECRAFT",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, p.4",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, p.4"
+      },
+      "phenomenon_analysis": "Pathfinder在轨运行两年多后先出现少量CRC错误；数周后异常导致SADA驱动、星敏感器和载荷出现功能异常。",
+      "cause_localization": {
+        "source_statement": "作者认为滑环碎屑造成12V母线与串行线短接，比三个独立破坏性SEL事件同时发生更可能。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "滑环碎屑可能引起12V母线与串行通信线之间跨网短接",
+        "affected_components": [
+          "载荷LVDS接收器",
+          "总线FPGA I/O bank",
+          "载荷接口",
+          "星敏感器接口",
+          "SADA驱动接口"
+        ],
+        "mechanism_notes": [
+          "这是作者的较可能解释，不是所有受影响接口的故障源。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "COMMON_CAUSE_ANALYSIS",
+        "rationale": "条件迁移：用于跨分系统共因分析，不回填为用户SADA确诊根因。",
+        "constraints": [
+          "须核对电路拓扑、极性及时间共因关系。",
+          "不能把所有受影响部件写成故障源。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "是否有拆解/碎屑检查或电气短接直接证据？"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_ANOMALY",
+          "COMMON_CAUSE_HYPOTHESIS",
+          "AUTHOR_SAYS_MORE_LIKELY_NOT_CERTAIN"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-LUNAR-ORBITER-HELIX-005",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
+      "event_episode_id": "LUNAR-ORBITER-III-TWTA-FIRST-TURNON",
+      "source_reference": {
+        "source_id": "NASA-CR-66461",
+        "source_locator": "NASA CR-66461, PDF p.173 (printed p.165), High TWTA Helix Current at First Turn-On",
+        "source_title": "Lunar Orbiter III Mission System Performance",
+        "publication_date": null,
+        "publication_year": 1967,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+        "page_or_section": "PDF p.173, printed p.165"
+      },
+      "phenomenon_analysis": "Lunar Orbiter III首次启动TWTA时，螺旋线电流遥测指示为8.8 mA，约1.5分钟后下降至5.1 mA并保持；正常启动值约5.75 mA。",
+      "cause_localization": {
+        "source_statement": "报告保留发射机械应力经温度循环释放，或发射后内部压力缓慢衰减两种解释。",
+        "certainty_in_source": "NOT_STATED",
+        "fault_source": "首次启动高螺旋线电流的成因未唯一确定",
+        "affected_components": [
+          "TWTA启动运行状态"
+        ],
+        "mechanism_notes": [
+          "两种原因解释均未被报告选定为唯一确诊根因。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_PLANNED_PROCEDURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "报告提出将制定发射后TWTA启动时间约束，以留出内部放气时间；未说明已经实施。"
+      ],
+      "migration_assessment": {
+        "tier": "NOT_DIRECTLY_TRANSFERABLE",
+        "rationale": "不直接迁移为Ku-TWTA EPDF根因或已实施处置。",
+        "constraints": [
+          "首次开机短时异常与运行数分钟后自动关机不同。",
+          "核对螺流定义及保护逻辑。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "启动时间约束是拟制定措施，不是已实施规程。"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_TELEMETRY_SUMMARY",
+          "MULTIPLE_CAUSE_HYPOTHESES",
+          "NO_UNIQUE_ROOT_CAUSE"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-LUNAR-ORBITER-POWER-MONITOR-006",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
+      "event_episode_id": "LUNAR-ORBITER-III-POWER-MONITOR-TELEMETRY",
+      "source_reference": {
+        "source_id": "NASA-CR-66461",
+        "source_locator": "NASA CR-66461, PDF p.173 (printed p.165), TWTA Power Output Variations",
+        "source_title": "Lunar Orbiter III Mission System Performance",
+        "publication_date": null,
+        "publication_year": 1967,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+        "page_or_section": "PDF p.173, printed p.165"
+      },
+      "phenomenon_analysis": "TWTA输出功率遥测指示对温度敏感；早期轨道中功率指示约从开机时10 W变化到关机时16 W。",
+      "cause_localization": {
+        "source_statement": "报告认为功率监测二极管整流特性随温度变化，导致遥测指示变化。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "功率监测二极管测量链温漂",
+        "affected_components": [
+          "TWTA输出功率遥测指示链"
+        ],
+        "mechanism_notes": [
+          "该结论针对遥测指示变化，不证明真实RF输出功率同幅度变化。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "MEASUREMENT_CHAIN_COUNTEREXAMPLE",
+        "rationale": "作为测量链与真实功率链的鉴别反例。",
+        "constraints": [
+          "先确认用户功率数据来自内部遥测还是独立RF测量。",
+          "需要独立功率计或地面复测。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "MEASUREMENT_CHAIN_EFFECT",
+          "NOT_CONFIRMED_RF_POWER_LOSS"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-CASSINI-RWA-DRAG-007",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2001",
+      "event_episode_id": "CASSINI-RWA-LOW-SPEED-2001",
+      "source_reference": {
+        "source_id": "NASA-LLIS-1416",
+        "source_locator": "NASA Lessons Learned 1416, Driving Event / Lessons Learned",
+        "source_title": "Cassini RWA Flight Anomaly Due to Extended Use at Slow Speed (2001)",
+        "publication_date": null,
+        "publication_year": 2001,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://llis.nasa.gov/lesson/1416",
+        "page_or_section": "Driving Event / Lessons Learned"
+      },
+      "phenomenon_analysis": "Cassini发射约三年后，一只反作用轮检测到高于正常水平的拖曳/阻力；相关科学观测暂停约9天。",
+      "cause_localization": {
+        "source_statement": "过量摩擦被认为与长期近零转速运行导致润滑剂分布变化有关，速度在零附近频繁振荡也可能有贡献。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "反作用轮轴承润滑状态退化/润滑剂分布变化",
+        "affected_components": [
+          "反作用轮组件",
+          "姿态控制指向性能"
+        ],
+        "mechanism_notes": [
+          "低速润滑剂重新分布不等于供油管路堵塞。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "提高轮速后润滑剂分布似乎恢复并消除拖曳异常；团队制定避免长期低速运行程序。"
+      ],
+      "migration_assessment": {
+        "tier": "CONDITIONAL_MECHANISM",
+        "rationale": "仅限润滑/拖曳机理条件迁移。",
+        "constraints": [
+          "需比较轮型、润滑结构、速度区间和运行历史。",
+          "升速方案不可直接用于用户动量轮。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "供油管路堵塞需要直接检查证据。"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_ANOMALY",
+          "LIKELY_LUBRICATION_MECHANISM",
+          "HARDWARE_COMPARABILITY_REQUIRED"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-ISEE-HPS-EXPERT-SYSTEM-008",
+      "source_class": "PUBLIC_EXPERT_SYSTEM_STUDY",
+      "event_status": "KNOWLEDGE_SOURCE_NOT_EVENT",
+      "knowledge_source_not_event": true,
+      "event_family_id": "ISEE-IUE-HPS-EXPERT-SYSTEM-STUDY",
+      "event_episode_id": "ISEE-IUE-KNOWLEDGE-CARD",
+      "source_reference": {
+        "source_id": "NASA-CR-180709",
+        "source_locator": "NASA-CR-180709, Appendix E, pp.E-6–E-12",
+        "source_title": "Satellite Operations Support Expert System Final Report",
+        "publication_date": null,
+        "publication_year": null,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": "本版未从原始NTRS元数据单独核定出版年份，保留空值。",
+        "source_url": "https://ntrs.nasa.gov/api/citations/19870016383/downloads/19870016383.pdf",
+        "page_or_section": "Appendix E, pp.E-6–E-12"
+      },
+      "phenomenon_analysis": "该报告是面向ISEE/IUE肼推进系统的地面运控专家系统可行性演示，列出多种诊断信息并指出不同部件故障可能产生重叠症状。",
+      "cause_localization": {
+        "source_statement": "报告指出过滤器堵塞与催化床失效等不同故障可能产生相似症状。",
+        "certainty_in_source": "NOT_APPLICABLE",
+        "fault_source": null,
+        "affected_components": [],
+        "mechanism_notes": [
+          "这是专家系统知识库/演示规则，不是实际在轨故障事件。"
+        ]
+      },
+      "disposal_status": "NOT_APPLICABLE",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "KNOWLEDGE_ONLY",
+        "rationale": "排除作为真实故障episode；保留为知识规则和症状重叠诊断来源。",
+        "constraints": [
+          "knowledge_source_not_event必须为true。",
+          "不得计入真实故障事件或事件型SFT。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "适合拆分为独立知识条目，不计为真实事件。"
+        ],
+        "quality_flags": [
+          "EXPERT_SYSTEM_FEASIBILITY_DEMONSTRATION",
+          "NOT_A_REAL_FLIGHT_INCIDENT",
+          "KNOWLEDGE_SOURCE_NOT_EVENT"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "event_episode_id": "NASA-22N-INJECTOR-PLUGGING",
+      "source_reference": {
+        "source_id": "NASA-TM-100232",
+        "source_locator": "NASA-TM-100232, pp.1, 5–6",
+        "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
+        "publication_date": null,
+        "publication_year": 1987,
+        "ntrs_accession_year": 1988,
+        "publication_metadata_note": "报告年份为1987；NTRS accession identifier对应1988年编目。",
+        "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+        "page_or_section": "pp.1, 5–6"
+      },
+      "phenomenon_analysis": "22 N肼推进器地面寿命试验运行约40小时后出现燃烧室压力振荡；60.2小时后试验因喷注管堵塞而终止。",
+      "cause_localization": {
+        "source_statement": "推进剂阀门Teflon阀座材料在试验加热过程后脱落并堵塞喷注管。",
+        "certainty_in_source": "EXPLICIT_CONFIRMED",
+        "fault_source": "推进剂阀门Teflon阀座材料脱落并堵塞喷注管",
+        "affected_components": [
+          "推进剂喷注管",
+          "推进剂供给通路"
+        ],
+        "mechanism_notes": [
+          "地面热灯处理和阀座材料脱落为特定试验故障链，不是用户低温结构损伤案例的同一机理。"
+        ]
+      },
+      "disposal_status": "NOT_APPLICABLE",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "NOT_DIRECTLY_TRANSFERABLE",
+        "rationale": "不适合迁移为用户2#推力器直接根因；保留为特定地面试验堵塞反例。",
+        "constraints": [
+          "不得将试验终止写成在轨恢复措施。",
+          "需比较阀门、喷注器结构及推进剂供给路径。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "与用户低温、推力降低、结构损伤情景不同。"
+        ],
+        "quality_flags": [
+          "GROUND_LIFE_TEST",
+          "NOT_FLIGHT_EVENT"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-NASA-HYDRAZINE-CATALYST-010",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "event_episode_id": "NASA-22N-CATALYST-CONTAMINATION",
+      "source_reference": {
+        "source_id": "NASA-TM-100232",
+        "source_locator": "NASA-TM-100232, pp.4–6",
+        "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
+        "publication_date": null,
+        "publication_year": 1987,
+        "ntrs_accession_year": 1988,
+        "publication_metadata_note": "报告年份为1987；NTRS accession identifier对应1988年编目。",
+        "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+        "page_or_section": "pp.4–6"
+      },
+      "phenomenon_analysis": "推进器拆解后的催化剂化学分析发现铁、镍金属污染；报告将污染追溯到受污染肼推进剂批次。",
+      "cause_localization": {
+        "source_statement": "化学分析确认催化剂中铁、镍污染，报告追溯至误混入试验罐的受污染肼推进剂。",
+        "certainty_in_source": "EXPLICIT_CONFIRMED",
+        "fault_source": "受污染肼推进剂中的金属杂质导致催化剂中毒",
+        "affected_components": [
+          "肼推进器催化床"
+        ],
+        "mechanism_notes": [
+          "催化剂中毒与同一试验的喷注管堵塞是不同问题，不得合并。"
+        ]
+      },
+      "disposal_status": "NOT_APPLICABLE",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "ALTERNATIVE_MECHANISM_ONLY",
+        "rationale": "仅作推进剂污染替代机制参考；用户案例没有推进剂污染证据。",
+        "constraints": [
+          "不得把催化剂中毒和喷注堵塞合并为单一根因。",
+          "不能用于用户案例确诊。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "用户案例是否有推进剂批次、污染物或催化剂拆解证据？"
+        ],
+        "quality_flags": [
+          "GROUND_LIFE_TEST",
+          "CATALYST_CHEMISTRY_EVIDENCE",
+          "DISTINCT_FROM_INJECTOR_BLOCKAGE"
+        ]
+      },
+      "sft_eligible": false
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "event_episode_id": "SPACEBORNE-SBAND-LNA-HYDROGEN",
+      "source_reference": {
+        "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+        "source_locator": "Article abstract, journal page",
+        "source_title": "某星载S频段线性化行波管放大器输出功率下降问题研究",
+        "publication_date": null,
+        "publication_year": 2026,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://kjdzjs.spacejournal.cn/article/doi/10.3969/j.issn.1674-7135.2026.02.007",
+        "page_or_section": "摘要"
+      },
+      "phenomenon_analysis": "某卫星整星转发器性能测试中，一台S频段行波管放大器输出功率下降约4 dB。",
+      "cause_localization": {
+        "source_statement": "地面排查将原因定位到线性化通道放大器两个微波模块内部的低噪声放大器芯片氢中毒。",
+        "certainty_in_source": "EXPLICIT_CONFIRMED",
+        "fault_source": "线性化通道放大器两个微波模块中的低噪声放大器芯片",
+        "affected_components": [
+          "S频段TWTA输出功率链路",
+          "转发器性能"
+        ],
+        "mechanism_notes": [
+          "根因位于线性化通道微波模块，不是行波管螺旋线、EPC或电缆/隔离器接口。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "更换为氢含量合格批次的同型号模块，地面试验验证后整机恢复正常。"
+      ],
+      "migration_assessment": {
+        "tier": "NOT_DIRECTLY_TRANSFERABLE",
+        "rationale": "不适合迁移为用户电缆/隔离器故障根因；可借鉴RF链路故障树覆盖方法。",
+        "constraints": [
+          "功率下降幅度接近不代表机理相同。",
+          "不得推定用户案例氢中毒或迁移地面换件方案。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "用户案例功率下降来自独立RF测量还是内部监测指示？"
+        ],
+        "quality_flags": [
+          "GROUND_SYSTEM_TEST",
+          "ROOT_CAUSE_CONFIRMED_IN_PUBLISHED_ABSTRACT",
+          "PUBLIC_ABSTRACT_ONLY"
+        ]
+      },
+      "sft_eligible": false
+    }
+  ]
+}
