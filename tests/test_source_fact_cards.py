@@ -12,6 +12,8 @@ from dgsi.source_fact_cards import (
 
 BASE = {
     "schema_version": "dgsi-source-fact-card.v1",
+    "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+    "domain_review_evidence_sha256": None,
     "case_id": "SYNTH-L0-001",
     "source_class": "SYNTHETIC_FIXTURE",
     "event_status": "UNCLASSIFIED_SOURCE",
@@ -188,6 +190,28 @@ class SourceFactCardTests(unittest.TestCase):
         card = next(item for item in payload["cards"] if item["case_id"] == "LIT-NASA-HYDRAZINE-INJECTOR-009")
         self.assertEqual(card["source_reference"]["publication_year"], 1987)
         self.assertEqual(card["source_reference"]["ntrs_accession_year"], 1988)
+
+    def test_domain_expert_confirmation_requires_separate_review_evidence_digest(self):
+        card = copy.deepcopy(BASE)
+        card["domain_review_status"] = "DOMAIN_EXPERT_CONFIRMED"
+        with self.assertRaisesRegex(SourceFactCardValidationError, "DOMAIN_EXPERT_DECISION_REQUIRES_REVIEW_EVIDENCE_DIGEST"):
+            validate_source_fact_card(card)
+        card["domain_review_evidence_sha256"] = "a" * 64
+        validate_source_fact_card(card)
+
+    def test_domain_expert_rejection_requires_separate_review_evidence_digest(self):
+        card = copy.deepcopy(BASE)
+        card["domain_review_status"] = "DOMAIN_EXPERT_REJECTED"
+        with self.assertRaisesRegex(SourceFactCardValidationError, "DOMAIN_EXPERT_DECISION_REQUIRES_REVIEW_EVIDENCE_DIGEST"):
+            validate_source_fact_card(card)
+        card["domain_review_evidence_sha256"] = "b" * 64
+        validate_source_fact_card(card)
+
+    def test_pending_source_cannot_claim_review_evidence_digest(self):
+        card = copy.deepcopy(BASE)
+        card["domain_review_evidence_sha256"] = "c" * 64
+        with self.assertRaisesRegex(SourceFactCardValidationError, "PENDING_SOURCE_CARD_CANNOT_CARRY_DOMAIN_REVIEW_DIGEST"):
+            validate_source_fact_card(card)
 
 
 if __name__ == "__main__":

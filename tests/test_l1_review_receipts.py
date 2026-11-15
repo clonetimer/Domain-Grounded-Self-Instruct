@@ -141,6 +141,15 @@ class L1ReviewReceiptTests(unittest.TestCase):
         with self.assertRaisesRegex(L1QualityGateError, "NO_ISSUE_CONTRADICTS_REVIEW_FINDINGS"):
             validate_blind_l1_review(form)
 
+    def test_l0_domain_review_state_change_invalidates_existing_l1_receipt(self):
+        packet, cards = _fixture()
+        receipt = _receipt(packet, cards)
+        source_card = next(card for card in cards if card["case_id"] == packet["source_fact_refs"][0])
+        source_card["domain_review_status"] = "DOMAIN_EXPERT_CONFIRMED"
+        source_card["domain_review_evidence_sha256"] = "a" * 64
+        with self.assertRaisesRegex(L1QualityGateError, "L1_REVIEW_L0_FACTS_CHANGED_SINCE_REVIEW"):
+            validate_l1_review_receipt(packet, source_fact_cards=cards, receipt=receipt)
+
 
 if __name__ == "__main__":
     unittest.main()

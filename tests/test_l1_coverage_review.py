@@ -61,6 +61,11 @@ class L1CoverageReviewTests(unittest.TestCase):
         self.assertEqual(out["history_context_coverage"]["PARTIALLY_CONFIRMED_ONLY"], 1)
         self.assertEqual(out["real_gold_count"], 0)
         self.assertEqual(out["unreviewed_count_by_track"]["LITERATURE_DERIVED_SYNTHETIC"], 15)
+        self.assertEqual(
+            out["source_fact_domain_review_status_by_track"]["LITERATURE_DERIVED_SYNTHETIC"]
+            ["AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION"],
+            12,
+        )
         self.assertFalse(out["training_authorized"])
         self.assertNotIn(collection["packets"][0]["task_id"], repr(out))
 

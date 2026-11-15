@@ -22,7 +22,9 @@
     "event_family_id",
     "event_episode_id",
     "migration_assessment",
-    "missing_materials"
+    "missing_materials",
+    "domain_review_status",
+    "domain_review_evidence_sha256"
   ],
   "properties": {
     "schema_version": {
@@ -299,6 +301,21 @@
           "minItems": 1
         }
       }
+    },
+    "domain_review_status": {
+      "enum": [
+        "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+        "DOMAIN_EXPERT_CONFIRMED",
+        "DOMAIN_EXPERT_REJECTED"
+      ]
+    },
+    "domain_review_evidence_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 digest of the separately retained authorized domain-review record; not itself proof of reviewer identity."
     }
   }
 }

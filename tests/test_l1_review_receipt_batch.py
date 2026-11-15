@@ -71,6 +71,11 @@ class L1ReviewReceiptBatchTests(unittest.TestCase):
         self.assertEqual(result["reviewer_authentication_pending_count"], 15)
         self.assertEqual(result["l1_experiment_approval_count"], 0)
         self.assertEqual(result["gold_eligible_count"], 0)
+        self.assertEqual(
+            result["source_fact_domain_review_status_counts"]
+            ["AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION"],
+            12,
+        )
         self.assertFalse(result["training_authorized"])
         self.assertNotIn(collection["packets"][0]["task_id"], repr(result))
 

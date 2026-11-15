@@ -32,7 +32,7 @@ The collection-level split auditor rejects any event family whose derived tasks 
 ## Data provenance and output boundaries
 
 Every packet:
-- references exactly one reviewed public L0 source fact card;
+- references exactly one AI-assisted-curated public L0 source fact card;
 - uses an explicitly synthetic upstream ML result and synthetic run ID;
 - uses synthetic log IDs, timestamps, spacecraft identifiers, equipment configuration and operational context;
 - records field-level provenance, generation recipe/version, scenario assumptions and non-simulated source material;
@@ -62,3 +62,16 @@ The Cassini lesson date is 2004-05-10. For the synthetic retrieval snapshot, `av
 ## Task-type coverage
 
 The 15-packet pilot now covers all six task types declared in the Case schema: `diagnostic_synthesis`, `historical_case_reuse`, `conflict_reconciliation`, `evidence_sufficiency`, `next_step_recommendation` and `handover_summary`. These task-type variants are grouped by their source `event_family_id`; adding a new task type does not create an independent incident or a new train/test group.
+
+
+## L0 domain-review state (important)
+
+The L0 source-fact collection currently declares `AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. The 12 L0 cards referenced by the 15-task pilot are explicitly marked with this state and have no domain-review evidence digest. The remaining ISEE expert-system knowledge card is not used as an event source.
+
+This means:
+- the L0 facts are curated candidates with source references and migration constraints, not domain-expert-confirmed source facts;
+- the L1 tasks may be structurally validated and prepared for joint L0/L1 expert review;
+- no task can be marked `APPROVED_FOR_L1_EXPERIMENT` while any referenced L0 card remains pending or rejected;
+- changing an L0 review decision changes the source-card fingerprint and invalidates prior L1 review receipts, requiring review against the updated source state.
+
+A digest is only a binding to a separately retained authorized review record; it does not authenticate reviewer identity by itself.

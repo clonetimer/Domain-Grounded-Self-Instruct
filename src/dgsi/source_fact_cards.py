@@ -23,6 +23,14 @@ def validate_source_fact_card(card: dict[str, Any]) -> list[str]:
     except SchemaContractError as exc:
         raise SourceFactCardValidationError(str(exc)) from None
 
+    domain_review_status = card["domain_review_status"]
+    review_digest = card["domain_review_evidence_sha256"]
+    if domain_review_status in {"DOMAIN_EXPERT_CONFIRMED", "DOMAIN_EXPERT_REJECTED"}:
+        if not review_digest:
+            raise SourceFactCardValidationError("DOMAIN_EXPERT_DECISION_REQUIRES_REVIEW_EVIDENCE_DIGEST")
+    elif review_digest is not None:
+        raise SourceFactCardValidationError("PENDING_SOURCE_CARD_CANNOT_CARRY_DOMAIN_REVIEW_DIGEST")
+
     status = card["disposal_status"]
     measures = card["disposal_measures"]
     if status == "NOT_RECORDED" and measures:
@@ -86,6 +94,11 @@ def validate_source_fact_card_collection(cards: list[dict[str, Any]]) -> dict[st
     seen_episodes: set[str] = set()
     family_counts: dict[str, int] = {}
     knowledge_count = 0
+    domain_review_counts = {
+        "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION": 0,
+        "DOMAIN_EXPERT_CONFIRMED": 0,
+        "DOMAIN_EXPERT_REJECTED": 0,
+    }
     for index, card in enumerate(cards):
         try:
             validate_source_fact_card(card)
@@ -102,10 +115,12 @@ def validate_source_fact_card_collection(cards: list[dict[str, Any]]) -> dict[st
         seen_episodes.add(episode_id)
         family_counts[family_id] = family_counts.get(family_id, 0) + 1
         knowledge_count += int(card["knowledge_source_not_event"])
+        domain_review_counts[card["domain_review_status"]] += 1
     return {
         "card_count": len(cards),
         "event_family_count": len(family_counts),
         "multi_episode_family_count": sum(1 for count in family_counts.values() if count > 1),
         "knowledge_source_not_event_count": knowledge_count,
+        "domain_review_status_counts": domain_review_counts,
         "sft_eligible_count": 0,
     }

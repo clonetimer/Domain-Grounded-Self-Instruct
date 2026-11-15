@@ -217,6 +217,20 @@ def validate_l1_task_packet(
     if unresolved_history_refs:
         _fail("UNRESOLVED_HISTORY_SOURCE_REFERENCE")
     resolved_history_refs = history_source_refs & set(cards_by_id)
+    bound_source_cards = [
+        cards_by_id[ref] for ref in sorted(set(refs) | resolved_history_refs)
+    ]
+    domain_review_states = {
+        card["domain_review_status"] for card in bound_source_cards
+    }
+    if "DOMAIN_EXPERT_REJECTED" in domain_review_states:
+        _fail("L1_SOURCE_FACT_CARD_DOMAIN_REVIEW_REJECTED")
+    if packet["review"]["status"] == "APPROVED_FOR_L1_EXPERIMENT" and any(
+        card["domain_review_status"] != "DOMAIN_EXPERT_CONFIRMED"
+        or not card["domain_review_evidence_sha256"]
+        for card in bound_source_cards
+    ):
+        _fail("L1_SOURCE_FACTS_NOT_DOMAIN_REVIEWED")
     if any(
         cards_by_id[source_ref]["source_class"] not in {
             "PUBLIC_FLIGHT_REPORT", "PUBLIC_GROUND_TEST_REPORT",
@@ -297,7 +311,15 @@ def validate_l1_task_packet(
             "DRAFT", "REVIEW_REQUIRED"
         } else "READY_FOR_L1_EXPERIMENT",
         "track": track,
-        "source_fact_count": len(cards),
+        "source_fact_count": len(bound_source_cards),
+        "source_fact_domain_review_status_counts": {
+            status: sum(card["domain_review_status"] == status for card in bound_source_cards)
+            for status in (
+                "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+                "DOMAIN_EXPERT_CONFIRMED",
+                "DOMAIN_EXPERT_REJECTED",
+            )
+        },
         "history_item_count": len(packet["history_context"]["items"]),
         "gold_eligible": False,
         "training_authorized": False,
@@ -340,6 +362,33 @@ def validate_l1_task_packet_collection(
         source_groups[task_id] = source_group
         decisions.append(result["decision"])
 
+    if collection["data_status"] == "APPROVED_FOR_L1_EXPERIMENT" and any(
+        packet["review"]["status"] != "APPROVED_FOR_L1_EXPERIMENT"
+        for packet in packets
+    ):
+        _fail("L1_COLLECTION_APPROVED_WITH_UNREVIEWED_PACKETS")
+
+    source_cards_by_id = {card["case_id"]: card for card in source_fact_cards}
+    referenced_source_ids = set()
+    for packet in packets:
+        referenced_source_ids.update(packet["source_fact_refs"])
+        referenced_source_ids.update(
+            source_ref
+            for item in packet["history_context"]["items"]
+            for source_ref in item["source_refs"]
+            if source_ref in source_cards_by_id
+        )
+    bound_source_cards = [
+        source_cards_by_id[ref] for ref in sorted(referenced_source_ids)
+    ]
+    source_review_counts = {
+        status: sum(card["domain_review_status"] == status for card in bound_source_cards)
+        for status in (
+            "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+            "DOMAIN_EXPERT_CONFIRMED",
+            "DOMAIN_EXPERT_REJECTED",
+        )
+    }
     assignments = collection.get("split_assignments", [])
     if assignments:
         assigned: dict[str, str] = {}
@@ -371,6 +420,7 @@ def validate_l1_task_packet_collection(
         "track": collection["track"],
         "packet_count": len(packets),
         "event_family_count": len(set(source_groups.values())),
+        "source_fact_domain_review_status_counts": source_review_counts,
         "split_assignment_count": len(assignments),
         "split_audit_performed": bool(assignments),
         "packet_decisions": decisions,
