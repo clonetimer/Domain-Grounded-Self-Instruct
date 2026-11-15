@@ -23,7 +23,11 @@ def make_case(tag, split):
     start = user.index("{")
     packet = json.loads(user[start:])
     packet["case_id"] = example["case_ref"]
-    packet["instruction"] += " [SYNTHETIC case tag: " + tag + "]"
+    # Identity variations belong to source context, never to the reviewed
+    # instruction channel. This is test-only synthetic operational context.
+    packet["input"]["operational_context"]["recent_operations"].append(
+        "SYNTHETIC case variant " + tag
+    )
     example["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
     example["provenance"]["diagnosis_result_refs"] = ["synthetic://diagnosis/" + tag]
     example["provenance"]["source_artifact_hashes"] = [

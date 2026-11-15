@@ -320,6 +320,11 @@ def _reject_sft_target_leakage(user_prompt: str) -> None:
 # Only the Chinese SYNTHETIC illustration template has been reviewed.
 _SFT_SYSTEM_TEMPLATE_ZH_V1 = "你是航天器故障研判助手。仅依据提供的机器诊断结果、诊断日志、运行上下文、历史案例和知识证据进行综合研判。不得将未校准分数解释为概率，不得把候选结论写成确诊；区分故障源部件与受影响部件。"
 _SFT_USER_PREAMBLE_ZH_V1 = "请仅根据以下上游机器诊断结果、日志和航天器任务上下文进行二次研判，保留证据缺口、矛盾、候选状态和未校准分数语义。原始遥测由上游机器学习算法处理；本任务不提供原始遥测。\n\n"
+# The JSON instruction field is itself an instruction channel. Its value must
+# be registered, not merely a nonempty schema-valid string. This generic v1
+# directive is the sole currently admitted SFT instruction; future task-specific
+# variants require an explicit versioned review and test update.
+_SFT_PACKET_INSTRUCTION_ZH_V1 = "结合算法诊断结果、历史诊断记录和当前任务上下文，形成有证据边界的综合研判。"
 
 
 def _validate_sft_reviewed_templates(messages: list[dict[str, Any]]) -> None:
@@ -376,6 +381,10 @@ def _validate_sft_prompt_json_packet(user_content: str) -> dict[str, Any]:
         "PROMPT_PACKET_FIELDS_MISMATCH",
     )
     _require(isinstance(packet["input"], dict), "PROMPT_INPUT_NOT_OBJECT")
+    _require(
+        packet["instruction"] == _SFT_PACKET_INSTRUCTION_ZH_V1,
+        "UNAPPROVED_PACKET_INSTRUCTION_TEMPLATE",
+    )
 
     def reject_nonfinite(value: Any) -> None:
         if isinstance(value, float):

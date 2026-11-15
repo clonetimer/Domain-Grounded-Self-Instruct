@@ -90,6 +90,9 @@ def verify_case_sft_binding(case: dict[str, Any], example: dict[str, Any]) -> di
                 _fail("CASE_REFERENCE_MISMATCH")
             if str(exc) == "SFT_PROMPT_TASK_TYPE_MISMATCH":
                 _fail("TASK_TYPE_MISMATCH")
+            if str(exc) == "UNAPPROVED_PACKET_INSTRUCTION_TEMPLATE":
+                # Preserve the pre-existing Case→SFT mismatch diagnostic.
+                _fail("PROMPT_INSTRUCTION_MISMATCH")
         if isinstance(exc, DiagnosticContextValidationError) and str(exc) in {
             "UNAPPROVED_SYSTEM_PROMPT_TEMPLATE",
             "UNAPPROVED_USER_PROMPT_PREAMBLE",
