@@ -1161,7 +1161,9 @@
               "diagnostic_vote_allowed": false,
               "available_at": "2026-04-10T08:00:00Z",
               "status": "REJECTED_HISTORICAL_CASE_NOT_CURRENT_TRUTH"
-            }
+            },
+            "historical_equipment_scope": "slip_ring_interface",
+            "hardware_compatibility": "COMPATIBLE"
           }
         ]
       },
