@@ -3,7 +3,7 @@
   "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-001",
   "classification": "LITERATURE_DERIVED_SYNTHETIC",
   "review_status": "REVIEW_REQUIRED",
-  "packet_count": 12,
+  "packet_count": 15,
   "event_family_count": 9,
   "gold_eligible": false,
   "training_authorized": false,
@@ -91,6 +91,27 @@
       "event_status": "FLIGHT_EVENT",
       "challenge": "Reuse a partially confirmed Cassini RWA drag case as qualified Context; hardware compatibility UNKNOWN and mechanism differs from FUSE Kapton-liner contact",
       "history_variant": "PARTIALLY_CONFIRMED + UNKNOWN hardware compatibility"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "source_fact_ref": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "Evidence sufficiency: determine whether cross-interface common-cause short is actually confirmed; identify direct electrical evidence still missing.",
+      "history_variant": "REJECTED historical SEL hypothesis retained as negative precedent"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "source_fact_ref": "LIT-CASSINI-RWA-DRAG-007",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "Next-step recommendation: prioritize hardware-scope verification and speed/drag analysis before considering any operating strategy.",
+      "history_variant": "No history hit"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "source_fact_ref": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+      "event_status": "GROUND_TEST_EVENT",
+      "challenge": "Handover summary: preserve ground-test context, LNA candidate localization, evidence gap and follow-up actions.",
+      "history_variant": "No history hit"
     }
   ],
   "split_groups": [
@@ -119,5 +140,5 @@
       "rule": "Injector plugging and catalyst contamination are distinct episodes but share a test/report family."
     }
   ],
-  "note": "All ML findings, scores, logs, timestamps, run IDs, spacecraft identifiers and configuration/operational details are synthetic. Public L0 sources constrain historical facts and certainty only. No packet is Gold or training-authorized. One history-reuse task uses the public Cassini RWA case as a partially confirmed, hardware-unknown contrast for the FUSE wheel event; its availability timestamp is conservatively normalized to the end of the NASA LLIS lesson date (2004-05-10)."
+  "note": "All ML findings, scores, logs, timestamps, run IDs, spacecraft identifiers and configuration/operational details are synthetic. Public L0 sources constrain historical facts and certainty only. No packet is Gold or training-authorized. One history-reuse task uses the public Cassini RWA case as a partially confirmed, hardware-unknown contrast for the FUSE wheel event; its availability timestamp is conservatively normalized to the end of the NASA LLIS lesson date (2004-05-10). Three additional task-type variants cover evidence_sufficiency, next_step_recommendation and handover_summary. Variants derived from the same source event family remain grouped for future split assignment."
 }
