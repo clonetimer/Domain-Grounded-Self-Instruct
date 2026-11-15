@@ -550,6 +550,17 @@ class L1TaskPacketTests(unittest.TestCase):
             self.assertEqual(packet["case"]["expected_output"]["disposal_status"], "NOT_RECORDED")
             self.assertEqual(packet["case"]["expected_output"]["disposal_measures"], [])
 
+    def test_lunar_orbiter_startup_keeps_both_source_candidate_explanations(self):
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        packet = next(p for p in collection["packets"] if p["task_id"] == "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007")
+        candidates = packet["formal_target"]["cause_localization"]["candidates"]
+        self.assertEqual(
+            {item["fault_mode"] for item in candidates},
+            {"launch_mechanical_stress_release_candidate", "post_launch_internal_pressure_decay_candidate"},
+        )
+        self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
+        self.assertEqual(packet["formal_target"]["cause_localization"]["certainty"], "CANDIDATE")
+
 
 if __name__ == "__main__":
     unittest.main()
