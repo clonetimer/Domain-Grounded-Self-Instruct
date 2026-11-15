@@ -190,6 +190,28 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertNotIn("NOT_GOLD_REVIEWED", [])
         validate_diagnostic_case(case)
 
+    def test_executed_disposal_requires_a_source_reference(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_status"] = "RECORDED"
+        case["expected_output"]["disposal_measures"] = [{
+            "measure": "已执行反作用轮构型切换",
+            "measure_type": "EXECUTED",
+            "evidence_refs": [],
+        }]
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "EXECUTED_DISPOSAL_REQUIRES_SOURCE_EVIDENCE"):
+            validate_diagnostic_case(case)
+
+    def test_disposal_measure_cannot_cite_unprovided_log(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        case["expected_output"]["disposal_status"] = "RECORDED"
+        case["expected_output"]["disposal_measures"] = [{
+            "measure": "已执行反作用轮构型切换",
+            "measure_type": "EXECUTED",
+            "evidence_refs": ["LOG-POST-EVENT-NOT-SUPPLIED"],
+        }]
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE"):
+            validate_diagnostic_case(case)
+
 
 if __name__ == "__main__":
     unittest.main()
