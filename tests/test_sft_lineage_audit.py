@@ -22,6 +22,7 @@ def make_case(tag, split):
     user = example["messages"][1]["content"]
     start = user.index("{")
     packet = json.loads(user[start:])
+    packet["case_id"] = example["case_ref"]
     packet["instruction"] += " [SYNTHETIC case tag: " + tag + "]"
     example["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
     example["provenance"]["diagnosis_result_refs"] = ["synthetic://diagnosis/" + tag]
@@ -54,6 +55,11 @@ class SftLineageTests(unittest.TestCase):
     def test_case_ref_leak_with_different_episode_labels(self):
         a, b = make_case("one", "train"), make_case("two", "validation")
         b["case_ref"] = a["case_ref"]
+        user = b["messages"][1]["content"]
+        start = user.index("{")
+        packet = json.loads(user[start:])
+        packet["case_id"] = b["case_ref"]
+        b["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
         self.assert_rejected([a, b], "CROSS_SPLIT_CASE_REF")
 
     def test_same_upstream_run_with_renamed_case_is_rejected(self):
@@ -66,14 +72,22 @@ class SftLineageTests(unittest.TestCase):
         b["provenance"]["source_artifact_hashes"] = a["provenance"]["source_artifact_hashes"]
         self.assert_rejected([a, b], "CROSS_SPLIT_SOURCE_ARTIFACT_HASH")
 
-    def test_same_prompt_across_splits_without_shared_ids_is_rejected(self):
+    def test_same_prompt_across_splits_cannot_evade_case_reference_gate(self):
         a, b = make_case("one", "train"), make_case("two", "test")
         b["messages"][1]["content"] = a["messages"][1]["content"]
-        self.assert_rejected([a, b], "CROSS_SPLIT_USER_PROMPT")
+        # Same full prompt implies the same embedded case_id. If metadata
+        # advertises a different case, the new direct-SFT identity gate
+        # rejects it before any split fingerprint can be accepted.
+        from dgsi.diagnostic_context import DiagnosticContextValidationError
+        with self.assertRaisesRegex(
+            DiagnosticContextValidationError, "^SFT_PROMPT_CASE_REFERENCE_MISMATCH$"
+        ):
+            audit_sft_lineage([a, b])
 
     def test_inconsistent_targets_for_identical_prompt_rejected(self):
         a, b = make_case("one", "train"), make_case("two", "train")
         b["messages"][1]["content"] = a["messages"][1]["content"]
+        b["case_ref"] = a["case_ref"]
         target = json.loads(b["messages"][2]["content"])
         target["diagnostic_summary"] += " [SYNTHETIC contradictory expert draft]"
         b["messages"][2]["content"] = json.dumps(target, ensure_ascii=False)
@@ -82,6 +96,7 @@ class SftLineageTests(unittest.TestCase):
     def test_duplicate_content_different_example_ids_rejected(self):
         a, b = make_case("one", "train"), make_case("two", "train")
         b["messages"][1]["content"] = a["messages"][1]["content"]
+        b["case_ref"] = a["case_ref"]
         self.assert_rejected([a, b], "DUPLICATE_IDENTICAL_SFT_EXAMPLE")
 
     def test_duplicate_example_id_even_with_different_prompt_rejected(self):
@@ -97,6 +112,7 @@ class SftLineageTests(unittest.TestCase):
         user = b["messages"][1]["content"]
         start = user.index("{")
         packet = json.loads(user[start:])
+        packet["case_id"] = b["case_ref"]
         packet["task_type"] = b["task_type"]
         b["messages"][1]["content"] = user[:start] + json.dumps(packet, ensure_ascii=False)
         report = audit_sft_lineage([a, b])
