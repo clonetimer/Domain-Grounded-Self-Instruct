@@ -231,7 +231,8 @@ class L1TaskPacketTests(unittest.TestCase):
 
     def test_synthetic_provenance_must_cover_all_model_input_groups(self):
         packet = make_packet()
-        packet["synthetic_provenance"]["generated_fields"].pop()
+        # Remove mandatory ML provenance, not the separate history lineage.
+        packet["synthetic_provenance"]["generated_fields"].pop(0)
         with self.assertRaisesRegex(L1TaskPacketError, "SYNTHETIC_INPUT_FIELD_PROVENANCE_INCOMPLETE"):
             self.validate(packet)
 
