@@ -107,6 +107,7 @@ def _validate_evidence_reference_integrity(
 
     for group, code in (
         (machine_finding_ids, "DUPLICATE_MACHINE_FINDING_ID"),
+        (log_ids, "DUPLICATE_DIAGNOSTIC_LOG_ID"),
         (knowledge_ids, "DUPLICATE_KNOWLEDGE_EVIDENCE_ID"),
         (history_ids, "DUPLICATE_HISTORICAL_CASE_REFERENCE"),
     ):
