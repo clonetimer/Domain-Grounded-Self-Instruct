@@ -2,9 +2,9 @@
   "schema_version": "dgsi-l1-task-packet-collection.v1",
   "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-001",
   "track": "LITERATURE_DERIVED_SYNTHETIC",
-  "packet_count": 3,
+  "packet_count": 11,
   "data_status": "REVIEW_REQUIRED",
-  "split_policy": "All packets derived from the same L0 event family must remain in one split; no variants from the same family may cross train/validation/test.",
+  "split_policy": "All variants derived from the same L0 event family must remain in one split; no variants from the same family may cross train/validation/test.",
   "packets": [
     {
       "schema_version": "dgsi-l1-task-packet.v1",
@@ -1161,7 +1161,9 @@
               "diagnostic_vote_allowed": false,
               "available_at": "2026-04-10T08:00:00Z",
               "status": "REJECTED_HISTORICAL_CASE_NOT_CURRENT_TRUTH"
-            }
+            },
+            "historical_equipment_scope": "slip_ring_interface",
+            "hardware_compatibility": "COMPATIBLE"
           }
         ]
       },
@@ -1234,6 +1236,2997 @@
         "reviewed_at": null,
         "notes": [
           "Synthetic L1 fixture only; domain review required before controlled training use."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+        "domain": "comm",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / payload_slip_ring",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-004",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "payload_slip_ring",
+                "result": "INTERMITTENT_SLIP_RING_CONTACT",
+                "score": 0.71,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-004"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-41",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：载荷UART链路出现间歇性CRC错误。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-41"
+            },
+            {
+              "log_id": "LOG-42",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：线束走线调整后CRC错误仍出现；旋转状态下接触电阻读数随测试环境变化。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-42"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-004",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "payload_slip_ring",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "payload_slip_ring",
+                  "payload_UART_serial_link"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_THERMAL_VACUUM_TEST",
+            "operating_mode": "rotating_payload_communication",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-004",
+              "source_id": "MITLL-TROPICS-LESSONS-2025",
+              "passage_id": "NASA NTRS 20240011771, Section 6, pp.3–4",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "调查认为间断可能发生在滑环，讨论了stick-slip及接触电阻波动。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "热真空地面测试场景中，载荷UART链路出现间歇性CRC错误；线束走线调整后异常仍存在，旋转状态下接触电阻读数随测试环境变化。",
+          "machine_result_interpretation": "上游合成ML将滑环旋转接触界面间歇性接触异常列为候选，排序分数0.71不是校准概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "payload_slip_ring",
+                "fault_mode": "intermittent_slip_ring_contact",
+                "supporting_refs": [
+                  "ML-E-004",
+                  "LOG-41",
+                  "LOG-42",
+                  "L0-E-004"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "payload_UART_serial_link"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "文献支持滑环间歇接触和接触电阻变化作为候选解释；该地面试验现象不能直接等同于SEASAT在轨母线短路机理。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-004",
+              "LOG-41",
+              "LOG-42",
+              "L0-E-004"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "滑环各通道接触电阻同步测量",
+              "湿度/温度/转速条件下的重复性试验",
+              "连接器和线束连续性检查"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "在不同转速和环境条件下复测接触电阻",
+              "rationale": "验证接触电阻变化是否与CRC错误同步",
+              "priority": "HIGH"
+            },
+            {
+              "action": "检查滑环通道与UART链路之间的电气映射",
+              "rationale": "区分滑环接触异常与线束/接口故障",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "热真空地面测试场景中，载荷UART链路出现间歇性CRC错误；线束走线调整后异常仍存在，旋转状态下接触电阻读数随测试环境变化。 上游合成ML将滑环旋转接触界面间歇性接触异常列为候选，排序分数0.71不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-004"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "热真空地面测试场景中，载荷UART链路出现间歇性CRC错误；线束走线调整后异常仍存在，旋转状态下接触电阻读数随测试环境变化。",
+        "machine_result_interpretation": "上游合成ML将滑环旋转接触界面间歇性接触异常列为候选，排序分数0.71不是校准概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "payload_slip_ring",
+              "fault_mode": "intermittent_slip_ring_contact",
+              "supporting_refs": [
+                "ML-E-004",
+                "LOG-41",
+                "LOG-42",
+                "L0-E-004"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "payload_UART_serial_link"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "文献支持滑环间歇接触和接触电阻变化作为候选解释；该地面试验现象不能直接等同于SEASAT在轨母线短路机理。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-004",
+            "LOG-41",
+            "LOG-42",
+            "L0-E-004"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "滑环各通道接触电阻同步测量",
+            "湿度/温度/转速条件下的重复性试验",
+            "连接器和线束连续性检查"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "在不同转速和环境条件下复测接触电阻",
+            "rationale": "验证接触电阻变化是否与CRC错误同步",
+            "priority": "HIGH"
+          },
+          {
+            "action": "检查滑环通道与UART链路之间的电气映射",
+            "rationale": "区分滑环接触异常与线束/接口故障",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "热真空地面测试场景中，载荷UART链路出现间歇性CRC错误；线束走线调整后异常仍存在，旋转状态下接触电阻读数随测试环境变化。 上游合成ML将滑环旋转接触界面间歇性接触异常列为候选，排序分数0.71不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "payload_slip_ring",
+          "subsystem": "COMM",
+          "mission_phase": "GROUND_THERMAL_VACUUM_TEST",
+          "operating_mode": "rotating_payload_communication",
+          "fault_modes": [
+            "intermittent_slip_ring_contact"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-TROPICS-SLIPRING-TVAC-002"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "domain": "comm",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / payload_slip_ring",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-005",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "payload_slip_ring",
+                "result": "ROTARY_CONTACT_INTERMITTENT_CRC",
+                "score": 0.68,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-005"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-51",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：载荷串行链路出现间歇性CRC错误。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-51"
+            },
+            {
+              "log_id": "LOG-52",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：链路错误率在特定旋转状态下升高。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-52"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-005",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "payload_slip_ring",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "payload_slip_ring",
+                  "payload_serial_communication_link"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_PAYLOAD_OPERATION",
+            "operating_mode": "payload_communication",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-005",
+              "source_id": "MITLL-TROPICS-LESSONS-2025",
+              "passage_id": "NASA NTRS 20240011771, Section 6, p.4",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "论文将CRC错误与前述滑环问题联系，但该飞行单元的具体失效机理未完全解决。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "在轨载荷运行合成场景中，串行链路出现间歇性CRC错误，错误率与特定旋转状态存在时间关联。",
+          "machine_result_interpretation": "上游合成ML将旋转接触界面间歇性异常列为候选，排序分数0.68不是故障概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "payload_slip_ring",
+                "fault_mode": "intermittent_rotary_contact_crc",
+                "supporting_refs": [
+                  "ML-E-005",
+                  "LOG-51",
+                  "LOG-52",
+                  "L0-E-005"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "payload_serial_communication_link"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "来源记载该台载荷通过反向旋转获得缓解并继续工作；本合成任务没有执行该操作的记录，不能将来源处置直接写入当前任务处置措施。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-005",
+              "LOG-51",
+              "LOG-52",
+              "L0-E-005"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "该单元的滑环接触状态直接测量",
+              "CRC错误与旋转角度/转速的同步数据",
+              "独立串行收发器健康状态"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "按旋转状态分段统计CRC错误",
+              "rationale": "验证错误是否与旋转接触状态相关",
+              "priority": "HIGH"
+            },
+            {
+              "action": "检查串行链路与滑环接触状态的同步关系",
+              "rationale": "排除独立通信收发器异常",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "在轨载荷运行合成场景中，串行链路出现间歇性CRC错误，错误率与特定旋转状态存在时间关联。 上游合成ML将旋转接触界面间歇性异常列为候选，排序分数0.68不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-005"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "在轨载荷运行合成场景中，串行链路出现间歇性CRC错误，错误率与特定旋转状态存在时间关联。",
+        "machine_result_interpretation": "上游合成ML将旋转接触界面间歇性异常列为候选，排序分数0.68不是故障概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "payload_slip_ring",
+              "fault_mode": "intermittent_rotary_contact_crc",
+              "supporting_refs": [
+                "ML-E-005",
+                "LOG-51",
+                "LOG-52",
+                "L0-E-005"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "payload_serial_communication_link"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "来源记载该台载荷通过反向旋转获得缓解并继续工作；本合成任务没有执行该操作的记录，不能将来源处置直接写入当前任务处置措施。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-005",
+            "LOG-51",
+            "LOG-52",
+            "L0-E-005"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "该单元的滑环接触状态直接测量",
+            "CRC错误与旋转角度/转速的同步数据",
+            "独立串行收发器健康状态"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "按旋转状态分段统计CRC错误",
+            "rationale": "验证错误是否与旋转接触状态相关",
+            "priority": "HIGH"
+          },
+          {
+            "action": "检查串行链路与滑环接触状态的同步关系",
+            "rationale": "排除独立通信收发器异常",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "在轨载荷运行合成场景中，串行链路出现间歇性CRC错误，错误率与特定旋转状态存在时间关联。 上游合成ML将旋转接触界面间歇性异常列为候选，排序分数0.68不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "payload_slip_ring",
+          "subsystem": "COMM",
+          "mission_phase": "IN_ORBIT_PAYLOAD_OPERATION",
+          "operating_mode": "payload_communication",
+          "fault_modes": [
+            "intermittent_rotary_contact_crc"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-TROPICS-FLIGHT-CRC-003-A"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+        "domain": "comm",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / payload_slip_ring",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-006",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "payload_slip_ring",
+                "result": "ROTARY_CONTACT_DEGRADATION",
+                "score": 0.73,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-006"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-61",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：载荷串行链路CRC错误频率持续上升。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-61"
+            },
+            {
+              "log_id": "LOG-62",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：多次通信重试后仍无法恢复稳定链路。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-62"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-006",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "payload_slip_ring",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "payload_slip_ring",
+                  "payload_serial_communication_link"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_PAYLOAD_OPERATION",
+            "operating_mode": "payload_communication",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-006",
+              "source_id": "MITLL-TROPICS-LESSONS-2025",
+              "passage_id": "NASA NTRS 20240011771, Section 6, p.4",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "论文将CRC错误与前述滑环问题联系，但该飞行单元的具体失效机理未完全解决。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "在轨载荷运行合成场景中，串行链路CRC错误频率持续上升，多次通信重试后链路仍未恢复稳定。",
+          "machine_result_interpretation": "上游合成ML将旋转接触界面退化列为候选，排序分数0.73不是校准概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "payload_slip_ring",
+                "fault_mode": "progressive_rotary_contact_failure",
+                "supporting_refs": [
+                  "ML-E-006",
+                  "LOG-61",
+                  "LOG-62",
+                  "L0-E-006"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "payload_serial_communication_link"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "该单元问题持续恶化并最终不再工作；不能把另一台载荷反向旋转缓解的结果并入本episode，也不能将具体机理写成确诊。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-006",
+              "LOG-61",
+              "LOG-62",
+              "L0-E-006"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "滑环通道直接测量和状态检查",
+              "与载荷A独立的单元级诊断记录",
+              "故障发生期间的电源和通信链路隔离证据"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "开展该载荷独立滑环和通信链路检查",
+              "rationale": "定位该载荷自身的失效路径",
+              "priority": "HIGH"
+            },
+            {
+              "action": "保留单元B的故障时间线，不引用另一单元的恢复结果",
+              "rationale": "防止将载荷A的处置结果错误迁移至载荷B",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "在轨载荷运行合成场景中，串行链路CRC错误频率持续上升，多次通信重试后链路仍未恢复稳定。 上游合成ML将旋转接触界面退化列为候选，排序分数0.73不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-006"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "在轨载荷运行合成场景中，串行链路CRC错误频率持续上升，多次通信重试后链路仍未恢复稳定。",
+        "machine_result_interpretation": "上游合成ML将旋转接触界面退化列为候选，排序分数0.73不是校准概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "payload_slip_ring",
+              "fault_mode": "progressive_rotary_contact_failure",
+              "supporting_refs": [
+                "ML-E-006",
+                "LOG-61",
+                "LOG-62",
+                "L0-E-006"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "payload_serial_communication_link"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "该单元问题持续恶化并最终不再工作；不能把另一台载荷反向旋转缓解的结果并入本episode，也不能将具体机理写成确诊。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-006",
+            "LOG-61",
+            "LOG-62",
+            "L0-E-006"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "滑环通道直接测量和状态检查",
+            "与载荷A独立的单元级诊断记录",
+            "故障发生期间的电源和通信链路隔离证据"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "开展该载荷独立滑环和通信链路检查",
+            "rationale": "定位该载荷自身的失效路径",
+            "priority": "HIGH"
+          },
+          {
+            "action": "保留单元B的故障时间线，不引用另一单元的恢复结果",
+            "rationale": "防止将载荷A的处置结果错误迁移至载荷B",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "在轨载荷运行合成场景中，串行链路CRC错误频率持续上升，多次通信重试后链路仍未恢复稳定。 上游合成ML将旋转接触界面退化列为候选，排序分数0.73不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "payload_slip_ring",
+          "subsystem": "COMM",
+          "mission_phase": "IN_ORBIT_PAYLOAD_OPERATION",
+          "operating_mode": "payload_communication",
+          "fault_modes": [
+            "progressive_rotary_contact_failure"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-TROPICS-FLIGHT-CRC-003-B"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-B"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-B"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-B"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-B"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+        "domain": "comm",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / twta_helix_power_supply",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-007",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "twta_helix_power_supply",
+                "result": "TWTA_HELIX_CURRENT_STARTUP_TRANSIENT",
+                "score": 0.66,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-007"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-71",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：TWTA首次启动时螺流遥测短时高于常态区间。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-71"
+            },
+            {
+              "log_id": "LOG-72",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：螺流遥测约1.5分钟后下降并保持在新的稳定值。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-72"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-007",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "twta_helix_power_supply",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "twta_helix_power_supply",
+                  "TWTA_helix_startup_operating_state"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "EARLY_ORBITAL_COMMISSIONING",
+            "operating_mode": "first_TWTA_turn_on",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-007",
+              "source_id": "NASA-CR-66461",
+              "passage_id": "NASA CR-66461, PDF p.173 (printed p.165), High TWTA Helix Current at First Turn-On",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "报告保留发射机械应力经温度循环释放，或发射后内部压力缓慢衰减两种解释。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。",
+          "machine_result_interpretation": "上游合成ML识别到螺流启动瞬态异常，排序分数0.66不是故障概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "TWTA_helix_power_supply",
+                "fault_mode": "launch_mechanical_stress_release_candidate",
+                "supporting_refs": [
+                  "ML-E-007",
+                  "LOG-71",
+                  "LOG-72",
+                  "L0-E-007"
+                ],
+                "limitations": [
+                  "The source presents this as one possible explanation only.",
+                  "The synthetic scenario provides no direct mechanical inspection or thermal-cycle evidence."
+                ]
+              },
+              {
+                "component": "TWTA_helix_power_supply",
+                "fault_mode": "post_launch_internal_pressure_decay_candidate",
+                "supporting_refs": [
+                  "ML-E-007",
+                  "LOG-71",
+                  "LOG-72",
+                  "L0-E-007"
+                ],
+                "limitations": [
+                  "The source presents this as one possible explanation only.",
+                  "The synthetic scenario provides no internal-pressure measurement."
+                ]
+              }
+            ],
+            "affected_components": [
+              "TWTA_helix_startup_operating_state"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "文献保留发射机械应力经温度循环释放、发射后内部压力缓慢衰减两种解释；当前合成场景未提供证据区分两者，因此均保持候选，不选定唯一根因。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-007",
+              "LOG-71",
+              "LOG-72",
+              "L0-E-007"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "发射后内部压力直接测量",
+              "启动前后温度循环记录",
+              "同型号设备启动基线与重复启动数据"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied.",
+              "The public source does not select one of the two startup-current explanations."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "对比不同启动时刻和热状态下的螺流变化",
+              "rationale": "区分机械应力释放与内部压力缓慢衰减两种解释",
+              "priority": "HIGH"
+            },
+            {
+              "action": "检查内部压力变化相关证据",
+              "rationale": "确认瞬态是否可重复及是否影响设备安全",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。上游合成ML识别到螺流启动瞬态异常。文献保留发射机械应力释放与发射后内部压力缓慢衰减两种解释；现有证据不足以区分两者，不能确定唯一根因。当前任务未记录实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-007"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。",
+        "machine_result_interpretation": "上游合成ML识别到螺流启动瞬态异常，排序分数0.66不是故障概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "TWTA_helix_power_supply",
+              "fault_mode": "launch_mechanical_stress_release_candidate",
+              "supporting_refs": [
+                "ML-E-007",
+                "LOG-71",
+                "LOG-72",
+                "L0-E-007"
+              ],
+              "limitations": [
+                "The source presents this as one possible explanation only.",
+                "The synthetic scenario provides no direct mechanical inspection or thermal-cycle evidence."
+              ]
+            },
+            {
+              "component": "TWTA_helix_power_supply",
+              "fault_mode": "post_launch_internal_pressure_decay_candidate",
+              "supporting_refs": [
+                "ML-E-007",
+                "LOG-71",
+                "LOG-72",
+                "L0-E-007"
+              ],
+              "limitations": [
+                "The source presents this as one possible explanation only.",
+                "The synthetic scenario provides no internal-pressure measurement."
+              ]
+            }
+          ],
+          "affected_components": [
+            "TWTA_helix_startup_operating_state"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "文献保留发射机械应力经温度循环释放、发射后内部压力缓慢衰减两种解释；当前合成场景未提供证据区分两者，因此均保持候选，不选定唯一根因。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-007",
+            "LOG-71",
+            "LOG-72",
+            "L0-E-007"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "发射后内部压力直接测量",
+            "启动前后温度循环记录",
+            "同型号设备启动基线与重复启动数据"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied.",
+            "The public source does not select one of the two startup-current explanations."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "对比不同启动时刻和热状态下的螺流变化",
+            "rationale": "区分机械应力释放与内部压力缓慢衰减两种解释",
+            "priority": "HIGH"
+          },
+          {
+            "action": "检查内部压力变化相关证据",
+            "rationale": "确认瞬态是否可重复及是否影响设备安全",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。上游合成ML识别到螺流启动瞬态异常。文献保留发射机械应力释放与发射后内部压力缓慢衰减两种解释；现有证据不足以区分两者，不能确定唯一根因。当前任务未记录实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "twta_helix_power_supply",
+          "subsystem": "COMM",
+          "mission_phase": "EARLY_ORBITAL_COMMISSIONING",
+          "operating_mode": "first_TWTA_turn_on",
+          "fault_modes": [
+            "transient_helix_current_abnormality"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-LUNAR-ORBITER-HELIX-005"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-HELIX-005"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-HELIX-005"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-HELIX-005"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-HELIX-005"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-CASSINI-RWA-DRAG-SYNTH-008",
+        "domain": "adcs",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "ADCS / reaction_wheel_assembly",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-008",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "reaction_wheel_assembly",
+                "result": "REACTION_WHEEL_BEARING_DRAG_INCREASE",
+                "score": 0.79,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-008"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-81",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：反作用轮拖曳指标高于健康基线。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-81"
+            },
+            {
+              "log_id": "LOG-82",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：异常期间反作用轮长期处于近零转速附近并频繁过零。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-82"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-008",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "reaction_wheel_assembly",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "ADCS",
+                "components": [
+                  "reaction_wheel_assembly",
+                  "reaction_wheel_assembly",
+                  "attitude_pointing_performance"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "LONG_DURATION_ORBITAL_OPERATION",
+            "operating_mode": "attitude_control_low_speed",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-008",
+              "source_id": "NASA-LLIS-1416",
+              "passage_id": "NASA Lessons Learned 1416, Driving Event / Lessons Learned",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "过量摩擦被认为与长期近零转速运行导致润滑剂分布变化有关，速度在零附近频繁振荡也可能有贡献。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "长时间在轨运行合成场景中，反作用轮拖曳指标高于健康基线；异常期间设备长期处于近零转速附近并频繁过零。",
+          "machine_result_interpretation": "上游合成ML将反作用轮轴承润滑状态退化列为候选，排序分数0.79不是故障概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "reaction_wheel_assembly",
+                "fault_mode": "reaction_wheel_excess_drag",
+                "supporting_refs": [
+                  "ML-E-008",
+                  "LOG-81",
+                  "LOG-82",
+                  "L0-E-008"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "reaction_wheel_assembly",
+              "attitude_pointing_performance"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "Cassini案例涉及低速运行下润滑剂重新分布，不等同于供油管路堵塞，也不能不经设备型号核对直接复制升速措施。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-008",
+              "LOG-81",
+              "LOG-82",
+              "L0-E-008"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "轴承内部润滑剂状态直接证据",
+              "不同转速区间下的拖曳/摩擦对照",
+              "该型号轮组润滑结构和运行限制"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "结合设备型号和运行限制评估转速管理策略",
+              "rationale": "验证低速运行与摩擦变化的关联",
+              "priority": "HIGH"
+            },
+            {
+              "action": "对比不同转速区间的拖曳指标",
+              "rationale": "避免将其他型号轮组的处置措施直接迁移",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "长时间在轨运行合成场景中，反作用轮拖曳指标高于健康基线；异常期间设备长期处于近零转速附近并频繁过零。 上游合成ML将反作用轮轴承润滑状态退化列为候选，排序分数0.79不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2001",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-008"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "长时间在轨运行合成场景中，反作用轮拖曳指标高于健康基线；异常期间设备长期处于近零转速附近并频繁过零。",
+        "machine_result_interpretation": "上游合成ML将反作用轮轴承润滑状态退化列为候选，排序分数0.79不是故障概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "reaction_wheel_assembly",
+              "fault_mode": "reaction_wheel_excess_drag",
+              "supporting_refs": [
+                "ML-E-008",
+                "LOG-81",
+                "LOG-82",
+                "L0-E-008"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "reaction_wheel_assembly",
+            "attitude_pointing_performance"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "Cassini案例涉及低速运行下润滑剂重新分布，不等同于供油管路堵塞，也不能不经设备型号核对直接复制升速措施。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-008",
+            "LOG-81",
+            "LOG-82",
+            "L0-E-008"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "轴承内部润滑剂状态直接证据",
+            "不同转速区间下的拖曳/摩擦对照",
+            "该型号轮组润滑结构和运行限制"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "结合设备型号和运行限制评估转速管理策略",
+            "rationale": "验证低速运行与摩擦变化的关联",
+            "priority": "HIGH"
+          },
+          {
+            "action": "对比不同转速区间的拖曳指标",
+            "rationale": "避免将其他型号轮组的处置措施直接迁移",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "长时间在轨运行合成场景中，反作用轮拖曳指标高于健康基线；异常期间设备长期处于近零转速附近并频繁过零。 上游合成ML将反作用轮轴承润滑状态退化列为候选，排序分数0.79不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "reaction_wheel_assembly",
+          "subsystem": "ADCS",
+          "mission_phase": "LONG_DURATION_ORBITAL_OPERATION",
+          "operating_mode": "attitude_control_low_speed",
+          "fault_modes": [
+            "reaction_wheel_excess_drag"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-CASSINI-RWA-DRAG-007"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "domain": "integrated",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "PROP / 22N_hydrazine_thruster_injector",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-009",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "22N_hydrazine_thruster_injector",
+                "result": "THRUSTER_INJECTOR_BLOCKAGE",
+                "score": 0.84,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-009"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-91",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：推进器长时热试验期间燃烧室压力出现振荡。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-91"
+            },
+            {
+              "log_id": "LOG-92",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：喷注流量下降，试验系统触发终止条件。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-92"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-009",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "22N_hydrazine_thruster_injector",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "PROP",
+                "components": [
+                  "22N_hydrazine_thruster_injector",
+                  "propellant_injector_tube",
+                  "propellant_feed_path"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_LIFE_TEST",
+            "operating_mode": "22N_hydrazine_thruster_hot_fire",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-009",
+              "source_id": "NASA-TM-100232",
+              "passage_id": "NASA-TM-100232, pp.1, 5–6",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "推进剂阀门Teflon阀座材料在试验加热过程后脱落并堵塞喷注管。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。",
+          "machine_result_interpretation": "上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "22N_hydrazine_thruster_injector",
+                "fault_mode": "injector_flow_path_blockage",
+                "supporting_refs": [
+                  "ML-E-009",
+                  "LOG-91",
+                  "LOG-92",
+                  "L0-E-009"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "propellant_injector_tube",
+              "propellant_feed_path"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "该文献记录的是特定地面寿命试验中的阀座材料脱落堵塞；不得表述为在轨故障或推广为所有肼推进器的通用失效机理。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-009",
+              "LOG-91",
+              "LOG-92",
+              "L0-E-009"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "当前合成试验的阀门拆检结果",
+              "阀座材料与喷注管残留物的材料分析",
+              "堵塞位置和流量变化的直接对应"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "检查阀门阀座和喷注管残留物",
+              "rationale": "验证是否存在阀座材料脱落",
+              "priority": "HIGH"
+            },
+            {
+              "action": "对堵塞物开展材料成分分析",
+              "rationale": "将当前合成任务的物证与文献地面试验机理进行对照",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。 上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-009"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。",
+        "machine_result_interpretation": "上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "22N_hydrazine_thruster_injector",
+              "fault_mode": "injector_flow_path_blockage",
+              "supporting_refs": [
+                "ML-E-009",
+                "LOG-91",
+                "LOG-92",
+                "L0-E-009"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "propellant_injector_tube",
+            "propellant_feed_path"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "该文献记录的是特定地面寿命试验中的阀座材料脱落堵塞；不得表述为在轨故障或推广为所有肼推进器的通用失效机理。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-009",
+            "LOG-91",
+            "LOG-92",
+            "L0-E-009"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "当前合成试验的阀门拆检结果",
+            "阀座材料与喷注管残留物的材料分析",
+            "堵塞位置和流量变化的直接对应"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "检查阀门阀座和喷注管残留物",
+            "rationale": "验证是否存在阀座材料脱落",
+            "priority": "HIGH"
+          },
+          {
+            "action": "对堵塞物开展材料成分分析",
+            "rationale": "将当前合成任务的物证与文献地面试验机理进行对照",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。 上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "22N_hydrazine_thruster_injector",
+          "subsystem": "PROP",
+          "mission_phase": "GROUND_LIFE_TEST",
+          "operating_mode": "22N_hydrazine_thruster_hot_fire",
+          "fault_modes": [
+            "injector_flow_path_blockage"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-NASA-HYDRAZINE-INJECTOR-009"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-CATALYST-010"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "domain": "integrated",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "PROP / hydrazine_thruster_catalyst_bed",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-010",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "hydrazine_thruster_catalyst_bed",
+                "result": "HYDRAZINE_CATALYST_CONTAMINATION",
+                "score": 0.88,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-010"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-A1",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：推进器拆解后催化剂样品金属元素分析结果异常。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-A1"
+            },
+            {
+              "log_id": "LOG-A2",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：样品中铁、镍含量高于该合成任务设定的材料控制限。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-A2"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-010",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "hydrazine_thruster_catalyst_bed",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "PROP",
+                "components": [
+                  "hydrazine_thruster_catalyst_bed",
+                  "hydrazine_thruster_catalyst_bed"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_LIFE_TEST_POST_TEST_ANALYSIS",
+            "operating_mode": "catalyst_bed_material_analysis",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-010",
+              "source_id": "NASA-TM-100232",
+              "passage_id": "NASA-TM-100232, pp.4–6",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "化学分析确认催化剂中铁、镍污染，报告追溯至误混入试验罐的受污染肼推进剂。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。",
+          "machine_result_interpretation": "上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "hydrazine_thruster_catalyst_bed",
+                "fault_mode": "catalyst_metal_contamination",
+                "supporting_refs": [
+                  "ML-E-010",
+                  "LOG-A1",
+                  "LOG-A2",
+                  "L0-E-010"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "hydrazine_thruster_catalyst_bed"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "该催化剂污染与同一地面试验中的喷注管堵塞属于不同episode，不能合并为一个故障原因。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-010",
+              "LOG-A1",
+              "LOG-A2",
+              "L0-E-010"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "当前合成样品的独立复测",
+              "推进剂批次追溯和取样链记录",
+              "污染物与催化剂活性变化之间的直接关联"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "复核催化剂样品的元素分析",
+              "rationale": "确认污染物种类和浓度",
+              "priority": "HIGH"
+            },
+            {
+              "action": "追溯推进剂批次与试验罐清洁记录",
+              "rationale": "核实污染来源是否与推进剂批次有关",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。 上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-010"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。",
+        "machine_result_interpretation": "上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "hydrazine_thruster_catalyst_bed",
+              "fault_mode": "catalyst_metal_contamination",
+              "supporting_refs": [
+                "ML-E-010",
+                "LOG-A1",
+                "LOG-A2",
+                "L0-E-010"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "hydrazine_thruster_catalyst_bed"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "该催化剂污染与同一地面试验中的喷注管堵塞属于不同episode，不能合并为一个故障原因。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-010",
+            "LOG-A1",
+            "LOG-A2",
+            "L0-E-010"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "当前合成样品的独立复测",
+            "推进剂批次追溯和取样链记录",
+            "污染物与催化剂活性变化之间的直接关联"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "复核催化剂样品的元素分析",
+            "rationale": "确认污染物种类和浓度",
+            "priority": "HIGH"
+          },
+          {
+            "action": "追溯推进剂批次与试验罐清洁记录",
+            "rationale": "核实污染来源是否与推进剂批次有关",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。 上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "hydrazine_thruster_catalyst_bed",
+          "subsystem": "PROP",
+          "mission_phase": "GROUND_LIFE_TEST_POST_TEST_ANALYSIS",
+          "operating_mode": "catalyst_bed_material_analysis",
+          "fault_modes": [
+            "catalyst_metal_contamination"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-NASA-HYDRAZINE-CATALYST-010"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-CATALYST-010"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-CATALYST-010"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-CATALYST-010"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-CATALYST-010"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
+        ]
+      }
+    },
+    {
+      "schema_version": "dgsi-l1-task-packet.v1",
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "case": {
+        "schema_version": "dgsi-diagnostic-case.v1",
+        "case_id": "CASE-L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        "domain": "comm",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / S_band_transponder_linearizer",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-011",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "S_band_transponder_linearizer",
+                "result": "LINEARIZER_LNA_GAIN_DEGRADATION",
+                "score": 0.81,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-011"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-B1",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：S频段转发器输出功率较基线下降。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-B1"
+            },
+            {
+              "log_id": "LOG-B2",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：线性化通道增益测试结果异常，TWTA本体检查尚未发现直接异常。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-B2"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-011",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "S_band_transponder_linearizer",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "S_band_transponder_linearizer",
+                  "S_band_TWTA_output_power_path",
+                  "transponder_performance"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_TRANSPONDER_PERFORMANCE_TEST",
+            "operating_mode": "S_band_transponder_RF_test",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-011",
+              "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+              "passage_id": "Article abstract, journal page",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "地面排查将原因定位到线性化通道放大器两个微波模块内部的低噪声放大器芯片氢中毒。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        },
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。",
+          "machine_result_interpretation": "上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "S_band_transponder_linearizer",
+                "fault_mode": "linearizer_LNA_hydrogen_poisoning",
+                "supporting_refs": [
+                  "ML-E-011",
+                  "LOG-B1",
+                  "LOG-B2",
+                  "L0-E-011"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                ]
+              }
+            ],
+            "affected_components": [
+              "S_band_TWTA_output_power_path",
+              "transponder_performance"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "文献根因位于线性化通道微波模块中的LNA芯片，不是行波管电子枪、螺旋线或EPC；这是地面性能测试案例。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-011",
+              "LOG-B1",
+              "LOG-B2",
+              "L0-E-011"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "当前合成任务的模块级替换验证",
+              "LNA芯片材料/封装气体分析",
+              "线性化通道与TWTA本体的隔离测试"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "对线性化通道模块开展独立增益测试",
+              "rationale": "将功率下降定位到线性化通道而非直接归因于TWTA本体",
+              "priority": "HIGH"
+            },
+            {
+              "action": "核查模块批次与氢含量控制记录",
+              "rationale": "验证模块材料问题与增益退化的关系",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。 上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        },
+        "provenance": {
+          "source_group": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+          "source_artifact_hashes": [],
+          "diagnosis_run_refs": [
+            "SYNTHETIC-MLRUN-011"
+          ],
+          "historical_case_refs": [],
+          "generation_method": "LITERATURE_DERIVED_SYNTHETIC"
+        },
+        "review": {
+          "status": "REVIEW_REQUIRED",
+          "reviewer_id": null,
+          "review_notes": [
+            "Synthetic L1 task. Requires domain review; not Gold."
+          ],
+          "reviewed_at": null
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty."
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。",
+        "machine_result_interpretation": "上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "S_band_transponder_linearizer",
+              "fault_mode": "linearizer_LNA_hydrogen_poisoning",
+              "supporting_refs": [
+                "ML-E-011",
+                "LOG-B1",
+                "LOG-B2",
+                "L0-E-011"
+              ],
+              "limitations": [
+                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+              ]
+            }
+          ],
+          "affected_components": [
+            "S_band_TWTA_output_power_path",
+            "transponder_performance"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "文献根因位于线性化通道微波模块中的LNA芯片，不是行波管电子枪、螺旋线或EPC；这是地面性能测试案例。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "ML-E-011",
+            "LOG-B1",
+            "LOG-B2",
+            "L0-E-011"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "当前合成任务的模块级替换验证",
+            "LNA芯片材料/封装气体分析",
+            "线性化通道与TWTA本体的隔离测试"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "The upstream ML result and logs are synthetic scenario values.",
+            "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+            "No independent physical inspection or raw telemetry is supplied."
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "对线性化通道模块开展独立增益测试",
+            "rationale": "将功率下降定位到线性化通道而非直接归因于TWTA本体",
+            "priority": "HIGH"
+          },
+          {
+            "action": "核查模块批次与氢含量控制记录",
+            "rationale": "验证模块材料问题与增益退化的关系",
+            "priority": "MEDIUM"
+          }
+        ],
+        "report_text": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。 上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+      },
+      "history_context": {
+        "schema_version": "dgsi-history-context.v1",
+        "mode": "CONTEXT",
+        "retrieval_status": "NO_HIT",
+        "query": {
+          "equipment_scope": "S_band_transponder_linearizer",
+          "subsystem": "COMM",
+          "mission_phase": "GROUND_TRANSPONDER_PERFORMANCE_TEST",
+          "operating_mode": "S_band_transponder_RF_test",
+          "fault_modes": [
+            "linearizer_LNA_hydrogen_poisoning"
+          ],
+          "configuration_keys": [
+            "equipment_scope"
+          ]
+        },
+        "items": []
+      },
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "review": {
+        "status": "REVIEW_REQUIRED",
+        "reviewer_id": null,
+        "reviewed_at": null,
+        "notes": [
+          "Synthetic L1 task, pending domain review."
         ]
       }
     }
