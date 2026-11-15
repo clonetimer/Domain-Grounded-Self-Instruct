@@ -462,6 +462,24 @@ def validate_l1_task_packet_collection(
             group_splits.setdefault(source_groups[task_id], set()).add(split)
         if any(len(splits) > 1 for splits in group_splits.values()):
             _fail("L1_EVENT_FAMILY_CROSSES_DATASET_SPLITS")
+        # Prevent train/validation/test from consuming the target of another
+        # split as retrieved historical context. A historical source is not
+        # independent holdout evidence when its event family also serves as
+        # the current diagnostic target in a different split.
+        current_family_splits: dict[str, str] = {}
+        for candidate_packet in packets:
+            candidate_split = assigned[candidate_packet["task_id"]]
+            for source_ref in candidate_packet["source_fact_refs"]:
+                family_id = source_cards_by_id[source_ref]["event_family_id"]
+                current_family_splits[family_id] = candidate_split
+        for consumer_packet in packets:
+            consumer_split = assigned[consumer_packet["task_id"]]
+            for history_hit in consumer_packet["history_context"]["items"]:
+                prior_target_split = current_family_splits.get(
+                    history_hit["event_family_id"]
+                )
+                if prior_target_split is not None and prior_target_split != consumer_split:
+                    _fail("L1_HISTORY_CONTEXT_REFERENCES_OTHER_SPLIT_TARGET")
         # Source/event-family validation alone cannot authorize a training split.
         # Preserve earlier error priority for malformed or leaking assignments.
         if collection["data_status"] != "APPROVED_FOR_L1_EXPERIMENT" or any(
