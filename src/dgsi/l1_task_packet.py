@@ -158,6 +158,62 @@ def _validate_history_context(packet: dict[str, Any], case: dict[str, Any]) -> N
             _fail("CONFIRMED_HISTORY_ASOF_GATE_BLOCKED")
 
 
+
+def _contains_synthetic_provenance_marker(value: Any) -> bool:
+    """Detect explicit synthetic-fixture identifiers in real-track input metadata."""
+    if isinstance(value, str):
+        normalized = value.casefold()
+        return (
+            "synthetic" in normalized
+            or "合成场景" in value
+            or value.startswith("SYNTH-")
+        )
+    if isinstance(value, dict):
+        return any(
+            _contains_synthetic_provenance_marker(child)
+            for child in value.values()
+        )
+    if isinstance(value, list):
+        return any(_contains_synthetic_provenance_marker(child) for child in value)
+    return False
+
+
+def _validate_real_track_input_not_synthetic(case: dict[str, Any]) -> None:
+    """A REAL_CASE_CANDIDATE must not wrap synthetic pilot fixtures as real data."""
+    inputs = case["input"]
+    producer = inputs["machine_diagnosis"]["producer"]
+    if any(
+        _contains_synthetic_provenance_marker(producer.get(field))
+        for field in ("method", "version", "model_id")
+    ):
+        _fail("REAL_TRACK_SYNTHETIC_ML_PROVENANCE")
+    if any(
+        _contains_synthetic_provenance_marker(ref)
+        for ref in case["provenance"]["diagnosis_run_refs"]
+    ):
+        _fail("REAL_TRACK_SYNTHETIC_DIAGNOSIS_RUN_REF")
+    for finding in inputs["machine_diagnosis"]["findings"]:
+        if _contains_synthetic_provenance_marker(finding.get("finding_id")):
+            _fail("REAL_TRACK_SYNTHETIC_ML_FINDING_ID")
+        if any(
+            _contains_synthetic_provenance_marker(ref)
+            for ref in finding.get("supporting_evidence_ids", [])
+        ):
+            _fail("REAL_TRACK_SYNTHETIC_ML_EVIDENCE_REF")
+    for log in inputs["diagnostic_logs"]:
+        if any(
+            _contains_synthetic_provenance_marker(log.get(field))
+            for field in ("log_id", "source_ref", "author_role")
+        ):
+            _fail("REAL_TRACK_SYNTHETIC_LOG_PROVENANCE")
+    spacecraft = inputs["spacecraft_context"]
+    if _contains_synthetic_provenance_marker(spacecraft.get("spacecraft_id")):
+        _fail("REAL_TRACK_SYNTHETIC_SPACECRAFT_ID")
+    if _contains_synthetic_provenance_marker(
+        spacecraft.get("configuration", {}).get("configuration_origin")
+    ):
+        _fail("REAL_TRACK_SYNTHETIC_CONFIGURATION_PROVENANCE")
+
 def validate_l1_task_packet(
     packet: dict[str, Any],
     *,
@@ -323,6 +379,7 @@ def validate_l1_task_packet(
             _fail("REAL_TRACK_REQUIRES_USER_CASE_SOURCE")
         if case["provenance"].get("generation_method") == "LITERATURE_DERIVED_SYNTHETIC":
             _fail("REAL_TRACK_SYNTHETIC_GENERATION_MISMATCH")
+        _validate_real_track_input_not_synthetic(case)
 
     _validate_history_context(packet, case)
 
