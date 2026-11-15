@@ -12,7 +12,8 @@ The current LLM-facing contracts are:
 - [Formal report vs. curator review boundary](docs/FORMAL_REPORT_VS_CURATOR_REVIEW.md)
 - [L0 source fact card schema](resources/source_fact_card.schema.json)
 - [L1 dual-track and history Context design](docs/L1_DUAL_TRACK_AND_HISTORY_CONTEXT.md)
-- [L1 task packet schema](resources/l1_task_packet.schema.json)\n- [D0 preliminary asset inventory](docs/D0_PRELIMINARY_ASSET_INVENTORY.md)\n- [Local read-only inventory script](scripts/inventory_diagnostic_case_assets.py)\n- [AstroGraph result mapping and diagnostic-log intake gate](docs/ASTROGRAPH_RESULT_MAPPING_AND_LOG_GATE.md)
+- [L1 task packet schema](resources/l1_task_packet.schema.json)
+- [Controlled SFT effectiveness protocol](docs/CONTROLLED_SFT_EFFECTIVENESS_PROTOCOL.md)\n- [D0 preliminary asset inventory](docs/D0_PRELIMINARY_ASSET_INVENTORY.md)\n- [Local read-only inventory script](scripts/inventory_diagnostic_case_assets.py)\n- [AstroGraph result mapping and diagnostic-log intake gate](docs/ASTROGRAPH_RESULT_MAPPING_AND_LOG_GATE.md)
 
 Raw telemetry remains in the upstream ML pipeline. DGSI may retain restricted artifact references for lineage, but must not inline raw waveforms/high-rate telemetry into the LLM prompt. Uncalibrated ML scores are not probabilities; fault candidates are not confirmed root causes; historical unresolved cases remain unresolved.
 
