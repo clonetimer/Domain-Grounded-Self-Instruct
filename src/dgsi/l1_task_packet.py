@@ -362,6 +362,33 @@ def validate_l1_task_packet_collection(
         source_groups[task_id] = source_group
         decisions.append(result["decision"])
 
+    if collection["data_status"] == "APPROVED_FOR_L1_EXPERIMENT" and any(
+        packet["review"]["status"] != "APPROVED_FOR_L1_EXPERIMENT"
+        for packet in packets
+    ):
+        _fail("L1_COLLECTION_APPROVED_WITH_UNREVIEWED_PACKETS")
+
+    source_cards_by_id = {card["case_id"]: card for card in source_fact_cards}
+    referenced_source_ids = set()
+    for packet in packets:
+        referenced_source_ids.update(packet["source_fact_refs"])
+        referenced_source_ids.update(
+            source_ref
+            for item in packet["history_context"]["items"]
+            for source_ref in item["source_refs"]
+            if source_ref in source_cards_by_id
+        )
+    bound_source_cards = [
+        source_cards_by_id[ref] for ref in sorted(referenced_source_ids)
+    ]
+    source_review_counts = {
+        status: sum(card["domain_review_status"] == status for card in bound_source_cards)
+        for status in (
+            "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+            "DOMAIN_EXPERT_CONFIRMED",
+            "DOMAIN_EXPERT_REJECTED",
+        )
+    }
     assignments = collection.get("split_assignments", [])
     if assignments:
         assigned: dict[str, str] = {}
@@ -393,6 +420,7 @@ def validate_l1_task_packet_collection(
         "track": collection["track"],
         "packet_count": len(packets),
         "event_family_count": len(set(source_groups.values())),
+        "source_fact_domain_review_status_counts": source_review_counts,
         "split_assignment_count": len(assignments),
         "split_audit_performed": bool(assignments),
         "packet_decisions": decisions,
