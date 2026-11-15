@@ -78,3 +78,24 @@ Report results separately for:
 A controlled experiment may compare base model, generic Self-Instruct, literature-derived synthetic SFT, real Gold SFT (when available), and DGSI with retrieved historical Context. All arms use the same independent holdout and report fault-source localization, affected-component identification, evidence consistency, uncertainty calibration, disposal fidelity and appropriate rejection/abstention.
 
 Synthetic task count must never be reported as real-case count. Schema/CI PASS is not scientific effectiveness evidence.
+
+
+## First L1 literature-derived pilot
+
+`examples/l1_literature_synthetic_task_packets_v0.1.json` contains three review-required packets:
+1. SEASAT slip-ring arc/short candidate;
+2. Lunar Orbiter III TWTA power-monitor measurement-chain ambiguity;
+3. TROPICS Pathfinder cross-interface common-cause short candidate, with a rejected SEL hypothesis included as qualified Context.
+
+All three are explicitly synthetic. Their ML scores, run IDs, event logs, spacecraft identifiers, configuration and operating modes are scenario values. The source L0 fact cards constrain the historical mechanism statement and its certainty only. No real flight logs or ML execution are claimed. Formal assistant targets contain conclusion fields only; curator prompts remain under the Case's `internal_review`.
+
+The first pilot intentionally covers:
+- no historical retrieval hit;
+- a retrieved rejected history item that must remain rejected and cannot vote on the current cause;
+- distinct source event families and L0 evidence references.
+
+This is a task-coverage fixture set, not an approved training corpus. Every packet remains `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
+
+## Collection and split audit
+
+The L1 collection contract (`resources/l1_task_packet_collection.schema.json`) requires a single data track per collection. The collection validator checks packet count, task-ID uniqueness, source-card binding and optional split assignments. When split assignments are supplied, every packet must be assigned exactly once and all tasks derived from the same `source_group` / L0 event family must remain in one split. The current three-packet pilot has no train/validation/test assignments because it has not completed review.

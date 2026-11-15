@@ -17,6 +17,7 @@ _SCHEMA_FILES = {
     "sft": "diagnostic_sft.schema.json",
     "source_fact_card": "source_fact_card.schema.json",
     "l1_task_packet": "l1_task_packet.schema.json",
+    "l1_task_packet_collection": "l1_task_packet_collection.schema.json",
 }
 _SCHEMA_ROOT = Path(__file__).resolve().parents[2] / "resources"
 
