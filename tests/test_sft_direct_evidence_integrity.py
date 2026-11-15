@@ -107,6 +107,14 @@ class StandaloneSftEvidenceTests(unittest.TestCase):
         )
         self.reject(example, "AMBIGUOUS_CROSS_SOURCE_EVIDENCE_ID")
 
+    def test_duplicate_log_ids_rejected(self):
+        example = synthetic_example()
+        edit_prompt(
+            example,
+            lambda p: p["input"]["diagnostic_logs"][1].update(log_id="LOG-01"),
+        )
+        self.reject(example, "DUPLICATE_DIAGNOSTIC_LOG_ID")
+
     def test_duplicate_findings_rejected(self):
         example = synthetic_example()
         edit_prompt(
