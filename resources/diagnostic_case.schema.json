@@ -414,12 +414,11 @@
       "additionalProperties": false,
       "required": [
         "disposition",
-        "diagnostic_summary",
-        "machine_result_interpretation",
-        "fault_source_assessment",
+        "phenomenon_analysis",
+        "cause_localization",
+        "disposal_measures",
         "evidence_assessment",
-        "uncertainty",
-        "recommended_next_steps"
+        "uncertainty"
       ],
       "properties": {
         "disposition": {
@@ -431,69 +430,6 @@
             "INSUFFICIENT_CONTEXT",
             "NO_FAULT_INDICATED"
           ]
-        },
-        "diagnostic_summary": {
-          "type": "string"
-        },
-        "machine_result_interpretation": {
-          "type": "string"
-        },
-        "fault_source_assessment": {
-          "type": "object",
-          "required": [
-            "status",
-            "candidates",
-            "affected_components"
-          ],
-          "properties": {
-            "status": {
-              "enum": [
-                "SUPPORTED",
-                "CANDIDATE_ONLY",
-                "UNRESOLVED",
-                "NOT_APPLICABLE"
-              ]
-            },
-            "candidates": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "required": [
-                  "component",
-                  "fault_mode",
-                  "supporting_refs"
-                ],
-                "properties": {
-                  "component": {
-                    "type": "string"
-                  },
-                  "fault_mode": {
-                    "type": "string"
-                  },
-                  "supporting_refs": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "limitations": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "additionalProperties": false
-              }
-            },
-            "affected_components": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          "additionalProperties": false
         },
         "evidence_assessment": {
           "type": "object",
@@ -524,32 +460,6 @@
           },
           "additionalProperties": false
         },
-        "historical_experience_relevance": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "case_ref",
-              "relevance",
-              "transfer_limitations"
-            ],
-            "properties": {
-              "case_ref": {
-                "type": "string"
-              },
-              "relevance": {
-                "type": "string"
-              },
-              "transfer_limitations": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "additionalProperties": false
-          }
-        },
         "uncertainty": {
           "type": "object",
           "required": [
@@ -574,35 +484,86 @@
           },
           "additionalProperties": false
         },
-        "recommended_next_steps": {
+        "report_text": {
+          "type": "string",
+          "description": "Optional concise engineering report formed only from the formal conclusion fields."
+        },
+        "phenomenon_analysis": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Formal conclusion: concise analysis of observed symptoms and recorded relationships."
+        },
+        "cause_localization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "fault_source",
+            "affected_components",
+            "cause_mechanism"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "CONFIRMED",
+                "MOST_LIKELY",
+                "CANDIDATE",
+                "UNRESOLVED",
+                "NOT_LOCALIZED"
+              ]
+            },
+            "fault_source": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "affected_components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "cause_mechanism": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "qualification": {
+              "type": "string",
+              "description": "State the evidence-supported certainty level; do not add speculative reasoning."
+            }
+          }
+        },
+        "disposal_measures": {
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "required": [
-              "action",
-              "rationale",
-              "priority"
+              "measure",
+              "condition",
+              "source_ref"
             ],
             "properties": {
-              "action": {
+              "measure": {
                 "type": "string"
               },
-              "rationale": {
-                "type": "string"
+              "condition": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
-              "priority": {
-                "enum": [
-                  "HIGH",
-                  "MEDIUM",
-                  "LOW"
+              "source_ref": {
+                "type": [
+                  "string",
+                  "null"
                 ]
               }
-            },
-            "additionalProperties": false
+            }
           }
-        },
-        "report_text": {
-          "type": "string"
         }
       }
     },
@@ -679,6 +640,35 @@
         }
       },
       "additionalProperties": false
+    },
+    "internal_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Dataset-curator QA only. Must never be serialized into LLM user input or assistant target.",
+      "required": [
+        "review_prompts",
+        "unverified_assumptions"
+      ],
+      "properties": {
+        "review_prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unverified_assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
