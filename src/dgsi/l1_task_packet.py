@@ -248,6 +248,19 @@ def validate_l1_task_packet(
         expected_group = "LITERATURE-DERIVED:" + next(iter(families))
         if case["provenance"]["source_group"] != expected_group:
             _fail("L1_SYNTHETIC_SOURCE_GROUP_NOT_BOUND_TO_L0_FAMILY")
+        event_statuses = {card["event_status"] for card in cards}
+        if len(event_statuses) != 1:
+            _fail("L1_SYNTHETIC_SOURCE_EVENT_STATUS_AMBIGUOUS")
+        source_event_status = next(iter(event_statuses))
+        mission_phase = case["input"]["operational_context"]["mission_phase"].casefold()
+        ground_context = any(
+            token in mission_phase
+            for token in ("ground", "tvac", "thermal vacuum", "thermal_vacuum")
+        )
+        if source_event_status == "GROUND_TEST_EVENT" and not ground_context:
+            _fail("L1_GROUND_TEST_SOURCE_MISLABELED_AS_FLIGHT_CONTEXT")
+        if source_event_status == "FLIGHT_EVENT" and ground_context:
+            _fail("L1_FLIGHT_SOURCE_MISLABELED_AS_GROUND_CONTEXT")
         if case["provenance"].get("generation_method") != "LITERATURE_DERIVED_SYNTHETIC":
             _fail("CASE_GENERATION_METHOD_NOT_SYNTHETIC")
         if not case["provenance"]["diagnosis_run_refs"] or any(

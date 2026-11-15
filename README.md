@@ -57,3 +57,5 @@ Use [`docs/DOMAIN_REVIEW_CHECKLIST.md`](docs/DOMAIN_REVIEW_CHECKLIST.md) to revi
 - [L1 literature pilot coverage](docs/L1_LITERATURE_PILOT_COVERAGE.md)
 - [Machine-readable L1 pilot manifest](examples/l1_literature_pilot_coverage_v0.1.json)
 - [L1 task coverage and independent blind review](docs/L1_TASK_COVERAGE_AND_BLIND_REVIEW.md)
+
+- [L1 review receipt batch audit](docs/L1_REVIEW_RECEIPT_BATCH_AUDIT.md)
