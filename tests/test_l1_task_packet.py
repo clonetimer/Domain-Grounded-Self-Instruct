@@ -66,7 +66,7 @@ def source_card(source_class="PUBLIC_FLIGHT_REPORT"):
 def make_case(*, synthetic=True, history_status="UNRESOLVED", with_history=True):
     case = copy.deepcopy(_BASE_CASE)
     case["case_id"] = "SYNTH-L1-ADCS-001" if synthetic else "REAL-CANDIDATE-ADCS-001"
-    case["provenance"]["source_group"] = "SYNTHETIC-CURRENT-EVENT-001" if synthetic else "USER-EVENT-FAMILY-001"
+    case["provenance"]["source_group"] = "LITERATURE-DERIVED:L0-SEASAT-FAMILY" if synthetic else "USER-EVENT-FAMILY-001"
     case["provenance"]["diagnosis_run_refs"] = ["SYNTHETIC-MLRUN-001"] if synthetic else ["USER-MLRUN-REF-001"]
     case["provenance"]["generation_method"] = "LITERATURE_DERIVED_SYNTHETIC" if synthetic else "USER_SOURCE_CASE"
     case["review"]["status"] = "REVIEW_REQUIRED"
@@ -285,6 +285,12 @@ class L1TaskPacketTests(unittest.TestCase):
         packet["history_context"]["items"][0]["event_family_id"] = packet["case"]["provenance"]["source_group"]
         packet["history_context"]["items"][0]["hit_metadata"]["source_group_id"] = packet["case"]["provenance"]["source_group"]
         with self.assertRaisesRegex(L1TaskPacketError, "CURRENT_INCIDENT_CANNOT_BE_HISTORY"):
+            self.validate(packet)
+
+    def test_synthetic_split_group_is_bound_to_source_event_family(self):
+        packet = make_packet()
+        packet["case"]["provenance"]["source_group"] = "LITERATURE-DERIVED:UNRELATED-FAMILY"
+        with self.assertRaisesRegex(L1TaskPacketError, "L1_SYNTHETIC_SOURCE_GROUP_NOT_BOUND_TO_L0_FAMILY"):
             self.validate(packet)
 
 
