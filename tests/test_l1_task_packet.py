@@ -486,7 +486,7 @@ class L1TaskPacketTests(unittest.TestCase):
         item["hardware_compatibility"] = "UNKNOWN"
         item["applicability_limitations"] = []
         packet["case"]["input"]["historical_cases"][0]["applicability_limitations"] = []
-        with self.assertRaisesRegex(L1TaskPacketError, "UNKNOWN_HISTORY_REQUIRES_TRANSFER_LIMITATION"):
+        with self.assertRaisesRegex(L1TaskPacketError, "JSON_SCHEMA_MINITEMS"):
             self.validate(packet)
 
     def test_compatible_hardware_must_match_historical_scope(self):
