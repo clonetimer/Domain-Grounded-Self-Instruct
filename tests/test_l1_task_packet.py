@@ -16,6 +16,8 @@ _BASE_CASE = json.loads((ROOT / "examples/diagnostic_context_case_illustrative.j
 def source_card(source_class="PUBLIC_FLIGHT_REPORT"):
     return {
         "schema_version": "dgsi-source-fact-card.v1",
+        "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+        "domain_review_evidence_sha256": None,
         "case_id": "L0-SEASAT-001",
         "source_class": source_class,
         "source_reference": {
