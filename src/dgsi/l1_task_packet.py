@@ -210,15 +210,20 @@ def validate_l1_task_packet(
         for item in packet["history_context"]["items"]
         for source_ref in item["source_refs"]
     }
-    if history_source_refs - set(cards_by_id):
+    unresolved_history_refs = {
+        source_ref for source_ref in history_source_refs
+        if source_ref not in cards_by_id and not source_ref.startswith("SYNTHETIC-")
+    }
+    if unresolved_history_refs:
         _fail("UNRESOLVED_HISTORY_SOURCE_REFERENCE")
+    resolved_history_refs = history_source_refs & set(cards_by_id)
     if any(
         cards_by_id[source_ref]["source_class"] not in {
             "PUBLIC_FLIGHT_REPORT", "PUBLIC_GROUND_TEST_REPORT",
             "PUBLIC_ENGINEERING_TEST", "PUBLIC_EXPERT_SYSTEM_STUDY"
         }
         or cards_by_id[source_ref]["knowledge_source_not_event"]
-        for source_ref in history_source_refs
+        for source_ref in resolved_history_refs
     ):
         _fail("HISTORY_SOURCE_NOT_EVENT_OR_PUBLIC")
     allowed_refs = set(refs) | history_source_refs
