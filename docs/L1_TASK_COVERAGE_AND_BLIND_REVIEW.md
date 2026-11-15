@@ -19,7 +19,7 @@ Every packet must retain one L0 event family, explicit source fact references, a
 
 ## 2. Baseline pilot: independently observed coverage
 
-The expanded pilot contains **11 literature-derived SYNTHETIC tasks from 8 source event families**. Ten are `diagnostic_synthesis`; one is `conflict_reconciliation`. Ten use `NO_HIT`; one includes a historical `REJECTED` hypothesis. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 11 require independent expert review. No real Gold packet or formal split exists.
+The expanded pilot contains **12 literature-derived SYNTHETIC tasks from 9 source event families**. Ten are `diagnostic_synthesis`; one is `conflict_reconciliation`; one is `historical_case_reuse`. Ten use `NO_HIT`; one includes a historical `REJECTED` hypothesis; one includes a `PARTIALLY_CONFIRMED` Cassini history item with `UNKNOWN` hardware compatibility. Flight and ground-test sources are represented separately. Related episodes from TROPICS flight CRC, Lunar Orbiter III TWTA and NASA 22 N hydrazine testing remain grouped by event family. All 11 require independent expert review. No real Gold packet or formal split exists.
 
 History Context needs controlled, *separately labeled* variants: no hit; confirmed and appropriately scoped; rejected; unresolved; conflicting confirmed/rejected; incompatible hardware; available after cutoff; and same event family. The last three should be **blocked/rejected adversarial tests**, not admitted as valid historical context. Keep hardware and time-incompatible candidates out of model-visible context unless the specific educational objective is to reject an explicitly marked untrusted candidate.
 
@@ -64,3 +64,6 @@ This is intentionally *not* a real Gold inventory or data leakage certification.
 Before any model training (requires explicit authorization): freeze holdout incident families and source reports; freeze generation recipes; review upstream score semantics, model/run version, evidence IDs, mission cutoff, history `available_at`/`verified_at`; pre-register arms A (Base), B (Generic Self-Instruct), C (DGSI literature synthetic), D (DGSI real Gold, if admitted), E (same model + historical Context). Match independent holdouts, report synthetic versus real strata separately, include abstention and false-disposal rates. Record `NOT_RUN` for any unavailable real holdout or training arm.
 
 **Current checkpoint:** 3 synthetic L1 tasks, 3 event families, 0 verified real Gold, 0 approved splits, 0 fine-tuning runs, and no effectiveness claim.
+
+
+The FUSE history-reuse task uses the Cassini RWA case only as qualified Context. The Cassini case is PARTIALLY_CONFIRMED, its actual equipment scope differs from the current FUSE wheel, and hardware compatibility is UNKNOWN. The formal target must retain this limitation and must not cite the Cassini case as support for the FUSE cause. Its synthetic `available_at` is conservatively normalized to end-of-day on the 2004-05-10 NASA LLIS lesson date.
