@@ -140,7 +140,7 @@
                   "ML-E-001",
                   "LOG-01",
                   "LOG-02",
-                  "L0-E-01"
+                  "L0-E-001"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -160,7 +160,7 @@
               "ML-E-001",
               "LOG-01",
               "LOG-02",
-              "L0-E-01"
+              "L0-E-001"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -252,7 +252,7 @@
                 "ML-E-001",
                 "LOG-01",
                 "LOG-02",
-                "L0-E-01"
+                "L0-E-001"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -272,7 +272,7 @@
             "ML-E-001",
             "LOG-01",
             "LOG-02",
-            "L0-E-01"
+            "L0-E-001"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -521,7 +521,7 @@
                   "ML-E-002",
                   "LOG-11",
                   "LOG-12",
-                  "L0-E-11"
+                  "L0-E-002"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -540,7 +540,7 @@
               "ML-E-002",
               "LOG-11",
               "LOG-12",
-              "L0-E-11"
+              "L0-E-002"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -632,7 +632,7 @@
                 "ML-E-002",
                 "LOG-11",
                 "LOG-12",
-                "L0-E-11"
+                "L0-E-002"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -651,7 +651,7 @@
             "ML-E-002",
             "LOG-11",
             "LOG-12",
-            "L0-E-11"
+            "L0-E-002"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -926,7 +926,7 @@
                   "LOG-21",
                   "LOG-22",
                   "LOG-23",
-                  "L0-E-21"
+                  "L0-E-003"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -949,7 +949,7 @@
               "LOG-21",
               "LOG-22",
               "LOG-23",
-              "L0-E-21"
+              "L0-E-003"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -1054,7 +1054,7 @@
                 "LOG-21",
                 "LOG-22",
                 "LOG-23",
-                "L0-E-21"
+                "L0-E-003"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -1077,7 +1077,7 @@
             "LOG-21",
             "LOG-22",
             "LOG-23",
-            "L0-E-21"
+            "L0-E-003"
           ],
           "contradicting_refs": [],
           "missing_information": [
