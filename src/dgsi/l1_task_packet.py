@@ -308,6 +308,17 @@ def validate_l1_task_packet(
                 _fail("SYNTHETIC_FIELD_REQUIRES_SOURCE_FACT_REF")
             if set(item["source_fact_refs"]) - allowed_refs:
                 _fail("SYNTHETIC_FIELD_SOURCE_REFERENCE_UNRESOLVED")
+            # Current-event ML, logs and configuration may only cite the
+            # current L0 source family. History-only sources must not be
+            # laundered into the current incident's input provenance.
+            cited_refs = set(item["source_fact_refs"])
+            if item["field_path"] == "case.input.historical_cases":
+                # The historical input must be bound to an actual retrieved
+                # hit's declared source, including clearly synthetic sources.
+                if not cited_refs.intersection(history_source_refs):
+                    _fail("SYNTHETIC_HISTORY_FIELD_NOT_BOUND_TO_HIT_SOURCE")
+            elif cited_refs - set(refs):
+                _fail("SYNTHETIC_CURRENT_FIELD_CITES_HISTORY_ONLY_SOURCE")
             # Upstream ML findings and logs are invented scenario inputs here,
             # never a literal ML run or operations log supplied by the paper.
             if item["field_path"] in {
