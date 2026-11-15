@@ -470,6 +470,16 @@ class L1TaskPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(L1TaskPacketError, "INCOMPATIBLE_HISTORY_MUST_BE_QUALIFIED_IN_TARGET"):
             self.validate(packet)
 
+    def test_history_context_coverage_matrix_maps_to_executable_tests(self):
+        matrix = json.loads((ROOT / "examples/history_context_coverage_matrix_v0.1.json").read_text(encoding="utf-8"))
+        source = (ROOT / "tests/test_l1_task_packet.py").read_text(encoding="utf-8")
+        self.assertEqual(matrix["classification"], "SYNTHETIC_TEST_ONLY")
+        self.assertGreaterEqual(len(matrix["variants"]), 10)
+        for variant in matrix["variants"]:
+            names = variant.get("tests", [variant.get("test")])
+            for name in names:
+                self.assertIn(f"def {name}(", source, msg=variant["id"])
+
 
 if __name__ == "__main__":
     unittest.main()
