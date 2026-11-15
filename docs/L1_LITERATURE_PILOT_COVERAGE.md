@@ -2,7 +2,7 @@
 
 ## Current inventory
 
-The pilot now contains **11 L1 literature-derived synthetic packets across 8 L0 event families**. All are `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
+The pilot now contains **12 L1 literature-derived synthetic packets across 9 L0 event families**. All are `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
 
 | Task | Source event class | Main diagnostic challenge |
 |---|---|---|
@@ -50,3 +50,10 @@ The 11 packets are task-coverage fixtures for expert review and validator regres
 ## Review next step
 
 Use `docs/L1_TARGET_QUALITY_REVIEW_RUBRIC.md` and `resources/l1_quality_review.schema.json` to review each frozen packet. A high score permits consideration for an L1 controlled experiment only; it does not automatically grant Gold status or authorize fine-tuning.
+
+
+## History-reuse example
+
+The FUSE pitch-axis reaction-wheel drag task retrieves the Cassini RWA slow-speed drag case as a **PARTIALLY_CONFIRMED** historical contrast. Cassini's source describes likely lubricant redistribution after prolonged near-zero-speed operation; FUSE's source describes a likely Kapton-liner bubble/contact mechanism. The prior case is marked `hardware_compatibility=UNKNOWN`, with explicit transfer limitations. It may guide differential checks but cannot support the current FUSE root-cause candidate or transfer Cassini's speed-management action.
+
+The Cassini lesson date is 2004-05-10. For the synthetic retrieval snapshot, `available_at=2004-05-10T23:59:59Z` is a conservative date-normalization convention (end of the stated lesson date), not a claim about the exact publication time.
