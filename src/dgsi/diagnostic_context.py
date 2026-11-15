@@ -12,7 +12,11 @@ from datetime import datetime
 from collections import defaultdict
 from typing import Any
 
-from .schema_validation import SchemaContractError, validate_payload_schema
+from .schema_validation import (
+    SchemaContractError,
+    validate_payload_schema,
+    validate_diagnostic_input_schema,
+)
 
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 TASK_TYPES = {
@@ -378,6 +382,14 @@ def _validate_sft_prompt_json_packet(user_content: str) -> None:
 
     reject_nonfinite(packet)
     _reject_raw_telemetry(packet["input"])
+    _require(
+        packet["input"].get("raw_telemetry_included") is False,
+        "SFT_RAW_TELEMETRY_FLAG_REQUIRED_FALSE",
+    )
+    try:
+        validate_diagnostic_input_schema(packet["input"])
+    except SchemaContractError as exc:
+        raise DiagnosticContextValidationError(str(exc)) from None
 
 
 def validate_sft_example(example: dict[str, Any]) -> None:
