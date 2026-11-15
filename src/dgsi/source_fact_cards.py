@@ -94,6 +94,11 @@ def validate_source_fact_card_collection(cards: list[dict[str, Any]]) -> dict[st
     seen_episodes: set[str] = set()
     family_counts: dict[str, int] = {}
     knowledge_count = 0
+    domain_review_counts = {
+        "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION": 0,
+        "DOMAIN_EXPERT_CONFIRMED": 0,
+        "DOMAIN_EXPERT_REJECTED": 0,
+    }
     for index, card in enumerate(cards):
         try:
             validate_source_fact_card(card)
@@ -110,10 +115,12 @@ def validate_source_fact_card_collection(cards: list[dict[str, Any]]) -> dict[st
         seen_episodes.add(episode_id)
         family_counts[family_id] = family_counts.get(family_id, 0) + 1
         knowledge_count += int(card["knowledge_source_not_event"])
+        domain_review_counts[card["domain_review_status"]] += 1
     return {
         "card_count": len(cards),
         "event_family_count": len(family_counts),
         "multi_episode_family_count": sum(1 for count in family_counts.values() if count > 1),
         "knowledge_source_not_event_count": knowledge_count,
+        "domain_review_status_counts": domain_review_counts,
         "sft_eligible_count": 0,
     }
