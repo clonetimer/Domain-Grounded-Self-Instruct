@@ -130,6 +130,11 @@ def _validate_evidence_reference_integrity(
     refs = [*evidence["supporting_refs"], *evidence["contradicting_refs"]]
     for candidate in expected["cause_localization"]["candidates"]:
         refs.extend(candidate["supporting_refs"])
+    for measure in expected["disposal_measures"]:
+        measure_refs = measure["evidence_refs"]
+        if measure["measure_type"] == "EXECUTED":
+            _require(bool(measure_refs), "EXECUTED_DISPOSAL_REQUIRES_SOURCE_EVIDENCE")
+        refs.extend(measure_refs)
     _require(all(ref in seen for ref in refs), "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE")
 
     previous_cases = set(history_ids)
