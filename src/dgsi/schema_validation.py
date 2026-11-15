@@ -35,6 +35,27 @@ def _validator(kind: str) -> Draft202012Validator:
     return Draft202012Validator(schema, format_checker=FormatChecker())
 
 
+
+@lru_cache(maxsize=1)
+def _diagnostic_input_validator() -> Draft202012Validator:
+    """Reuse the published Case input contract for standalone SFT prompts."""
+    source_schema = _validator("case").schema
+    input_schema = source_schema["properties"]["input"]
+    return Draft202012Validator(input_schema, format_checker=FormatChecker())
+
+
+def validate_diagnostic_input_schema(payload: Any) -> None:
+    """Check the complete nested input without requiring a target or review.
+
+    In isolation this validates structure only. It does not certify upstream
+    results, logs, event timestamps relative to the cutoff, or source rights.
+    Rejection errors deliberately never include the supplied payload.
+    """
+    error = next(_diagnostic_input_validator().iter_errors(payload), None)
+    if error is not None:
+        raise SchemaContractError(f"JSON_SCHEMA_INPUT_{str(error.validator).upper()}")
+
+
 def validate_payload_schema(kind: str, payload: Any) -> None:
     """Enforce the complete Draft 2020-12 contract, including nested properties.
 
