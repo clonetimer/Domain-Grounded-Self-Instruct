@@ -15,6 +15,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 _SCHEMA_FILES = {
     "case": "diagnostic_case.schema.json",
     "sft": "diagnostic_sft.schema.json",
+    "source_fact_card": "source_fact_card.schema.json",
 }
 _SCHEMA_ROOT = Path(__file__).resolve().parents[2] / "resources"
 
