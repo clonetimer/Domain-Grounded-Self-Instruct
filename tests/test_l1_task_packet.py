@@ -392,6 +392,13 @@ class L1TaskPacketTests(unittest.TestCase):
                 "status": "REJECTED_HISTORICAL_CASE_NOT_CURRENT_TRUTH",
             },
         })
+        # A second historical hit must carry its own synthetic source lineage.
+        # This is a fixture correction, not a relaxation of the runtime gate.
+        history_lineage = next(
+            item for item in packet["synthetic_provenance"]["generated_fields"]
+            if item["field_path"] == "case.input.historical_cases"
+        )
+        history_lineage["source_fact_refs"].append("SYNTHETIC-HISTORY-REVIEW-REF-002")
         result = self.validate(packet)
         self.assertEqual(result["history_item_count"], 2)
         self.assertEqual(
