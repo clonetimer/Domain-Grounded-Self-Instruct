@@ -36,8 +36,11 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         self.assertTrue(case["input"]["diagnostic_logs"])
         self.assertTrue(case["input"]["historical_cases"])
         self.assertTrue(case["input"]["knowledge_evidence"])
-        self.assertIn("fault_source_assessment", case["expected_output"])
-        self.assertIn("affected_components", case["expected_output"]["fault_source_assessment"])
+        self.assertIn("phenomenon_analysis", case["expected_output"])
+        self.assertIn("cause_localization", case["expected_output"])
+        self.assertIn("disposal_measures", case["expected_output"])
+        self.assertIn("internal_review", case)
+        self.assertNotIn("internal_review", case["expected_output"])
         self.assertIn("uncertainty", case["expected_output"])
         self.assertEqual(case["review"]["status"], "DRAFT")
         self.assertIn("hypothetical", case["provenance"]["generation_method"])
@@ -62,7 +65,7 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
         finding = case["input"]["machine_diagnosis"]["findings"][0]
         self.assertEqual(finding["score_semantics"], "uncalibrated ranking score; not a probability")
-        self.assertEqual(case["expected_output"]["fault_source_assessment"]["status"], "CANDIDATE_ONLY")
+        self.assertEqual(case["expected_output"]["cause_localization"]["status"], "CANDIDATE")
 
     def test_historical_unresolved_case_remains_unresolved(self):
         case = load_json("examples/diagnostic_context_case_illustrative.json")
@@ -145,6 +148,34 @@ class DiagnosticContextSftContractTests(unittest.TestCase):
         case["input"]["analysis_cutoff"] = "2026-04-12T09:10:00"
         with self.assertRaisesRegex(DiagnosticContextValidationError, "must include a timezone"):
             validate_diagnostic_case(case)
+
+    def test_formal_target_separates_phenomenon_cause_and_disposal(self):
+        case = load_json("examples/diagnostic_context_case_illustrative.json")
+        output = case["expected_output"]
+        self.assertTrue(output["phenomenon_analysis"])
+        self.assertEqual(output["cause_localization"]["status"], "CANDIDATE")
+        self.assertTrue(output["cause_localization"]["qualification"])
+        self.assertTrue(output["disposal_measures"])
+        self.assertIn("现象", output["report_text"])
+        self.assertNotIn("不能因观测对象", output["report_text"])
+
+    def test_internal_review_prompts_never_enter_sft_prompt_or_target(self):
+        example = load_json("examples/diagnostic_context_sft_illustrative.json")
+        user_text = example["messages"][1]["content"]
+        assistant_text = example["messages"][2]["content"]
+        self.assertNotIn("internal_review", user_text)
+        self.assertNotIn("expected_output", user_text)
+        self.assertNotIn("review_prompts", user_text)
+        self.assertNotIn("不能因观测对象", assistant_text)
+        self.assertNotIn("思考提示", assistant_text)
+
+    def test_sft_assistant_target_contains_conclusion_sections_not_review_checklist(self):
+        example = load_json("examples/diagnostic_context_sft_illustrative.json")
+        target = json.loads(example["messages"][2]["content"])
+        self.assertIn("phenomenon_analysis", target)
+        self.assertIn("cause_localization", target)
+        self.assertIn("disposal_measures", target)
+        self.assertNotIn("internal_review", target)
 
 
 if __name__ == "__main__":
