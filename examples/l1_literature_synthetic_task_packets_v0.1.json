@@ -3,7 +3,7 @@
   "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-001",
   "track": "LITERATURE_DERIVED_SYNTHETIC",
   "packet_count": 3,
-  "data_status": "SYNTHETIC_FIXTURES_REVIEW_REQUIRED_NOT_GOLD",
+  "data_status": "REVIEW_REQUIRED",
   "split_policy": "All packets derived from the same L0 event family must remain in one split; no variants from the same family may cross train/validation/test.",
   "packets": [
     {
