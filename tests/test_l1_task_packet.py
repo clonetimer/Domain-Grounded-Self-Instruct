@@ -561,6 +561,19 @@ class L1TaskPacketTests(unittest.TestCase):
         self.assertEqual(packet["formal_target"], packet["case"]["expected_output"])
         self.assertEqual(packet["formal_target"]["cause_localization"]["certainty"], "CANDIDATE")
 
+    def test_l1_pilot_coverage_manifest_matches_packet_collection(self):
+        manifest = json.loads((ROOT / "examples/l1_literature_pilot_coverage_v0.1.json").read_text(encoding="utf-8"))
+        collection = json.loads((ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text(encoding="utf-8"))
+        manifest_ids = {item["task_id"] for item in manifest["tasks"]}
+        packet_ids = {item["task_id"] for item in collection["packets"]}
+        self.assertEqual(manifest_ids, packet_ids)
+        self.assertEqual(manifest["packet_count"], len(packet_ids))
+        self.assertEqual(manifest["event_family_count"], len({p["case"]["provenance"]["source_group"] for p in collection["packets"]}))
+        for group in manifest["split_groups"]:
+            for task_id in group["tasks"]:
+                packet = next(p for p in collection["packets"] if p["task_id"] == task_id)
+                self.assertEqual(packet["case"]["provenance"]["source_group"], "LITERATURE-DERIVED:" + group["event_family"])
+
 
 if __name__ == "__main__":
     unittest.main()
