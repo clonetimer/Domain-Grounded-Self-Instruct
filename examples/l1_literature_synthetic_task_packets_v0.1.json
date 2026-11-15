@@ -1237,5 +1237,7 @@
         ]
       }
     }
-  ]
+  ],
+  "gold_eligible": false,
+  "training_authorized": false
 }
