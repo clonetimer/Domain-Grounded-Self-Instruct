@@ -44,8 +44,9 @@ def audit_disposal_source_review(
 ) -> dict[str, Any]:
     """Validate evidence excerpts and independent-review *claims* for disposal.
 
-    One review attestation is required per documented measure. Each one must
-    cite an actual source in that measure's evidence_refs, contain a literal
+    One review attestation is required per cited source of each documented
+    measure; a valid review of one citation cannot silently bless the other
+    citations. Every attestation must contain a literal
     excerpt from the supplied source, bind the exact action wording by digest,
     and record an explicit human verdict. This does not interpret the excerpt:
     the reviewer remains responsible for semantic support and identity proof.
@@ -86,11 +87,22 @@ def audit_disposal_source_review(
     measures = case["expected_output"]["disposal_measures"]
     attestations = review_packet["attestations"]
     _check(isinstance(attestations, list), "INVALID_DISPOSAL_ATTESTATIONS")
-    _check(len(attestations) == len(measures), "DISPOSAL_REVIEW_COVERAGE_MISMATCH")
+    expected_pairs: set[tuple[int, str]] = set()
+    for measure_index, measure in enumerate(measures):
+        evidence_refs = measure["evidence_refs"]
+        _check(
+            len(evidence_refs) == len(set(evidence_refs)),
+            "DUPLICATE_DISPOSAL_EVIDENCE_REF",
+        )
+        expected_pairs.update((measure_index, ref) for ref in evidence_refs)
+    _check(
+        len(attestations) == len(expected_pairs),
+        "DISPOSAL_REVIEW_COVERAGE_MISMATCH",
+    )
 
     logs = {entry["log_id"]: entry for entry in case["input"]["diagnostic_logs"]}
     knowledge = {entry["evidence_id"]: entry for entry in case["input"].get("knowledge_evidence", [])}
-    indices: set[int] = set()
+    reviewed_pairs: set[tuple[int, str]] = set()
     for entry in attestations:
         _check(isinstance(entry, dict), "INVALID_DISPOSAL_ATTESTATION")
         required = {
@@ -100,13 +112,14 @@ def audit_disposal_source_review(
         _check(set(entry) in (required, required | {"source_published_at"}), "INVALID_DISPOSAL_ATTESTATION_FIELDS")
         index = entry["measure_index"]
         _check(type(index) is int and 0 <= index < len(measures), "INVALID_DISPOSAL_MEASURE_INDEX")
-        _check(index not in indices, "DUPLICATE_DISPOSAL_MEASURE_REVIEW")
-        indices.add(index)
         measure = measures[index]
         _check(entry["measure_sha256"] == _digest(measure["measure"]), "DISPOSAL_MEASURE_CHANGED_AFTER_REVIEW")
         _check(entry["source_action_type"] == measure["measure_type"], "DISPOSAL_ACTION_TYPE_MISMATCH")
         ref = entry["evidence_ref"]
         _check(isinstance(ref, str) and ref in measure["evidence_refs"], "UNBOUND_DISPOSAL_SOURCE_REVIEW")
+        pair = (index, ref)
+        _check(pair not in reviewed_pairs, "DUPLICATE_DISPOSAL_MEASURE_REVIEW")
+        reviewed_pairs.add(pair)
         excerpt = entry["verbatim_excerpt"]
         _check(isinstance(excerpt, str) and len(excerpt.strip()) >= 8, "MISSING_DISPOSAL_SOURCE_EXCERPT")
         if ref in logs:
@@ -130,10 +143,15 @@ def audit_disposal_source_review(
         )
         _check(entry["verdict"] == "SUPPORTED", "DISPOSAL_SOURCE_NOT_EXPERT_SUPPORTED")
 
+    _check(
+        reviewed_pairs == expected_pairs,
+        "DISPOSAL_REVIEW_REFERENCE_COVERAGE_MISMATCH",
+    )
     return {
         "status": "STRUCTURAL_SOURCE_REVIEW_PASS_NOT_GOLD",
         "measure_count": len(measures),
         "source_review_count": len(attestations),
+        "reviewed_source_reference_count": len(reviewed_pairs),
         "expert_identity_verified": False,
         "semantic_support_independently_verified_by_tool": False,
         "gold_approved": False,
