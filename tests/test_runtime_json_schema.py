@@ -53,7 +53,7 @@ class RuntimeJsonSchemaTests(unittest.TestCase):
     def test_missing_required_review_field_is_rejected(self):
         case = copy.deepcopy(CASE)
         del case["internal_review"]
-        with self.assertRaisesRegex(DiagnosticContextValidationError, "JSON_SCHEMA_REQUIRED"):
+        with self.assertRaisesRegex(DiagnosticContextValidationError, "internal_review is required"):
             validate_diagnostic_case(case)
 
     def test_unmodeled_system_message_property_is_rejected(self):
