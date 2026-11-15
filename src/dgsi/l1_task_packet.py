@@ -217,6 +217,20 @@ def validate_l1_task_packet(
     if unresolved_history_refs:
         _fail("UNRESOLVED_HISTORY_SOURCE_REFERENCE")
     resolved_history_refs = history_source_refs & set(cards_by_id)
+    bound_source_cards = [
+        cards_by_id[ref] for ref in sorted(set(refs) | resolved_history_refs)
+    ]
+    domain_review_states = {
+        card["domain_review_status"] for card in bound_source_cards
+    }
+    if "DOMAIN_EXPERT_REJECTED" in domain_review_states:
+        _fail("L1_SOURCE_FACT_CARD_DOMAIN_REVIEW_REJECTED")
+    if packet["review"]["status"] == "APPROVED_FOR_L1_EXPERIMENT" and any(
+        card["domain_review_status"] != "DOMAIN_EXPERT_CONFIRMED"
+        or not card["domain_review_evidence_sha256"]
+        for card in bound_source_cards
+    ):
+        _fail("L1_SOURCE_FACTS_NOT_DOMAIN_REVIEWED")
     if any(
         cards_by_id[source_ref]["source_class"] not in {
             "PUBLIC_FLIGHT_REPORT", "PUBLIC_GROUND_TEST_REPORT",
@@ -297,7 +311,15 @@ def validate_l1_task_packet(
             "DRAFT", "REVIEW_REQUIRED"
         } else "READY_FOR_L1_EXPERIMENT",
         "track": track,
-        "source_fact_count": len(cards),
+        "source_fact_count": len(bound_source_cards),
+        "source_fact_domain_review_status_counts": {
+            status: sum(card["domain_review_status"] == status for card in bound_source_cards)
+            for status in (
+                "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+                "DOMAIN_EXPERT_CONFIRMED",
+                "DOMAIN_EXPERT_REJECTED",
+            )
+        },
         "history_item_count": len(packet["history_context"]["items"]),
         "gold_eligible": False,
         "training_authorized": False,
