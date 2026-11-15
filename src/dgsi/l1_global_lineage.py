@@ -128,7 +128,7 @@ def audit_l1_cross_collection_lineage(
         if not isinstance(assignments, dict):
             _reject("GLOBAL_SPLIT_MAP_INVALID")
         ids = {p["task_id"] for p in packets}
-        if assignments and set(assignments) != ids:
+        if (hypothetical_splits is not None or assignments) and set(assignments) != ids:
             _reject("GLOBAL_SPLIT_MAP_INCOMPLETE")
         if any(value not in {"train", "validation", "test"} for value in assignments.values()):
             _reject("GLOBAL_SPLIT_NAME_INVALID")
