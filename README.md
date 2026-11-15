@@ -61,3 +61,5 @@ Use [`docs/DOMAIN_REVIEW_CHECKLIST.md`](docs/DOMAIN_REVIEW_CHECKLIST.md) to revi
 - [L1 review receipt batch audit](docs/L1_REVIEW_RECEIPT_BATCH_AUDIT.md)
 
 - [L0 source-fact domain review matrix](docs/L0_SOURCE_FACT_DOMAIN_REVIEW_MATRIX.md)
+
+- [L1 synthetic generated-field lineage contract](docs/L1_SYNTHETIC_FIELD_LINEAGE.md)
