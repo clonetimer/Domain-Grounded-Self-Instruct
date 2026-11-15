@@ -91,3 +91,22 @@ LLM 输入默认不包含原始遥测。必要时可有受控证据引用或上�
 4. 盘点历史诊断日志和已审核案例是否足够支撑第一批样本。
 5. 先制作 20 个高质量人工审核样本，验证任务覆盖和 schema。
 5. 再扩大到 300–500 条小规模 SFT 实验数据；效果成立后扩展正式数据集。
+
+## Formal diagnosis conclusions vs. internal curation reasoning
+
+The assistant target is a **conclusion/report**, not the curator's chain of thought or checklist. Keep the following formal output sections distinct:
+
+1. `phenomenon_analysis`: concise description and synthesis of recorded symptoms, alarms, parameter changes and known temporal relationships.
+2. `cause_localization`: fault source, affected components, cause mechanism and certainty status (CONFIRMED / MOST_LIKELY / CANDIDATE / UNRESOLVED / NOT_LOCALIZED).
+3. `disposal_status` and `disposal_measures`: actual measures documented in the source case. If the source does not state a measure, use NOT_RECORDED and an empty list. Do not replace historical action with a newly invented troubleshooting recommendation.
+4. `evidence_assessment` and `uncertainty`: concise support/contradiction/missing-evidence and qualification fields where appropriate.
+
+Curator-only material is stored separately under the optional root-level `internal_review` object:
+- review prompts;
+- counterexamples and common misdiagnosis warnings;
+- unverified assumptions;
+- questions for the domain reviewer.
+
+Statements such as “do not infer the TWTA internal electron-gun fault merely from the observed equipment name” are **internal review guidance**, not assistant conclusions. They must not be copied into the assistant target as imperative reasoning instructions. If the evidence supports a conclusion such as “the current evidence does not localize the fault to the TWTA itself”, express it as a formal, evidence-backed conclusion in `phenomenon_analysis` or `cause_localization.qualification`, not as a reviewer prompt.
+
+The SFT user message contains only the upstream ML result, logs and context available at the analysis cutoff. It excludes `expected_output`, `internal_review`, reviewer notes and post-event target material. The assistant message contains only the formal diagnosis conclusion fields.
