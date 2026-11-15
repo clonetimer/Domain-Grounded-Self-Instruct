@@ -99,3 +99,17 @@ This is a task-coverage fixture set, not an approved training corpus. Every pack
 ## Collection and split audit
 
 The L1 collection contract (`resources/l1_task_packet_collection.schema.json`) requires a single data track per collection. The collection validator checks packet count, task-ID uniqueness, source-card binding and optional split assignments. When split assignments are supplied, every packet must be assigned exactly once and all tasks derived from the same `source_group` / L0 event family must remain in one split. The current three-packet pilot has no train/validation/test assignments because it has not completed review.
+
+
+## L1 source-event class alignment
+
+For literature-derived synthetic tasks, the source L0 event status and the scenario's operational context must not silently contradict each other:
+- `GROUND_TEST_EVENT` requires a ground-test/TVAC context marker in `mission_phase`;
+- `FLIGHT_EVENT` cannot be relabeled as a ground-test/TVAC scenario;
+- a task citing multiple L0 cards with conflicting event statuses is rejected until the source/event relationship is explicitly curated.
+
+This is a source-class consistency check, not a proof that the synthetic scenario reproduces the historical event. A literature-derived synthetic input remains synthetic and must not be represented as the original flight/test record.
+
+## Complete review receipt coverage
+
+The batch receipt audit requires exactly one immutable packet/L0-bound blind-review receipt per task in a collection. It rejects missing, duplicate, unknown and cross-packet reused receipts. Its output is aggregate-only and distinguishes reviewer-authentication-pending from secure-adjudication-required counts. It never approves an L1 task, grants Gold or authorizes training.
