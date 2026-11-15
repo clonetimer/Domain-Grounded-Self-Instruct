@@ -56,6 +56,21 @@ def validate_diagnostic_input_schema(payload: Any) -> None:
         raise SchemaContractError(f"JSON_SCHEMA_INPUT_{str(error.validator).upper()}")
 
 
+
+@lru_cache(maxsize=1)
+def _diagnostic_report_validator() -> Draft202012Validator:
+    """Use the same report contract as a source Case expected_output."""
+    report_schema = _validator("case").schema["properties"]["expected_output"]
+    return Draft202012Validator(report_schema, format_checker=FormatChecker())
+
+
+def validate_diagnostic_report_schema(payload: Any) -> None:
+    """Validate a standalone SFT assistant target without source-case text."""
+    error = next(_diagnostic_report_validator().iter_errors(payload), None)
+    if error is not None:
+        raise SchemaContractError(f"JSON_SCHEMA_TARGET_{str(error.validator).upper()}")
+
+
 def validate_payload_schema(kind: str, payload: Any) -> None:
     """Enforce the complete Draft 2020-12 contract, including nested properties.
 
