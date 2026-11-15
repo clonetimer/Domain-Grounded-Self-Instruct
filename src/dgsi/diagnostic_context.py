@@ -130,10 +130,24 @@ def _validate_evidence_reference_integrity(
     refs = [*evidence["supporting_refs"], *evidence["contradicting_refs"]]
     for candidate in expected["cause_localization"]["candidates"]:
         refs.extend(candidate["supporting_refs"])
+    # A machine finding or a retrieved historical case cannot by itself
+    # document a disposal action. Actual source records are diagnostic logs;
+    # knowledge passages can support source-recorded plans or recommendations.
+    source_record_refs = set(log_ids) | set(knowledge_ids)
     for measure in expected["disposal_measures"]:
         measure_refs = measure["evidence_refs"]
         if measure["measure_type"] == "EXECUTED":
             _require(bool(measure_refs), "EXECUTED_DISPOSAL_REQUIRES_SOURCE_EVIDENCE")
+            _require(
+                any(ref in log_ids for ref in measure_refs),
+                "EXECUTED_DISPOSAL_REQUIRES_LOG_REFERENCE",
+            )
+        else:
+            _require(bool(measure_refs), "SOURCE_DISPOSAL_REQUIRES_EVIDENCE")
+        _require(
+            all(ref in source_record_refs for ref in measure_refs),
+            "DISPOSAL_CITATION_NOT_SOURCE_RECORD",
+        )
         refs.extend(measure_refs)
     _require(all(ref in seen for ref in refs), "UNRESOLVED_EXPECTED_EVIDENCE_REFERENCE")
 
@@ -146,6 +160,30 @@ def _validate_evidence_reference_integrity(
         all(ref in previous_cases for ref in (provenance_history_refs or [])),
         "UNRESOLVED_PROVENANCE_HISTORY_REFERENCE",
     )
+
+
+def _validate_disposal_contract(expected: dict[str, Any]) -> None:
+    """Apply one disposal/next-step boundary to both Case and direct SFT.
+
+    Source citations are checked separately against the actual input packet.
+    This contract cannot infer from free text whether a cited action occurred.
+    """
+    status = expected.get("disposal_status")
+    measures = expected.get("disposal_measures")
+    _require(
+        status in {"RECORDED", "NOT_RECORDED", "RECOMMENDED_ONLY", "NOT_APPLICABLE"},
+        "unsupported disposal_status",
+    )
+    _require(isinstance(measures, list), "disposal_measures must be a list")
+    executed = [item for item in measures if item.get("measure_type") == "EXECUTED"]
+    if status == "NOT_RECORDED":
+        _require(not measures, "NOT_RECORDED disposal must have an empty disposal_measures list")
+    elif status == "NOT_APPLICABLE":
+        _require(not measures, "NOT_APPLICABLE disposal must have an empty disposal_measures list")
+    elif status == "RECORDED":
+        _require(bool(executed), "RECORDED disposal requires at least one EXECUTED measure")
+    elif status == "RECOMMENDED_ONLY":
+        _require(not executed and bool(measures), "RECOMMENDED_ONLY requires non-executed recommendations")
 
 
 def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
@@ -275,17 +313,7 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
     _require(isinstance(uncertainty, dict), "uncertainty is required")
     _require(uncertainty.get("level") in {"LOW", "MODERATE", "HIGH", "UNRESOLVED"}, "unsupported uncertainty level")
     _string_list(uncertainty.get("reasons"), "uncertainty.reasons")
-    disposal_status = expected.get("disposal_status")
-    disposal_measures = expected.get("disposal_measures")
-    _require(disposal_status in {"RECORDED", "NOT_RECORDED", "RECOMMENDED_ONLY", "NOT_APPLICABLE"}, "unsupported disposal_status")
-    _require(isinstance(disposal_measures, list), "disposal_measures must be a list")
-    executed = [item for item in disposal_measures if item.get("measure_type") == "EXECUTED"]
-    if disposal_status == "NOT_RECORDED":
-        _require(not disposal_measures, "NOT_RECORDED disposal must have an empty disposal_measures list")
-    elif disposal_status == "RECORDED":
-        _require(bool(executed), "RECORDED disposal requires at least one EXECUTED measure")
-    elif disposal_status == "RECOMMENDED_ONLY":
-        _require(not executed and bool(disposal_measures), "RECOMMENDED_ONLY requires non-executed recommendations")
+    _validate_disposal_contract(expected)
     _require(isinstance(expected.get("follow_up_actions"), list), "follow_up_actions must be a list")
 
     internal_review = case.get("internal_review")
@@ -535,6 +563,7 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     _validate_sft_reviewed_templates(messages)
     packet = _validate_sft_prompt_json_packet(messages[1]["content"])
     target = _validate_sft_assistant_target(messages[2]["content"])
+    _validate_disposal_contract(target)
     # A standalone export must not silently relabel the prompt's case/task.
     # The stronger source Case→SFT binding gate remains separately mandatory.
     _require(packet["case_id"] == example.get("case_ref"), "SFT_PROMPT_CASE_REFERENCE_MISMATCH")
