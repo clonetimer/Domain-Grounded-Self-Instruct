@@ -191,6 +191,12 @@ def validate_l1_task_packet(
             _fail("LITERATURE_SYNTHETIC_REQUIRES_PUBLIC_L0_SOURCES")
         if any(card["knowledge_source_not_event"] for card in cards):
             _fail("KNOWLEDGE_ONLY_SOURCE_CANNOT_DEFINE_SYNTHETIC_INCIDENT")
+        families = {card["event_family_id"] for card in cards}
+        if len(families) != 1:
+            _fail("L1_SYNTHETIC_PACKET_MUST_BIND_ONE_EVENT_FAMILY")
+        expected_group = "LITERATURE-DERIVED:" + next(iter(families))
+        if case["provenance"]["source_group"] != expected_group:
+            _fail("L1_SYNTHETIC_SOURCE_GROUP_NOT_BOUND_TO_L0_FAMILY")
         if case["provenance"].get("generation_method") != "LITERATURE_DERIVED_SYNTHETIC":
             _fail("CASE_GENERATION_METHOD_NOT_SYNTHETIC")
         if not case["provenance"]["diagnosis_run_refs"] or any(
