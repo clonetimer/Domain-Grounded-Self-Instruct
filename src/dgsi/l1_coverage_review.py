@@ -20,6 +20,9 @@ TASK_TYPES = (
     "handover_summary",
 )
 REVIEW_DIMENSIONS = (
+    "source_fidelity",
+    "phenomenon_analysis",
+    "ml_interpretation",
     "fault_source",
     "affected_components",
     "evidence_fidelity",
