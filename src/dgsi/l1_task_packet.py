@@ -101,6 +101,34 @@ def _validate_history_context(packet: dict[str, Any], case: dict[str, Any]) -> N
         if hit.get("diagnostic_vote_allowed") is not False:
             _fail("HISTORY_CANNOT_VOTE_CURRENT_ROOT_CAUSE")
 
+        historical_scope = item["historical_equipment_scope"]
+        compatibility = item["hardware_compatibility"]
+        limitations = item["applicability_limitations"]
+        if compatibility == "COMPATIBLE" and historical_scope != query["equipment_scope"]:
+            _fail("HISTORY_COMPATIBILITY_SCOPE_CONTRADICTION")
+        if compatibility == "INCOMPATIBLE":
+            if historical_scope == query["equipment_scope"]:
+                _fail("HISTORY_INCOMPATIBILITY_SCOPE_CONTRADICTION")
+            if not limitations:
+                _fail("INCOMPATIBLE_HISTORY_REQUIRES_TRANSFER_LIMITATION")
+            relevance = next(
+                (entry for entry in case["expected_output"].get("historical_experience_relevance", [])
+                 if entry["case_ref"] == item["case_ref"]),
+                None,
+            )
+            if relevance is None or not relevance["transfer_limitations"]:
+                _fail("INCOMPATIBLE_HISTORY_MUST_BE_QUALIFIED_IN_TARGET")
+            cited_as_support = set(
+                case["expected_output"]["evidence_assessment"]["supporting_refs"]
+                + case["expected_output"]["evidence_assessment"]["contradicting_refs"]
+            )
+            for candidate in case["expected_output"]["cause_localization"]["candidates"]:
+                cited_as_support.update(candidate["supporting_refs"])
+            if item["case_ref"] in cited_as_support:
+                _fail("INCOMPATIBLE_HISTORY_CANNOT_SUPPORT_CURRENT_CAUSE")
+        if compatibility == "UNKNOWN" and not limitations:
+            _fail("UNKNOWN_HISTORY_REQUIRES_TRANSFER_LIMITATION")
+
         if item["outcome_status"] == "CONFIRMED":
             confirmed_hits.append(hit)
         else:
