@@ -126,10 +126,10 @@ class SourceFactCardTests(unittest.TestCase):
         with self.assertRaises(SourceFactCardValidationError):
             validate_source_fact_card(card)
 
-    def test_migration_assessment_requires_constraints(self):
+    def test_migration_assessment_requires_explicit_constraints(self):
         card = copy.deepcopy(BASE)
-        card["migration_assessment"]["rationale"] = ""
-        with self.assertRaisesRegex(SourceFactCardValidationError, "MIGRATION_ASSESSMENT_INCOMPLETE"):
+        card["migration_assessment"]["constraints"] = []
+        with self.assertRaisesRegex(SourceFactCardValidationError, "JSON_SCHEMA_MINITEMS"):
             validate_source_fact_card(card)
 
     def test_ambiguous_disposal_requires_source_note(self):
