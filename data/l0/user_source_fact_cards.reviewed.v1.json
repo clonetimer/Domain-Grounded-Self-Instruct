@@ -1,0 +1,357 @@
+{
+  "schema_version": "dgsi-source-fact-card-batch.v1",
+  "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT",
+  "source_set": "user-supplied five cases",
+  "card_count": 5,
+  "cards": [
+    {
+      "case_id": "USER-ADCS-SADA-001",
+      "event_family_id": "USER-SADA-EPISODE-001",
+      "source_class": "USER_SUPPLIED_CASE",
+      "record_kind": "EVENT_FACT_CARD",
+      "source_reference": {
+        "source_id": "USER-SOURCE-FAULT-CASES",
+        "source_locator": "故障案例参考.docx，第1页",
+        "source_title": "用户提供的卫星故障案例汇编",
+        "publication_date": null,
+        "source_url": null,
+        "page_or_section": "第1页"
+      },
+      "phenomenon_analysis": "输出总电流和主误差电压发生3次跌落；轴温最高升至181°C，壳温最高升至150°C；调整南太阳翼角度时出现堵转。",
+      "cause_localization": {
+        "source_statement": "来源案例将故障归因为盘环与电刷摩擦产生碎屑，继而在内功率通路引发弧光放电和短路。此为来源给出的因果解释；目前材料未附碎屑、放电或短路路径的直接验证记录。",
+        "certainty_in_source": "NOT_STATED",
+        "fault_source": "SADA盘环/电刷接触组件及相关功率通路（来源定位，待核）",
+        "affected_components": [
+          "南太阳翼驱动/供电相关通路（具体边界需依据原始系统定义）"
+        ],
+        "mechanism_notes": [
+          "SEASAT/TROPICS可用于机理层比较，但不能替代本案例碎屑或放电的直接证据。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_measures": [
+        "原文记载“停用南太阳翼”；是否执行、适用约束与后续效果未附记录。"
+      ],
+      "disposal_execution_status": "SOURCE_RECORD_ONLY",
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "三次电流/主误差电压跌落与太阳翼调整堵转的先后关系是否有原始日志支持？",
+          "轴温181°C和壳温150°C分别对应哪个测点及测量定义？",
+          "停用南太阳翼是实际执行措施，是否有后续状态记录？"
+        ],
+        "quality_flags": [
+          "SOURCE_CAUSE_ATTRIBUTION_NOT_INDEPENDENTLY_VERIFIED",
+          "NO_ML_RESULT_OR_LOG_BUNDLE"
+        ],
+        "curator_prompts": [
+          "不得用SEASAT调查结论替代本例碎屑起弧的直接证据。"
+        ]
+      },
+      "migration_assessment": {
+        "migration_level": "CONDITIONAL_MECHANISM_ONLY",
+        "target_case_refs": [
+          "USER-ADCS-SADA-001"
+        ],
+        "rationale": "滑环电弧/短路机理可用于形成待核查机制假设，但不能确证本例碎屑起弧路径。",
+        "transfer_constraints": [
+          "核实电刷极性、滑环几何、绝缘结构与短路时序。",
+          "不得将其他卫星的根因直接写成本案例确诊结论。"
+        ]
+      },
+      "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT",
+      "sft_eligible": false,
+      "source_metadata_notes": [
+        "AI辅助审校结论；尚待领域专家确认。"
+      ]
+    },
+    {
+      "case_id": "USER-COMM-TWTA-002",
+      "event_family_id": "USER-TWTA-CABLE-EPISODE-002",
+      "source_class": "USER_SUPPLIED_CASE",
+      "record_kind": "EVENT_FACT_CARD",
+      "source_reference": {
+        "source_id": "USER-SOURCE-FAULT-CASES",
+        "source_locator": "故障案例参考.docx，第1页",
+        "source_title": "用户提供的卫星故障案例汇编",
+        "publication_date": null,
+        "source_url": null,
+        "page_or_section": "第1页"
+      },
+      "phenomenon_analysis": "行波管螺流由2.168 mA跳变至8.952 mA；功率下降5 dB～7.3 dB；行波管A温度、EPC A温度及隔离器A温度异常上升；微波温度和三工器温度下降。",
+      "cause_localization": {
+        "source_statement": "来源案例将异常归因为长期应力积累使大功率电缆与隔离器输入端接触不良，进而出现较大反射功率。现有材料未附连接检查、反射功率测量和时序记录，暂保留为来源归因。",
+        "certainty_in_source": "NOT_STATED",
+        "fault_source": "大功率电缆与隔离器输入端连接界面（来源定位，待核）",
+        "affected_components": [
+          "行波管A",
+          "EPC A",
+          "隔离器A及相关微波链路"
+        ],
+        "mechanism_notes": [
+          "需区分真实RF功率下降与内部功率监测链异常。"
+        ]
+      },
+      "disposal_status": "SOURCE_TEXT_AMBIGUOUS",
+      "disposal_measures": [],
+      "disposal_execution_status": "AMBIGUOUS_SOURCE_TEXT",
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "螺流、功率和温度变化的时间顺序是否能从原始记录恢复？",
+          "“可自行恢复”指故障现象自行消失，还是无需地面干预即可继续运行？",
+          "是否有电缆/隔离器接触检查或反射功率相关记录？"
+        ],
+        "quality_flags": [
+          "SOURCE_CAUSE_ATTRIBUTION_NOT_INDEPENDENTLY_VERIFIED",
+          "DISPOSAL_TEXT_NOT_AN_ACTION",
+          "NO_ML_RESULT_OR_LOG_BUNDLE"
+        ],
+        "curator_prompts": [
+          "不得把“可自行恢复”写成已执行的处置措施。"
+        ]
+      },
+      "migration_assessment": {
+        "migration_level": "ALTERNATIVE_MECHANISM_ONLY",
+        "target_case_refs": [
+          "USER-COMM-TWTA-002"
+        ],
+        "rationale": "Lunar Orbiter功率监测链温漂可作为测量链鉴别反例；S频段LNA氢中毒属于不同器件位置，不能替代电缆/隔离器接触失配证据。",
+        "transfer_constraints": [
+          "确认功率测量点是独立RF测量还是内部遥测。",
+          "需要反射功率/驻波比、连接检查和恢复后连续运行记录。"
+        ]
+      },
+      "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT",
+      "sft_eligible": false,
+      "source_metadata_notes": [
+        "原文“可自行恢复”是恢复可能性或现象描述，不是具体操作措施。"
+      ]
+    },
+    {
+      "case_id": "USER-COMM-KU-TWTA-003",
+      "event_family_id": "USER-KU-TWTA-EPDF-EPISODE-003",
+      "source_class": "USER_SUPPLIED_CASE",
+      "record_kind": "EVENT_FACT_CARD",
+      "source_reference": {
+        "source_id": "USER-SOURCE-FAULT-CASES",
+        "source_locator": "故障案例参考.docx，第2页",
+        "source_title": "用户提供的卫星故障案例汇编",
+        "publication_date": null,
+        "source_url": null,
+        "page_or_section": "第2页"
+      },
+      "phenomenon_analysis": "螺流异常升高，约5分钟后自动关机；重启后恢复正常。",
+      "cause_localization": {
+        "source_statement": "来源案例归因为“EPDF过功率耗散失效”。现有摘录未给出EPDF的具体定义、保护状态及失效定位证据，故保留为来源诊断结论，暂不标为已独立确认的器件根因。",
+        "certainty_in_source": "NOT_STATED",
+        "fault_source": "EPDF过功率耗散相关环节（具体设备及保护边界未明）",
+        "affected_components": [
+          "Ku行波管工作链路"
+        ],
+        "mechanism_notes": [
+          "保护触发、自动关机与重启恢复应以状态字段和时间戳分别记录。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_CONDITIONAL_PROCEDURE",
+      "disposal_measures": [
+        "若螺流保护触发，切换行波管备份；故障单机重启后执行10轮预热循环。",
+        "若未触发且未关机，保持运行并持续观察；原文未提供继续运行的安全边界。",
+        "若未触发但自动关机，通知TAS；TAS职责与授权边界需由型号资料明确。"
+      ],
+      "disposal_execution_status": "CONDITIONAL_PROCEDURE",
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "三个处置分支分别对应哪些保护状态和设备状态字段？",
+          "“重启后恢复正常”是否有连续运行观察或复测结果支持？",
+          "EPDF过功率耗散失效是否有直接状态证据，还是由故障现象和排查结果定位？"
+        ],
+        "quality_flags": [
+          "SOURCE_HAS_CONDITIONAL_DISPOSAL_BRANCHES",
+          "EPDF_DEFINITION_AND_PROTECTION_BOUNDARY_MISSING",
+          "NO_ML_RESULT_OR_LOG_BUNDLE"
+        ]
+      },
+      "migration_assessment": {
+        "migration_level": "NOT_DIRECTLY_TRANSFERABLE",
+        "target_case_refs": [
+          "USER-COMM-KU-TWTA-003"
+        ],
+        "rationale": "Lunar Orbiter首次开机螺流异常与本例运行约5分钟后自动关机的时间特征和原因解释不同，不适合作为EPDF失效的根因或处置依据。",
+        "transfer_constraints": [
+          "核实EPDF定义、保护门限/触发位、关机事件、备份切换和预热执行记录。",
+          "历史条件分支不是跨型号通用规程。"
+        ]
+      },
+      "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT",
+      "sft_eligible": false,
+      "source_metadata_notes": [
+        "保留来源条件分支，不作为未经型号批准的操作指令。"
+      ]
+    },
+    {
+      "case_id": "USER-PROP-THRUSTER-004",
+      "event_family_id": "USER-PROP-THRUSTER-EPISODE-004",
+      "source_class": "USER_SUPPLIED_CASE",
+      "record_kind": "EVENT_FACT_CARD",
+      "source_reference": {
+        "source_id": "USER-SOURCE-FAULT-CASES",
+        "source_locator": "故障案例参考.docx，第2～3页",
+        "source_title": "用户提供的卫星故障案例汇编",
+        "publication_date": null,
+        "source_url": null,
+        "page_or_section": "第2～3页"
+      },
+      "phenomenon_analysis": "2#推力器温度异常降低至-33°C（前一天推进时曾异常升高，姿态机动完成）；推力器输出推力下降；动量轮1最高转速达5500 rpm，动量轮2达5600 rpm；滚动角0.08°、俯仰角-0.16°，后续姿态误差升至0.6°并触发警报。",
+      "cause_localization": {
+        "source_statement": "来源案例提出背面低温可能引起不完全燃烧产物累积与异常燃烧，多次集中推进可能叠加造成结构损伤。由于缺少推进剂类型、温度测点、推力估计和结构证据，上述连续因果链仍待验证，不能视作已证实的唯一根因。",
+        "certainty_in_source": "NOT_STATED",
+        "fault_source": "2#推力器燃烧/分解过程及相关结构（来源定位，具体受损部位未证实）",
+        "affected_components": [
+          "推进系统",
+          "姿态控制相关动量轮及姿态误差监视链路"
+        ],
+        "mechanism_notes": [
+          "多个分系统观测不足以单独证明低温、不完全燃烧和结构损伤之间的完整因果链。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_measures": [
+        "原文记载“推力器控制策略重组”；具体控制约束、实施状态及效果均未提供。"
+      ],
+      "disposal_execution_status": "SOURCE_RECORD_ONLY",
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "温度-33°C对应推力器哪个部位或哪个测点？",
+          "动量轮转速升高与推力下降、姿态误差增大之间是否有同步时间证据？",
+          "“结构损坏”是否有检查/试验结果支持，还是故障分析结论？"
+        ],
+        "quality_flags": [
+          "MULTI_SUBSYSTEM_SYMPTOMS",
+          "CAUSE_CHAIN_NOT_VERIFIED",
+          "NO_ML_RESULT_OR_LOG_BUNDLE"
+        ]
+      },
+      "migration_assessment": {
+        "migration_level": "NOT_DIRECTLY_TRANSFERABLE",
+        "target_case_refs": [
+          "USER-PROP-THRUSTER-004"
+        ],
+        "rationale": "NASA 22 N热灯试验的阀座材料脱落堵塞和催化剂金属污染与本例低温、推力下降、结构损伤情景不同，不适合直接迁移为本例根因。",
+        "transfer_constraints": [
+          "核实推进剂/推进器类型、温度测点、推力估计来源和结构检查证据。",
+          "不得把喷注管堵塞、催化剂中毒和低温异常燃烧拼接为单一因果链。"
+        ]
+      },
+      "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT",
+      "sft_eligible": false,
+      "source_metadata_notes": [
+        "“推力器控制策略重组”仅保留来源记载，缺少具体控制内容和执行效果。"
+      ]
+    },
+    {
+      "case_id": "USER-ADCS-RW-BEARING-005",
+      "event_family_id": "USER-RW-BEARING-LUBE-EPISODE-005",
+      "source_class": "USER_SUPPLIED_CASE",
+      "record_kind": "EVENT_FACT_CARD",
+      "source_reference": {
+        "source_id": "USER-SOURCE-FAULT-CASES",
+        "source_locator": "故障案例参考.docx，第3页",
+        "source_title": "用户提供的卫星故障案例汇编",
+        "publication_date": null,
+        "source_url": null,
+        "page_or_section": "第3页"
+      },
+      "phenomenon_analysis": "动量轮轴温从27°C持续上升至50.27°C，最高达74.2°C。",
+      "cause_localization": {
+        "source_statement": "来源案例将轴承温升归因于“供油管路堵塞→轴承供油不足→摩擦增大”。由于尚未确认动量轮润滑型式与管路结构，也缺少堵塞检查证据，该具体定位仍需核实。",
+        "certainty_in_source": "NOT_STATED",
+        "fault_source": "动量轮轴承润滑供给环节；“供油管路堵塞”非已验证结论",
+        "affected_components": [
+          "动量轮轴承及对应动量轮组件"
+        ],
+        "mechanism_notes": [
+          "轴温升高本身不是润滑故障的独有指纹。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_CONDITIONAL_PROCEDURE",
+      "disposal_measures": [
+        "原文记载“切换动量轮构型”；执行时间和效果未附记录。",
+        "原文建议若后续仍需使用该轮，限速2000 rpm；该数值为来源特定建议。"
+      ],
+      "disposal_execution_status": "CONDITIONAL_PROCEDURE",
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "轴温50.27°C与74.2°C分别对应哪个时间点、工作状态或测点？",
+          "供油管路堵塞是否有检查、拆解或维护记录？",
+          "2000 rpm限速属于已经执行的运行约束还是后续建议？"
+        ],
+        "quality_flags": [
+          "LUBRICATION_ARCHITECTURE_UNVERIFIED",
+          "2000_RPM_NOT_GENERAL_THRESHOLD",
+          "NO_ML_RESULT_OR_LOG_BUNDLE"
+        ]
+      },
+      "migration_assessment": {
+        "migration_level": "ALTERNATIVE_MECHANISM_ONLY",
+        "target_case_refs": [
+          "USER-ADCS-RW-BEARING-005"
+        ],
+        "rationale": "Cassini案例涉及长期低速运行导致润滑剂重新分布，与供油管路堵塞并非同一机理；其升速处置不可直接迁移。",
+        "transfer_constraints": [
+          "核实动量轮结构/润滑方式、温度/转速/拖曳遥测及构型切换后性能。",
+          "2000 rpm限速不得跨轮型、跨任务套用。"
+        ]
+      },
+      "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT",
+      "sft_eligible": false,
+      "source_metadata_notes": [
+        "原文限速建议与构型切换记录分开保存；未附执行证明。"
+      ]
+    }
+  ]
+}
