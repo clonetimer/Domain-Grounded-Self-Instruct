@@ -150,12 +150,9 @@ def make_packet(*, track="LITERATURE_DERIVED_SYNTHETIC", history_status="UNRESOL
             "version": "USER-ML-VERSION-01",
             "model_id": "USER-ML-MODEL-01",
         }
-        case["input"]["machine_diagnosis"]["findings"][0]["finding_id"] = "USER-ML-FINDING-01"
-        case["input"]["machine_diagnosis"]["findings"][0]["supporting_evidence_ids"] = ["USER-ML-EVIDENCE-01"]
+        case["provenance"]["diagnosis_run_refs"] = ["USER-MLRUN-001"]
         for index, log in enumerate(case["input"]["diagnostic_logs"], start=1):
-            log["log_id"] = f"USER-LOG-{index:02d}"
             log["source_ref"] = f"USER-LOG-SOURCE-{index:02d}"
-            log["author_role"] = "operator"
         case["input"]["spacecraft_context"]["spacecraft_id"] = "USER-SC-001"
         case["input"]["spacecraft_context"]["configuration"]["configuration_origin"] = "USER_SUPPLIED_CONFIGURATION"
     refs = ["L0-SEASAT-001"]
