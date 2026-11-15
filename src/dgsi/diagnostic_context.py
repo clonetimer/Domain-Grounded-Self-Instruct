@@ -86,14 +86,16 @@ def _reject_raw_telemetry(value: Any, path: str = "$") -> None:
 
 
 
-def _validate_evidence_reference_integrity(case: dict[str, Any]) -> None:
-    """Check evidence IDs cited by the target against the supplied case packet.
+def _validate_evidence_reference_integrity(
+    inputs: dict[str, Any],
+    expected: dict[str, Any],
+    provenance_history_refs: list[str] | None = None,
+) -> None:
+    """Check references in a target against its *actual* LLM input packet.
 
-    Machine evidence IDs are *declared* by upstream findings; this gate checks
-    referential consistency, not whether the upstream evidence is authentic.
+    Shared by source Case and standalone SFT validation, including batch audits.
+    Declared evidence IDs are not proof of evidence authenticity or expert Gold.
     """
-    inputs = case["input"]
-    expected = case["expected_output"]
     findings = inputs["machine_diagnosis"]["findings"]
     machine_finding_ids = [item["finding_id"] for item in findings]
     machine_evidence_ids = {
@@ -133,7 +135,7 @@ def _validate_evidence_reference_integrity(case: dict[str, Any]) -> None:
         "UNRESOLVED_HISTORICAL_EXPERIENCE_REFERENCE",
     )
     _require(
-        all(ref in previous_cases for ref in case["provenance"].get("historical_case_refs", [])),
+        all(ref in previous_cases for ref in (provenance_history_refs or [])),
         "UNRESOLVED_PROVENANCE_HISTORY_REFERENCE",
     )
 
@@ -273,7 +275,10 @@ def validate_diagnostic_case(case: dict[str, Any]) -> list[str]:
         validate_payload_schema("case", case)
     except SchemaContractError as exc:
         raise DiagnosticContextValidationError(str(exc)) from exc
-    _validate_evidence_reference_integrity(case)
+    _validate_evidence_reference_integrity(
+        case["input"], case["expected_output"],
+        case["provenance"].get("historical_case_refs", []),
+    )
 
     warnings: list[str] = []
     if not logs:
@@ -334,7 +339,7 @@ def _validate_sft_reviewed_templates(messages: list[dict[str, Any]]) -> None:
     )
 
 
-def _validate_sft_prompt_json_packet(user_content: str) -> None:
+def _validate_sft_prompt_json_packet(user_content: str) -> dict[str, Any]:
     """Validate a single JSON case packet with no appended instructions.
 
     This is the standalone SFT syntax boundary. A Case/SFT binding check is
@@ -418,9 +423,10 @@ def _validate_sft_prompt_json_packet(user_content: str) -> None:
         )
         _require(occurred <= cutoff, "SFT_LOG_AFTER_ANALYSIS_CUTOFF")
 
+    return packet
 
 
-def _validate_sft_assistant_target(content: str) -> None:
+def _validate_sft_assistant_target(content: str) -> dict[str, Any]:
     """Require one structured reviewed-report target, without extra text.
 
     This verifies target syntax and schema only. A Case→SFT binding check and
@@ -466,6 +472,8 @@ def _validate_sft_assistant_target(content: str) -> None:
     except SchemaContractError as exc:
         raise DiagnosticContextValidationError(str(exc)) from None
 
+    return target
+
 
 def validate_sft_example(example: dict[str, Any]) -> None:
     """Validate a chat SFT example and enforce its provenance/review boundary."""
@@ -481,8 +489,13 @@ def validate_sft_example(example: dict[str, Any]) -> None:
     _require("raw telemetry" in messages[1]["content"].lower() or "原始遥测" in messages[1]["content"], "user prompt must state the raw-telemetry boundary")
     _reject_sft_target_leakage(messages[1]["content"])
     _validate_sft_reviewed_templates(messages)
-    _validate_sft_prompt_json_packet(messages[1]["content"])
-    _validate_sft_assistant_target(messages[2]["content"])
+    packet = _validate_sft_prompt_json_packet(messages[1]["content"])
+    target = _validate_sft_assistant_target(messages[2]["content"])
+    # A standalone export must not silently relabel the prompt's case/task.
+    # The stronger source Case→SFT binding gate remains separately mandatory.
+    _require(packet["case_id"] == example.get("case_ref"), "SFT_PROMPT_CASE_REFERENCE_MISMATCH")
+    _require(packet["task_type"] == example.get("task_type"), "SFT_PROMPT_TASK_TYPE_MISMATCH")
+    _validate_evidence_reference_integrity(packet["input"], target)
     _nonempty(example.get("case_ref"), "case_ref")
     _nonempty(example.get("source_group"), "source_group")
     _require(example.get("split") in SPLITS, "unsupported split")
