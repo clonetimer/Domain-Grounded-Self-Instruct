@@ -3,8 +3,8 @@
   "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-001",
   "classification": "LITERATURE_DERIVED_SYNTHETIC",
   "review_status": "REVIEW_REQUIRED",
-  "packet_count": 11,
-  "event_family_count": 8,
+  "packet_count": 12,
+  "event_family_count": 9,
   "gold_eligible": false,
   "training_authorized": false,
   "tasks": [
@@ -84,6 +84,13 @@
       "event_status": "GROUND_TEST_EVENT",
       "challenge": "S-band output loss traced to linearizer LNA chip, not TWTA internal electron gun/helix/EPC",
       "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "source_fact_ref": "LIT-FUSE-RWA-KAPTON-001",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "Reuse a partially confirmed Cassini RWA drag case as qualified Context; hardware compatibility UNKNOWN and mechanism differs from FUSE Kapton-liner contact",
+      "history_variant": "PARTIALLY_CONFIRMED + UNKNOWN hardware compatibility"
     }
   ],
   "split_groups": [
@@ -112,5 +119,5 @@
       "rule": "Injector plugging and catalyst contamination are distinct episodes but share a test/report family."
     }
   ],
-  "note": "All ML findings, scores, logs, timestamps, run IDs, spacecraft identifiers and configuration/operational details are synthetic. Public L0 sources constrain historical facts and certainty only. No packet is Gold or training-authorized."
+  "note": "All ML findings, scores, logs, timestamps, run IDs, spacecraft identifiers and configuration/operational details are synthetic. Public L0 sources constrain historical facts and certainty only. No packet is Gold or training-authorized. One history-reuse task uses the public Cassini RWA case as a partially confirmed, hardware-unknown contrast for the FUSE wheel event; its availability timestamp is conservatively normalized to the end of the NASA LLIS lesson date (2004-05-10)."
 }
