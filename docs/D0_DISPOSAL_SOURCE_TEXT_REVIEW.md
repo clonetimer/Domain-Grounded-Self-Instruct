@@ -11,16 +11,16 @@ PR #36 checked that a disposal measure cited an existing log or knowledge passag
 The review packet lives outside the Case and SFT prompt/target. It is a human-attestation **claim**, not the source of truth. Set `not_for_sft=true`. It contains:
 
 - `schema_version=dgsi-disposal-source-review.v1`, `case_ref`, `reviewer_id`, `reviewer_role=INDEPENDENT_DOMAIN_EXPERT`, `reviewed_at`, `attestations`.
-- Exactly one attestation per source-documented disposal measure, indexed by `measure_index`.
+- Exactly one attestation for **each distinct `(measure_index, evidence_ref)` pair**. A measure with two cited records needs two separate passage attestations, not one review applied to both. Repeated evidence IDs within a measure are blocked.
 - `measure_sha256` computed over the exact UTF-8 bytes of the Case's `measure` string, binding the adjudication to unchanged wording.
 - `evidence_ref` from that measure's recorded source references; `verbatim_excerpt` must be a literal substring of the cited log content or supplied knowledge-evidence excerpt.
 - `source_action_type` equal to `EXECUTED`, `PLANNED`, or `RECOMMENDED`, matching the Case.
 - `verdict=SUPPORTED` for expert acceptance; other verdicts block the gate.
 - For a knowledge passage, a separately verified `source_published_at` time. Logs use their recorded timestamp; unknown-time execution logs fail closed.
 
-The validator checks literal excerpt binding, index uniqueness, measure-digest identity, source type, source timing as of the diagnostic decision cutoff, and explicit expert sign-off. It rejects unreviewed, mismatched or future-source actions.
+The validator checks literal excerpt binding, unique measure/source pairs, full coverage of **all** cited records, measure-digest identity, source type, source timing as of the diagnostic decision cutoff, and explicit expert sign-off. It rejects unreviewed, mismatched or future-source actions. `source_review_count` counts cited records reviewed, not distinct measures; `measure_count` remains the number of source-documented disposal measures.
 
-**Caution:** Exact passage inclusion is a necessary but insufficient condition for factual semantic support. The reviewer must confirm that the excerpt explicitly documents the same action, modality (executed vs planned vs recommended), subject, and event. The tool cannot verify credentials, permissions, authenticity of original logs, source publication dates, or reviewer independence. A self-declared reviewer role does not establish identity. This gate never automatically sets Case/SFT review status to `APPROVED` or Gold.
+**Caution:** Even when all citations are covered, exact passage inclusion is a necessary but insufficient condition for factual semantic support. The reviewer must confirm that the excerpt explicitly documents the same action, modality (executed vs planned vs recommended), subject, and event. The tool cannot verify credentials, permissions, authenticity of original logs, source publication dates, or reviewer independence. A self-declared reviewer role does not establish identity. This gate never automatically sets Case/SFT review status to `APPROVED` or Gold.
 
 ## Use on authorized workstation
 
@@ -43,3 +43,7 @@ When a record does not mention any historical disposal, preserve `disposal_statu
 5. Only after a complete and authorized Case passes all other provenance, as-of, run-lineage, split-isolation and expert review gates may its SFT eligibility be considered. This tool's PASS is not approval.
 
 All committed examples and tests in this stage are explicitly **SYNTHETIC_TEST_ONLY**. No restricted R21 data, private user-case notes or expert excerpts were added.
+
+## Additional multi-citation adversarial review (SYNTHETIC_TEST_ONLY)
+
+The 2026-11-15 follow-up gate closes a structural bypass: one valid attestation could previously cover a disposal measure with multiple `evidence_refs`, leaving other claimed supporting records unchecked. The local audit now requires a separate attestation for **every** cited source. It blocks missing secondary reviews, duplicate citations, duplicated attestations used as coverage substitutes, wrong action modality, nonexistent excerpts, and post-cutoff records. This does **not** assert that a source mentions the same fault event or that independent reviewer credentials are authentic. Keep this packet out of Case `input`, SFT user prompts and assistant targets.
