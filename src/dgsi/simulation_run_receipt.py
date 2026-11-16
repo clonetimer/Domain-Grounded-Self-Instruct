@@ -232,6 +232,11 @@ def validate_simulation_run_receipt(receipt: dict[str, Any], *, artifact_root: P
                 _reject("SIM_UNRESOLVED_ARTIFACT_REF")
             if by_id[ref]["role"] != STAGE_ROLES[name]:
                 _reject("SIM_STAGE_EVIDENCE_ROLE_MISMATCH")
+            # A declared stage outcome must not cite evidence unavailable
+            # at the diagnostic analysis cutoff, even when QA_ONLY.
+            # Later QA artifacts may exist, but cannot support this snapshot.
+            if _time(by_id[ref]["available_at"]) > cutoff:
+                _reject("SIM_POST_CUTOFF_STAGE_EVIDENCE")
     verified = 0
     if artifact_root is not None:
         try:
