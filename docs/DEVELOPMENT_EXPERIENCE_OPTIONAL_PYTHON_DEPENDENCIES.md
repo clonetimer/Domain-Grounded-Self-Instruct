@@ -134,3 +134,25 @@ Reusable rule:
 18. **Attribute CI by exact head and test signature, not by time proximity or green badge.** Verify the workflow's tested commit/head, expected newly added test names, and expected test-count delta. If any is absent, report the workflow as green but the PR acceptance as unverified; trigger or await exact-head CI rather than inferring coverage.
 
 This correction is intentional: do not overstate PR #93 acceptance from workflow `43888738459`. The new P5-B4.1 branch includes the P4 guards and their tests in its source tree; its own exact-head CI remains the acceptance gate.
+
+## CI failure: test method placed after the module entry point
+
+During P5-B4.1 review, the new OCR preflight regression was appended after:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
+```
+
+The method retained class-method indentation, so Python encountered an unexpected indent at module scope during test-module import. This is a test-file structure/syntax defect, not a production OCR failure.
+
+Correction:
+- Move the regression method back inside `OcrCandidateTests`.
+- Keep the `unittest.main()` guard as the final module-level statement.
+- Verify the exact file tail and ensure CI discovers the test by its full test name.
+
+Reusable rule:
+
+19. **Insert tests at the correct syntactic scope.** When extending compact test modules, inspect the class boundary and module entry-point guard before appending. Run compile/import or a focused test command before launching full cross-platform CI; verify newly added test names appear in the CI log.
+
+The failure reinforces that a passing prior workflow cannot validate code added afterward. Exact-head CI must run after every test-source change.
