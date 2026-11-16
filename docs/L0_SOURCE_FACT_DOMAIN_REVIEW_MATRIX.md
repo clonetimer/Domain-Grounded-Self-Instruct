@@ -124,16 +124,16 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 - **Evidence/decision record:** ______________________________________________
 
 ### LIT-CASSINI-RWA-DRAG-007
-- **Source:** Cassini RWA Flight Anomaly Due to Extended Use at Slow Speed (2001) (NASA-LLIS-1416; NASA Lessons Learned 1416, Driving Event / Lessons Learned)
-- **Event:** FLIGHT_EVENT / PUBLIC_FLIGHT_REPORT; family `CASSINI-RWA-LOW-SPEED-2001`; episode `LIT-CASSINI-RWA-DRAG-007-EPISODE`
-- **Phenomenon:** Cassini发射约三年后，一只反作用轮检测到高于正常水平的拖曳/阻力；相关科学观测暂停约9天。
-- **Source cause statement:** 过量摩擦被认为与长期近零转速运行导致润滑剂分布变化有关，速度在零附近频繁振荡也可能有贡献。
+- **Source:** NASA LLIS Lesson 1416 (lesson date 2004-05-10; Driving Event references ISA Z70706/Z70716); chronology corroborated by NASA/JPL December 2000 reports and JPL DESCANSO §2.5.2
+- **Event:** FLIGHT_EVENT / PUBLIC_FLIGHT_REPORT; family `CASSINI-RWA-LOW-SPEED-2000-12`; episode `CASSINI-RWA2-LOW-SPEED-2000-12-15`
+- **Phenomenon:** 2000-12-15反作用轮2异常摩擦导致RWA自动切换RCS；指向控制科学观测于12月19–28日暂停，12月21日测试后恢复RWA控制。
+- **Source cause statement:** 长时间近零转速dithering导致球轴承润滑不足并触发摩擦力矩超限；零速附近频繁速度振荡可能促成。
 - **Source certainty:** `EXPLICIT_MOST_LIKELY`
 - **Fault source:** 反作用轮轴承润滑状态退化/润滑剂分布变化
 - **Affected components:** 反作用轮组件；姿态控制指向性能
 - **Disposal:** `SOURCE_RECORDS_MEASURE`; 提高轮速后润滑剂分布似乎恢复并消除拖曳异常；团队制定避免长期低速运行程序。
 - **Migration assessment:** 仅限润滑/拖曳机理条件迁移。
-- **Transfer constraints:** 需比较轮型、润滑结构、速度区间和运行历史。；升速方案不可直接用于用户动量轮。
+- **Transfer constraints:** 事件发生于2000-12-15至22，LLIS lesson date为2004-05-10；绝对零速静止与低速区间驻留需区分；不得直接迁移Cassini轮速命令。
 - **Materials absent from L0 source card:** upstream_ml_result, diagnostic_logs, spacecraft_context, operational_context, historical_cases, expert_adjudicated_target
 - **Expert decision:** □ CONFIRM  □ REVISE  □ REJECT
 - **Evidence/decision record:** ______________________________________________
@@ -186,14 +186,14 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 ### LIT-FUSE-RWA-KAPTON-001
 - **Source:** FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes (FUSE-SPIE-2002-RWA; Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control)
 - **Event:** FLIGHT_EVENT / PUBLIC_FLIGHT_REPORT; family `FUSE-RWA-2000-2001`; episode `FUSE-PITCH-RWA-2000-08-04`
-- **Phenomenon:** 2000年8月4日，FUSE姿态控制飞行软件因俯仰轴反作用轮拖曳增大而将其关闭。重新启动后，异常拖曳持续数分钟，随后消失。
-- **Source cause statement:** 供应商分析认为，轮组件内壳体衬层Kapton胶带中的小气泡可能导致局部凸起并接触转子；胶带逐渐磨损后，异常拖曳消失。该解释为供应商给出的可能原因。
+- **Phenomenon:** 2000-08-04俯仰轮Kapton接触候选；2001-02-16偏航轮相似但独立episode；2001-11/12两轮完全失效为另行episode。
+- **Source cause statement:** 2000年事件的供应商解释为Kapton气泡接触转子；2001年11/12完全失效则被供应商归因于热致壳体变形，二者不得合并。
 - **Source certainty:** `EXPLICIT_MOST_LIKELY`
 - **Fault source:** FUSE俯仰轴反作用轮组件内壳体Kapton胶带局部起泡并与转子接触
 - **Affected components:** FUSE俯仰轴反作用轮组件；ADCS俯仰轴控制能力
 - **Disposal:** `SOURCE_RECORDS_MEASURE`; 重新启动该反作用轮；异常拖曳持续数分钟后消失。
 - **Migration assessment:** 可作为反作用轮拖曳异常的历史对照，但不能据此把Cassini低速润滑剂重新分布机理迁移到FUSE，也不能直接复制其他型号的轮速管理措施。
-- **Transfer constraints:** 核实轮组件壳体衬层、转子间隙、材料和热环境后再讨论机理迁移。；FUSE 2000年俯仰轴事件与2001年其他轮组件失效必须保持不同episode。；供应商给出的Kapton起泡解释保留为最可能原因，不升级为独立确诊。
+- **Transfer constraints:** 供应商机理保留可能性；区分FUSE各轮episode和热致壳体变形；Cassini低速润滑不足是不同机理且硬件兼容性未知。
 - **Materials absent from L0 source card:** upstream_ml_result, diagnostic_logs, spacecraft_context, operational_context, historical_cases, expert_adjudicated_target
 - **Expert decision:** □ CONFIRM  □ REVISE  □ REJECT
 - **Evidence/decision record:** ______________________________________________

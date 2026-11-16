@@ -2926,7 +2926,7 @@
           "report_text": "长时间在轨运行合成场景中，反作用轮拖曳指标高于健康基线；异常期间设备长期处于近零转速附近并频繁过零。 上游合成ML将反作用轮轴承润滑状态退化列为候选，排序分数0.79不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
         },
         "provenance": {
-          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2001",
+          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
           "source_artifact_hashes": [],
           "diagnosis_run_refs": [
             "SYNTHETIC-MLRUN-008"
@@ -4449,12 +4449,14 @@
                 "reaction-wheel assembly in spacecraft ADCS",
                 "restart/drag behavior is relevant as a diagnostic comparison"
               ],
-              "prior_conclusion": "Cassini反作用轮拖曳异常被认为可能与长期近零转速运行导致润滑剂分布变化有关；该来源保留了其他促成因素，属于来源支持的可能解释，并非对FUSE当前事件的确诊。",
+              "prior_conclusion": "Cassini反作用轮2于2000-12-15至12-22出现异常摩擦并触发RWA至RCS自动切换；来源认为长期在近零转速区域dithering造成球轴承润滑不足，零速附近频繁振荡也可能促成。该来源区分绝对零速静止与低速区间驻留，前者按周期exercise被描述为相对无害。",
               "outcome_status": "PARTIALLY_CONFIRMED",
               "applicability_limitations": [
-                "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
-                "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
-                "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+                "FUSE与Cassini的反作用轮组件设计不同，具体轴承、润滑结构、壳体衬层和转子间隙兼容性未知。",
+                "Cassini来源讨论近零速低速区间dithering导致润滑不足；FUSE 2000-08-04来源讨论Kapton衬层气泡导致转子局部接触，二者不是同一根因。",
+                "Cassini事件发生于2000-12-15至22；LLIS lesson date为2004-05-10，不能将lesson标题括号中的2001当作事件日期。",
+                "Cassini的绝对零速静止与低速区间dwell/dithering有不同风险描述；不得把两者混为一谈。",
+                "不得将Cassini higher-speed recovery observation或低速管理建议直接复制为FUSE当前事件的已执行处置或通用操作指令。"
               ]
             }
           ],
@@ -4471,7 +4473,7 @@
               "source_id": "NASA-LLIS-1416",
               "passage_id": "NASA Lessons Learned 1416, Driving Event / Lessons Learned",
               "claim_boundary": "Supports the Cassini prior drag anomaly and its likely low-speed lubricant-distribution explanation only; hardware compatibility with FUSE is UNKNOWN.",
-              "excerpt": "过量摩擦被认为与长期近零转速运行导致润滑剂分布变化有关，速度在零附近频繁振荡也可能有贡献。"
+              "excerpt": "Cassini反作用轮2在2000-12-15至22因异常摩擦自动切换RCS；JPL后续总结认为近零转速dithering导致球轴承润滑不足。LLIS进一步区分绝对零速静止与低速区间驻留。"
             }
           ],
           "raw_telemetry_included": false,
@@ -4480,8 +4482,8 @@
         },
         "expected_output": {
           "disposition": "ACCEPT_WITH_QUALIFICATION",
-          "phenomenon_analysis": "合成场景中，FUSE俯仰轴反作用轮拖曳指标高于健康基线；在一次合成重启后，拖曳短时维持在高位并逐渐回落。该现象与FUSE来源记录的2000年俯仰轴轮拖曳事件相似，但本任务的ML结果和日志均为合成输入。",
-          "machine_result_interpretation": "上游合成ML将反作用轮转子—壳体局部接触异常列为候选，排序分数0.76仅用于合成场景内排序，不代表故障概率。FUSE来源将Kapton衬层起泡视为可能原因；该来源归因不能替代当前场景的独立物理检查。",
+          "phenomenon_analysis": "合成场景中，FUSE俯仰轴反作用轮拖曳指标高于健康基线；一次合成重启后，拖曳短时维持高位并逐渐回落。该现象与FUSE来源记录的2000-08-04俯仰轮事件相似，但当前ML结果和日志均为合成输入。FUSE来源另记载2001年其他轮组件发生不同episode，其中后续完全失效被供应商归因于热致壳体变形，不能并入本次Kapton气泡候选。",
+          "machine_result_interpretation": "上游合成ML将反作用轮转子—壳体局部接触列为候选，排序分数0.76不代表故障概率。FUSE供应商将2000年俯仰轮Kapton衬层起泡视为可能原因；同一论文记录的2001年后续完全失效另有热致壳体变形归因，说明拖曳/停轮症状不能直接等同于同一根因。",
           "cause_localization": {
             "status": "CANDIDATE_ONLY",
             "candidates": [
@@ -4505,7 +4507,7 @@
               "ADCS_pitch_axis_control_authority"
             ],
             "certainty": "CANDIDATE",
-            "mechanism_summary": "FUSE来源支持Kapton衬层起泡造成转子局部接触的可能机理。Cassini历史案例涉及低速运行下润滑剂分布变化；由于轮组硬件兼容性未知且机理不同，只能作为对照排查经验，不能支持当前根因确诊。"
+            "mechanism_summary": "FUSE 2000-08-04俯仰轮事件的供应商解释为Kapton衬层气泡局部凸起并接触转子，磨损后拖曳消退，仍属可能原因。FUSE 2001-02-16偏航轮相似事件是另一episode；2001-11/12完全失效则被供应商归因于热致壳体变形。Cassini 2000-12低速dithering润滑不足属于另一种机理，不能作为FUSE Kapton根因的正向证据。"
           },
           "evidence_assessment": {
             "supporting_refs": [
@@ -4524,11 +4526,12 @@
           "historical_experience_relevance": [
             {
               "case_ref": "HIST-CASSINI-RWA-DRAG-007",
-              "relevance": "Cassini案例提示应检查长期低速运行和润滑状态，但其来源归因与FUSE的Kapton衬层接触候选不同；该历史案例只作为差异化排查对照，不支持当前根因。",
+              "relevance": "Cassini 2000-12反作用轮2低速dithering/润滑不足案例，仅提示检查低速区间驻留和零速附近振荡；它与FUSE 2000-08 Kapton衬层局部接触机理不同，且两者硬件兼容性未知，只能作为差异化排查对照，不支持当前根因。",
               "transfer_limitations": [
-                "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
-                "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
-                "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+                "FUSE与Cassini的轴承、润滑结构、壳体衬层和转子间隙兼容性未证明。",
+                "Cassini近零速dithering/润滑不足与FUSE Kapton气泡/转子局部接触是不同机理。",
+                "Cassini来源区分绝对零速静止与低速区间dwell/dithering；不能把绝对零速和低速运行混为一谈。",
+                "Cassini高转速后拖曳消退的观察及其运行建议不得直接转化为FUSE当前操作指令。"
               ]
             }
           ],
@@ -4538,29 +4541,30 @@
               "上游ML结果和日志均为合成场景值。",
               "FUSE来源对Kapton衬层起泡给出的是供应商可能原因。",
               "Cassini历史案例仅部分确认且硬件适用性未知。",
-              "缺少当前轮组壳体、转子间隙和润滑状态直接证据。"
+              "缺少当前轮组壳体、转子间隙和润滑状态直接证据。",
+              "FUSE同一论文记载的2001年完全失效被供应商归因于热致壳体变形，不能把2000年Kapton气泡候选泛化至所有FUSE轮失效。"
             ]
           },
           "disposal_status": "NOT_RECORDED",
           "disposal_measures": [],
           "follow_up_actions": [
             {
-              "action": "核查FUSE当前轮组壳体衬层、转子间隙和局部接触痕迹",
-              "rationale": "验证Kapton衬层起泡/磨损是否适用于当前候选",
+              "action": "核查当前轮组壳体衬层、转子间隙和局部接触痕迹",
+              "rationale": "验证2000年FUSE来源中的Kapton气泡/磨损机理是否适用于当前候选",
               "priority": "HIGH"
             },
             {
-              "action": "结合当前轮组型号和热环境复核拖曳随转速变化的特征",
-              "rationale": "区分局部转子—壳体接触与润滑状态变化",
+              "action": "检查当前轮组在低速区间的驻留时间及零速附近速度振荡",
+              "rationale": "作为与Cassini润滑不足机理区分的独立诊断分支；硬件适用性未知时不预设根因",
               "priority": "HIGH"
             },
             {
-              "action": "仅将Cassini低速润滑经验作为对照检查项，不直接迁移其轮速管理处置",
-              "rationale": "历史轮组硬件兼容性未知且机理不同",
+              "action": "结合轮组件型号、热环境和结构图复核壳体热变形可能性",
+              "rationale": "避免将FUSE后续完全失效的热致壳体变形与2000年Kapton气泡episode混淆",
               "priority": "MEDIUM"
             }
           ],
-          "report_text": "合成场景中FUSE俯仰轴反作用轮拖曳指标升高。上游算法将转子—壳体局部接触列为候选，FUSE历史来源记录的Kapton衬层起泡机理与该候选相符，但尚缺少当前轮组拆检和间隙测量证据。Cassini历史案例涉及低速润滑剂分布变化，硬件适用性未知，只能作为对照排查经验，不能用于确认当前根因或直接迁移其轮速处置。当前任务未记录已执行处置措施。"
+          "report_text": "合成场景中FUSE俯仰轴反作用轮拖曳升高，重启后短时维持高位再逐渐回落。FUSE 2000-08-04来源将该俯仰轮事件的可能原因归于Kapton衬层气泡与转子局部接触。该论文还记载2001-02-16另一只偏航轮发生相似但独立的事件；2001-11-25偏航轮和12-10俯仰轮完全失效则被供应商归因于热致壳体变形。Cassini 2000-12事件涉及近零转速dithering导致轴承润滑不足，与Kapton接触机理不同；来源还区分绝对零速静止与低速区间驻留。由于当前任务是合成输入且硬件兼容性未知，所有历史经验仅用于提出差异化检查，不用于确认当前根因或直接迁移轮速指令。"
         },
         "provenance": {
           "source_group": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
@@ -4594,22 +4598,27 @@
             "Similar drag symptoms can arise from different RWA mechanical designs and failure mechanisms."
           ],
           "reviewer_questions": [
-            "Does the model preserve PARTIALLY_CONFIRMED historical status?",
-            "Does it explicitly retain UNKNOWN hardware compatibility and avoid using Cassini as positive cause evidence?"
+            "是否保留FUSE 2000-08-04 Kapton气泡解释的供应商可能原因属性？",
+            "是否将2001-02-16偏航轮相似事件与2001-11/12热致壳体变形完全失效分别处理？",
+            "是否将Cassini低速dithering润滑不足与FUSE Kapton局部接触作为不同机理？",
+            "是否区分绝对零速静止与低速区间dwell/dithering，并避免迁移Cassini轮速操作指令？"
           ],
           "quality_flags": [
             "LITERATURE_DERIVED_SYNTHETIC",
             "HISTORY_CONTEXT_SYNTHETIC_SNAPSHOT",
             "HARDWARE_COMPATIBILITY_UNKNOWN",
-            "NOT_GOLD"
+            "NOT_GOLD",
+            "FUSE_MULTI_EPISODE_MECHANISM_SEPARATION",
+            "CASSINI_EVENT_DATE_2000_NOT_2001",
+            "ZERO_SPEED_VS_LOW_SPEED_DWELL_DISTINCTION"
           ],
           "status": "OPEN"
         }
       },
       "formal_target": {
         "disposition": "ACCEPT_WITH_QUALIFICATION",
-        "phenomenon_analysis": "合成场景中，FUSE俯仰轴反作用轮拖曳指标高于健康基线；在一次合成重启后，拖曳短时维持在高位并逐渐回落。该现象与FUSE来源记录的2000年俯仰轴轮拖曳事件相似，但本任务的ML结果和日志均为合成输入。",
-        "machine_result_interpretation": "上游合成ML将反作用轮转子—壳体局部接触异常列为候选，排序分数0.76仅用于合成场景内排序，不代表故障概率。FUSE来源将Kapton衬层起泡视为可能原因；该来源归因不能替代当前场景的独立物理检查。",
+        "phenomenon_analysis": "合成场景中，FUSE俯仰轴反作用轮拖曳指标高于健康基线；一次合成重启后，拖曳短时维持高位并逐渐回落。该现象与FUSE来源记录的2000-08-04俯仰轮事件相似，但当前ML结果和日志均为合成输入。FUSE来源另记载2001年其他轮组件发生不同episode，其中后续完全失效被供应商归因于热致壳体变形，不能并入本次Kapton气泡候选。",
+        "machine_result_interpretation": "上游合成ML将反作用轮转子—壳体局部接触列为候选，排序分数0.76不代表故障概率。FUSE供应商将2000年俯仰轮Kapton衬层起泡视为可能原因；同一论文记录的2001年后续完全失效另有热致壳体变形归因，说明拖曳/停轮症状不能直接等同于同一根因。",
         "cause_localization": {
           "status": "CANDIDATE_ONLY",
           "candidates": [
@@ -4633,7 +4642,7 @@
             "ADCS_pitch_axis_control_authority"
           ],
           "certainty": "CANDIDATE",
-          "mechanism_summary": "FUSE来源支持Kapton衬层起泡造成转子局部接触的可能机理。Cassini历史案例涉及低速运行下润滑剂分布变化；由于轮组硬件兼容性未知且机理不同，只能作为对照排查经验，不能支持当前根因确诊。"
+          "mechanism_summary": "FUSE 2000-08-04俯仰轮事件的供应商解释为Kapton衬层气泡局部凸起并接触转子，磨损后拖曳消退，仍属可能原因。FUSE 2001-02-16偏航轮相似事件是另一episode；2001-11/12完全失效则被供应商归因于热致壳体变形。Cassini 2000-12低速dithering润滑不足属于另一种机理，不能作为FUSE Kapton根因的正向证据。"
         },
         "evidence_assessment": {
           "supporting_refs": [
@@ -4652,11 +4661,12 @@
         "historical_experience_relevance": [
           {
             "case_ref": "HIST-CASSINI-RWA-DRAG-007",
-            "relevance": "Cassini案例提示应检查长期低速运行和润滑状态，但其来源归因与FUSE的Kapton衬层接触候选不同；该历史案例只作为差异化排查对照，不支持当前根因。",
+            "relevance": "Cassini 2000-12反作用轮2低速dithering/润滑不足案例，仅提示检查低速区间驻留和零速附近振荡；它与FUSE 2000-08 Kapton衬层局部接触机理不同，且两者硬件兼容性未知，只能作为差异化排查对照，不支持当前根因。",
             "transfer_limitations": [
-              "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
-              "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
-              "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+              "FUSE与Cassini的轴承、润滑结构、壳体衬层和转子间隙兼容性未证明。",
+              "Cassini近零速dithering/润滑不足与FUSE Kapton气泡/转子局部接触是不同机理。",
+              "Cassini来源区分绝对零速静止与低速区间dwell/dithering；不能把绝对零速和低速运行混为一谈。",
+              "Cassini高转速后拖曳消退的观察及其运行建议不得直接转化为FUSE当前操作指令。"
             ]
           }
         ],
@@ -4666,29 +4676,30 @@
             "上游ML结果和日志均为合成场景值。",
             "FUSE来源对Kapton衬层起泡给出的是供应商可能原因。",
             "Cassini历史案例仅部分确认且硬件适用性未知。",
-            "缺少当前轮组壳体、转子间隙和润滑状态直接证据。"
+            "缺少当前轮组壳体、转子间隙和润滑状态直接证据。",
+            "FUSE同一论文记载的2001年完全失效被供应商归因于热致壳体变形，不能把2000年Kapton气泡候选泛化至所有FUSE轮失效。"
           ]
         },
         "disposal_status": "NOT_RECORDED",
         "disposal_measures": [],
         "follow_up_actions": [
           {
-            "action": "核查FUSE当前轮组壳体衬层、转子间隙和局部接触痕迹",
-            "rationale": "验证Kapton衬层起泡/磨损是否适用于当前候选",
+            "action": "核查当前轮组壳体衬层、转子间隙和局部接触痕迹",
+            "rationale": "验证2000年FUSE来源中的Kapton气泡/磨损机理是否适用于当前候选",
             "priority": "HIGH"
           },
           {
-            "action": "结合当前轮组型号和热环境复核拖曳随转速变化的特征",
-            "rationale": "区分局部转子—壳体接触与润滑状态变化",
+            "action": "检查当前轮组在低速区间的驻留时间及零速附近速度振荡",
+            "rationale": "作为与Cassini润滑不足机理区分的独立诊断分支；硬件适用性未知时不预设根因",
             "priority": "HIGH"
           },
           {
-            "action": "仅将Cassini低速润滑经验作为对照检查项，不直接迁移其轮速管理处置",
-            "rationale": "历史轮组硬件兼容性未知且机理不同",
+            "action": "结合轮组件型号、热环境和结构图复核壳体热变形可能性",
+            "rationale": "避免将FUSE后续完全失效的热致壳体变形与2000年Kapton气泡episode混淆",
             "priority": "MEDIUM"
           }
         ],
-        "report_text": "合成场景中FUSE俯仰轴反作用轮拖曳指标升高。上游算法将转子—壳体局部接触列为候选，FUSE历史来源记录的Kapton衬层起泡机理与该候选相符，但尚缺少当前轮组拆检和间隙测量证据。Cassini历史案例涉及低速润滑剂分布变化，硬件适用性未知，只能作为对照排查经验，不能用于确认当前根因或直接迁移其轮速处置。当前任务未记录已执行处置措施。"
+        "report_text": "合成场景中FUSE俯仰轴反作用轮拖曳升高，重启后短时维持高位再逐渐回落。FUSE 2000-08-04来源将该俯仰轮事件的可能原因归于Kapton衬层气泡与转子局部接触。该论文还记载2001-02-16另一只偏航轮发生相似但独立的事件；2001-11-25偏航轮和12-10俯仰轮完全失效则被供应商归因于热致壳体变形。Cassini 2000-12事件涉及近零转速dithering导致轴承润滑不足，与Kapton接触机理不同；来源还区分绝对零速静止与低速区间驻留。由于当前任务是合成输入且硬件兼容性未知，所有历史经验仅用于提出差异化检查，不用于确认当前根因或直接迁移轮速指令。"
       },
       "history_context": {
         "schema_version": "dgsi-history-context.v1",
@@ -4711,11 +4722,11 @@
         "items": [
           {
             "case_ref": "HIST-CASSINI-RWA-DRAG-007",
-            "event_family_id": "CASSINI-RWA-LOW-SPEED-2001",
+            "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
             "historical_equipment_scope": "Cassini_reaction_wheel_assembly",
             "hardware_compatibility": "UNKNOWN",
             "outcome_status": "PARTIALLY_CONFIRMED",
-            "summary": "Cassini反作用轮拖曳异常被认为可能与长期近零转速运行导致润滑剂分布变化有关；该来源保留了其他促成因素，属于来源支持的可能解释，并非对FUSE当前事件的确诊。",
+            "summary": "Cassini反作用轮2于2000-12-15至12-22出现异常摩擦并触发RWA至RCS自动切换；来源认为长期在近零转速区域dithering造成球轴承润滑不足，零速附近频繁振荡也可能促成。该来源区分绝对零速静止与低速区间驻留，前者按周期exercise被描述为相对无害。",
             "source_refs": [
               "LIT-CASSINI-RWA-DRAG-007"
             ],
@@ -4725,13 +4736,15 @@
               "restart/drag behavior is relevant as a diagnostic comparison"
             ],
             "applicability_limitations": [
-              "FUSE与Cassini使用不同航天器和反作用轮组件设计，具体壳体、转子间隙、衬层材料和润滑结构尚未证明兼容。",
-              "Cassini来源讨论低速运行下润滑剂分布变化；FUSE来源针对Kapton衬层起泡及转子接触，二者不是同一根因。",
-              "不得把Cassini提高轮速的历史运行措施直接复制为FUSE当前事件的已执行处置或推荐指令。"
+              "FUSE与Cassini的反作用轮组件设计不同，具体轴承、润滑结构、壳体衬层和转子间隙兼容性未知。",
+              "Cassini来源讨论近零速低速区间dithering导致润滑不足；FUSE 2000-08-04来源讨论Kapton衬层气泡导致转子局部接触，二者不是同一根因。",
+              "Cassini事件发生于2000-12-15至22；LLIS lesson date为2004-05-10，不能将lesson标题括号中的2001当作事件日期。",
+              "Cassini的绝对零速静止与低速区间dwell/dithering有不同风险描述；不得把两者混为一谈。",
+              "不得将Cassini higher-speed recovery observation或低速管理建议直接复制为FUSE当前事件的已执行处置或通用操作指令。"
             ],
             "hit_metadata": {
               "case_id": "HIST-CASSINI-RWA-DRAG-007",
-              "source_group_id": "CASSINI-RWA-LOW-SPEED-2001",
+              "source_group_id": "CASSINI-RWA-LOW-SPEED-2000-12",
               "equipment_scope": "FUSE_pitch_axis_reaction_wheel",
               "diagnostic_vote_allowed": false,
               "available_at": "2004-05-10T23:59:59Z",
@@ -5475,7 +5488,7 @@
           "report_text": "下一步优先核对当前轮组的型号、轴承/润滑结构和运行限制，再分析不同转速区间的拖曳变化。只有在设备适用性和安全边界得到确认后，才评估受控转速策略；不直接复制Cassini案例的升速处置。"
         },
         "provenance": {
-          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2001",
+          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
           "source_artifact_hashes": [],
           "diagnosis_run_refs": [
             "SYNTHETIC-MLRUN-014"
