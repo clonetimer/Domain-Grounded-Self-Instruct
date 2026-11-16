@@ -132,6 +132,11 @@ def audit_l1_cross_collection_lineage(
     # A reused upstream run reference must also bind one immutable diagnostic
     # log snapshot. Distinct Case IDs cannot disguise altered log evidence.
     run_log_hashes: dict[str, str] = {}
+    # The same upstream run cannot be transplanted into another spacecraft
+    # configuration or operating scenario by changing the Case ID. Context
+    # retrieval, review notes, targets and analysis-cutoff variants are not
+    # part of this run-scoped fingerprint.
+    run_context_hashes: dict[str, str] = {}
     tracked_task_count = 0
     # Count families represented by L1 target packets, not unused L0 fact
     # cards supplied for reference validation or historical Context.
@@ -199,6 +204,10 @@ def audit_l1_cross_collection_lineage(
             case_evidence_hashes[case_id] = evidence_hash
             result_hash = _digest(packet["case"]["input"]["machine_diagnosis"])
             log_hash = _digest(packet["case"]["input"]["diagnostic_logs"])
+            run_context_hash = _digest({
+                "spacecraft_context": case_input["spacecraft_context"],
+                "operational_context": case_input["operational_context"],
+            })
             for run_ref in packet["case"]["provenance"]["diagnosis_run_refs"]:
                 if run_ref in run_families and run_families[run_ref] != family_key:
                     _reject("GLOBAL_DIAGNOSIS_RUN_FAMILY_COLLISION")
@@ -211,6 +220,10 @@ def audit_l1_cross_collection_lineage(
                         and run_log_hashes[run_ref] != log_hash):
                     _reject("GLOBAL_DIAGNOSIS_RUN_LOG_SNAPSHOT_CONFLICT")
                 run_log_hashes[run_ref] = log_hash
+                if (run_ref in run_context_hashes
+                        and run_context_hashes[run_ref] != run_context_hash):
+                    _reject("GLOBAL_DIAGNOSIS_RUN_CONTEXT_SNAPSHOT_CONFLICT")
+                run_context_hashes[run_ref] = run_context_hash
             for family in current:
                 if task_split is not None:
                     target_splits.setdefault(family, set()).add(task_split)
