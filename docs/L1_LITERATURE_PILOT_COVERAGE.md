@@ -7,7 +7,7 @@ The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 
 | Task | Source event class | Main diagnostic challenge |
 |---|---|---|
 | SEASAT slip-ring short | Flight | Solar-array power and rotary-interface common cause |
-| Lunar Orbiter power monitor | Flight | Measurement-chain temperature sensitivity vs actual RF output change |
+| Lunar Orbiter power monitor | Flight | CE02 temperature-sensitive telemetry vs stable DSS received signal; independent cross-check indicates actual RF output did not appreciably change |
 | TROPICS Pathfinder cross-short | Flight | Multi-interface common cause vs multiple independent failures; rejected SEL Context |
 | TROPICS slip-ring TVAC | Ground test | Intermittent contact resistance and CRC under thermal-vacuum test |
 | TROPICS payload A CRC | Flight | Candidate cause and source-recorded mitigation kept separate from current synthetic action |
