@@ -17,22 +17,26 @@ The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 
 | NASA 22 N injector plugging | Ground test | Valve-seat material shedding and injector obstruction |
 | NASA catalyst contamination | Ground test | Iron/nickel contamination kept separate from injector plugging |
 | Spaceborne S-band TWTA output loss | Ground test | Root cause localized to linearizer LNA chip, not TWTA internals |
+| FUSE pitch-axis RWA history reuse | Flight | Cassini partially confirmed history with unknown hardware compatibility; no direct root-cause transfer |
+| TROPICS Pathfinder evidence sufficiency | Flight | Decide whether current evidence supports cross-interface short or requires additional analysis |
+| Cassini RWA next-step recommendation | Flight | Check model, lubrication design and operating limits before considering a speed strategy |
+| Spaceborne S-band TWTA handover | Ground test | Preserve LNA location, ground-test source class, candidate status and evidence gaps |
 
 Machine-readable manifest: `examples/l1_literature_pilot_coverage_v0.1.json`.
 
 ## Family grouping and leakage
 
-Three source families have multiple L1 tasks:
+Three source families have multiple L1 tasks, while the FUSE/Cassini history-reuse task also binds a separate historical source family as qualified Context:
 - TROPICS flight slip-ring family: payload A and payload B are separate episodes but remain grouped for split assignment.
 - Lunar Orbiter III TWTA report family: power-monitor indication and first-turn-on helix-current anomaly remain separate episodes but cannot cross splits.
 - NASA 22 N hydrazine life-test family: injector plugging and catalyst contamination remain separate episodes but cannot cross splits.
 
-The collection-level split auditor rejects any event family whose derived tasks are assigned to more than one of train/validation/test. No split assignments have been created for this pilot because expert review is pending.
+The collection-level split auditor rejects any event family whose derived tasks are assigned to more than one of train/validation/test. No split assignments have been created for this pilot because independent L0 source confirmation and L1 expert review are pending.
 
 ## Data provenance and output boundaries
 
 Every packet:
-- references exactly one reviewed public L0 source fact card;
+- references exactly one AI-assisted curated public L0 source fact card; the collection is pending independent domain-expert confirmation;
 - uses an explicitly synthetic upstream ML result and synthetic run ID;
 - uses synthetic log IDs, timestamps, spacecraft identifiers, equipment configuration and operational context;
 - records field-level provenance, generation recipe/version, scenario assumptions and non-simulated source material;
