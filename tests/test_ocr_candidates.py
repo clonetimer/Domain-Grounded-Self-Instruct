@@ -37,6 +37,19 @@ class OcrCandidateTests(unittest.TestCase):
    schema=json.loads((ROOT/"skills/dgsi-simulation-to-sft/schemas/ocr_candidates.schema.json").read_text())
    Draft202012Validator.check_schema(schema)
    self.assertEqual([],list(Draft202012Validator(schema).iter_errors(result)))
+ def test_invalid_psm_and_language_rejected_before_optional_import(self):
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"image.png"; p.write_bytes(b"x")
+   for kwargs,code in [({"psm":14},"OCR_PSM_INVALID"),({"psm":True},"OCR_PSM_INVALID"),({"language":"unsupported"},"OCR_LANGUAGE_UNSUPPORTED")]:
+    with self.subTest(kwargs=kwargs):
+     with self.assertRaisesRegex(OcrIngestionError,code): extract_ocr_candidates(p,"IMG1",**kwargs)
+ def test_empty_and_oversized_images_rejected(self):
+  from dgsi.ocr_candidates import MAX_OCR_IMAGE_BYTES
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"empty.png"; p.write_bytes(b"")
+   with self.assertRaisesRegex(OcrIngestionError,"OCR_IMAGE_SIZE_INVALID"): extract_ocr_candidates(p,"IMG1")
+   p.write_bytes(b"x"*(MAX_OCR_IMAGE_BYTES+1))
+   with self.assertRaisesRegex(OcrIngestionError,"OCR_IMAGE_SIZE_INVALID"): extract_ocr_candidates(p,"IMG1")
  def test_import_missing_dependencies_is_explicit(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)/"image.png"; p.write_bytes(b"x")
