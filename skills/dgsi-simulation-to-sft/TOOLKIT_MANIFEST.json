@@ -1,0 +1,35 @@
+{
+  "toolkit_id": "dgsi-simulation-to-sft",
+  "version": "0.1.0-draft",
+  "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
+  "primary_skill": "SKILL.md",
+  "supported_source_types": [
+    "DESIGN_DOCUMENT",
+    "MODEL_SPECIFICATION",
+    "TEST_REPORT",
+    "SIMULATION_RUN_LOG",
+    "FAULT_INJECTION_RECORD",
+    "UPSTREAM_ML_RESULT",
+    "ENGINEERING_REVIEW",
+    "HISTORICAL_CASE",
+    "OTHER"
+  ],
+  "candidate_tracks": [
+    "REAL_CASE_CANDIDATE",
+    "SIMULATION_CASE_CANDIDATE",
+    "LITERATURE_DERIVED_SYNTHETIC",
+    "DESIGN_DERIVED_HYPOTHETICAL",
+    "SYNTHETIC_TEST_ONLY",
+    "KNOWLEDGE_SOURCE_NOT_EVENT"
+  ],
+  "repository_schema_dependencies": [
+    "resources/source_fact_card.schema.json",
+    "resources/diagnostic_case.schema.json",
+    "resources/l1_task_packet.schema.json",
+    "resources/diagnostic_sft.schema.json"
+  ],
+  "known_schema_gap": "The current L1 packet track enum does not yet support SIMULATION_CASE_CANDIDATE or DESIGN_DERIVED_HYPOTHETICAL. Preserve these as intake candidates; do not relabel them to pass validation.",
+  "training_authorized": false,
+  "gold_authorized": false,
+  "sft_export_authorized": false
+}
