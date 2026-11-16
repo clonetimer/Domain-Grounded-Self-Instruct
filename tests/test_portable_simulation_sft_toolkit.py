@@ -143,6 +143,9 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
                     "scripts/create_simulation_receipt_fixture.py",
                     "scripts/package_simulation_receipt_module.py",
                     "tests/test_simulation_run_receipt.py",
+                    "scripts/audit_cross_ai_evaluation.py",
+                    "tests/test_cross_ai_evaluation.py",
+                    "src/dgsi/cross_ai_evaluation.py",
                 }
                 self.assertTrue(required.issubset(names), required - names)
                 self.assertFalse(any("design_report_0918_pilot" in name for name in names))
