@@ -63,7 +63,7 @@ def main() -> int:
     if not output.is_absolute():
         output = ROOT / output
 
-    include_roots = [SKILL_ROOT, *map(Path, SCHEMAS), *map(Path, RESOURCE_SUPPORT), *map(Path, DOCS), *map(Path, VALIDATOR_FILES)]
+    include_roots = [SKILL_ROOT, *map(Path, SCHEMAS), *map(Path, DOCS), *map(Path, VALIDATOR_FILES)]
     selected: dict[str, bytes] = {}
     for root in include_roots:
         for file_path in files_under(ROOT / root):
