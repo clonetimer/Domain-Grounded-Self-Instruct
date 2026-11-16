@@ -124,3 +124,13 @@ Reusable integration rules:
 17. **Exercise order independence.** Adversarial lineage tests should reverse collection order to ensure the result does not depend on which conflicting record is processed first.
 
 Scope: these are structural lineage protections. They do not authenticate source provenance, establish physical truth, validate IP rights or grant Gold/SFT authorization. The 771-test CI is not evidence of OCR/diagram extraction accuracy.
+
+## CI attribution correction: require test-signature evidence for the exact PR head
+
+A subsequent successful workflow, `43888738459`, reported Ubuntu and Windows 771/771. Log inspection showed that it contained neither of the new P5 integration test modules (`test_l1_global_run_log_snapshot`, `test_l1_global_run_context_snapshot`, `test_l1_global_track_identity`). Its test count also remained identical to the earlier 771-test workflow. Therefore it cannot be used as evidence that PR #93's 15 new lineage regressions ran, even though the workflow itself was green.
+
+Reusable rule:
+
+18. **Attribute CI by exact head and test signature, not by time proximity or green badge.** Verify the workflow's tested commit/head, expected newly added test names, and expected test-count delta. If any is absent, report the workflow as green but the PR acceptance as unverified; trigger or await exact-head CI rather than inferring coverage.
+
+This correction is intentional: do not overstate PR #93 acceptance from workflow `43888738459`. The new P5-B4.1 branch includes the P4 guards and their tests in its source tree; its own exact-head CI remains the acceptance gate.
