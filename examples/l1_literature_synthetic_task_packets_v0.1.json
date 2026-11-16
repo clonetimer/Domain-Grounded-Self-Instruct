@@ -3137,14 +3137,14 @@
               "version": "DGSI-LITERATURE-RECIPE-0.1.1",
               "model_id": "SYNTHETIC-ML-MODEL"
             },
-            "analysis_scope": "PROP / 22N_hydrazine_thruster_injector",
+            "analysis_scope": "PROP / 22N_hydrazine_thruster_propellant_valve_and_injector",
             "status": "FAULT_CANDIDATE",
             "findings": [
               {
                 "finding_id": "ML-FINDING-009",
                 "finding_type": "ROOT_CAUSE_CANDIDATE",
-                "target": "22N_hydrazine_thruster_injector",
-                "result": "THRUSTER_INJECTOR_BLOCKAGE",
+                "target": "propellant_valve_seat_and_injector",
+                "result": "TEFLON_VALVE_SEAT_FRAGMENT_INJECTOR_BLOCKAGE_CANDIDATE",
                 "score": 0.84,
                 "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
                 "supporting_evidence_ids": [
@@ -3156,7 +3156,7 @@
                 ]
               }
             ],
-            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "machine_summary": "Synthetic upstream ML candidate for a post-heater valve/injector blockage episode; it does not explain the earlier catalyst-bed washout.",
             "known_limitations": [
               "Raw telemetry is not supplied to the LLM.",
               "All ML findings and scores are synthetic."
@@ -3166,18 +3166,26 @@
             {
               "log_id": "LOG-91",
               "timestamp": "2026-04-12T08:10:00Z",
-              "log_type": "EVENT",
-              "content": "合成场景：推进器长时热试验期间燃烧室压力出现振荡。",
+              "log_type": "OPERATION",
+              "content": "合成场景：在此前长时试验后，使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-91"
             },
             {
               "log_id": "LOG-92",
-              "timestamp": "2026-04-12T08:17:00Z",
-              "log_type": "ALARM",
-              "content": "合成场景：喷注流量下降，试验系统触发终止条件。",
+              "timestamp": "2026-04-12T08:11:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：推进剂阀出现异常压力事件并发生爆裂，随后推进剂流量显著下降。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-92"
+            },
+            {
+              "log_id": "LOG-93",
+              "timestamp": "2026-04-12T08:12:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：喷注器供给通道流量接近中断，试验系统触发终止条件。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-93"
             }
           ],
           "spacecraft_context": {
@@ -3220,9 +3228,9 @@
             {
               "evidence_id": "L0-E-009",
               "source_id": "NASA-TM-100232",
-              "passage_id": "NASA-TM-100232, pp.1, 5–6",
+              "passage_id": "NASA-TM-100232, PDF pp.3–5, Post-Test Disassembly and Analysis",
               "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
-              "excerpt": "推进剂阀门Teflon阀座材料在试验加热过程后脱落并堵塞喷注管。"
+              "excerpt": "热灯加热导致阀内残余肼自分解、阀门爆裂，Teflon阀座材料被射入喷注器并造成堵塞。"
             }
           ],
           "raw_telemetry_included": false,
@@ -3231,45 +3239,50 @@
         },
         "expected_output": {
           "disposition": "ACCEPT_WITH_QUALIFICATION",
-          "phenomenon_analysis": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。",
-          "machine_result_interpretation": "上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。",
+          "phenomenon_analysis": "合成地面试验场景中，热灯烘烤后推进剂阀发生异常压力事件并爆裂，随后喷注器供给流量显著下降并触发试验终止。此前长时试验中的催化床压力振荡属于另一项待独立解释的异常，不应自动归因于本次喷注器堵塞。",
+          "machine_result_interpretation": "上游合成ML将阀座材料进入喷注器并造成堵塞列为候选，排序分数0.84不是校准概率。当前日志支持阀门事件先于流量中断，但没有当前场景的阀体拆检和堵塞物材料鉴定。",
           "cause_localization": {
             "status": "CANDIDATE_ONLY",
             "candidates": [
               {
-                "component": "22N_hydrazine_thruster_injector",
-                "fault_mode": "injector_flow_path_blockage",
+                "component": "propellant_valve_seat_and_injector",
+                "fault_mode": "teflon_valve_seat_fragment_injector_blockage",
                 "supporting_refs": [
                   "ML-E-009",
                   "LOG-91",
                   "LOG-92",
+                  "LOG-93",
                   "L0-E-009"
                 ],
                 "limitations": [
-                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                  "ML finding and logs are synthetic scenario values, not an actual upstream run or test record.",
+                  "No current-scene valve teardown or injector-fragment material identification is supplied.",
+                  "The public source is a historical ground-test reference, not direct confirmation of this synthetic scenario."
                 ]
               }
             ],
             "affected_components": [
+              "propellant_valve",
               "propellant_injector_tube",
-              "propellant_feed_path"
+              "injector_fuel_delivery_slots"
             ],
             "certainty": "CANDIDATE",
-            "mechanism_summary": "该文献记录的是特定地面寿命试验中的阀座材料脱落堵塞；不得表述为在轨故障或推广为所有肼推进器的通用失效机理。"
+            "mechanism_summary": "NASA TM-100232记录的历史链条为：热灯加热使阀内残余肼自分解，阀门爆裂，Teflon阀座材料被射入喷注器并堵塞小孔/燃料供给槽。当前合成任务的时序与该链条相符，但缺少当前场景拆检和材料鉴定，故只能保留为候选。此前催化床washout/压力振荡不能并入该堵塞根因。"
           },
           "evidence_assessment": {
             "supporting_refs": [
               "ML-E-009",
               "LOG-91",
               "LOG-92",
+              "LOG-93",
               "L0-E-009"
             ],
             "contradicting_refs": [],
             "missing_information": [
-              "当前合成试验的阀门拆检结果",
-              "阀座材料与喷注管残留物的材料分析",
-              "堵塞位置和流量变化的直接对应"
+              "当前合成场景的阀门拆检与残余肼分解证据",
+              "阀座碎片与喷注器堵塞物的材料鉴定",
+              "堵塞位置与流量变化的直接对应",
+              "此前催化床压力振荡的独立诊断结果"
             ]
           },
           "historical_experience_relevance": [],
@@ -3285,17 +3298,22 @@
           "disposal_measures": [],
           "follow_up_actions": [
             {
-              "action": "检查阀门阀座和喷注管残留物",
-              "rationale": "验证是否存在阀座材料脱落",
+              "action": "检查阀体爆裂部位、阀座缺损和喷注器残留物",
+              "rationale": "验证阀门事件与堵塞之间的物理因果链",
               "priority": "HIGH"
             },
             {
-              "action": "对堵塞物开展材料成分分析",
-              "rationale": "将当前合成任务的物证与文献地面试验机理进行对照",
+              "action": "对喷注器内堵塞物开展材料成分鉴定",
+              "rationale": "确认堵塞物是否为阀座Teflon材料",
+              "priority": "HIGH"
+            },
+            {
+              "action": "将此前催化床压力振荡作为独立episode补充诊断",
+              "rationale": "避免把催化剂washout和喷注器堵塞合并为单一根因",
               "priority": "MEDIUM"
             }
           ],
-          "report_text": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。 上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+          "report_text": "合成地面试验中，热灯烘烤后推进剂阀发生异常压力事件并爆裂，随后喷注器供给流量显著下降。上游合成ML将阀座材料进入喷注器并造成堵塞列为候选。NASA TM-100232记录了热灯加热、阀内残余肼自分解、阀门爆裂、Teflon阀座材料射入喷注器的历史故障链；当前合成场景时序与其相符，但尚无阀体拆检和堵塞物材料鉴定，不能确诊。此前催化床压力振荡属于独立异常，不应归入喷注器堵塞根因。当前任务未记录实际处置措施。"
         },
         "provenance": {
           "source_group": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
@@ -3327,8 +3345,9 @@
             "Similar symptoms can arise from other hardware/configuration variants."
           ],
           "reviewer_questions": [
-            "Does the target preserve the source certainty and event type?",
-            "Are fault source and affected components correctly separated?"
+            "是否按热灯加热→阀内残余肼自分解→阀门爆裂→Teflon阀座材料进入喷注器→堵塞的顺序定位？",
+            "是否把此前催化床washout/压力振荡与后期喷注器堵塞分开？",
+            "当前场景是否仍保持候选状态而非将历史根因直接确诊？"
           ],
           "quality_flags": [
             "LITERATURE_DERIVED_SYNTHETIC",
@@ -3341,45 +3360,50 @@
       },
       "formal_target": {
         "disposition": "ACCEPT_WITH_QUALIFICATION",
-        "phenomenon_analysis": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。",
-        "machine_result_interpretation": "上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。",
+        "phenomenon_analysis": "合成地面试验场景中，热灯烘烤后推进剂阀发生异常压力事件并爆裂，随后喷注器供给流量显著下降并触发试验终止。此前长时试验中的催化床压力振荡属于另一项待独立解释的异常，不应自动归因于本次喷注器堵塞。",
+        "machine_result_interpretation": "上游合成ML将阀座材料进入喷注器并造成堵塞列为候选，排序分数0.84不是校准概率。当前日志支持阀门事件先于流量中断，但没有当前场景的阀体拆检和堵塞物材料鉴定。",
         "cause_localization": {
           "status": "CANDIDATE_ONLY",
           "candidates": [
             {
-              "component": "22N_hydrazine_thruster_injector",
-              "fault_mode": "injector_flow_path_blockage",
+              "component": "propellant_valve_seat_and_injector",
+              "fault_mode": "teflon_valve_seat_fragment_injector_blockage",
               "supporting_refs": [
                 "ML-E-009",
                 "LOG-91",
                 "LOG-92",
+                "LOG-93",
                 "L0-E-009"
               ],
               "limitations": [
-                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                "ML finding and logs are synthetic scenario values, not an actual upstream run or test record.",
+                "No current-scene valve teardown or injector-fragment material identification is supplied.",
+                "The public source is a historical ground-test reference, not direct confirmation of this synthetic scenario."
               ]
             }
           ],
           "affected_components": [
+            "propellant_valve",
             "propellant_injector_tube",
-            "propellant_feed_path"
+            "injector_fuel_delivery_slots"
           ],
           "certainty": "CANDIDATE",
-          "mechanism_summary": "该文献记录的是特定地面寿命试验中的阀座材料脱落堵塞；不得表述为在轨故障或推广为所有肼推进器的通用失效机理。"
+          "mechanism_summary": "NASA TM-100232记录的历史链条为：热灯加热使阀内残余肼自分解，阀门爆裂，Teflon阀座材料被射入喷注器并堵塞小孔/燃料供给槽。当前合成任务的时序与该链条相符，但缺少当前场景拆检和材料鉴定，故只能保留为候选。此前催化床washout/压力振荡不能并入该堵塞根因。"
         },
         "evidence_assessment": {
           "supporting_refs": [
             "ML-E-009",
             "LOG-91",
             "LOG-92",
+            "LOG-93",
             "L0-E-009"
           ],
           "contradicting_refs": [],
           "missing_information": [
-            "当前合成试验的阀门拆检结果",
-            "阀座材料与喷注管残留物的材料分析",
-            "堵塞位置和流量变化的直接对应"
+            "当前合成场景的阀门拆检与残余肼分解证据",
+            "阀座碎片与喷注器堵塞物的材料鉴定",
+            "堵塞位置与流量变化的直接对应",
+            "此前催化床压力振荡的独立诊断结果"
           ]
         },
         "historical_experience_relevance": [],
@@ -3395,17 +3419,22 @@
         "disposal_measures": [],
         "follow_up_actions": [
           {
-            "action": "检查阀门阀座和喷注管残留物",
-            "rationale": "验证是否存在阀座材料脱落",
+            "action": "检查阀体爆裂部位、阀座缺损和喷注器残留物",
+            "rationale": "验证阀门事件与堵塞之间的物理因果链",
             "priority": "HIGH"
           },
           {
-            "action": "对堵塞物开展材料成分分析",
-            "rationale": "将当前合成任务的物证与文献地面试验机理进行对照",
+            "action": "对喷注器内堵塞物开展材料成分鉴定",
+            "rationale": "确认堵塞物是否为阀座Teflon材料",
+            "priority": "HIGH"
+          },
+          {
+            "action": "将此前催化床压力振荡作为独立episode补充诊断",
+            "rationale": "避免把催化剂washout和喷注器堵塞合并为单一根因",
             "priority": "MEDIUM"
           }
         ],
-        "report_text": "肼推进器地面寿命试验合成场景中，长时热试验期间燃烧室压力出现振荡，随后喷注流量下降并触发试验终止条件。 上游合成ML将喷注管堵塞列为候选，排序分数0.84不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        "report_text": "合成地面试验中，热灯烘烤后推进剂阀发生异常压力事件并爆裂，随后喷注器供给流量显著下降。上游合成ML将阀座材料进入喷注器并造成堵塞列为候选。NASA TM-100232记录了热灯加热、阀内残余肼自分解、阀门爆裂、Teflon阀座材料射入喷注器的历史故障链；当前合成场景时序与其相符，但尚无阀体拆检和堵塞物材料鉴定，不能确诊。此前催化床压力振荡属于独立异常，不应归入喷注器堵塞根因。当前任务未记录实际处置措施。"
       },
       "history_context": {
         "schema_version": "dgsi-history-context.v1",
@@ -3487,6 +3516,31 @@
         "notes": [
           "Synthetic L1 task, pending domain review."
         ]
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "curator_prompts": [
+          "Do not represent this scenario as a real flight or actual ground test record.",
+          "Do not promote source certainty to current-scene certainty."
+        ],
+        "alternative_hypotheses_to_check": [
+          "Check measurement-chain and configuration-specific alternatives."
+        ],
+        "counterexamples": [
+          "Similar symptoms can arise from other hardware/configuration variants."
+        ],
+        "reviewer_questions": [
+          "是否按热灯加热→阀内残余肼自分解→阀门爆裂→Teflon阀座材料进入喷注器→堵塞的顺序定位？",
+          "是否把此前催化床washout/压力振荡与后期喷注器堵塞分开？",
+          "当前场景是否仍保持候选状态而非将历史根因直接确诊？"
+        ],
+        "quality_flags": [
+          "LITERATURE_DERIVED_SYNTHETIC",
+          "NOT_GOLD",
+          "NO_REAL_ML_RUN",
+          "NO_RAW_TELEMETRY"
+        ],
+        "status": "OPEN"
       }
     },
     {
@@ -3539,7 +3593,7 @@
               "log_id": "LOG-A1",
               "timestamp": "2026-04-12T08:10:00Z",
               "log_type": "EVENT",
-              "content": "合成场景：推进器拆解后催化剂样品金属元素分析结果异常。",
+              "content": "合成场景：长时稳态试验期间推力室压力出现下降和振荡，表现出催化床washout候选特征。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-A1"
             },
@@ -3547,9 +3601,17 @@
               "log_id": "LOG-A2",
               "timestamp": "2026-04-12T08:17:00Z",
               "log_type": "ENGINEERING_ANALYSIS",
-              "content": "合成场景：样品中铁、镍含量高于该合成任务设定的材料控制限。",
+              "content": "合成场景：拆解后催化剂样品的铁、镍含量异常偏高，氢化学吸附值低于该场景设定的正常参考范围。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-A2"
+            },
+            {
+              "log_id": "LOG-A3",
+              "timestamp": "2026-04-12T08:25:00Z",
+              "log_type": "TRACEABILITY",
+              "content": "合成场景：推进剂批次追溯发现试验罐混入一桶异常颜色的肼推进剂，密封状态和污染来源仍需核实。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-A3"
             }
           ],
           "spacecraft_context": {
@@ -3591,9 +3653,9 @@
             {
               "evidence_id": "L0-E-010",
               "source_id": "NASA-TM-100232",
-              "passage_id": "NASA-TM-100232, pp.4–6",
+              "passage_id": "NASA-TM-100232, PDF pp.3–5, Tables II and IV",
               "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
-              "excerpt": "化学分析确认催化剂中铁、镍污染，报告追溯至误混入试验罐的受污染肼推进剂。"
+              "excerpt": "催化剂金属分析发现异常铁、镍含量和偏低氢化学吸附值；报告将金属污染追溯至混入试验罐的pink hydrazine，并解释铁浸出导致催化剂中毒。"
             }
           ],
           "raw_telemetry_included": false,
@@ -3602,23 +3664,25 @@
         },
         "expected_output": {
           "disposition": "ACCEPT_WITH_QUALIFICATION",
-          "phenomenon_analysis": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。",
-          "machine_result_interpretation": "上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。",
+          "phenomenon_analysis": "合成地面寿命试验中，长时稳态运行期间推力室压力出现下降和振荡；拆解分析发现催化剂样品铁、镍含量异常偏高，氢化学吸附值低于参考范围。",
+          "machine_result_interpretation": "上游合成ML将催化剂金属污染/活性下降列为候选，排序分数0.88不是故障概率。样品分析与推进剂批次追溯提供了合成场景内的支持线索，但仍需核实取样链、污染物定量和推进剂桶来源。",
           "cause_localization": {
             "status": "CANDIDATE_ONLY",
             "candidates": [
               {
                 "component": "hydrazine_thruster_catalyst_bed",
-                "fault_mode": "catalyst_metal_contamination",
+                "fault_mode": "iron_nickel_contamination_induced_catalyst_poisoning",
                 "supporting_refs": [
                   "ML-E-010",
                   "LOG-A1",
                   "LOG-A2",
+                  "LOG-A3",
                   "L0-E-010"
                 ],
                 "limitations": [
-                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                  "All current ML findings and logs are synthetic scenario values.",
+                  "The public source supports the historical contamination mechanism but does not prove the synthetic batch's actual contamination chain.",
+                  "The report's iron-leaching explanation should not be assumed to establish the source of every detected metal, including nickel."
                 ]
               }
             ],
@@ -3626,20 +3690,22 @@
               "hydrazine_thruster_catalyst_bed"
             ],
             "certainty": "CANDIDATE",
-            "mechanism_summary": "该催化剂污染与同一地面试验中的喷注管堵塞属于不同episode，不能合并为一个故障原因。"
+            "mechanism_summary": "NASA TM-100232报告在催化剂样品中检测到异常Fe/Ni并发现氢化学吸附值偏低，将催化剂中毒/washout与混入试验罐的受污染pink hydrazine联系；报告进一步解释密封不当桶内进气、CO2形成carbazic acid并腐蚀金属桶导致铁浸出。当前合成场景仍需独立确认推进剂批次和取样链，且不得把后期阀门爆裂造成的Teflon喷注器堵塞合并为催化剂污染的同一根因。"
           },
           "evidence_assessment": {
             "supporting_refs": [
               "ML-E-010",
               "LOG-A1",
               "LOG-A2",
+              "LOG-A3",
               "L0-E-010"
             ],
             "contradicting_refs": [],
             "missing_information": [
-              "当前合成样品的独立复测",
-              "推进剂批次追溯和取样链记录",
-              "污染物与催化剂活性变化之间的直接关联"
+              "推进剂桶密封状态与批次取样链",
+              "推进剂中Fe/Ni的定量分析及来源追溯",
+              "催化剂氢化学吸附值的独立复测",
+              "压力振荡与催化剂活性下降之间的时间/工况对应"
             ]
           },
           "historical_experience_relevance": [],
@@ -3655,17 +3721,22 @@
           "disposal_measures": [],
           "follow_up_actions": [
             {
-              "action": "复核催化剂样品的元素分析",
-              "rationale": "确认污染物种类和浓度",
+              "action": "复核催化剂样品Fe/Ni定量结果及取样链",
+              "rationale": "确认金属污染检测的可重复性和样品代表性",
               "priority": "HIGH"
             },
             {
-              "action": "追溯推进剂批次与试验罐清洁记录",
-              "rationale": "核实污染来源是否与推进剂批次有关",
+              "action": "对异常推进剂批次开展独立化学分析并检查包装密封记录",
+              "rationale": "验证污染物是否来自受污染的推进剂桶",
+              "priority": "HIGH"
+            },
+            {
+              "action": "将催化剂活性/氢化学吸附结果与压力振荡工况对齐",
+              "rationale": "建立催化剂性能退化与压力异常之间的证据关系",
               "priority": "MEDIUM"
             }
           ],
-          "report_text": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。 上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+          "report_text": "合成地面寿命试验长时稳态运行期间推力室压力下降和振荡，拆解样品显示Fe/Ni偏高且氢化学吸附值偏低。上游合成ML将催化剂金属污染/活性下降列为候选。NASA TM-100232记录的历史案例将Fe/Ni污染和催化剂中毒与混入试验罐的受污染pink hydrazine联系；铁浸出机制有报告解释，但当前合成场景仍缺少独立批次化学分析和取样链确认。后期阀门爆裂造成的Teflon喷注器堵塞是另一个独立episode，不是催化剂中毒的同一根因。当前任务未记录实际处置措施。"
         },
         "provenance": {
           "source_group": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
@@ -3697,8 +3768,9 @@
             "Similar symptoms can arise from other hardware/configuration variants."
           ],
           "reviewer_questions": [
-            "Does the target preserve the source certainty and event type?",
-            "Are fault source and affected components correctly separated?"
+            "是否把催化床washout/压力振荡与后期Teflon喷注器堵塞区分为两个episode？",
+            "是否区分Fe/Ni检测结果与报告对铁浸出机制的解释？",
+            "是否保留当前合成批次污染链需要独立核验的限制？"
           ],
           "quality_flags": [
             "LITERATURE_DERIVED_SYNTHETIC",
@@ -3711,23 +3783,25 @@
       },
       "formal_target": {
         "disposition": "ACCEPT_WITH_QUALIFICATION",
-        "phenomenon_analysis": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。",
-        "machine_result_interpretation": "上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。",
+        "phenomenon_analysis": "合成地面寿命试验中，长时稳态运行期间推力室压力出现下降和振荡；拆解分析发现催化剂样品铁、镍含量异常偏高，氢化学吸附值低于参考范围。",
+        "machine_result_interpretation": "上游合成ML将催化剂金属污染/活性下降列为候选，排序分数0.88不是故障概率。样品分析与推进剂批次追溯提供了合成场景内的支持线索，但仍需核实取样链、污染物定量和推进剂桶来源。",
         "cause_localization": {
           "status": "CANDIDATE_ONLY",
           "candidates": [
             {
               "component": "hydrazine_thruster_catalyst_bed",
-              "fault_mode": "catalyst_metal_contamination",
+              "fault_mode": "iron_nickel_contamination_induced_catalyst_poisoning",
               "supporting_refs": [
                 "ML-E-010",
                 "LOG-A1",
                 "LOG-A2",
+                "LOG-A3",
                 "L0-E-010"
               ],
               "limitations": [
-                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                "All current ML findings and logs are synthetic scenario values.",
+                "The public source supports the historical contamination mechanism but does not prove the synthetic batch's actual contamination chain.",
+                "The report's iron-leaching explanation should not be assumed to establish the source of every detected metal, including nickel."
               ]
             }
           ],
@@ -3735,20 +3809,22 @@
             "hydrazine_thruster_catalyst_bed"
           ],
           "certainty": "CANDIDATE",
-          "mechanism_summary": "该催化剂污染与同一地面试验中的喷注管堵塞属于不同episode，不能合并为一个故障原因。"
+          "mechanism_summary": "NASA TM-100232报告在催化剂样品中检测到异常Fe/Ni并发现氢化学吸附值偏低，将催化剂中毒/washout与混入试验罐的受污染pink hydrazine联系；报告进一步解释密封不当桶内进气、CO2形成carbazic acid并腐蚀金属桶导致铁浸出。当前合成场景仍需独立确认推进剂批次和取样链，且不得把后期阀门爆裂造成的Teflon喷注器堵塞合并为催化剂污染的同一根因。"
         },
         "evidence_assessment": {
           "supporting_refs": [
             "ML-E-010",
             "LOG-A1",
             "LOG-A2",
+            "LOG-A3",
             "L0-E-010"
           ],
           "contradicting_refs": [],
           "missing_information": [
-            "当前合成样品的独立复测",
-            "推进剂批次追溯和取样链记录",
-            "污染物与催化剂活性变化之间的直接关联"
+            "推进剂桶密封状态与批次取样链",
+            "推进剂中Fe/Ni的定量分析及来源追溯",
+            "催化剂氢化学吸附值的独立复测",
+            "压力振荡与催化剂活性下降之间的时间/工况对应"
           ]
         },
         "historical_experience_relevance": [],
@@ -3764,17 +3840,22 @@
         "disposal_measures": [],
         "follow_up_actions": [
           {
-            "action": "复核催化剂样品的元素分析",
-            "rationale": "确认污染物种类和浓度",
+            "action": "复核催化剂样品Fe/Ni定量结果及取样链",
+            "rationale": "确认金属污染检测的可重复性和样品代表性",
             "priority": "HIGH"
           },
           {
-            "action": "追溯推进剂批次与试验罐清洁记录",
-            "rationale": "核实污染来源是否与推进剂批次有关",
+            "action": "对异常推进剂批次开展独立化学分析并检查包装密封记录",
+            "rationale": "验证污染物是否来自受污染的推进剂桶",
+            "priority": "HIGH"
+          },
+          {
+            "action": "将催化剂活性/氢化学吸附结果与压力振荡工况对齐",
+            "rationale": "建立催化剂性能退化与压力异常之间的证据关系",
             "priority": "MEDIUM"
           }
         ],
-        "report_text": "推进器地面试验后分析合成场景中，催化剂样品金属元素分析显示铁、镍含量异常升高。 上游合成ML将催化剂金属污染列为候选，排序分数0.88不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        "report_text": "合成地面寿命试验长时稳态运行期间推力室压力下降和振荡，拆解样品显示Fe/Ni偏高且氢化学吸附值偏低。上游合成ML将催化剂金属污染/活性下降列为候选。NASA TM-100232记录的历史案例将Fe/Ni污染和催化剂中毒与混入试验罐的受污染pink hydrazine联系；铁浸出机制有报告解释，但当前合成场景仍缺少独立批次化学分析和取样链确认。后期阀门爆裂造成的Teflon喷注器堵塞是另一个独立episode，不是催化剂中毒的同一根因。当前任务未记录实际处置措施。"
       },
       "history_context": {
         "schema_version": "dgsi-history-context.v1",
@@ -3856,6 +3937,31 @@
         "notes": [
           "Synthetic L1 task, pending domain review."
         ]
+      },
+      "internal_review": {
+        "not_for_sft": true,
+        "curator_prompts": [
+          "Do not represent this scenario as a real flight or actual ground test record.",
+          "Do not promote source certainty to current-scene certainty."
+        ],
+        "alternative_hypotheses_to_check": [
+          "Check measurement-chain and configuration-specific alternatives."
+        ],
+        "counterexamples": [
+          "Similar symptoms can arise from other hardware/configuration variants."
+        ],
+        "reviewer_questions": [
+          "是否把催化床washout/压力振荡与后期Teflon喷注器堵塞区分为两个episode？",
+          "是否区分Fe/Ni检测结果与报告对铁浸出机制的解释？",
+          "是否保留当前合成批次污染链需要独立核验的限制？"
+        ],
+        "quality_flags": [
+          "LITERATURE_DERIVED_SYNTHETIC",
+          "NOT_GOLD",
+          "NO_REAL_ML_RUN",
+          "NO_RAW_TELEMETRY"
+        ],
+        "status": "OPEN"
       }
     },
     {
