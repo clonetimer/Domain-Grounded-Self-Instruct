@@ -25,6 +25,7 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "references/WORKFLOW.md",
             "references/SOURCE_INGESTION.md",
             "references/DOCUMENT_INGESTION_ADAPTERS.md",
+            "references/DIAGRAM_ANNOTATION.md",
             "schemas/diagram_annotation.schema.json",
             "schemas/document_ingestion.schema.json",
             "references/SIMULATION_TRUTH_SEPARATION.md",
