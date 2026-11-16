@@ -219,6 +219,7 @@
       "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
       "scenario_assumption": "假设某次诊断任务收到反作用轮1相关异常提示，但未提供具体ML结果、轮电流/实际力矩/转速日志或故障注入receipt。",
       "model_visible_input": {
+        "evidence_status": "HYPOTHETICAL_NOT_OBSERVED",
         "platform_context": [
           "四轮金字塔反作用轮闭环；轮电流、实际力矩、转速、角动量和功耗为设计输出。",
           "专用FDIR使用电流—力矩—转速机理一致性残差。"
@@ -265,6 +266,7 @@
       "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
       "scenario_assumption": "假设某次姿态估计异常同时出现陀螺角速度通道异常提示和星敏更新缺失提示；没有原始运行日志、观测质量标志或估计误差数据。",
       "model_visible_input": {
+        "evidence_status": "HYPOTHETICAL_NOT_OBSERVED",
         "platform_context": [
           "陀螺承担高频角速度传播；星敏感器按5 Hz更新，参考延迟0.2 s、噪声30 arcsec。",
           "姿态解算参考周期1 s；模型分别保存姿态真值、测量值和估计结果。"
@@ -304,6 +306,7 @@
       "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
       "scenario_assumption": "假设某次任务中通信下传许可关闭，同时母线电压接近欠压区间；没有SOC、电池电流、太阳翼输出、负载功率、几何可见性或许可状态日志。",
       "model_visible_input": {
+        "evidence_status": "HYPOTHETICAL_NOT_OBSERVED",
         "platform_context": [
           "母线欠压保护参考关断24 V、恢复26 V；SOC低于0.20时通信和推进负载切除。",
           "几何可见性与供电许可分别计算；几何可见仍不保证通信下传使能。"
@@ -348,6 +351,7 @@
       "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
       "scenario_assumption": "假设上游分析提示蓄电池可用容量可能下降，但没有容量估计结果、SOC曲线、电池电流、太阳翼功率或母线电压日志。",
       "model_visible_input": {
+        "evidence_status": "HYPOTHETICAL_NOT_OBSERVED",
         "platform_context": [
           "电池容量参考20 Ah，SOC按安时积分更新；容量衰减会改变有效容量和SOC变化斜率。",
           "SOC表示储能余度，母线电压表示瞬时供电状态；两者用于不同保护判断。"
@@ -390,6 +394,7 @@
       "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
       "scenario_assumption": "假设某次轨道保持任务存在推力输出不足的告警，但没有轨道保持请求、供电/自主许可、实际推力或轨道加速度日志。",
       "model_visible_input": {
+        "evidence_status": "HYPOTHETICAL_NOT_OBSERVED",
         "platform_context": [
           "化学推进任务请求由轨道半径偏差产生；推进实际执行受供电许可和自主许可约束。",
           "化学推进实际推力经整星质量换算为轨道加速度；推力退化、延迟、掉线、锁定是目录故障类型。"
@@ -430,6 +435,7 @@
       "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
       "scenario_assumption": "假设某次FDIR报告反作用轮故障已确认并请求隔离，但没有残差序列、确认窗口状态、隔离编号、分配矩阵切换记录或姿态响应数据。",
       "model_visible_input": {
+        "evidence_status": "HYPOTHETICAL_NOT_OBSERVED",
         "platform_context": [
           "报告描述FDIR 0.1 s周期、12个轮电流/力矩/转速特征、5点窗口至少3次候选确认逻辑。",
           "确认后按故障轮编号切换对应三轮分配矩阵；重构后姿态误差需按阈值与驻留条件判断模式迁移。"
