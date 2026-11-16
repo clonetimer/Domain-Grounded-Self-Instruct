@@ -6,6 +6,8 @@ Portable production Skill for converting authorized spacecraft simulation and en
 
 - `SKILL.md`: primary portable Skill entry point.
 - `references/`: ingestion, truth separation, task design, audit and provider-neutral delegation procedures.
+- `references/DOCUMENT_INGESTION_ADAPTERS.md`: local DOCX/PDF extraction and explicit OCR/table/equation/diagram limits.
+- `schemas/document_ingestion.schema.json`: source-hashed document extraction manifest.
 - `templates/`: episode intake, batch manifest and human review queue.
 - `schemas/simulation_run_receipt.schema.json`: separate local simulation evidence intake, not an L1 task or SFT record.
 
