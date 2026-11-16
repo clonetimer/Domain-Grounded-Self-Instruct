@@ -79,6 +79,8 @@ def validate_diagram_asset_provenance(
     word_count = 0
     for line in ocr_record["lines"]:
         line_id = line["line_id"]
+        if not line_id.strip():
+            raise DiagramProvenanceError("DIAGRAM_OCR_LINE_ID_EMPTY")
         if line_id in line_ids:
             raise DiagramProvenanceError("DIAGRAM_OCR_LINE_ID_DUPLICATE")
         line_ids.add(line_id)
@@ -89,6 +91,14 @@ def validate_diagram_asset_provenance(
                 raise DiagramProvenanceError("DIAGRAM_OCR_BOX_EMPTY")
             if left + box_width > width or top + box_height > height:
                 raise DiagramProvenanceError("DIAGRAM_OCR_BOX_OUT_OF_BOUNDS")
+        line_box = line["bbox_px"]
+        for word in line["words"]:
+            word_box = word["bbox_px"]
+            if (word_box["left"] < line_box["left"]
+                or word_box["top"] < line_box["top"]
+                or word_box["left"] + word_box["width"] > line_box["left"] + line_box["width"]
+                or word_box["top"] + word_box["height"] > line_box["top"] + line_box["height"]):
+                raise DiagramProvenanceError("DIAGRAM_OCR_WORD_OUTSIDE_LINE")
         word_count += len(line["words"])
 
     return {
