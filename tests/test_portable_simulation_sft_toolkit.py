@@ -22,6 +22,10 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "references/GENERATION_TASKS.md",
             "references/QUALITY_AUDIT.md",
             "references/AI_HANDOFF_PROMPTS.md",
+            "references/CROSS_AI_EVALUATION.md",
+            "references/SIMULATION_RUN_RECEIPT.md",
+            "schemas/design_derived_batch.schema.json",
+            "schemas/simulation_run_receipt.schema.json",
             "templates/EPISODE_INTAKE_TEMPLATE.md",
             "templates/BATCH_MANIFEST_TEMPLATE.json",
             "templates/HUMAN_REVIEW_QUEUE.csv",
@@ -62,6 +66,9 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
 
     def test_packaging_script_is_present(self):
         self.assertTrue((ROOT / "scripts" / "package_dgsi_simulation_to_sft.py").is_file())
+        packager = (ROOT / "scripts" / "package_dgsi_simulation_to_sft.py").read_text(encoding="utf-8")
+        self.assertIn("scripts/package_simulation_receipt_module.py", packager)
+        self.assertIn("tests/test_simulation_run_receipt.py", packager)
 
 
 if __name__ == "__main__":
