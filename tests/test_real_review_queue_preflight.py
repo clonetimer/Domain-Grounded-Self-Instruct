@@ -32,6 +32,8 @@ def synthetic_queue():
             "case_id": "SYNTHETIC_TEST_ONLY-1", "source_case_sha256": "a" * 64,
             "admission_track": "REAL_GOLD_TRACK_CANDIDATE", "event_family_id": None,
             "gold_eligible": False, "training_authorized": False, "not_for_sft": True,
+            "source_permission_verified": False, "deidentification_verified": False,
+            "l1_packet_sha256": None,
             "reviewer_1": None, "reviewer_2": None, "adjudication_status": "NOT_STARTED",
             "verification_checklist": [check(code) for code in sorted(CHECKS)],
         }],
@@ -58,6 +60,36 @@ class QueuePreflightSyntheticTests(unittest.TestCase):
         q = synthetic_queue()
         q["cases"][0]["training_authorized"] = True
         with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_PREMATURE_PROMOTION"):
+            audit_review_queue(q)
+
+    def test_permission_claim_requires_independent_receipt(self):
+        q = synthetic_queue()
+        q["cases"][0]["source_permission_verified"] = True
+        with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT"):
+            audit_review_queue(q)
+
+    def test_deidentification_claim_requires_independent_receipt(self):
+        q = synthetic_queue()
+        q["cases"][0]["deidentification_verified"] = True
+        with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT"):
+            audit_review_queue(q)
+
+    def test_l1_packet_binding_claim_requires_independent_receipt(self):
+        q = synthetic_queue()
+        q["cases"][0]["l1_packet_sha256"] = "b" * 64
+        with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT"):
+            audit_review_queue(q)
+
+    def test_missing_explicit_permission_status_is_blocked(self):
+        q = synthetic_queue()
+        del q["cases"][0]["source_permission_verified"]
+        with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT"):
+            audit_review_queue(q)
+
+    def test_missing_explicit_l1_binding_null_is_blocked(self):
+        q = synthetic_queue()
+        del q["cases"][0]["l1_packet_sha256"]
+        with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT"):
             audit_review_queue(q)
 
     def test_no_faked_review(self):
