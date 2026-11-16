@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 from typing import Any
 
-from jsonschema import Draft202012Validator, FormatChecker
+from jsonschema import Draft202012Validator
 
 SCHEMA_PATH = Path(__file__).resolve().parents[2] / "skills/dgsi-simulation-to-sft/schemas/simulation_run_receipt.schema.json"
 MAX_RECEIPT_BYTES = 1024 * 1024
@@ -81,6 +81,13 @@ def load_receipt_text(text: str) -> Any:
 
 
 def _time(value: str) -> datetime:
+    # A deterministic RFC3339 subset avoids jsonschema's optional format
+    # plugins and datetime's permissive parsing / sub-microsecond truncation.
+    pattern = (r"[0-9]{4}-[0-9]{2}-[0-9]{2}[Tt]"
+               r"(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]"
+               r"(?:\.[0-9]{1,6})?(?:[Zz]|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])")
+    if not re.fullmatch(pattern, value) or value.endswith("-00:00"):
+        _reject("SIM_INVALID_TIMESTAMP")
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00").replace("z", "+00:00"))
     except ValueError:
@@ -159,7 +166,7 @@ def validate_simulation_run_receipt(receipt: dict[str, Any], *, artifact_root: P
         schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         _reject("SIM_SCHEMA_UNAVAILABLE")
-    if not Draft202012Validator(schema, format_checker=FormatChecker()).is_valid(receipt):
+    if not Draft202012Validator(schema).is_valid(receipt):
         _reject("SIM_SCHEMA_INVALID")
     start, end, cutoff = (_time(receipt[k]) for k in ("started_at", "ended_at", "analysis_cutoff"))
     if end < start:
@@ -185,6 +192,7 @@ def validate_simulation_run_receipt(receipt: dict[str, Any], *, artifact_root: P
     visible = set()
     visible_roles = set()
     for artifact in artifacts:
+        available_at = _time(artifact["available_at"])
         aid = artifact["artifact_id"]
         if aid in by_id:
             _reject("SIM_DUPLICATE_ARTIFACT_ID")
@@ -202,7 +210,7 @@ def validate_simulation_run_receipt(receipt: dict[str, Any], *, artifact_root: P
         if artifact["visibility"] == "MODEL_VISIBLE":
             if artifact["role"] not in VISIBLE_ROLES:
                 _reject("SIM_HIDDEN_ROLE_EXPOSED")
-            if _time(artifact["available_at"]) > cutoff:
+            if available_at > cutoff:
                 _reject("SIM_POST_CUTOFF_VISIBLE_ARTIFACT")
             visible.add(aid)
             visible_roles.add(artifact["role"])

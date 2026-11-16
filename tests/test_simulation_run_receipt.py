@@ -10,6 +10,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
+from jsonschema import FormatChecker
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -170,9 +172,50 @@ class SimulationRunReceiptTests(unittest.TestCase):
 
     def test_timezone_required_and_end_order_checked(self):
         self.receipt["started_at"] = "2026-01-01T00:00:00"
-        self.reject("SIM_SCHEMA_INVALID")
+        self.reject("SIM_INVALID_TIMESTAMP")
         self.receipt["started_at"] = "2026-01-01T00:00:11Z"
         self.reject("SIM_INVALID_RUN_CHRONOLOGY")
+
+    def test_timestamp_error_independent_of_optional_format_plugins(self):
+        for plugins in (True, False):
+            with self.subTest(optional_format_plugins=plugins):
+                r = copy.deepcopy(self.receipt)
+                r["started_at"] = "2026-01-01T00:00:00"
+                if plugins:
+                    self.reject("SIM_INVALID_TIMESTAMP", r, verify=False)
+                else:
+                    with mock.patch.dict(FormatChecker.checkers, {}, clear=True):
+                        self.reject("SIM_INVALID_TIMESTAMP", r, verify=False)
+
+    def test_qa_timestamp_is_checked_without_optional_format_plugins(self):
+        for bad in ("2026-02-30T00:00:00Z", "2026-01-01T00:00:00", "not-a-date"):
+            with self.subTest(timestamp=bad):
+                r = copy.deepcopy(self.receipt)
+                r["artifacts"][2]["available_at"] = bad
+                with mock.patch.dict(FormatChecker.checkers, {}, clear=True):
+                    self.reject("SIM_INVALID_TIMESTAMP", r, verify=False)
+
+    def test_timestamp_profile_rejects_ambiguous_or_lossy_inputs(self):
+        bad_values = ["20260101T000000Z", "2026-01-01 00:00:00Z", "2026-01-01",
+                      "2026-01-01T00:00:00-00:00", "2026-01-01T00:00:00+00:60",
+                      "2026-01-01T00:00:60Z", "2026-01-01T00:00:00.0000001Z"]
+        for bad in bad_values:
+            with self.subTest(timestamp=bad):
+                r = copy.deepcopy(self.receipt)
+                r["analysis_cutoff"] = bad
+                with mock.patch.dict(FormatChecker.checkers, {}, clear=True):
+                    self.reject("SIM_INVALID_TIMESTAMP", r, verify=False)
+
+    def test_timezone_offsets_compare_instants_and_accept_lowercase_z(self):
+        self.receipt["analysis_cutoff"] = "2026-01-01T09:00:06+09:00"
+        self.receipt["artifacts"][3]["available_at"] = "2026-01-01t00:00:06z"
+        self.validate()
+        self.receipt["artifacts"][3]["available_at"] = "2026-01-01T09:00:07+09:00"
+        self.reject("SIM_POST_CUTOFF_VISIBLE_ARTIFACT")
+
+    def test_fractional_future_evidence_is_not_rounded_to_cutoff(self):
+        self.receipt["artifacts"][3]["available_at"] = "2026-01-01T00:00:06.000001Z"
+        self.reject("SIM_POST_CUTOFF_VISIBLE_ARTIFACT")
 
     def test_cutoff_before_run_rejected(self):
         self.receipt["analysis_cutoff"] = "2025-12-31T23:00:00Z"
