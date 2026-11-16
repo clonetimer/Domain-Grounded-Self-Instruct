@@ -31,6 +31,8 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "references/SIMULATION_RUN_RECEIPT.md",
             "schemas/design_derived_batch.schema.json",
             "schemas/simulation_run_receipt.schema.json",
+            "schemas/cross_ai_evaluation.schema.json",
+            "templates/CROSS_AI_EVALUATION_TEMPLATE.json",
             "templates/EPISODE_INTAKE_TEMPLATE.md",
             "templates/BATCH_MANIFEST_TEMPLATE.json",
             "templates/HUMAN_REVIEW_QUEUE.csv",
@@ -46,6 +48,15 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
         self.assertFalse(manifest["gold_authorized"])
         self.assertFalse(manifest["sft_export_authorized"])
         self.assertIn("SIMULATION_CASE_CANDIDATE", manifest["candidate_tracks"])
+
+    def test_cross_ai_evaluation_schema_and_template_are_valid(self):
+        from jsonschema import Draft202012Validator
+        schema = json.loads((TOOLKIT / "schemas" / "cross_ai_evaluation.schema.json").read_text(encoding="utf-8"))
+        template = json.loads((TOOLKIT / "templates" / "CROSS_AI_EVALUATION_TEMPLATE.json").read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        errors = list(Draft202012Validator(schema).iter_errors(template))
+        self.assertEqual([], [error.message for error in errors])
+        self.assertFalse(template["training_authorized"])
 
     def test_batch_template_is_valid_json_and_excludes_truth_from_generator(self):
         template = json.loads(
