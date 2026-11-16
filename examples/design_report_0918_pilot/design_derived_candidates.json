@@ -211,5 +211,261 @@
       "boundary": "未提供执行结果、切换时刻、重构前后姿态误差曲线或长时回归报告。"
     }
   ],
-  "candidates": []
+  "candidates": [
+    {
+      "case_id": "DESIGN-0918-ADCS-RW-001",
+      "track": "DESIGN_DERIVED_HYPOTHETICAL",
+      "task_type": "evidence_sufficiency",
+      "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
+      "scenario_assumption": "假设某次诊断任务收到反作用轮1相关异常提示，但未提供具体ML结果、轮电流/实际力矩/转速日志或故障注入receipt。",
+      "model_visible_input": {
+        "platform_context": [
+          "四轮金字塔反作用轮闭环；轮电流、实际力矩、转速、角动量和功耗为设计输出。",
+          "专用FDIR使用电流—力矩—转速机理一致性残差。"
+        ],
+        "task": "判断当前证据是否足以将异常定位为反作用轮1力矩退化，并说明需要补充哪些证据。",
+        "available_evidence_ids": [
+          "DF-004",
+          "DF-006",
+          "DF-007",
+          "DF-008",
+          "DF-009"
+        ]
+      },
+      "target": {
+        "decision": "INCOMPLETE_EVIDENCE",
+        "phenomenon": "仅有反作用轮1相关异常提示；尚无可核验的观测序列或上游ML结果。",
+        "fault_source_candidate": null,
+        "affected_components_candidate": [
+          "反作用轮1（仅为待核查对象，不是已确认受影响部件）"
+        ],
+        "reasoning_summary": "设计报告定义了力矩退化、饱和、延迟、掉线、迟缓、锁定及两类摩擦异常等多种故障模式。仅凭一个未展开的异常提示，不能区分这些模式，也不能排除传感器/控制分配/供电等关联因素。",
+        "required_evidence": [
+          "带时间戳的上游ML结果及其score语义、分析窗口和证据ID",
+          "反作用轮1电流、实际力矩、转速同步记录及健康基线",
+          "故障注入receipt（如为仿真），包括是否执行及参数",
+          "FDIR残差、阈值、连续确认窗口、候选与隔离状态",
+          "其他三只轮和姿态误差响应，用于判断系统级影响"
+        ],
+        "certainty": "NO_ROOT_CAUSE_LOCALIZATION",
+        "action_status": "仅建议补充证据；未记录任何处置已执行。"
+      },
+      "source_fact_refs": [
+        "DF-004",
+        "DF-006",
+        "DF-007",
+        "DF-008",
+        "DF-009"
+      ]
+    },
+    {
+      "case_id": "DESIGN-0918-ADCS-SENSOR-002",
+      "track": "DESIGN_DERIVED_HYPOTHETICAL",
+      "task_type": "conflict_reconciliation",
+      "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
+      "scenario_assumption": "假设某次姿态估计异常同时出现陀螺角速度通道异常提示和星敏更新缺失提示；没有原始运行日志、观测质量标志或估计误差数据。",
+      "model_visible_input": {
+        "platform_context": [
+          "陀螺承担高频角速度传播；星敏感器按5 Hz更新，参考延迟0.2 s、噪声30 arcsec。",
+          "姿态解算参考周期1 s；模型分别保存姿态真值、测量值和估计结果。"
+        ],
+        "task": "在陀螺异常与星敏更新缺失两个假设之间，说明当前不能作出何种结论，以及如何区分。",
+        "available_evidence_ids": [
+          "DF-005"
+        ]
+      },
+      "target": {
+        "decision": "INCOMPLETE_EVIDENCE",
+        "phenomenon": "假设的姿态估计异常伴随两个传感器侧提示，但提示本身没有可核验时间戳和测量数据。",
+        "fault_source_candidate": null,
+        "affected_components_candidate": [
+          "姿态测量与估计链（待核查）"
+        ],
+        "reasoning_summary": "报告给出的多速率结构意味着星敏数据更新缺失、0.2 s测量延迟与陀螺高频传播属于不同观测行为。缺少陀螺原始测量、星敏有效帧/时间戳、估计姿态及独立真值时，不能判定根因是陀螺、星敏、时间对齐问题还是实际姿态动力学变化。",
+        "required_evidence": [
+          "陀螺角速度原始测量及健康基线",
+          "星敏帧有效标志、采样时间、到达时间和延迟",
+          "姿态解算输入、输出及校正时刻",
+          "真值仅供QA侧对比；模型可见输入只能使用任务截止时已可获得的信息",
+          "轨道/太阳/地球敏感器观测可用性和模式状态"
+        ],
+        "certainty": "NO_ROOT_CAUSE_LOCALIZATION",
+        "action_status": "仅建议开展时间对齐与传感器通道核查。"
+      },
+      "source_fact_refs": [
+        "DF-005",
+        "DF-004"
+      ]
+    },
+    {
+      "case_id": "DESIGN-0918-EPS-003",
+      "track": "DESIGN_DERIVED_HYPOTHETICAL",
+      "task_type": "conflict_reconciliation",
+      "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
+      "scenario_assumption": "假设某次任务中通信下传许可关闭，同时母线电压接近欠压区间；没有SOC、电池电流、太阳翼输出、负载功率、几何可见性或许可状态日志。",
+      "model_visible_input": {
+        "platform_context": [
+          "母线欠压保护参考关断24 V、恢复26 V；SOC低于0.20时通信和推进负载切除。",
+          "几何可见性与供电许可分别计算；几何可见仍不保证通信下传使能。"
+        ],
+        "task": "判断通信下传许可关闭是否足以证明通信设备故障，并提出区分电源保护与通信链路问题的证据。",
+        "available_evidence_ids": [
+          "DF-011",
+          "DF-012",
+          "DF-014",
+          "DF-017"
+        ]
+      },
+      "target": {
+        "decision": "INCOMPLETE_EVIDENCE",
+        "phenomenon": "假设通信下传许可关闭并伴随母线电压接近欠压区间。",
+        "fault_source_candidate": null,
+        "affected_components_candidate": [
+          "通信任务链路（功能受影响，根因未定）",
+          "电源供配电链路（需核查）"
+        ],
+        "reasoning_summary": "设计报告明确区分几何可见性、通信请求、供电许可和下传使能。通信许可关闭可能与SOC资源保护或母线欠压有关，不能直接等同于功放、天线或链路故障。当前缺少母线/SOC/电池/太阳翼/负载及通信几何和许可状态证据。",
+        "required_evidence": [
+          "母线电压及UVLO状态、SOC和电池充放电电流",
+          "太阳翼输出功率、光照/姿态几何和负载功率",
+          "通信请求、几何可见性、供电许可、自主许可、下传使能的独立状态",
+          "功放工作状态、输出功率、接收功率/SNR（如有）"
+        ],
+        "certainty": "NO_ROOT_CAUSE_LOCALIZATION",
+        "action_status": "仅建议按资源链与通信链分支排查。"
+      },
+      "source_fact_refs": [
+        "DF-011",
+        "DF-012",
+        "DF-014",
+        "DF-017"
+      ]
+    },
+    {
+      "case_id": "DESIGN-0918-EPS-004",
+      "track": "DESIGN_DERIVED_HYPOTHETICAL",
+      "task_type": "next_step_recommendation",
+      "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
+      "scenario_assumption": "假设上游分析提示蓄电池可用容量可能下降，但没有容量估计结果、SOC曲线、电池电流、太阳翼功率或母线电压日志。",
+      "model_visible_input": {
+        "platform_context": [
+          "电池容量参考20 Ah，SOC按安时积分更新；容量衰减会改变有效容量和SOC变化斜率。",
+          "SOC表示储能余度，母线电压表示瞬时供电状态；两者用于不同保护判断。"
+        ],
+        "task": "制定最有区分力的后续检查，避免将低SOC直接当作电池容量衰减确证。",
+        "available_evidence_ids": [
+          "DF-011",
+          "DF-012",
+          "DF-014"
+        ]
+      },
+      "target": {
+        "decision": "INCOMPLETE_EVIDENCE",
+        "phenomenon": "仅有蓄电池可用容量下降的候选提示，未提供诊断证据。",
+        "fault_source_candidate": null,
+        "affected_components_candidate": [
+          "蓄电池及电源能量链（待核查）"
+        ],
+        "reasoning_summary": "低SOC既可能与有效容量下降有关，也可能与发电不足、负载增加或工况变化有关；母线电压还受电池端电压、母线电容和负载共同影响。不能仅凭SOC偏低定位电池容量故障。",
+        "required_evidence": [
+          "在已知充放电电流与时间条件下的容量估计/容量试验结果",
+          "电池电流、端电压、SOC和内阻相关记录",
+          "太阳翼输出与光照条件",
+          "整星负载功率及各分系统许可变化",
+          "母线电压与UVLO状态的同步记录"
+        ],
+        "certainty": "NO_ROOT_CAUSE_LOCALIZATION",
+        "action_status": "建议开展容量与能量平衡核查；未记录试验已执行。"
+      },
+      "source_fact_refs": [
+        "DF-011",
+        "DF-012",
+        "DF-014"
+      ]
+    },
+    {
+      "case_id": "DESIGN-0918-PROP-005",
+      "track": "DESIGN_DERIVED_HYPOTHETICAL",
+      "task_type": "evidence_sufficiency",
+      "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
+      "scenario_assumption": "假设某次轨道保持任务存在推力输出不足的告警，但没有轨道保持请求、供电/自主许可、实际推力或轨道加速度日志。",
+      "model_visible_input": {
+        "platform_context": [
+          "化学推进任务请求由轨道半径偏差产生；推进实际执行受供电许可和自主许可约束。",
+          "化学推进实际推力经整星质量换算为轨道加速度；推力退化、延迟、掉线、锁定是目录故障类型。"
+        ],
+        "task": "判断推力不足告警是否足以定位化学推进器故障，指出任务未获许可与执行链故障的区分方法。",
+        "available_evidence_ids": [
+          "DF-015",
+          "DF-018"
+        ]
+      },
+      "target": {
+        "decision": "INCOMPLETE_EVIDENCE",
+        "phenomenon": "假设轨道保持任务报告推力输出不足，但请求、许可和实际输出状态均未提供。",
+        "fault_source_candidate": null,
+        "affected_components_candidate": [
+          "化学推进执行链（待核查）"
+        ],
+        "reasoning_summary": "任务请求存在并不代表推进已获供电许可和自主许可。若请求未获许可，实际推力为零或受抑制可能属于正常门控；只有在请求和许可均满足而实际推力/加速度仍不符合预期时，才有依据进一步怀疑执行链。",
+        "required_evidence": [
+          "轨道半径偏差与轨道保持请求",
+          "推进供电许可、模式许可和自主许可",
+          "指令推力、实际推力及推力响应",
+          "整星质量与实际轨道加速度",
+          "工质质量变化和推进器故障注入receipt（如为仿真）"
+        ],
+        "certainty": "NO_ROOT_CAUSE_LOCALIZATION",
+        "action_status": "建议先核查请求—许可—执行三段链路。"
+      },
+      "source_fact_refs": [
+        "DF-015",
+        "DF-018"
+      ]
+    },
+    {
+      "case_id": "DESIGN-0918-ADCS-RECONFIG-006",
+      "track": "DESIGN_DERIVED_HYPOTHETICAL",
+      "task_type": "next_step_recommendation",
+      "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
+      "scenario_assumption": "假设某次FDIR报告反作用轮故障已确认并请求隔离，但没有残差序列、确认窗口状态、隔离编号、分配矩阵切换记录或姿态响应数据。",
+      "model_visible_input": {
+        "platform_context": [
+          "报告描述FDIR 0.1 s周期、12个轮电流/力矩/转速特征、5点窗口至少3次候选确认逻辑。",
+          "确认后按故障轮编号切换对应三轮分配矩阵；重构后姿态误差需按阈值与驻留条件判断模式迁移。"
+        ],
+        "task": "制定重构成功与否的证据检查表；不要把FDIR报告的故障确认状态直接等同于控制重构成功。",
+        "available_evidence_ids": [
+          "DF-007",
+          "DF-009",
+          "DF-010",
+          "DF-020"
+        ]
+      },
+      "target": {
+        "decision": "INCOMPLETE_EVIDENCE",
+        "phenomenon": "假设FDIR已发出反作用轮隔离/重构请求，但没有执行状态和闭环响应证据。",
+        "fault_source_candidate": null,
+        "affected_components_candidate": [
+          "反作用轮控制分配链与ADCS闭环（功能待验证）"
+        ],
+        "reasoning_summary": "故障检测确认、故障轮隔离、三轮分配矩阵切换和重构后姿态恢复是不同阶段。仅有故障确认或重构请求，不能证明矩阵实际切换、剩余轮力矩可实现或姿态误差恢复。",
+        "required_evidence": [
+          "12个轮电流/力矩/转速输入和机理残差时间序列",
+          "候选评分、5点窗口3次确认状态及故障轮编号",
+          "隔离状态与实际采用的三轮分配矩阵标识/秩检查结果",
+          "重构前后各轮指令与实际力矩",
+          "姿态误差、角速度及恢复阈值驻留时间记录"
+        ],
+        "certainty": "NO_RECONFIGURATION_SUCCESS_CLAIM",
+        "action_status": "建议开展FDIR确认—隔离—矩阵切换—姿态恢复全链路审计。"
+      },
+      "source_fact_refs": [
+        "DF-007",
+        "DF-009",
+        "DF-010",
+        "DF-020"
+      ]
+    }
+  ]
 }
