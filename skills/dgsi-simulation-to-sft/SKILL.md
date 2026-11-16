@@ -160,7 +160,7 @@ Use the repository contracts:
 - `resources/l1_task_packet.schema.json`
 - `resources/diagnostic_sft.schema.json`
 
-The L1 packet schema currently supports the existing real-candidate and literature-derived-synthetic tracks. Do not mislabel simulation-derived candidates to force them through that schema. Preserve them in the intake format until a separately reviewed schema extension is implemented.
+The L1 packet schema currently supports the existing real-candidate and literature-derived-synthetic tracks. Design-derived hypothetical candidates use the separate `schemas/design_derived_batch.schema.json` contract. Simulation-run candidates still require a separately reviewed run-receipt schema extension; preserve them in intake format and do not mislabel them.
 
 ## Final output vocabulary
 
