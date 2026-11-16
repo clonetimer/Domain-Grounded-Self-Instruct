@@ -16,7 +16,7 @@ The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 
 | Cassini reaction-wheel drag | Flight | Low-speed lubricant redistribution distinguished from oil-line blockage |
 | NASA 22 N injector plugging | Ground test | Valve-seat material shedding and injector obstruction |
 | NASA catalyst contamination | Ground test | Fe/Ni contamination, low hydrogen chemisorption and catalyst washout; separate from later valve-burst / Teflon injector blockage |
-| Spaceborne S-band TWTA output loss | Ground test | Root cause localized to linearizer LNA chip, not TWTA internals |
+| Spaceborne S-band TWTA output loss | Ground test | AIT ground-test root cause localized to LCAMP Z2/Z6 NC1062C LNA chips via gain/current, package H2 and EMMI evidence; TWT/EPC/external path excluded |
 | FUSE pitch-axis RWA history reuse | Flight | Cassini partially confirmed history with unknown hardware compatibility; no direct root-cause transfer |
 | TROPICS Pathfinder evidence sufficiency | Flight | Decide whether current evidence supports cross-interface short or requires additional analysis |
 | Cassini RWA next-step recommendation | Flight | Check model, lubrication design and operating limits before considering a speed strategy |

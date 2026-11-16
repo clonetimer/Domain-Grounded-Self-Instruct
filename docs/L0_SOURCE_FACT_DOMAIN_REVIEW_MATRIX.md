@@ -171,12 +171,12 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 ### LIT-SPACEBORNE-TWTA-HYDROGEN-011
 - **Source:** 某星载S频段线性化行波管放大器输出功率下降问题研究 (JOURNAL-2026-TWTA-SBAND-POWER-DROP; Article abstract, journal page)
 - **Event:** GROUND_TEST_EVENT / PUBLIC_GROUND_TEST_REPORT; family `SPACEBORNE-SBAND-TWTA-GROUND-TEST`; episode `SPACEBORNE-SBAND-LNA-HYDROGEN`
-- **Phenomenon:** 某卫星整星转发器性能测试中，一台S频段行波管放大器输出功率下降约4 dB。
-- **Source cause statement:** 地面排查将原因定位到线性化通道放大器两个微波模块内部的低噪声放大器芯片氢中毒。
+- **Phenomenon:** 整星AIT转发器测试中S频段线性化TWTA输出功率下降约4 dB；备份单机、输入衰减器和独立TWT测试正常，异常定位到LCAMP。
+- **Source cause statement:** LCAMP的Z2/Z6衰减放大模块增益分别下降约1.5/2.5 dB且+5 V电流下降；两模块NC1062C LNA内部氢含量10300/12000 ppm（规范限值2000 ppm），EMMI发光不均匀，作者据此确定LNA芯片氢中毒。
 - **Source certainty:** `EXPLICIT_CONFIRMED`
-- **Fault source:** 线性化通道放大器两个微波模块中的低噪声放大器芯片
-- **Affected components:** S频段TWTA输出功率链路；转发器性能
-- **Disposal:** `SOURCE_RECORDS_MEASURE`; 更换为氢含量合格批次的同型号模块，地面试验验证后整机恢复正常。
+- **Fault source:** LCAMP Z2、Z6衰减放大模块内NC1062C GaAs低噪声放大器芯片
+- **Affected components:** LCAMP Z2/Z6模块及S频段线性化TWTA输出功率链路
+- **Disposal:** 更换为氢含量符合要求的同型号规格模块并经试验验证，整机恢复正常。
 - **Migration assessment:** 不适合迁移为用户电缆/隔离器故障根因；可借鉴RF链路故障树覆盖方法。
 - **Transfer constraints:** 功率下降幅度接近不代表机理相同。；不得推定用户案例氢中毒或迁移地面换件方案。
 - **Materials absent from L0 source card:** upstream_ml_result, diagnostic_logs, spacecraft_context, operational_context, historical_cases, expert_adjudicated_target

@@ -3934,14 +3934,14 @@
               "version": "DGSI-LITERATURE-RECIPE-0.1.1",
               "model_id": "SYNTHETIC-ML-MODEL"
             },
-            "analysis_scope": "COMM / S_band_transponder_linearizer",
+            "analysis_scope": "COMM / S_LTWTA / LCAMP_Z2_Z6",
             "status": "FAULT_CANDIDATE",
             "findings": [
               {
                 "finding_id": "ML-FINDING-011",
                 "finding_type": "ROOT_CAUSE_CANDIDATE",
-                "target": "S_band_transponder_linearizer",
-                "result": "LINEARIZER_LNA_GAIN_DEGRADATION",
+                "target": "LCAMP_Z2_Z6_attenuator_amplifier_modules",
+                "result": "DUAL_LNA_GAIN_DEGRADATION_HYDROGEN_POISONING_CANDIDATE",
                 "score": 0.81,
                 "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
                 "supporting_evidence_ids": [
@@ -3953,7 +3953,7 @@
                 ]
               }
             ],
-            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "machine_summary": "Synthetic candidate for paired Z2/Z6 LCAMP module gain loss; do not attribute the symptom to the TWT unless independent TWT evidence supports it.",
             "known_limitations": [
               "Raw telemetry is not supplied to the LLM.",
               "All ML findings and scores are synthetic."
@@ -3964,7 +3964,7 @@
               "log_id": "LOG-B1",
               "timestamp": "2026-04-12T08:10:00Z",
               "log_type": "ALARM",
-              "content": "合成场景：S频段转发器输出功率较基线下降。",
+              "content": "合成场景：整星AIT转发器噪声测试中，S频段线性化TWTA输出功率较正常基线下降约4 dB。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-B1"
             },
@@ -3972,9 +3972,25 @@
               "log_id": "LOG-B2",
               "timestamp": "2026-04-12T08:17:00Z",
               "log_type": "ENGINEERING_ANALYSIS",
-              "content": "合成场景：线性化通道增益测试结果异常，TWTA本体检查尚未发现直接异常。",
+              "content": "合成场景：备份单机和输入10 dB同轴衰减器测试正常；独立TWT测试与正常基线接近，FGM/ALC测试复现整机增益下降。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-B2"
+            },
+            {
+              "log_id": "LOG-B3",
+              "timestamp": "2026-04-12T08:25:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：LCAMP的Z2模块最大增益由19.51 dB降至18.0 dB，+5 V电流由69 mA降至57 mA；Z6模块最大增益由19.49 dB降至17.0 dB，+5 V电流由65 mA降至54 mA。两模块增益下降合计约4 dB。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-B3"
+            },
+            {
+              "log_id": "LOG-B4",
+              "timestamp": "2026-04-12T08:40:00Z",
+              "log_type": "REVIEW",
+              "content": "合成场景：Z2/Z6模块内NC1062C低噪放芯片电流和增益下降；封装内部氢含量分别为10300 ppm和12000 ppm，考核限值为2000 ppm，水汽含量合格，EMMI显示栅条发光不均匀。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-B4"
             }
           ],
           "spacecraft_context": {
@@ -4017,9 +4033,9 @@
             {
               "evidence_id": "L0-E-011",
               "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
-              "passage_id": "Article abstract, journal page",
+              "passage_id": "Space Electronic Technology 2026, 23(0):1–8, PDF pp.2–7, Sections 1–2.3 and conclusion",
               "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
-              "excerpt": "地面排查将原因定位到线性化通道放大器两个微波模块内部的低噪声放大器芯片氢中毒。"
+              "excerpt": "整星AIT测试输出下降约4 dB；排除TWT/EPC等后定位LCAMP Z2/Z6模块增益下降；两模块NC1062C LNA内部氢含量10300/12000 ppm（限值2000 ppm），EMMI发光不均匀，作者确定LNA芯片氢中毒。"
             }
           ],
           "raw_telemetry_included": false,
@@ -4028,45 +4044,54 @@
         },
         "expected_output": {
           "disposition": "ACCEPT_WITH_QUALIFICATION",
-          "phenomenon_analysis": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。",
-          "machine_result_interpretation": "上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。",
+          "phenomenon_analysis": "合成整星AIT转发器测试中，S频段线性化TWTA输出功率较基线下降约4 dB；备份单机和输入衰减器测试正常，独立TWT测试接近正常，而LCAMP Z2/Z6模块增益及+5 V电流同时下降。",
+          "machine_result_interpretation": "上游合成ML将LCAMP双模块增益退化列为候选，排序分数0.81不是校准概率。Z2/Z6模块增益下降合计约4 dB，与整机现象相符；封装氢含量和EMMI结果为合成场景内支持线索，但均为合成输入而非真实拆检记录。",
           "cause_localization": {
             "status": "CANDIDATE_ONLY",
             "candidates": [
               {
-                "component": "S_band_transponder_linearizer",
-                "fault_mode": "linearizer_LNA_hydrogen_poisoning",
+                "component": "LCAMP_Z2_Z6_NC1062C_GaAs_LNA_chips",
+                "fault_mode": "hydrogen_poisoning_induced_LNA_bias_and_gain_degradation",
                 "supporting_refs": [
                   "ML-E-011",
                   "LOG-B1",
                   "LOG-B2",
+                  "LOG-B3",
+                  "LOG-B4",
                   "L0-E-011"
                 ],
                 "limitations": [
-                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                  "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                  "ML findings and all current diagnostic logs are synthetic scenario values, not an actual satellite AIT record.",
+                  "The public source supports the historical Z2/Z6 NC1062C LNA failure mechanism but does not verify the synthetic hardware or module identity.",
+                  "The source's package hydrogen levels and EMMI evidence are historical measurements; they are not measurements from this synthetic scenario."
                 ]
               }
             ],
             "affected_components": [
-              "S_band_TWTA_output_power_path",
+              "LCAMP_Z2_module",
+              "LCAMP_Z6_module",
+              "S_LTWTA_output_power_path",
               "transponder_performance"
             ],
             "certainty": "CANDIDATE",
-            "mechanism_summary": "文献根因位于线性化通道微波模块中的LNA芯片，不是行波管电子枪、螺旋线或EPC；这是地面性能测试案例。"
+            "mechanism_summary": "历史来源定位到LCAMP的Z2、Z6衰减放大模块内NC1062C GaAs低噪放芯片氢中毒，导致偏置电流和增益下降；两模块增益损失合计约4 dB。独立TWT测试正常，故障不在TWT本体。当前合成场景的模块增益、电流、封装氢含量和EMMI信息仅为合成证据，不能当作真实拆检确证。"
           },
           "evidence_assessment": {
             "supporting_refs": [
               "ML-E-011",
               "LOG-B1",
               "LOG-B2",
+              "LOG-B3",
+              "LOG-B4",
               "L0-E-011"
             ],
             "contradicting_refs": [],
             "missing_information": [
-              "当前合成任务的模块级替换验证",
-              "LNA芯片材料/封装气体分析",
-              "线性化通道与TWTA本体的隔离测试"
+              "当前真实设备的LCAMP拓扑与Z2/Z6模块型号确认",
+              "模块封装内部氢含量的独立测量及水汽含量检测",
+              "NC1062C或等效LNA芯片的微波探针增益/电流复测",
+              "EMMI与正常同型号芯片的对照结果",
+              "替换同型号合格批次模块后的系统级复测"
             ]
           },
           "historical_experience_relevance": [],
@@ -4082,17 +4107,27 @@
           "disposal_measures": [],
           "follow_up_actions": [
             {
-              "action": "对线性化通道模块开展独立增益测试",
-              "rationale": "将功率下降定位到线性化通道而非直接归因于TWTA本体",
+              "action": "按FGM/ALC模式分别复测LCAMP输入输出特性和遥测",
+              "rationale": "区分LCAMP前级/后级增益损失及遥测表征关系",
               "priority": "HIGH"
             },
             {
-              "action": "核查模块批次与氢含量控制记录",
-              "rationale": "验证模块材料问题与增益退化的关系",
+              "action": "独立测试TWT、EPC、开关、电缆和输入衰减器",
+              "rationale": "验证系统级隔离结果，避免将LCAMP故障误定位到TWT本体",
+              "priority": "HIGH"
+            },
+            {
+              "action": "对Z2/Z6模块开展+5 V电流、最大增益和封装氢含量检查",
+              "rationale": "验证模块级异常及氢含量是否超过适用规范",
+              "priority": "HIGH"
+            },
+            {
+              "action": "必要时开展LNA芯片微波探针与EMMI失效分析",
+              "rationale": "区分芯片氢中毒与其他偏置/匹配网络退化机制",
               "priority": "MEDIUM"
             }
           ],
-          "report_text": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。 上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+          "report_text": "合成整星AIT转发器测试中，S频段线性化TWTA输出功率下降约4 dB。上游合成ML将LCAMP双模块增益退化列为候选；合成模块测试显示Z2和Z6增益分别下降约1.5 dB和2.5 dB，+5 V电流同步下降，独立TWT测试接近正常。NASA公开案例将类似故障定位于LCAMP Z2/Z6模块内NC1062C低噪放芯片氢中毒，历史封装氢含量为10300/12000 ppm且EMMI呈现栅条发光不均匀。当前合成场景虽与该机理相符，但其ML、模块数据、氢含量和EMMI均为合成输入，不能作为真实失效确证。后续应先核对模块型号和LCAMP拓扑，再开展模块级增益、电流、封装氢含量及芯片失效分析。当前任务未记录实际处置措施。"
         },
         "provenance": {
           "source_group": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
@@ -4124,59 +4159,71 @@
             "Similar symptoms can arise from other hardware/configuration variants."
           ],
           "reviewer_questions": [
-            "Does the target preserve the source certainty and event type?",
-            "Are fault source and affected components correctly separated?"
+            "是否将故障源定位在LCAMP Z2/Z6模块内LNA芯片，而不是把受影响的整机输出链路当作故障源？",
+            "是否保留TWT独立测试正常、EPC/外部链路排除的证据边界？",
+            "是否区分氢含量测量与EMMI直接证据、氢来源制造工艺分析？",
+            "是否避免把历史模块更换措施写成当前合成场景已经执行？"
           ],
           "quality_flags": [
             "LITERATURE_DERIVED_SYNTHETIC",
             "NOT_GOLD",
             "NO_REAL_ML_RUN",
-            "NO_RAW_TELEMETRY"
+            "NO_RAW_TELEMETRY",
+            "LCAMP_Z2_Z6_LNA_HYDROGEN_MECHANISM"
           ],
           "status": "OPEN"
         }
       },
       "formal_target": {
         "disposition": "ACCEPT_WITH_QUALIFICATION",
-        "phenomenon_analysis": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。",
-        "machine_result_interpretation": "上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。",
+        "phenomenon_analysis": "合成整星AIT转发器测试中，S频段线性化TWTA输出功率较基线下降约4 dB；备份单机和输入衰减器测试正常，独立TWT测试接近正常，而LCAMP Z2/Z6模块增益及+5 V电流同时下降。",
+        "machine_result_interpretation": "上游合成ML将LCAMP双模块增益退化列为候选，排序分数0.81不是校准概率。Z2/Z6模块增益下降合计约4 dB，与整机现象相符；封装氢含量和EMMI结果为合成场景内支持线索，但均为合成输入而非真实拆检记录。",
         "cause_localization": {
           "status": "CANDIDATE_ONLY",
           "candidates": [
             {
-              "component": "S_band_transponder_linearizer",
-              "fault_mode": "linearizer_LNA_hydrogen_poisoning",
+              "component": "LCAMP_Z2_Z6_NC1062C_GaAs_LNA_chips",
+              "fault_mode": "hydrogen_poisoning_induced_LNA_bias_and_gain_degradation",
               "supporting_refs": [
                 "ML-E-011",
                 "LOG-B1",
                 "LOG-B2",
+                "LOG-B3",
+                "LOG-B4",
                 "L0-E-011"
               ],
               "limitations": [
-                "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
-                "Public source is a historical reference, not direct evidence for the synthetic scenario."
+                "ML findings and all current diagnostic logs are synthetic scenario values, not an actual satellite AIT record.",
+                "The public source supports the historical Z2/Z6 NC1062C LNA failure mechanism but does not verify the synthetic hardware or module identity.",
+                "The source's package hydrogen levels and EMMI evidence are historical measurements; they are not measurements from this synthetic scenario."
               ]
             }
           ],
           "affected_components": [
-            "S_band_TWTA_output_power_path",
+            "LCAMP_Z2_module",
+            "LCAMP_Z6_module",
+            "S_LTWTA_output_power_path",
             "transponder_performance"
           ],
           "certainty": "CANDIDATE",
-          "mechanism_summary": "文献根因位于线性化通道微波模块中的LNA芯片，不是行波管电子枪、螺旋线或EPC；这是地面性能测试案例。"
+          "mechanism_summary": "历史来源定位到LCAMP的Z2、Z6衰减放大模块内NC1062C GaAs低噪放芯片氢中毒，导致偏置电流和增益下降；两模块增益损失合计约4 dB。独立TWT测试正常，故障不在TWT本体。当前合成场景的模块增益、电流、封装氢含量和EMMI信息仅为合成证据，不能当作真实拆检确证。"
         },
         "evidence_assessment": {
           "supporting_refs": [
             "ML-E-011",
             "LOG-B1",
             "LOG-B2",
+            "LOG-B3",
+            "LOG-B4",
             "L0-E-011"
           ],
           "contradicting_refs": [],
           "missing_information": [
-            "当前合成任务的模块级替换验证",
-            "LNA芯片材料/封装气体分析",
-            "线性化通道与TWTA本体的隔离测试"
+            "当前真实设备的LCAMP拓扑与Z2/Z6模块型号确认",
+            "模块封装内部氢含量的独立测量及水汽含量检测",
+            "NC1062C或等效LNA芯片的微波探针增益/电流复测",
+            "EMMI与正常同型号芯片的对照结果",
+            "替换同型号合格批次模块后的系统级复测"
           ]
         },
         "historical_experience_relevance": [],
@@ -4192,17 +4239,27 @@
         "disposal_measures": [],
         "follow_up_actions": [
           {
-            "action": "对线性化通道模块开展独立增益测试",
-            "rationale": "将功率下降定位到线性化通道而非直接归因于TWTA本体",
+            "action": "按FGM/ALC模式分别复测LCAMP输入输出特性和遥测",
+            "rationale": "区分LCAMP前级/后级增益损失及遥测表征关系",
             "priority": "HIGH"
           },
           {
-            "action": "核查模块批次与氢含量控制记录",
-            "rationale": "验证模块材料问题与增益退化的关系",
+            "action": "独立测试TWT、EPC、开关、电缆和输入衰减器",
+            "rationale": "验证系统级隔离结果，避免将LCAMP故障误定位到TWT本体",
+            "priority": "HIGH"
+          },
+          {
+            "action": "对Z2/Z6模块开展+5 V电流、最大增益和封装氢含量检查",
+            "rationale": "验证模块级异常及氢含量是否超过适用规范",
+            "priority": "HIGH"
+          },
+          {
+            "action": "必要时开展LNA芯片微波探针与EMMI失效分析",
+            "rationale": "区分芯片氢中毒与其他偏置/匹配网络退化机制",
             "priority": "MEDIUM"
           }
         ],
-        "report_text": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供TWTA本体内部故障的直接证据。 上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
+        "report_text": "合成整星AIT转发器测试中，S频段线性化TWTA输出功率下降约4 dB。上游合成ML将LCAMP双模块增益退化列为候选；合成模块测试显示Z2和Z6增益分别下降约1.5 dB和2.5 dB，+5 V电流同步下降，独立TWT测试接近正常。NASA公开案例将类似故障定位于LCAMP Z2/Z6模块内NC1062C低噪放芯片氢中毒，历史封装氢含量为10300/12000 ppm且EMMI呈现栅条发光不均匀。当前合成场景虽与该机理相符，但其ML、模块数据、氢含量和EMMI均为合成输入，不能作为真实失效确证。后续应先核对模块型号和LCAMP拓扑，再开展模块级增益、电流、封装氢含量及芯片失效分析。当前任务未记录实际处置措施。"
       },
       "history_context": {
         "schema_version": "dgsi-history-context.v1",
@@ -4244,7 +4301,7 @@
             "source_fact_refs": [
               "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
             ],
-            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+            "assumption": "Synthetic event/test sequence, module gain/current measurements, package hydrogen levels and EMMI observations; not actual source or flight/test records."
           },
           {
             "field_path": "case.input.spacecraft_context",
@@ -4265,7 +4322,8 @@
         ],
         "scenario_assumptions": [
           "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
-          "No raw telemetry or actual upstream ML execution is represented."
+          "No raw telemetry or actual upstream ML execution is represented.",
+          "Z2/Z6 module identifiers, gain/current values, hydrogen concentrations and EMMI observations are illustrative synthetic values adapted from the public source's mechanism and magnitude; they are not reproduced as actual measurements from the cited satellite."
         ],
         "not_simulated": [
           "Raw telemetry waveforms",
