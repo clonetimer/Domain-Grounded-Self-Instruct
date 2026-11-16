@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI diagram annotation graph v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_id",
+    "source_sha256",
+    "asset_id",
+    "asset_sha256",
+    "locator",
+    "diagram_type",
+    "nodes",
+    "ports",
+    "edges",
+    "claims",
+    "review_status",
+    "training_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi.diagram-annotation.v1"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "locator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "diagram_type": {
+      "enum": [
+        "BLOCK_DIAGRAM",
+        "SIGNAL_FLOW",
+        "PHYSICAL_ARCHITECTURE",
+        "STATE_MACHINE",
+        "TIMING_DIAGRAM",
+        "UNKNOWN"
+      ]
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "node_id",
+          "label",
+          "object_type",
+          "hierarchy_path",
+          "evidence_locator",
+          "review_status"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "object_type": {
+            "enum": [
+              "SPACECRAFT",
+              "SUBSYSTEM",
+              "UNIT",
+              "COMPONENT",
+              "FUNCTION",
+              "EXTERNAL_SYSTEM",
+              "UNKNOWN"
+            ]
+          },
+          "hierarchy_path": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_locator": {
+            "type": "string"
+          },
+          "review_status": {
+            "enum": [
+              "HUMAN_CONFIRMED",
+              "AI_PROPOSED",
+              "UNRESOLVED"
+            ]
+          }
+        }
+      }
+    },
+    "ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "port_id",
+          "node_id",
+          "label",
+          "direction",
+          "signal_or_medium",
+          "unit",
+          "evidence_locator",
+          "review_status"
+        ],
+        "properties": {
+          "port_id": {
+            "type": "string"
+          },
+          "node_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "direction": {
+            "enum": [
+              "INPUT",
+              "OUTPUT",
+              "BIDIRECTIONAL",
+              "UNKNOWN"
+            ]
+          },
+          "signal_or_medium": {
+            "type": "string"
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence_locator": {
+            "type": "string"
+          },
+          "review_status": {
+            "enum": [
+              "HUMAN_CONFIRMED",
+              "AI_PROPOSED",
+              "UNRESOLVED"
+            ]
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "edge_id",
+          "from_port",
+          "to_port",
+          "relation",
+          "direction_basis",
+          "evidence_locator",
+          "review_status"
+        ],
+        "properties": {
+          "edge_id": {
+            "type": "string"
+          },
+          "from_port": {
+            "type": "string"
+          },
+          "to_port": {
+            "type": "string"
+          },
+          "relation": {
+            "enum": [
+              "SIGNAL",
+              "POWER",
+              "MECHANICAL",
+              "THERMAL",
+              "DATA",
+              "CONTROL",
+              "FLUID",
+              "UNKNOWN"
+            ]
+          },
+          "direction_basis": {
+            "enum": [
+              "ARROW_IN_DIAGRAM",
+              "PORT_DIRECTION",
+              "EXPLICIT_TEXT",
+              "INFERRED_UNVERIFIED",
+              "UNKNOWN"
+            ]
+          },
+          "evidence_locator": {
+            "type": "string"
+          },
+          "review_status": {
+            "enum": [
+              "HUMAN_CONFIRMED",
+              "AI_PROPOSED",
+              "UNRESOLVED"
+            ]
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim",
+          "source_type",
+          "evidence_locator",
+          "certainty"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "source_type": {
+            "enum": [
+              "VISIBLE_LABEL",
+              "VISIBLE_CONNECTOR",
+              "CAPTION",
+              "ADJACENT_TEXT",
+              "HUMAN_ANNOTATION"
+            ]
+          },
+          "evidence_locator": {
+            "type": "string"
+          },
+          "certainty": {
+            "enum": [
+              "OBSERVED_IN_SOURCE",
+              "PROPOSED_INTERPRETATION",
+              "UNRESOLVED"
+            ]
+          }
+        }
+      }
+    },
+    "review_status": {
+      "const": "REVIEW_REQUIRED"
+    },
+    "training_authorized": {
+      "const": false
+    }
+  }
+}
