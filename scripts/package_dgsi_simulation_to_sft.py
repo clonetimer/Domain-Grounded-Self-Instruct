@@ -46,6 +46,7 @@ VALIDATOR_FILES = (
     "scripts/ocr_dgsi_image.py",
     "scripts/audit_diagram_asset_provenance.py",
     "tests/test_diagram_provenance.py",
+    "tests/test_diagram_text_regions.py",
     "tests/test_ocr_candidates.py",
     "tests/test_cross_ai_evaluation.py",
     "tests/test_document_ingestion.py",
