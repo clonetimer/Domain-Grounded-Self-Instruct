@@ -3,8 +3,25 @@
   "version": "0.1.0-draft",
   "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
   "primary_skill": "SKILL.md",
-  "supported_source_types": ["DESIGN_DOCUMENT", "MODEL_SPECIFICATION", "TEST_REPORT", "SIMULATION_RUN_LOG", "FAULT_INJECTION_RECORD", "UPSTREAM_ML_RESULT", "ENGINEERING_REVIEW", "HISTORICAL_CASE", "OTHER"],
-  "candidate_tracks": ["REAL_CASE_CANDIDATE", "SIMULATION_CASE_CANDIDATE", "LITERATURE_DERIVED_SYNTHETIC", "DESIGN_DERIVED_HYPOTHETICAL", "SYNTHETIC_TEST_ONLY", "KNOWLEDGE_SOURCE_NOT_EVENT"],
+  "supported_source_types": [
+    "DESIGN_DOCUMENT",
+    "MODEL_SPECIFICATION",
+    "TEST_REPORT",
+    "SIMULATION_RUN_LOG",
+    "FAULT_INJECTION_RECORD",
+    "UPSTREAM_ML_RESULT",
+    "ENGINEERING_REVIEW",
+    "HISTORICAL_CASE",
+    "OTHER"
+  ],
+  "candidate_tracks": [
+    "REAL_CASE_CANDIDATE",
+    "SIMULATION_CASE_CANDIDATE",
+    "LITERATURE_DERIVED_SYNTHETIC",
+    "DESIGN_DERIVED_HYPOTHETICAL",
+    "SYNTHETIC_TEST_ONLY",
+    "KNOWLEDGE_SOURCE_NOT_EVENT"
+  ],
   "repository_schema_dependencies": [
     "resources/source_fact_card.schema.json",
     "resources/diagnostic_case.schema.json",
@@ -13,11 +30,12 @@
     "skills/dgsi-simulation-to-sft/schemas/design_derived_batch.schema.json",
     "skills/dgsi-simulation-to-sft/schemas/simulation_run_receipt.schema.json"
   ],
-  "known_schema_gap": "Design-derived candidates and simulation run receipts have separate intake schemas. Formal L1 simulation task representation, engine-specific adapters and SFT release remain unimplemented; do not relabel these records to pass existing L1 checks.",
+  "known_schema_gap": "Formal L1 simulation task representation, engine-specific semantic adapters and SFT release remain unimplemented. The simulation receipt schema is local intake/byte verification only and is not formal L1 admission.",
   "simulation_receipt_entrypoint": "scripts/audit_simulation_run_receipt.py",
   "simulation_receipt_guide": "references/SIMULATION_RUN_RECEIPT.md",
   "simulation_receipt_validation_scope": "declared metadata, local artifact bytes, bounded structural truth-key check; not scientific validation",
   "training_authorized": false,
   "gold_authorized": false,
-  "sft_export_authorized": false
+  "sft_export_authorized": false,
+  "simulation_receipt_scope": "local receipt metadata, bounded structural leakage checks and local artifact byte/hash verification; not source authentication, physics validation, native engine certification or L1/SFT admission"
 }
