@@ -24,6 +24,8 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "TOOLKIT_MANIFEST.json",
             "references/WORKFLOW.md",
             "references/SOURCE_INGESTION.md",
+            "references/DOCUMENT_INGESTION_ADAPTERS.md",
+            "schemas/document_ingestion.schema.json",
             "references/SIMULATION_TRUTH_SEPARATION.md",
             "references/GENERATION_TASKS.md",
             "references/QUALITY_AUDIT.md",
@@ -146,6 +148,9 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
                     "scripts/audit_cross_ai_evaluation.py",
                     "tests/test_cross_ai_evaluation.py",
                     "src/dgsi/cross_ai_evaluation.py",
+                    "scripts/ingest_dgsi_document.py",
+                    "tests/test_document_ingestion.py",
+                    "src/dgsi/document_ingestion.py",
                 }
                 self.assertTrue(required.issubset(names), required - names)
                 self.assertFalse(any("design_report_0918_pilot" in name for name in names))
