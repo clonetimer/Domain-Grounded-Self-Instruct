@@ -13,6 +13,8 @@ On Windows PowerShell, set `PYTHONPATH` to `src` before invoking Python.
 
 The tool never scans source folders, reads engineering files, uploads data, writes files or outputs paths, case IDs, source text, reviewer identities or private notes. It enforces all nine missing-material categories, cohort counts, source case SHA-256 format, and no-promotion constraints. It rejects forged completed reviews, verification assertions and Gold/training flags within the intake-only queue. Actual verification must be recorded in a **separate, independently checked source/evidence and review receipt**.
 
+The v0.5 queue's existing `source_permission_verified` and `deidentification_verified` fields must both be explicitly `false`, and `l1_packet_sha256` must be present and `null`. Any verified claim or bound L1 packet in this intake-only queue is blocked with `QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT`. Record genuine verification and any L1 binding exclusively in separate independently verifiable evidence/review receipts; this metadata preflight never promotes a case.
+
 The output is aggregate-only and always returns `training_authorized=false`, `real_gold_count=0`, `split_assignment_allowed=false`. A historical `NO_HIT` must be established by a separately verifiable as-of retrieval receipt; missing historical materials never justify invented history. Regression tests use `SYNTHETIC_TEST_ONLY` fixtures.
 
 This preflight does **not** certify actual source authenticity/IP permission, hash-to-file correspondence, deidentification, real ML runs, diagnosis logs, timestamps, evidence adequacy or expert conclusions. It precedes the existing authorized handoff and downstream L0/Case/SFT gates.
