@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI OCR text candidate record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "asset_id",
+    "asset_sha256",
+    "image_width",
+    "image_height",
+    "ocr_engine",
+    "language",
+    "lines",
+    "warnings",
+    "review_status",
+    "training_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi.ocr-candidates.v1"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "image_width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "image_height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "ocr_engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "page_segmentation_mode"
+      ],
+      "properties": {
+        "name": {
+          "const": "Tesseract"
+        },
+        "version": {
+          "type": "string"
+        },
+        "page_segmentation_mode": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 13
+        }
+      }
+    },
+    "language": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "line_id",
+          "text",
+          "confidence",
+          "bbox_px",
+          "words",
+          "review_status"
+        ],
+        "properties": {
+          "line_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 100
+          },
+          "bbox_px": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "left",
+              "top",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "left": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "top": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "text",
+                "confidence",
+                "bbox_px"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "bbox_px": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "left",
+                    "top",
+                    "width",
+                    "height"
+                  ],
+                  "properties": {
+                    "left": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "top": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "width": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "height": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "review_status": {
+            "const": "MANUAL_REVIEW_REQUIRED"
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "review_status": {
+      "const": "REVIEW_REQUIRED"
+    },
+    "training_authorized": {
+      "const": false
+    }
+  }
+}
