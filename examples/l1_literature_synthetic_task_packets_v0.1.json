@@ -3166,7 +3166,7 @@
             {
               "log_id": "LOG-91",
               "timestamp": "2026-04-12T08:10:00Z",
-              "log_type": "OPERATION",
+              "log_type": "OPERATOR_NOTE",
               "content": "合成场景：在此前长时试验后，使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-91"
@@ -3583,7 +3583,7 @@
             {
               "log_id": "LOG-A3",
               "timestamp": "2026-04-12T08:25:00Z",
-              "log_type": "TRACEABILITY",
+              "log_type": "REVIEW",
               "content": "合成场景：推进剂批次追溯发现试验罐混入一桶异常颜色的肼推进剂，密封状态和污染来源仍需核实。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-A3"
