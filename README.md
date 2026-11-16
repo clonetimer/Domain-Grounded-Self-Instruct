@@ -61,3 +61,24 @@ Use [`docs/DOMAIN_REVIEW_CHECKLIST.md`](docs/DOMAIN_REVIEW_CHECKLIST.md) to revi
 - [L1 review receipt batch audit](docs/L1_REVIEW_RECEIPT_BATCH_AUDIT.md)
 
 - [L0 source-fact domain review matrix](docs/L0_SOURCE_FACT_DOMAIN_REVIEW_MATRIX.md)
+
+## Portable simulation-to-SFT production toolkit
+
+A provider-neutral production Skill is available at
+[`skills/dgsi-simulation-to-sft/`](skills/dgsi-simulation-to-sft/README.md).
+It guides other AI systems through source ingestion, L0 fact extraction, L1
+diagnostic candidate generation, simulator-truth separation, independent
+audit and human-review handoff for authorized spacecraft design reports,
+test reports and simulation run materials.
+
+The toolkit is **DRAFT / candidate-generation only**. It does not authorize
+Gold promotion, formal splits, SFT export or training. In particular, the
+current L1 schema does not yet support the distinct
+`SIMULATION_CASE_CANDIDATE` and `DESIGN_DERIVED_HYPOTHETICAL` tracks; do not
+mislabel those records to force schema acceptance.
+
+Build a portable ZIP from a repository checkout with:
+
+```bash
+python scripts/package_dgsi_simulation_to_sft.py
+```
