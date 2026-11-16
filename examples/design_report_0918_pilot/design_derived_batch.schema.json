@@ -185,6 +185,24 @@
     },
     "training_authorized": {
       "const": false
+    },
+    "quarantine": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "locator",
+          "reason"
+        ],
+        "properties": {
+          "locator": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "additionalProperties": false
