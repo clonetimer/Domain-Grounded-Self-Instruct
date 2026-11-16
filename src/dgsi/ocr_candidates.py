@@ -8,11 +8,25 @@ import hashlib
 from pathlib import Path
 from typing import Any
 
+MAX_OCR_IMAGE_BYTES = 40 * 1024 * 1024
+MAX_OCR_PIXELS = 100_000_000
+ALLOWED_LANGUAGES = {"eng", "deu", "fra", "jpn", "chi_sim", "chi_tra"}
+
 class OcrIngestionError(ValueError): pass
 
 def extract_ocr_candidates(image_path: str|Path, asset_id: str, *, language: str="eng", psm: int=6) -> dict[str,Any]:
     path=Path(image_path)
     if path.is_symlink() or not path.is_file(): raise OcrIngestionError("OCR_IMAGE_UNAVAILABLE")
+    if type(psm) is not int or not 0 <= psm <= 13:
+        raise OcrIngestionError("OCR_PSM_INVALID")
+    if not isinstance(language, str) or language not in ALLOWED_LANGUAGES:
+        raise OcrIngestionError("OCR_LANGUAGE_UNSUPPORTED")
+    try:
+        image_size = path.stat().st_size
+    except OSError:
+        raise OcrIngestionError("OCR_IMAGE_UNAVAILABLE") from None
+    if image_size <= 0 or image_size > MAX_OCR_IMAGE_BYTES:
+        raise OcrIngestionError("OCR_IMAGE_SIZE_INVALID")
     try:
         import pytesseract
         from PIL import Image
@@ -25,7 +39,7 @@ def extract_ocr_candidates(image_path: str|Path, asset_id: str, *, language: str
         with Image.open(path) as image:
             image.load()
             width,height=image.size
-            if width<1 or height<1 or width*height>100_000_000:
+            if width<1 or height<1 or width*height>MAX_OCR_PIXELS:
                 raise OcrIngestionError("OCR_IMAGE_DIMENSIONS_INVALID")
             raw=pytesseract.image_to_data(image,lang=language,config=f"--psm {psm}",output_type=Output.DICT)
             version=str(pytesseract.get_tesseract_version()).splitlines()[0]
