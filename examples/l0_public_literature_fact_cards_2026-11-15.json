@@ -554,30 +554,33 @@
       "source_class": "PUBLIC_FLIGHT_REPORT",
       "event_status": "FLIGHT_EVENT",
       "knowledge_source_not_event": false,
-      "event_family_id": "CASSINI-RWA-LOW-SPEED-2001",
-      "event_episode_id": "LIT-CASSINI-RWA-DRAG-007-EPISODE",
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
+      "event_episode_id": "CASSINI-RWA2-LOW-SPEED-2000-12-15",
       "source_reference": {
         "source_id": "NASA-LLIS-1416",
-        "source_locator": "NASA Lessons Learned 1416, Driving Event / Lessons Learned",
+        "source_locator": "NASA LLIS Lesson 1416, lesson date 2004-05-10; Driving Event references JPL ISA Z70706 (2001-01-04) and Z70716 (2001-01-08); chronology cross-checked against NASA/JPL December 2000 mission status and JPL DESCANSO §2.5.2",
         "source_title": "Cassini RWA Flight Anomaly Due to Extended Use at Slow Speed (2001)",
         "publication_date": null,
-        "publication_year": 2001,
+        "publication_year": 2004,
         "ntrs_accession_year": null,
         "publication_metadata_note": null,
         "source_url": "https://llis.nasa.gov/lesson/1416",
-        "page_or_section": "Driving Event / Lessons Learned"
+        "page_or_section": "Driving Event / Lessons Learned; corroborating chronology: 2000-12-15 to 2000-12-22"
       },
-      "phenomenon_analysis": "Cassini发射约三年后，一只反作用轮检测到高于正常水平的拖曳/阻力；相关科学观测暂停约9天。",
+      "phenomenon_analysis": "Cassini反作用轮2在2000年12月15日出现异常摩擦，航天器自动由反作用轮控制切换至RCS；需要指向控制的科学观测于12月19日至28日暂停。12月21日测试后恢复RWA控制，后续任务序列于12月29日恢复。",
       "cause_localization": {
-        "source_statement": "过量摩擦被认为与长期近零转速运行导致润滑剂分布变化有关，速度在零附近频繁振荡也可能有贡献。",
+        "source_statement": "NASA/JPL任务记录与后续JPL总结指出，反作用轮2在接近零转速区域长时间dithering，导致球轴承润滑不足、摩擦力矩超过故障保护阈值并触发RWA至RCS切换。NASA LLIS还指出，围绕零速的频繁速度振荡可能促成异常。",
         "certainty_in_source": "EXPLICIT_MOST_LIKELY",
-        "fault_source": "反作用轮轴承润滑状态退化/润滑剂分布变化",
+        "fault_source": "Cassini反作用轮2球轴承润滑不足/润滑剂分布异常，可能由长期近零转速dithering及零速附近频繁振荡促成",
         "affected_components": [
-          "反作用轮组件",
-          "姿态控制指向性能"
+          "Cassini反作用轮2轴承/反作用轮组件",
+          "姿态控制模式（RWA自动切换至RCS）",
+          "需要指向控制的科学观测"
         ],
         "mechanism_notes": [
-          "低速润滑剂重新分布不等于供油管路堵塞。"
+          "事件发生于2000-12-15至2000-12-22；LLIS标题中的“2001”对应其所列2001年ISA参考编号/报告语境，不应误当作异常首次发生年份。",
+          "低速区间内长时间驻留和围绕零速频繁dithering是风险条件；绝对零速静止并按周期进行wheel exercise，在LLIS lessons learned中被区分为相对无害的情形。",
+          "高转速测试/运行后润滑分布似乎恢复是来源记录的观察，不等于已拆检证实润滑剂物理分布，也不是所有轮组通用的恢复指令。"
         ]
       },
       "disposal_status": "SOURCE_RECORDS_MEASURE",
@@ -587,10 +590,12 @@
       ],
       "migration_assessment": {
         "tier": "CONDITIONAL_MECHANISM",
-        "rationale": "仅限润滑/拖曳机理条件迁移。",
+        "rationale": "仅迁移低速区间驻留、近零速频繁dithering、拖曳力矩变化与轴承润滑状态之间的诊断关联；该案例可用于生成检查问题，不可直接迁移Cassini轮速管理命令。",
         "constraints": [
-          "需比较轮型、润滑结构、速度区间和运行历史。",
-          "升速方案不可直接用于用户动量轮。"
+          "事件日期为2000-12-15至2000-12-22；LLIS lesson发布日期为2004-05-10，标题括号中的2001不可替代事件时间。",
+          "绝对零速静止与低速区间内长时间驻留/频繁过零必须区分。",
+          "需比较轮型、轴承/润滑结构、允许低速区间、转速历史和热环境。",
+          "高转速后拖曳消退是来源记录的经验观察，不应直接迁移为其他型号的在轨处置指令。"
         ]
       },
       "available_materials": {
@@ -612,15 +617,22 @@
       "internal_review": {
         "not_for_sft": true,
         "reviewer_questions": [
-          "供油管路堵塞需要直接检查证据。"
+          "是否将事件日期定位为2000年12月，而不是根据LLIS标题误写为2001年？",
+          "是否区分低速区间长时间驻留/频繁dithering与绝对零速静止？",
+          "是否保留近零速润滑不足的来源确定性，并避免将高转速恢复措施泛化？"
         ],
         "quality_flags": [
-          "REAL_FLIGHT_ANOMALY",
-          "LIKELY_LUBRICATION_MECHANISM",
-          "HARDWARE_COMPARABILITY_REQUIRED"
+          "REAL_FLIGHT_EVENT",
+          "EVENT_DATE_2000_12",
+          "LLIS_PUBLICATION_DATE_2004",
+          "LOW_SPEED_DITHERING",
+          "ZERO_SPEED_STATIONARY_DISTINCT",
+          "LUBRICATION_MECHANISM_LIKELY"
         ],
         "curator_prompts": [
-          "该例针对低转速润滑剂重新分布；不可将升速手段用于未知动量轮，更不可推定供油管堵塞。"
+          "NASA/JPL时间线将异常定位在2000-12-15至12-22；LLIS标题中的2001来自ISA参考编号语境。请勿将出版/参考年份当作事件日期。",
+          "LLIS明确区分绝对零速静止与低速区间驻留：前者按周期exercise被描述为无害，后者可能导致blocking、cage windup、润滑剂分布变化或聚合。",
+          "higher-speed operation后润滑分布似乎恢复属于来源观察，不是适用于未知RWA的通用恢复指令。"
         ]
       },
       "sft_eligible": false,
@@ -968,18 +980,18 @@
       "event_episode_id": "FUSE-PITCH-RWA-2000-08-04",
       "source_reference": {
         "source_id": "FUSE-SPIE-2002-RWA",
-        "source_locator": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control",
+        "source_locator": "FUSE SPIE 4854-72, Section 3, PDF p.3 (2000 pitch-wheel event; subsequent 2001 wheel events and vendor thermal-distortion attribution)",
         "source_title": "FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes",
         "publication_date": null,
         "publication_year": 2002,
         "ntrs_accession_year": null,
         "publication_metadata_note": "2002 SPIE Proceedings paper; exact publication day not asserted.",
         "source_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
-        "page_or_section": "Section 3"
+        "page_or_section": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control"
       },
-      "phenomenon_analysis": "2000年8月4日，FUSE姿态控制飞行软件因俯仰轴反作用轮拖曳增大而将其关闭。重新启动后，异常拖曳持续数分钟，随后消失。",
+      "phenomenon_analysis": "2000年8月4日，FUSE姿态控制软件因俯仰轴反作用轮拖曳增大而将其关闭。重新启动后，异常拖曳持续数分钟，随后消失。来源还记载2001年2月16日偏航轴轮发生相似停机、恢复后约三天拖曳才消退；2001年11月25日偏航轴轮和12月10日俯仰轴轮则发生无法重启的完全失效。",
       "cause_localization": {
-        "source_statement": "供应商分析认为，轮组件内壳体衬层Kapton胶带中的小气泡可能导致局部凸起并接触转子；胶带逐渐磨损后，异常拖曳消失。该解释为供应商给出的可能原因。",
+        "source_statement": "针对2000年8月4日俯仰轴轮事件，供应商认为壳体内衬Kapton胶带中的小气泡可能局部凸起并接触转子；重新启动后数分钟异常拖曳消失，被归因于接触区域Kapton逐渐磨损。论文另称2001年11月/12月两次完全失效被轮供应商归因于热致壳体变形并与转子接触；这是不同episode的另一种供应商归因。",
         "certainty_in_source": "EXPLICIT_MOST_LIKELY",
         "fault_source": "FUSE俯仰轴反作用轮组件内壳体Kapton胶带局部起泡并与转子接触",
         "affected_components": [
@@ -987,7 +999,10 @@
           "ADCS俯仰轴控制能力"
         ],
         "mechanism_notes": [
-          "该来源还记录了2001年其他轮组件失效，并将后续轮失效归因于热致壳体变形；不得将后续事件的归因合并到2000年8月4日episode。"
+          "本卡的根因候选仅针对2000-08-04俯仰轴轮事件；Kapton气泡/局部接触是供应商提出的可能原因，不是独立拆检确诊。",
+          "2001-02-16偏航轴轮事件与2000年事件表现相似，但属于另一只轮和独立episode，恢复后拖曳约三天才消退。",
+          "2001-11-25偏航轴轮与2001-12-10俯仰轴轮完全失效；供应商将这两次后续失效归因于热致壳体变形。不得把该归因反向并入2000年Kapton气泡事件。",
+          "FUSE同一任务中的相似拖曳/停轮现象对应不同时间、轮组件和可能机理，症状相似不足以证明根因相同。"
         ]
       },
       "disposal_status": "SOURCE_RECORDS_MEASURE",
@@ -1022,14 +1037,22 @@
       ],
       "internal_review": {
         "not_for_sft": true,
-        "reviewer_questions": [],
+        "reviewer_questions": [
+          "是否只将Kapton气泡候选归于2000-08-04俯仰轴轮episode？",
+          "是否将2001-02-16偏航轴轮恢复事件作为独立episode？",
+          "是否将2001-11-25和2001-12-10完全失效及热致壳体变形归因与2000年Kapton气泡解释分开？"
+        ],
         "quality_flags": [
           "REAL_FLIGHT_EVENT",
           "VENDOR_LIKELY_CAUSE_NOT_INDEPENDENTLY_CONFIRMED",
-          "MULTIPLE_WHEEL_EPISODES_MUST_REMAIN_SEPARATE"
+          "2000_PITCH_KAPTON_BUBBLE_EPISODE",
+          "2001_FEB_YAW_SIMILAR_SEPARATE_EPISODE",
+          "2001_NOV_DEC_THERMAL_DISTORTION_FAILURES_SEPARATE"
         ],
         "curator_prompts": [
-          "仅把2000年8月4日俯仰轴轮拖曳事件及其Kapton起泡可能原因用于本episode；不得将2001年其他轮失效归因合并。"
+          "2000-08-04俯仰轮：Kapton气泡是供应商提出的可能原因，重启后数分钟拖曳消退。",
+          "2001-02-16偏航轮：相似停机，但恢复拖曳消退约需三天，是另一只轮的独立episode。",
+          "2001-11-25偏航轮及12-10俯仰轮：完全失效，供应商归因于热致壳体变形；不得与2000年Kapton气泡机制合并。"
         ]
       },
       "sft_eligible": false,
