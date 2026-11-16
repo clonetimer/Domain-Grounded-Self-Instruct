@@ -490,16 +490,17 @@
         "source_url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
         "page_or_section": "PDF p.173, printed p.165"
       },
-      "phenomenon_analysis": "TWTA输出功率遥测指示对温度敏感；早期轨道中功率指示约从开机时10 W变化到关机时16 W。",
+      "phenomenon_analysis": "TWTA输出功率遥测CE02随设备温度升高而明显上升；后期轨道读数在开机时约11.28 W、关机时约19.93 W，但同一读数期间深空站接收信号强度基本保持不变。报告据此判断真实TWTA输出功率并未显著变化。",
       "cause_localization": {
-        "source_statement": "报告认为功率监测二极管整流特性随温度变化，导致遥测指示变化。",
+        "source_statement": "报告指出CE02遥测功率指示异常随TWTA温度变化；由于深空站接收信号强度在读数期间基本恒定，报告判断真实TWTA输出功率未显著变化，CE02遥测电路存在故障。报告进一步认为，滤波/监测组件内功率监测二极管的整流特性随温度逐渐偏移，是遥测指示变化的可能原因。",
         "certainty_in_source": "EXPLICIT_MOST_LIKELY",
-        "fault_source": "功率监测二极管测量链温漂",
+        "fault_source": "TWTA内部滤波/监测组件的CE02功率遥测测量链（可能涉及温度敏感的二极管整流特性）",
         "affected_components": [
-          "TWTA输出功率遥测指示链"
+          "CE02 TWTA输出功率遥测指示链"
         ],
         "mechanism_notes": [
-          "该结论针对遥测指示变化，不证明真实RF输出功率同幅度变化。"
+          "深空站接收信号强度在每次读数期间基本恒定，是报告用于区分真实RF输出变化与遥测指示变化的独立交叉证据。",
+          "二极管整流特性随温度偏移是报告提出的可能机理；报告同时将CE02遥测电路判断为故障所在，不应将二极管作为已拆检确证的唯一故障部件。"
         ]
       },
       "disposal_status": "NOT_RECORDED",
@@ -534,10 +535,13 @@
         "reviewer_questions": [],
         "quality_flags": [
           "MEASUREMENT_CHAIN_EFFECT",
-          "NOT_CONFIRMED_RF_POWER_LOSS"
+          "DSS_RECEIVED_SIGNAL_STABLE",
+          "CE02_TELEMETRY_CIRCUIT_MALFUNCTION",
+          "DIODE_TEMPERATURE_DRIFT_LIKELY"
         ],
         "curator_prompts": [
-          "监测二极管温漂造成的功率遥测变化并不证明真实射频功率下降；需核对用户功率指标的测量点。"
+          "必须保留DSS接收信号基本恒定这一独立证据；它支持真实TWTA输出未显著变化，而异常主要在CE02遥测测量链。",
+          "二极管整流特性温漂是报告认为的可能机理，不应升级为二极管已被独立拆检确证。"
         ]
       },
       "sft_eligible": false,
