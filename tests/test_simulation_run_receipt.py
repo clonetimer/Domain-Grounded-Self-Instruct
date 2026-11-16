@@ -164,11 +164,33 @@ class SimulationRunReceiptTests(unittest.TestCase):
         self.receipt["model_visible_artifact_refs"].remove("A3")
         self.reject("SIM_VISIBLE_SELECTION_MISMATCH", verify=False)
 
-    def test_future_visible_evidence_blocked_qa_may_be_later(self):
+    def test_future_visible_evidence_blocked_unreferenced_qa_may_be_later(self):
+        # Later QA can be archived, but cannot support a claimed as-of stage.
+        self.receipt["stages"]["physical_effect_observed"] = {"status": "UNKNOWN", "evidence_refs": []}
         self.receipt["artifacts"][2]["available_at"] = "2026-01-02T00:00:00Z"
         self.validate()
         self.receipt["artifacts"][3]["available_at"] = "2026-01-02T00:00:00Z"
         self.reject("SIM_POST_CUTOFF_VISIBLE_ARTIFACT")
+
+    def test_future_qa_cannot_support_asof_stage_outcome(self):
+        # Stage attestations are not exempt merely because their source is QA_ONLY.
+        for status in ("YES", "NO", "UNKNOWN"):
+            with self.subTest(stage_status=status):
+                r = copy.deepcopy(self.receipt)
+                r["stages"]["physical_effect_observed"]["status"] = status
+                r["artifacts"][2]["available_at"] = "2026-01-01T00:00:06.000001Z"
+                self.reject("SIM_POST_CUTOFF_STAGE_EVIDENCE", r, verify=False)
+
+    def test_stage_receipt_cutoff_is_timezone_aware_and_inclusive(self):
+        self.receipt["artifacts"][2]["available_at"] = "2026-01-01T09:00:06+09:00"
+        self.validate(verify=False)
+        self.receipt["artifacts"][2]["available_at"] = "2026-01-01T09:00:07+09:00"
+        self.reject("SIM_POST_CUTOFF_STAGE_EVIDENCE", verify=False)
+
+    def test_future_qa_can_remain_when_not_cited_by_any_stage(self):
+        self.receipt["stages"]["physical_effect_observed"] = {"status": "UNKNOWN", "evidence_refs": []}
+        self.receipt["artifacts"][2]["available_at"] = "2026-01-02T00:00:00Z"
+        self.assertEqual(self.validate(verify=False)["unknown_stage_count"], 1)
 
     def test_timezone_required_and_end_order_checked(self):
         self.receipt["started_at"] = "2026-01-01T00:00:00"
