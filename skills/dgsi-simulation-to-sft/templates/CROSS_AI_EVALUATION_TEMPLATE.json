@@ -1,0 +1,26 @@
+{
+  "schema_version": "dgsi-cross-ai-evaluation.v1",
+  "evaluation_id": "EVAL-REPLACE",
+  "source_batch_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "skill_revision": "REPLACE_COMMIT",
+  "prompt_revision": "PROMPT-V1",
+  "blind_protocol": {
+    "same_source_bundle": true,
+    "same_prompt": true,
+    "hidden_truth_withheld": true,
+    "prior_outputs_withheld": true,
+    "randomized_provider_aliases": true,
+    "independent_adjudication": true
+  },
+  "runs": [],
+  "adjudication": {
+    "reviewer_role": "NOT_ASSIGNED",
+    "reviewed_at": "2026-01-01T00:00:00Z",
+    "reference_basis": "NOT_ADJUDICATED",
+    "reviewer_independence": true,
+    "dimensions": [],
+    "critical_failures": []
+  },
+  "status": "PROTOCOL_READY",
+  "training_authorized": false
+}

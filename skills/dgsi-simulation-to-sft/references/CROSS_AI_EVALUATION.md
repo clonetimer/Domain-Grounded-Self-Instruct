@@ -48,3 +48,8 @@ Do not use raw agreement as truth. Two AIs can agree on the same incorrect inter
 ## Initial pilot
 
 Use the 0918 design report as a design-only pilot. It can evaluate source extraction, design knowledge representation, evidence sufficiency and task construction. It cannot evaluate real failure localization or runtime diagnosis because no test reports, run logs or upstream ML results were supplied.
+
+
+## Machine-readable run record
+
+Use `schemas/cross_ai_evaluation.schema.json` and `templates/CROSS_AI_EVALUATION_TEMPLATE.json` to freeze source/prompt/Skill revisions, record provider/model runs under blind aliases, and capture independent scores plus critical failures. Keep the provider-to-alias key separate from the adjudication sheet. No provider execution or empirical result is implied by creating this record.
