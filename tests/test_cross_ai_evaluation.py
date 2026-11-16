@@ -51,9 +51,9 @@ class CrossAIEvaluationSemanticTests(unittest.TestCase):
         self.assertTrue(out["adjudication_complete"])
         self.assertFalse(out["training_authorized"])
 
-    def test_adjudicated_requires_real_adjudication_basis(self):
+    def test_schema_rejects_adjudicated_status_without_adjudication_basis(self):
         r=copy.deepcopy(self.record); r["status"]="ADJUDICATED"
         r["adjudication"]["dimensions"]=[{"blind_alias":a,"dimension":d,"score":2,"evidence_note":"reviewed"} for a in ("AI-A01","AI-B02") for d in DIMENSIONS]
-        self.reject("CROSS_AI_ADJUDICATION_BASIS_MISSING",r)
+        self.reject("CROSS_AI_SCHEMA_INVALID",r)
 
 if __name__=="__main__": unittest.main()
