@@ -4825,35 +4825,6 @@
         "notes": [
           "Synthetic L1 history-reuse task; independent domain review required."
         ]
-      },
-      "internal_review": {
-        "not_for_sft": true,
-        "curator_prompts": [
-          "Do not treat Cassini's low-speed lubrication explanation as confirmation of FUSE's Kapton-liner contact candidate.",
-          "Do not transfer Cassini's wheel-speed operating recommendation to FUSE as a current action."
-        ],
-        "alternative_hypotheses_to_check": [
-          "Check thermal housing distortion and other rotor-housing contact causes separately from the 2000 Kapton-liner hypothesis."
-        ],
-        "counterexamples": [
-          "Similar drag symptoms can arise from different RWA mechanical designs and failure mechanisms."
-        ],
-        "reviewer_questions": [
-          "是否保留FUSE 2000-08-04 Kapton气泡解释的供应商可能原因属性？",
-          "是否将2001-02-16偏航轮相似事件与2001-11/12热致壳体变形完全失效分别处理？",
-          "是否将Cassini低速dithering润滑不足与FUSE Kapton局部接触作为不同机理？",
-          "是否区分绝对零速静止与低速区间dwell/dithering，并避免迁移Cassini轮速操作指令？"
-        ],
-        "quality_flags": [
-          "LITERATURE_DERIVED_SYNTHETIC",
-          "HISTORY_CONTEXT_SYNTHETIC_SNAPSHOT",
-          "HARDWARE_COMPATIBILITY_UNKNOWN",
-          "NOT_GOLD",
-          "FUSE_MULTI_EPISODE_MECHANISM_SEPARATION",
-          "CASSINI_EVENT_DATE_2000_NOT_2001",
-          "ZERO_SPEED_VS_LOW_SPEED_DWELL_DISTINCTION"
-        ],
-        "status": "OPEN"
       }
     },
     {
