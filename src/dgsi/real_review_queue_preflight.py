@@ -74,6 +74,7 @@ def audit_review_queue(queue: dict[str, Any]) -> dict[str, Any]:
         raise ReviewQueuePreflightError("QUEUE_UNVERIFIED_COUNTS_INCONSISTENT")
 
     case_ids: set[str] = set()
+    source_digests: set[str] = set()
     gap_counts: Counter[str] = Counter()
     unbound_family = 0
     for case in cases:
@@ -86,6 +87,11 @@ def audit_review_queue(queue: dict[str, Any]) -> dict[str, Any]:
         digest = case.get("source_case_sha256")
         if not isinstance(digest, str) or HEX.fullmatch(digest) is None:
             raise ReviewQueuePreflightError("QUEUE_SOURCE_HASH_INVALID")
+        # Distinct candidate IDs must not double-count an identical source Case record.
+        # Multiple episodes require separately evidenced, episode-specific Case records.
+        if digest in source_digests:
+            raise ReviewQueuePreflightError("QUEUE_DUPLICATE_SOURCE_CASE_HASH")
+        source_digests.add(digest)
         if (case.get("admission_track") != "REAL_GOLD_TRACK_CANDIDATE"
                 or case.get("gold_eligible") is not False
                 or case.get("training_authorized") is not False

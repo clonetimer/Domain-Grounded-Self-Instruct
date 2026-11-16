@@ -106,6 +106,29 @@ class QueuePreflightSyntheticTests(unittest.TestCase):
             audit_review_queue(q)
         self.assertNotIn("SYNTHETIC_TEST_ONLY-1", str(cm.exception))
 
+    def test_duplicate_source_record_hash_across_distinct_ids_is_blocked(self):
+        q = synthetic_queue()
+        other = copy.deepcopy(q["cases"][0])
+        other["case_id"] = "SYNTHETIC_TEST_ONLY-2"
+        q["cases"].append(other)
+        q["counts"]["candidate_count"] = 2
+        with self.assertRaisesRegex(ReviewQueuePreflightError, "QUEUE_DUPLICATE_SOURCE_CASE_HASH") as cm:
+            audit_review_queue(q)
+        self.assertNotIn(other["case_id"], str(cm.exception))
+
+    def test_distinct_source_record_hashes_still_require_review(self):
+        q = synthetic_queue()
+        other = copy.deepcopy(q["cases"][0])
+        other["case_id"] = "SYNTHETIC_TEST_ONLY-2"
+        other["source_case_sha256"] = "b" * 64
+        q["cases"].append(other)
+        q["counts"]["candidate_count"] = 2
+        result = audit_review_queue(q)
+        self.assertEqual(result["case_count"], 2)
+        self.assertEqual(result["expert_review_ready_count"], 0)
+        self.assertEqual(result["real_gold_count"], 0)
+        self.assertFalse(result["training_authorized"])
+
     def test_missing_check_rejected(self):
         q = synthetic_queue()
         q["cases"][0]["verification_checklist"].pop()
