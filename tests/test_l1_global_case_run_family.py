@@ -80,12 +80,49 @@ class GlobalCaseRunFamilyTests(unittest.TestCase):
         self.assertEqual(result["track_family_counts"]["LITERATURE_DERIVED_SYNTHETIC"], 1)
         self.assertFalse(result["training_authorized"])
 
-    def test_same_family_case_id_reuse_is_not_misclassified_as_cross_family(self):
+    def test_same_family_case_id_cannot_hide_distinct_upstream_runs(self):
         items = batches(TROPICS_A, TROPICS_B)
         case(items[1])["case_id"] = case(items[0])["case_id"]
+        with self.assertRaisesRegex(
+            L1GlobalLineageError, "GLOBAL_CASE_ID_EVIDENCE_SNAPSHOT_CONFLICT"
+        ):
+            audit_l1_cross_collection_lineage(items)
+
+    def test_same_family_case_id_can_serve_multiple_targets_if_snapshot_identical(self):
+        items = batches(TROPICS_A, TROPICS_B)
+        case(items[1])["case_id"] = case(items[0])["case_id"]
+        case(items[1])["provenance"]["diagnosis_run_refs"] = copy.deepcopy(
+            case(items[0])["provenance"]["diagnosis_run_refs"]
+        )
         result = audit_l1_cross_collection_lineage(items)
         self.assertEqual(result["task_count"], 2)
         self.assertFalse(result["training_authorized"])
+
+    def test_same_case_id_changed_log_payload_is_blocked(self):
+        items = batches(TROPICS_A, TROPICS_B)
+        case(items[1])["case_id"] = case(items[0])["case_id"]
+        case(items[1])["provenance"]["diagnosis_run_refs"] = copy.deepcopy(
+            case(items[0])["provenance"]["diagnosis_run_refs"]
+        )
+        case(items[1])["input"]["diagnostic_logs"][0]["content"] = (
+            "合成对抗测试：相同案例编号携带了不同的诊断日志。"
+        )
+        with self.assertRaisesRegex(
+            L1GlobalLineageError, "GLOBAL_CASE_ID_EVIDENCE_SNAPSHOT_CONFLICT"
+        ):
+            audit_l1_cross_collection_lineage(items)
+
+    def test_same_case_id_changed_analysis_cutoff_is_blocked(self):
+        items = batches(TROPICS_A, TROPICS_B)
+        case(items[1])["case_id"] = case(items[0])["case_id"]
+        case(items[1])["provenance"]["diagnosis_run_refs"] = copy.deepcopy(
+            case(items[0])["provenance"]["diagnosis_run_refs"]
+        )
+        case(items[1])["input"]["analysis_cutoff"] = "2026-04-12T09:11:00Z"
+        with self.assertRaisesRegex(
+            L1GlobalLineageError, "GLOBAL_CASE_ID_EVIDENCE_SNAPSHOT_CONFLICT"
+        ):
+            audit_l1_cross_collection_lineage(items)
 
 
 if __name__ == "__main__":
