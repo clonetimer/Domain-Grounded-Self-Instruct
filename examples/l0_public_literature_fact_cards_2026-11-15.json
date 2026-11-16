@@ -711,26 +711,28 @@
       "event_episode_id": "NASA-22N-INJECTOR-PLUGGING",
       "source_reference": {
         "source_id": "NASA-TM-100232",
-        "source_locator": "NASA-TM-100232, pp.1, 5–6",
+        "source_locator": "NASA-TM-100232, PDF pp.3–5, especially Post-Test Disassembly and Analysis; conclusion p.5",
         "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
         "publication_date": null,
         "publication_year": 1987,
         "ntrs_accession_year": 1988,
         "publication_metadata_note": "报告年份为1987；NTRS accession identifier对应1988年编目。",
         "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
-        "page_or_section": "pp.1, 5–6"
+        "page_or_section": "PDF pp.3–5"
       },
-      "phenomenon_analysis": "22 N肼推进器地面寿命试验运行约40小时后出现燃烧室压力振荡；60.2小时后试验因喷注管堵塞而终止。",
+      "phenomenon_analysis": "在NASA Lewis地面寿命试验中，尝试用热灯在真空下烘除潜在催化床污染物时，推进剂阀内残余肼发生自分解，阀门猛烈爆裂；阀座的一部分Teflon材料被射入推进剂喷注器，导致喷注管/燃料供给通道堵塞，试验无法继续。",
       "cause_localization": {
-        "source_statement": "推进剂阀门Teflon阀座材料在试验加热过程后脱落并堵塞喷注管。",
+        "source_statement": "报告记载，热灯加热使推进剂阀内残余肼自分解，阀门猛烈爆裂，部分Teflon阀座材料被强行射入推进剂喷注器并造成堵塞；拆检发现Teflon材料挤入喷注器小孔并进入分散元件后的燃料供给槽。",
         "certainty_in_source": "EXPLICIT_CONFIRMED",
-        "fault_source": "推进剂阀门Teflon阀座材料脱落并堵塞喷注管",
+        "fault_source": "推进剂阀Teflon阀座材料在阀内残余肼自分解导致阀门爆裂后被射入喷注器",
         "affected_components": [
-          "推进剂喷注管",
+          "推进剂喷注器小孔",
+          "喷注器分散元件后的燃料供给槽",
           "推进剂供给通路"
         ],
         "mechanism_notes": [
-          "地面热灯处理和阀座材料脱落为特定试验故障链，不是用户低温结构损伤案例的同一机理。"
+          "直接堵塞物为阀座Teflon材料；热灯加热导致阀内残余肼自分解和阀门爆裂，是材料进入喷注器的触发链。",
+          "该堵塞是后期热灯烘烤操作引发的独立故障episode；不得将此前长时稳态试验期间的催化床washout/压力振荡归为喷注管堵塞的同一根因。"
         ]
       },
       "disposal_status": "NOT_APPLICABLE",
@@ -763,14 +765,18 @@
       "internal_review": {
         "not_for_sft": true,
         "reviewer_questions": [
-          "与用户低温、推力降低、结构损伤情景不同。"
+          "是否清楚区分阀门爆裂与Teflon阀座材料堵塞之间的因果顺序？",
+          "是否将此前催化床washout/压力振荡错误并入喷注管堵塞根因？"
         ],
         "quality_flags": [
           "GROUND_LIFE_TEST",
-          "NOT_FLIGHT_EVENT"
+          "VALVE_AUTODECOMPOSITION_AND_BURST",
+          "TEFLON_SEAT_EJECTED_INTO_INJECTOR",
+          "DISTINCT_FROM_CATALYST_WASHOUT"
         ],
         "curator_prompts": [
-          "堵塞是热灯诱发阀内残余推进剂自分解及阀座材料脱落导致。与用户2号推力器低温/结构损伤情景不同，禁止直接迁移。"
+          "热灯烘烤导致阀内残余肼自分解，随后阀门爆裂，Teflon阀座材料进入喷注器。根因链必须按顺序表达。",
+          "前期催化床washout/压力振荡与后期喷注器堵塞是不同episode，不能混成一个故障原因。"
         ]
       },
       "sft_eligible": false,
@@ -787,25 +793,28 @@
       "event_episode_id": "NASA-22N-CATALYST-CONTAMINATION",
       "source_reference": {
         "source_id": "NASA-TM-100232",
-        "source_locator": "NASA-TM-100232, pp.4–6",
+        "source_locator": "NASA-TM-100232, PDF pp.3–5, Post-Test Disassembly and Analysis; Tables II and IV",
         "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
         "publication_date": null,
         "publication_year": 1987,
         "ntrs_accession_year": 1988,
         "publication_metadata_note": "报告年份为1987；NTRS accession identifier对应1988年编目。",
         "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
-        "page_or_section": "pp.4–6"
+        "page_or_section": "PDF pp.3–5; Tables II and IV"
       },
-      "phenomenon_analysis": "推进器拆解后的催化剂化学分析发现铁、镍金属污染；报告将污染追溯到受污染肼推进剂批次。",
+      "phenomenon_analysis": "长时稳态试验期间出现推力室压力下降/振荡，催化剂样品后续分析发现异常偏高的铁、镍含量及偏低的氢化学吸附值，表明催化剂活性受到污染影响。",
       "cause_localization": {
-        "source_statement": "化学分析确认催化剂中铁、镍污染，报告追溯至误混入试验罐的受污染肼推进剂。",
+        "source_statement": "催化剂金属分析显示铁、镍含量异常偏高，氢化学吸附值低于正常运行时预期；报告将金属污染追溯至混入试验罐的受污染“pink”肼推进剂，并指出铁污染导致催化剂中毒和washout。",
         "certainty_in_source": "EXPLICIT_CONFIRMED",
-        "fault_source": "受污染肼推进剂中的金属杂质导致催化剂中毒",
+        "fault_source": "受污染肼推进剂引入的铁、镍金属杂质导致肼推进器催化床中毒/活性下降",
         "affected_components": [
-          "肼推进器催化床"
+          "肼推进器催化床",
+          "推力室分解反应与压力建立过程"
         ],
         "mechanism_notes": [
-          "催化剂中毒与同一试验的喷注管堵塞是不同问题，不得合并。"
+          "铁、镍是在催化剂样品中检测到的金属；报告将其与低氢化学吸附值和催化剂性能退化联系。",
+          "报告说明受污染的pink hydrazine来自密封不当的桶内进气；CO2反应形成的carbazic acid腐蚀金属桶并使铁进入推进剂。不要把这条铁浸出解释扩展成镍的同一来源，除非有额外证据。",
+          "催化剂washout/压力振荡与后期阀门爆裂造成的Teflon喷注器堵塞是不同故障episode。"
         ]
       },
       "disposal_status": "NOT_APPLICABLE",
@@ -838,15 +847,19 @@
       "internal_review": {
         "not_for_sft": true,
         "reviewer_questions": [
-          "用户案例是否有推进剂批次、污染物或催化剂拆解证据？"
+          "是否区分了早期压力振荡/washout与后期喷注器堵塞？",
+          "是否准确表达Fe/Ni检测结果，并避免把报告关于铁浸出的解释扩大到镍的来源？"
         ],
         "quality_flags": [
           "GROUND_LIFE_TEST",
-          "CATALYST_CHEMISTRY_EVIDENCE",
+          "FE_NI_CATALYST_CONTAMINATION",
+          "LOW_HYDROGEN_CHEMISORPTION",
+          "PINK_HYDRAZINE_CONTAMINATION",
           "DISTINCT_FROM_INJECTOR_BLOCKAGE"
         ],
         "curator_prompts": [
-          "金属污染经试验分析定位，不应与同试验的喷注管堵塞合并；用户案例没有污染证据，不能用作确诊标签。"
+          "保留金属分析、氢化学吸附和推进剂桶污染之间的证据链。Fe/Ni为检测结果；报告对铁浸出机制有具体解释，不应推断镍的来源完全相同。",
+          "催化剂washout与后期喷注器Teflon堵塞属于不同episode，不能合并根因。"
         ]
       },
       "sft_eligible": false,
