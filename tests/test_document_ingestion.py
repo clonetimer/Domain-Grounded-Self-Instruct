@@ -22,11 +22,24 @@ class DocumentIngestionTests(unittest.TestCase):
    kinds=[b["block_type"] for b in r["pages"][0]["blocks"]]
    self.assertIn("PARAGRAPH",kinds); self.assertIn("TABLE",kinds); self.assertIn("EQUATION",kinds)
    self.assertEqual(len(r["assets"]),1); self.assertEqual(r["sha256"],hashlib.sha256(p.read_bytes()).hexdigest())
+   self.assertEqual(r["assets"][0]["extraction_status"],"REFERENCE_ONLY")
+   self.assertEqual(r["assets"][0]["sha256"],hashlib.sha256(b"fixture-image-bytes").hexdigest())
+   asset_dir=Path(d)/"assets-out"
+   extracted=ingest_document(p,"SRC-2",asset_dir=asset_dir)
+   self.assertEqual(extracted["assets"][0]["extraction_status"],"EXTRACTED")
+   self.assertEqual((asset_dir/extracted["assets"][0]["stored_path"]).read_bytes(),b"fixture-image-bytes")
+   self.assertEqual(extracted["assets"][0]["size_bytes"],len(b"fixture-image-bytes"))
    self.assertFalse(r["training_authorized"]); self.assertEqual(r["review_status"],"REVIEW_REQUIRED")
    from jsonschema import Draft202012Validator
    schema=json.loads((ROOT/"skills/dgsi-simulation-to-sft/schemas/document_ingestion.schema.json").read_text())
    Draft202012Validator.check_schema(schema)
    self.assertEqual([],list(Draft202012Validator(schema).iter_errors(r)))
+ def test_asset_destination_must_not_overwrite_existing_directory(self):
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"design.docx"; make_docx(p)
+   dest=Path(d)/"assets"; dest.mkdir()
+   with self.assertRaisesRegex(DocumentIngestionError,"DOCUMENT_ASSET_DESTINATION_EXISTS"):
+    ingest_document(p,"SRC",asset_dir=dest)
  def test_corrupt_docx_rejected(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)/"bad.docx"; p.write_bytes(b"not-a-zip")
