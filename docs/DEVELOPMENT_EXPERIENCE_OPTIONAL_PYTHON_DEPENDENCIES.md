@@ -97,3 +97,30 @@ Interpretation:
 Additional reusable rule:
 
 13. **Separate CI health from product evidence.** A green full suite, a passing candidate smoke, and a dry-run evaluation each establish different claims. Report their scopes separately; never combine them into an accuracy, expert-acceptance, or model-performance claim.
+
+## Integration incident: green sibling CI does not prove stacked lineage coverage
+
+On 2026-11-16, P5-B4 integration review identified that the P5 OCR/diagram stack did not contain all previously validated P4 cross-collection lineage guards. The P4 sibling changes had passed independently, but the P5 branch lineage module was older. This is a branch-integration defect, not a failure of the individual P4 implementations.
+
+PR #93 carries the tested lineage guards into the P5 stack and adds 15 `SYNTHETIC_TEST_ONLY` regressions. The integrated guards bind:
+- one upstream run reference to one immutable diagnostic-log snapshot;
+- one upstream run reference to one spacecraft/mission context snapshot;
+- one Case ID to one real/synthetic track;
+- one diagnosis-run reference to one real/synthetic track.
+
+The context fingerprint intentionally excludes historical Context, review notes, task targets and analysis-cutoff variants; those may legitimately vary without rewriting the current run's physical/operational snapshot.
+
+Exact workflow evidence:
+- Workflow: `43888738459`
+- Ubuntu: 771/771 PASS
+- Windows: 771/771 PASS
+- Both jobs completed the adversarial test and candidate smoke step successfully.
+
+Reusable integration rules:
+
+14. **Test the assembled branch, not just its component PRs.** A passing sibling PR cannot establish that its guard is present in the active feature stack. Recheck ancestry and exact file content at every integration boundary.
+15. **Fingerprint identity at the correct scope.** Run-scoped fingerprints should bind immutable ML output, diagnostic logs and physical/operational context; task-specific target and time-safe historical Context should remain outside that fingerprint.
+16. **Separate case identity from event-family identity and run identity.** A shared source event family can support distinct tasks, but Case IDs and run references must not be reused across real/synthetic tracks.
+17. **Exercise order independence.** Adversarial lineage tests should reverse collection order to ensure the result does not depend on which conflicting record is processed first.
+
+Scope: these are structural lineage protections. They do not authenticate source provenance, establish physical truth, validate IP rights or grant Gold/SFT authorization. The 771-test CI is not evidence of OCR/diagram extraction accuracy.
