@@ -11,7 +11,7 @@ guards introduced independently by PR #64, PR #65 and PR #69. All three PRs can
 pass CI separately while the P5 branch remains without these checks. Therefore
 a green check on any one stacked PR is **not** a combined-security acceptance.
 
-This integration PR carries the exact reviewed code from PR #69's lineage
+This integration PR carries the exact previously CI-tested code from PR #69's lineage
 module into the P5 branch and ports 15 SYNTHETIC_TEST_ONLY regression tests.
 The P5 base and P4 gated versions differ only by these guards and the generic
 `_digest(Any)` typing change. No source data, user documents or private logs
