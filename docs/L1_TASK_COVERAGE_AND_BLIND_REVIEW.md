@@ -8,7 +8,7 @@ Task families are defined by the **formal assistant behavior**, not a case's sat
 
 | Task type | Required competence | Adversarial focus |
 | --- | --- | --- |
-| `diagnostic_synthesis` | Explain upstream ML findings against logs and operating context | Ranking scores are not calibrated probabilities; source versus affected subsystem |
+| `diagnostic_synthesis` | Explain upstream ML findings against logs and operating context | Ranking scores are not calibrated probabilities; source versus affected subsystem; distinguish telemetry indication from independent physical output evidence |
 | `historical_case_reuse` | Explain when a reviewed, as-of-available historical case is transferable | Incompatible configuration; same-incident reuse; misleading similarity |
 | `conflict_reconciliation` | Reconcile competing ML/log/reference/history evidence | Rejected hypotheses are not positive precedents |
 | `evidence_sufficiency` | State whether evidence supports a cause or requires abstention | Missing run version, absent evidence ID, unsupported certainty |
