@@ -16,7 +16,7 @@ Use these existing contracts from the DGSI repository at the same revision:
 - `resources/l1_task_packet.schema.json`
 - `resources/diagnostic_sft.schema.json`
 
-The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYNTHETIC`. Simulation-run candidates and design-derived hypothetical candidates must not be misclassified to fit it. Keep them in this toolkit's intake format until a separately reviewed schema extension is approved.
+The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYNTHETIC`. `DESIGN_DERIVED_HYPOTHETICAL` candidates use the separate `schemas/design_derived_batch.schema.json` contract. `SIMULATION_CASE_CANDIDATE` still needs a separately reviewed run-receipt schema extension; do not misclassify it.
 
 ## Quick start with another AI
 
