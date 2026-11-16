@@ -58,6 +58,30 @@ class DocumentIngestionTests(unittest.TestCase):
    self.assertEqual(result["pages"][0]["blocks"][0]["review_status"],"MANUAL_REVIEW_REQUIRED")
    self.assertFalse(result["training_authorized"])
 
+ def test_explicit_hidden_word_runs_excluded_from_fault_facts(self):
+  # SYNTHETIC_TEST_ONLY: hidden root-cause claim must not be treated as source evidence.
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"hidden.docx"
+   xml=('<?xml version="1.0"?><w:document xmlns:w="%s"><w:body>'
+        '<w:p><w:r><w:rPr><w:vanish/></w:rPr><w:t>FALSE_CONFIRMED_ROOT_CAUSE</w:t></w:r>'
+        '<w:r><w:t>Root cause unverified</w:t></w:r>'
+        '<w:r><w:rPr><w:vanish w:val="0"/></w:rPr><w:t>Visible note</w:t></w:r></w:p>'
+        '<w:tbl><w:tr><w:tc><w:p><w:r><w:rPr><w:webHidden/></w:rPr>'
+        '<w:t>HIDDEN_TABLE_CAUSE</w:t></w:r><w:r><w:t>Measured drag</w:t></w:r>'
+        '</w:p></w:tc></w:tr></w:tbl>'
+        '</w:body></w:document>')%W
+   with zipfile.ZipFile(p,"w") as pkg: pkg.writestr("word/document.xml",xml)
+   result=ingest_document(p,"SYNTHETIC_TEST_ONLY")
+   visible=" ".join(b["text"] for pg in result["pages"] for b in pg["blocks"])
+   self.assertIn("Root cause unverified",visible)
+   self.assertIn("Visible note",visible)
+   self.assertIn("Measured drag",visible)
+   self.assertNotIn("FALSE_CONFIRMED_ROOT_CAUSE",visible)
+   self.assertNotIn("HIDDEN_TABLE_CAUSE",visible)
+   self.assertEqual(result["pages"][0]["blocks"][0]["review_status"],"MANUAL_REVIEW_REQUIRED")
+   self.assertIn("hidden Word run", " ".join(result["warnings"]))
+   self.assertFalse(result["training_authorized"])
+
  def test_docx_compression_bomb_xml_rejected_before_expansion(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)/"small-but-expanded.docx"
