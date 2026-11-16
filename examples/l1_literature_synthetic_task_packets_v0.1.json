@@ -3166,7 +3166,7 @@
             {
               "log_id": "LOG-91",
               "timestamp": "2026-04-12T08:10:00Z",
-              "log_type": "OPERATION",
+              "log_type": "OPERATOR_NOTE",
               "content": "合成场景：在此前长时试验后，使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-91"
@@ -3583,7 +3583,7 @@
             {
               "log_id": "LOG-A3",
               "timestamp": "2026-04-12T08:25:00Z",
-              "log_type": "TRACEABILITY",
+              "log_type": "REVIEW",
               "content": "合成场景：推进剂批次追溯发现试验罐混入一桶异常颜色的肼推进剂，密封状态和污染来源仍需核实。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-A3"
@@ -3971,7 +3971,7 @@
             {
               "log_id": "LOG-B2",
               "timestamp": "2026-04-12T08:17:00Z",
-              "log_type": "TEST_RESULT",
+              "log_type": "ENGINEERING_ANALYSIS",
               "content": "合成场景：备份单机和输入10 dB同轴衰减器测试正常；独立TWT测试与正常基线接近，FGM/ALC测试复现整机增益下降。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-B2"
@@ -3979,7 +3979,7 @@
             {
               "log_id": "LOG-B3",
               "timestamp": "2026-04-12T08:25:00Z",
-              "log_type": "MODULE_TEST",
+              "log_type": "ENGINEERING_ANALYSIS",
               "content": "合成场景：LCAMP的Z2模块最大增益由19.51 dB降至18.0 dB，+5 V电流由69 mA降至57 mA；Z6模块最大增益由19.49 dB降至17.0 dB，+5 V电流由65 mA降至54 mA。两模块增益下降合计约4 dB。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-B3"
@@ -3987,7 +3987,7 @@
             {
               "log_id": "LOG-B4",
               "timestamp": "2026-04-12T08:40:00Z",
-              "log_type": "FAILURE_ANALYSIS",
+              "log_type": "REVIEW",
               "content": "合成场景：Z2/Z6模块内NC1062C低噪放芯片电流和增益下降；封装内部氢含量分别为10300 ppm和12000 ppm，考核限值为2000 ppm，水汽含量合格，EMMI显示栅条发光不均匀。",
               "author_role": "synthetic-scenario-generator",
               "source_ref": "SYNTHETIC-LOG:LOG-B4"
