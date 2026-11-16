@@ -2,7 +2,7 @@
 
 ## Current inventory
 
-The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 event families**. All are `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
+The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 event families**. All are `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`. The referenced L0 source-fact collection itself remains `AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`; its content has not been independently confirmed by a domain expert.
 
 | Task | Source event class | Main diagnostic challenge |
 |---|---|---|
@@ -45,7 +45,7 @@ For the Lunar Orbiter startup task, the target preserves both source explanation
 
 ## Evaluation status
 
-The 11 packets are task-coverage fixtures for expert review and validator regression. They are not 11 real incidents, not 11 expert-approved targets, and not an approved SFT corpus. The real-case/Gold track remains separate and requires real authorized upstream ML outputs, diagnostic logs, spacecraft/mission context and independent expert adjudication.
+The 15 packets are task-coverage fixtures for expert review and validator regression. They are not 15 real incidents, not 15 expert-approved targets, and not an approved SFT corpus. The real-case/Gold track remains separate and requires real authorized upstream ML outputs, diagnostic logs, spacecraft/mission context and independent expert adjudication.
 
 ## Review next step
 
@@ -62,3 +62,10 @@ The Cassini lesson date is 2004-05-10. For the synthetic retrieval snapshot, `av
 ## Task-type coverage
 
 The 15-packet pilot now covers all six task types declared in the Case schema: `diagnostic_synthesis`, `historical_case_reuse`, `conflict_reconciliation`, `evidence_sufficiency`, `next_step_recommendation` and `handover_summary`. These task-type variants are grouped by their source `event_family_id`; adding a new task type does not create an independent incident or a new train/test group.
+
+
+## L0 source-review status — important qualification
+
+The referenced L0 collection records `review_status=AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. The L0 fact cards have undergone AI-assisted curation and structural validation, but this is not equivalent to independent domain-expert source verification. The L1 pilot must not describe these as expert-reviewed L0 facts.
+
+Before treating any L1 target as suitable for an effectiveness experiment, reviewers must inspect the cited public source passage and confirm that the L0 fact-card statement, source certainty, event class, episode grouping and disposal status faithfully represent that source. A valid SHA-256 binding only proves which bytes were reviewed; it does not prove the source claim is true or expert-approved.
