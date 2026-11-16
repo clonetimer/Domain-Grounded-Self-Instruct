@@ -120,6 +120,9 @@ def audit_l1_cross_collection_lineage(
     # variants within one event family. It may never identify a different
     # source event family, even before a training split is assigned.
     case_families: dict[str, frozenset[str]] = {}
+    # Case identity binds the immutable current-event evidence snapshot. Historical
+    # Context and the task-specific target may vary without rewriting that event.
+    case_evidence_hashes: dict[str, str] = {}
     run_families: dict[str, frozenset[str]] = {}
     # A run identifier denotes one upstream ML result, including across
     # distinct tasks in the same source family. Variants may alter the
@@ -164,6 +167,25 @@ def audit_l1_cross_collection_lineage(
             if case_id in case_families and case_families[case_id] != family_key:
                 _reject("GLOBAL_CASE_ID_FAMILY_COLLISION")
             case_families[case_id] = family_key
+            # Keep the same Case ID stable even if another task uses different
+            # history retrieval or a different formal target. In particular,
+            # distinct synthetic run IDs must not conceal a changed current
+            # diagnosis, log, mission configuration, or analysis cutoff.
+            case_input = packet["case"]["input"]
+            evidence_snapshot = {
+                "current_input": {
+                    key: value for key, value in case_input.items()
+                    if key != "historical_cases"
+                },
+                "diagnosis_run_refs": sorted(
+                    packet["case"]["provenance"]["diagnosis_run_refs"]
+                ),
+            }
+            evidence_hash = _digest(evidence_snapshot)
+            if (case_id in case_evidence_hashes
+                    and case_evidence_hashes[case_id] != evidence_hash):
+                _reject("GLOBAL_CASE_ID_EVIDENCE_SNAPSHOT_CONFLICT")
+            case_evidence_hashes[case_id] = evidence_hash
             result_hash = _digest(packet["case"]["input"]["machine_diagnosis"])
             for run_ref in packet["case"]["provenance"]["diagnosis_run_refs"]:
                 if run_ref in run_families and run_families[run_ref] != family_key:
