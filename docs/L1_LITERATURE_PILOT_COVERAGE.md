@@ -17,6 +17,10 @@ The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 
 | NASA 22 N injector plugging | Ground test | Valve-seat material shedding and injector obstruction |
 | NASA catalyst contamination | Ground test | Iron/nickel contamination kept separate from injector plugging |
 | Spaceborne S-band TWTA output loss | Ground test | Root cause localized to linearizer LNA chip, not TWTA internals |
+| FUSE pitch-axis RWA history reuse | Flight | Cassini partially confirmed history with unknown hardware compatibility; no direct root-cause transfer |
+| TROPICS Pathfinder evidence sufficiency | Flight | Decide whether current evidence supports cross-interface short or requires additional analysis |
+| Cassini RWA next-step recommendation | Flight | Check model, lubrication design and operating limits before considering a speed strategy |
+| Spaceborne S-band TWTA handover | Ground test | Preserve LNA location, ground-test source class, candidate status and evidence gaps |
 
 Machine-readable manifest: `examples/l1_literature_pilot_coverage_v0.1.json`.
 
@@ -27,12 +31,12 @@ Three source families have multiple L1 tasks:
 - Lunar Orbiter III TWTA report family: power-monitor indication and first-turn-on helix-current anomaly remain separate episodes but cannot cross splits.
 - NASA 22 N hydrazine life-test family: injector plugging and catalyst contamination remain separate episodes but cannot cross splits.
 
-The collection-level split auditor rejects any event family whose derived tasks are assigned to more than one of train/validation/test. No split assignments have been created for this pilot because expert review is pending.
+The collection-level split auditor rejects any event family whose derived tasks are assigned to more than one of train/validation/test. No split assignments have been created for this pilot because independent L0 source confirmation and L1 expert review are pending.
 
 ## Data provenance and output boundaries
 
 Every packet:
-- references exactly one AI-assisted-curated public L0 source fact card;
+- references exactly one AI-assisted-curated public L0 source fact card; the referenced L0 collection remains pending domain-expert confirmation;
 - uses an explicitly synthetic upstream ML result and synthetic run ID;
 - uses synthetic log IDs, timestamps, spacecraft identifiers, equipment configuration and operational context;
 - records field-level provenance, generation recipe/version, scenario assumptions and non-simulated source material;
@@ -45,7 +49,7 @@ For the Lunar Orbiter startup task, the target preserves both source explanation
 
 ## Evaluation status
 
-The 11 packets are task-coverage fixtures for expert review and validator regression. They are not 11 real incidents, not 11 expert-approved targets, and not an approved SFT corpus. The real-case/Gold track remains separate and requires real authorized upstream ML outputs, diagnostic logs, spacecraft/mission context and independent expert adjudication.
+The 15 packets are task-coverage fixtures for expert review and validator regression. They are not 15 real incidents, not 15 expert-approved targets, and not an approved SFT corpus. The real-case/Gold track remains separate and requires real authorized upstream ML outputs, diagnostic logs, spacecraft/mission context and independent expert adjudication.
 
 ## Review next step
 
@@ -75,3 +79,10 @@ This means:
 - changing an L0 review decision changes the source-card fingerprint and invalidates prior L1 review receipts, requiring review against the updated source state.
 
 A digest is only a binding to a separately retained authorized review record; it does not authenticate reviewer identity by itself.
+
+
+## L0 source-review status — important qualification
+
+The referenced L0 collection records `review_status=AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. The 12 L0 event source cards referenced by the 15 L1 packets are individually marked pending and have no domain-review evidence digest; the ISEE/IUE expert-system knowledge card is not used as an event source.
+
+Before any L1 target can be considered for an effectiveness experiment, reviewers must inspect the cited public source passage and confirm the L0 statement, source certainty, event class, episode grouping, disposal status and migration constraints. A SHA-256 binding proves only which bytes were reviewed; it does not prove source correctness or expert approval.
