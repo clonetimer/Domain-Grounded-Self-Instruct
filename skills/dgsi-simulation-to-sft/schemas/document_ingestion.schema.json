@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI document ingestion manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_id",
+    "filename",
+    "media_type",
+    "sha256",
+    "size_bytes",
+    "extraction_status",
+    "pages",
+    "assets",
+    "warnings",
+    "review_status",
+    "training_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi.document-ingestion.v1"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "filename": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "media_type": {
+      "enum": [
+        "DOCX",
+        "PDF"
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "extraction_status": {
+      "enum": [
+        "TEXT_EXTRACTED",
+        "PARTIAL_REVIEW_REQUIRED",
+        "BLOCKED"
+      ]
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "locator",
+          "blocks"
+        ],
+        "properties": {
+          "locator": {
+            "type": "string"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "block_id",
+                "block_type",
+                "text",
+                "locator",
+                "review_status"
+              ],
+              "properties": {
+                "block_id": {
+                  "type": "string"
+                },
+                "block_type": {
+                  "enum": [
+                    "PARAGRAPH",
+                    "TABLE",
+                    "EQUATION",
+                    "CAPTION",
+                    "UNKNOWN"
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                },
+                "locator": {
+                  "type": "string"
+                },
+                "review_status": {
+                  "enum": [
+                    "AUTO_EXTRACTED_REVIEW_REQUIRED",
+                    "MANUAL_REVIEW_REQUIRED"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_id",
+          "asset_type",
+          "locator",
+          "extraction_status"
+        ],
+        "properties": {
+          "asset_id": {
+            "type": "string"
+          },
+          "asset_type": {
+            "enum": [
+              "IMAGE",
+              "DRAWING",
+              "EMBEDDED_OBJECT",
+              "UNKNOWN"
+            ]
+          },
+          "locator": {
+            "type": "string"
+          },
+          "extraction_status": {
+            "enum": [
+              "REFERENCE_ONLY",
+              "MANUAL_REVIEW_REQUIRED",
+              "EXTRACTED"
+            ]
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "review_status": {
+      "const": "REVIEW_REQUIRED"
+    },
+    "training_authorized": {
+      "const": false
+    }
+  }
+}
