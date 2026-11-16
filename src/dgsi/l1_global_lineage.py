@@ -121,6 +121,11 @@ def audit_l1_cross_collection_lineage(
     # source event family, even before a training split is assigned.
     case_families: dict[str, frozenset[str]] = {}
     run_families: dict[str, frozenset[str]] = {}
+    # A run identifier denotes one upstream ML result, including across
+    # distinct tasks in the same source family. Variants may alter the
+    # requested output or historical Context, not silently rewrite the
+    # ML result while retaining the same run reference.
+    run_result_hashes: dict[str, str] = {}
     tracked_task_count = 0
     tracks: dict[str, int] = {}
     track_families: dict[str, set[str]] = {}
@@ -155,10 +160,15 @@ def audit_l1_cross_collection_lineage(
             if case_id in case_families and case_families[case_id] != family_key:
                 _reject("GLOBAL_CASE_ID_FAMILY_COLLISION")
             case_families[case_id] = family_key
+            result_hash = _digest(packet["case"]["input"]["machine_diagnosis"])
             for run_ref in packet["case"]["provenance"]["diagnosis_run_refs"]:
                 if run_ref in run_families and run_families[run_ref] != family_key:
                     _reject("GLOBAL_DIAGNOSIS_RUN_FAMILY_COLLISION")
                 run_families[run_ref] = family_key
+                if (run_ref in run_result_hashes
+                        and run_result_hashes[run_ref] != result_hash):
+                    _reject("GLOBAL_DIAGNOSIS_RUN_RESULT_CONFLICT")
+                run_result_hashes[run_ref] = result_hash
             for family in current:
                 if task_split is not None:
                     target_splits.setdefault(family, set()).add(task_split)
