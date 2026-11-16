@@ -22,7 +22,7 @@ def _reject(code: str) -> None:
     raise L1GlobalLineageError(code)
 
 
-def _digest(value: dict[str, Any]) -> str:
+def _digest(value: Any) -> str:
     serialized = json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
@@ -129,6 +129,9 @@ def audit_l1_cross_collection_lineage(
     # requested output or historical Context, not silently rewrite the
     # ML result while retaining the same run reference.
     run_result_hashes: dict[str, str] = {}
+    # A reused upstream run reference must also bind one immutable diagnostic
+    # log snapshot. Distinct Case IDs cannot disguise altered log evidence.
+    run_log_hashes: dict[str, str] = {}
     tracked_task_count = 0
     # Count families represented by L1 target packets, not unused L0 fact
     # cards supplied for reference validation or historical Context.
@@ -195,6 +198,7 @@ def audit_l1_cross_collection_lineage(
                 _reject("GLOBAL_CASE_ID_EVIDENCE_SNAPSHOT_CONFLICT")
             case_evidence_hashes[case_id] = evidence_hash
             result_hash = _digest(packet["case"]["input"]["machine_diagnosis"])
+            log_hash = _digest(packet["case"]["input"]["diagnostic_logs"])
             for run_ref in packet["case"]["provenance"]["diagnosis_run_refs"]:
                 if run_ref in run_families and run_families[run_ref] != family_key:
                     _reject("GLOBAL_DIAGNOSIS_RUN_FAMILY_COLLISION")
@@ -203,6 +207,10 @@ def audit_l1_cross_collection_lineage(
                         and run_result_hashes[run_ref] != result_hash):
                     _reject("GLOBAL_DIAGNOSIS_RUN_RESULT_CONFLICT")
                 run_result_hashes[run_ref] = result_hash
+                if (run_ref in run_log_hashes
+                        and run_log_hashes[run_ref] != log_hash):
+                    _reject("GLOBAL_DIAGNOSIS_RUN_LOG_SNAPSHOT_CONFLICT")
+                run_log_hashes[run_ref] = log_hash
             for family in current:
                 if task_split is not None:
                     target_splits.setdefault(family, set()).add(task_split)
