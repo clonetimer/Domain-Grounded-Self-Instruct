@@ -20,6 +20,7 @@ MAX_DOCX_TOTAL_UNCOMPRESSED_BYTES=256*1024*1024
 MAX_DOCX_ENTRIES=10000
 REVISION_MARKERS={W+"del",W+"delText",W+"moveFrom",W+"moveTo",W+"ins"}
 DELETED_CONTENT={W+"del",W+"delText",W+"moveFrom"}
+HIDDEN_RUN_MARKERS={W+"vanish",W+"webHidden",W+"specVanish"}
 
 class DocumentIngestionError(ValueError): pass
 
@@ -29,13 +30,22 @@ def _sha(path: Path) -> str:
         for chunk in iter(lambda:f.read(1024*1024),b""): h.update(chunk)
     return h.hexdigest()
 
+def _run_is_hidden(node: ET.Element) -> bool:
+    """Only explicit, enabled Word run-level hiding is safe to suppress."""
+    if node.tag != W+"r": return False
+    rpr=node.find(W+"rPr")
+    if rpr is None: return False
+    return any(prop.tag in HIDDEN_RUN_MARKERS and
+               prop.attrib.get(W+"val","true").strip().casefold() not in {"0","false","off"}
+               for prop in rpr)
+
 def _text(node: ET.Element) -> str:
     """Extract visible text; never treat tracked deletions as source facts."""
     parts=[]
     stack=[node]
     while stack:
         item=stack.pop()
-        if item.tag in DELETED_CONTENT:
+        if item.tag in DELETED_CONTENT or _run_is_hidden(item):
             continue
         if item.tag in {W+"t",M+"t"}:
             parts.append(item.text or "")
@@ -65,13 +75,15 @@ def _docx(path: Path):
                 rels={x.attrib.get("Id"):x.attrib.get("Target","") for x in relroot}
             body=xml.find(W+"body")
             if body is None: raise DocumentIngestionError("DOCX_BODY_MISSING")
-            pages=[]; assets=[]; warnings=[]; page_blocks=[]; pno=1; bno=0; revision_seen=False
+            pages=[]; assets=[]; warnings=[]; page_blocks=[]; pno=1; bno=0; revision_seen=False; hidden_seen=False
             for child in list(body):
                 has_revision=any(n.tag in REVISION_MARKERS for n in child.iter())
+                has_hidden=any(_run_is_hidden(n) for n in child.iter())
                 revision_seen=revision_seen or has_revision
+                hidden_seen=hidden_seen or has_hidden
                 if child.tag==W+"p":
                     bno+=1; eq=any(n.tag.startswith(M) for n in child.iter()); txt=_text(child)
-                    if txt.strip() or eq: page_blocks.append(_block("B%06d"%bno,"EQUATION" if eq else "PARAGRAPH",txt,"DOCX paragraph %d"%bno,eq or has_revision))
+                    if txt.strip() or eq: page_blocks.append(_block("B%06d"%bno,"EQUATION" if eq else "PARAGRAPH",txt,"DOCX paragraph %d"%bno,eq or has_revision or has_hidden))
                     for drawing in child.iter():
                         if drawing.tag==A+"blip":
                             target=rels.get(drawing.attrib.get(R+"embed"),"")
@@ -87,6 +99,7 @@ def _docx(path: Path):
                     pages.append({"locator":"DOCX logical page %d (explicit breaks only)"%pno,"blocks":page_blocks}); page_blocks=[]; pno+=1
             if page_blocks or not pages: pages.append({"locator":"DOCX logical page %d (pagination not rendered)"%pno,"blocks":page_blocks})
             if revision_seen: warnings.append("Tracked revisions detected. Deleted text excluded; all affected blocks require manual source review.")
+            if hidden_seen: warnings.append("Explicit hidden Word run text excluded; affected blocks require manual source review. Style-inherited visibility is not resolved.")
             if assets: warnings.append("Embedded images/drawings are indexed but not OCRd or semantically interpreted.")
             if any(b["block_type"]=="EQUATION" for pg in pages for b in pg["blocks"]): warnings.append("OMML equation text is extracted conservatively and requires manual mathematical review.")
             warnings.append("DOCX page boundaries are logical break markers, not rendered page numbers.")
