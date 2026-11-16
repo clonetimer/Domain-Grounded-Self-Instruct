@@ -91,8 +91,8 @@ Unit tests prove deterministic contracts and failure handling, not visual recogn
 
 ## 9. Implementation sequence
 
-- B4.1: canonical evidence locator and provenance consistency validator.
-- B4.2: deterministic text-region grouping and candidate-node proposal.
+- B4.1: canonical evidence locator and provenance consistency validator — implemented as `src/dgsi/diagram_provenance.py` and `scripts/audit_diagram_asset_provenance.py`; exact source/asset/OCR hash binding, byte-size matching, unique asset/line IDs and pixel-box bounds are checked.
+- B4.2: deterministic text-region grouping and candidate-node proposal — next increment; not implemented by the B4.1 validator.
 - B4.3: explicit human annotation import and unresolved connector hypotheses.
 - B4.4: adversarial tests, package integration and cross-platform CI.
 - B4.5: labeled benchmark design; no performance claim until expert labels exist.
