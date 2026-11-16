@@ -21,7 +21,7 @@ The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYN
 
 ## Simulation run receipt intake
 
-Read `references/SIMULATION_RUN_RECEIPT.md` before using run materials. It supplements the main Skill's intake guidance; it does not remove its source review, truth separation or release requirements. The schema-gap statements in the main Skill continue to apply to formal L1 simulation task admission, not to this new local metadata/byte-checking utility.
+Read `references/SIMULATION_RUN_RECEIPT.md` before using run materials. It supplements the main Skill's intake guidance; it does not remove its source review, truth separation or release requirements. The main Skill distinguishes the local simulation evidence receipt from formal L1 task admission: the receipt verifies declared metadata and local bytes but does not create an L1 simulation task, certify engine-native provenance or authorize SFT.
 
 ```text
 python scripts/create_simulation_receipt_fixture.py --output local_fixture --case unknown-physics
