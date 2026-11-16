@@ -42,4 +42,19 @@ class OcrCandidateTests(unittest.TestCase):
    p=Path(d)/"image.png"; p.write_bytes(b"x")
    with mock.patch.dict(sys.modules,{"pytesseract":None,"PIL":None}):
     with self.assertRaisesRegex(OcrIngestionError,"OCR_DEPENDENCY_MISSING_PILLOW_OR_PYTESSERACT"): extract_ocr_candidates(p,"IMG1")
+ def test_preflight_rejects_empty_oversized_and_invalid_options_before_import(self):
+  from dgsi.ocr_candidates import MAX_OCR_IMAGE_BYTES
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"image.png"; p.write_bytes(b"")
+   for kwargs,code in [({"psm":True},"OCR_PSM_INVALID"),({"psm":-1},"OCR_PSM_INVALID"),({"psm":14},"OCR_PSM_INVALID"),({"language":"unsupported"},"OCR_LANGUAGE_UNSUPPORTED")]:
+    with self.subTest(kwargs=kwargs):
+     with mock.patch.dict(sys.modules,{"pytesseract":None,"PIL":None}):
+      with self.assertRaisesRegex(OcrIngestionError,code): extract_ocr_candidates(p,"IMG1",**kwargs)
+   with self.assertRaisesRegex(OcrIngestionError,"OCR_IMAGE_SIZE_INVALID"):
+    extract_ocr_candidates(p,"IMG1")
+   p.write_bytes(b"x"*(MAX_OCR_IMAGE_BYTES+1))
+   with self.assertRaisesRegex(OcrIngestionError,"OCR_IMAGE_SIZE_INVALID"):
+    extract_ocr_candidates(p,"IMG1")
+
+
 if __name__=="__main__": unittest.main()

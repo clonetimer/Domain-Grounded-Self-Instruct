@@ -10,6 +10,7 @@ Portable production Skill for converting authorized spacecraft simulation and en
 - `schemas/document_ingestion.schema.json`: source-hashed document extraction manifest.
 - `schemas/diagram_annotation.schema.json`: evidence-linked diagram graph annotation contract.
 - `schemas/ocr_candidates.schema.json`: review-required local OCR text and pixel boxes.
+- `src/dgsi/diagram_provenance.py` and `scripts/audit_diagram_asset_provenance.py`: bind document manifests, extracted image bytes and OCR records; emit aggregate-only audit results.
 - `../../docs/P5B4_DIAGRAM_CANDIDATE_EXTRACTION_CONTRACT.md`: conservative P5-B4 plan for provenance-bound OCR/diagram candidates and acceptance gates.
 - `../../docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md`: reusable cross-platform Python/optional-dependency and CI lessons.
 - `templates/`: episode intake, batch manifest and human review queue.

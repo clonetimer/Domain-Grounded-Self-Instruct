@@ -23,7 +23,7 @@ Do not fork these contracts or introduce a second document/asset identity system
 ## 3. Candidate-generation pipeline
 
 1. **Resolve provenance.** Require document source ID/hash, figure locator, asset ID/hash and OCR asset hash to agree. Reject mismatches before generating candidates.
-2. **Validate OCR record.** Validate schema, positive image dimensions, unique line IDs, in-bounds non-empty boxes and mandatory manual-review status. Preserve raw OCR text and confidence; never silently normalize away the original.
+2. **Validate OCR record.** Validate schema, positive image dimensions, non-empty unique line IDs, in-bounds non-empty boxes, OCR word containment inside its parent line box and mandatory manual-review status. Preserve raw OCR text and confidence; never silently normalize away the original.
 3. **Propose text regions.** Group OCR lines using deterministic spatial rules only (overlap, baseline proximity and bounded horizontal/vertical gaps). Record algorithm/version and thresholds. Each group cites exact OCR line IDs and pixel boxes.
 4. **Propose node labels.** Emit candidate labels only from OCR text or explicit human annotations. No component names may be synthesized from domain vocabulary or nearby prose.
 5. **Propose hierarchy.** Populate hierarchy only when supported by explicit diagram containment, source text or a human annotation. Otherwise use an empty/unknown hierarchy and retain the unresolved state.
@@ -76,7 +76,7 @@ Low OCR confidence is not automatically a hard failure; it must remain visible a
 - Valid OCR lines on the exact asset produce deterministic label candidates and stable IDs.
 - Reordering OCR input does not change candidate identity or output ordering.
 - Asset-hash mismatch and OCR-to-asset mismatch are rejected.
-- Duplicate line IDs, invalid boxes, out-of-bounds boxes and transformed-coordinate misuse are rejected.
+- Duplicate/blank line IDs, invalid boxes, out-of-bounds boxes, words outside their parent line boxes and transformed-coordinate misuse are rejected.
 - Low-confidence text remains flagged; no automatic domain-term correction.
 - Proximity-only association cannot create a graph edge.
 - Arrow/connector edge candidates require explicit visual evidence and remain AI_PROPOSED.
@@ -91,8 +91,8 @@ Unit tests prove deterministic contracts and failure handling, not visual recogn
 
 ## 9. Implementation sequence
 
-- B4.1: canonical evidence locator and provenance consistency validator.
-- B4.2: deterministic text-region grouping and candidate-node proposal.
+- B4.1: canonical evidence locator and provenance consistency validator — implemented as `src/dgsi/diagram_provenance.py` and `scripts/audit_diagram_asset_provenance.py`; exact source/asset/OCR hash binding, byte-size matching, unique asset IDs, non-empty unique OCR line IDs, image bounds and word-in-line geometry are checked.
+- B4.2: deterministic text-region grouping and candidate-node proposal — next increment; not implemented by the B4.1 validator.
 - B4.3: explicit human annotation import and unresolved connector hypotheses.
 - B4.4: adversarial tests, package integration and cross-platform CI.
 - B4.5: labeled benchmark design; no performance claim until expert labels exist.

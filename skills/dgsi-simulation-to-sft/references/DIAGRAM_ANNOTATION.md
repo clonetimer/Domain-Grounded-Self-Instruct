@@ -19,6 +19,10 @@ Use this contract after a figure/image has been indexed and made available to a 
 ## Physical meaning boundary
 A drawn connector does not by itself prove whether it carries data, command, power, fluid or a mechanical load. A label, arrow, port convention or adjacent text must support the relation. Direction conflicts are rejected by the semantic validator. Units, coordinate frames, signal polarity and timing semantics require explicit source evidence.
 
+## Provenance preflight
+
+Before using OCR or creating annotations, run `python scripts/audit_diagram_asset_provenance.py --document-manifest <manifest.json> --ocr-record <ocr.json> --asset <original-image>` from the repository root. The command checks the manifest/OCR schemas, exact asset ID and SHA-256 linkage, extracted-byte size, unique OCR line IDs, and non-empty in-bounds line/word boxes. It emits aggregate-only output; a pass means provenance consistency, not correct OCR or diagram semantics.
+
 ## Suggested review sequence
 1. Open the exact source page and figure; preserve original asset hash.
 2. Mark visible node labels and hierarchy; do not invent unnamed components.
