@@ -148,6 +148,7 @@ Never call a candidate dataset Gold or training-ready merely because it passes s
 Read these files before production:
 - `references/WORKFLOW.md`
 - `references/SOURCE_INGESTION.md`
+- `references/DOCUMENT_INGESTION_ADAPTERS.md`
 - `references/SIMULATION_TRUTH_SEPARATION.md`
 - `references/GENERATION_TASKS.md`
 - `references/QUALITY_AUDIT.md`
