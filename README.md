@@ -82,3 +82,7 @@ Build a portable ZIP from a repository checkout with:
 ```bash
 python scripts/package_dgsi_simulation_to_sft.py
 ```
+
+## Development experience
+
+Reusable cross-platform engineering lessons are recorded in [`docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md`](docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md), including the OCR optional-dependency mocking failure, its correction, and the rule for testing Python package import semantics.
