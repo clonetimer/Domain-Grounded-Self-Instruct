@@ -7,6 +7,7 @@ Portable production Skill for converting authorized spacecraft simulation and en
 - `SKILL.md`: primary portable Skill entry point.
 - `references/`: ingestion, truth separation, task design, audit and provider-neutral delegation procedures.
 - `templates/`: episode intake, batch manifest and human review queue.
+- `schemas/simulation_run_receipt.schema.json`: separate local simulation evidence intake, not an L1 task or SFT record.
 
 ## Required repository contracts
 
@@ -16,7 +17,20 @@ Use these existing contracts from the DGSI repository at the same revision:
 - `resources/l1_task_packet.schema.json`
 - `resources/diagnostic_sft.schema.json`
 
-The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYNTHETIC`. `DESIGN_DERIVED_HYPOTHETICAL` candidates use the separate `schemas/design_derived_batch.schema.json` contract. `SIMULATION_CASE_CANDIDATE` still needs a separately reviewed run-receipt schema extension; do not misclassify it.
+The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYNTHETIC`. `DESIGN_DERIVED_HYPOTHETICAL` candidates use the separate `schemas/design_derived_batch.schema.json` contract. Simulation evidence can now use the separate run-receipt intake described below, but formal L1 simulation task representation and SFT release remain unimplemented. Do not misclassify simulation data as real flight or literature records.
+
+## Simulation run receipt intake
+
+Read `references/SIMULATION_RUN_RECEIPT.md` before using run materials. It supplements the main Skill's intake guidance; it does not remove its source review, truth separation or release requirements. The schema-gap statements in the main Skill continue to apply to formal L1 simulation task admission, not to this new local metadata/byte-checking utility.
+
+```text
+python scripts/create_simulation_receipt_fixture.py --output local_fixture --case unknown-physics
+python scripts/audit_simulation_run_receipt.py --receipt local_fixture/receipt.json --artifact-root local_fixture
+```
+
+The example is explicitly SYNTHETIC_TEST_ONLY; no simulator/ML execution is claimed. The CLI requires a private local artifact root and prints aggregate-only results. Python API metadata-only mode never claims files were verified. Six evidence stages retain independent YES/NO/UNKNOWN states. Hash checks do not establish physical validity, source authenticity or independent human approval.
+
+A standalone engineering subset can be built with `python scripts/package_simulation_receipt_module.py`; it is not the complete DGSI toolkit. Its Chinese guide, fixtures and tests can run without a repository checkout after installing the declared JSON Schema dependency.
 
 ## Quick start with another AI
 
@@ -30,6 +44,6 @@ The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYN
 
 ## Current capability boundary
 
-This toolkit defines a portable workflow and output contract. It is not yet a fully automated universal document parser, simulator adapter, authenticated review system or SFT exporter. The existing Basilisk R84-R3A receipt adapter is specific to its pinned artifact contract and does not automatically validate arbitrary simulation packages.
+This toolkit is not yet a fully automated universal document parser, simulator adapter, authenticated review system or SFT exporter. The existing Basilisk R84-R3A receipt adapter is specific to its pinned artifact contract and does not automatically validate arbitrary simulation packages. The new generic receipt utility checks declarations and local bytes; it does not certify native simulator provenance or arbitrary log semantics.
 
 Candidate generation does not mean Gold approval or training authorization. No sample is training-ready until source rights/privacy, scientific validity, independent domain review, lineage and official split admission are complete.

@@ -36,6 +36,8 @@ VALIDATOR_FILES = (
     "src/dgsi",
     "scripts/audit_diagnostic_sft_lineage.py",
     "scripts/audit_l1_global_lineage.py",
+    "scripts/audit_simulation_run_receipt.py",
+    "scripts/create_simulation_receipt_fixture.py",
 )
 
 
