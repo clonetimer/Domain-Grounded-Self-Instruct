@@ -80,25 +80,31 @@ A controlled experiment may compare base model, generic Self-Instruct, literatur
 Synthetic task count must never be reported as real-case count. Schema/CI PASS is not scientific effectiveness evidence.
 
 
-## First L1 literature-derived pilot
+## Current L1 literature-derived pilot
 
-`examples/l1_literature_synthetic_task_packets_v0.1.json` contains three review-required packets:
-1. SEASAT slip-ring arc/short candidate;
-2. Lunar Orbiter III TWTA power-monitor measurement-chain ambiguity;
-3. TROPICS Pathfinder cross-interface common-cause short candidate, with a rejected SEL hypothesis included as qualified Context.
+`examples/l1_literature_synthetic_task_packets_v0.1.json` contains 15 review-required packets across 9 L0 event families and all six declared task types:
+- 10 `diagnostic_synthesis`;
+- 1 `conflict_reconciliation`;
+- 1 `historical_case_reuse`;
+- 1 `evidence_sufficiency`;
+- 1 `next_step_recommendation`;
+- 1 `handover_summary`.
 
-All three are explicitly synthetic. Their ML scores, run IDs, event logs, spacecraft identifiers, configuration and operating modes are scenario values. The source L0 fact cards constrain the historical mechanism statement and its certainty only. No real flight logs or ML execution are claimed. Formal assistant targets contain conclusion fields only; curator prompts remain under the Case's `internal_review`.
+All 15 packets are `LITERATURE_DERIVED_SYNTHETIC`. Their ML scores, run IDs, event logs, spacecraft identifiers, configuration and operating modes are scenario values, not real flight/test records or actual upstream ML runs. Formal assistant targets contain conclusion fields only; curator prompts remain under the Case's `internal_review`.
 
-The first pilot intentionally covers:
-- no historical retrieval hit;
-- a retrieved rejected history item that must remain rejected and cannot vote on the current cause;
-- distinct source event families and L0 evidence references.
+The 15 packets reference 12 unique L0 event source cards. All 12 are marked `AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`; the separate ISEE/IUE expert-system knowledge card is not used as an event source. The L0 cards are curated candidates, not domain-expert-confirmed facts. L1 structural validation and SHA-256 receipt binding do not establish source correctness or expert approval.
 
-This is a task-coverage fixture set, not an approved training corpus. Every packet remains `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
+The pilot covers no-history, rejected-history and partially confirmed / hardware-unknown history cases. It separates flight events from ground-test events and groups task variants by source event family to prevent split leakage.
+
+This is a task-coverage and review fixture set, not an approved training corpus. Every packet remains `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
 
 ## Collection and split audit
 
-The L1 collection contract (`resources/l1_task_packet_collection.schema.json`) requires a single data track per collection. The collection validator checks packet count, task-ID uniqueness, source-card binding and optional split assignments. When split assignments are supplied, every packet must be assigned exactly once and all tasks derived from the same `source_group` / L0 event family must remain in one split. The current three-packet pilot has no train/validation/test assignments because it has not completed review.
+The L1 collection contract (`resources/l1_task_packet_collection.schema.json`) requires a single data track per collection. The collection validator checks packet count, task-ID uniqueness, source-card binding, source event-class/context alignment and optional split assignments. The global lineage preflight additionally checks cross-collection event-family aliases, Case/run identity reuse, upstream result fingerprints, current-event evidence snapshots and historical Context target-family exposure. No train/validation/test assignments exist for the current pilot because L0 source confirmation and L1 expert review are pending.
+
+## Review receipt and SFT release boundary
+
+Two-reviewer scorecards are bound to the exact reviewable L1 packet and referenced L0 card bytes. Batch auditing requires one receipt per packet. Global lineage and the L1-to-SFT release preflight run before any future serializer. These checks are structural and integrity gates only: the release preflight remains `BLOCKED_PENDING_EXTERNAL_ADMISSION`, emits zero SFT records and cannot authorize training.
 
 
 ## L1 source-event class alignment
