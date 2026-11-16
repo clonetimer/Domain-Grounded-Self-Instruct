@@ -2926,7 +2926,7 @@
           "report_text": "长时间在轨运行合成场景中，反作用轮拖曳指标高于健康基线；异常期间设备长期处于近零转速附近并频繁过零。 上游合成ML将反作用轮轴承润滑状态退化列为候选，排序分数0.79不是故障概率。 当前证据仅支持将所述机理保留为候选，尚不足以确认合成场景的实际物理故障源；本任务未记录当前事件的实际处置措施。"
         },
         "provenance": {
-          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2001",
+          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
           "source_artifact_hashes": [],
           "diagnosis_run_refs": [
             "SYNTHETIC-MLRUN-008"
@@ -5517,7 +5517,7 @@
           "report_text": "下一步优先核对当前轮组的型号、轴承/润滑结构和运行限制，再分析不同转速区间的拖曳变化。只有在设备适用性和安全边界得到确认后，才评估受控转速策略；不直接复制Cassini案例的升速处置。"
         },
         "provenance": {
-          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2001",
+          "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
           "source_artifact_hashes": [],
           "diagnosis_run_refs": [
             "SYNTHETIC-MLRUN-014"
