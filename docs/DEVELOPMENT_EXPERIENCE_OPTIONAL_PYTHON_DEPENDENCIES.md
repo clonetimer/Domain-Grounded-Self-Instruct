@@ -57,3 +57,24 @@ Exact-head PR CI then passed on both operating systems: Ubuntu 771/771 and Windo
 - Original push workflow on corrected head: `43877896425`, both platforms PASS
 
 This record documents the cause and repair. It does not claim a real Tesseract OCR benchmark or validate diagram interpretation.
+
+## Follow-up: deterministic OCR input preflight (P5-B3)
+
+The OCR adapter's next hardening step validates caller-controlled inputs before importing optional OCR packages or invoking the Tesseract executable.
+
+The accepted boundary is explicit:
+- reject empty image files and files larger than the configured 40 MiB limit;
+- reject boolean values where an integer PSM is required (Python's `bool` is an `int` subclass);
+- constrain PSM to the documented 0–13 range;
+- accept only explicitly supported language codes;
+- bound decoded image dimensions to 100 million pixels.
+
+Reusable rules:
+
+8. **Validate before side effects.** Cheap, deterministic file and option checks should run before optional imports, image decoding where possible, or external executable calls.
+9. **Account for Python's type hierarchy.** Use exact-type checks when booleans must not pass integer validation; `isinstance(value, int)` alone accepts `True` and `False`.
+10. **Bound both compressed input and decoded work.** A byte-size limit does not prevent decompression or image-dimension resource exhaustion; enforce decoded-pixel limits as a separate control.
+11. **Use allowlists for external-tool options.** Language identifiers and mode ranges should be explicit contracts, not arbitrary strings passed through to a local executable.
+12. **Test rejection before invocation.** For every invalid input, assert the OCR engine was not called; otherwise the test proves only that an error was eventually returned.
+
+These checks establish input-contract and resource-boundary behavior only. They do not establish OCR accuracy, diagram topology, node/port/arrow recognition, or engineering semantics. Keep extracted OCR text and geometry as review-required proposals; preserve source-image hashes and human adjudication requirements.
