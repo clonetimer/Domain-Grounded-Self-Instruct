@@ -111,9 +111,9 @@
         ]
       },
       "disposal_status": "SOURCE_RECORDS_MEASURE",
-      "disposal_source_note": null,
+      "disposal_source_note": "本卡对应首个飞行载荷TVAC期间的地面资格试验事件。来源随后另行描述对飞行载荷滑环开展的项目级筛选与返工流程；未明确说明该流程逐项作为首个受影响载荷的单机处置执行。此处保留为后续项目级措施，不等同于该episode的单机恢复记录。",
       "disposal_measures": [
-        "飞行滑环筛选、重新加工、润滑、跑合、检查碎屑、清洁和复测；重新装配后未再检测到CRC错误。"
+        "后续项目级飞行载荷滑环筛选与返工流程：选择并润滑合适的电刷与轴件；跑合并在温度范围内监测电阻；拆检碎屑，必要时清洁并重新装配；复测合格后用于飞行载荷。论文称返工后六台飞行载荷在载荷与飞行器测试中未再检测到CRC错误。"
       ],
       "migration_assessment": {
         "tier": "DIAGNOSTIC_METHOD_ONLY",
@@ -143,7 +143,8 @@
         "not_for_sft": true,
         "reviewer_questions": [
           "线束调整未消除CRC，不能写为最终原因。",
-          "湿度和stick-slip解释保留可能性边界。"
+          "湿度和stick-slip解释保留可能性边界。",
+          "请确认是否将后续针对六台飞行载荷的项目级筛选/返工流程保留为关联纠正措施，而不作为首个TVAC受影响载荷的单机处置记录。"
         ],
         "quality_flags": [
           "GROUND_QUALIFICATION_EVENT",

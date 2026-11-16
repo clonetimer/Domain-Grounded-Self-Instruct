@@ -40,7 +40,8 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 - **Source certainty:** `EXPLICIT_MOST_LIKELY`
 - **Fault source:** TROPICS载荷滑环旋转接触界面
 - **Affected components:** 载荷UART串行通信链路
-- **Disposal:** `SOURCE_RECORDS_MEASURE`; 飞行滑环筛选、重新加工、润滑、跑合、检查碎屑、清洁和复测；重新装配后未再检测到CRC错误。
+- **Disposal:** `SOURCE_RECORDS_MEASURE`; 来源随后记录了针对飞行载荷滑环的项目级筛选与返工流程（选择并润滑电刷/轴件、跑合、温度范围内电阻监测、拆检碎屑、必要时清洁重装及复测）；论文称返工后六台飞行载荷在载荷与飞行器测试中未再检测到CRC错误。
+- **Scope qualification:** 该措施是后续项目级/批次级纠正流程；来源没有明确说明其中每一项均作为首个TVAC受影响载荷的单机处置执行。不得将项目级后续结果写成该episode已完成的单机修复记录。
 - **Migration assessment:** 仅迁移接触可靠性与地面资格测试诊断方法。
 - **Transfer constraints:** 不得迁移地面重工、润滑和清洁动作作为在轨处置。；CRC接触间断与SADA功率短路不是同一现象。
 - **Materials absent from L0 source card:** upstream_ml_result, diagnostic_logs, spacecraft_context, operational_context, historical_cases, expert_adjudicated_target
