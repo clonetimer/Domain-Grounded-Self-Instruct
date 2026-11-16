@@ -7,6 +7,8 @@ This adapter creates a local, source-hashed extraction manifest. It is an intake
 - Preserves OMML equation text conservatively and marks equation blocks for manual mathematical review.
 - Indexes embedded image references; it does not OCR images or infer block-diagram topology.
 - DOCX pagination is not rendered; locations use paragraph/table order and explicit page-break markers only.
+- Tracked deletion and move-from content is excluded from extracted facts. Any tracked revision marks its affected paragraph for manual review and emits a warning. The extractor does not decide which revision is authoritative.
+- ZIP member count, total uncompressed size and XML member size are bounded before reading document XML; oversized DOCX files are blocked rather than partially trusted.
 
 ## PDF
 - Uses optional PyMuPDF (`fitz`) for page-indexed text blocks and image references.
