@@ -62,11 +62,19 @@ class DesignReport0918PilotTests(unittest.TestCase):
         self.assertIn("PDF pp.55-57", locators)
         self.assertIn("PDF pp.58-59", locators)
 
-    def test_skill_has_separate_design_derived_schema_and_simulation_gap(self):
-        skill = (ROOT / "skills" / "dgsi-simulation-to-sft" / "SKILL.md").read_text(encoding="utf-8")
+    def test_skill_distinguishes_simulation_receipt_from_formal_l1_admission(self):
+        skill_root = ROOT / "skills" / "dgsi-simulation-to-sft"
+        skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("schemas/design_derived_batch.schema.json", skill)
         self.assertIn("SIMULATION_CASE_CANDIDATE", skill)
-        self.assertIn("separately reviewed run-receipt schema extension", skill)
+        self.assertIn("schemas/simulation_run_receipt.schema.json", skill)
+        self.assertIn("local run-evidence intake only", skill)
+        self.assertIn("not an L1 task packet", skill)
+        self.assertIn("formal L1 simulation task representation", skill)
+        self.assertTrue((skill_root / "schemas" / "simulation_run_receipt.schema.json").is_file())
+        receipt_guide = (skill_root / "references" / "SIMULATION_RUN_RECEIPT.md").read_text(encoding="utf-8")
+        self.assertIn("LOCAL_ARTIFACT_BYTES", receipt_guide)
+        self.assertIn("SYNTHETIC_TEST_ONLY", receipt_guide)
 
 
 if __name__ == "__main__":

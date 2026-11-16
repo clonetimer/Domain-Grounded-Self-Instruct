@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
+import zipfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +27,10 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "references/GENERATION_TASKS.md",
             "references/QUALITY_AUDIT.md",
             "references/AI_HANDOFF_PROMPTS.md",
+            "references/CROSS_AI_EVALUATION.md",
+            "references/SIMULATION_RUN_RECEIPT.md",
+            "schemas/design_derived_batch.schema.json",
+            "schemas/simulation_run_receipt.schema.json",
             "templates/EPISODE_INTAKE_TEMPLATE.md",
             "templates/BATCH_MANIFEST_TEMPLATE.json",
             "templates/HUMAN_REVIEW_QUEUE.csv",
@@ -60,8 +69,41 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, skill)
 
-    def test_packaging_script_is_present(self):
-        self.assertTrue((ROOT / "scripts" / "package_dgsi_simulation_to_sft.py").is_file())
+    def test_full_toolkit_zip_contains_run_receipt_module_and_is_not_user_data(self):
+        script = ROOT / "scripts" / "package_dgsi_simulation_to_sft.py"
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "full-toolkit.zip"
+            result = subprocess.run(
+                [sys.executable, str(script), "--output", str(output)],
+                cwd=ROOT, capture_output=True, text=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            with zipfile.ZipFile(output) as archive:
+                names = set(archive.namelist())
+                required = {
+                    "skills/dgsi-simulation-to-sft/SKILL.md",
+                    "skills/dgsi-simulation-to-sft/schemas/simulation_run_receipt.schema.json",
+                    "skills/dgsi-simulation-to-sft/references/SIMULATION_RUN_RECEIPT.md",
+                    "scripts/audit_simulation_run_receipt.py",
+                    "scripts/create_simulation_receipt_fixture.py",
+                    "scripts/package_simulation_receipt_module.py",
+                    "tests/test_simulation_run_receipt.py",
+                }
+                self.assertTrue(required.issubset(names), required - names)
+                self.assertFalse(any("design_report_0918_pilot" in name for name in names))
+                self.assertFalse(any("target_private" in name or "hidden_truth" in name for name in names))
+                manifest = json.loads(archive.read("PACKAGE_SHA256_MANIFEST.json"))
+                self.assertFalse(manifest["training_authorized"])
+                self.assertFalse(manifest["gold_authorized"])
+                self.assertFalse(manifest["sft_export_authorized"])
+                for item in manifest["files"]:
+                    self.assertEqual(
+                        hashlib.sha256(archive.read(item["path"])).hexdigest(),
+                        item["sha256"],
+                    )
+        packager = (ROOT / "scripts" / "package_dgsi_simulation_to_sft.py").read_text(encoding="utf-8")
+        self.assertIn("scripts/package_simulation_receipt_module.py", packager)
+        self.assertIn("tests/test_simulation_run_receipt.py", packager)
 
 
 if __name__ == "__main__":

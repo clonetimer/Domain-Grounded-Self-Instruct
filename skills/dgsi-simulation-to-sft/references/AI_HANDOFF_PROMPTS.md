@@ -30,7 +30,7 @@ Rules:
 - Preserve uncertainty and score semantics.
 - Do not claim a repair was performed unless a source records it.
 - Generate one genuinely distinct task per diagnostic decision, not paraphrases.
-- Use the exact DGSI schemas and current supported track values. If the schema cannot represent a simulation candidate, do not force it into a real or literature track; return the candidate in the intake sidecar and flag a schema-extension requirement.
+- Use the exact DGSI schemas and current supported track values. For an actual simulator run, first create and validate a `simulation_run_receipt` with the local receipt CLI. This receipt is an intake record, not an L1 task. Do not force a simulation candidate into a real or literature track; retain it in the simulation intake sidecar until formal L1 simulation task admission is implemented.
 
 Return L0 candidates, L1 packets, source/evidence ledger, hidden-field exclusion checklist (without exposing hidden values), and review queue. All L1 outputs remain REVIEW_REQUIRED.
 
