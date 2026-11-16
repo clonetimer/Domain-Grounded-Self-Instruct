@@ -127,6 +127,9 @@ def audit_l1_cross_collection_lineage(
     # ML result while retaining the same run reference.
     run_result_hashes: dict[str, str] = {}
     tracked_task_count = 0
+    # Count families represented by L1 target packets, not unused L0 fact
+    # cards supplied for reference validation or historical Context.
+    target_family_ids: set[str] = set()
     tracks: dict[str, int] = {}
     track_families: dict[str, set[str]] = {}
     for cid, collection in collections.items():
@@ -155,6 +158,7 @@ def audit_l1_cross_collection_lineage(
                 for ref in packet["source_fact_refs"]
             }
             track_families.setdefault(packet["track"], set()).update(current)
+            target_family_ids.update(current)
             family_key = frozenset(current)
             case_id = packet["case"]["case_id"]
             if case_id in case_families and case_families[case_id] != family_key:
@@ -192,10 +196,7 @@ def audit_l1_cross_collection_lineage(
         "collection_count": len(collections),
         "task_count": tracked_task_count,
         "source_card_count": len(all_cards),
-        "canonical_target_family_count": len(target_splits) if target_splits else len(
-            {aliases.get(c["event_family_id"], c["event_family_id"])
-             for c in all_cards.values()}
-        ),
+        "canonical_target_family_count": len(target_family_ids),
         "history_hit_count": len(history_links),
         "reviewed_alias_declaration_count": len(aliases),
         "track_task_counts": tracks,
