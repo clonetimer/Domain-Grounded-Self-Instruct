@@ -37,6 +37,36 @@ class DocumentIngestionTests(unittest.TestCase):
    with self.assertRaisesRegex(DocumentIngestionError,"SOURCE_FILE_SIZE_INVALID"): ingest_document(p,"SRC")
    q=Path(d)/"notes.txt"; q.write_text("text")
    with self.assertRaisesRegex(DocumentIngestionError,"SOURCE_FORMAT_UNSUPPORTED"): ingest_document(q,"SRC")
+ def test_tracked_deletions_never_become_source_facts(self):
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"revised.docx"
+   xml=('<?xml version="1.0"?><w:document xmlns:w="%s"><w:body>'
+        '<w:p><w:del><w:r><w:delText>CONFIRMED_GYRO_FAILURE</w:delText></w:r></w:del>'
+        '<w:r><w:t>Cause remains under review</w:t></w:r>'
+        '<w:moveFrom><w:r><w:t>RETRACTED_CLAIM</w:t></w:r></w:moveFrom></w:p>'
+        '<w:tbl><w:tr><w:tc><w:p><w:del><w:r><w:t>DELETED_TABLE_FACT</w:t></w:r></w:del>'
+        '<w:r><w:t>Unverified torque observation</w:t></w:r></w:p></w:tc></w:tr></w:tbl>'
+        '</w:body></w:document>')%W
+   with zipfile.ZipFile(p,"w") as pkg: pkg.writestr("word/document.xml",xml)
+   result=ingest_document(p,"SRC-REVISED")
+   text=" ".join(b["text"] for pg in result["pages"] for b in pg["blocks"])
+   self.assertIn("Cause remains under review",text)
+   self.assertIn("Unverified torque observation",text)
+   for excluded in ("CONFIRMED_GYRO_FAILURE","RETRACTED_CLAIM","DELETED_TABLE_FACT"):
+    self.assertNotIn(excluded,text)
+   self.assertIn("manual source review"," ".join(result["warnings"]))
+   self.assertEqual(result["pages"][0]["blocks"][0]["review_status"],"MANUAL_REVIEW_REQUIRED")
+   self.assertFalse(result["training_authorized"])
+
+ def test_docx_compression_bomb_xml_rejected_before_expansion(self):
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)/"small-but-expanded.docx"
+   with zipfile.ZipFile(p,"w",compression=zipfile.ZIP_DEFLATED) as pkg:
+    pkg.writestr("word/document.xml",b"X"*(16*1024*1024+1))
+   self.assertLess(p.stat().st_size,1024*1024)
+   with self.assertRaisesRegex(DocumentIngestionError,"DOCX_XML_SIZE_LIMIT_EXCEEDED"):
+    ingest_document(p,"SRC-LIMIT")
+
  def test_pdf_dependency_boundary_explicit(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)/"sample.pdf"; p.write_bytes(b"%PDF-1.4 not-a-real-pdf")
