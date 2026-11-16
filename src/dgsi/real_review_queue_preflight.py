@@ -91,6 +91,13 @@ def audit_review_queue(queue: dict[str, Any]) -> dict[str, Any]:
                 or case.get("training_authorized") is not False
                 or case.get("not_for_sft") is not True):
             raise ReviewQueuePreflightError("QUEUE_PREMATURE_PROMOTION")
+        # The v0.5 queue is an evidence-request artifact, not an evidence receipt.
+        # These existing fields must remain explicitly unverified and unbound.
+        if (case.get("source_permission_verified") is not False
+                or case.get("deidentification_verified") is not False
+                or "l1_packet_sha256" not in case
+                or case["l1_packet_sha256"] is not None):
+            raise ReviewQueuePreflightError("QUEUE_EVIDENCE_OR_L1_CLAIM_REQUIRES_SEPARATE_RECEIPT")
         if (case.get("reviewer_1") is not None
                 or case.get("reviewer_2") is not None
                 or case.get("adjudication_status") != "NOT_STARTED"):
