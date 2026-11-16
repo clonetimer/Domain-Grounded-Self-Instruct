@@ -130,5 +130,24 @@ class DiagramProvenanceTests(unittest.TestCase):
             self.run_valid(document=record)
 
 
+    def test_empty_ocr_line_id_rejected(self):
+        record = copy.deepcopy(self.ocr)
+        record["lines"][0]["line_id"] = " "
+        with self.assertRaisesRegex(DiagramProvenanceError, "^DIAGRAM_OCR_LINE_ID_EMPTY$"):
+            self.run_valid(ocr=record)
+
+    def test_ocr_word_boxes_must_fit_inside_parent_line(self):
+        # Both boxes remain inside the overall image. The mismatch must
+        # still be rejected rather than silently treated as valid OCR.
+        for axis, value in (("left", 35), ("top", 15)):
+            with self.subTest(axis=axis):
+                record = copy.deepcopy(self.ocr)
+                record["lines"][0]["words"][0]["bbox_px"][axis] = value
+                with self.assertRaisesRegex(
+                    DiagramProvenanceError, "^DIAGRAM_OCR_WORD_OUTSIDE_LINE$"
+                ):
+                    self.run_valid(ocr=record)
+
+
 if __name__ == "__main__":
     unittest.main()
