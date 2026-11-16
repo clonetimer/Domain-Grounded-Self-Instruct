@@ -149,6 +149,7 @@ Read these files before production:
 - `references/WORKFLOW.md`
 - `references/SOURCE_INGESTION.md`
 - `references/DOCUMENT_INGESTION_ADAPTERS.md`
+- `references/DIAGRAM_ANNOTATION.md`
 - `references/SIMULATION_TRUTH_SEPARATION.md`
 - `references/GENERATION_TASKS.md`
 - `references/QUALITY_AUDIT.md`
