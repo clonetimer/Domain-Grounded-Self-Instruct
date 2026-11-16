@@ -26,6 +26,8 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "references/SOURCE_INGESTION.md",
             "references/DOCUMENT_INGESTION_ADAPTERS.md",
             "references/DIAGRAM_ANNOTATION.md",
+            "references/OCR_CANDIDATES.md",
+            "schemas/ocr_candidates.schema.json",
             "schemas/diagram_annotation.schema.json",
             "schemas/document_ingestion.schema.json",
             "references/SIMULATION_TRUTH_SEPARATION.md",
@@ -45,6 +47,11 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
         for relative in required:
             with self.subTest(relative=relative):
                 self.assertTrue((TOOLKIT / relative).is_file())
+
+    def test_ocr_candidate_schema_is_valid(self):
+        from jsonschema import Draft202012Validator
+        schema = json.loads((TOOLKIT / "schemas" / "ocr_candidates.schema.json").read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
 
     def test_diagram_annotation_schema_is_valid(self):
         from jsonschema import Draft202012Validator
@@ -161,6 +168,9 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
                     "src/dgsi/document_ingestion.py",
                     "src/dgsi/diagram_annotation.py",
                     "tests/test_diagram_annotation.py",
+                    "src/dgsi/ocr_candidates.py",
+                    "scripts/ocr_dgsi_image.py",
+                    "tests/test_ocr_candidates.py",
                 }
                 self.assertTrue(required.issubset(names), required - names)
                 self.assertFalse(any("design_report_0918_pilot" in name for name in names))
