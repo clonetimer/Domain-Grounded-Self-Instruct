@@ -621,7 +621,7 @@
       "formal_target": {
         "disposition": "ACCEPT_WITH_QUALIFICATION",
         "phenomenon_analysis": "合成诊断时间窗内，TWTA功率遥测指示随设备温度上升而变化；当前输入未提供独立射频功率测量结果。",
-        "machine_result_interpretation": "上游合成 ML 将TWTA输出功率下降列为候选，排序分数0.69不是校准概率。现有日志只描述功率遥测指示与温度的关联，不能据此确认真实RF输出功率下降。",
+        "machine_result_interpretation": "上游合成 ML 将TWTA输出功率下降列为候选，排序分数0.69不是校准概率。现有日志只描述功率遥测指示与温度的关联，不能据此确认真实RF输出功率下降。历史Lunar Orbiter III报告曾利用深空站接收信号强度基本恒定这一独立交叉证据，判断真实TWTA输出未显著变化；该历史证据不能替代当前场景缺失的独立测量。",
         "cause_localization": {
           "status": "CANDIDATE_ONLY",
           "candidates": [
@@ -644,7 +644,7 @@
             "twta_power_telemetry_channel"
           ],
           "certainty": "CANDIDATE",
-          "mechanism_summary": "Lunar Orbiter III报告认为功率监测二极管整流特性随温度变化可能造成遥测功率指示变化；该历史事实不等于当前合成场景的真实RF功率已经下降。"
+          "mechanism_summary": "Lunar Orbiter III报告指出CE02功率遥测随温度变化，但深空站接收信号强度基本恒定，因此判断真实TWTA输出功率未显著变化，异常位于CE02遥测电路；二极管整流特性温漂是报告提出的可能机理。当前合成场景没有独立RF功率或接收信号交叉证据，不能把历史案例的测量结论直接移植为当前事件结论。"
         },
         "evidence_assessment": {
           "supporting_refs": [
@@ -655,7 +655,7 @@
           ],
           "contradicting_refs": [],
           "missing_information": [
-            "独立RF功率测量",
+            "独立RF功率测量或可比的地面站接收信号强度记录",
             "功率监测二极管温度特性复测",
             "温度与功率遥测的校准曲线"
           ]
@@ -683,7 +683,7 @@
             "priority": "MEDIUM"
           }
         ],
-        "report_text": "合成诊断时间窗内，TWTA功率遥测指示随设备温度上升而变化；当前输入未提供独立射频功率测量结果。 上游合成 ML 将TWTA输出功率下降列为候选，排序分数0.69不是校准概率。现有日志只描述功率遥测指示与温度的关联，不能据此确认真实RF输出功率下降。 现有证据仅支持将相关机理保留为候选，尚不足以确认当前场景的物理故障源；原始材料未记录实际处置措施。"
+        "report_text": "合成诊断时间窗内，TWTA功率遥测指示随设备温度上升而变化；当前输入未提供独立射频功率测量结果。上游合成ML将TWTA输出功率下降列为候选，排序分数0.69不是校准概率。历史Lunar Orbiter III报告曾以深空站接收信号强度基本恒定作为独立交叉证据，判断真实TWTA输出未显著变化，并将异常定位于CE02遥测电路；二极管整流特性温漂只是其提出的可能机理。当前合成场景缺少同类独立证据，不能直接套用历史结论。现有证据不足以确认当前真实RF功率变化或测量链根因，原始材料未记录实际处置措施。"
       },
       "history_context": {
         "schema_version": "dgsi-history-context.v1",
