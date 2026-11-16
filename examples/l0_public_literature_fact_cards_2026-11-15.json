@@ -481,14 +481,14 @@
       "event_episode_id": "LUNAR-ORBITER-III-POWER-MONITOR-TELEMETRY",
       "source_reference": {
         "source_id": "NASA-CR-66461",
-        "source_locator": "NASA CR-66461, PDF p.173 (printed p.165), TWTA Power Output Variations",
+        "source_locator": "NASA CR-66461, PDF pp.118–119 (printed pp.110–111), corroborated by PDF p.173 (printed p.165), TWTA Power Output Variations",
         "source_title": "Lunar Orbiter III Mission System Performance",
         "publication_date": null,
         "publication_year": 1967,
         "ntrs_accession_year": null,
         "publication_metadata_note": null,
         "source_url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
-        "page_or_section": "PDF p.173, printed p.165"
+        "page_or_section": "PDF pp.118–119 (printed pp.110–111); summary PDF p.173 (printed p.165)"
       },
       "phenomenon_analysis": "TWTA输出功率遥测CE02随设备温度升高而明显上升；后期轨道读数在开机时约11.28 W、关机时约19.93 W，但同一读数期间深空站接收信号强度基本保持不变。报告据此判断真实TWTA输出功率并未显著变化。",
       "cause_localization": {
