@@ -81,6 +81,21 @@ class DiagramProvenanceTests(unittest.TestCase):
         self.assertFalse(result["gold_authorized"])
         self.assertNotIn("SYNTHETIC TEST", str(result))
 
+    def test_blocked_source_manifest_cannot_pass_even_with_matching_asset_hashes(self):
+        record = copy.deepcopy(self.document)
+        record["extraction_status"] = "BLOCKED"
+        with self.assertRaisesRegex(
+            DiagramProvenanceError, "^DIAGRAM_DOCUMENT_EXTRACTION_BLOCKED$"
+        ):
+            self.run_valid(document=record)
+
+    def test_text_extracted_source_remains_review_required(self):
+        record = copy.deepcopy(self.document)
+        record["extraction_status"] = "TEXT_EXTRACTED"
+        result = self.run_valid(document=record)
+        self.assertEqual(result["decision"], "PROVENANCE_CONSISTENT_REVIEW_REQUIRED")
+        self.assertFalse(result["training_authorized"])
+
     def test_ocr_asset_hash_mismatch_rejected(self):
         record = copy.deepcopy(self.ocr)
         record["asset_sha256"] = "c" * 64

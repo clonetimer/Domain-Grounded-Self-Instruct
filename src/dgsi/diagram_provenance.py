@@ -51,6 +51,10 @@ def validate_diagram_asset_provenance(
     """
     _schema_validate(document_manifest, DOCUMENT_SCHEMA, "DIAGRAM_DOCUMENT_MANIFEST_INVALID")
     _schema_validate(ocr_record, OCR_SCHEMA, "DIAGRAM_OCR_RECORD_INVALID")
+    # A BLOCKED source cannot produce an admissible diagram candidate merely
+    # because a separately extracted asset and OCR record have matching hashes.
+    if document_manifest["extraction_status"] == "BLOCKED":
+        raise DiagramProvenanceError("DIAGRAM_DOCUMENT_EXTRACTION_BLOCKED")
 
     path = Path(asset_path)
     if path.is_symlink() or not path.is_file():
