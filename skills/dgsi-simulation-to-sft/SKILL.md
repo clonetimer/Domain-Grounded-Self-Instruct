@@ -145,6 +145,8 @@ Never call a candidate dataset Gold or training-ready merely because it passes s
 
 ## Required references
 
+For diagram/image ingestion, also read `references/DOCUMENT_INGESTION_ADAPTERS.md`, `references/DIAGRAM_ANNOTATION.md`, and the repository-level `docs/P5B4_DIAGRAM_CANDIDATE_EXTRACTION_CONTRACT.md`. Keep OCR text, node labels, ports, connectors and physical semantics as separate evidence classes; spatial proximity alone never establishes a connection.
+
 Read these files before production:
 - `references/WORKFLOW.md`
 - `references/SOURCE_INGESTION.md`

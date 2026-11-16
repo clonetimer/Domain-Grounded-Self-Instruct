@@ -1,5 +1,7 @@
 # Diagram annotation: evidence-linked graph
 
+For the next implementation increment, follow `docs/P5B4_DIAGRAM_CANDIDATE_EXTRACTION_CONTRACT.md`. It defines provenance matching, canonical pixel evidence locators, deterministic OCR text grouping and the strict rule that proximity alone cannot create a physical edge.
+
 Use this contract after a figure/image has been indexed and made available to a reviewer. The graph is a structured annotation of visible source content, not an automatically inferred physical model.
 
 ## Required objects
