@@ -48,5 +48,168 @@
     }
   ],
   "review_status": "REVIEW_REQUIRED",
-  "training_authorized": false
+  "training_authorized": false,
+  "source_facts": [
+    {
+      "fact_id": "DF-001",
+      "claim_type": "PLATFORM_SCOPE",
+      "claim": "平台以MATLAB/Simulink R2025b为主要建模仿真环境，配套Python 3.11.9，在Windows 10/11 x64环境下运行；建立轨道环境、ADCS、电源、推进、通信与测控等整星分系统模型。",
+      "locator": "PDF pp.4-6, §§1.1-1.3",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "平台设计描述；不等于任一具体版本/构型已在某次运行中验证。"
+    },
+    {
+      "fact_id": "DF-002",
+      "claim_type": "SYSTEM_ARCHITECTURE",
+      "claim": "各分系统通过统一信号和数据接口连接，整星总线组织状态量、控制量和接口信号；报告提出统一时间基准、参数配置和数据采集机制。",
+      "locator": "PDF pp.5-7, §1.3-1.4",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "未提供本次试验的实际接口快照、时钟同步误差或总线运行日志。"
+    },
+    {
+      "fact_id": "DF-003",
+      "claim_type": "SIMULATION_CONFIGURATION",
+      "claim": "报告给出的基础仿真步长为0.05 s，遥测信号百余项，支持普通、加速和快速加速模式。",
+      "locator": "PDF p.4, §1.1",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "仅为报告记载的设计/配置值，需以具体运行配置和run manifest确认。"
+    },
+    {
+      "fact_id": "DF-004",
+      "claim_type": "ADCS_CLOSED_LOOP",
+      "claim": "ADCS闭环由刚体动力学、姿态敏感器、姿态解算、控制器、轮系分配和金字塔构型四反作用轮组成；传感器测量经姿态解算反馈给控制器，轮组执行力矩再反馈至刚体动力学。",
+      "locator": "PDF pp.16-17, §§3.1-3.2",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "没有具体运行波形，不能据此断言某次异常传播链实际发生。"
+    },
+    {
+      "fact_id": "DF-005",
+      "claim_type": "ADCS_SENSOR_TIMING",
+      "claim": "陀螺承担高频角速度传播；星敏感器以5 Hz更新、测量延迟0.2 s、姿态噪声参考值30 arcsec；姿态解算参考校正周期1 s。",
+      "locator": "PDF pp.16, 23-25, §§3.1, 3.3.6-3.3.8",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "这些采样和噪声值是设计参考参数；实际配置与具体run必须核对。"
+    },
+    {
+      "fact_id": "DF-006",
+      "claim_type": "ADCS_RW_PARAMETERS",
+      "claim": "单轮反作用轮参考参数包括伺服时间常数0.05 s、指令电流范围±2 A、电磁转矩系数0.01、最大输出力矩0.05 N·m、轮转动惯量0.02 kg·m²、转速上限6000 rpm。",
+      "locator": "PDF pp.20-22, §3.3.3-3.3.4",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "未提供当前四轮实际安装矩阵数值或硬件实测参数。"
+    },
+    {
+      "fact_id": "DF-007",
+      "claim_type": "ADCS_RW_OBSERVABILITY",
+      "claim": "反作用轮电流、实际力矩、转速、角动量和功耗均被设计为状态输出；报告说明电流—力矩—转速三类量用于专用反作用轮FDIR在线观测。",
+      "locator": "PDF pp.16, 21-22, §§3.1, 3.3.3",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "没有实际日志证明这些通道在某次运行中均被记录、时间对齐或质量合格。"
+    },
+    {
+      "fact_id": "DF-008",
+      "claim_type": "ADCS_RW_FAULT_CATALOG",
+      "claim": "四只反作用轮分别配置八类故障：力矩退化、力矩饱和、力矩延迟、力矩掉线/松浮、力矩迟缓、力矩锁定、摩擦力矩乘性异常、摩擦力矩加性异常；合计32项配置。",
+      "locator": "PDF pp.43-46, §§7.1, 7.4; pp.59-61, Appendix A",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "故障目录及变量映射不能证明各故障注入器已经执行或其物理响应通过验证。"
+    },
+    {
+      "fact_id": "DF-009",
+      "claim_type": "ADCS_RW_FDIR",
+      "claim": "报告描述FDIR以0.1 s周期接收四轮电流、力矩和转速共12个特征，计算机理一致性残差；长度5的窗口内同一轮至少出现3次候选且当前周期仍为候选时确认，随后隔离相应轮并切换三轮控制分配矩阵。",
+      "locator": "PDF pp.58-59, §9.1",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "这是报告所述算法/逻辑；未提供本轮阈值、代码版本、执行日志、检测延迟或误报漏报实测结果。"
+    },
+    {
+      "fact_id": "DF-010",
+      "claim_type": "ADCS_RECONFIGURATION",
+      "claim": "报告描述单轮隔离后使用对应三轮分配矩阵，并要求初始化时检查四种三轮构型矩阵秩为3；姿态控制器PD参数保持不变。",
+      "locator": "PDF pp.20-22, §§3.3.3-3.3.4",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "不能仅凭设计描述断言故障后控制分配切换成功或姿态稳定性满足指标。"
+    },
+    {
+      "fact_id": "DF-011",
+      "claim_type": "EPS_ARCHITECTURE",
+      "claim": "电源能量链按太阳翼—功率调节—母线—蓄电池—负载组织，参考母线电压28 V，母线等效电容1 F，电池容量20 Ah。",
+      "locator": "PDF pp.27-30, §§4.1-4.3.4",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "具体场景的初始SOC、实际负载和太阳入射条件未提供。"
+    },
+    {
+      "fact_id": "DF-012",
+      "claim_type": "EPS_PROTECTION",
+      "claim": "报告给出母线欠压保护24 V关断、26 V恢复的迟滞设置；SOC低于0.20时通信和推进负载切除，低于0.10时ADCS也失去供电许可。",
+      "locator": "PDF pp.30-32, §§4.3.4-4.4",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "实际保护状态、阈值配置和动作时刻需由运行日志确认。"
+    },
+    {
+      "fact_id": "DF-013",
+      "claim_type": "EPS_FAULT_CATALOG",
+      "claim": "电源故障目录含母线电压压降、母线掉线、蓄电池容量衰减乘性/加性、太阳翼输出退化和掉线，共6项配置。",
+      "locator": "PDF pp.43, 47, §§7.1, 7.6; Appendix A",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "目录中的参数化故障类型不是已发生故障记录。"
+    },
+    {
+      "fact_id": "DF-014",
+      "claim_type": "EPS_PROPAGATION",
+      "claim": "报告描述蓄电池有效容量、SOC、电池端电压、母线电压、母线健康状态和ADCS/推进/通信供电许可之间的传播关系；SOC用于资源余度判断，母线电压用于瞬时供电状态与UVLO判断。",
+      "locator": "PDF pp.30-32, 54, §§4.3.4-4.3.5 and SDG example",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "该关系用于提出诊断假设；没有时间序列或测试报告验证具体因果顺序。"
+    },
+    {
+      "fact_id": "DF-015",
+      "claim_type": "PROPULSION_EXECUTION_CHAIN",
+      "claim": "化学推进请求源于轨道半径偏差，实际推力经整星质量换算为轨道加速度；推进执行还受供电许可和自主许可约束。",
+      "locator": "PDF pp.38-40, §§6.1, 6.3.1",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "任务请求存在不等于推进器获许可或实际输出推力。"
+    },
+    {
+      "fact_id": "DF-016",
+      "claim_type": "PROPULSION_ELECTRIC",
+      "claim": "电推进用于反作用轮角动量卸载；报告给出效率0.9、功耗上限25 W、比冲1500 s、响应时间常数0.5 s、力臂0.5 m等参考参数，实际输出受供电与自主许可约束。",
+      "locator": "PDF pp.38, 40-42, §§6.1, 6.3.2",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "未提供真实功率、推力、卸载力矩或推进许可运行记录。"
+    },
+    {
+      "fact_id": "DF-017",
+      "claim_type": "COMMUNICATION_GATE",
+      "claim": "测控模块根据卫星与地面站几何计算可见性、距离、方位和俯仰；通信下传还结合供电许可与自主许可决定。报告明确指出母线压降时几何可见性仍可为真，而下传使能可能因供电许可关闭。",
+      "locator": "PDF pp.33-36, §§5.1-5.3",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "没有真实运行记录时，不能把下传失败归因于电源、几何或功放中的任一项。"
+    },
+    {
+      "fact_id": "DF-018",
+      "claim_type": "FAULT_INJECTION_SEMANTICS",
+      "claim": "故障目录将故障域、部件、故障类型、使能变量、注入时刻和参数变量分离管理；锁定类保持故障前健康输出，延迟类按离散步数与通道采样周期确定延迟。",
+      "locator": "PDF pp.43-45, §§7.1-7.2",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "需要运行receipt确认故障开关、注入时刻、参数和故障执行状态；不可仅从配置意图推断实际生效。"
+    },
+    {
+      "fact_id": "DF-019",
+      "claim_type": "FAULT_PROPAGATION_METHOD",
+      "claim": "平台设计提出基于系统结构与信号流程、结合机理方程的分层SDG方法，先建立分系统局部图，再以跨分系统耦合关系形成整星传播模型。",
+      "locator": "PDF pp.49-54, §§8.1-8.4",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "PDF pp.55-57出现导弹/航空器SDG内容，与本报告航天器主题不一致，相关内容已隔离，不作为航天器知识事实。"
+    },
+    {
+      "fact_id": "DF-020",
+      "claim_type": "RECONFIGURATION_SCOPE",
+      "claim": "报告描述反作用轮故障确认后进行硬隔离和控制分配重构，并按姿态误差恢复阈值与驻留时间进行模式迁移。",
+      "locator": "PDF pp.58-59, §9.1",
+      "certainty": "DESIGN_DECLARATION",
+      "boundary": "未提供执行结果、切换时刻、重构前后姿态误差曲线或长时回归报告。"
+    }
+  ],
+  "candidates": []
 }
