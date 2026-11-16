@@ -64,7 +64,7 @@ Use one of these explicit classes:
 - `SYNTHETIC_TEST_ONLY`: validator or adversarial fixture; never count as training data.
 - `KNOWLEDGE_SOURCE_NOT_EVENT`: design/manual/ontology material that informs reasoning but does not describe an actual event.
 
-Do not silently map simulation candidates to real flight cases. Use the repository's current L1 track contract where applicable; if the current schema does not yet support a class, preserve it in the intake sidecar and do not coerce it into another class.
+Do not silently map simulation candidates to real flight cases. Use the repository's current L1 track contract where applicable. `DESIGN_DERIVED_HYPOTHETICAL` uses `schemas/design_derived_batch.schema.json`. `SIMULATION_CASE_CANDIDATE` uses `schemas/simulation_run_receipt.schema.json` for local run-evidence intake only; this receipt is not an L1 task packet and does not admit a simulation candidate to formal L1 or SFT.
 
 ### Stage 3 — Build L0 source/fact cards
 Create one source/fact card per source event or bounded design claim group. Capture:
@@ -152,6 +152,8 @@ Read these files before production:
 - `references/GENERATION_TASKS.md`
 - `references/QUALITY_AUDIT.md`
 - `references/AI_HANDOFF_PROMPTS.md`
+- `references/CROSS_AI_EVALUATION.md`
+- `references/SIMULATION_RUN_RECEIPT.md` when handling run artifacts
 - `templates/EPISODE_INTAKE_TEMPLATE.md`
 
 Use the repository contracts:
@@ -160,7 +162,7 @@ Use the repository contracts:
 - `resources/l1_task_packet.schema.json`
 - `resources/diagnostic_sft.schema.json`
 
-The L1 packet schema currently supports the existing real-candidate and literature-derived-synthetic tracks. Design-derived hypothetical candidates use the separate `schemas/design_derived_batch.schema.json` contract. Simulation-run candidates still require a separately reviewed run-receipt schema extension; preserve them in intake format and do not mislabel them.
+The L1 packet schema currently supports the existing real-candidate and literature-derived-synthetic tracks. Design-derived hypothetical candidates use `schemas/design_derived_batch.schema.json`. Simulation-run evidence uses `schemas/simulation_run_receipt.schema.json` and `references/SIMULATION_RUN_RECEIPT.md` for local intake and byte-integrity checks only; formal L1 simulation task representation, engine-specific semantic adapters and SFT release remain unimplemented. Do not mislabel simulation data.
 
 ## Final output vocabulary
 
