@@ -109,13 +109,13 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 - **Evidence/decision record:** ______________________________________________
 
 ### LIT-LUNAR-ORBITER-POWER-MONITOR-006
-- **Source:** Lunar Orbiter III Mission System Performance (NASA-CR-66461; NASA CR-66461, PDF p.173 (printed p.165), TWTA Power Output Variations)
+- **Source:** Lunar Orbiter III Mission System Performance (NASA-CR-66461; detailed telemetry discussion PDF pp.118–119 / printed pp.110–111; anomaly summary PDF p.173 / printed p.165)
 - **Event:** FLIGHT_EVENT / PUBLIC_FLIGHT_REPORT; family `LUNAR-ORBITER-III-TWTA-1967`; episode `LUNAR-ORBITER-III-POWER-MONITOR-TELEMETRY`
-- **Phenomenon:** TWTA输出功率遥测指示对温度敏感；早期轨道中功率指示约从开机时10 W变化到关机时16 W。
-- **Source cause statement:** 报告认为功率监测二极管整流特性随温度变化，导致遥测指示变化。
+- **Phenomenon:** CE02功率遥测随温度升高而上升，但深空站接收信号强度基本恒定，报告据此判断真实TWTA输出未显著变化。
+- **Source cause statement:** 报告判断异常位于CE02遥测电路；监测二极管整流特性随温度偏移是其提出的可能机理。
 - **Source certainty:** `EXPLICIT_MOST_LIKELY`
-- **Fault source:** 功率监测二极管测量链温漂
-- **Affected components:** TWTA输出功率遥测指示链
+- **Fault source:** TWTA内部滤波/监测组件的CE02功率遥测测量链（可能涉及温度敏感的二极管整流特性）
+- **Affected components:** CE02 TWTA输出功率遥测指示链
 - **Disposal:** `NOT_RECORDED`
 - **Migration assessment:** 作为测量链与真实功率链的鉴别反例。
 - **Transfer constraints:** 先确认用户功率数据来自内部遥测还是独立RF测量。；需要独立功率计或地面复测。
