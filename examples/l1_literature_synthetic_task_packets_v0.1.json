@@ -4726,7 +4726,7 @@
             "historical_equipment_scope": "Cassini_reaction_wheel_assembly",
             "hardware_compatibility": "UNKNOWN",
             "outcome_status": "PARTIALLY_CONFIRMED",
-            "summary": "Cassini反作用轮2于2000-12-15至22发生异常摩擦并触发RWA至RCS切换；JPL后续总结认为近零转速dithering导致球轴承润滑不足，零速附近频繁振荡可能促成。LLIS明确区分绝对零速静止（周期exercise）与低速区间驻留/频繁dithering。",
+            "summary": "Cassini反作用轮2于2000-12-15至12-22出现异常摩擦并触发RWA至RCS自动切换；来源认为长期在近零转速区域dithering造成球轴承润滑不足，零速附近频繁振荡也可能促成。该来源区分绝对零速静止与低速区间驻留，前者按周期exercise被描述为相对无害。",
             "source_refs": [
               "LIT-CASSINI-RWA-DRAG-007"
             ],
@@ -4736,11 +4736,11 @@
               "restart/drag behavior is relevant as a diagnostic comparison"
             ],
             "applicability_limitations": [
-              "FUSE与Cassini的轴承、润滑结构、壳体衬层和转子间隙兼容性未知。",
-              "Cassini近零速dithering/润滑不足与FUSE Kapton气泡/转子局部接触是不同机理。",
-              "Cassini事件发生于2000-12-15至22；LLIS lesson date为2004-05-10，标题括号中的2001不是事件日期。",
-              "绝对零速静止与低速区间dwell/dithering有不同风险描述，不能混为一谈。",
-              "不得将Cassini高转速恢复观察或运行建议直接迁移为FUSE当前操作指令。"
+              "FUSE与Cassini的反作用轮组件设计不同，具体轴承、润滑结构、壳体衬层和转子间隙兼容性未知。",
+              "Cassini来源讨论近零速低速区间dithering导致润滑不足；FUSE 2000-08-04来源讨论Kapton衬层气泡导致转子局部接触，二者不是同一根因。",
+              "Cassini事件发生于2000-12-15至22；LLIS lesson date为2004-05-10，不能将lesson标题括号中的2001当作事件日期。",
+              "Cassini的绝对零速静止与低速区间dwell/dithering有不同风险描述；不得把两者混为一谈。",
+              "不得将Cassini higher-speed recovery observation或低速管理建议直接复制为FUSE当前事件的已执行处置或通用操作指令。"
             ],
             "hit_metadata": {
               "case_id": "HIST-CASSINI-RWA-DRAG-007",
