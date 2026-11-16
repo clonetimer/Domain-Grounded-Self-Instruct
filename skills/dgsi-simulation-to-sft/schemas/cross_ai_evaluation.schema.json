@@ -71,7 +71,7 @@
     },
     "runs": {
       "type": "array",
-      "minItems": 2,
+      "minItems": 0,
       "maxItems": 12,
       "items": {
         "type": "object",
@@ -209,7 +209,8 @@
                 "maxLength": 2000
               }
             }
-          }
+          },
+          "minItems": 0
         },
         "critical_failures": {
           "type": "array",
@@ -261,5 +262,81 @@
     "training_authorized": {
       "const": false
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "RUNS_RECORDED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runs": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "ADJUDICATION_PENDING",
+              "ADJUDICATED"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runs": {
+            "minItems": 2
+          },
+          "adjudication": {
+            "properties": {
+              "dimensions": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ADJUDICATED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adjudication": {
+            "properties": {
+              "reference_basis": {
+                "enum": [
+                  "SOURCE_GROUNDED_HUMAN_ADJUDICATION",
+                  "EXPERT_ADJUDICATION"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }
