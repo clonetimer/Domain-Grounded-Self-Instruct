@@ -157,6 +157,7 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
                     "src/dgsi/cross_ai_evaluation.py",
                     "scripts/ingest_dgsi_document.py",
                     "tests/test_document_ingestion.py",
+                    "skills/dgsi-simulation-to-sft/schemas/document_ingestion.schema.json",
                     "src/dgsi/document_ingestion.py",
                     "src/dgsi/diagram_annotation.py",
                     "tests/test_diagram_annotation.py",
