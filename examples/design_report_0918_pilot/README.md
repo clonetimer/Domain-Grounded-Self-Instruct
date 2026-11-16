@@ -28,3 +28,9 @@ PDF pages 55–57 contain missile/aircraft SDG material inconsistent with the sp
 - `design_derived_batch.schema.json`: separate intake schema; does not alter the current L1 production schema.
 
 The original report, test reports, logs, hidden simulator truth and any private telemetry are not included.
+
+## Additional engineering validation
+
+- The dedicated `tests/test_design_report_0918_pilot.py` validates the batch against the design-derived schema, checks all fact locators and candidate-to-fact references, verifies the no-runtime-evidence boundary, and checks the quarantined regions.
+- `skills/dgsi-simulation-to-sft/references/CROSS_AI_EVALUATION.md` defines a blind cross-provider evaluation protocol.
+- The portable Skill now ships the design-derived intake schema. Simulation-run candidates remain blocked pending a separately reviewed run-receipt schema extension.
