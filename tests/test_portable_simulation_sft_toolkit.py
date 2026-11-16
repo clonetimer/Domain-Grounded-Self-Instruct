@@ -27,6 +27,7 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "references/DOCUMENT_INGESTION_ADAPTERS.md",
             "references/DIAGRAM_ANNOTATION.md",
             "references/OCR_CANDIDATES.md",
+            "../../docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md",
             "schemas/ocr_candidates.schema.json",
             "schemas/diagram_annotation.schema.json",
             "schemas/document_ingestion.schema.json",
@@ -171,6 +172,7 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
                     "src/dgsi/ocr_candidates.py",
                     "scripts/ocr_dgsi_image.py",
                     "tests/test_ocr_candidates.py",
+                    "docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md",
                 }
                 self.assertTrue(required.issubset(names), required - names)
                 self.assertFalse(any("design_report_0918_pilot" in name for name in names))
