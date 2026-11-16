@@ -14,14 +14,21 @@ class OcrCandidateTests(unittest.TestCase):
    p=Path(d)/"image.png"; p.write_bytes(b"test-image-bytes")
    image=mock.MagicMock(); image.size=(640,480)
    image.__enter__.return_value=image
-   fake_pytesseract=types.SimpleNamespace(image_to_data=mock.Mock(return_value={
+   fake_pytesseract=types.ModuleType('pytesseract')
+   fake_pytesseract.image_to_data=mock.Mock(return_value={
     "text":["ADCS","RW",""],"conf":["95","80","-1"],"block_num":[1,1,1],"par_num":[1,1,1],"line_num":[1,1,1],
-    "left":[10,60,0],"top":[20,20,0],"width":[40,30,0],"height":[12,12,0]}),
-    get_tesseract_version=mock.Mock(return_value="5.4.0"))
-   output=types.SimpleNamespace(DICT="DICT")
-   with mock.patch.dict(sys.modules,{"pytesseract":fake_pytesseract,"PIL":types.SimpleNamespace(Image=types.SimpleNamespace(open=mock.Mock(return_value=image))),"pytesseract.Output":output}):
+    "left":[10,60,0],"top":[20,20,0],"width":[40,30,0],"height":[12,12,0]})
+   fake_pytesseract.get_tesseract_version=mock.Mock(return_value="5.4.0")
+   fake_pytesseract.Output=types.SimpleNamespace(DICT="DICT")
+   pil_package=types.ModuleType("PIL")
+   pil_image=types.ModuleType("PIL.Image")
+   pil_image.open=mock.Mock(return_value=image)
+   pil_package.Image=pil_image
+   fake_pytesseract.__path__=[]
+   with mock.patch.dict(sys.modules,{"pytesseract":fake_pytesseract,"PIL":pil_package,"PIL.Image":pil_image}):
     result=extract_ocr_candidates(p,"IMG1",language="eng",psm=6)
    self.assertEqual(result["asset_sha256"],hashlib.sha256(b"test-image-bytes").hexdigest())
+   self.assertEqual(fake_pytesseract.image_to_data.call_args.kwargs["output_type"],"DICT")
    self.assertEqual(result["lines"][0]["text"],"ADCS RW")
    self.assertEqual(result["lines"][0]["bbox_px"],{"left":10,"top":20,"width":80,"height":12})
    self.assertEqual(result["lines"][0]["review_status"],"MANUAL_REVIEW_REQUIRED")
