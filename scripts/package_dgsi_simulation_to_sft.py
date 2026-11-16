@@ -42,6 +42,7 @@ VALIDATOR_FILES = (
     "scripts/ingest_dgsi_document.py",
     "tests/test_cross_ai_evaluation.py",
     "tests/test_document_ingestion.py",
+    "tests/test_diagram_annotation.py",
     "scripts/package_simulation_receipt_module.py",
     "tests/test_simulation_run_receipt.py",
 )
