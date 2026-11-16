@@ -3516,31 +3516,6 @@
         "notes": [
           "Synthetic L1 task, pending domain review."
         ]
-      },
-      "internal_review": {
-        "not_for_sft": true,
-        "curator_prompts": [
-          "Do not represent this scenario as a real flight or actual ground test record.",
-          "Do not promote source certainty to current-scene certainty."
-        ],
-        "alternative_hypotheses_to_check": [
-          "Check measurement-chain and configuration-specific alternatives."
-        ],
-        "counterexamples": [
-          "Similar symptoms can arise from other hardware/configuration variants."
-        ],
-        "reviewer_questions": [
-          "是否按热灯加热→阀内残余肼自分解→阀门爆裂→Teflon阀座材料进入喷注器→堵塞的顺序定位？",
-          "是否把此前催化床washout/压力振荡与后期喷注器堵塞分开？",
-          "当前场景是否仍保持候选状态而非将历史根因直接确诊？"
-        ],
-        "quality_flags": [
-          "LITERATURE_DERIVED_SYNTHETIC",
-          "NOT_GOLD",
-          "NO_REAL_ML_RUN",
-          "NO_RAW_TELEMETRY"
-        ],
-        "status": "OPEN"
       }
     },
     {
@@ -3937,31 +3912,6 @@
         "notes": [
           "Synthetic L1 task, pending domain review."
         ]
-      },
-      "internal_review": {
-        "not_for_sft": true,
-        "curator_prompts": [
-          "Do not represent this scenario as a real flight or actual ground test record.",
-          "Do not promote source certainty to current-scene certainty."
-        ],
-        "alternative_hypotheses_to_check": [
-          "Check measurement-chain and configuration-specific alternatives."
-        ],
-        "counterexamples": [
-          "Similar symptoms can arise from other hardware/configuration variants."
-        ],
-        "reviewer_questions": [
-          "是否把催化床washout/压力振荡与后期Teflon喷注器堵塞区分为两个episode？",
-          "是否区分Fe/Ni检测结果与报告对铁浸出机制的解释？",
-          "是否保留当前合成批次污染链需要独立核验的限制？"
-        ],
-        "quality_flags": [
-          "LITERATURE_DERIVED_SYNTHETIC",
-          "NOT_GOLD",
-          "NO_REAL_ML_RUN",
-          "NO_RAW_TELEMETRY"
-        ],
-        "status": "OPEN"
       }
     },
     {
