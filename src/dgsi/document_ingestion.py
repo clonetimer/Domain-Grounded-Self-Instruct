@@ -15,6 +15,11 @@ R="{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 M="{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 MAX_FILE_BYTES=100*1024*1024
 MAX_PDF_PAGES=2000
+MAX_DOCX_XML_BYTES=16*1024*1024
+MAX_DOCX_TOTAL_UNCOMPRESSED_BYTES=256*1024*1024
+MAX_DOCX_ENTRIES=10000
+REVISION_MARKERS={W+"del",W+"delText",W+"moveFrom",W+"moveTo",W+"ins"}
+DELETED_CONTENT={W+"del",W+"delText",W+"moveFrom"}
 
 class DocumentIngestionError(ValueError): pass
 
@@ -25,7 +30,17 @@ def _sha(path: Path) -> str:
     return h.hexdigest()
 
 def _text(node: ET.Element) -> str:
-    return "".join(item.text or "" for item in node.iter() if item.tag in {W+"t",W+"delText",M+"t"})
+    """Extract visible text; never treat tracked deletions as source facts."""
+    parts=[]
+    stack=[node]
+    while stack:
+        item=stack.pop()
+        if item.tag in DELETED_CONTENT:
+            continue
+        if item.tag in {W+"t",M+"t"}:
+            parts.append(item.text or "")
+        stack.extend(reversed(list(item)))
+    return "".join(parts)
 
 def _block(block_id: str, kind: str, text: str, locator: str, manual: bool=False) -> dict[str,Any]:
     return {"block_id":block_id,"block_type":kind,"text":text,"locator":locator,
@@ -34,8 +49,15 @@ def _block(block_id: str, kind: str, text: str, locator: str, manual: bool=False
 def _docx(path: Path):
     try:
         with zipfile.ZipFile(path) as z:
+            infos=z.infolist()
+            if len(infos)>MAX_DOCX_ENTRIES: raise DocumentIngestionError("DOCX_ENTRY_LIMIT_EXCEEDED")
+            if sum(info.file_size for info in infos)>MAX_DOCX_TOTAL_UNCOMPRESSED_BYTES:
+                raise DocumentIngestionError("DOCX_UNCOMPRESSED_SIZE_LIMIT_EXCEEDED")
             names=set(z.namelist())
             if "word/document.xml" not in names: raise DocumentIngestionError("DOCX_MAIN_DOCUMENT_MISSING")
+            for member in ("word/document.xml","word/_rels/document.xml.rels"):
+                if member in names and z.getinfo(member).file_size>MAX_DOCX_XML_BYTES:
+                    raise DocumentIngestionError("DOCX_XML_SIZE_LIMIT_EXCEEDED")
             xml=ET.fromstring(z.read("word/document.xml"))
             rels={}
             if "word/_rels/document.xml.rels" in names:
@@ -43,11 +65,13 @@ def _docx(path: Path):
                 rels={x.attrib.get("Id"):x.attrib.get("Target","") for x in relroot}
             body=xml.find(W+"body")
             if body is None: raise DocumentIngestionError("DOCX_BODY_MISSING")
-            pages=[]; assets=[]; warnings=[]; page_blocks=[]; pno=1; bno=0
+            pages=[]; assets=[]; warnings=[]; page_blocks=[]; pno=1; bno=0; revision_seen=False
             for child in list(body):
+                has_revision=any(n.tag in REVISION_MARKERS for n in child.iter())
+                revision_seen=revision_seen or has_revision
                 if child.tag==W+"p":
                     bno+=1; eq=any(n.tag.startswith(M) for n in child.iter()); txt=_text(child)
-                    if txt.strip() or eq: page_blocks.append(_block("B%06d"%bno,"EQUATION" if eq else "PARAGRAPH",txt,"DOCX paragraph %d"%bno,eq))
+                    if txt.strip() or eq: page_blocks.append(_block("B%06d"%bno,"EQUATION" if eq else "PARAGRAPH",txt,"DOCX paragraph %d"%bno,eq or has_revision))
                     for drawing in child.iter():
                         if drawing.tag==A+"blip":
                             target=rels.get(drawing.attrib.get(R+"embed"),"")
@@ -62,6 +86,7 @@ def _docx(path: Path):
                 if page_break:
                     pages.append({"locator":"DOCX logical page %d (explicit breaks only)"%pno,"blocks":page_blocks}); page_blocks=[]; pno+=1
             if page_blocks or not pages: pages.append({"locator":"DOCX logical page %d (pagination not rendered)"%pno,"blocks":page_blocks})
+            if revision_seen: warnings.append("Tracked revisions detected. Deleted text excluded; all affected blocks require manual source review.")
             if assets: warnings.append("Embedded images/drawings are indexed but not OCRd or semantically interpreted.")
             if any(b["block_type"]=="EQUATION" for pg in pages for b in pg["blocks"]): warnings.append("OMML equation text is extracted conservatively and requires manual mathematical review.")
             warnings.append("DOCX page boundaries are logical break markers, not rendered page numbers.")
