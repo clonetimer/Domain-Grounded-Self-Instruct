@@ -141,11 +141,11 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 ### LIT-NASA-HYDRAZINE-INJECTOR-009
 - **Source:** A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket (NASA-TM-100232; NASA-TM-100232, pp.1, 5–6)
 - **Event:** GROUND_TEST_EVENT / PUBLIC_GROUND_TEST_REPORT; family `NASA-22N-HYDRAZINE-LIFE-TEST-1987`; episode `NASA-22N-INJECTOR-PLUGGING`
-- **Phenomenon:** 22 N肼推进器地面寿命试验运行约40小时后出现燃烧室压力振荡；60.2小时后试验因喷注管堵塞而终止。
-- **Source cause statement:** 推进剂阀门Teflon阀座材料在试验加热过程后脱落并堵塞喷注管。
+- **Phenomenon:** 热灯烘烤后推进剂阀因残余肼自分解而爆裂，Teflon阀座材料进入喷注器并造成堵塞。
+- **Source cause statement:** 热灯加热使阀内残余肼自分解，阀门爆裂，Teflon阀座材料被射入喷注器并堵塞小孔及燃料供给槽。
 - **Source certainty:** `EXPLICIT_CONFIRMED`
-- **Fault source:** 推进剂阀门Teflon阀座材料脱落并堵塞喷注管
-- **Affected components:** 推进剂喷注管；推进剂供给通路
+- **Fault source:** 推进剂阀Teflon阀座材料在阀内残余肼自分解导致阀门爆裂后被射入喷注器
+- **Affected components:** 推进剂阀、喷注器小孔、燃料供给槽
 - **Disposal:** `NOT_APPLICABLE`
 - **Migration assessment:** 不适合迁移为用户2#推力器直接根因；保留为特定地面试验堵塞反例。
 - **Transfer constraints:** 不得将试验终止写成在轨恢复措施。；需比较阀门、喷注器结构及推进剂供给路径。
@@ -156,10 +156,10 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 ### LIT-NASA-HYDRAZINE-CATALYST-010
 - **Source:** A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket (NASA-TM-100232; NASA-TM-100232, pp.4–6)
 - **Event:** GROUND_TEST_EVENT / PUBLIC_GROUND_TEST_REPORT; family `NASA-22N-HYDRAZINE-LIFE-TEST-1987`; episode `NASA-22N-CATALYST-CONTAMINATION`
-- **Phenomenon:** 推进器拆解后的催化剂化学分析发现铁、镍金属污染；报告将污染追溯到受污染肼推进剂批次。
-- **Source cause statement:** 化学分析确认催化剂中铁、镍污染，报告追溯至误混入试验罐的受污染肼推进剂。
+- **Phenomenon:** 长时稳态试验期间出现推力室压力下降/振荡；催化剂样品Fe/Ni偏高且氢化学吸附值偏低。
+- **Source cause statement:** 报告将Fe/Ni污染、催化剂活性下降与混入试验罐的受污染pink hydrazine联系；对铁浸出有进一步化学解释。
 - **Source certainty:** `EXPLICIT_CONFIRMED`
-- **Fault source:** 受污染肼推进剂中的金属杂质导致催化剂中毒
+- **Fault source:** 受污染肼推进剂引入的金属杂质导致催化床中毒/活性下降
 - **Affected components:** 肼推进器催化床
 - **Disposal:** `NOT_APPLICABLE`
 - **Migration assessment:** 仅作推进剂污染替代机制参考；用户案例没有推进剂污染证据。
