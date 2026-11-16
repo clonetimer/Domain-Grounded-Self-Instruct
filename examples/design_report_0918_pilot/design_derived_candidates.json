@@ -1,0 +1,52 @@
+{
+  "batch_id": "DGSI-DESIGN-0918-PILOT-20261116",
+  "schema_version": "dgsi-design-derived-intake.v0.1",
+  "source": {
+    "source_id": "SRC-DESIGN-0918-001",
+    "filename": "航天器自主故障诊断与重构仿真验证平台_方案设计报告_0918.docx",
+    "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "sha256": "573765ababd2a370ae838d9c185b855036d8dd904427da14d7bc034e767faf4e",
+    "size_bytes": 1327356,
+    "source_track": "KNOWLEDGE_SOURCE_NOT_EVENT",
+    "source_type": "DESIGN_DOCUMENT",
+    "document_date": "2026-09",
+    "permission_basis": "User-uploaded for this conversation; external AI processing permission not independently established",
+    "confidentiality": "USER_PROVIDED_ENGINEERING_DOCUMENT",
+    "extraction_status": "FIRST_PASS_TEXT_AND_RENDERED_PAGE_REVIEW",
+    "limitations": [
+      "No test report or actual simulation run logs were supplied for this pilot.",
+      "No upstream ML result bundle was supplied.",
+      "The document describes design/model configuration; it does not prove any fault was actually injected, executed, observed or diagnosed.",
+      "Several formula symbols are lost or garbled in text extraction; only clearly legible parameter values and narrative relationships are used.",
+      "PDF pages 55-57 contain missile/aircraft SDG material inconsistent with the spacecraft platform scope; quarantined from spacecraft fact extraction pending source-owner clarification.",
+      "The report describes Simulink R2025b and Python 3.11.9; it is not evidence that those exact versions were used for a later run."
+    ],
+    "page_locator_convention": "PDF page number in the uploaded 63-page DOCX rendering; section number retained where available."
+  },
+  "source_class": "KNOWLEDGE_SOURCE_NOT_EVENT",
+  "candidate_class": "DESIGN_DERIVED_HYPOTHETICAL",
+  "evidence_boundary": "This batch contains no actual fault event, no test result, no run log and no upstream ML result. Candidate prompts use explicit hypothetical assumptions only. Targets teach evidence sufficiency and diagnostic restraint, not confirmed fault localization.",
+  "counts": {
+    "source_facts": 20,
+    "design_derived_candidates": 6,
+    "observed_fault_events": 0,
+    "simulation_runs": 0,
+    "test_reports": 0,
+    "upstream_ml_bundles": 0,
+    "review_required": 6,
+    "gold": 0,
+    "sft_export_authorized": 0
+  },
+  "quarantine": [
+    {
+      "locator": "PDF pp.55-57",
+      "reason": "Contains missile/aircraft SDG diagrams and text unrelated to the spacecraft platform; excluded from spacecraft facts and candidates."
+    },
+    {
+      "locator": "PDF pp.58-59",
+      "reason": "Autonomous reconstruction design description only; without test/run evidence cannot claim measured detection accuracy, reconfiguration success or recovery performance."
+    }
+  ],
+  "review_status": "REVIEW_REQUIRED",
+  "training_authorized": false
+}
