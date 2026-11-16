@@ -75,3 +75,17 @@ The pilot covers all six declared Case task types. The evidence-sufficiency vari
 ## 6. Immutable scorecard-to-source binding
 
 The existing ten-dimension scorecard remains the sole selected review rubric. The separate integrity sidecar introduced by PR #43 fingerprints the exact model-visible L1 task and the referenced L0 cards, then validates the scorecard against those digests and the pending secure-adjudication state. See [L1 blind-review receipt binding](L1_BLIND_REVIEW_RECEIPT_BINDING.md). This does not provide reviewer authentication, source-licensing proof, Gold approval or training authorization.
+
+
+## 7. L0 source review status
+
+The L0 collection referenced by the current pilot has `review_status=AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. This is an AI-assisted curation state, not independent domain-expert confirmation. The L1 task packets bind exact L0 fact-card bytes, but a digest proves only which version was reviewed; it does not prove that the source passage was interpreted correctly.
+
+Before an L1 packet can be considered for an effectiveness experiment, the reviewers must inspect the cited public source itself and verify:
+- the exact event or test type (flight, ground test, or knowledge-only);
+- the source's original certainty and distinction between observation, cause statement and hypothesis;
+- event-family and episode separation;
+- source-recorded disposal versus proposed/conditional actions;
+- whether the L1 scenario has introduced assumptions not present in the source.
+
+The current 15 packets remain synthetic task-coverage fixtures. Neither the L0 source-card review nor the L1 task review is complete. No SFT export, split assignment, Gold admission or fine-tuning is authorized.
