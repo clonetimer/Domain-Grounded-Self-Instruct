@@ -9,6 +9,7 @@ Portable production Skill for converting authorized spacecraft simulation and en
 - `references/DOCUMENT_INGESTION_ADAPTERS.md`: local DOCX/PDF extraction and explicit OCR/table/equation/diagram limits.
 - `schemas/document_ingestion.schema.json`: source-hashed document extraction manifest.
 - `schemas/diagram_annotation.schema.json`: evidence-linked diagram graph annotation contract.
+- `schemas/ocr_candidates.schema.json`: review-required local OCR text and pixel boxes.
 - `templates/`: episode intake, batch manifest and human review queue.
 - `schemas/simulation_run_receipt.schema.json`: separate local simulation evidence intake, not an L1 task or SFT record.
 
@@ -52,3 +53,5 @@ This toolkit is not yet a fully automated universal document parser, simulator a
 Candidate generation does not mean Gold approval or training authorization. No sample is training-ready until source rights/privacy, scientific validity, independent domain review, lineage and official split admission are complete.
 
 See `references/DIAGRAM_ANNOTATION.md` for the manual-first node/port/edge workflow. Image extraction and graph interpretation are separate; no AI-proposed edge is considered physically verified.
+
+Optional local OCR command: `python scripts/ocr_dgsi_image.py --image <image> --asset-id <id> --output <record.json>`. It requires separately installed Tesseract, Pillow and pytesseract. OCR output remains review-required and does not infer diagram topology.
