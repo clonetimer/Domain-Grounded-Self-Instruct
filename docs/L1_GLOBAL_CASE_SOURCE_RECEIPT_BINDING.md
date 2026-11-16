@@ -28,7 +28,7 @@ introduce simulated run/log material into a real-data track.
 ## Reproducible synthetic regressions
 
 ```bash
-PYTHONPATH=src python -m unittest tests.test_l1_global_case_run_family -v
+PYTHONPATH=src python -m unittest discover -s tests -p 'test_l1_global_case_run_family.py' -v
 ```
 
 Tests include a **SYNTHETIC_TEST_ONLY** source-digest swap and a
