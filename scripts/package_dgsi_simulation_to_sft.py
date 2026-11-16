@@ -38,6 +38,8 @@ VALIDATOR_FILES = (
     "scripts/audit_l1_global_lineage.py",
     "scripts/audit_simulation_run_receipt.py",
     "scripts/create_simulation_receipt_fixture.py",
+    "scripts/audit_cross_ai_evaluation.py",
+    "tests/test_cross_ai_evaluation.py",
     "scripts/package_simulation_receipt_module.py",
     "tests/test_simulation_run_receipt.py",
 )
