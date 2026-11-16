@@ -120,10 +120,16 @@ def audit_l1_cross_collection_lineage(
     # variants within one event family. It may never identify a different
     # source event family, even before a training split is assigned.
     case_families: dict[str, frozenset[str]] = {}
+    # Track identity is immutable even when real and synthetic tasks cite
+    # the same L0 event family. A real Case cannot reuse a synthetic Case ID.
+    case_tracks: dict[str, str] = {}
     # Case identity binds the immutable current-event evidence snapshot. Historical
     # Context and the task-specific target may vary without rewriting that event.
     case_evidence_hashes: dict[str, str] = {}
     run_families: dict[str, frozenset[str]] = {}
+    # A diagnosis-run ref cannot change from synthetic to real (or back)
+    # merely because a different task or collection references it.
+    run_tracks: dict[str, str] = {}
     # A run identifier denotes one upstream ML result, including across
     # distinct tasks in the same source family. Variants may alter the
     # requested output or historical Context, not silently rewrite the
@@ -172,6 +178,9 @@ def audit_l1_cross_collection_lineage(
             target_family_ids.update(current)
             family_key = frozenset(current)
             case_id = packet["case"]["case_id"]
+            if case_id in case_tracks and case_tracks[case_id] != packet["track"]:
+                _reject("GLOBAL_CASE_ID_CROSSES_TRACKS")
+            case_tracks[case_id] = packet["track"]
             if case_id in case_families and case_families[case_id] != family_key:
                 _reject("GLOBAL_CASE_ID_FAMILY_COLLISION")
             case_families[case_id] = family_key
@@ -209,6 +218,9 @@ def audit_l1_cross_collection_lineage(
                 "operational_context": case_input["operational_context"],
             })
             for run_ref in packet["case"]["provenance"]["diagnosis_run_refs"]:
+                if run_ref in run_tracks and run_tracks[run_ref] != packet["track"]:
+                    _reject("GLOBAL_DIAGNOSIS_RUN_CROSSES_TRACKS")
+                run_tracks[run_ref] = packet["track"]
                 if run_ref in run_families and run_families[run_ref] != family_key:
                     _reject("GLOBAL_DIAGNOSIS_RUN_FAMILY_COLLISION")
                 run_families[run_ref] = family_key
