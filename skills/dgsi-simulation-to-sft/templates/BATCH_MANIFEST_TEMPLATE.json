@@ -1,0 +1,39 @@
+{
+  "schema_version": "dgsi-simulation-to-sft-batch.v1",
+  "batch_id": "REPLACE_WITH_PSEUDONYMOUS_BATCH_ID",
+  "created_at": "YYYY-MM-DDThh:mm:ssZ",
+  "project": "spacecraft-simulation-diagnosis",
+  "provider_processing_authorized": false,
+  "authorization_reference": null,
+  "source_track_counts": {
+    "REAL_CASE_CANDIDATE": 0,
+    "SIMULATION_CASE_CANDIDATE": 0,
+    "LITERATURE_DERIVED_SYNTHETIC": 0,
+    "DESIGN_DERIVED_HYPOTHETICAL": 0,
+    "SYNTHETIC_TEST_ONLY": 0,
+    "KNOWLEDGE_SOURCE_NOT_EVENT": 0
+  },
+  "sources": [
+    {
+      "source_id": "SRC-0001",
+      "filename": "REPLACE",
+      "source_type": "DESIGN_DOCUMENT",
+      "sha256": null,
+      "version_or_date": null,
+      "permission_basis": "NOT_RECORDED",
+      "confidentiality": "UNCLASSIFIED_OR_USER_APPROVED",
+      "redaction_status": "NOT_REVIEWED"
+    }
+  ],
+  "analysis_cutoff_policy": "Each episode has its own timezone-aware cutoff; only information available by that cutoff may enter the model prompt.",
+  "truth_separation": {
+    "hidden_truth_directory": "03_hidden_truth_QA",
+    "included_in_generator_upload": false
+  },
+  "output_policy": {
+    "candidate_status": "REVIEW_REQUIRED",
+    "gold_authorized": false,
+    "sft_export_authorized": false,
+    "training_authorized": false
+  }
+}
