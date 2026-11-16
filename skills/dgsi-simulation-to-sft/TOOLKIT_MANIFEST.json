@@ -26,9 +26,10 @@
     "resources/source_fact_card.schema.json",
     "resources/diagnostic_case.schema.json",
     "resources/l1_task_packet.schema.json",
-    "resources/diagnostic_sft.schema.json"
+    "resources/diagnostic_sft.schema.json",
+    "skills/dgsi-simulation-to-sft/schemas/design_derived_batch.schema.json"
   ],
-  "known_schema_gap": "The current L1 packet track enum does not yet support SIMULATION_CASE_CANDIDATE or DESIGN_DERIVED_HYPOTHETICAL. Preserve these as intake candidates; do not relabel them to pass validation.",
+  "known_schema_gap": "DESIGN_DERIVED_HYPOTHETICAL is supported by skills/dgsi-simulation-to-sft/schemas/design_derived_batch.schema.json. SIMULATION_CASE_CANDIDATE still requires a separately reviewed run-receipt schema extension; preserve such records in intake format and do not relabel them.",
   "training_authorized": false,
   "gold_authorized": false,
   "sft_export_authorized": false
