@@ -1,5 +1,5 @@
 from __future__ import annotations
-import hashlib,sys,tempfile,unittest,zipfile
+import hashlib,json,sys,tempfile,unittest,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/"src"))
 from dgsi.document_ingestion import DocumentIngestionError,ingest_document
@@ -23,6 +23,10 @@ class DocumentIngestionTests(unittest.TestCase):
    self.assertIn("PARAGRAPH",kinds); self.assertIn("TABLE",kinds); self.assertIn("EQUATION",kinds)
    self.assertEqual(len(r["assets"]),1); self.assertEqual(r["sha256"],hashlib.sha256(p.read_bytes()).hexdigest())
    self.assertFalse(r["training_authorized"]); self.assertEqual(r["review_status"],"REVIEW_REQUIRED")
+   from jsonschema import Draft202012Validator
+   schema=json.loads((ROOT/"skills/dgsi-simulation-to-sft/schemas/document_ingestion.schema.json").read_text())
+   Draft202012Validator.check_schema(schema)
+   self.assertEqual([],list(Draft202012Validator(schema).iter_errors(r)))
  def test_corrupt_docx_rejected(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)/"bad.docx"; p.write_bytes(b"not-a-zip")
