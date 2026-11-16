@@ -109,7 +109,7 @@ All 13 cards are source-curation candidates, not domain-expert-confirmed facts a
 - **Evidence/decision record:** ______________________________________________
 
 ### LIT-LUNAR-ORBITER-POWER-MONITOR-006
-- **Source:** Lunar Orbiter III Mission System Performance (NASA-CR-66461; NASA CR-66461, PDF p.173 (printed p.165), TWTA Power Output Variations)
+- **Source:** Lunar Orbiter III Mission System Performance (NASA-CR-66461; detailed telemetry discussion PDF pp.118–119 / printed pp.110–111; anomaly summary PDF p.173 / printed p.165)
 - **Event:** FLIGHT_EVENT / PUBLIC_FLIGHT_REPORT; family `LUNAR-ORBITER-III-TWTA-1967`; episode `LUNAR-ORBITER-III-POWER-MONITOR-TELEMETRY`
 - **Phenomenon:** CE02功率遥测随温度升高而上升，但深空站接收信号强度基本恒定，报告据此判断真实TWTA输出未显著变化。
 - **Source cause statement:** 报告判断异常位于CE02遥测电路；监测二极管整流特性随温度偏移是其提出的可能机理。
