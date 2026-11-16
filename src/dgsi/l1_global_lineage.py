@@ -180,6 +180,14 @@ def audit_l1_cross_collection_lineage(
                 "diagnosis_run_refs": sorted(
                     packet["case"]["provenance"]["diagnosis_run_refs"]
                 ),
+                # Case identity is also bound to the upstream source artifact
+                # receipts. A changed SHA-256 digest must not silently reuse
+                # the same Case ID when its visible ML/log inputs are equal.
+                # Historical retrieval refs are intentionally excluded:
+                # they can vary independently for Context ablations.
+                "source_artifact_hashes": sorted(
+                    packet["case"]["provenance"]["source_artifact_hashes"]
+                ),
             }
             evidence_hash = _digest(evidence_snapshot)
             if (case_id in case_evidence_hashes
