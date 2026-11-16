@@ -125,5 +125,34 @@ class GlobalCaseRunFamilyTests(unittest.TestCase):
             audit_l1_cross_collection_lineage(items)
 
 
+    def test_same_case_id_changed_source_artifact_receipt_is_blocked(self):
+        items = batches(TROPICS_A, TROPICS_B)
+        case(items[1])["case_id"] = case(items[0])["case_id"]
+        case(items[1])["provenance"]["diagnosis_run_refs"] = copy.deepcopy(
+            case(items[0])["provenance"]["diagnosis_run_refs"]
+        )
+        # SYNTHETIC_TEST_ONLY: not a real artifact or operational log.
+        case(items[1])["provenance"]["source_artifact_hashes"] = ["a" * 64]
+        with self.assertRaisesRegex(
+            L1GlobalLineageError, "GLOBAL_CASE_ID_EVIDENCE_SNAPSHOT_CONFLICT"
+        ):
+            audit_l1_cross_collection_lineage(items)
+
+    def test_same_case_id_identical_source_receipts_remains_valid(self):
+        items = batches(TROPICS_A, TROPICS_B)
+        # SYNTHETIC_TEST_ONLY: a fixture digest, not a real source receipt.
+        digest = "b" * 64
+        for item in items:
+            item_case = case(item)
+            item_case["case_id"] = "CASE-SYNTHETIC-IDENTICAL-RECEIPT"
+            item_case["provenance"]["source_artifact_hashes"] = [digest]
+            item_case["provenance"]["diagnosis_run_refs"] = copy.deepcopy(
+                case(items[0])["provenance"]["diagnosis_run_refs"]
+            )
+        report = audit_l1_cross_collection_lineage(items)
+        self.assertEqual(report["task_count"], 2)
+        self.assertFalse(report["training_authorized"])
+
+
 if __name__ == "__main__":
     unittest.main()
