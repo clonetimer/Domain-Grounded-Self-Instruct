@@ -78,3 +78,22 @@ Reusable rules:
 12. **Test rejection before invocation.** For every invalid input, assert the OCR engine was not called; otherwise the test proves only that an error was eventually returned.
 
 These checks establish input-contract and resource-boundary behavior only. They do not establish OCR accuracy, diagram topology, node/port/arrow recognition, or engineering semantics. Keep extracted OCR text and geometry as review-required proposals; preserve source-image hashes and human adjudication requirements.
+
+## Verification update: development-experience record CI
+
+The follow-up documentation commit `13bd95556178d258b4dd52d69cf17c75fb6f5cc9` completed the repository's cross-platform quality workflow:
+
+- Workflow: `43885131789`
+- Windows: 771/771 tests, PASS
+- Ubuntu: 771/771 tests, PASS
+- Both jobs also completed the candidate smoke checks successfully.
+- The blind Skill pressure and holdout runners executed in dry-run mode: 13/13 and 8/8 cases enumerated respectively, with zero network calls and no model/API credentials configured.
+
+Interpretation:
+- The 771-test suite confirms repository regression integrity for this documentation update; it is not an OCR image-accuracy benchmark.
+- Candidate smoke output `CANDIDATE_CHECKS_PASSED` remains structural/rule-based only and does not imply factual correctness, causal proof, authenticated review or Gold eligibility.
+- Dry-run enumeration confirms local protocol/configuration readiness only; it is not a live cross-model evaluation.
+
+Additional reusable rule:
+
+13. **Separate CI health from product evidence.** A green full suite, a passing candidate smoke, and a dry-run evaluation each establish different claims. Report their scopes separately; never combine them into an accuracy, expert-acceptance, or model-performance claim.
