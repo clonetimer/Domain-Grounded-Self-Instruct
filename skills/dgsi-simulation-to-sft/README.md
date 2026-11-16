@@ -33,3 +33,5 @@ The current L1 schema supports `REAL_CASE_CANDIDATE` and `LITERATURE_DERIVED_SYN
 This toolkit defines a portable workflow and output contract. It is not yet a fully automated universal document parser, simulator adapter, authenticated review system or SFT exporter. The existing Basilisk R84-R3A receipt adapter is specific to its pinned artifact contract and does not automatically validate arbitrary simulation packages.
 
 Candidate generation does not mean Gold approval or training authorization. No sample is training-ready until source rights/privacy, scientific validity, independent domain review, lineage and official split admission are complete.
+
+<!-- Package documentation is tested by tests/test_portable_simulation_sft_toolkit.py. -->
