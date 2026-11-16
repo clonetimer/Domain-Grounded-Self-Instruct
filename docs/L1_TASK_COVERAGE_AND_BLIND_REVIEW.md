@@ -75,3 +75,10 @@ The pilot covers all six declared Case task types. The evidence-sufficiency vari
 ## 6. Immutable scorecard-to-source binding
 
 The existing ten-dimension scorecard remains the sole selected review rubric. The separate integrity sidecar introduced by PR #43 fingerprints the exact model-visible L1 task and the referenced L0 cards, then validates the scorecard against those digests and the pending secure-adjudication state. See [L1 blind-review receipt binding](L1_BLIND_REVIEW_RECEIPT_BINDING.md). This does not provide reviewer authentication, source-licensing proof, Gold approval or training authorization.
+
+
+## 7. L0 source review and release state
+
+The 12 L0 event source cards referenced by the 15-task pilot remain `AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`; the ISEE/IUE knowledge-only card is not used as an event source. A source-card fingerprint binds exact content but does not establish source correctness or expert confirmation. Reviewers must inspect the cited public source itself and verify event class, source certainty, episode grouping, disposal status and migration constraints.
+
+The current global lineage audit and L1-to-SFT release preflight are metadata-only gates. The release preflight remains `BLOCKED_PENDING_EXTERNAL_ADMISSION`, emits zero SFT records, and cannot authorize training. No official train/validation/test assignment is present. No L1 task is approved for controlled experiment while its referenced L0 source cards remain pending.
