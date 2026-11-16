@@ -60,6 +60,7 @@ Do not copy raw document text, unrelated figures, hidden truth, QA-only labels o
 ## 6. Fail-closed conditions
 
 Reject the batch if:
+- document ingestion is explicitly `BLOCKED`, even if a separately extracted image and OCR record happen to have matching hashes;
 - source or asset hash does not match its referenced manifest;
 - OCR record refers to another asset;
 - OCR line IDs are duplicated or missing;
