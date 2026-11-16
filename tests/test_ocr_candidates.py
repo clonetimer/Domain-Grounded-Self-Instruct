@@ -1,5 +1,5 @@
 from __future__ import annotations
-import hashlib,sys,tempfile,types,unittest
+import hashlib,json,sys,tempfile,types,unittest
 from pathlib import Path
 from unittest import mock
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/"src"))
@@ -26,6 +26,10 @@ class OcrCandidateTests(unittest.TestCase):
    self.assertEqual(result["lines"][0]["bbox_px"],{"left":10,"top":20,"width":80,"height":12})
    self.assertEqual(result["lines"][0]["review_status"],"MANUAL_REVIEW_REQUIRED")
    self.assertFalse(result["training_authorized"])
+   from jsonschema import Draft202012Validator
+   schema=json.loads((ROOT/"skills/dgsi-simulation-to-sft/schemas/ocr_candidates.schema.json").read_text())
+   Draft202012Validator.check_schema(schema)
+   self.assertEqual([],list(Draft202012Validator(schema).iter_errors(result)))
  def test_import_missing_dependencies_is_explicit(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)/"image.png"; p.write_bytes(b"x")
