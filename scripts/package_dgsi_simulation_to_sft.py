@@ -40,6 +40,8 @@ VALIDATOR_FILES = (
     "scripts/create_simulation_receipt_fixture.py",
     "scripts/audit_cross_ai_evaluation.py",
     "scripts/ingest_dgsi_document.py",
+    "scripts/ocr_dgsi_image.py",
+    "tests/test_ocr_candidates.py",
     "tests/test_cross_ai_evaluation.py",
     "tests/test_document_ingestion.py",
     "tests/test_diagram_annotation.py",
