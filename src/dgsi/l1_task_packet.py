@@ -376,6 +376,25 @@ def validate_l1_task_packet(
 
     _validate_history_context(packet, case)
 
+    # A retrieved historical case is contextual precedent, not direct
+    # observation of the current incident. Even independently confirmed,
+    # same-hardware history must never be counted as current-cause evidence.
+    history_evidence_refs: set[str] = set()
+    for history_item in packet["history_context"]["items"]:
+        history_evidence_refs.add(history_item["case_ref"])
+        history_evidence_refs.update(history_item["source_refs"])
+        historical_verification_ref = history_item["hit_metadata"].get("truth_source_ref")
+        if isinstance(historical_verification_ref, str) and historical_verification_ref:
+            history_evidence_refs.add(historical_verification_ref)
+    direct_current_evidence_refs = set(
+        case["expected_output"]["evidence_assessment"]["supporting_refs"]
+        + case["expected_output"]["evidence_assessment"]["contradicting_refs"]
+    )
+    for candidate in case["expected_output"]["cause_localization"]["candidates"]:
+        direct_current_evidence_refs.update(candidate["supporting_refs"])
+    if direct_current_evidence_refs & history_evidence_refs:
+        _fail("HISTORY_DIRECT_EVIDENCE_ROLE_FORBIDDEN")
+
     return {
         "schema_version": "dgsi-l1-readiness.v1",
         "decision": "READY_FOR_L1_EXPERT_REVIEW" if packet["review"]["status"] in {

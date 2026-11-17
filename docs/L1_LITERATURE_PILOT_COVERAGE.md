@@ -92,3 +92,8 @@ A digest is only a binding to a separately retained authorized review record; it
 The referenced L0 collection records `review_status=AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. The 12 L0 event source cards referenced by the 15 L1 packets are individually marked pending and have no domain-review evidence digest; the ISEE/IUE expert-system knowledge card is not used as an event source.
 
 Before any L1 target can be considered for an effectiveness experiment, reviewers must inspect the cited public source passage and confirm the L0 statement, source certainty, event class, episode grouping, disposal status and migration constraints. A SHA-256 binding proves only which bytes were reviewed; it does not prove source correctness or expert approval.
+
+
+## P4 historical Context is not current-event evidence
+
+Historical retrieval results remain in `case.input.historical_cases` and can be discussed in `historical_experience_relevance` with their original review status and migration limits. The L1 validator now fails closed with `HISTORY_DIRECT_EVIDENCE_ROLE_FORBIDDEN` when a history case reference, its source reference, or its prior verification reference appears in the current candidate `supporting_refs` or current `evidence_assessment` supporting/contradicting evidence. This applies even to independently confirmed, same-hardware historical precedents. Current support must come from the current synthetic ML/log scenario or authorized current-event observations; prior cases cannot vote on current root cause. The check does not change source facts, review statuses, training authorization, or Gold eligibility.
