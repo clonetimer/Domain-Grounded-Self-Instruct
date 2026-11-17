@@ -197,3 +197,8 @@ A curator-level review was applied to all 15 literature-derived synthetic packet
 89. **A candidate correction must preserve scenario provenance and change only the intended semantic fields.** For the C2 integrated candidate, only current-vs-historical evidence reference roles, two Pathfinder history compatibility values, collection ID/status and canonical target binding are changed. Preserve source facts, synthetic values/logs, timestamps, task types, event-family IDs, certainty and disposal.
 
 The integrated review candidate is `examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json`; dispositions are in `examples/p5c2_packet_review_dispositions_2026-11-17.json`; coverage decisions are in `examples/p5c2_coverage_gap_report_2026-11-17.json`. All remain curator-reviewed candidates only, with zero expert approvals, zero rights-cleared families and zero SFT records.
+
+
+90. **Separate a three-message engineering preview from an SFT record.** A C2-D deliverable can expose actual system/user/assistant surfaces for review while keeping `split=null`, `preview_only=true`, `export_authorized=false` and `sft_records_emitted=0`. Do not force a preview through an SFT schema requiring an official split or approval. Validate deterministic round-trip and canonical-target equality; never place preview artifacts in a training directory.
+
+The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/create_l1_model_preview.py`, test `tests/test_l1_model_projection_preview.py`.
