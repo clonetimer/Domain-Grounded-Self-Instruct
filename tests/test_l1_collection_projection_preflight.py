@@ -107,6 +107,36 @@ class L1CollectionProjectionPreflightTests(unittest.TestCase):
         ):
             self.audit(variant)
 
+    def test_changed_referenced_public_l0_fact_changes_manifest(self):
+        baseline = self.audit()["collection_projection_sha256"]
+        cards = copy.deepcopy(self.cards)
+        cards[0]["phenomenon_analysis"] += " SYNTHETIC_TEST_ONLY_FACT_REVISION"
+        revised = self.audit(cards=cards)
+        self.assertNotEqual(revised["collection_projection_sha256"], baseline)
+
+    def test_l0_curator_notes_do_not_change_manifest(self):
+        baseline = self.audit()["collection_projection_sha256"]
+        cards = copy.deepcopy(self.cards)
+        cards[0]["internal_review"]["curator_prompts"].append(
+            "SYNTHETIC_TEST_ONLY_PRIVATE_L0_NOTE"
+        )
+        self.assertEqual(self.audit(cards=cards)["collection_projection_sha256"], baseline)
+
+    def test_unrelated_l0_fact_change_does_not_change_manifest(self):
+        baseline = self.audit()["collection_projection_sha256"]
+        cards = copy.deepcopy(self.cards)
+        used = {ref for p in self.collection["packets"] for ref in p["source_fact_refs"]}
+        used.update(
+            ref
+            for p in self.collection["packets"]
+            for hit in p["history_context"]["items"]
+            for ref in hit["source_refs"]
+        )
+        unrelated = [c for c in cards if c["case_id"] not in used]
+        self.assertTrue(unrelated)
+        unrelated[0]["phenomenon_analysis"] += " SYNTHETIC_TEST_ONLY_UNRELATED"
+        self.assertEqual(self.audit(cards=cards)["collection_projection_sha256"], baseline)
+
     def test_missing_l0_source_closure_blocks_batch(self):
         with self.assertRaisesRegex(
             L1ProjectionAuditError, "^L1_PROJECTION_COLLECTION_NOT_VALIDATED$"
