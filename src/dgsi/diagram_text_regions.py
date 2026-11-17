@@ -118,21 +118,19 @@ def propose_diagram_text_regions(
     ordered_lines = sorted(lines, key=lambda line: (
         line["bbox_px"]["top"], line["bbox_px"]["left"], line["line_id"]
     ))
-    for index, first in enumerate(ordered_lines):
+    for first, second in zip(ordered_lines, ordered_lines[1:]):
         a = first["bbox_px"]
-        for second in ordered_lines[index + 1:]:
-            b = second["bbox_px"]
-            gap = b["top"] - (a["top"] + a["height"])
-            if gap < 0:
-                continue
-            overlap = max(0, min(a["left"] + a["width"], b["left"] + b["width"]) - max(a["left"], b["left"]))
-            min_width = min(a["width"], b["width"])
-            if min_width <= 0 or overlap / min_width < 0.5:
-                continue
-            if gap > 2 * max(a["height"], b["height"]):
-                # Later lines are further down, so subsequent pairs cannot fit.
-                break
-            candidates.append(make_candidate([first, second], "MULTI_LINE_HYPOTHESIS"))
+        b = second["bbox_px"]
+        gap = b["top"] - (a["top"] + a["height"])
+        if gap < 0:
+            continue
+        overlap = max(0, min(a["left"] + a["width"], b["left"] + b["width"]) - max(a["left"], b["left"]))
+        min_width = min(a["width"], b["width"])
+        if min_width <= 0 or overlap / min_width < 0.5:
+            continue
+        if gap > 2 * max(a["height"], b["height"]):
+            continue
+        candidates.append(make_candidate([first, second], "MULTI_LINE_HYPOTHESIS"))
 
     candidates.sort(key=lambda c: (
         c["bbox_px"]["top"], c["bbox_px"]["left"],
