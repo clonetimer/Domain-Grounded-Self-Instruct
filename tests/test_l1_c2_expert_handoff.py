@@ -37,6 +37,12 @@ class C2ExpertHandoffTests(unittest.TestCase):
         self.assertEqual(len(a["tasks"]), 15)
         self.assertEqual(len({p["task_id"] for p in a["tasks"]}), 15)
         self.assertEqual(len(a["collection_projection_sha256"]), 64)
+        # Frozen C2 cohort digest independently recomputed from the 15
+        # packets and all current/historical L0 public-source bytes.
+        self.assertEqual(
+            a["collection_projection_sha256"],
+            "2d752d898cb6ef8988f5d7829b040bf129f8bf29c154f976af428be26797f0c3",
+        )
         self.assertFalse(a["training_authorized"])
         self.assertFalse(a["gold_eligible"])
         self.assertFalse(a["source_rights_verified"])
