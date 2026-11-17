@@ -28,8 +28,13 @@ python scripts/create_l1_blind_review_manifest.py \
   --output local_review/l1_blind_review_fingerprint_manifest.json
 ```
 
-The CLI writes only review IDs, snapshot fingerprints, two **unassigned** reviewer slots and blocking states. It refuses to overwrite an existing destination, prints aggregate-only status and does not emit SFT rows. `local_review/` is an operator-managed directory; the output is not an expert receipt or an admission decision. The generated JSON must be kept paired with the exact L1/L0 source snapshots when distributed for controlled blind review.
+The CLI writes only review IDs, snapshot fingerprints, two **unassigned** reviewer slots and blocking states. Output creation uses atomic exclusive file mode (`x`) rather than an `exists()`-then-write check: existing regular files, existing symlinks (including dangling symlinks), and a losing concurrent writer are refused with `OUTPUT_ALREADY_EXISTS`. This prevents an accidental overwrite of another review snapshot or a symlink target. It prints aggregate-only status and does not emit SFT rows. `local_review/` is an operator-managed directory; the output is not an expert receipt or an admission decision. The generated JSON must be kept paired with the exact L1/L0 source snapshots when distributed for controlled blind review.
 
 ## Regression scope
 
 Run `python -m unittest tests.test_l1_blind_review_manifest` with repository `src/` on `PYTHONPATH`, or run the repository's established full CI matrix. The tests use `SYNTHETIC_TEST_ONLY` reviewer tokens and do not represent genuine expert reviews.
+
+
+## No-clobber guarantee and limits (2026-11-18)
+
+The exclusive-create contract is regression-tested with two concurrent CLI writers and a dangling output symlink. Only one concurrent process can create a new output path. The manifest and source files must still reside in an operator-controlled directory with appropriate OS permissions; this safeguard is not a reviewer signature, a tamper-proof storage system, a scientific audit, or an authorization to train. A write interrupted after exclusive creation can leave an incomplete file; treat any unreadable or truncated JSON as rejected, and generate a new named manifest instead of overwriting it.
