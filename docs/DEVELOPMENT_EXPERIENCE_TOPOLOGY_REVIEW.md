@@ -54,3 +54,20 @@ The 43 feature/CLI tests passed locally; compileall passed. The separately built
 minimal source bundle is a portability check only, not the full DGSI toolkit.
 All fixtures are SYNTHETIC_TEST_ONLY. No image recognition, real fault experiment,
 reviewer authentication, KG effectiveness experiment, or training was performed.
+
+
+## P5-C1 evidence matrix and exact-head CI (2026-11-17)
+
+PR #117 adds a case-specific evidence request matrix for the five user-supplied REAL candidates. Latest head `725b60e230457cf955fe75f99429035376ed2352` passed both Push workflow `44047660415` and PR workflow `44047667106`: Ubuntu 912/912 and Windows 912/912 on each workflow. These runs executed the repository's 912-test suite. No dedicated test signatures for the new matrix were found in the logs; therefore this is a full regression/packaging pass, not a claim that case-specific evidence correctness was automatically validated.
+
+49. **Separate evidence requested, evidence received, and evidence verified.** A case-specific matrix describes what would discriminate hypotheses; it is not proof that those artifacts exist. Track each item through NOT_AVAILABLE / AVAILABLE_NOT_LOCATED / AVAILABLE_AND_LOCATED / NOT_APPLICABLE / PENDING_SOURCE_OWNER. Only after the actual artifact is received in authorized storage, its exact bytes are fingerprinted, its source/time basis is recorded, and a reviewer validates its relevance may it support a claim. A request list must never be counted as evidence completeness.
+
+50. **Evidence completeness is case-relative, not a uniform checklist score.** Common requirements (upstream ML output, logs, spacecraft/mission context) must be combined with case-specific discriminators. For example, cable/isolator contact evidence is relevant to the TWTA case; EPDF protection-state mapping is relevant to the Ku TWTA case; sensor location and thrust-measurement basis are relevant to the thruster case. Do not mark a case complete merely because generic fields are populated.
+
+51. **Keep disposal recommendation, conditional procedure, execution and verified effect as separate states.** The same prose may describe an option, a command, an observed state or a successful recovery. Require command/state evidence and post-action verification before the SFT target states that a measure was executed or effective.
+
+52. **Do not expose raw real-case artifacts to a public repository for convenience.** Keep logs, telemetry, command histories and private reports in authorized storage. Public metadata may contain opaque locators and exact-byte hashes, but hashes do not establish source authenticity, de-identification or training-use rights.
+
+53. **Do not infer dedicated feature coverage from a green full-suite run.** Inspect test names in completed logs. If a newly added data artifact has no dedicated validator/test signature, report that fact and add a targeted contract test only when it protects a real data-integrity boundary; do not present unrelated suite count as feature-specific proof.
+
+PR #117 matrix status remains `EVIDENCE_REQUEST_PREPARATION_ONLY`; no evidence has been received by this artifact, and the five candidates remain zero evidence-complete, zero REAL_GOLD and zero SFT-authorized.

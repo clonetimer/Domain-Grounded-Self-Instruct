@@ -1,0 +1,236 @@
+{
+  "schema_version": "dgsi-real-case-evidence-matrix.v1",
+  "batch_id": "DGSI-P5C1-USER-5CASE-EVIDENCE-MATRIX-2026-11-17",
+  "source_basis": "USER_LIBRARY:DGSI_用户原始5例_正式结论与内部审核分离_v0.1.docx",
+  "status": "EVIDENCE_REQUEST_PREPARATION_ONLY",
+  "evidence_status_enum": [
+    "AVAILABLE_AND_LOCATED",
+    "AVAILABLE_NOT_LOCATED",
+    "NOT_AVAILABLE",
+    "NOT_APPLICABLE",
+    "PENDING_SOURCE_OWNER"
+  ],
+  "common_required_evidence": [
+    {
+      "id": "E01",
+      "name": "authorized_source_and_use_rights",
+      "purpose": "Source provenance, de-identification and intended model-training use permission",
+      "status": "PENDING_SOURCE_OWNER"
+    },
+    {
+      "id": "E02",
+      "name": "upstream_ml_result",
+      "purpose": "Actual upstream model output, algorithm/version, run ID, score semantics, candidate ranking and referenced evidence",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "id": "E03",
+      "name": "diagnostic_logs",
+      "purpose": "Time-stamped logs with original time basis, event identifiers and immutable source locators",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "id": "E04",
+      "name": "spacecraft_configuration",
+      "purpose": "As-flown/as-tested subsystem and component configuration relevant to the event",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "id": "E05",
+      "name": "mission_phase_and_operating_mode",
+      "purpose": "Mission phase, operating mode, command/telemetry mode and relevant constraints at event time",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "id": "E06",
+      "name": "time_alignment_and_measurement_dictionary",
+      "purpose": "Parameter names, physical measurement points, units, calibration/validity and time alignment",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "id": "E07",
+      "name": "disposal_execution_and_verification",
+      "purpose": "Separate recorded recommendation/procedure, actual command/action execution and post-action effect verification",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "id": "E08",
+      "name": "independent_expert_reviews",
+      "purpose": "Two independent reviews and adjudication for material disagreements",
+      "status": "PENDING_SOURCE_OWNER"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "USER-ADCS-SADA-001",
+      "case_specific": [
+        {
+          "id": "SADA-01",
+          "name": "current_and_main_error_voltage_drops",
+          "purpose": "Original time series/logs for the three reported drops; event timestamps and channel identity"
+        },
+        {
+          "id": "SADA-02",
+          "name": "temperature_measurement_points",
+          "purpose": "Exact sensor locations and definitions for the reported 181°C shaft temperature and 150°C housing temperature"
+        },
+        {
+          "id": "SADA-03",
+          "name": "solar_array_stall_and_angle_adjustment",
+          "purpose": "Command, drive-state and stall chronology during south solar-array angle adjustment"
+        },
+        {
+          "id": "SADA-04",
+          "name": "slip_ring_brush_arc_evidence",
+          "purpose": "Inspection, test, maintenance or fault-analysis evidence supporting debris-induced arc in the disc-ring/brush power path"
+        },
+        {
+          "id": "SADA-05",
+          "name": "south_array_shutdown_execution",
+          "purpose": "Whether the recorded shutdown was commanded/executed, timestamp and subsequent status"
+        }
+      ]
+    },
+    {
+      "case_id": "USER-COMM-TWTA-002",
+      "case_specific": [
+        {
+          "id": "TWTA-01",
+          "name": "helix_current_power_temperature_chronology",
+          "purpose": "Time-aligned helix current, RF output power, TWTA A/EPC A/isolator A temperatures, microwave and triplexer temperatures"
+        },
+        {
+          "id": "TWTA-02",
+          "name": "cable_isolator_connection_evidence",
+          "purpose": "Inspection/contact resistance/connector state and high-power reflection evidence at the cable-to-isolator input"
+        },
+        {
+          "id": "TWTA-03",
+          "name": "meaning_of_self_recovery",
+          "purpose": "Source record defining whether the phenomenon cleared without ground action, and what operational verification followed"
+        },
+        {
+          "id": "TWTA-04",
+          "name": "post_recovery_validation",
+          "purpose": "Subsequent power, current and temperature trend confirming whether normal operation persisted"
+        }
+      ]
+    },
+    {
+      "case_id": "USER-COMM-KU-TWTA-003",
+      "case_specific": [
+        {
+          "id": "KU-01",
+          "name": "EPDF_overpower_dissipation_evidence",
+          "purpose": "Actual EPDF state/telemetry, protection status and diagnostic evidence for the stated cause"
+        },
+        {
+          "id": "KU-02",
+          "name": "helix_current_and_auto_shutdown_timeline",
+          "purpose": "Timestamped current rise, protection trigger (if any), automatic shutdown and restart"
+        },
+        {
+          "id": "KU-03",
+          "name": "conditional_branch_state_mapping",
+          "purpose": "Original logic/state table mapping the three disposal branches to protection-triggered, not-shutdown and automatic-shutdown states"
+        },
+        {
+          "id": "KU-04",
+          "name": "backup_switch_restart_preheat_execution",
+          "purpose": "Actual switch, restart and ten-cycle preheat records if performed; otherwise preserve as conditional procedure"
+        },
+        {
+          "id": "KU-05",
+          "name": "post_restart_stability",
+          "purpose": "Continuous operation/verification after restart"
+        }
+      ]
+    },
+    {
+      "case_id": "USER-PROP-THRUSTER-004",
+      "case_specific": [
+        {
+          "id": "PROP-01",
+          "name": "minus_33C_sensor_definition",
+          "purpose": "Physical location, sensor identity, units and validity for the reported 2# thruster temperature"
+        },
+        {
+          "id": "PROP-02",
+          "name": "prior_high_temperature_and_maneuver_timeline",
+          "purpose": "Previous-day high-temperature event and completion of attitude maneuver with timestamps"
+        },
+        {
+          "id": "PROP-03",
+          "name": "thrust_measurement_basis",
+          "purpose": "Whether thrust reduction came from direct measurement, estimate or inferred telemetry, with calibration and uncertainty"
+        },
+        {
+          "id": "PROP-04",
+          "name": "wheel_speed_and_attitude_time_series",
+          "purpose": "Time-aligned wheel 1/2 speeds, roll/pitch errors and 0.6-degree attitude-error alarm"
+        },
+        {
+          "id": "PROP-05",
+          "name": "combustion_and_structural_damage_evidence",
+          "purpose": "Evidence for incomplete-combustion product accumulation, abnormal combustion and alleged thruster structural damage"
+        },
+        {
+          "id": "PROP-06",
+          "name": "control_strategy_reconfiguration",
+          "purpose": "What was changed, when, by which command/procedure and measured effect"
+        }
+      ]
+    },
+    {
+      "case_id": "USER-ADCS-RW-BEARING-005",
+      "case_specific": [
+        {
+          "id": "RW-01",
+          "name": "shaft_temperature_time_series",
+          "purpose": "Timestamped 27°C, 50.27°C and 74.2°C readings, sensor location, operating state and measurement validity"
+        },
+        {
+          "id": "RW-02",
+          "name": "lubrication_feedline_blockage_evidence",
+          "purpose": "Inspection, disassembly, maintenance or test evidence for blockage and bearing oil starvation"
+        },
+        {
+          "id": "RW-03",
+          "name": "bearing_friction_evidence",
+          "purpose": "Current, torque, speed, vibration or other evidence supporting increased bearing friction"
+        },
+        {
+          "id": "RW-04",
+          "name": "wheel_configuration_switch_execution",
+          "purpose": "Actual configuration command/state change and time"
+        },
+        {
+          "id": "RW-05",
+          "name": "2000rpm_limit_status",
+          "purpose": "Distinguish recommendation from approved constraint, command execution and telemetry showing actual speed limitation"
+        }
+      ]
+    }
+  ],
+  "submission_rules": {
+    "no_fabrication": true,
+    "no_inferred_run_ids": true,
+    "no_synthetic_values_in_real_track": true,
+    "missing_evidence_remains_explicit": true,
+    "conditional_or_recommended_disposal_is_not_execution": true,
+    "internal_review_prompts_excluded_from_model_input_and_target": true,
+    "history_context_not_current_event_direct_evidence": true,
+    "evidence_metadata_only_in_public_repo": true,
+    "raw_logs_and_private_source_artifacts_stay_in_authorized_private_storage": true,
+    "two_independent_reviews_required_before_case_adjudication": true
+  },
+  "current_counts": {
+    "real_case_candidates": 5,
+    "evidence_complete_cases": 0,
+    "independent_reviews_complete": 0,
+    "real_gold_admitted": 0,
+    "official_split_assignments": 0,
+    "authorized_sft_records": 0,
+    "training_authorized": false
+  }
+}
