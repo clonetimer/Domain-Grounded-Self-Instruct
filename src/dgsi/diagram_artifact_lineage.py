@@ -17,7 +17,7 @@ def dependency_digest(items):
     return canonical_digest(sorted(({"artifact_id":x["artifact_id"],"sha256":x["sha256"]} for x in items),key=lambda x:x["artifact_id"]))
 def _safe_file(root:Path,relative:str)->Path:
     p=PurePosixPath(relative)
-    if p.is_absolute() or not p.parts or any(x in {"",".",".."} for x in p.parts) or "\\" in relative or ":" in relative or "\n" in relative or "\r" in relative: raise ArtifactLineageError("ARTIFACT_LINEAGE_PATH_INVALID")
+    if p.is_absolute() or not p.parts or any(x in {"", ".", ".."} for x in p.parts) or "\\" in relative or ":" in relative or any(ord(ch) < 32 or ord(ch) == 127 for ch in relative): raise ArtifactLineageError("ARTIFACT_LINEAGE_PATH_INVALID")
     candidate=root
     for part in p.parts:
         candidate=candidate/part

@@ -46,3 +46,17 @@ Correction:
 
 Reusable rule 45:
 **Do not let schema and semantic validators compete for the same error contract.** If callers/tests require a stable semantic error code, keep the schema permissive enough to pass that shape to the semantic layer, or explicitly assert the schema-level error. Test the intended rejecting layer, not merely that malformed input is rejected.
+
+
+## P5-B4.4 second CI failure: path schema regex masked runtime path validation
+
+The next exact-head run after the duplicate-dependency correction failed on Ubuntu and Windows in `test_trailing_newline_path_rejected`. The runtime correctly contained CR/LF rejection, but JSON Schema's path pattern rejected the newline first and emitted `ARTIFACT_LINEAGE_MANIFEST_INVALID`, masking the intended stable runtime error `ARTIFACT_LINEAGE_PATH_INVALID`. The detached toolkit test repeated this same unit failure and was therefore a cascade, not a separate packaging issue.
+
+Correction:
+- Remove the path-character regex from the schema; retain string type and length bounds there.
+- Make the runtime the single owner of path safety: reject absolute paths, dot/dot-dot segments, backslashes, colons and all ASCII control characters before filesystem resolution.
+- Update traversal/absolute-path tests to assert the runtime's stable `ARTIFACT_LINEAGE_PATH_INVALID` code.
+- Keep duplicate dependency handling in the semantic validator rather than duplicating it in schema-level uniqueItems.
+
+Reusable rule 46:
+**Assign one validation layer ownership of each stable error contract.** A schema-level pattern can preempt path-safety code and produce a generic error. Keep schema checks for shape/size, runtime checks for filesystem semantics, and test each error at its intended layer. Detached-package failures must be traced to their inner failing test before treating packaging as an independent defect.

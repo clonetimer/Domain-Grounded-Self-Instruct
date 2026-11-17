@@ -54,7 +54,7 @@ class ArtifactLineageTests(unittest.TestCase):
   except (OSError,NotImplementedError):self.skipTest("symlink unavailable")
   self.reject("ARTIFACT_LINEAGE_SYMLINK_BLOCKED")
  def test_path_traversal_schema_blocked(self):
-  self.manifest["artifacts"][0]["path"]="../x";self.reject("ARTIFACT_LINEAGE_MANIFEST_INVALID")
+  self.manifest["artifacts"][0]["path"]="../x";self.reject("ARTIFACT_LINEAGE_PATH_INVALID")
  def test_absolute_path_schema_blocked(self):
   self.manifest["artifacts"][0]["path"]="/tmp/x";self.reject("ARTIFACT_LINEAGE_MANIFEST_INVALID")
  def test_dependency_digest_tamper(self):
