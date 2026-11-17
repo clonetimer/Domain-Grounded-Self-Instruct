@@ -139,8 +139,7 @@
                 "supporting_refs": [
                   "ML-E-001",
                   "LOG-01",
-                  "LOG-02",
-                  "L0-E-001"
+                  "LOG-02"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -159,8 +158,7 @@
             "supporting_refs": [
               "ML-E-001",
               "LOG-01",
-              "LOG-02",
-              "L0-E-001"
+              "LOG-02"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -251,8 +249,7 @@
               "supporting_refs": [
                 "ML-E-001",
                 "LOG-01",
-                "LOG-02",
-                "L0-E-001"
+                "LOG-02"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -271,8 +268,7 @@
           "supporting_refs": [
             "ML-E-001",
             "LOG-01",
-            "LOG-02",
-            "L0-E-001"
+            "LOG-02"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -520,8 +516,7 @@
                 "supporting_refs": [
                   "ML-E-002",
                   "LOG-11",
-                  "LOG-12",
-                  "L0-E-002"
+                  "LOG-12"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -539,8 +534,7 @@
             "supporting_refs": [
               "ML-E-002",
               "LOG-11",
-              "LOG-12",
-              "L0-E-002"
+              "LOG-12"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -631,8 +625,7 @@
               "supporting_refs": [
                 "ML-E-002",
                 "LOG-11",
-                "LOG-12",
-                "L0-E-002"
+                "LOG-12"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -650,8 +643,7 @@
           "supporting_refs": [
             "ML-E-002",
             "LOG-11",
-            "LOG-12",
-            "L0-E-002"
+            "LOG-12"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -925,8 +917,7 @@
                   "ML-E-003",
                   "LOG-21",
                   "LOG-22",
-                  "LOG-23",
-                  "L0-E-003"
+                  "LOG-23"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -948,8 +939,7 @@
               "ML-E-003",
               "LOG-21",
               "LOG-22",
-              "LOG-23",
-              "L0-E-003"
+              "LOG-23"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -1053,8 +1043,7 @@
                 "ML-E-003",
                 "LOG-21",
                 "LOG-22",
-                "LOG-23",
-                "L0-E-003"
+                "LOG-23"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -1076,8 +1065,7 @@
             "ML-E-003",
             "LOG-21",
             "LOG-22",
-            "LOG-23",
-            "L0-E-003"
+            "LOG-23"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -1363,8 +1351,7 @@
                 "supporting_refs": [
                   "ML-E-004",
                   "LOG-41",
-                  "LOG-42",
-                  "L0-E-004"
+                  "LOG-42"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -1382,8 +1369,7 @@
             "supporting_refs": [
               "ML-E-004",
               "LOG-41",
-              "LOG-42",
-              "L0-E-004"
+              "LOG-42"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -1472,8 +1458,7 @@
               "supporting_refs": [
                 "ML-E-004",
                 "LOG-41",
-                "LOG-42",
-                "L0-E-004"
+                "LOG-42"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -1491,8 +1476,7 @@
           "supporting_refs": [
             "ML-E-004",
             "LOG-41",
-            "LOG-42",
-            "L0-E-004"
+            "LOG-42"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -1732,8 +1716,7 @@
                 "supporting_refs": [
                   "ML-E-005",
                   "LOG-51",
-                  "LOG-52",
-                  "L0-E-005"
+                  "LOG-52"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -1751,8 +1734,7 @@
             "supporting_refs": [
               "ML-E-005",
               "LOG-51",
-              "LOG-52",
-              "L0-E-005"
+              "LOG-52"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -1841,8 +1823,7 @@
               "supporting_refs": [
                 "ML-E-005",
                 "LOG-51",
-                "LOG-52",
-                "L0-E-005"
+                "LOG-52"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -1860,8 +1841,7 @@
           "supporting_refs": [
             "ML-E-005",
             "LOG-51",
-            "LOG-52",
-            "L0-E-005"
+            "LOG-52"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -2101,8 +2081,7 @@
                 "supporting_refs": [
                   "ML-E-006",
                   "LOG-61",
-                  "LOG-62",
-                  "L0-E-006"
+                  "LOG-62"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -2120,8 +2099,7 @@
             "supporting_refs": [
               "ML-E-006",
               "LOG-61",
-              "LOG-62",
-              "L0-E-006"
+              "LOG-62"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -2210,8 +2188,7 @@
               "supporting_refs": [
                 "ML-E-006",
                 "LOG-61",
-                "LOG-62",
-                "L0-E-006"
+                "LOG-62"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -2229,8 +2206,7 @@
           "supporting_refs": [
             "ML-E-006",
             "LOG-61",
-            "LOG-62",
-            "L0-E-006"
+            "LOG-62"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -2470,8 +2446,7 @@
                 "supporting_refs": [
                   "ML-E-007",
                   "LOG-71",
-                  "LOG-72",
-                  "L0-E-007"
+                  "LOG-72"
                 ],
                 "limitations": [
                   "The source presents this as one possible explanation only.",
@@ -2484,8 +2459,7 @@
                 "supporting_refs": [
                   "ML-E-007",
                   "LOG-71",
-                  "LOG-72",
-                  "L0-E-007"
+                  "LOG-72"
                 ],
                 "limitations": [
                   "The source presents this as one possible explanation only.",
@@ -2503,8 +2477,7 @@
             "supporting_refs": [
               "ML-E-007",
               "LOG-71",
-              "LOG-72",
-              "L0-E-007"
+              "LOG-72"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -2594,8 +2567,7 @@
               "supporting_refs": [
                 "ML-E-007",
                 "LOG-71",
-                "LOG-72",
-                "L0-E-007"
+                "LOG-72"
               ],
               "limitations": [
                 "The source presents this as one possible explanation only.",
@@ -2608,8 +2580,7 @@
               "supporting_refs": [
                 "ML-E-007",
                 "LOG-71",
-                "LOG-72",
-                "L0-E-007"
+                "LOG-72"
               ],
               "limitations": [
                 "The source presents this as one possible explanation only.",
@@ -2627,8 +2598,7 @@
           "supporting_refs": [
             "ML-E-007",
             "LOG-71",
-            "LOG-72",
-            "L0-E-007"
+            "LOG-72"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -2870,8 +2840,7 @@
                 "supporting_refs": [
                   "ML-E-008",
                   "LOG-81",
-                  "LOG-82",
-                  "L0-E-008"
+                  "LOG-82"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -2890,8 +2859,7 @@
             "supporting_refs": [
               "ML-E-008",
               "LOG-81",
-              "LOG-82",
-              "L0-E-008"
+              "LOG-82"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -2980,8 +2948,7 @@
               "supporting_refs": [
                 "ML-E-008",
                 "LOG-81",
-                "LOG-82",
-                "L0-E-008"
+                "LOG-82"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -3000,8 +2967,7 @@
           "supporting_refs": [
             "ML-E-008",
             "LOG-81",
-            "LOG-82",
-            "L0-E-008"
+            "LOG-82"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -3251,8 +3217,7 @@
                   "ML-E-009",
                   "LOG-91",
                   "LOG-92",
-                  "LOG-93",
-                  "L0-E-009"
+                  "LOG-93"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual upstream run or test record.",
@@ -3274,8 +3239,7 @@
               "ML-E-009",
               "LOG-91",
               "LOG-92",
-              "LOG-93",
-              "L0-E-009"
+              "LOG-93"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -3372,8 +3336,7 @@
                 "ML-E-009",
                 "LOG-91",
                 "LOG-92",
-                "LOG-93",
-                "L0-E-009"
+                "LOG-93"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual upstream run or test record.",
@@ -3395,8 +3358,7 @@
             "ML-E-009",
             "LOG-91",
             "LOG-92",
-            "LOG-93",
-            "L0-E-009"
+            "LOG-93"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -3651,8 +3613,7 @@
                   "ML-E-010",
                   "LOG-A1",
                   "LOG-A2",
-                  "LOG-A3",
-                  "L0-E-010"
+                  "LOG-A3"
                 ],
                 "limitations": [
                   "All current ML findings and logs are synthetic scenario values.",
@@ -3672,8 +3633,7 @@
               "ML-E-010",
               "LOG-A1",
               "LOG-A2",
-              "LOG-A3",
-              "L0-E-010"
+              "LOG-A3"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -3770,8 +3730,7 @@
                 "ML-E-010",
                 "LOG-A1",
                 "LOG-A2",
-                "LOG-A3",
-                "L0-E-010"
+                "LOG-A3"
               ],
               "limitations": [
                 "All current ML findings and logs are synthetic scenario values.",
@@ -3791,8 +3750,7 @@
             "ML-E-010",
             "LOG-A1",
             "LOG-A2",
-            "LOG-A3",
-            "L0-E-010"
+            "LOG-A3"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -4057,8 +4015,7 @@
                   "LOG-B1",
                   "LOG-B2",
                   "LOG-B3",
-                  "LOG-B4",
-                  "L0-E-011"
+                  "LOG-B4"
                 ],
                 "limitations": [
                   "ML findings and all current diagnostic logs are synthetic scenario values, not an actual satellite AIT record.",
@@ -4082,8 +4039,7 @@
               "LOG-B1",
               "LOG-B2",
               "LOG-B3",
-              "LOG-B4",
-              "L0-E-011"
+              "LOG-B4"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -4189,8 +4145,7 @@
                 "LOG-B1",
                 "LOG-B2",
                 "LOG-B3",
-                "LOG-B4",
-                "L0-E-011"
+                "LOG-B4"
               ],
               "limitations": [
                 "ML findings and all current diagnostic logs are synthetic scenario values, not an actual satellite AIT record.",
@@ -4214,8 +4169,7 @@
             "LOG-B1",
             "LOG-B2",
             "LOG-B3",
-            "LOG-B4",
-            "L0-E-011"
+            "LOG-B4"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -4493,8 +4447,7 @@
                 "supporting_refs": [
                   "ML-E-012",
                   "LOG-121",
-                  "LOG-122",
-                  "L0-E-012"
+                  "LOG-122"
                 ],
                 "limitations": [
                   "当前合成场景没有壳体衬层拆检或转子间隙直接测量。",
@@ -4513,8 +4466,7 @@
             "supporting_refs": [
               "ML-E-012",
               "LOG-121",
-              "LOG-122",
-              "L0-E-012"
+              "LOG-122"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -4628,8 +4580,7 @@
               "supporting_refs": [
                 "ML-E-012",
                 "LOG-121",
-                "LOG-122",
-                "L0-E-012"
+                "LOG-122"
               ],
               "limitations": [
                 "当前合成场景没有壳体衬层拆检或转子间隙直接测量。",
@@ -4648,8 +4599,7 @@
           "supporting_refs": [
             "ML-E-012",
             "LOG-121",
-            "LOG-122",
-            "L0-E-012"
+            "LOG-122"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -4985,8 +4935,7 @@
                   "ML-E-003",
                   "LOG-21",
                   "LOG-22",
-                  "LOG-23",
-                  "L0-E-003"
+                  "LOG-23"
                 ],
                 "limitations": [
                   "The ML finding is synthetic and remains a candidate.",
@@ -5008,8 +4957,7 @@
               "ML-E-003",
               "LOG-21",
               "LOG-22",
-              "LOG-23",
-              "L0-E-003"
+              "LOG-23"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -5115,8 +5063,7 @@
                 "ML-E-003",
                 "LOG-21",
                 "LOG-22",
-                "LOG-23",
-                "L0-E-003"
+                "LOG-23"
               ],
               "limitations": [
                 "The ML finding is synthetic and remains a candidate.",
@@ -5138,8 +5085,7 @@
             "ML-E-003",
             "LOG-21",
             "LOG-22",
-            "LOG-23",
-            "L0-E-003"
+            "LOG-23"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -5427,8 +5373,7 @@
                 "supporting_refs": [
                   "ML-E-008",
                   "LOG-81",
-                  "LOG-82",
-                  "L0-E-008"
+                  "LOG-82"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -5447,8 +5392,7 @@
             "supporting_refs": [
               "ML-E-008",
               "LOG-81",
-              "LOG-82",
-              "L0-E-008"
+              "LOG-82"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -5543,8 +5487,7 @@
               "supporting_refs": [
                 "ML-E-008",
                 "LOG-81",
-                "LOG-82",
-                "L0-E-008"
+                "LOG-82"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -5563,8 +5506,7 @@
           "supporting_refs": [
             "ML-E-008",
             "LOG-81",
-            "LOG-82",
-            "L0-E-008"
+            "LOG-82"
           ],
           "contradicting_refs": [],
           "missing_information": [
@@ -5810,8 +5752,7 @@
                 "supporting_refs": [
                   "ML-E-011",
                   "LOG-B1",
-                  "LOG-B2",
-                  "L0-E-011"
+                  "LOG-B2"
                 ],
                 "limitations": [
                   "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -5830,8 +5771,7 @@
             "supporting_refs": [
               "ML-E-011",
               "LOG-B1",
-              "LOG-B2",
-              "L0-E-011"
+              "LOG-B2"
             ],
             "contradicting_refs": [],
             "missing_information": [
@@ -5921,8 +5861,7 @@
               "supporting_refs": [
                 "ML-E-011",
                 "LOG-B1",
-                "LOG-B2",
-                "L0-E-011"
+                "LOG-B2"
               ],
               "limitations": [
                 "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
@@ -5941,8 +5880,7 @@
           "supporting_refs": [
             "ML-E-011",
             "LOG-B1",
-            "LOG-B2",
-            "L0-E-011"
+            "LOG-B2"
           ],
           "contradicting_refs": [],
           "missing_information": [
