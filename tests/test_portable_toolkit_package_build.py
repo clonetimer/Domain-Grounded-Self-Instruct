@@ -130,7 +130,7 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                         timeout=60,
                         check=False,
                     )
-                    self.assertEqual(0, smoke.returncode, smoke.stderr[:1000])
+                    self.assertEqual(0, smoke.returncode, f"stdout={smoke.stdout[:1000]!r}; stderr={smoke.stderr[:1000]!r}")
                     preview_result = json.loads(preview_output.read_text(encoding="utf-8"))
                     self.assertEqual(15, preview_result["packet_count"])
                     self.assertEqual(9, preview_result["event_family_count"])
