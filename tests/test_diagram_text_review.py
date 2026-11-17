@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 import sys
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -132,6 +133,47 @@ class DiagramTextReviewTests(unittest.TestCase):
         receipt["decisions"][0]["decision"] = "UNRESOLVED"
         with self.assertRaisesRegex(DiagramTextReviewError, "^DIAGRAM_TEXT_REVIEW_RECEIPT_INVALID$"):
             self.validate(receipt=receipt)
+
+
+
+class DiagramTextReviewCliTests(unittest.TestCase):
+    def test_cli_emits_aggregate_only_summary(self):
+        fixture = DiagramTextReviewTests()
+        fixture.setUp()
+        with tempfile.TemporaryDirectory() as temp:
+            candidate_path = Path(temp) / "candidates.json"
+            receipt_path = Path(temp) / "review.json"
+            candidate_path.write_text(json.dumps(fixture.candidate), encoding="utf-8")
+            receipt_path.write_text(json.dumps(fixture.receipt), encoding="utf-8")
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/audit_diagram_text_review.py"),
+                 "--candidate-record", str(candidate_path),
+                 "--review-receipt", str(receipt_path)],
+                cwd=ROOT, capture_output=True, text=True, check=False,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("REVIEW_RECEIPT_BOUND_NOT_AUTHENTICATED", result.stdout)
+        self.assertNotIn("reviewer-local-alias-01", result.stdout)
+        self.assertNotIn("SYNTHETIC_TEST_ONLY ADCS", result.stdout)
+
+    def test_cli_rejects_invalid_receipt_without_echoing_values(self):
+        fixture = DiagramTextReviewTests()
+        fixture.setUp()
+        fixture.receipt["reviewer_authentication"] = "AUTHENTICATED"
+        with tempfile.TemporaryDirectory() as temp:
+            candidate_path = Path(temp) / "candidates.json"
+            receipt_path = Path(temp) / "review.json"
+            candidate_path.write_text(json.dumps(fixture.candidate), encoding="utf-8")
+            receipt_path.write_text(json.dumps(fixture.receipt), encoding="utf-8")
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/audit_diagram_text_review.py"),
+                 "--candidate-record", str(candidate_path),
+                 "--review-receipt", str(receipt_path)],
+                cwd=ROOT, capture_output=True, text=True, check=False,
+            )
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("DIAGRAM_TEXT_REVIEW_RECEIPT_INVALID", result.stdout)
+        self.assertNotIn("AUTHENTICATED", result.stdout)
 
 
 if __name__ == "__main__":
