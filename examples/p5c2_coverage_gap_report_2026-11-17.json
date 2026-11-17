@@ -1,0 +1,149 @@
+{
+  "schema_version": "dgsi-p5c2-coverage-gap-report.v1",
+  "snapshot": "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json",
+  "totals": {
+    "packets": 15,
+    "event_families": 9,
+    "task_types": 6,
+    "diagnostic_synthesis": 10,
+    "conflict_reconciliation": 1,
+    "historical_case_reuse": 1,
+    "evidence_sufficiency": 1,
+    "next_step_recommendation": 1,
+    "handover_summary": 1
+  },
+  "coverage": [
+    {
+      "dimension": "task_type",
+      "stratum": "diagnostic_synthesis",
+      "count": 10,
+      "independent_event_families": 9,
+      "status": "COVERED_BUT_IMBALANCED"
+    },
+    {
+      "dimension": "task_type",
+      "stratum": "conflict_reconciliation",
+      "count": 1,
+      "independent_event_families": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "task_type",
+      "stratum": "historical_case_reuse",
+      "count": 1,
+      "independent_event_families": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "task_type",
+      "stratum": "evidence_sufficiency",
+      "count": 1,
+      "independent_event_families": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "task_type",
+      "stratum": "next_step_recommendation",
+      "count": 1,
+      "independent_event_families": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "task_type",
+      "stratum": "handover_summary",
+      "count": 1,
+      "independent_event_families": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "event_class",
+      "stratum": "flight_event",
+      "count": 8,
+      "status": "COVERED"
+    },
+    {
+      "dimension": "event_class",
+      "stratum": "ground_test_event",
+      "count": 4,
+      "status": "COVERED"
+    },
+    {
+      "dimension": "measurement_chain",
+      "stratum": "TWTA power monitor",
+      "count": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "cross_subsystem",
+      "stratum": "Pathfinder shared slip-ring/interface",
+      "count": 2,
+      "status": "WEAKLY_COVERED_SAME_EVENT_FAMILY"
+    },
+    {
+      "dimension": "evidence_insufficiency",
+      "stratum": "Pathfinder",
+      "count": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "history_transfer",
+      "stratum": "FUSE and Cassini",
+      "count": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "correct_abstention",
+      "stratum": "explicit dedicated task",
+      "count": 0,
+      "status": "MISSING"
+    },
+    {
+      "dimension": "competing_root_causes",
+      "stratum": "Lunar Orbiter startup",
+      "count": 1,
+      "status": "WEAKLY_COVERED"
+    },
+    {
+      "dimension": "disposal_semantics",
+      "stratum": "recommendation vs execution",
+      "count": 3,
+      "status": "WEAKLY_COVERED"
+    }
+  ],
+  "blocked_families": [
+    {
+      "event_family": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "reason": "TROPICS article rights and expert confirmation pending"
+    },
+    {
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "reason": "TROPICS article rights and expert confirmation pending"
+    },
+    {
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "reason": "TROPICS article rights and expert confirmation pending"
+    },
+    {
+      "event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "reason": "Journal training-use rights and full-text claim verification pending"
+    }
+  ],
+  "additions": {
+    "generated_in_this_candidate": 0,
+    "decision": "DO_NOT_ADD_TASKS_YET",
+    "rationale": [
+      "The specialized task types are weakly represented but source-family diversity is insufficient to justify paraphrase expansion.",
+      "Several source families are blocked by rights/expert review.",
+      "Correct-abstention task is a genuine gap, but must be derived from a reviewed source family with a clearly underdetermined cause, not fabricated as an unsupported incident.",
+      "First finish C2-B/C2-C review and rights triage, then add only source-justified new scenarios."
+    ]
+  },
+  "admission": {
+    "all_review_required": true,
+    "expert_adjudicated": 0,
+    "rights_cleared": 0,
+    "official_splits": 0,
+    "sft_records_emitted": 0,
+    "training_authorized": false
+  }
+}
