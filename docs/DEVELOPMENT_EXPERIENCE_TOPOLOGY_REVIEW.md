@@ -169,3 +169,8 @@ The user explicitly approved one integrated completion of C2-B through C2-E rath
 80. **Do not fill source-rights or expert-review gaps with engineering assertions.** Public availability, correct schema, source citation and passing CI do not establish permission for third-party training or independent domain correctness. Quarantine unresolved source families and report the resulting coverage gap honestly.
 
 81. **A blocked metadata-only projection can be a valid engineering deliverable.** It can prove allowlist behavior, deterministic serialization, round-trip integrity and zero leakage while intentionally emitting zero SFT rows. This is preferable to relaxing admission gates to create an apparently complete dataset.
+
+
+85. **A portable Skill needs an operator-facing quick start, not only expert reference material.** The primary SKILL.md defines the full contract, while a concise operator guide explains prerequisites, staged execution, stop conditions, local package verification and release states. Include it in the portable ZIP and test its presence so a new operator can start without reconstructing workflow order from multiple references.
+
+The DGSI 0.2.0-rc.1 Skill now includes both `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` and `references/OPERATOR_QUICKSTART.md`. This improves repeatability and usability; it is not evidence of dataset admission or model effectiveness.
