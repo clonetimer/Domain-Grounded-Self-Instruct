@@ -1,37 +1,67 @@
 #!/usr/bin/env python3
 """Create a synthetic three-message preview; never emits SFT-authorized rows."""
 from __future__ import annotations
-import argparse, json, sys
+import argparse
+import json
+import sys
 from pathlib import Path
-# Make the portable ZIP self-contained when invoked from its extracted root.
+
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if SRC.is_dir() and str(SRC) not in sys.path:
- sys.path.insert(0, str(SRC))
+    sys.path.insert(0, str(SRC))
+
 from dgsi.l1_model_projection_preview import build_collection_preview
 from dgsi.l1_model_projection_audit import L1ProjectionAuditError
 
+
+def _reject(code: str, stage: str, detail: str | None = None) -> int:
+    payload = {"decision": "REJECTED", "error_code": code, "stage": stage, "sft_records_emitted": 0}
+    if detail:
+        payload["detail"] = detail
+    print(json.dumps(payload, ensure_ascii=False))
+    return 2
+
+
 def main(argv=None):
- p=argparse.ArgumentParser(description=__doc__)
- p.add_argument("--collection",required=True,type=Path)
- p.add_argument("--source-facts",required=True,type=Path)
- p.add_argument("--output",required=True,type=Path)
- a=p.parse_args(argv)
- try:
-  collection=json.loads(a.collection.read_text(encoding="utf-8"))
-  cards=json.loads(a.source_facts.read_text(encoding="utf-8"))["cards"]
-  result=build_collection_preview(collection,source_fact_cards=cards)
-  if a.output.exists():
-   print(json.dumps({"decision":"REJECTED","error_code":"OUTPUT_ALREADY_EXISTS","sft_records_emitted":0}))
-   return 2
-  a.output.parent.mkdir(parents=True,exist_ok=True)
-  a.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
- except L1ProjectionAuditError as exc:
-  print(json.dumps({"decision":"REJECTED","error_code":str(exc),"sft_records_emitted":0}))
-  return 2
- except (OSError,ValueError,KeyError,TypeError):
-  print(json.dumps({"decision":"REJECTED","error_code":"INVALID_OR_UNREADABLE_INPUT","sft_records_emitted":0}))
-  return 2
- print(json.dumps({"decision":result["decision"],"packet_count":result["packet_count"],"event_family_count":result["event_family_count"],"sft_records_emitted":0,"training_authorized":False}))
- return 0
-if __name__=="__main__": raise SystemExit(main())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--collection", required=True, type=Path)
+    parser.add_argument("--source-facts", required=True, type=Path)
+    parser.add_argument("--output", required=True, type=Path)
+    args = parser.parse_args(argv)
+    stage = "READ_COLLECTION"
+    try:
+        collection = json.loads(args.collection.read_text(encoding="utf-8"))
+        stage = "READ_SOURCE_FACTS"
+        source_payload = json.loads(args.source_facts.read_text(encoding="utf-8"))
+        if not isinstance(source_payload, dict) or not isinstance(source_payload.get("cards"), list):
+            return _reject("SOURCE_FACTS_SCHEMA_INVALID", stage)
+        cards = source_payload["cards"]
+        stage = "BUILD_PREVIEW"
+        result = build_collection_preview(collection, source_fact_cards=cards)
+        stage = "CHECK_OUTPUT"
+        if args.output.exists():
+            return _reject("OUTPUT_ALREADY_EXISTS", stage)
+        stage = "WRITE_PREVIEW"
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    except L1ProjectionAuditError as exc:
+        return _reject(str(exc), stage)
+    except FileNotFoundError:
+        return _reject("INPUT_FILE_NOT_FOUND", stage)
+    except PermissionError:
+        return _reject("INPUT_OR_OUTPUT_PERMISSION_DENIED", stage)
+    except json.JSONDecodeError as exc:
+        return _reject("INPUT_JSON_INVALID", stage, f"line={exc.lineno}; column={exc.colno}")
+    except KeyError as exc:
+        return _reject("REQUIRED_FIELD_MISSING", stage, str(exc)[:120])
+    except TypeError:
+        return _reject("INPUT_SCHEMA_TYPE_INVALID", stage)
+    except (OSError, ValueError, UnicodeError):
+        return _reject("INPUT_OR_OUTPUT_INVALID", stage)
+    print(json.dumps({"decision":result["decision"],"packet_count":result["packet_count"],"event_family_count":result["event_family_count"],"sft_records_emitted":0,"training_authorized":False}))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
