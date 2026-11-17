@@ -1,0 +1,146 @@
+{
+  "schema_version": "dgsi-p5c2-integrated-review-contract.v1",
+  "milestone": "P5-C2-INTEGRATED-COMPLETION",
+  "baseline": {
+    "source_commit": "10ad4aba6d50ba4635db969725ed6d100ba29584",
+    "packet_collection": "examples/l1_literature_synthetic_task_packets_v0.1.json",
+    "packet_count": 15,
+    "event_family_count": 9,
+    "source_fact_cards": "examples/l0_public_literature_fact_cards_2026-11-15.json",
+    "all_packets_review_required": true,
+    "official_splits": 0,
+    "sft_authorized_records": 0,
+    "training_runs": 0
+  },
+  "workstreams": {
+    "C2-B": {
+      "name": "scientific_content_review",
+      "checks": [
+        "source_fact_fidelity",
+        "event_episode_separation",
+        "physical_mechanism_plausibility",
+        "measurement_chain_semantics",
+        "fault_source_vs_affected_objects",
+        "causal_and_temporal_support",
+        "source_certainty_preservation",
+        "source_rights_and_use_scope"
+      ],
+      "decisions": [
+        "RETAIN_CANDIDATE",
+        "REVISE_CANDIDATE",
+        "QUARANTINE_SOURCE_RIGHTS",
+        "REJECT_CANDIDATE",
+        "PENDING_EXPERT"
+      ],
+      "owner": "DGSI_CURATOR_PLUS_INDEPENDENT_DOMAIN_EXPERT",
+      "completion": "Every packet has a field-level review record; no unsupported scientific assertion remains silently accepted."
+    },
+    "C2-C": {
+      "name": "formal_target_review",
+      "checks": [
+        "phenomenon_vs_cause",
+        "fault_source_localization",
+        "affected_component_identification",
+        "current_evidence_support",
+        "uncertainty_and_abstention",
+        "disposal_recommendation_vs_execution",
+        "historical_context_role",
+        "report_text_structured_target_consistency"
+      ],
+      "decisions": [
+        "TARGET_RETAIN",
+        "TARGET_REVISE",
+        "TARGET_REJECT",
+        "PENDING_EXPERT"
+      ],
+      "completion": "Each retained target is evidence-grounded within its own synthetic scenario and does not leak contextual source or curator-only material into current evidence."
+    },
+    "C2-D": {
+      "name": "model_projection_and_sft_serialization",
+      "checks": [
+        "allowlisted_user_projection",
+        "curator_subtree_exclusion",
+        "canonical_target_source",
+        "collection_level_integrity",
+        "source_and_event_family_lineage",
+        "three_message_serialization",
+        "round_trip_validation",
+        "blocked_release_gate"
+      ],
+      "decisions": [
+        "PROJECTION_VALID_BLOCKED",
+        "PROJECTION_INVALID"
+      ],
+      "completion": "All 15 packets can be deterministically projected and round-tripped in a blocked metadata-only preflight; zero SFT rows emitted until external admission."
+    },
+    "C2-E": {
+      "name": "coverage_gap_and_bounded_supplement",
+      "checks": [
+        "six_task_type_coverage",
+        "event_family_diversity",
+        "independent_incident_count",
+        "fault_domain_coverage",
+        "conflict_cases",
+        "evidence_insufficiency_cases",
+        "abstention_cases",
+        "measurement_chain_cases",
+        "cross_subsystem_cases",
+        "history_transfer_and_rejection"
+      ],
+      "decisions": [
+        "NO_NEW_TASK_REQUIRED",
+        "NEW_SYNTHETIC_CANDIDATE_REQUIRED",
+        "SOURCE_RIGHTS_BLOCKED",
+        "INSUFFICIENT_INDEPENDENT_FAMILIES"
+      ],
+      "completion": "Only source-grounded, materially distinct scenarios are added for demonstrated gaps; variants remain grouped by source event family."
+    }
+  },
+  "shared_statuses": [
+    "NOT_REVIEWED",
+    "CURATOR_REVIEWED",
+    "EXPERT_REVIEW_PENDING",
+    "EXPERT_ADJUDICATED",
+    "RIGHTS_BLOCKED",
+    "REJECTED"
+  ],
+  "hard_gates": {
+    "no_real_case_fields_in_synthetic_track": true,
+    "no_context_only_source_refs_as_current_evidence": true,
+    "no_curator_internal_review_in_model_projection": true,
+    "no_unverified_disposal_execution": true,
+    "no_historical_context_as_current_direct_evidence": true,
+    "no_source_rights_auto_approval": true,
+    "no_packet_variant_counted_as_independent_event": true,
+    "no_official_split_before_family_inventory_and_review": true,
+    "no_sft_export_or_training_without_external_authorization": true
+  },
+  "final_release_targets": {
+    "candidate_packets_reviewed": 15,
+    "candidate_packets_with_explicit_disposition": 15,
+    "projection_contract_passed": true,
+    "deterministic_round_trip": true,
+    "official_split_assignment": 0,
+    "sft_records_emitted": 0,
+    "training_authorized": false
+  },
+  "reviewer_policy": {
+    "independent_reviews_required_for_gold": 2,
+    "curator_can_prepare_candidate": true,
+    "curator_cannot_self_issue_expert_approval": true,
+    "disagreements_require_adjudication": [
+      "fault_source_localization",
+      "source_certainty",
+      "event_episode_identity",
+      "disposal_execution",
+      "source_rights"
+    ]
+  },
+  "provenance_policy": {
+    "source_facts": "L0 source fact cards; public source content only, rights separately reviewed",
+    "synthetic_inputs": "Explicit SYNTHETIC_TEST_ONLY / LITERATURE_DERIVED_SYNTHETIC provenance",
+    "historical_context": "CONTEXT_ONLY",
+    "assistant_target": "One canonical formal_target; case.expected_output must remain equal",
+    "internal_review": "Curator-only, excluded from model projection and serialized target"
+  }
+}

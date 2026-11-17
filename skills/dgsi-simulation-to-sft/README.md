@@ -60,3 +60,8 @@ See `references/DIAGRAM_ANNOTATION.md` for the manual-first node/port/edge workf
 Optional local OCR command: `python scripts/ocr_dgsi_image.py --image <image> --asset-id <id> --output <record.json>`. It requires separately installed Tesseract, Pillow and pytesseract. OCR output remains review-required and does not infer diagram topology.
 
 For a provenance-checked, OCR-only text-region proposal, run `python scripts/propose_diagram_text_regions.py --document-manifest <manifest.json> --ocr-record <ocr.json> --asset <original-image> --output <authorized-local-workspace/regions.json>`. The output contains verbatim, untrusted OCR text; it is written only to the explicitly selected local workspace, refuses overwrite, and prints aggregate metadata only. Every candidate remains `UNRESOLVED_OCR_TEXT`, `not_for_sft=true`, and training-disabled. This is not component recognition or diagram understanding.
+
+
+## Integrated production and operator quick start
+
+Read `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` for the C2-B/C2-C/C2-D/C2-E production process and `references/OPERATOR_QUICKSTART.md` for prerequisites, staged operation, package verification and release-state checklist. Both references are included in the portable toolkit.

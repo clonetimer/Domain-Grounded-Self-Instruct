@@ -174,3 +174,10 @@ The L1 packet schema currently supports the existing real-candidate and literatu
 Allowed status labels: `DRAFT`, `REVIEW_REQUIRED`, `INCOMPLETE_EVIDENCE`, `REJECTED`, `HUMAN_REVIEWED_CANDIDATE`.
 
 Only the authorized DGSI release process may later admit a record for training. This Skill cannot authorize training.
+
+
+## Integrated dataset production
+
+This Skill is used for the complete C2-B through C2-E workflow. Follow `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` for scientific review, formal target review, model projection and coverage. New operators should begin with `references/OPERATOR_QUICKSTART.md`.
+
+The Skill/toolkit and dataset are co-equal deliverables. The Skill defines the repeatable production process; the dataset is a versioned output. Package the Skill with its references, schemas, validators and tests. Keep expert adjudication, source rights, SFT authorization and training as separate gates.
