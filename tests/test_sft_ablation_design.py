@@ -94,6 +94,47 @@ class SFTAblationDesignTests(unittest.TestCase):
         p["candidate_holdout_families"] = [{"family_ref": "SYNTHETIC-ALIAS", "track": "REAL_GOLD", "fact_card_sha256": "a" * 64}]
         self.assertBlocked(p, "ABLATION_SOURCE_FACT_DIGEST_EXPOSURE")
 
+    def test_case_variant_training_holdout_alias_is_blocked(self):
+        p = _plan()
+        p["candidate_training_families"] = [
+            {"family_ref": "FUSE-RW-2000", "track": "LITERATURE_DERIVED_SYNTHETIC",
+             "fact_card_sha256": "a" * 64}]
+        p["candidate_holdout_families"] = [
+            {"family_ref": "fuse-rw-2000", "track": "REAL_GOLD",
+             "fact_card_sha256": "b" * 64}]
+        self.assertBlocked(p, "ABLATION_EVENT_FAMILY_EXPOSURE")
+
+    def test_case_variant_alias_within_training_is_blocked(self):
+        p = _plan()
+        p["candidate_training_families"] = [
+            {"family_ref": "EPISODE-A", "track": "LITERATURE_DERIVED_SYNTHETIC",
+             "fact_card_sha256": "a" * 64},
+            {"family_ref": "episode-a", "track": "LITERATURE_DERIVED_SYNTHETIC",
+             "fact_card_sha256": "b" * 64}]
+        self.assertBlocked(p, "ABLATION_DUPLICATE_FAMILY")
+
+    def test_noncanonical_event_family_identifiers_fail_closed(self):
+        for alias in ("FAMILY A", "FAMILY\\nA", "ＦＡＭＩＬＹ", "FAMILY\\u200bA", " A", "A "):
+            with self.subTest(alias=repr(alias)):
+                p = _plan()
+                p["candidate_training_families"] = [
+                    {"family_ref": alias, "track": "LITERATURE_DERIVED_SYNTHETIC",
+                     "fact_card_sha256": "a" * 64}]
+                self.assertBlocked(p, "INVALID_TRAINING_FAMILY_PROPOSAL")
+
+    def test_distinct_canonical_ids_stay_provisional(self):
+        p = _plan()
+        p["candidate_training_families"] = [
+            {"family_ref": "NASA:TWTA/EPISODE-1", "track": "LITERATURE_DERIVED_SYNTHETIC",
+             "fact_card_sha256": "a" * 64}]
+        p["candidate_holdout_families"] = [
+            {"family_ref": "NASA:TWTA/EPISODE-2", "track": "REAL_GOLD",
+             "fact_card_sha256": "b" * 64}]
+        out = audit_sft_ablation_design(p)
+        self.assertEqual(out["candidate_training_family_count"], 1)
+        self.assertEqual(out["candidate_holdout_family_count"], 1)
+        self.assertFalse(out["formal_split_assigned"])
+
     def test_unhashable_track_is_fixed_error_not_typeerror(self):
         p = _plan()
         p["candidate_holdout_families"] = [{"family_ref": "SYNTHETIC-A", "track": [], "fact_card_sha256": "a" * 64}]
