@@ -81,6 +81,19 @@ class BlindReviewFingerprintManifestTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, rendered)
 
+    def test_historical_l0_source_refs_also_bound_to_packet_review(self):
+        cards = {card["case_id"] for card in CARDS}
+        by_task = {row["task_id"]: row for row in self.manifest["review_packets"]}
+        for packet in COLLECTION["packets"]:
+            expected = set(packet["source_fact_refs"])
+            for hit in packet["history_context"]["items"]:
+                expected.update(ref for ref in hit["source_refs"] if ref in cards)
+            bound = {
+                item["source_fact_ref"]
+                for item in by_task[packet["task_id"]]["source_fact_bindings"]
+            }
+            self.assertEqual(bound, expected)
+
     def test_two_distinct_receipts_are_not_expert_verification(self):
         result = check_blind_review_pair(self.entry, _receipts(self.entry))
         self.assertFalse(result["recommendations_agree"])
