@@ -265,6 +265,32 @@ class EvidenceSubmissionSyntheticTests(unittest.TestCase):
                                     "SUBMISSION_EVIDENCE_REF_TYPE_CONFLICT"):
             audit_evidence_submissions(synthetic_queue(), bundle)
 
+    def test_distinct_refs_with_identical_ml_digest_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(
+                bundle, index, "UPSTREAM_ML", "ML_RESULT",
+                "SYNTHETIC_CASE_SPECIFIC_REF_" + str(index), sha="d" * 64,
+            )
+        with self.assertRaisesRegex(
+            RealEvidenceSubmissionError,
+            "^SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_DIGEST_REUSE$",
+        ):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_identical_log_digest_under_distinct_refs_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(
+                bundle, index, "LOGS_CUTOFF", "DIAGNOSTIC_LOG",
+                "SYNTHETIC_LOG_RECEIPT_" + str(index), sha="e" * 64,
+            )
+        with self.assertRaisesRegex(
+            RealEvidenceSubmissionError,
+            "^SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_DIGEST_REUSE$",
+        ):
+            audit_evidence_submissions(queue, bundle)
+
     def test_common_permission_receipt_may_cover_two_cases(self):
         queue, bundle = self._two_case_bundle()
         for index in (0, 1):
@@ -279,7 +305,8 @@ class EvidenceSubmissionSyntheticTests(unittest.TestCase):
         queue, bundle = self._two_case_bundle()
         for index in (0, 1):
             self._submit_for_case(bundle, index, "UPSTREAM_ML", "ML_RESULT",
-                                  "SYNTHETIC_CASE_SCOPED_ML_" + str(index))
+                                  "SYNTHETIC_CASE_SCOPED_ML_" + str(index),
+                                  sha=("d" if index == 0 else "e") * 64)
         result = audit_evidence_submissions(queue, bundle)
         self.assertEqual(result["submitted_for_review_by_dimension"]["UPSTREAM_ML"], 2)
         self.assertEqual(result["real_gold_count"], 0)
