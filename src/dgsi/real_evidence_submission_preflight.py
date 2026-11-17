@@ -77,6 +77,7 @@ def audit_evidence_submissions(queue: dict[str, Any], bundle: dict[str, Any]) ->
     ref_hash: dict[str, str] = {}
     ref_types: dict[str, str] = {}
     case_scoped_owners: dict[str, str] = {}
+    case_scoped_digest_owners: dict[tuple[str, str], str] = {}
     submitted: Counter[str] = Counter()
     missing: Counter[str] = Counter()
     declaration_count = 0
@@ -145,6 +146,11 @@ def audit_evidence_submissions(queue: dict[str, Any], bundle: dict[str, Any]) ->
                         # Case-specific ML runs, time windows, historical retrievals and
                         # review requests require explicitly distinct per-case receipts.
                         raise RealEvidenceSubmissionError("SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_REUSE")
+                    digest_owner = case_scoped_digest_owners.setdefault((kind, sha), case_id)
+                    if digest_owner != case_id:
+                        # Different refs with identical bytes are still one evidence payload,
+                        # not independent case-specific run, log or review receipts.
+                        raise RealEvidenceSubmissionError("SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_DIGEST_REUSE")
                 declaration_count += 1
     if seen_cases != set(expected_cases):
         raise RealEvidenceSubmissionError("SUBMISSION_CASESET_INCOMPLETE")
