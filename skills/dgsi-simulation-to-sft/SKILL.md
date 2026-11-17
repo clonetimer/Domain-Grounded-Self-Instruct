@@ -179,3 +179,8 @@ The L1 packet schema currently supports the existing real-candidate and literatu
 Allowed status labels: `DRAFT`, `REVIEW_REQUIRED`, `INCOMPLETE_EVIDENCE`, `REJECTED`, `HUMAN_REVIEWED_CANDIDATE`.
 
 Only the authorized DGSI release process may later admit a record for training. This Skill cannot authorize training.
+
+
+## Three-message model preview
+
+Use `scripts/create_l1_model_preview.py` to generate a deterministic three-message preview for C2-D engineering review. The output is PREVIEW_ONLY, has no split, export authorization is false, and zero SFT records are emitted. It is not a training export.
