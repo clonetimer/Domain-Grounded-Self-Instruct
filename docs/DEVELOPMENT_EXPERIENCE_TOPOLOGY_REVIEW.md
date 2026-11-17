@@ -182,3 +182,8 @@ The user clarified that DGSI must deliver both a usable candidate dataset and th
 84. **Keep Skill release state independent from dataset admission.** The Skill can be packaged as a draft production tool while source rights, expert adjudication or SFT authorization still block candidate data. Never make the Skill's package build a surrogate for data approval.
 
 The DGSI Skill is being advanced to `0.2.0-rc.1` with an integrated dataset-production workflow. Its package regression now asserts that the integrated workflow reference and manifest contract are included. The dataset remains blocked pending expert/rights admission.
+
+
+85. **A portable Skill needs an operator-facing quick start, not only expert reference material.** The primary SKILL.md defines the full contract, while a concise operator guide must explain prerequisites, staged execution, stop conditions, local package verification and release states. Include it in the portable ZIP and test its presence so a new operator can start without reconstructing workflow order from many reference files.
+
+The DGSI 0.2.0-rc.1 toolkit now includes `references/OPERATOR_QUICKSTART.md`. This is a usage/readiness improvement, not evidence that the dataset has been admitted or trained.

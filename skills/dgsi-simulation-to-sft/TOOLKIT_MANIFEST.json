@@ -1,6 +1,6 @@
 {
   "toolkit_id": "dgsi-simulation-to-sft",
-  "version": "0.2.0-rc.1",
+  "version": "0.1.0-draft",
   "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
   "primary_skill": "SKILL.md",
   "supported_source_types": [
@@ -45,8 +45,5 @@
   "diagram_text_review_entrypoint": "scripts/audit_diagram_text_review.py",
   "diagram_text_review_scope": "bind local reviewer-supplied decisions to exact candidate/source/asset hashes and evidence locators; reviewer identity is not authenticated; no graph import or training authorization",
   "diagram_review_import_entrypoint": "scripts/import_diagram_text_review.py",
-  "diagram_review_import_scope": "accepted OCR labels become AI_PROPOSED graph nodes only; no ports or edges; local review receipts are not authenticated; no training or Gold authorization",
-  "dataset_and_skill_are_coequal_deliverables": true,
-  "integrated_production_reference": "references/P5C2_INTEGRATED_DATASET_PRODUCTION.md",
-  "integrated_milestone": "P5-C2"
+  "diagram_review_import_scope": "accepted OCR labels become AI_PROPOSED graph nodes only; no ports or edges; local review receipts are not authenticated; no training or Gold authorization"
 }

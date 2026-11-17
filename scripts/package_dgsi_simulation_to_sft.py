@@ -111,7 +111,7 @@ def main() -> int:
 
     manifest = {
         "toolkit": "dgsi-simulation-to-sft",
-        "version": "0.2.0-rc.1",
+        "version": "0.1.0-draft",
         "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
         "files": [
             {"path": name, "size_bytes": len(data), "sha256": sha256(data)}

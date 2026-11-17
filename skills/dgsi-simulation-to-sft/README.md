@@ -62,3 +62,8 @@ See `references/DIAGRAM_ANNOTATION.md` for the manual-first node/port/edge workf
 Optional local OCR command: `python scripts/ocr_dgsi_image.py --image <image> --asset-id <id> --output <record.json>`. It requires separately installed Tesseract, Pillow and pytesseract. OCR output remains review-required and does not infer diagram topology.
 
 For a provenance-checked, OCR-only text-region proposal, run `python scripts/propose_diagram_text_regions.py --document-manifest <manifest.json> --ocr-record <ocr.json> --asset <original-image> --output <authorized-local-workspace/regions.json>`. The output contains verbatim, untrusted OCR text; it is written only to the explicitly selected local workspace, refuses overwrite, and prints aggregate metadata only. Every candidate remains `UNRESOLVED_OCR_TEXT`, `not_for_sft=true`, and training-disabled. This is not component recognition or diagram understanding.
+
+
+## Operator quick start
+
+Read `references/OPERATOR_QUICKSTART.md` for the repeatable batch workflow, rights/privacy gates, INGEST→L0→L1→TARGET→AUDIT→REVIEW→PROJECT→COVERAGE→PACKAGE sequence, release-state vocabulary and handoff checklist. The quick start is part of the portable Skill deliverable.
