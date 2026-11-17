@@ -183,8 +183,30 @@ def audit_l1_synthetic_collection_projection(
             "user_sha256": audit["user_projection_sha256"],
             "target_sha256": audit["formal_target_sha256"],
         })
+    # Bind the *content* of each referenced public L0 fact card as well as
+    # its ID. Curator-only L0 notes are deliberately outside the manifest.
+    # Include source cards referenced by current tasks and by history hits,
+    # but not unrelated cards supplied in the validation batch.
+    cards_by_id = {card["case_id"]: card for card in source_fact_cards}
+    referenced_ids = set()
+    for packet in collection["packets"]:
+        referenced_ids.update(packet["source_fact_refs"])
+        for hit in packet["history_context"]["items"]:
+            referenced_ids.update(
+                ref for ref in hit["source_refs"] if ref in cards_by_id
+            )
+    source_digests = [
+        {
+            "source_fact_id": ref,
+            "public_fact_sha256": _digest({
+                key: value for key, value in cards_by_id[ref].items()
+                if key != "internal_review"
+            }),
+        }
+        for ref in sorted(referenced_ids)
+    ]
     # Stable across JSON array ordering, but changes if membership, event
-    # family, source refs, input or formal target changes.
+    # family, referenced source content, input or formal target changes.
     entries.sort(key=lambda item: item["task_id"])
     return {
         "schema_version": "dgsi-l1-model-projection-collection-preflight.v1",
@@ -195,6 +217,7 @@ def audit_l1_synthetic_collection_projection(
         "collection_projection_sha256": _digest({
             "collection_id": collection["collection_id"],
             "entries": entries,
+            "bound_public_source_facts": source_digests,
         }),
         "internal_review_exported": False,
         "sft_records_emitted": 0,
