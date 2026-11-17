@@ -143,3 +143,10 @@ The audit report is `examples/p5c2_l1_pilot_structural_audit_2026-11-17.json`; t
 
 
 **CI regression lesson (PR #123 initial head):** The first Ubuntu/Windows run reached 945 tests but failed one new test with \`KeyError: 'notes'\`. L1 packet-level \`review\` uses \`notes\`, while the nested Diagnostic Case-level \`review\` uses \`review_notes\`. The test fixture incorrectly treated their contracts as identical. Repair the test against the actual declared schemas rather than weakening validators or suppressing the test; only the latest corrected head may count as a PASS.
+
+
+## P5-C2 whole-collection projection audit: CI error-priority lesson (2026-11-17)
+
+When layering collection validation over a per-packet security preflight, **error priority is part of the security contract**. Initial PR #124 tests correctly inserted a nested curator-only field into a candidate model input; the collection schema rejected the extra property first, producing a generic `L1_PROJECTION_COLLECTION_NOT_VALIDATED` rather than the expected `L1_PROJECTION_CURATOR_FIELD_IN_MODEL_SURFACE`. Both platforms failed the same one regression (952/953 passing). The data remained blocked; no curator material was exported.
+
+Fix: inspect known high-risk model-facing input/target subtrees for curator-only keys **before** invoking general collection JSON-schema validation. Keep generic schema failures for other malformed structures. Do not relax source schema, ignore the failure, or rewrite the test to accept a weaker error code. Exact-head Ubuntu/Windows reruns remain required; older runs are not usable as latest-head proof.
