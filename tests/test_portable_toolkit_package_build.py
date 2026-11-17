@@ -38,7 +38,9 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 names = archive.namelist()
                 self.assertEqual(len(names), len(set(names)))
                 self.assertIn("PACKAGE_SHA256_MANIFEST.json", names)
-                # Collection validation in the extracted toolkit requires this schema.
+                # The extracted projection validator loads this collection schema
+                # from resources/ at runtime; file presence alone is not enough,
+                # so the clean-room preview smoke below exercises the import path.
                 self.assertIn("resources/l1_task_packet_collection.schema.json", names)
                 self.assertIn(
                     "scripts/create_l1_model_preview.py",
@@ -132,7 +134,7 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                         timeout=60,
                         check=False,
                     )
-                    self.assertEqual(0, smoke.returncode, smoke.stderr[:1000])
+                    self.assertEqual(0, smoke.returncode, f"stdout={smoke.stdout[:1000]!r}; stderr={smoke.stderr[:1000]!r}")
                     preview_result = json.loads(preview_output.read_text(encoding="utf-8"))
                     self.assertEqual(15, preview_result["packet_count"])
                     self.assertEqual(9, preview_result["event_family_count"])
