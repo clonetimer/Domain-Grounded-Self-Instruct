@@ -183,3 +183,16 @@ Reusable rules:
 23. **Do not stop at one green workflow when later commits extend the same PR.** Re-verify the latest head, exact new test names and both platform logs; earlier green commits do not validate later geometry or source-state changes.
 
 These tests prove structural consistency and fail-closed behavior only. They do not prove OCR accuracy, diagram semantics, source authenticity or training eligibility.
+
+## P5-B4 source-state regression: BLOCKED parent cannot be rescued by matching child hashes
+
+PR #95's exact-head workflow `43908433433` completed successfully:
+- Ubuntu: 800/800 PASS
+- Windows: both matrix jobs SUCCESS (same exact head)
+- Ubuntu log explicitly contains `test_blocked_source_manifest_cannot_pass_even_with_matching_asset_hashes`.
+
+The regression confirms that a source manifest marked `BLOCKED` remains blocked even when the separately extracted image bytes and OCR record have matching SHA-256 values. The source-level extraction state is authoritative for downstream admission.
+
+Reusable rule 24:
+
+24. **Keep integrity and admissibility separate.** Matching hashes prove byte identity between referenced artifacts; they do not reverse a parent source's rejection state, grant processing permission, or establish source validity. Every downstream stage must enforce upstream admission status before using child artifacts.
