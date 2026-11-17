@@ -120,7 +120,7 @@ def check_blind_review_pair(
         status = receipt.get("recommendation")
         if status not in ("ACCEPT", "REVISE", "REJECT"):
             raise L1BlindReviewManifestError("REVIEW_RECEIPT_STATUS_INVALID")
-        tokens.append(token)
+        tokens.append(token.strip())
         statuses.append(status)
     if len(set(tokens)) != 2:
         raise L1BlindReviewManifestError("REVIEW_RECEIPT_REVIEWER_NOT_INDEPENDENT")
