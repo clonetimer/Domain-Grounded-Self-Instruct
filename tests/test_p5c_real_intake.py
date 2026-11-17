@@ -98,6 +98,32 @@ class RealCandidateIntakeTests(unittest.TestCase):
         doc["policy"]["historical_experience_role"] = "CONFIRMS_ROOT_CAUSE"
         self.assert_blocked(doc, "REAL_INTAKE_POLICY_INVALID")
 
+    def test_notes_cannot_smuggle_private_excerpt_into_frozen_register(self):
+        doc = fixture()
+        doc["cases"][0]["notes"].append("UNREVIEWED_PRIVATE_SOURCE_EXCERPT")
+        self.assert_blocked(doc, "REAL_INTAKE_SNAPSHOT_TEXT_DRIFT")
+
+    def test_source_review_scope_cannot_be_silently_rewritten(self):
+        doc = fixture()
+        doc["source_document"]["review_scope"] = "UNREVIEWED_PRIVATE_LOG_EXCERPT"
+        self.assert_blocked(doc, "REAL_INTAKE_SNAPSHOT_TEXT_DRIFT")
+
+    def test_review_artifact_cannot_be_swapped_without_new_snapshot(self):
+        doc = fixture()
+        doc["source_document"]["content_reviewed_artifact"] = "unreviewed_internal_notes.docx"
+        self.assert_blocked(doc, "REAL_INTAKE_SNAPSHOT_TEXT_DRIFT")
+
+    def test_required_evidence_list_is_immutable(self):
+        doc = fixture()
+        doc["required_next_evidence"].append("UNREVIEWED_PRIVATE_EXCERPT")
+        self.assert_blocked(doc, "REAL_INTAKE_SNAPSHOT_TEXT_DRIFT")
+
+    def test_object_key_order_does_not_invalidate_canonical_snapshot(self):
+        doc = fixture()
+        permuted = {key: doc[key] for key in reversed(doc)}
+        result = audit_real_candidate_intake(permuted)
+        self.assertEqual(result["decision"], "BLOCKED_PENDING_REAL_EVIDENCE")
+
     def test_cli_emits_only_counts_and_never_source_payload(self):
         run = subprocess.run(
             [sys.executable, str(ROOT / "scripts" / "audit_p5c_real_intake.py")],
