@@ -224,3 +224,21 @@ Reusable rule 26:
 26. **Test serialized text semantics, not just candidate membership.** For multi-line OCR hypotheses, assert the exact separator and ordering in the emitted text, alongside source line IDs and geometry. Escaping mistakes can preserve candidate counts and IDs while silently corrupting the reviewer's displayed label.
 
 The pair grouping remains a geometric hypothesis only. The original single-line candidates are retained, and no component semantics are inferred.
+
+## P5-B4.2b CI failure: stale recipe assertion after versioned behavior change
+
+Workflow `43997986946` failed on both Ubuntu and Windows at the same single assertion:
+`test_candidates_are_exact_unresolved_ocr_text_only` expected `isolated-ocr-line-v1`, while the implementation and JSON Schema correctly emitted `isolated-lines-plus-pair-hypotheses-v2`.
+
+The four new pair-hypothesis tests were not the cause. The failure was a stale test expectation left behind when the generation recipe was deliberately versioned to include the new two-line hypothesis behavior. The implementation, schema and test contract must advance atomically when a behavior-affecting recipe version changes.
+
+Correction:
+- Update the expected recipe assertion to `isolated-lines-plus-pair-hypotheses-v2`.
+- Keep schema and runtime recipe constants aligned.
+- Retain explicit tests for singleton preservation, pair generation, distance/overlap rejection, order independence and exact newline serialization.
+
+Reusable rule 27:
+
+27. **Versioned behavior changes require atomic contract updates.** When a generator recipe/version changes, update runtime constants, JSON Schema, golden fixtures, test assertions, documentation and package manifest in one change set. Add a test that asserts the runtime recipe equals the schema contract; do not rely only on a hand-maintained expected string in one test.
+
+The failure is a regression-test synchronization issue, not a cross-platform implementation difference: both operating systems failed identically at the same stale assertion.
