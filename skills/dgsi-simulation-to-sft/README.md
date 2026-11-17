@@ -58,3 +58,5 @@ Candidate generation does not mean Gold approval or training authorization. No s
 See `references/DIAGRAM_ANNOTATION.md` for the manual-first node/port/edge workflow. Image extraction and graph interpretation are separate; no AI-proposed edge is considered physically verified.
 
 Optional local OCR command: `python scripts/ocr_dgsi_image.py --image <image> --asset-id <id> --output <record.json>`. It requires separately installed Tesseract, Pillow and pytesseract. OCR output remains review-required and does not infer diagram topology.
+
+For a provenance-checked, OCR-only text-region proposal, run `python scripts/propose_diagram_text_regions.py --document-manifest <manifest.json> --ocr-record <ocr.json> --asset <original-image> --output <authorized-local-workspace/regions.json>`. The output contains verbatim, untrusted OCR text; it is written only to the explicitly selected local workspace, refuses overwrite, and prints aggregate metadata only. Every candidate remains `UNRESOLVED_OCR_TEXT`, `not_for_sft=true`, and training-disabled. This is not component recognition or diagram understanding.

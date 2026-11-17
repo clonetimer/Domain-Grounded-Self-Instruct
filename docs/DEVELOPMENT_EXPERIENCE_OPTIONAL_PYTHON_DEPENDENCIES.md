@@ -156,3 +156,61 @@ Reusable rule:
 19. **Insert tests at the correct syntactic scope.** When extending compact test modules, inspect the class boundary and module entry-point guard before appending. Run compile/import or a focused test command before launching full cross-platform CI; verify newly added test names appear in the CI log.
 
 The failure reinforces that a passing prior workflow cannot validate code added afterward. Exact-head CI must run after every test-source change.
+
+## P5-B4.1 exact-head CI: nested OCR geometry and source-level failure propagation
+
+The corrected provenance implementation completed exact-head cross-platform CI:
+
+- Exact head: `d91b6e4bf8023e2060f69af5ace2729bd5b554dd`
+- PR workflow: `43904056941`
+- Ubuntu: 798/798 PASS
+- Windows: 798/798 PASS
+- Both logs contain the two new provenance regressions:
+  - `test_empty_ocr_line_id_rejected`
+  - `test_ocr_word_boxes_must_fit_inside_parent_line`
+
+The additional checks close two distinct geometry gaps:
+1. A whitespace-only OCR line ID is not a usable evidence identity, even if it is technically a non-empty string.
+2. A word box can be inside the image but outside its declared parent line box. Image-bound checks alone are insufficient; nested geometry must be validated.
+
+A subsequent review also identified a source-level state propagation gap: a document manifest marked `BLOCKED` must not become admissible merely because a separately extracted asset and OCR record have matching hashes. PR #95 adds an explicit fail-closed check before asset processing. A source-level rejection status takes precedence over child artifact consistency.
+
+Reusable rules:
+
+20. **Validate geometry at every containment level.** Check image bounds, line bounds, and word-within-line bounds independently; a child can be image-valid but parent-invalid.
+21. **Reject semantically blank identifiers.** Whitespace-only IDs pass basic non-empty string checks but cannot provide stable evidence identity.
+22. **Propagate parent failure states to child workflows.** A matching child hash cannot override a source/document manifest marked BLOCKED. Validate parent admission status before expensive or downstream processing.
+23. **Do not stop at one green workflow when later commits extend the same PR.** Re-verify the latest head, exact new test names and both platform logs; earlier green commits do not validate later geometry or source-state changes.
+
+These tests prove structural consistency and fail-closed behavior only. They do not prove OCR accuracy, diagram semantics, source authenticity or training eligibility.
+
+## P5-B4 source-state regression: BLOCKED parent cannot be rescued by matching child hashes
+
+PR #95's exact-head workflow `43908433433` completed successfully:
+- Ubuntu: 800/800 PASS
+- Windows: both matrix jobs SUCCESS (same exact head)
+- Ubuntu log explicitly contains `test_blocked_source_manifest_cannot_pass_even_with_matching_asset_hashes`.
+
+The regression confirms that a source manifest marked `BLOCKED` remains blocked even when the separately extracted image bytes and OCR record have matching SHA-256 values. The source-level extraction state is authoritative for downstream admission.
+
+Reusable rule 24:
+
+24. **Keep integrity and admissibility separate.** Matching hashes prove byte identity between referenced artifacts; they do not reverse a parent source's rejection state, grant processing permission, or establish source validity. Every downstream stage must enforce upstream admission status before using child artifacts.
+
+## P5-B4.2a exact-head CI: local text-region CLI and portable bundle
+
+Exact head `412f327545c47b5ffd07397bb6ba596a696fb18b` completed workflow `43991124346`:
+- Ubuntu: 812/812 PASS
+- Windows: 812/812 PASS
+- Both logs contain all three new CLI regressions:
+  - `test_writes_local_review_required_output_without_echoing_ocr_text`
+  - `test_refuses_to_overwrite_existing_output`
+  - `test_blocked_source_emits_payload_free_error`
+- Both logs contain `test_full_toolkit_zip_contains_run_receipt_module_and_is_not_user_data` and `test_required_portable_files_exist`.
+- Candidate smoke is explicitly `PASS_STRUCTURAL_ONLY`; blind pressure and holdout runners remain `DRY_RUN`, with no external model calls.
+
+Reusable rule 25:
+
+25. **Test the user-facing CLI and detached package, not only the Python function.** A pure-function test cannot catch argument wiring, output overwrite, stdout leakage or missing portable files. Add subprocess tests for exit codes, payload-free stdout and filesystem effects, and a ZIP-level regression that opens the generated archive, checks the allowlist and verifies every manifest hash.
+
+The 812-test result confirms the code and packaging contracts on these two CI platforms. It does not establish OCR recognition accuracy or engineering-semantic correctness.

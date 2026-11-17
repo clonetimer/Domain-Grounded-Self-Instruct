@@ -28,7 +28,8 @@
     "resources/l1_task_packet.schema.json",
     "resources/diagnostic_sft.schema.json",
     "skills/dgsi-simulation-to-sft/schemas/design_derived_batch.schema.json",
-    "skills/dgsi-simulation-to-sft/schemas/simulation_run_receipt.schema.json"
+    "skills/dgsi-simulation-to-sft/schemas/simulation_run_receipt.schema.json",
+    "skills/dgsi-simulation-to-sft/schemas/diagram_text_regions.schema.json"
   ],
   "known_schema_gap": "Formal L1 simulation task representation, engine-specific semantic adapters and SFT release remain unimplemented. The simulation receipt schema is local intake/byte verification only and is not formal L1 admission.",
   "simulation_receipt_entrypoint": "scripts/audit_simulation_run_receipt.py",
@@ -37,5 +38,7 @@
   "training_authorized": false,
   "gold_authorized": false,
   "sft_export_authorized": false,
-  "simulation_receipt_scope": "local receipt metadata, bounded structural leakage checks and local artifact byte/hash verification; not source authentication, physics validation, native engine certification or L1/SFT admission"
+  "simulation_receipt_scope": "local receipt metadata, bounded structural leakage checks and local artifact byte/hash verification; not source authentication, physics validation, native engine certification or L1/SFT admission",
+  "diagram_text_regions_entrypoint": "scripts/propose_diagram_text_regions.py",
+  "diagram_text_regions_scope": "one provenance-bound unresolved candidate per OCR line; verbatim OCR text only; no component, port, connector, hierarchy or fault inference"
 }

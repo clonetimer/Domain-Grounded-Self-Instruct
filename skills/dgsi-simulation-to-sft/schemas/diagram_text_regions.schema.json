@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI provenance-bound unresolved OCR text-region candidates v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_id",
+    "source_sha256",
+    "asset_id",
+    "asset_sha256",
+    "ocr_record_sha256",
+    "generation_recipe",
+    "candidates",
+    "review_status",
+    "not_for_sft",
+    "training_authorized",
+    "gold_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi.diagram-text-regions.v1"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "asset_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "asset_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "ocr_record_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generation_recipe": {
+      "const": "isolated-ocr-line-v1"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "label_text",
+          "ocr_line_ids",
+          "bbox_px",
+          "evidence_locators",
+          "object_type",
+          "interpretation",
+          "review_status"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^OCR-[a-f0-9]{20}$"
+          },
+          "label_text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ocr_line_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            }
+          },
+          "bbox_px": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "left",
+              "top",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "left": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "top": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "evidence_locators": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "object_type": {
+            "const": "UNKNOWN"
+          },
+          "interpretation": {
+            "const": "UNRESOLVED_OCR_TEXT"
+          },
+          "review_status": {
+            "const": "MANUAL_REVIEW_REQUIRED"
+          }
+        }
+      }
+    },
+    "review_status": {
+      "const": "REVIEW_REQUIRED"
+    },
+    "not_for_sft": {
+      "const": true
+    },
+    "training_authorized": {
+      "const": false
+    },
+    "gold_authorized": {
+      "const": false
+    }
+  }
+}
