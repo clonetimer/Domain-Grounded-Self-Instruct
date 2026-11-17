@@ -211,3 +211,6 @@ The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/cr
 
 
 93. **Distinguish portable tooling from input datasets in operator instructions.** A reusable Skill ZIP should not silently imply that repository example data is included. State clearly that the operator supplies authorized L0/L1 inputs, provide shell-specific path examples, and test the extracted CLI against external fixture data. This proves the tool can process an independently supplied batch without bundling source-derived or private datasets.
+
+
+94. **Do not collapse actionable runtime failures into one generic input error.** Keep user-facing errors privacy-safe, but identify the processing stage (read collection, read source facts, validate/build projection, write output) and a stable error category. This lets operators correct missing files, invalid JSON, schema fields, permissions and output conflicts without exposing raw telemetry, prompts or source payloads. Keep fail-closed behavior and assert that rejected runs emit zero SFT rows.
