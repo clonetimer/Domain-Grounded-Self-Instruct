@@ -169,21 +169,3 @@ The user explicitly approved one integrated completion of C2-B through C2-E rath
 80. **Do not fill source-rights or expert-review gaps with engineering assertions.** Public availability, correct schema, source citation and passing CI do not establish permission for third-party training or independent domain correctness. Quarantine unresolved source families and report the resulting coverage gap honestly.
 
 81. **A blocked metadata-only projection can be a valid engineering deliverable.** It can prove allowlist behavior, deterministic serialization, round-trip integrity and zero leakage while intentionally emitting zero SFT rows. This is preferable to relaxing admission gates to create an apparently complete dataset.
-
-
-## DGSI Skill is a co-equal product deliverable (2026-11-17)
-
-The user clarified that DGSI must deliver both a usable candidate dataset and the reusable generation Skill/toolkit. The Skill cannot be treated as incidental documentation or left behind after dataset work.
-
-82. **Treat the generation Skill and dataset as co-equal release artifacts.** The dataset is one output; the Skill, references, schemas, validators, tests and packaging workflow are the repeatable production capability. A dataset handoff without its matching Skill/toolkit is incomplete.
-
-83. **Package the exact workflow, not just the main Skill entrypoint.** The portable ZIP must include the integrated C2-B/C2-C/C2-D/C2-E reference, pinned contracts, relevant validators and tests. Verify the archive manifest and execute offline tests after extraction without repository PYTHONPATH.
-
-84. **Keep Skill release state independent from dataset admission.** The Skill can be packaged as a draft production tool while source rights, expert adjudication or SFT authorization still block candidate data. Never make the Skill's package build a surrogate for data approval.
-
-The DGSI Skill is being advanced to `0.2.0-rc.1` with an integrated dataset-production workflow. Its package regression now asserts that the integrated workflow reference and manifest contract are included. The dataset remains blocked pending expert/rights admission.
-
-
-85. **A portable Skill needs an operator-facing quick start, not only expert reference material.** The primary SKILL.md defines the full contract, while a concise operator guide must explain prerequisites, staged execution, stop conditions, local package verification and release states. Include it in the portable ZIP and test its presence so a new operator can start without reconstructing workflow order from many reference files.
-
-The DGSI 0.2.0-rc.1 toolkit now includes `references/OPERATOR_QUICKSTART.md`. This is a usage/readiness improvement, not evidence that the dataset has been admitted or trained.
