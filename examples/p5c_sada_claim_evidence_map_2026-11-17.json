@@ -80,11 +80,6 @@
       "allowed_current_use": "RECORDED_MEASURE_ONLY_NOT_VERIFIED_EXECUTION"
     }
   ],
-  "excluded_internal_review_prompts": [
-    "三次电流/主误差电压跌落与太阳翼调整堵转的先后关系是否有原始日志支持？",
-    "轴温 181°C 和壳温 150°C 分别对应哪个测点及测量定义？",
-    "停用南太阳翼是实际执行措施，是否有后续状态记录？"
-  ],
   "required_dgsi_inputs": {
     "upstream_ml_result": {
       "status": "NOT_RECEIVED",
@@ -134,5 +129,15 @@
     "source_attribution_must_be_preserved": true,
     "no_inferred_temporal_order": true,
     "no_claim_of_verified_execution_without_command_and_state_evidence": true
+  },
+  "internal_review": {
+    "not_for_sft": true,
+    "storage": "AUTHORIZED_PRIVATE_REVIEW_ONLY",
+    "curator_prompt_refs": [
+      "SADA-IR-01",
+      "SADA-IR-02",
+      "SADA-IR-03"
+    ],
+    "public_text_included": false
   }
 }
