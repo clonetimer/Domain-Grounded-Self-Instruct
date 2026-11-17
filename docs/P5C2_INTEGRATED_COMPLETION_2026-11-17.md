@@ -109,3 +109,9 @@ These states are not interchangeable. P5-C2 can deliver an engineering-reviewed,
 - No real-case evidence is synthesized into this literature track.
 
 Machine-readable contract: `examples/p5c2_integrated_review_contract_2026-11-17.json`.
+
+## C2-B/C engineering precheck — source-role findings (2026-11-17)
+
+A source-bounded structural check of all 15 current L1 v0.1 packets found **31 L0-literature citation occurrences incorrectly occupying current synthetic-fault direct evidence roles** across all 15 tasks (16 candidate-cause supports and 15 evidence-assessment supports). The independent, unmerged PR #122 v0.2 review candidate reduced these to **21 occurrences in 10 tasks**; five specialized task variants have no remaining L0 current-evidence-role occurrences. This is a **cross-branch observation**, not a claim that the PR #125 branch contains or has accepted v0.2.
+
+The machine-readable per-task register is `examples/p5c2_l1_evidence_role_precheck_2026-11-17.json`, pinned to both Git blob object IDs and the referenced L0 source-card blob. It is an engineering **precheck**; no source-paper verification, usage-rights clearance or independent expert adjudication is claimed. All 15 packets remain REVIEW_REQUIRED. The remaining 21 occurrences must be corrected in a **new immutable review candidate**, never in-place in the frozen v0.1 corpus; rebind formal targets, expected outputs and hashes, then audit both current-event and historical-context evidence roles again. Reuse the existing PR #108 evidence-role constraint rather than creating a conflicting new release gate. No official split, SFT row or training permission follows from this finding.
