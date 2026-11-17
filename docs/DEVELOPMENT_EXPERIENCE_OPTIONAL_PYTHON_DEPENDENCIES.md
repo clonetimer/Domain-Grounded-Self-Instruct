@@ -196,3 +196,21 @@ The regression confirms that a source manifest marked `BLOCKED` remains blocked 
 Reusable rule 24:
 
 24. **Keep integrity and admissibility separate.** Matching hashes prove byte identity between referenced artifacts; they do not reverse a parent source's rejection state, grant processing permission, or establish source validity. Every downstream stage must enforce upstream admission status before using child artifacts.
+
+## P5-B4.2a exact-head CI: local text-region CLI and portable bundle
+
+Exact head `412f327545c47b5ffd07397bb6ba596a696fb18b` completed workflow `43991124346`:
+- Ubuntu: 812/812 PASS
+- Windows: 812/812 PASS
+- Both logs contain all three new CLI regressions:
+  - `test_writes_local_review_required_output_without_echoing_ocr_text`
+  - `test_refuses_to_overwrite_existing_output`
+  - `test_blocked_source_emits_payload_free_error`
+- Both logs contain `test_full_toolkit_zip_contains_run_receipt_module_and_is_not_user_data` and `test_required_portable_files_exist`.
+- Candidate smoke is explicitly `PASS_STRUCTURAL_ONLY`; blind pressure and holdout runners remain `DRY_RUN`, with no external model calls.
+
+Reusable rule 25:
+
+25. **Test the user-facing CLI and detached package, not only the Python function.** A pure-function test cannot catch argument wiring, output overwrite, stdout leakage or missing portable files. Add subprocess tests for exit codes, payload-free stdout and filesystem effects, and a ZIP-level regression that opens the generated archive, checks the allowlist and verifies every manifest hash.
+
+The 812-test result confirms the code and packaging contracts on these two CI platforms. It does not establish OCR recognition accuracy or engineering-semantic correctness.
