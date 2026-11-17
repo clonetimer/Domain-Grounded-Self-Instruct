@@ -55,7 +55,7 @@ class L1ModelProjectionAuditTests(unittest.TestCase):
         marker = "CURATOR_PRIVATE_TEST_MARKER_NOT_FOR_SFT"
         packet["case"]["internal_review"]["curator_prompts"].append(marker)
         packet["review"]["notes"].append(marker)
-        packet["case"]["review"]["notes"].append(marker)
+        packet["case"]["review"]["review_notes"].append(marker)
         after = self.audit(packet)
         self.assertEqual(before, after)
         self.assertNotIn(marker, json.dumps(after))
