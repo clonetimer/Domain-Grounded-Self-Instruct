@@ -28,8 +28,15 @@ python scripts/create_l1_blind_review_manifest.py \
   --output local_review/l1_blind_review_fingerprint_manifest.json
 ```
 
-The CLI writes only review IDs, snapshot fingerprints, two **unassigned** reviewer slots and blocking states. It refuses to overwrite an existing destination, prints aggregate-only status and does not emit SFT rows. `local_review/` is an operator-managed directory; the output is not an expert receipt or an admission decision. The generated JSON must be kept paired with the exact L1/L0 source snapshots when distributed for controlled blind review.
+The CLI writes only review IDs, snapshot fingerprints, two **unassigned** reviewer slots and blocking states. Output publishing uses an atomic, same-directory hard-link creation from a complete temporary file (not a rename/copy or an `exists()`-then-write check): existing regular files, existing symlinks (including dangling symlinks), and a losing concurrent writer are refused with `OUTPUT_ALREADY_EXISTS`. This prevents an accidental overwrite of another review snapshot or a symlink target on both Windows and Ubuntu. If the filesystem cannot create hard links, the operation fails closed. It prints aggregate-only status and does not emit SFT rows. `local_review/` is an operator-managed directory; the output is not an expert receipt or an admission decision. The generated JSON must be kept paired with the exact L1/L0 source snapshots when distributed for controlled blind review.
 
 ## Regression scope
 
 Run `python -m unittest tests.test_l1_blind_review_manifest` with repository `src/` on `PYTHONPATH`, or run the repository's established full CI matrix. The tests use `SYNTHETIC_TEST_ONLY` reviewer tokens and do not represent genuine expert reviews.
+
+
+## No-clobber guarantee and limits (2026-11-18)
+
+The atomic hard-link publication contract is regression-tested with two concurrent CLI writers and a dangling output symlink. Only one concurrent process can publish a new output path, and publication happens after the complete JSON has been written. The manifest and source files must still reside in an operator-controlled directory with appropriate OS permissions; this safeguard is not a reviewer signature, a tamper-proof storage system, a scientific audit, or an authorization to train. An interruption before the hard-link step leaves no published manifest (though an orphaned temporary file can remain after abrupt process termination); treat any unreadable or truncated JSON as rejected, and generate a new named manifest instead of overwriting it.
+
+The first candidate `Path.open("x")` passed Ubuntu but failed the Windows dangling-symlink regression: the Windows runner followed the dangling symlink. The hardened design uses `tempfile.mkstemp` + `os.link` only; cross-platform tests must pass at the final exact head before this fix is accepted.
