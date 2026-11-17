@@ -38,7 +38,9 @@ DOCS = (
 VALIDATOR_FILES = (
     "requirements-validation.txt",
     "src/dgsi",
+    "tests/test_l1_model_projection_preview.py",
     "scripts/audit_diagnostic_sft_lineage.py",
+    "scripts/create_l1_model_preview.py",
     "scripts/audit_l1_global_lineage.py",
     "scripts/audit_simulation_run_receipt.py",
     "scripts/create_simulation_receipt_fixture.py",
