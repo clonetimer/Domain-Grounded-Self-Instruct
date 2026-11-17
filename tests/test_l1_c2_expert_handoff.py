@@ -121,7 +121,7 @@ class C2ExpertHandoffTests(unittest.TestCase):
                     self.assertIn("word/document.xml", archive.namelist())
                     xml = archive.read("word/document.xml")
                     ElementTree.fromstring(xml)
-                    self.assertIn(b"sha256", xml.lower())
+                    self.assertIn(b"sha-256", xml.lower())
                     self.assertNotIn(b"formal_target", xml)
             before = (out / "C2_reviewer_A_BLANK.json").read_bytes()
             second = subprocess.run(cmd, capture_output=True, text=True, check=False)
