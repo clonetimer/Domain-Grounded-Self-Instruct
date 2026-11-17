@@ -202,3 +202,6 @@ The integrated review candidate is `examples/l1_literature_synthetic_task_packet
 90. **Separate a three-message engineering preview from an SFT record.** A C2-D deliverable can expose actual system/user/assistant surfaces for review while keeping `split=null`, `preview_only=true`, `export_authorized=false` and `sft_records_emitted=0`. Do not force a preview through an SFT schema requiring an official split or approval. Validate deterministic round-trip and canonical-target equality; never place preview artifacts in a training directory.
 
 The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/create_l1_model_preview.py`, test `tests/test_l1_model_projection_preview.py`.
+
+
+91. **Use one authoritative Skill version source.** The VERSION file is the sole version source. Toolkit manifest and generated ZIP manifest must read/agree with it, and package tests must assert equality. A builder hardcoded to the intended version can silently diverge when VERSION changes; a successful archive alone does not detect this.
