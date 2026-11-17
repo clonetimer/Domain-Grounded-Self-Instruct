@@ -199,6 +199,25 @@ A curator-level review was applied to all 15 literature-derived synthetic packet
 The integrated review candidate is `examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json`; dispositions are in `examples/p5c2_packet_review_dispositions_2026-11-17.json`; coverage decisions are in `examples/p5c2_coverage_gap_report_2026-11-17.json`. All remain curator-reviewed candidates only, with zero expert approvals, zero rights-cleared families and zero SFT records.
 
 
+90. **Separate a three-message engineering preview from an SFT record.** A C2-D deliverable can expose actual system/user/assistant surfaces for review while keeping `split=null`, `preview_only=true`, `export_authorized=false` and `sft_records_emitted=0`. Do not force a preview through an SFT schema requiring an official split or approval. Validate deterministic round-trip and canonical-target equality; never place preview artifacts in a training directory.
+
+The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/create_l1_model_preview.py`, test `tests/test_l1_model_projection_preview.py`.
+
+
+91. **Use one authoritative Skill version source.** The VERSION file is the sole version source. Toolkit manifest and generated ZIP manifest must read/agree with it, and package tests must assert equality. A builder hardcoded to the intended version can silently diverge when VERSION changes; a successful archive alone does not detect this.
+
+
+92. **Test portable tools after extraction, not only ZIP contents.** A ZIP can contain every expected file and valid hashes while its CLI still fails to import the package from a clean extracted directory. Bootstrap imports relative to the package root or document/install dependencies explicitly, then run at least `--help` and a minimal offline smoke test with repository `PYTHONPATH` removed.
+
+
+93. **Distinguish portable tooling from input datasets in operator instructions.** A reusable Skill ZIP should not silently imply that repository example data is included. State clearly that the operator supplies authorized L0/L1 inputs, provide shell-specific path examples, and test the extracted CLI against external fixture data. This proves the tool can process an independently supplied batch without bundling source-derived or private datasets.
+
+
+94. **Do not collapse actionable runtime failures into one generic input error.** Keep user-facing errors privacy-safe, but identify the processing stage (read collection, read source facts, validate/build projection, write output) and a stable error category. This lets operators correct missing files, invalid JSON, schema fields, permissions and output conflicts without exposing raw telemetry, prompts or source payloads. Keep fail-closed behavior and assert that rejected runs emit zero SFT rows.
+
+
+95. **Package transitive runtime schema dependencies and exercise the same validation path after extraction.** The L1 preview CLI imports successfully and can read its two externally supplied JSON inputs, yet still fails in `BUILD_PREVIEW` if `schema_validation.py` cannot open `resources/l1_task_packet_collection.schema.json` in the extracted toolkit. Maintain an explicit runtime schema allowlist in `package_dgsi_simulation_to_sft.py`, assert required schemas in the ZIP, and invoke the extracted CLI against the real external 15-packet candidate with repository `PYTHONPATH` removed. Keep stable aggregate-only errors (`INPUT_FILE_NOT_FOUND`, stage) and do not work around a missing schema by bypassing validation or embedding private datasets.
+
 ## P5-C2 upstream portable Skill integration lessons (reconciled with PR #125)
 
 - **A portable Skill needs an operator-facing quick start, not only expert reference material.** The primary SKILL.md defines the full contract, while a concise operator guide explains prerequisites, staged execution, stop conditions, local package verification and release states. Include it in the portable ZIP and test its presence so a new operator can start without reconstructing workflow order from multiple references.
