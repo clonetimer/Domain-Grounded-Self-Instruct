@@ -8,7 +8,7 @@ This is a **metadata-only technical review request** for the existing **15 liter
 
 A source/content change requires a new manifest and new expert review tied to the new fingerprints. Historical source excerpts are not current-scenario direct evidence; these fingerprints establish review identity only, **not** truth or approval. `internal_review` content is excluded from L0 public hashes and no reviewer notes, identity, raw prompt or formal target are exported by the manifest.
 
-The pair checker validates two receipts' task ID, full packet digest, public source digest, distinct nonempty reviewer tokens and allowed `ACCEPT/REVISE/REJECT` recommendations. It **does not verify expert identities, authorizations, rights, independence beyond token inequality, adjudication or correctness**. Even two `ACCEPT` values return `expert_adjudicated=false`, `gold_eligible=false`, `training_authorized=false`. Never store real reviewer identity or restricted opinions in the public repository.
+The pair checker validates two receipts' task ID, **whole-collection projection digest**, full packet digest, public source digest, distinct nonempty reviewer tokens and allowed `ACCEPT/REVISE/REJECT` recommendations. It **does not verify expert identities, authorizations, rights, independence beyond token inequality, adjudication or correctness**. Even two `ACCEPT` values return `expert_adjudicated=false`, `gold_eligible=false`, `training_authorized=false`. Never store real reviewer identity or restricted opinions in the public repository.
 
 ## External expert/rights steps still required
 
@@ -40,3 +40,11 @@ Run `python -m unittest tests.test_l1_blind_review_manifest` with repository `sr
 The atomic hard-link publication contract is regression-tested with two concurrent CLI writers and a dangling output symlink. Only one concurrent process can publish a new output path, and publication happens after the complete JSON has been written. The manifest and source files must still reside in an operator-controlled directory with appropriate OS permissions; this safeguard is not a reviewer signature, a tamper-proof storage system, a scientific audit, or an authorization to train. An interruption before the hard-link step leaves no published manifest (though an orphaned temporary file can remain after abrupt process termination); treat any unreadable or truncated JSON as rejected, and generate a new named manifest instead of overwriting it.
 
 The first candidate `Path.open("x")` passed Ubuntu but failed the Windows dangling-symlink regression: the Windows runner followed the dangling symlink. The hardened design uses `tempfile.mkstemp` + `os.link` only; cross-platform tests must pass at the final exact head before this fix is accepted.
+
+## Collection-bound receipt contract (2026-11-18)
+
+The manifest now copies the existing `collection_projection_sha256` into **each review packet entry**. A receipt must echo that digest in addition to `task_id`, `packet_sha256`, `source_public_sha256`, `reviewer_token`, and `recommendation`. The pair checker rejects missing or stale cohort identities with `REVIEW_RECEIPT_STALE_COLLECTION`; a missing/invalid digest on the trusted manifest entry yields `REVIEW_ENTRY_COLLECTION_FINGERPRINT_INVALID`.
+
+This fixes cross-collection receipt reuse: an unchanged individual task and its L0 fact cards cannot carry an earlier review into a new collection snapshot that changes other tasks, references, or event-family membership. All older receipts lacking this field are **incompatible** with the new checker and require new offline review against the frozen current manifest. This is structural integrity only; identical tokens are not authenticated human identities, and two `ACCEPT` recommendations still cannot authorize SFT, Gold, official splits, or training.
+
+Regression tests cover a different collection digest, a missing receipt digest, and an invalid manifest-entry digest. Follow the same latest-head Ubuntu/Windows CI gate before any integration.
