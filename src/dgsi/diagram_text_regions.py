@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / "skills/dgsi-simulation-to-sft/schemas/diagram_text_regions.schema.json"
 TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
 RECIPE = "isolated-lines-plus-pair-hypotheses-v2"
-PAIR_RULE = "horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
+PAIR_RULE = "adjacent-horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
 
 
 class DiagramTextRegionError(ValueError):
