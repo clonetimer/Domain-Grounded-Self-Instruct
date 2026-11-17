@@ -43,17 +43,20 @@ def main(argv=None) -> int:
         manifest = build_l1_blind_review_manifest(
             collection, source_fact_cards=sources["cards"]
         )
-        stage = "CHECK_OUTPUT"
-        if args.output.exists():
-            return _reject("OUTPUT_ALREADY_EXISTS", stage)
         stage = "WRITE_REVIEW_MANIFEST"
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
-            encoding="utf-8",
-        )
+        # "x" enforces atomic exclusive creation on Ubuntu and Windows.
+        # Checking Path.exists() and then writing is a TOCTOU race; it also
+        # misses dangling symlinks and could overwrite their targets.
+        with args.output.open("x", encoding="utf-8", newline="\n") as output:
+            output.write(
+                json.dumps(manifest, ensure_ascii=False, indent=2, allow_nan=False)
+                + "\n"
+            )
     except (L1BlindReviewManifestError, L1ProjectionAuditError) as exc:
         return _reject(str(exc), stage)
+    except FileExistsError:
+        return _reject("OUTPUT_ALREADY_EXISTS", stage)
     except FileNotFoundError:
         return _reject("INPUT_FILE_NOT_FOUND", stage)
     except PermissionError:
