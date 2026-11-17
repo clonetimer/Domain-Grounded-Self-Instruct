@@ -205,3 +205,6 @@ The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/cr
 
 
 91. **Use one authoritative Skill version source.** The VERSION file is the sole version source. Toolkit manifest and generated ZIP manifest must read/agree with it, and package tests must assert equality. A builder hardcoded to the intended version can silently diverge when VERSION changes; a successful archive alone does not detect this.
+
+
+92. **Test portable tools after extraction, not only ZIP contents.** A ZIP can contain every expected file and valid hashes while its CLI still fails to import the package from a clean extracted directory. Bootstrap imports relative to the package root or document/install dependencies explicitly, then run at least `--help` and a minimal offline smoke test with repository `PYTHONPATH` removed.
