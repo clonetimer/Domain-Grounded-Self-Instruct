@@ -1,0 +1,522 @@
+{
+  "schema_version": "dgsi-p5c2-evidence-role-precheck.v1",
+  "review_type": "AUTOMATED_STRUCTURAL_PRECHECK_NOT_EXPERT_ADJUDICATION",
+  "basis": {
+    "integrated_pr": 125,
+    "integrated_head_at_audit": "778f675f0893b112f43773936cdd407f7563259c",
+    "baseline_collection": "examples/l1_literature_synthetic_task_packets_v0.1.json",
+    "baseline_git_blob_oid": "44a32a256b18e248effc03f82e8ef15237899974",
+    "sibling_review_candidate_pr": 122,
+    "sibling_collection": "examples/l1_literature_synthetic_task_packets_v0.2_review_candidate.json",
+    "sibling_git_blob_oid": "bc8b1e464fa7946c09413723b1686812c9394aac",
+    "l0_source_fact_cards": "examples/l0_public_literature_fact_cards_2026-11-15.json",
+    "l0_git_blob_oid": "73f8f00dd6ecaf60cb75b0e1d566537c4e27579f"
+  },
+  "counts": {
+    "baseline_v01": {
+      "packets": 15,
+      "source_event_families": 9,
+      "packets_with_misrole": 15,
+      "direct_l0_evidence_role_occurrences": 31
+    },
+    "sibling_v02": {
+      "packets": 15,
+      "packets_with_misrole": 10,
+      "direct_l0_evidence_role_occurrences": 21,
+      "packets_without_this_misrole": 5
+    }
+  },
+  "rule": "L0 literature facts and historical/context references constrain scientific plausibility but are not direct observations of the current SYNTHETIC event. Direct current-fault supporting or contradicting refs must refer to the synthetic scenario input evidence only.",
+  "field_paths_reviewed": [
+    "formal_target.cause_localization.candidates[].supporting_refs",
+    "formal_target.evidence_assessment.supporting_refs",
+    "formal_target.evidence_assessment.contradicting_refs"
+  ],
+  "action_required": "Produce a new immutable candidate snapshot that removes the remaining 21 L0 direct-support role occurrences from v0.2 (or integrates a fully corrected candidate from the specialized branch), preserves historical/source context and original source certainty, rebinds duplicated target and packet digests, then independently re-audits every task before any model-facing export.",
+  "case_root_internal_review_not_for_sft_required": true,
+  "authorization": {
+    "real_gold": 0,
+    "official_split_assignments": 0,
+    "sft_authorized_records": 0,
+    "training_authorized": false
+  },
+  "per_task": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-SEASAT-SLIPRING-001"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-001"
+        ],
+        "evidence_support": [
+          "L0-E-001"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-001"
+        ],
+        "evidence_support": [
+          "L0-E-001"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-002"
+        ],
+        "evidence_support": [
+          "L0-E-002"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-002"
+        ],
+        "evidence_support": [
+          "L0-E-002"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "task_type": "conflict_reconciliation",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-003"
+        ],
+        "evidence_support": [
+          "L0-E-003"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": [],
+        "total": 0
+      },
+      "engineering_disposition": "ROLE_RECHECK_CLEAN_PENDING_SOURCE_EXPERT_REVIEW",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "Direct L0 evidence-role issue absent in v0.2 for this task, but other scientific and rights checks remain open."
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-004"
+        ],
+        "evidence_support": [
+          "L0-E-004"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-004"
+        ],
+        "evidence_support": [
+          "L0-E-004"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-005"
+        ],
+        "evidence_support": [
+          "L0-E-005"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-005"
+        ],
+        "evidence_support": [
+          "L0-E-005"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-006"
+        ],
+        "evidence_support": [
+          "L0-E-006"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-006"
+        ],
+        "evidence_support": [
+          "L0-E-006"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-007",
+          "L0-E-007"
+        ],
+        "evidence_support": [
+          "L0-E-007"
+        ],
+        "evidence_contradiction": [],
+        "total": 3
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-007",
+          "L0-E-007"
+        ],
+        "evidence_support": [
+          "L0-E-007"
+        ],
+        "evidence_contradiction": [],
+        "total": 3
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-008"
+        ],
+        "evidence_support": [
+          "L0-E-008"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-008"
+        ],
+        "evidence_support": [
+          "L0-E-008"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-009"
+        ],
+        "evidence_support": [
+          "L0-E-009"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-009"
+        ],
+        "evidence_support": [
+          "L0-E-009"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-CATALYST-010"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-010"
+        ],
+        "evidence_support": [
+          "L0-E-010"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-010"
+        ],
+        "evidence_support": [
+          "L0-E-010"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "task_type": "diagnostic_synthesis",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-011"
+        ],
+        "evidence_support": [
+          "L0-E-011"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-011"
+        ],
+        "evidence_support": [
+          "L0-E-011"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "engineering_disposition": "REVISE_CANDIDATE",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "The historical literature L0 reference still occupies a current synthetic-fault direct-evidence role in v0.2; it must be separated into historical/source context without falsifying current evidence."
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "task_type": "historical_case_reuse",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-012"
+        ],
+        "evidence_support": [
+          "L0-E-012"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": [],
+        "total": 0
+      },
+      "engineering_disposition": "ROLE_RECHECK_CLEAN_PENDING_SOURCE_EXPERT_REVIEW",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "Direct L0 evidence-role issue absent in v0.2 for this task, but other scientific and rights checks remain open."
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "task_type": "evidence_sufficiency",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-003"
+        ],
+        "evidence_support": [
+          "L0-E-003"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": [],
+        "total": 0
+      },
+      "engineering_disposition": "ROLE_RECHECK_CLEAN_PENDING_SOURCE_EXPERT_REVIEW",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "Direct L0 evidence-role issue absent in v0.2 for this task, but other scientific and rights checks remain open."
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "task_type": "next_step_recommendation",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-008"
+        ],
+        "evidence_support": [
+          "L0-E-008"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": [],
+        "total": 0
+      },
+      "engineering_disposition": "ROLE_RECHECK_CLEAN_PENDING_SOURCE_EXPERT_REVIEW",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "Direct L0 evidence-role issue absent in v0.2 for this task, but other scientific and rights checks remain open."
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "task_type": "handover_summary",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "event_family_id": null,
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-011"
+        ],
+        "evidence_support": [
+          "L0-E-011"
+        ],
+        "evidence_contradiction": [],
+        "total": 2
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": [],
+        "total": 0
+      },
+      "engineering_disposition": "ROLE_RECHECK_CLEAN_PENDING_SOURCE_EXPERT_REVIEW",
+      "source_content_verification": "NOT_PERFORMED",
+      "independent_expert_decision": "PENDING",
+      "source_use_rights": "NOT_CLEARED",
+      "notes": "Direct L0 evidence-role issue absent in v0.2 for this task, but other scientific and rights checks remain open."
+    }
+  ]
+}
