@@ -70,3 +70,13 @@ Correction: construct the test value with `"source.bin" + chr(10)` so the input 
 
 Reusable rule 47:
 **Inspect the evaluated test value, not only its source spelling.** Escaping layers (JSON, JavaScript, Python and shell) can turn a supposed newline/tab/NUL fixture into literal backslash text. For control-character security tests, construct the character explicitly (for example, `chr(10)`) and assert its code point before exercising the validator.
+
+
+## P5-B4.4 follow-up: update all path tests when validation ownership moves
+
+After path checks were moved from JSON Schema to runtime, the absolute-path test still expected the former schema-level error code `ARTIFACT_LINEAGE_MANIFEST_INVALID`. The runtime correctly returned `ARTIFACT_LINEAGE_PATH_INVALID`; both Ubuntu and Windows failed that single assertion, and the detached-package test repeated the same failure. This was a stale test contract, not a path traversal defect.
+
+Correction: rename the test to `test_absolute_path_rejected_by_runtime` and assert `ARTIFACT_LINEAGE_PATH_INVALID`, matching the same ownership contract as traversal, backslash and control-character cases.
+
+Reusable rule 48:
+**When validation responsibility moves between layers, migrate every related test name and expected error contract in the same change.** Search the full path-validation test family, not only the test that first failed. A consistent stable error vocabulary is part of the CLI contract.

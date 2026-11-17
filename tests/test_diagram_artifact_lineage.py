@@ -57,8 +57,8 @@ class ArtifactLineageTests(unittest.TestCase):
   self.reject("ARTIFACT_LINEAGE_SYMLINK_BLOCKED")
  def test_path_traversal_schema_blocked(self):
   self.manifest["artifacts"][0]["path"]="../x";self.reject("ARTIFACT_LINEAGE_PATH_INVALID")
- def test_absolute_path_schema_blocked(self):
-  self.manifest["artifacts"][0]["path"]="/tmp/x";self.reject("ARTIFACT_LINEAGE_MANIFEST_INVALID")
+ def test_absolute_path_rejected_by_runtime(self):
+  self.manifest["artifacts"][0]["path"]="/tmp/x";self.reject("ARTIFACT_LINEAGE_PATH_INVALID")
  def test_dependency_digest_tamper(self):
   self.manifest["artifacts"][1]["dependency_sha256"]="f"*64;r=self.audit();self.assertEqual(r["artifacts"][1]["status"],"DEPENDENCY_STALE");self.assertEqual(r["stale_count"],6)
  def test_empty_snapshot_not_training(self):
