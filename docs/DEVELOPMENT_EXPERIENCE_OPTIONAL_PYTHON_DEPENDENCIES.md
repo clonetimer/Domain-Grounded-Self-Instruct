@@ -242,3 +242,13 @@ Reusable rule 27:
 27. **Versioned behavior changes require atomic contract updates.** When a generator recipe/version changes, update runtime constants, JSON Schema, golden fixtures, test assertions, documentation and package manifest in one change set. Add a test that asserts the runtime recipe equals the schema contract; do not rely only on a hand-maintained expected string in one test.
 
 The failure is a regression-test synchronization issue, not a cross-platform implementation difference: both operating systems failed identically at the same stale assertion.
+
+## P5-B4.2b CI follow-up: adversarial geometry fixture violated its own image bounds
+
+After the stale recipe assertion was corrected, the next exact-head run failed on one new adversarial test on both platforms: `test_pair_hypothesis_only_uses_adjacent_vertical_lines`. The fixture placed a 120-pixel-wide synthetic word/line box at x=150 in a 200-pixel image, so the provenance validator correctly rejected it with `DIAGRAM_OCR_BOX_OUT_OF_BOUNDS` before the adjacency algorithm was reached.
+
+This was a test-fixture construction defect, not a production grouping failure. The fixture now narrows the unrelated middle line to 40 pixels, keeping it within the image while preserving the intended horizontal separation.
+
+Reusable rule 28:
+
+28. **Make adversarial fixtures valid up to the invariant under test.** A test intended to exercise grouping order or adjacency must first satisfy source hash, image bounds, parent-child geometry and schema invariants. Otherwise an earlier fail-closed gate masks the behavior being tested. Add fixture self-checks or comments showing why each geometry is valid.
