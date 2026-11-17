@@ -1,42 +1,50 @@
 # DGSI Skill operator quick start
 
-## Deliverables
-The Skill/toolkit and dataset are co-equal deliverables. The Skill provides repeatable production instructions and validators; the dataset is a versioned output. Neither CI nor package creation grants data approval.
+## What to prepare
+Use the complete DGSI Skill folder or extracted toolkit. Before processing, confirm source-use rights, de-identify restricted data, keep raw logs/telemetry/reviewer identities in authorized private storage, and freeze source hashes, event-family IDs and analysis cutoff.
 
-## Prerequisites
-1. Confirm source processing and intended-use permissions with the source owner.
-2. De-identify restricted identifiers and keep raw telemetry, command histories, private reports, reviewer identities and hidden truth in authorized storage.
-3. Freeze batch ID, source hashes, event-family IDs and analysis cutoff.
-4. Quarantine any source with unknown rights.
+The portable Skill ZIP intentionally does **not** contain the repository's example L0/L1 dataset. This avoids bundling candidate data, source-derived material or private records into the reusable tool. Supply your own authorized collection JSON and matching source-fact JSON from your working directory.
 
-## Execute the workflow
-Give the AI the complete `skills/dgsi-simulation-to-sft/` folder, not only SKILL.md. Follow:
-INGEST → L0 source facts → L1 candidates → TARGET → AUDIT → independent REVIEW → PROJECT → COVERAGE → PACKAGE.
+## Run the production sequence
+INGEST → L0 → L1 → TARGET → AUDIT → independent REVIEW → PROJECT → COVERAGE → PACKAGE.
 
-| Stage | Output |
-|---|---|
-| INGEST | Source inventory, rights status, hashes and exact locators |
-| L0 | One bounded source fact card per event episode |
-| L1 | Review-required diagnostic task packets |
-| TARGET | Canonical structured engineering report |
-| AUDIT | Schema, evidence, leakage, duplicate and lineage report |
-| REVIEW | Append-only independent review records |
-| PROJECT | Allowlisted three-message preview and round-trip report |
-| COVERAGE | Task-type and independent event-family coverage |
-| PACKAGE | Skill ZIP, dataset manifest and release-state summary |
+Never invent missing ML results, run IDs, logs, measurements, mission modes, commands or outcomes. Missing fields remain missing. Synthetic assumptions stay explicitly synthetic and in their own track.
 
-Never invent missing ML outputs, run IDs, logs, measurements, mission modes, actions or outcomes. Missing values remain missing. Synthetic assumptions stay in the synthetic track.
+## Create a blocked three-message preview
 
-## Build and verify the toolkit
+Run from the repository root (or use absolute paths to your authorized data files):
+
+```bash
+python scripts/create_l1_model_preview.py --collection <authorized-workspace>/l1-candidate-collection.json --source-facts <authorized-workspace>/l0-source-facts.json --output <authorized-workspace>/l1-three-message-preview.json
+```
+
+PowerShell example:
+
+```powershell
+python scripts/create_l1_model_preview.py --collection "D:\DGSI\input\l1-candidate-collection.json" --source-facts "D:\DGSI\input\l0-source-facts.json" --output "D:\DGSI\output\l1-three-message-preview.json"
+```
+
+The preview contains three messages for engineering inspection only. It has no split, is not an SFT record, and emits zero authorized rows. The CLI refuses to overwrite an existing output. Use a separate, versioned output path for each run.
+
+When working in a source checkout, the repository's current review candidate can be used for a smoke test:
+```bash
+python scripts/create_l1_model_preview.py --collection examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json --source-facts examples/l0_public_literature_fact_cards_2026-11-15.json --output dist/l1-three-message-preview.json
+python -m unittest tests.test_l1_model_projection_preview -v
+```
+The example files above are repository fixtures, not contents of the portable Skill ZIP.
+
+## Package and verify the Skill
+
 From the repository root:
 ```bash
 python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit.zip
 python -m unittest tests.test_portable_toolkit_package_build -v
 ```
-The ZIP contains an explicit SHA-256 manifest. Extract it into a clean directory and verify every listed byte count and hash. Run the offline validator subset documented by the README without repository PYTHONPATH or private source files.
+
+Extract to a clean directory and verify every path, byte count and SHA-256 in `PACKAGE_SHA256_MANIFEST.json`. The ZIP contains reusable instructions, schemas, validators, scripts and tests, not the dataset.
 
 ## Release states
-DRAFT, REVIEW_REQUIRED, ENGINEERING_REVIEWED_CANDIDATE, EXPERT_ADJUDICATED, RIGHTS_CLEARED, SFT_AUTHORIZED and TRAINED are distinct states. A Skill package may be distributed while the dataset remains blocked. A successful ZIP build never authorizes Gold, SFT export or training.
+Skill package release, curator review, independent expert adjudication, source rights, SFT authorization and actual training are separate states. A successful preview or ZIP build never grants Gold status, SFT export or training permission.
 
 ## Handoff checklist
 - [ ] Versioned Skill folder and portable ZIP

@@ -24,3 +24,7 @@ Deliver frozen L0/L1 collection, per-packet dispositions, immutable corrected ca
 
 ## Release states
 ENGINEERING_REVIEWED_CANDIDATE, EXPERT_ADJUDICATED, RIGHTS_CLEARED, SFT_AUTHORIZED and TRAINED are separate. A Skill package can be released while data remains blocked. Never label candidates Gold or training-ready because tests pass.
+
+## C2-D executable preview
+
+Use `src/dgsi/l1_model_projection_preview.py` and `scripts/create_l1_model_preview.py` against the immutable candidate collection and matching L0 source facts. The result contains system/user/assistant message content for engineering review, but is marked preview-only, has `split=null`, `export_authorized=false` and `sft_records_emitted=0`. Never place preview artifacts in a training directory. Run dedicated tests for deterministic output and canonical-target equality.
