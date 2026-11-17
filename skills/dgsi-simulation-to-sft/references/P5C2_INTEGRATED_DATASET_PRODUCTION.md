@@ -33,3 +33,8 @@ An LLM receives upstream ML diagnostic results, timestamped diagnostic logs, spa
 Build with `python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit.zip`. Verify `PACKAGE_SHA256_MANIFEST.json` byte sizes/hashes and that all authorization flags are false. Run the portable toolkit package test and repository suites on Ubuntu/Windows for the exact PR head. The existing `src/dgsi/l1_model_projection_audit.py` collection preflight returns hashes and blocked state only, not model-ready SFT JSONL.
 
 See repository `docs/P5C2_INTEGRATED_COMPLETION_2026-11-17.md` for milestone acceptance criteria. This portable reference is the bounded execution recipe, not an independent external review.
+
+
+## C2-D executable preview
+
+Use `src/dgsi/l1_model_projection_preview.py` and `scripts/create_l1_model_preview.py` against the immutable candidate collection and matching L0 source facts. The result contains system/user/assistant message content for engineering review, but is marked preview-only, has `split=null`, `export_authorized=false` and `sft_records_emitted=0`. Never place preview artifacts in a training directory. Run dedicated tests for deterministic output and canonical-target equality.
