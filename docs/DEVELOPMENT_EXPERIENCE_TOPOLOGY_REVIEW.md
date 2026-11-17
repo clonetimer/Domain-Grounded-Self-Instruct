@@ -150,3 +150,22 @@ The audit report is `examples/p5c2_l1_pilot_structural_audit_2026-11-17.json`; t
 When layering collection validation over a per-packet security preflight, **error priority is part of the security contract**. Initial PR #124 tests correctly inserted a nested curator-only field into a candidate model input; the collection schema rejected the extra property first, producing a generic `L1_PROJECTION_COLLECTION_NOT_VALIDATED` rather than the expected `L1_PROJECTION_CURATOR_FIELD_IN_MODEL_SURFACE`. Both platforms failed the same one regression (952/953 passing). The data remained blocked; no curator material was exported.
 
 Fix: inspect known high-risk model-facing input/target subtrees for curator-only keys **before** invoking general collection JSON-schema validation. Keep generic schema failures for other malformed structures. Do not relax source schema, ignore the failure, or rewrite the test to accept a weaker error code. Exact-head Ubuntu/Windows reruns remain required; older runs are not usable as latest-head proof.
+
+
+## P5-C2 Integrated Completion execution model (2026-11-17)
+
+The user explicitly approved one integrated completion of C2-B through C2-E rather than four serial mini-projects. The milestone is now defined in `docs/P5C2_INTEGRATED_COMPLETION_2026-11-17.md` and `examples/p5c2_integrated_review_contract_2026-11-17.json`.
+
+75. **Run scientific review, target review, model projection and coverage analysis as coordinated workstreams.** Do not release each as a separate long-running tool milestone. Freeze one baseline, review all packets, apply bounded corrections to a new immutable collection, then run projection/round-trip and coverage checks over the same candidate snapshot.
+
+76. **Keep engineering review, expert adjudication, rights clearance, SFT authorization and actual training as distinct states.** A structurally valid or curator-reviewed synthetic candidate is not Gold. Do not let a successful projection preflight silently grant export or training permission.
+
+77. **Use one canonical Assistant Target throughout the pipeline.** Review `formal_target` as the authoritative target; require `case.expected_output` to remain semantically equal, and serialize only the canonical representation. This prevents dual-source drift during correction and export.
+
+78. **Coverage must be reported at packet and independent event-family levels.** A new task type, paraphrase or second task from the same source family does not create an independent incident. Split isolation must follow event-family and incident lineage, not row count.
+
+79. **Make the final candidate reproducible as one immutable collection snapshot.** Bind collection membership, task/case IDs, L0 public fact-card content, event-family grouping, model-visible input projection and canonical target digest. Any change creates a new candidate version and invalidates the previous review/projection receipts.
+
+80. **Do not fill source-rights or expert-review gaps with engineering assertions.** Public availability, correct schema, source citation and passing CI do not establish permission for third-party training or independent domain correctness. Quarantine unresolved source families and report the resulting coverage gap honestly.
+
+81. **A blocked metadata-only projection can be a valid engineering deliverable.** It can prove allowlist behavior, deterministic serialization, round-trip integrity and zero leakage while intentionally emitting zero SFT rows. This is preferable to relaxing admission gates to create an apparently complete dataset.
