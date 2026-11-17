@@ -33,3 +33,16 @@ P4 #109 separately passed 876/876 on both platforms. Its historical-context guar
 ## P5-B4.4 verification boundary
 
 The artifact dependency snapshot auditor verifies declared file bytes, dependency graph structure, frozen dependency digests, safe relative paths and directional invalidation. It does not inspect image pixels, authenticate reviewers, prove child derivation or authorize Gold/SFT/training. Fixtures are SYNTHETIC_TEST_ONLY.
+
+## P5-B4.4 first CI failure: schema gate masked the semantic duplicate-dependency code
+
+The first B4.4 exact-head CI ran 906 tests on Ubuntu and Windows; both platforms failed the same two tests. The root failure was test_duplicate_dependency: JSON Schema rejected the repeated dependency earlier via uniqueItems and returned ARTIFACT_LINEAGE_MANIFEST_INVALID, while the semantic test expected ARTIFACT_LINEAGE_DUPLICATE_DEPENDENCY. The portable detached-package test failed only because it reran this same failing unit test; it was not a separate packaging defect.
+
+Correction:
+- Remove uniqueItems from the schema-level depends_on array constraint so the semantic validator owns the stable duplicate-dependency error code.
+- Add semantic rejection for duplicate artifact paths, preventing two artifact IDs from aliasing one local file.
+- Explicitly reject CR/LF in local artifact paths; JSON Schema regex end anchors can accept a trailing newline in some regex engines.
+- Add direct regressions for duplicate paths and trailing-newline paths, then rerun both platform suites and detached package execution.
+
+Reusable rule 45:
+**Do not let schema and semantic validators compete for the same error contract.** If callers/tests require a stable semantic error code, keep the schema permissive enough to pass that shape to the semantic layer, or explicitly assert the schema-level error. Test the intended rejecting layer, not merely that malformed input is rejected.

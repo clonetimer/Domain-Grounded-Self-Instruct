@@ -17,7 +17,7 @@ def dependency_digest(items):
     return canonical_digest(sorted(({"artifact_id":x["artifact_id"],"sha256":x["sha256"]} for x in items),key=lambda x:x["artifact_id"]))
 def _safe_file(root:Path,relative:str)->Path:
     p=PurePosixPath(relative)
-    if p.is_absolute() or not p.parts or any(x in {"",".",".."} for x in p.parts) or "\\" in relative or ":" in relative: raise ArtifactLineageError("ARTIFACT_LINEAGE_PATH_INVALID")
+    if p.is_absolute() or not p.parts or any(x in {"",".",".."} for x in p.parts) or "\\" in relative or ":" in relative or "\n" in relative or "\r" in relative: raise ArtifactLineageError("ARTIFACT_LINEAGE_PATH_INVALID")
     candidate=root
     for part in p.parts:
         candidate=candidate/part
@@ -42,6 +42,8 @@ def _validate_graph(artifacts):
     if len(artifacts)>MAX_ARTIFACTS: raise ArtifactLineageError("ARTIFACT_LINEAGE_TOO_MANY_ARTIFACTS")
     by={x["artifact_id"]:x for x in artifacts}
     if len(by)!=len(artifacts): raise ArtifactLineageError("ARTIFACT_LINEAGE_DUPLICATE_ID")
+    paths=[x["path"] for x in artifacts]
+    if len(set(paths))!=len(paths): raise ArtifactLineageError("ARTIFACT_LINEAGE_DUPLICATE_PATH")
     for x in artifacts:
         parents=x["depends_on"]
         if len(set(parents))!=len(parents): raise ArtifactLineageError("ARTIFACT_LINEAGE_DUPLICATE_DEPENDENCY")
