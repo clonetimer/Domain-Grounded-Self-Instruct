@@ -300,3 +300,14 @@ After the missing-import correction, the PR branch advanced to head `5d536bb74f2
 - Both logs contain the review CLI privacy/rejection tests and portable ZIP tests.
 
 This second green run confirms the development-experience update and PR metadata changes did not invalidate the previously tested receipt implementation.
+
+## P5-B4.3b exact-head CI: review-to-proposed-graph import
+
+Exact head `4b407eefc68e7d00d96c5491316ef4c8c6aaeb14` completed workflow `44011216046`:
+- Ubuntu: 837/837 PASS
+- Windows: 837/837 PASS
+- Both logs contain accepted-label-only import, candidate mutation rejection, rejected/unresolved non-import, CLI overwrite refusal, CLI payload privacy and portable ZIP tests.
+
+Reusable rule 32:
+
+32. **Do not convert a locally supplied review receipt into a confirmed engineering graph.** A receipt-bound label and selected object type can seed an AI_PROPOSED node only. Do not create ports or edges from text grouping or proximity, and do not mark the node HUMAN_CONFIRMED without a separately authenticated, evidence-adjudicated review. Keep the graph review-required and training-disabled.

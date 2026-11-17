@@ -33,3 +33,17 @@ The receipt contains a caller-supplied reviewer reference, but the local validat
 A receipt does not create or update diagram nodes, ports or edges. It does not prove OCR correctness or engineering semantics. Human acceptance here means only that a reviewer chose to accept a text region as a label candidate and selected an object-type proposal. A separate annotation-import and evidence adjudication stage is still required.
 
 All candidate and receipt records remain `REVIEW_REQUIRED`, `not_for_sft=true`, `training_authorized=false`, and `gold_authorized=false`. No formal split, Gold admission, SFT export or training authorization is granted.
+
+
+## Proposed graph import (B4.3b)
+
+After the receipt audit passes, accepted text labels may be imported as **AI_PROPOSED** diagram nodes using:
+
+```bash
+python scripts/import_diagram_text_review.py \\
+  --candidate-record review/regions.json \\
+  --review-receipt review/decisions.json \\
+  --output review/proposed-graph.json
+```
+
+The importer revalidates the candidate/receipt binding and the diagram graph schema. It creates no ports or edges. The caller-selected object type remains a proposal because local reviewer identity is not authenticated. Rejected and unresolved candidates do not become graph nodes. The conversion receipt records the review ID, source/asset/candidate hashes, and the explicit non-authenticated status. All output remains review-required and training-disabled.
