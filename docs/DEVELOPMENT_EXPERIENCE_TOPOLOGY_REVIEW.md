@@ -86,3 +86,27 @@ The exact source file `DGSI_用户原始5例_正式结论与内部审核分离_v
 57. **Disposal text is not proof of execution or success.** “停用南太阳翼” is recorded as a measure in the source; command/state records and post-action status are still needed before the assistant target can say it was executed and effective.
 
 The SADA claim/evidence map is a source-grounded intake artifact only. No actual ML result, diagnostic log, spacecraft context, private telemetry, expert review or SFT target was added.
+
+
+## P5-C1 SADA curator-channel isolation defect and repair (2026-11-17)
+
+PR #118 initially placed the exact internal-review question text in a top-level `excluded_internal_review_prompts` field in a public claim/evidence JSON. Although the field was named “excluded”, it still physically published curator-only text. PR #119 removed those strings from the current public artifact and retained only opaque references `SADA-IR-01..03` in a Case-root `internal_review` object marked `not_for_sft=true`, with authorized-private-storage declaration. The audit now rejects prompt text at top level, nested in claims, or in a model-target field; it also blocks source-claim/certainty drift, fabricated evidence/ML receipt, disposal execution escalation, unsupported rights approval and Gold/split/training promotion.
+
+Exact-head PR #119 `0ae077e2e72c13cfcfbf14c79e5fb256ec72c0c7`:
+- PR workflow `44053399953`: Ubuntu 929/929 PASS; Windows 929/929 PASS.
+- Push workflow `44053363689`: Ubuntu 929/929 PASS; Windows 929/929 PASS.
+- Both workflows explicitly executed all 17 new `test_p5c_sada_claim_map.py` adversarial tests, including old inline prompt rejection, curator/model channel separation, target injection, certainty escalation, fabricated evidence, disposal escalation, history role, rights and training-gate checks.
+
+The earlier PR #118 head `7712aa50` had passed 912/912 on both platforms, but that full-suite pass did not detect the curator-text publication issue because no dedicated SADA claim-map contract test existed yet. PR #119 closes this specific current-artifact leak; it does not erase prior Git history. Previously committed inline question text may remain accessible in earlier commits. Do not claim historical erasure or privacy remediation is complete solely from a new commit.
+
+58. **A field named “excluded” is not an access-control boundary.** If sensitive/curator-only text is committed to a public artifact, it is published regardless of whether downstream code intends to exclude it. Store only opaque references in public metadata; keep the actual content in authorized private storage.
+
+59. **Enforce channel separation at the data contract and test adversarial injection.** Curator review prompts, evidence requests and adjudication notes must be structurally disallowed from model input and assistant targets. Reject unexpected keys at the root and nested claim levels, not merely by convention or comments.
+
+60. **A green full-suite run cannot prove an untested data boundary.** The 912-test PR #118 run passed but lacked SADA-specific tests. The 17 targeted tests introduced in PR #119 found and now guard the leak. Add contract tests for data-boundary requirements and inspect test signatures, not just total counts.
+
+61. **A current-branch cleanup does not rewrite historical exposure.** Removing text from the latest file does not remove it from earlier Git commits, forks, caches or clones. Report this limitation accurately and assess history remediation separately with repository owners before any destructive rewrite.
+
+62. **Candidate metadata auditors must fail closed on promotion and source drift.** The SADA auditor fixes the case ID, exact source claim text, source certainty, missing-evidence state, disposal status, history role, rights status and admission gates. A successful audit returns BLOCKED_PENDING_REAL_EVIDENCE; it is not a Gold approval or evidence receipt.
+
+The SADA claim-map audit is structural only. It does not authenticate the source, verify actual evidence, establish reviewer identity, or authorize SFT/training. No actual case evidence has been received.
