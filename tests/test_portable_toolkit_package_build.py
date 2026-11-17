@@ -38,6 +38,10 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 names = archive.namelist()
                 self.assertEqual(len(names), len(set(names)))
                 self.assertIn("PACKAGE_SHA256_MANIFEST.json", names)
+                # The extracted projection validator loads this collection schema
+                # from resources/ at runtime; file presence alone is not enough,
+                # so the clean-room preview smoke below exercises the import path.
+                self.assertIn("resources/l1_task_packet_collection.schema.json", names)
                 self.assertIn(
                     "scripts/create_l1_model_preview.py",
                     names,
