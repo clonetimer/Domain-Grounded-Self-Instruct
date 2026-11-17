@@ -4,6 +4,8 @@ Portable production Skill for converting authorized spacecraft simulation and en
 
 ## Contents
 
+P5-C2 integrated dataset production (`0.2.0-rc.1`) is specified in `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md`. The Skill and evidence-grounded candidate corpus are co-equal deliverables for one diagnosis-SFT objective. Packaging the Skill does not imply dataset admission, expert sign-off or training authorization.
+
 - `SKILL.md`: primary portable Skill entry point.
 - `references/`: ingestion, truth separation, task design, audit and provider-neutral delegation procedures.
 - `references/DOCUMENT_INGESTION_ADAPTERS.md`: local DOCX/PDF extraction and explicit OCR/table/equation/diagram limits.
