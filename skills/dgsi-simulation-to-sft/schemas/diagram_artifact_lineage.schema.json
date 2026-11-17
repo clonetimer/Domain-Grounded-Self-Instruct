@@ -1,0 +1,8 @@
+{
+"$schema":"https://json-schema.org/draft/2020-12/schema","title":"DGSI diagram artifact dependency snapshot v1","type":"object","additionalProperties":false,
+"required":["schema_version","snapshot_id","artifacts","training_authorized","gold_authorized","not_for_sft"],
+"properties":{"schema_version":{"const":"dgsi.diagram-artifact-lineage.v1"},"snapshot_id":{"$ref":"#/$defs/id"},"artifacts":{"type":"array","maxItems":256,"items":{"$ref":"#/$defs/artifact"}},"training_authorized":{"const":false},"gold_authorized":{"const":false},"not_for_sft":{"const":true}},
+"$defs":{"id":{"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$","not":{"pattern":"[\\r\\n]"}},"sha":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+"artifact":{"type":"object","additionalProperties":false,"required":["artifact_id","kind","path","sha256","depends_on","dependency_sha256"],"properties":{
+"artifact_id":{"$ref":"#/$defs/id"},"kind":{"enum":["DOCUMENT_SOURCE","EXTRACTED_ASSET","OCR_RECORD","TEXT_CANDIDATES","TEXT_REVIEW","NODE_GRAPH","TOPOLOGY_REVIEW"]},
+"path":{"type":"string","minLength":1,"maxLength":512},"sha256":{"$ref":"#/$defs/sha"},"depends_on":{"type":"array","maxItems":32,"items":{"$ref":"#/$defs/id"}},"dependency_sha256":{"$ref":"#/$defs/sha"}}}}}
