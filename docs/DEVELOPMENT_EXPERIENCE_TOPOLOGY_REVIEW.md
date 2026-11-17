@@ -60,3 +60,13 @@ Correction:
 
 Reusable rule 46:
 **Assign one validation layer ownership of each stable error contract.** A schema-level pattern can preempt path-safety code and produce a generic error. Keep schema checks for shape/size, runtime checks for filesystem semantics, and test each error at its intended layer. Detached-package failures must be traced to their inner failing test before treating packaging as an independent defect.
+
+
+## P5-B4.4 test-fixture review: distinguish an actual newline from a backslash escape
+
+While checking the corrected path-validation tests, source inspection found that the test named `test_trailing_newline_path_rejected` used a Python string containing a literal backslash followed by `n`, rather than an actual line-feed character. It exercised the backslash rejection path and did not prove CR/LF rejection.
+
+Correction: construct the test value with `"source.bin" + chr(10)` so the input contains a real LF, and add a separate explicit Windows-style backslash path test. Keep the runtime's ASCII control-character rejection and schema/runtime validation ownership unchanged.
+
+Reusable rule 47:
+**Inspect the evaluated test value, not only its source spelling.** Escaping layers (JSON, JavaScript, Python and shell) can turn a supposed newline/tab/NUL fixture into literal backslash text. For control-character security tests, construct the character explicitly (for example, `chr(10)`) and assert its code point before exercising the validator.

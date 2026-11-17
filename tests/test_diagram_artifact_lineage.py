@@ -37,7 +37,9 @@ class ArtifactLineageTests(unittest.TestCase):
  def test_duplicate_artifact_path(self):
   self.manifest["artifacts"][1]["path"]="source.bin";self.reject("ARTIFACT_LINEAGE_DUPLICATE_PATH")
  def test_trailing_newline_path_rejected(self):
-  self.manifest["artifacts"][0]["path"]="source.bin\\n";self.reject("ARTIFACT_LINEAGE_PATH_INVALID")
+  self.manifest["artifacts"][0]["path"]="source.bin"+chr(10);self.reject("ARTIFACT_LINEAGE_PATH_INVALID")
+ def test_backslash_path_rejected(self):
+  self.manifest["artifacts"][0]["path"]="folder\\\\source.bin";self.reject("ARTIFACT_LINEAGE_PATH_INVALID")
  def test_unknown_dependency(self):
   self.manifest["artifacts"][1]["depends_on"]=["MISSING"];self.reject("ARTIFACT_LINEAGE_DEPENDENCY_UNKNOWN")
  def test_duplicate_dependency(self):
