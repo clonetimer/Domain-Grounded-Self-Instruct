@@ -78,6 +78,11 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 manifest = json.loads(
                     archive.read("PACKAGE_SHA256_MANIFEST.json").decode("utf-8")
                 )
+                skill_manifest = json.loads((ROOT / "skills/dgsi-simulation-to-sft/TOOLKIT_MANIFEST.json").read_text(encoding="utf-8"))
+                version = (ROOT / "skills/dgsi-simulation-to-sft/VERSION").read_text(encoding="utf-8").strip()
+                self.assertEqual(version, skill_manifest["version"])
+                self.assertEqual(version, manifest["version"])
+                self.assertEqual("0.2.0-rc.1", version)
                 for flag in (
                     "training_authorized",
                     "gold_authorized",
