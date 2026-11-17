@@ -206,6 +206,113 @@ class EvidenceSubmissionSyntheticTests(unittest.TestCase):
         with self.assertRaisesRegex(RealEvidenceSubmissionError, "SUBMISSION_CASE_COUNT_MISMATCH"):
             audit_evidence_submissions(synthetic_queue(), bundle)
 
+    def _two_case_bundle(self):
+        queue = synthetic_queue()
+        bundle = synthetic_bundle()
+        case_q = copy.deepcopy(queue["cases"][0])
+        case_b = copy.deepcopy(bundle["cases"][0])
+        case_q["case_id"] = case_b["case_id"] = "SYNTHETIC_TEST_ONLY_CASE_2"
+        case_q["source_case_sha256"] = case_b["source_case_sha256"] = "c" * 64
+        queue["cases"].append(case_q)
+        bundle["cases"].append(case_b)
+        queue["counts"]["candidate_count"] = bundle["candidate_count"] = 2
+        return queue, bundle
+
+    def _submit_for_case(self, bundle, case_index, check_id, kind, ref, sha="d" * 64):
+        slot = next(s for s in bundle["cases"][case_index]["submissions"]
+                    if s["check_id"] == check_id)
+        slot["status"] = "SUBMITTED_FOR_REVIEW"
+        slot["artifacts"] = [{"evidence_ref": ref,
+                              "evidence_sha256": sha, "evidence_type": kind}]
+
+    def test_reused_ml_run_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(bundle, index, "UPSTREAM_ML", "ML_RESULT", "SYNTHETIC_SHARED_RUN")
+        with self.assertRaisesRegex(RealEvidenceSubmissionError,
+                                    "SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_REUSE"):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_reused_log_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(bundle, index, "LOGS_CUTOFF", "DIAGNOSTIC_LOG", "SYNTHETIC_SHARED_LOG")
+        with self.assertRaisesRegex(RealEvidenceSubmissionError,
+                                    "SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_REUSE"):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_reused_history_asof_receipt_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(bundle, index, "HISTORY_ASOF", "HISTORY_ASOF_RETRIEVAL", "SYNTHETIC_SHARED_ASOF")
+        with self.assertRaisesRegex(RealEvidenceSubmissionError,
+                                    "SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_REUSE"):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_reused_blind_review_request_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(bundle, index, "BLIND_EXPERT", "BLIND_REVIEW_REQUEST", "SYNTHETIC_SHARED_REVIEW")
+        with self.assertRaisesRegex(RealEvidenceSubmissionError,
+                                    "SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_REUSE"):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_same_ref_cannot_claim_two_evidence_types(self):
+        bundle = synthetic_bundle()
+        submit(bundle, "UPSTREAM_ML", ref="SYNTHETIC_MULTI_TYPE_REF")
+        submit(bundle, "MISSION_CONTEXT", ref="SYNTHETIC_MULTI_TYPE_REF")
+        with self.assertRaisesRegex(RealEvidenceSubmissionError,
+                                    "SUBMISSION_EVIDENCE_REF_TYPE_CONFLICT"):
+            audit_evidence_submissions(synthetic_queue(), bundle)
+
+    def test_distinct_refs_with_identical_ml_digest_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(
+                bundle, index, "UPSTREAM_ML", "ML_RESULT",
+                "SYNTHETIC_CASE_SPECIFIC_REF_" + str(index), sha="d" * 64,
+            )
+        with self.assertRaisesRegex(
+            RealEvidenceSubmissionError,
+            "^SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_DIGEST_REUSE$",
+        ):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_identical_log_digest_under_distinct_refs_across_cases_rejected(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(
+                bundle, index, "LOGS_CUTOFF", "DIAGNOSTIC_LOG",
+                "SYNTHETIC_LOG_RECEIPT_" + str(index), sha="e" * 64,
+            )
+        with self.assertRaisesRegex(
+            RealEvidenceSubmissionError,
+            "^SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_DIGEST_REUSE$",
+        ):
+            audit_evidence_submissions(queue, bundle)
+
+    def test_common_permission_receipt_may_cover_two_cases(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(bundle, index, "SOURCE_RIGHTS",
+                                  "SOURCE_PERMISSION_RECORD", "SYNTHETIC_SHARED_PERMISSION")
+        result = audit_evidence_submissions(queue, bundle)
+        self.assertEqual(result["submitted_for_review_by_dimension"]["SOURCE_RIGHTS"], 2)
+        self.assertEqual(result["distinct_artifact_ref_count"], 1)
+        self.assertEqual(result["evidence_verified_count"], 0)
+
+    def test_distinct_case_specific_ml_receipts_remain_unverified(self):
+        queue, bundle = self._two_case_bundle()
+        for index in (0, 1):
+            self._submit_for_case(bundle, index, "UPSTREAM_ML", "ML_RESULT",
+                                  "SYNTHETIC_CASE_SCOPED_ML_" + str(index),
+                                  sha=("d" if index == 0 else "e") * 64)
+        result = audit_evidence_submissions(queue, bundle)
+        self.assertEqual(result["submitted_for_review_by_dimension"]["UPSTREAM_ML"], 2)
+        self.assertEqual(result["real_gold_count"], 0)
+        self.assertFalse(result["training_authorized"])
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -53,8 +53,22 @@ characters) and `evidence_type`. The type must match the check:
 | EVIDENCE_DISPOSAL | EVIDENCE_LINK, DISPOSAL_RECORD |
 | BLIND_EXPERT | BLIND_REVIEW_REQUEST |
 
-Evidence refs must resolve consistently to a single claimed digest across the bundle,
-but **no hash-to-file verification is performed here**. Different digests do not establish
+Evidence refs must resolve consistently to **one claimed digest and one evidence type**
+across the bundle. Reusing a ref with another evidence type is rejected, even
+if both declarations have the same digest. ML results, diagnostic logs, analysis
+cutoff receipts, historical as-of retrievals and blind-review requests are
+**case-scoped**: neither the same ref nor the same `(evidence_type, evidence_sha256)`
+may be claimed by different REAL candidates, even if the ref strings differ.
+This blocks digest-alias double counting of identical ML results, logs, cutoff
+records, historical retrieval receipts or blind-review requests.
+Different hashes and references are still not sufficient to prove independent
+runs, episodes or expert review; those facts require source-level audit. Shared permission records, deidentification reports,
+mission context and event-family documents may remain cross-case when
+legitimately applicable, pending independent applicability review.
+A multi-episode shared run requires separately scoped, attributable receipts
+before submission; this guard never infers unique runs from different refs.
+
+**No hash-to-file verification is performed here**. Different digests do not establish
 independent sources, events or experts. In particular, a history retrieval submission
 does not establish `available_at <= analysis_cutoff`; the downstream as-of validator
 must verify original timestamp provenance before any context is eligible.
