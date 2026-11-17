@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI local topology evidence review v1 (not authenticated)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_id", "graph_sha256", "source_sha256", "asset_id", "asset_sha256", "image_size_px", "reviewer_ref", "reviewer_authentication", "reviewed_at", "ports", "edges", "evidence", "review_status", "not_for_sft", "training_authorized", "gold_authorized"],
+  "properties": {
+    "schema_version": {"const": "dgsi.diagram-topology-review.v1"},
+    "review_id": {"$ref": "#/$defs/id"},
+    "graph_sha256": {"$ref": "#/$defs/sha"},
+    "source_sha256": {"$ref": "#/$defs/sha"},
+    "asset_id": {"$ref": "#/$defs/id"},
+    "asset_sha256": {"$ref": "#/$defs/sha"},
+    "image_size_px": {"type": "array", "minItems": 2, "maxItems": 2},
+    "reviewer_ref": {"$ref": "#/$defs/id"},
+    "reviewer_authentication": {"const": "NOT_AUTHENTICATED_BY_LOCAL_TOOL"},
+    "reviewed_at": {"type": "string", "maxLength": 40},
+    "ports": {"type": "array", "maxItems": 512, "items": {"$ref": "#/$defs/port"}},
+    "edges": {"type": "array", "maxItems": 1024, "items": {"$ref": "#/$defs/edge"}},
+    "evidence": {"type": "array", "maxItems": 8192, "items": {"$ref": "#/$defs/evidence"}},
+    "review_status": {"const": "REVIEW_REQUIRED"},
+    "not_for_sft": {"type": "boolean", "const": true},
+    "training_authorized": {"type": "boolean", "const": false},
+    "gold_authorized": {"type": "boolean", "const": false}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$", "not": {"pattern": "[\\r\\n]"}},
+    "sha": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "text": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "\\S"},
+    "ref": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+    "port": {
+      "type": "object", "additionalProperties": false,
+      "required": ["port_id", "node_id", "label", "direction", "signal_or_medium", "unit", "evidence"],
+      "properties": {
+        "port_id": {"$ref": "#/$defs/id"}, "node_id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/text"},
+        "direction": {"enum": ["INPUT", "OUTPUT", "BIDIRECTIONAL", "UNKNOWN"]},
+        "signal_or_medium": {"$ref": "#/$defs/text"},
+        "unit": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]},
+        "evidence": {
+          "type": "object", "additionalProperties": false,
+          "required": ["label", "direction", "signal_or_medium", "unit"],
+          "properties": {"label": {"$ref": "#/$defs/ref"}, "direction": {"$ref": "#/$defs/ref"}, "signal_or_medium": {"$ref": "#/$defs/ref"}, "unit": {"$ref": "#/$defs/ref"}}
+        }
+      }
+    },
+    "edge": {
+      "type": "object", "additionalProperties": false,
+      "required": ["edge_id", "from_port", "to_port", "relation", "direction_basis", "evidence"],
+      "properties": {
+        "edge_id": {"$ref": "#/$defs/id"}, "from_port": {"$ref": "#/$defs/id"}, "to_port": {"$ref": "#/$defs/id"},
+        "relation": {"enum": ["SIGNAL", "POWER", "MECHANICAL", "THERMAL", "DATA", "CONTROL", "FLUID", "UNKNOWN"]},
+        "direction_basis": {"enum": ["ARROW_IN_DIAGRAM", "EXPLICIT_TEXT", "UNKNOWN"]},
+        "evidence": {
+          "type": "object", "additionalProperties": false,
+          "required": ["connection", "direction", "relation"],
+          "properties": {"connection": {"$ref": "#/$defs/ref"}, "direction": {"$ref": "#/$defs/ref"}, "relation": {"$ref": "#/$defs/ref"}}
+        }
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_id", "subject_id", "field", "basis", "bbox_px"],
+      "properties": {
+        "evidence_id": {"$ref": "#/$defs/id"}, "subject_id": {"$ref": "#/$defs/id"},
+        "field": {"enum": ["PORT_LABEL", "PORT_DIRECTION", "PORT_MEDIUM", "PORT_UNIT", "CONNECTION", "EDGE_DIRECTION", "RELATION"]},
+        "basis": {"enum": ["VISIBLE_LABEL", "VISIBLE_CONNECTOR", "ARROW_IN_DIAGRAM", "EXPLICIT_TEXT"]},
+        "bbox_px": {"type": "array", "minItems": 4, "maxItems": 4}
+      }
+    }
+  }
+}

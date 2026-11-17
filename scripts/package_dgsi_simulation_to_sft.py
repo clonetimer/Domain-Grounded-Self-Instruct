@@ -33,6 +33,7 @@ DOCS = (
     "docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md",
     "docs/P5B4_DIAGRAM_CANDIDATE_EXTRACTION_CONTRACT.md",
     "docs/P5B4_HUMAN_LABEL_REVIEW_RECEIPTS.md",
+    "docs/DEVELOPMENT_EXPERIENCE_TOPOLOGY_REVIEW.md",
 )
 VALIDATOR_FILES = (
     "requirements-validation.txt",
@@ -48,6 +49,8 @@ VALIDATOR_FILES = (
     "scripts/propose_diagram_text_regions.py",
     "scripts/audit_diagram_text_review.py",
     "scripts/import_diagram_text_review.py",
+    "scripts/audit_diagram_topology_review.py",
+    "tests/test_diagram_topology_review.py",
     "tests/test_diagram_provenance.py",
     "src/dgsi/diagram_text_review.py",
     "src/dgsi/diagram_review_import.py",
