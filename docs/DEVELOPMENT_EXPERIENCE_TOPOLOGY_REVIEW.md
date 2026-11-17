@@ -197,3 +197,13 @@ A curator-level review was applied to all 15 literature-derived synthetic packet
 89. **A candidate correction must preserve scenario provenance and change only the intended semantic fields.** For the C2 integrated candidate, only current-vs-historical evidence reference roles, two Pathfinder history compatibility values, collection ID/status and canonical target binding are changed. Preserve source facts, synthetic values/logs, timestamps, task types, event-family IDs, certainty and disposal.
 
 The integrated review candidate is `examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json`; dispositions are in `examples/p5c2_packet_review_dispositions_2026-11-17.json`; coverage decisions are in `examples/p5c2_coverage_gap_report_2026-11-17.json`. All remain curator-reviewed candidates only, with zero expert approvals, zero rights-cleared families and zero SFT records.
+
+
+## P5-C2 upstream portable Skill integration lessons (reconciled with PR #125)
+
+- **A portable Skill needs an operator-facing quick start, not only expert reference material.** The primary SKILL.md defines the full contract, while a concise operator guide explains prerequisites, staged execution, stop conditions, local package verification and release states. Include it in the portable ZIP and test its presence so a new operator can start without reconstructing workflow order from multiple references.
+
+The DGSI 0.2.0-rc.1 Skill now includes both `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` and `references/OPERATOR_QUICKSTART.md`. This improves repeatability and usability; it is not evidence of dataset admission or model effectiveness.
+
+
+- **Treat the Skill version as a single source of truth.** The human-readable VERSION file, toolkit manifest and generated ZIP manifest must agree. The package builder should read VERSION rather than hardcode a second value; CI must compare all three. A green ZIP build with stale version metadata is not a valid release.
