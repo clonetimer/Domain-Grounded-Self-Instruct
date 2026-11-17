@@ -47,3 +47,7 @@ Use `dgsi.diagram-text-review.v1` and `python scripts/audit_diagram_text_review.
 - Gold promotion or SFT export.
 
 The schema and validator ensure referential integrity and prevent some unsupported promotions. They do not prove the diagram annotation is scientifically correct.
+
+## Importing reviewed labels as graph proposals
+
+Use `python scripts/import_diagram_text_review.py` after the review receipt audit. The importer creates AI_PROPOSED nodes for accepted text labels only. It does not create ports or edges, and it does not treat the local receipt as authenticated expert approval. The resulting graph remains REVIEW_REQUIRED and training-disabled.
