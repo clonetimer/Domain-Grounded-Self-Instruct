@@ -184,3 +184,9 @@ Only the authorized DGSI release process may later admit a record for training. 
 ## Three-message model preview
 
 Use `scripts/create_l1_model_preview.py` to generate a deterministic three-message preview for C2-D engineering review. The output is PREVIEW_ONLY, has no split, export authorization is false, and zero SFT records are emitted. It is not a training export.
+
+## Integrated dataset production
+
+This Skill is used for the complete C2-B through C2-E workflow. Follow `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` for scientific review, formal target review, model projection and coverage. New operators should begin with `references/OPERATOR_QUICKSTART.md`.
+
+The Skill/toolkit and dataset are co-equal deliverables. The Skill defines the repeatable production process; the dataset is a versioned output. Package the Skill with its references, schemas, validators and tests. Keep expert adjudication, source rights, SFT authorization and training as separate gates.

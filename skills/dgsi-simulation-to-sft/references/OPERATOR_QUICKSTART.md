@@ -45,3 +45,14 @@ Extract to a clean directory and verify every path, byte count and SHA-256 in `P
 
 ## Release states
 Skill package release, curator review, independent expert adjudication, source rights, SFT authorization and actual training are separate states. A successful preview or ZIP build never grants Gold status, SFT export or training permission.
+
+## Handoff checklist
+- [ ] Versioned Skill folder and portable ZIP
+- [ ] Matching manifest and SHA-256 verification
+- [ ] L0 source inventory and rights blockers
+- [ ] L1 collection and per-packet dispositions
+- [ ] Canonical targets and model-facing projection
+- [ ] Round-trip and leakage audit
+- [ ] Coverage by task type and event family
+- [ ] Rejected, revised, pending and quarantined counts
+- [ ] Explicit SFT export/training authorization state

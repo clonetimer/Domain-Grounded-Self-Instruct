@@ -217,3 +217,12 @@ The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/cr
 
 
 95. **Package transitive runtime schema dependencies and exercise the same validation path after extraction.** The L1 preview CLI imports successfully and can read its two externally supplied JSON inputs, yet still fails in `BUILD_PREVIEW` if `schema_validation.py` cannot open `resources/l1_task_packet_collection.schema.json` in the extracted toolkit. Maintain an explicit runtime schema allowlist in `package_dgsi_simulation_to_sft.py`, assert required schemas in the ZIP, and invoke the extracted CLI against the real external 15-packet candidate with repository `PYTHONPATH` removed. Keep stable aggregate-only errors (`INPUT_FILE_NOT_FOUND`, stage) and do not work around a missing schema by bypassing validation or embedding private datasets.
+
+## P5-C2 upstream portable Skill integration lessons (reconciled with PR #125)
+
+- **A portable Skill needs an operator-facing quick start, not only expert reference material.** The primary SKILL.md defines the full contract, while a concise operator guide explains prerequisites, staged execution, stop conditions, local package verification and release states. Include it in the portable ZIP and test its presence so a new operator can start without reconstructing workflow order from multiple references.
+
+The DGSI 0.2.0-rc.1 Skill now includes both `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` and `references/OPERATOR_QUICKSTART.md`. This improves repeatability and usability; it is not evidence of dataset admission or model effectiveness.
+
+
+- **Treat the Skill version as a single source of truth.** The human-readable VERSION file, toolkit manifest and generated ZIP manifest must agree. The package builder should read VERSION rather than hardcode a second value; CI must compare all three. A green ZIP build with stale version metadata is not a valid release.
