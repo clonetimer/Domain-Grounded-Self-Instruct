@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import json
 import sys
 import tempfile
 import unittest
@@ -79,8 +80,9 @@ class DiagramTextRegionTests(unittest.TestCase):
     def test_candidates_are_exact_unresolved_ocr_text_only(self):
         result = self.propose()
         self.assertEqual(result["schema_version"], "dgsi.diagram-text-regions.v1")
-        self.assertEqual(result["generation_recipe"], "isolated-ocr-line-v1")
+        self.assertEqual(result["generation_recipe"], "isolated-lines-plus-pair-hypotheses-v2")
         self.assertEqual(len(result["candidates"]), 2)
+        self.assertEqual([r["candidate_type"] for r in result["candidates"]], ["SINGLE_LINE", "SINGLE_LINE"])
         self.assertEqual(
             [r["label_text"] for r in result["candidates"]],
             ["Unverified OCR label A", "Unverified OCR label B"],
@@ -162,6 +164,79 @@ class DiagramTextRegionTests(unittest.TestCase):
             DiagramTextRegionError, "^DIAGRAM_OCR_BOX_OUT_OF_BOUNDS$"
         ):
             self.propose(ocr=ocr)
+
+    def test_aligned_adjacent_lines_emit_additional_unresolved_pair_hypothesis(self):
+        ocr = copy.deepcopy(self.ocr)
+        ocr["lines"] = [
+            self._line("L1", "Reaction", 20, 20),
+            self._line("L2", "Wheel", 25, 40),
+        ]
+        result = self.propose(ocr=ocr)
+        singles = [c for c in result["candidates"] if c["candidate_type"] == "SINGLE_LINE"]
+        groups = [c for c in result["candidates"] if c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"]
+        self.assertEqual(len(singles), 2)
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(groups[0]["label_text"], "Reaction\nWheel")
+        self.assertEqual(groups[0]["ocr_line_ids"], ["L1", "L2"])
+        self.assertEqual(groups[0]["object_type"], "UNKNOWN")
+        self.assertEqual(groups[0]["interpretation"], "UNRESOLVED_OCR_TEXT")
+        self.assertEqual(groups[0]["review_status"], "MANUAL_REVIEW_REQUIRED")
+        self.assertIn("#ocr-lines:L1,L2#", groups[0]["evidence_locators"][0])
+        self.assertTrue(result["not_for_sft"])
+        self.assertFalse(result["training_authorized"])
+
+    def test_distant_lines_do_not_create_pair_hypothesis(self):
+        result = self.propose()
+        self.assertFalse(any(
+            c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"
+            for c in result["candidates"]
+        ))
+
+    def test_pair_hypothesis_is_order_independent(self):
+        ocr = copy.deepcopy(self.ocr)
+        ocr["lines"] = [
+            self._line("L1", "Reaction", 20, 20),
+            self._line("L2", "Wheel", 25, 40),
+        ]
+        first = self.propose(ocr=ocr)
+        ocr["lines"].reverse()
+        second = self.propose(ocr=ocr)
+        self.assertEqual(first["candidates"], second["candidates"])
+        self.assertNotEqual(first["ocr_record_sha256"], second["ocr_record_sha256"])
+
+    def test_overlapping_lines_do_not_create_vertical_pair(self):
+        ocr = copy.deepcopy(self.ocr)
+        ocr["lines"] = [
+            self._line("L1", "Left", 10, 20),
+            self._line("L2", "Right", 30, 25),
+        ]
+        result = self.propose(ocr=ocr)
+        self.assertFalse(any(
+            c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"
+            for c in result["candidates"]
+        ))
+
+    def test_runtime_recipe_matches_schema_contract(self):
+        from dgsi.diagram_text_regions import RECIPE
+        schema_path = ROOT / "skills/dgsi-simulation-to-sft/schemas/diagram_text_regions.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        self.assertEqual(schema["properties"]["generation_recipe"]["const"], RECIPE)
+
+    def test_pair_hypothesis_only_uses_adjacent_vertical_lines(self):
+        ocr = copy.deepcopy(self.ocr)
+        ocr["lines"] = [
+            self._line("L1", "Top label", 10, 10),
+            self._line("L2", "Unrelated middle", 150, 30),
+            self._line("L3", "Bottom label", 10, 50),
+        ]
+        # Keep every synthetic box inside the 200 px image while separating
+        # the middle line horizontally from both outer labels.
+        ocr["lines"][1]["bbox_px"]["width"] = 40
+        result = self.propose(ocr=ocr)
+        self.assertFalse(any(
+            c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"
+            for c in result["candidates"]
+        ))
 
 
 if __name__ == "__main__":

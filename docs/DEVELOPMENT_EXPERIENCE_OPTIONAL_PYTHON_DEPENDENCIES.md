@@ -214,3 +214,41 @@ Reusable rule 25:
 25. **Test the user-facing CLI and detached package, not only the Python function.** A pure-function test cannot catch argument wiring, output overwrite, stdout leakage or missing portable files. Add subprocess tests for exit codes, payload-free stdout and filesystem effects, and a ZIP-level regression that opens the generated archive, checks the allowlist and verifies every manifest hash.
 
 The 812-test result confirms the code and packaging contracts on these two CI platforms. It does not establish OCR recognition accuracy or engineering-semantic correctness.
+
+## P5-B4.2b implementation note: preserve actual line boundaries in grouped OCR text
+
+While reviewing the new two-line grouping implementation before CI, a source-generation escaping issue was found: the join expression initially used a literal backslash-plus-`n` rather than an actual newline separator. The implementation and regression expectation were corrected before the CI run.
+
+Reusable rule 26:
+
+26. **Test serialized text semantics, not just candidate membership.** For multi-line OCR hypotheses, assert the exact separator and ordering in the emitted text, alongside source line IDs and geometry. Escaping mistakes can preserve candidate counts and IDs while silently corrupting the reviewer's displayed label.
+
+The pair grouping remains a geometric hypothesis only. The original single-line candidates are retained, and no component semantics are inferred.
+
+## P5-B4.2b CI failure: stale recipe assertion after versioned behavior change
+
+Workflow `43997986946` failed on both Ubuntu and Windows at the same single assertion:
+`test_candidates_are_exact_unresolved_ocr_text_only` expected `isolated-ocr-line-v1`, while the implementation and JSON Schema correctly emitted `isolated-lines-plus-pair-hypotheses-v2`.
+
+The four new pair-hypothesis tests were not the cause. The failure was a stale test expectation left behind when the generation recipe was deliberately versioned to include the new two-line hypothesis behavior. The implementation, schema and test contract must advance atomically when a behavior-affecting recipe version changes.
+
+Correction:
+- Update the expected recipe assertion to `isolated-lines-plus-pair-hypotheses-v2`.
+- Keep schema and runtime recipe constants aligned.
+- Retain explicit tests for singleton preservation, pair generation, distance/overlap rejection, order independence and exact newline serialization.
+
+Reusable rule 27:
+
+27. **Versioned behavior changes require atomic contract updates.** When a generator recipe/version changes, update runtime constants, JSON Schema, golden fixtures, test assertions, documentation and package manifest in one change set. Add a test that asserts the runtime recipe equals the schema contract; do not rely only on a hand-maintained expected string in one test.
+
+The failure is a regression-test synchronization issue, not a cross-platform implementation difference: both operating systems failed identically at the same stale assertion.
+
+## P5-B4.2b CI follow-up: adversarial geometry fixture violated its own image bounds
+
+After the stale recipe assertion was corrected, the next exact-head run failed on one new adversarial test on both platforms: `test_pair_hypothesis_only_uses_adjacent_vertical_lines`. The fixture placed a 120-pixel-wide synthetic word/line box at x=150 in a 200-pixel image, so the provenance validator correctly rejected it with `DIAGRAM_OCR_BOX_OUT_OF_BOUNDS` before the adjacency algorithm was reached.
+
+This was a test-fixture construction defect, not a production grouping failure. The fixture now narrows the unrelated middle line to 40 pixels, keeping it within the image while preserving the intended horizontal separation.
+
+Reusable rule 28:
+
+28. **Make adversarial fixtures valid up to the invariant under test.** A test intended to exercise grouping order or adjacency must first satisfy source hash, image bounds, parent-child geometry and schema invariants. Otherwise an earlier fail-closed gate masks the behavior being tested. Add fixture self-checks or comments showing why each geometry is valid.
