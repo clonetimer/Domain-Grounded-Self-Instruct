@@ -55,6 +55,57 @@ class ReviewManifestCliTests(unittest.TestCase):
             self.assertEqual(output.read_text(encoding="utf-8"), "USER_OWNED_FILE")
             self.assertEqual(json.loads(result.stdout)["error_code"], "OUTPUT_ALREADY_EXISTS")
 
+    def test_dangling_output_symlink_cannot_redirect_manifest_write(self):
+        # On Windows symlink creation may require Developer Mode / privileges.
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "not_yet_created.json"
+            alias = Path(tmp) / "review_manifest.json"
+            try:
+                alias.symlink_to(target)
+            except (OSError, NotImplementedError) as exc:
+                self.skipTest(f"symlink creation unavailable: {type(exc).__name__}")
+            self.assertTrue(alias.is_symlink())
+            self.assertFalse(target.exists())
+            result = self._run(alias)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertEqual(
+                json.loads(result.stdout)["error_code"], "OUTPUT_ALREADY_EXISTS"
+            )
+            self.assertTrue(alias.is_symlink())
+            self.assertFalse(target.exists())
+
+    def test_two_writers_to_same_path_cannot_both_succeed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "manifest.json"
+            cmd = [
+                sys.executable, str(SCRIPT),
+                "--collection", str(COL),
+                "--source-facts", str(SRC),
+                "--output", str(output),
+            ]
+            first = subprocess.Popen(
+                cmd, cwd=ROOT, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, text=True,
+            )
+            second = subprocess.Popen(
+                cmd, cwd=ROOT, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, text=True,
+            )
+            first_out, first_err = first.communicate(timeout=60)
+            second_out, second_err = second.communicate(timeout=60)
+            self.assertEqual(
+                sorted([first.returncode, second.returncode]), [0, 2],
+                (first_out, first_err, second_out, second_err),
+            )
+            rejected = first_out if first.returncode == 2 else second_out
+            self.assertEqual(
+                json.loads(rejected)["error_code"], "OUTPUT_ALREADY_EXISTS"
+            )
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(payload["packet_count"], 15)
+            self.assertFalse(payload["training_authorized"])
+            self.assertEqual(payload["sft_records_emitted"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
