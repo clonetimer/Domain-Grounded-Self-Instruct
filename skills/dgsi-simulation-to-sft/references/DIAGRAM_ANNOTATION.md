@@ -25,7 +25,7 @@ Before using OCR or creating annotations, run `python scripts/audit_diagram_asse
 
 ## OCR-only text-region proposals
 
-The current B4.2a implementation emits one unresolved text-region candidate per OCR line. It preserves verbatim text and original pixel coordinates; it does not combine lines or assign engineering object types. Use `python scripts/propose_diagram_text_regions.py --document-manifest <manifest.json> --ocr-record <ocr.json> --asset <original-image> --output <authorized-local-workspace/regions.json>`. The output file contains untrusted OCR text, so only write it to an authorized local annotation workspace. Existing output files are never overwritten, and stdout contains aggregate metadata only.
+The current B4.2 implementation preserves every single-line candidate and may add a separate two-line grouping hypothesis when horizontal overlap is at least 0.5 and the vertical gap is no more than twice the larger line height. Group text is joined with a newline in top-to-bottom order. This is a deterministic spatial hypothesis only: it does not decide that the lines name one component, and it never assigns engineering object types, ports, hierarchy or connectivity. Use `python scripts/propose_diagram_text_regions.py --document-manifest <manifest.json> --ocr-record <ocr.json> --asset <original-image> --output <authorized-local-workspace/regions.json>`. The output file contains untrusted OCR text, so only write it to an authorized local annotation workspace. Existing output files are never overwritten, and stdout contains aggregate metadata only.
 
 ## Suggested review sequence
 1. Open the exact source page and figure; preserve original asset hash.
