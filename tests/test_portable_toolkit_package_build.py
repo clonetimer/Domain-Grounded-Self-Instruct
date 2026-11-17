@@ -109,6 +109,33 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     )
                     self.assertEqual(0, help_result.returncode, help_result.stderr[:500])
                     self.assertIn("--collection", help_result.stdout)
+                    # Run a real 15-packet preview from the extracted toolkit,
+                    # while keeping the candidate dataset external to the ZIP.
+                    preview_output = extracted_root / "preview-output.json"
+                    smoke = subprocess.run(
+                        [
+                            sys.executable,
+                            str(extracted_root / "scripts/create_l1_model_preview.py"),
+                            "--collection",
+                            str(ROOT / "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json"),
+                            "--source-facts",
+                            str(ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json"),
+                            "--output",
+                            str(preview_output),
+                        ],
+                        cwd=extracted_root,
+                        env=clean_env,
+                        capture_output=True,
+                        text=True,
+                        timeout=60,
+                        check=False,
+                    )
+                    self.assertEqual(0, smoke.returncode, smoke.stderr[:1000])
+                    preview_result = json.loads(preview_output.read_text(encoding="utf-8"))
+                    self.assertEqual(15, preview_result["packet_count"])
+                    self.assertEqual(9, preview_result["event_family_count"])
+                    self.assertEqual(0, preview_result["sft_records_emitted"])
+                    self.assertFalse(preview_result["training_authorized"])
                 for item in manifest["files"]:
                     content = archive.read(item["path"])
                     self.assertEqual(len(content), item["size_bytes"])
