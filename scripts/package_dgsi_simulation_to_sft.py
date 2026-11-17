@@ -23,6 +23,7 @@ SCHEMAS = (
     "resources/source_fact_card.schema.json",
     "resources/diagnostic_case.schema.json",
     "resources/l1_task_packet.schema.json",
+    "resources/l1_task_packet_collection.schema.json",
     "resources/diagnostic_sft.schema.json",
 )
 DOCS = (
