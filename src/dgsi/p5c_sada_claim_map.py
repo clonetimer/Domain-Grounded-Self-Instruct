@@ -56,6 +56,22 @@ _INPUT_STATES = {
     "spacecraft_context": "NOT_RECEIVED",
     "history_context": "NOT_PROVIDED",
 }
+# Frozen versioned expectations: a candidate must not silently remove
+# algorithm provenance, temporal joins or as-flown configuration requirements.
+# To revise these, version the contract and review the complete mapping.
+_REQUIRED_INPUT_FIELDS = {
+    "upstream_ml_result": (
+        "algorithm_and_model_version", "actual_run_id", "score_semantics",
+        "ranked_candidates", "evidence_references",
+    ),
+    "diagnostic_logs": (
+        "timestamped_logs", "original_time_basis", "event_and_channel_ids",
+    ),
+    "spacecraft_context": (
+        "as_flown_configuration", "SADA_component_mapping",
+        "mission_phase", "operating_mode",
+    ),
+}
 _REQUIRED_FALSE = {
     "complete_l1_input", "formal_assistant_target_created", "real_gold_admitted",
     "official_split_assigned", "sft_export_authorized", "training_authorized",
@@ -147,10 +163,12 @@ def audit_sada_claim_map(payload: Any) -> dict[str, Any]:
         if name == "history_context":
             if detail["rule"] != "CONTEXT_ONLY_NOT_DIRECT_CURRENT_EVENT_EVIDENCE":
                 _block("SADA_MAP_HISTORY_ESCALATION")
-        elif (not isinstance(detail["required"], list) or not detail["required"]
-                or len(set(map(str, detail["required"]))) != len(detail["required"])
-                or not all(isinstance(x, str) and x for x in detail["required"])):
-            _block("SADA_MAP_INPUTS_INVALID")
+        else:
+            fields = detail["required"]
+            if not isinstance(fields, list) or not all(type(field) is str for field in fields):
+                _block("SADA_MAP_INPUTS_INVALID")
+            if fields != list(_REQUIRED_INPUT_FIELDS[name]):
+                _block("SADA_MAP_INPUT_REQUIREMENTS_DRIFT")
 
     admission = _object(item["target_admission"],
         _REQUIRED_FALSE | {"l0_fact_card_preserved", "independent_reviews_complete"},
