@@ -261,6 +261,21 @@ def validate_l1_task_packet(
     track = packet["track"]
     synthetic = packet["synthetic_provenance"]
     if track == "LITERATURE_DERIVED_SYNTHETIC":
+        # L0 source evidence constrains the literature-derived scenario, but is
+        # not observation of the newly invented ML/log/mission incident. Keep it
+        # available in input.knowledge_evidence and source provenance, never in
+        # supporting_refs for the *current* hypothetical fault candidate.
+        literature_context_ids = {
+            item["evidence_id"] for item in case["input"]["knowledge_evidence"]
+        }
+        current_cause_support = set(
+            case["expected_output"]["evidence_assessment"]["supporting_refs"]
+        )
+        for candidate in case["expected_output"]["cause_localization"]["candidates"]:
+            current_cause_support.update(candidate["supporting_refs"])
+        if literature_context_ids & current_cause_support:
+            _fail("L0_LITERATURE_CANNOT_PROVE_SYNTHETIC_CURRENT_CAUSE")
+    if track == "LITERATURE_DERIVED_SYNTHETIC":
         if synthetic is None:
             _fail("SYNTHETIC_PROVENANCE_REQUIRED")
         if synthetic["source_fact_refs"] != refs:
