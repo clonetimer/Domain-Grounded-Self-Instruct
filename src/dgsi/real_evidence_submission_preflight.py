@@ -17,6 +17,11 @@ from dgsi.real_review_queue_preflight import CHECKS, audit_review_queue
 VERSION = "dgsi.local-real-evidence-submissions.v1"
 CLASSIFICATION = "LOCAL_REVIEW_WORKSPACE_ONLY"
 HEX = re.compile(r"[0-9a-f]{64}\Z")
+CASE_SCOPED_EVIDENCE_TYPES = frozenset({
+    "ML_RESULT", "DIAGNOSTIC_LOG", "ANALYSIS_CUTOFF_RECORD",
+    "HISTORY_ASOF_RETRIEVAL", "BLIND_REVIEW_REQUEST",
+})
+
 EVIDENCE_TYPES = {
     "SOURCE_RIGHTS": {"SOURCE_PERMISSION_RECORD"},
     "DEIDENTIFICATION": {"DEIDENTIFICATION_REPORT"},
@@ -70,6 +75,8 @@ def audit_evidence_submissions(queue: dict[str, Any], bundle: dict[str, Any]) ->
     expected_cases = {c["case_id"]: c["source_case_sha256"] for c in queue["cases"]}
     seen_cases: set[str] = set()
     ref_hash: dict[str, str] = {}
+    ref_types: dict[str, str] = {}
+    case_scoped_owners: dict[str, str] = {}
     submitted: Counter[str] = Counter()
     missing: Counter[str] = Counter()
     declaration_count = 0
@@ -128,6 +135,16 @@ def audit_evidence_submissions(queue: dict[str, Any], bundle: dict[str, Any]) ->
                 prior = ref_hash.setdefault(ref, sha)
                 if prior != sha:
                     raise RealEvidenceSubmissionError("SUBMISSION_EVIDENCE_REF_HASH_CONFLICT")
+                prior_type = ref_types.setdefault(ref, kind)
+                if prior_type != kind:
+                    # One artifact must not masquerade as multiple evidence kinds.
+                    raise RealEvidenceSubmissionError("SUBMISSION_EVIDENCE_REF_TYPE_CONFLICT")
+                if kind in CASE_SCOPED_EVIDENCE_TYPES:
+                    previous_case = case_scoped_owners.setdefault(ref, case_id)
+                    if previous_case != case_id:
+                        # Case-specific ML runs, time windows, historical retrievals and
+                        # review requests require explicitly distinct per-case receipts.
+                        raise RealEvidenceSubmissionError("SUBMISSION_CROSS_CASE_SCOPED_EVIDENCE_REUSE")
                 declaration_count += 1
     if seen_cases != set(expected_cases):
         raise RealEvidenceSubmissionError("SUBMISSION_CASESET_INCOMPLETE")
