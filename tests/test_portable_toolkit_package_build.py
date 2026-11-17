@@ -39,6 +39,14 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 self.assertEqual(len(names), len(set(names)))
                 self.assertIn("PACKAGE_SHA256_MANIFEST.json", names)
                 self.assertIn(
+                    "scripts/create_l1_model_preview.py",
+                    names,
+                )
+                self.assertIn(
+                    "tests/test_l1_model_projection_preview.py",
+                    names,
+                )
+                self.assertIn(
                     "src/dgsi/design_derived_intake.py",
                     names,
                 )
