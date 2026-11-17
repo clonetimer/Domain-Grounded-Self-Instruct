@@ -47,7 +47,13 @@ def build_l1_blind_review_manifest(
     cards = {card["case_id"]: card for card in source_fact_cards}
     entries: list[dict[str, Any]] = []
     for packet in collection["packets"]:
-        source_refs = sorted(set(packet["source_fact_refs"]))
+        # Bind historical L0 references too: a prior-case fact-card edit must
+        # invalidate the packet's review, even when the current L1 packet
+        # bytes and its direct source_fact_refs did not change.
+        refs = set(packet["source_fact_refs"])
+        for hit in packet["history_context"]["items"]:
+            refs.update(ref for ref in hit["source_refs"] if ref in cards)
+        source_refs = sorted(refs)
         source_bindings = [
             {
                 "source_fact_ref": ref,
