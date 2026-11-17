@@ -20,8 +20,12 @@ from dgsi.l1_c2_expert_handoff import build_c2_expert_handoff
 from dgsi.l1_model_projection_audit import L1ProjectionAuditError
 
 
-def _para(value: str, *, heading: bool = False) -> str:
-    style = '<w:pPr><w:pStyle w:val="Heading1"/></w:pPr>' if heading else ""
+def _para(value: str, *, heading: bool = False, page_break_before: bool = False) -> str:
+    properties = (
+        ('<w:pStyle w:val="Heading1"/>' if heading else "")
+        + ('<w:pageBreakBefore/>' if page_break_before else "")
+    )
+    style = "<w:pPr>" + properties + "</w:pPr>" if properties else ""
     return (
         "<w:p>" + style + "<w:r><w:rPr><w:rFonts "
         'w:ascii="Arial" w:eastAsia="Microsoft YaHei" w:hAnsi="Arial"/>'
@@ -43,10 +47,9 @@ def _word_document(handoff: dict) -> bytes:
               "；事件族: " + str(handoff["event_family_count"])),
     ]
     for index, task in enumerate(handoff["tasks"], 1):
-        if index > 1:
-            body.append('<w:p><w:r><w:br w:type="page"/></w:r></w:p>')
         body.extend([
-            _para(f"{index:02d}. {task['task_id']} / {task['task_type']}", heading=True),
+            _para(f"{index:02d}. {task['task_id']} / {task['task_type']}",
+                  heading=True, page_break_before=index > 1),
             _para("事件族: " + task["event_family"]),
             _para("Case: " + task["case_id"]),
             _para("Packet SHA-256: " + task["packet_sha256"][:32] +
@@ -65,6 +68,8 @@ def _word_document(handoff: dict) -> bytes:
             _para("判定：ACCEPT_L1 / REVISE / REJECT（圈选）"),
             _para("Reviewer token（仅在安全工作区填写）: __________________"),
             _para("问题、来源定位和修改建议：请另存于受控审核记录。"),
+            _para("审核备注: _____________________________________________________"),
+            _para("_____________________________________________________________"),
         ])
     body.append(
         '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/>'
