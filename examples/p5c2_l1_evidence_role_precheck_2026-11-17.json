@@ -47,7 +47,7 @@
       "source_fact_refs": [
         "LIT-SEASAT-SLIPRING-001"
       ],
-      "event_family_id": null,
+      "event_family_id": "SEASAT-SLIPRING-1978",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-001"
@@ -80,7 +80,7 @@
       "source_fact_refs": [
         "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
       ],
-      "event_family_id": null,
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-002"
@@ -113,7 +113,7 @@
       "source_fact_refs": [
         "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
       ],
-      "event_family_id": null,
+      "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-003"
@@ -142,7 +142,7 @@
       "source_fact_refs": [
         "LIT-TROPICS-SLIPRING-TVAC-002"
       ],
-      "event_family_id": null,
+      "event_family_id": "TROPICS-SLIPRING-QUALIFICATION",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-004"
@@ -175,7 +175,7 @@
       "source_fact_refs": [
         "LIT-TROPICS-FLIGHT-CRC-003-A"
       ],
-      "event_family_id": null,
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-005"
@@ -208,7 +208,7 @@
       "source_fact_refs": [
         "LIT-TROPICS-FLIGHT-CRC-003-B"
       ],
-      "event_family_id": null,
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-006"
@@ -241,7 +241,7 @@
       "source_fact_refs": [
         "LIT-LUNAR-ORBITER-HELIX-005"
       ],
-      "event_family_id": null,
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-007",
@@ -276,7 +276,7 @@
       "source_fact_refs": [
         "LIT-CASSINI-RWA-DRAG-007"
       ],
-      "event_family_id": null,
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-008"
@@ -309,7 +309,7 @@
       "source_fact_refs": [
         "LIT-NASA-HYDRAZINE-INJECTOR-009"
       ],
-      "event_family_id": null,
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-009"
@@ -342,7 +342,7 @@
       "source_fact_refs": [
         "LIT-NASA-HYDRAZINE-CATALYST-010"
       ],
-      "event_family_id": null,
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-010"
@@ -375,7 +375,7 @@
       "source_fact_refs": [
         "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
       ],
-      "event_family_id": null,
+      "event_family_id": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-011"
@@ -408,7 +408,7 @@
       "source_fact_refs": [
         "LIT-FUSE-RWA-KAPTON-001"
       ],
-      "event_family_id": null,
+      "event_family_id": "FUSE-RWA-2000-2001",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-012"
@@ -437,7 +437,7 @@
       "source_fact_refs": [
         "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
       ],
-      "event_family_id": null,
+      "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-003"
@@ -466,7 +466,7 @@
       "source_fact_refs": [
         "LIT-CASSINI-RWA-DRAG-007"
       ],
-      "event_family_id": null,
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-008"
@@ -495,7 +495,7 @@
       "source_fact_refs": [
         "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
       ],
-      "event_family_id": null,
+      "event_family_id": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
       "baseline_v01_direct_l0_refs": {
         "cause_support": [
           "L0-E-011"
