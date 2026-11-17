@@ -1,0 +1,193 @@
+{
+  "schema_version": "dgsi-l1-pilot-structural-audit.v1",
+  "audit_id": "DGSI-P5C2-L1-PILOT-STRUCTURAL-AUDIT-2026-11-17",
+  "source_snapshot": {
+    "commit": "10ad4aba6d50ba4635db969725ed6d100ba29584",
+    "collection": "examples/l1_literature_synthetic_task_packets_v0.1.json",
+    "coverage": "examples/l1_literature_pilot_coverage_v0.1.json",
+    "source_cards": "examples/l0_public_literature_fact_cards_2026-11-15.json"
+  },
+  "scope": "Read-only structural and lineage audit of the existing 15 literature-derived synthetic L1 packets; not expert review, scientific validation, source-rights clearance or training admission.",
+  "totals": {
+    "packets": 15,
+    "event_families": 9,
+    "review_required": 15,
+    "approved": 0,
+    "training_authorized": 0,
+    "formal_sft_export": 0
+  },
+  "task_type_counts": {
+    "diagnostic_synthesis": 10,
+    "conflict_reconciliation": 1,
+    "historical_case_reuse": 1,
+    "evidence_sufficiency": 1,
+    "next_step_recommendation": 1,
+    "handover_summary": 1
+  },
+  "structural_checks": {
+    "all_15_track_literature_derived_synthetic": true,
+    "all_15_review_required": true,
+    "all_15_have_synthetic_provenance": true,
+    "all_15_mark_ml_logs_spacecraft_and_operational_context_as_generated": true,
+    "all_15_formal_target_equals_case_expected_output": true,
+    "all_source_fact_refs_resolve_to_l0_cards": true,
+    "all_formal_target_evidence_refs_resolve_to_input_evidence_ids": true,
+    "internal_review_objects_present": 15,
+    "internal_review_not_for_sft": true,
+    "all_training_authorized_false": true,
+    "all_gold_eligible_false": true
+  },
+  "per_task": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "SEASAT-SLIPRING-1978",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LUNAR-ORBITER-III-TWTA-1967",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "task_type": "conflict_reconciliation",
+      "event_family": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 5
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "TROPICS-SLIPRING-QUALIFICATION",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "TROPICS-SLIPRING-FLIGHT-2023",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "TROPICS-SLIPRING-FLIGHT-2023",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LUNAR-ORBITER-III-TWTA-1967",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "CASSINI-RWA-LOW-SPEED-2000-12",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 5
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 5
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 6
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "task_type": "historical_case_reuse",
+      "event_family": "FUSE-RWA-2000-2001",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "task_type": "evidence_sufficiency",
+      "event_family": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 5
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "task_type": "next_step_recommendation",
+      "event_family": "CASSINI-RWA-LOW-SPEED-2000-12",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "task_type": "handover_summary",
+      "event_family": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "review": "REVIEW_REQUIRED",
+      "evidence_refs": 4
+    }
+  ],
+  "quality_findings": [
+    {
+      "id": "QF-01",
+      "severity": "HIGH",
+      "finding": "Task-type coverage is strongly imbalanced: 10/15 are diagnostic_synthesis and five task types have one packet each.",
+      "implication": "The pilot demonstrates task-type existence, not balanced task competence. Do not report broad six-task capability from one example per specialized task."
+    },
+    {
+      "id": "QF-02",
+      "severity": "HIGH",
+      "finding": "All 15 packets contain internal_review objects, explicitly marked not_for_sft.",
+      "implication": "The release serializer and model-facing projection must structurally exclude the entire internal_review subtree, not rely on the flag alone."
+    },
+    {
+      "id": "QF-03",
+      "severity": "HIGH",
+      "finding": "The 15 packets cover nine source event families, with multiple task variants within several families.",
+      "implication": "Split by event_family_id. Do not count 15 packets as 15 independent incidents."
+    },
+    {
+      "id": "QF-04",
+      "severity": "MEDIUM",
+      "finding": "All 15 have synthetic ML/log/context provenance and resolved evidence-reference IDs in this structural audit.",
+      "implication": "This proves referential structure only; synthetic content can still be scientifically implausible or inconsistent with source constraints."
+    },
+    {
+      "id": "QF-05",
+      "severity": "HIGH",
+      "finding": "Formal target is duplicated in case.expected_output and packet.formal_target.",
+      "implication": "Keep them equal and define one canonical target source for serialization; reject drift rather than independently editing both."
+    },
+    {
+      "id": "QF-06",
+      "severity": "HIGH",
+      "finding": "All 15 remain REVIEW_REQUIRED and all release/training gates are false.",
+      "implication": "No SFT export or training is authorized; L0 source confirmation, rights review and L1 expert adjudication remain outstanding."
+    }
+  ],
+  "next_work": "Perform task-by-task scientific and target review on the existing 15 packets before generating more. Start with specialized task variants and the highest-risk source/rights cases; do not add rows to improve counts.",
+  "admission": {
+    "real_gold": 0,
+    "official_splits": 0,
+    "authorized_sft_records": 0,
+    "fine_tuning_runs": 0,
+    "training_authorized": false
+  }
+}
