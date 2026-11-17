@@ -291,3 +291,14 @@ The missing `tempfile` import was the only failure in the preceding run. After a
 Reusable rule 31:
 
 31. **For local review receipts, distinguish binding from authentication and adjudication.** Hash and locator checks prove that a receipt refers to a specific candidate artifact; they do not prove reviewer identity, actual visual inspection, domain expertise or scientific correctness. Downstream graph conversion must keep these records proposed/unverified unless a separate trusted review mechanism supplies authenticated approval.
+
+## P5-B4.3b exact-head CI: review-to-proposed-graph import
+
+Exact head `4b407eefc68e7d00d96c5491316ef4c8c6aaeb14` completed workflow `44011216046`:
+- Ubuntu: 837/837 PASS
+- Windows: 837/837 PASS
+- Both logs contain accepted-label-only import, candidate mutation rejection, rejected/unresolved non-import, CLI overwrite refusal, CLI payload privacy and portable ZIP tests.
+
+Reusable rule 32:
+
+32. **Do not convert a locally supplied review receipt into a confirmed engineering graph.** A receipt-bound label and selected object type can seed an AI_PROPOSED node only. Do not create ports or edges from text grouping or proximity, and do not mark the node HUMAN_CONFIRMED without a separately authenticated, evidence-adjudicated review. Keep the graph review-required and training-disabled.
