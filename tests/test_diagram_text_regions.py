@@ -79,8 +79,9 @@ class DiagramTextRegionTests(unittest.TestCase):
     def test_candidates_are_exact_unresolved_ocr_text_only(self):
         result = self.propose()
         self.assertEqual(result["schema_version"], "dgsi.diagram-text-regions.v1")
-        self.assertEqual(result["generation_recipe"], "isolated-ocr-line-v1")
+        self.assertEqual(result["generation_recipe"], "isolated-lines-plus-pair-hypotheses-v2")
         self.assertEqual(len(result["candidates"]), 2)
+        self.assertEqual([r["candidate_type"] for r in result["candidates"]], ["SINGLE_LINE", "SINGLE_LINE"])
         self.assertEqual(
             [r["label_text"] for r in result["candidates"]],
             ["Unverified OCR label A", "Unverified OCR label B"],
