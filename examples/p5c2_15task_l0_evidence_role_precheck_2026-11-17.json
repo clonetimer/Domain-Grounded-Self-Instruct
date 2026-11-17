@@ -1,0 +1,496 @@
+{
+  "schema_version": "dgsi-p5c2-content-role-precheck.v1",
+  "audit_status": "AUTOMATED_ENGINEERING_PRECHECK_ONLY",
+  "purpose": "Find L0 historical-literature citations in direct-current-synthetic-fault supporting/contradicting evidence roles. Does not claim physical or source scientific verification.",
+  "source_snapshot": {
+    "base_pr": 124,
+    "base_head": "c1694ca75c4a8d78391f4d26f77985d600fbfbf7",
+    "l1_v01_path": "examples/l1_literature_synthetic_task_packets_v0.1.json",
+    "l1_v01_git_blob_oid": "44a32a256b18e248effc03f82e8ef15237899974",
+    "l0_path": "examples/l0_public_literature_fact_cards_2026-11-15.json",
+    "l0_git_blob_oid": "73f8f00dd6ecaf60cb75b0e1d566537c4e27579f",
+    "related_unmerged_pr": 122,
+    "l1_v02_path": "examples/l1_literature_synthetic_task_packets_v0.2_review_candidate.json",
+    "l1_v02_git_blob_oid": "bc8b1e464fa7946c09413723b1686812c9394aac"
+  },
+  "summary": {
+    "packets": 15,
+    "source_event_families": 9,
+    "v01_misrole_occurrences": 31,
+    "v01_affected_packets": 15,
+    "v02_misrole_occurrences": 21,
+    "v02_affected_packets": 10,
+    "v02_role_clean_packets": 5,
+    "real_gold": 0,
+    "official_splits": 0,
+    "sft_authorized_records": 0,
+    "training_authorized": false
+  },
+  "decision": "BLOCKED_PENDING_IMMUTABLE_CANDIDATE_REPAIR_AND_EXPERT_REVIEW",
+  "review_policy": "Literature L0 is historical/source knowledge, never evidence directly observed in the current SYNTHETIC scenario. Only current synthetic input evidence IDs may occupy current-evidence support/contradiction roles. Retain L0 citations in explicit source/context fields. All source rights and independent expert reviews remain open.",
+  "required_action": "Coordinate PR #108 safety gate and PR #122 specialized corrections into a new immutable L1 review candidate, correct remaining 21 direct L0 roles, preserve source certainty and status, rebind target equality and packet digests, then independently review entire candidate.",
+  "rows": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "SEASAT-SLIPRING-1978",
+      "source_fact_refs": [
+        "LIT-SEASAT-SLIPRING-001"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-001"
+        ],
+        "evidence_support": [
+          "L0-E-001"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-001"
+        ],
+        "evidence_support": [
+          "L0-E-001"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-002"
+        ],
+        "evidence_support": [
+          "L0-E-002"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-002"
+        ],
+        "evidence_support": [
+          "L0-E-002"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "task_type": "conflict_reconciliation",
+      "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-003"
+        ],
+        "evidence_support": [
+          "L0-E-003"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 0,
+      "engineering_status": "PENDING_EXPERT_REVIEW",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "TROPICS-SLIPRING-QUALIFICATION",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-004"
+        ],
+        "evidence_support": [
+          "L0-E-004"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-004"
+        ],
+        "evidence_support": [
+          "L0-E-004"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-005"
+        ],
+        "evidence_support": [
+          "L0-E-005"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-005"
+        ],
+        "evidence_support": [
+          "L0-E-005"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-006"
+        ],
+        "evidence_support": [
+          "L0-E-006"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-006"
+        ],
+        "evidence_support": [
+          "L0-E-006"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-007",
+          "L0-E-007"
+        ],
+        "evidence_support": [
+          "L0-E-007"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-007",
+          "L0-E-007"
+        ],
+        "evidence_support": [
+          "L0-E-007"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 3,
+      "sibling_role_occurrences": 3,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-008"
+        ],
+        "evidence_support": [
+          "L0-E-008"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-008"
+        ],
+        "evidence_support": [
+          "L0-E-008"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-009"
+        ],
+        "evidence_support": [
+          "L0-E-009"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-009"
+        ],
+        "evidence_support": [
+          "L0-E-009"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-CATALYST-010"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-010"
+        ],
+        "evidence_support": [
+          "L0-E-010"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-010"
+        ],
+        "evidence_support": [
+          "L0-E-010"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "task_type": "diagnostic_synthesis",
+      "event_family_id": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-011"
+        ],
+        "evidence_support": [
+          "L0-E-011"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-011"
+        ],
+        "evidence_support": [
+          "L0-E-011"
+        ],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 2,
+      "engineering_status": "REVISE_CANDIDATE",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "task_type": "historical_case_reuse",
+      "event_family_id": "FUSE-RWA-2000-2001",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-012"
+        ],
+        "evidence_support": [
+          "L0-E-012"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 0,
+      "engineering_status": "PENDING_EXPERT_REVIEW",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "task_type": "evidence_sufficiency",
+      "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-003"
+        ],
+        "evidence_support": [
+          "L0-E-003"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 0,
+      "engineering_status": "PENDING_EXPERT_REVIEW",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "task_type": "next_step_recommendation",
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-008"
+        ],
+        "evidence_support": [
+          "L0-E-008"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 0,
+      "engineering_status": "PENDING_EXPERT_REVIEW",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "task_type": "handover_summary",
+      "event_family_id": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "baseline_v01_direct_l0_refs": {
+        "cause_support": [
+          "L0-E-011"
+        ],
+        "evidence_support": [
+          "L0-E-011"
+        ],
+        "evidence_contradiction": []
+      },
+      "sibling_v02_direct_l0_refs": {
+        "cause_support": [],
+        "evidence_support": [],
+        "evidence_contradiction": []
+      },
+      "baseline_role_occurrences": 2,
+      "sibling_role_occurrences": 0,
+      "engineering_status": "PENDING_EXPERT_REVIEW",
+      "source_scientific_review": "NOT_PERFORMED",
+      "rights_clearance": "NOT_CONFIRMED",
+      "expert_adjudication": "NOT_PERFORMED"
+    }
+  ]
+}
