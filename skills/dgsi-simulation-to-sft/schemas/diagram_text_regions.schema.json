@@ -132,7 +132,7 @@
             ]
           },
           "grouping_rule": {
-            "const": "horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
+            "const": "adjacent-horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
           }
         },
         "allOf": [
@@ -169,7 +169,7 @@
                   "maxItems": 2
                 },
                 "grouping_rule": {
-                  "const": "horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
+                  "const": "adjacent-horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
                 }
               }
             }
