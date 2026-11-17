@@ -243,6 +243,28 @@ class L1TaskPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(L1TaskPacketError, "SYNTHETIC_FIELD_SOURCE_REFERENCE_UNRESOLVED"):
             self.validate(packet)
 
+    def test_l0_literature_reference_cannot_be_current_cause_support(self):
+        packet = make_packet()
+        # The L0 fact is present in the *context* but is not a measurement
+        # of the separate synthetic ML/log incident.
+        evidence_id = packet["case"]["input"]["knowledge_evidence"][0]["evidence_id"]
+        packet["case"]["expected_output"]["cause_localization"]["candidates"][0]["supporting_refs"].append(evidence_id)
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(
+            L1TaskPacketError, "^L0_LITERATURE_CANNOT_PROVE_SYNTHETIC_CURRENT_CAUSE$"
+        ):
+            self.validate(packet)
+
+    def test_l0_literature_reference_cannot_be_current_evidence_assessment_support(self):
+        packet = make_packet()
+        evidence_id = packet["case"]["input"]["knowledge_evidence"][0]["evidence_id"]
+        packet["case"]["expected_output"]["evidence_assessment"]["supporting_refs"].append(evidence_id)
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(
+            L1TaskPacketError, "^L0_LITERATURE_CANNOT_PROVE_SYNTHETIC_CURRENT_CAUSE$"
+        ):
+            self.validate(packet)
+
     def test_formal_target_must_be_exact_case_target(self):
         packet = make_packet()
         packet["formal_target"]["phenomenon_analysis"] += " curator prompt must not appear"
