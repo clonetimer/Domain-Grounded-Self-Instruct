@@ -110,3 +110,22 @@ The earlier PR #118 head `7712aa50` had passed 912/912 on both platforms, but th
 62. **Candidate metadata auditors must fail closed on promotion and source drift.** The SADA auditor fixes the case ID, exact source claim text, source certainty, missing-evidence state, disposal status, history role, rights status and admission gates. A successful audit returns BLOCKED_PENDING_REAL_EVIDENCE; it is not a Gold approval or evidence receipt.
 
 The SADA claim-map audit is structural only. It does not authenticate the source, verify actual evidence, establish reviewer identity, or authorize SFT/training. No actual case evidence has been received.
+
+
+## P5-C2 specialized L1 target review (2026-11-17)
+
+Reviewed the five one-example specialized task types: Pathfinder conflict reconciliation, FUSE/Cassini history reuse, Pathfinder evidence sufficiency, Cassini next-step recommendation and S-band TWTA handover. Found two concrete data-quality defects and several positive source-logic checks.
+
+69. **Keep source-grounding context separate from current-scenario supporting evidence.** A literature L0 passage can establish what the historical source reported and constrain certainty/mechanism; it does not become direct evidence for the current synthetic diagnostic scenario. Do not place a context-only L0 knowledge-evidence ID in current-event `supporting_refs`. Keep it in a separately bounded source/context field; keep current synthetic ML/log refs explicitly labeled synthetic.
+
+70. **Hardware compatibility is not implied by shared equipment/interface labels.** If the history record itself says hardware differs or the exact design is unknown, do not mark COMPATIBLE merely because the broad equipment_scope string matches. Use UNKNOWN and preserve transfer limitations until component design, materials, interfaces and operating envelope are compared.
+
+71. **A specialized task's one example is a template demonstration, not competence evidence.** Maintain separate counts for task-type presence, event-family diversity and independent reviewed target count. Do not create paraphrases to make a sparse task type appear statistically supported.
+
+72. **Preserve distinct failure episodes and vendor/source attribution in history-reuse targets.** FUSE 2000 pitch-wheel Kapton-liner hypothesis, 2001 yaw-wheel similar event, later thermal-distortion failures and Cassini low-speed lubricant redistribution must remain distinct mechanisms/episodes with their original certainty and compatibility limitations.
+
+73. **Review target report semantics against the structured target, not only JSON equality.** A report_text field may be a task-specific concise handover/recommendation rather than a literal concatenation of every structured field. Check that it preserves all material conclusions and does not introduce claims, while allowing intentional task-specific compression.
+
+74. **Use immutable review-candidate collections for bounded corrections.** Keep the prior packet snapshot unchanged, create a versioned candidate collection, record exactly which fields changed, and run the existing validator plus targeted tests. Do not overwrite the baseline or imply approval from structural validation.
+
+The v0.2 review candidate removes context-only L0 refs from current supporting refs in five specialized tasks and changes rejected Pathfinder history hardware compatibility from COMPATIBLE to UNKNOWN. It does not alter source facts, synthetic scenario values, conclusions, certainty, disposal, event families or task count. All packets remain REVIEW_REQUIRED and training-disabled.
