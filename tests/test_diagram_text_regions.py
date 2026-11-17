@@ -229,6 +229,9 @@ class DiagramTextRegionTests(unittest.TestCase):
             self._line("L2", "Unrelated middle", 150, 30),
             self._line("L3", "Bottom label", 10, 50),
         ]
+        # Keep every synthetic box inside the 200 px image while separating
+        # the middle line horizontally from both outer labels.
+        ocr["lines"][1]["bbox_px"]["width"] = 40
         result = self.propose(ocr=ocr)
         self.assertFalse(any(
             c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"
