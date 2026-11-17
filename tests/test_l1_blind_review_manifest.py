@@ -26,6 +26,7 @@ def _receipts(entry):
         {
             "task_id": entry["task_id"],
             "packet_sha256": entry["packet_sha256"],
+            "collection_projection_sha256": entry["collection_projection_sha256"],
             "source_public_sha256": entry["source_public_sha256"],
             "reviewer_token": "SYNTHETIC_TEST_REVIEWER_A",
             "recommendation": "ACCEPT",
@@ -33,6 +34,7 @@ def _receipts(entry):
         {
             "task_id": entry["task_id"],
             "packet_sha256": entry["packet_sha256"],
+            "collection_projection_sha256": entry["collection_projection_sha256"],
             "source_public_sha256": entry["source_public_sha256"],
             "reviewer_token": "SYNTHETIC_TEST_REVIEWER_B",
             "recommendation": "REVISE",
@@ -61,6 +63,7 @@ class BlindReviewFingerprintManifestTests(unittest.TestCase):
         self.assertEqual(len({x["task_id"] for x in m["review_packets"]}), 15)
         for row in m["review_packets"]:
             self.assertEqual(len(row["packet_sha256"]), 64)
+            self.assertEqual(row["collection_projection_sha256"], m["collection_projection_sha256"])
             self.assertEqual(len(row["source_public_sha256"]), 64)
             self.assertTrue(row["source_fact_bindings"])
             self.assertEqual(row["reviewer_slots"], ["A_UNASSIGNED", "B_UNASSIGNED"])
@@ -102,6 +105,30 @@ class BlindReviewFingerprintManifestTests(unittest.TestCase):
         self.assertFalse(result["gold_eligible"])
         self.assertFalse(result["training_authorized"])
         self.assertNotIn("reviewer_token", result)
+
+    def test_stale_collection_fingerprint_rejected_even_if_task_and_sources_match(self):
+        rows = _receipts(self.entry)
+        rows[1]["collection_projection_sha256"] = "0" * 64
+        with self.assertRaisesRegex(
+            L1BlindReviewManifestError, "REVIEW_RECEIPT_STALE_COLLECTION"
+        ):
+            check_blind_review_pair(self.entry, rows)
+
+    def test_missing_collection_digest_on_receipt_is_blocked(self):
+        rows = _receipts(self.entry)
+        del rows[0]["collection_projection_sha256"]
+        with self.assertRaisesRegex(
+            L1BlindReviewManifestError, "REVIEW_RECEIPT_STALE_COLLECTION"
+        ):
+            check_blind_review_pair(self.entry, rows)
+
+    def test_missing_collection_binding_on_entry_is_blocked(self):
+        entry = copy.deepcopy(self.entry)
+        del entry["collection_projection_sha256"]
+        with self.assertRaisesRegex(
+            L1BlindReviewManifestError, "REVIEW_ENTRY_COLLECTION_FINGERPRINT_INVALID"
+        ):
+            check_blind_review_pair(entry, _receipts(self.entry))
 
     def test_stale_packet_fingerprint_rejected(self):
         rows = _receipts(self.entry)

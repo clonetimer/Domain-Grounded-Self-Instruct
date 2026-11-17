@@ -68,6 +68,9 @@ def build_l1_blind_review_manifest(
             "event_family": packet["case"]["provenance"]["source_group"],
             "task_type": packet["case"]["task_type"],
             "packet_sha256": packet_sha,
+            # A receipt must belong to this exact whole-collection snapshot.
+            # Identical task/source bytes in another cohort are not reusable.
+            "collection_projection_sha256": audit["collection_projection_sha256"],
             "source_fact_bindings": source_bindings,
             "source_public_sha256": _digest(source_bindings),
             "review_status": "PENDING_TWO_INDEPENDENT_EXPERTS",
@@ -109,6 +112,13 @@ def check_blind_review_pair(
     """
     if not isinstance(receipts, list) or len(receipts) != 2:
         raise L1BlindReviewManifestError("REVIEW_RECEIPTS_REQUIRE_TWO")
+    collection_sha = entry.get("collection_projection_sha256")
+    if (
+        not isinstance(collection_sha, str)
+        or len(collection_sha) != 64
+        or any(character not in "0123456789abcdef" for character in collection_sha)
+    ):
+        raise L1BlindReviewManifestError("REVIEW_ENTRY_COLLECTION_FINGERPRINT_INVALID")
     tokens: list[str] = []
     statuses: list[str] = []
     for receipt in receipts:
@@ -116,6 +126,8 @@ def check_blind_review_pair(
             raise L1BlindReviewManifestError("REVIEW_RECEIPT_INVALID_SHAPE")
         if receipt.get("task_id") != entry["task_id"]:
             raise L1BlindReviewManifestError("REVIEW_RECEIPT_TASK_DRIFT")
+        if receipt.get("collection_projection_sha256") != collection_sha:
+            raise L1BlindReviewManifestError("REVIEW_RECEIPT_STALE_COLLECTION")
         if receipt.get("packet_sha256") != entry["packet_sha256"]:
             raise L1BlindReviewManifestError("REVIEW_RECEIPT_STALE_PACKET")
         if receipt.get("source_public_sha256") != entry["source_public_sha256"]:
