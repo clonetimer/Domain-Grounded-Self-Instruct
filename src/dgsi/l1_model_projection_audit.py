@@ -130,3 +130,97 @@ def audit_l1_synthetic_model_projection(
         "gold_eligible": False,
         "training_authorized": False,
     }
+
+
+def audit_l1_synthetic_collection_projection(
+    collection: dict[str, Any], *, source_fact_cards: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Audit a *whole* synthetic candidate collection without exporting SFT rows.
+
+    Per-packet projection success cannot certify collection membership, split
+    isolation, or an omitted packet. Revalidate the collection and bind every
+    candidate digest to its task, source group and literature references.
+    This never assigns a split, admits Gold or returns input/target content.
+    """
+    if not isinstance(collection, dict):
+        _block("L1_PROJECTION_COLLECTION_SHAPE_INVALID")
+    if collection.get("track") != "LITERATURE_DERIVED_SYNTHETIC":
+        _block("L1_PROJECTION_COLLECTION_REAL_TRACK_NOT_AUTHORIZED")
+    if collection.get("split_assignments"):
+        _block("L1_PROJECTION_COLLECTION_SPLIT_NOT_AUTHORIZED")
+    # Security boundary before schema validation: an injected curator field
+    # must receive the precise isolation rejection, not be obscured by a
+    # generic invalid-case schema failure.
+    packet_items = collection.get("packets")
+    if isinstance(packet_items, list):
+        for packet in packet_items:
+            if not isinstance(packet, dict):
+                continue
+            case = packet.get("case")
+            candidate_input = case.get("input") if isinstance(case, dict) else None
+            if _has_curator_keys(candidate_input) or _has_curator_keys(
+                packet.get("formal_target")
+            ):
+                _block("L1_PROJECTION_CURATOR_FIELD_IN_MODEL_SURFACE")
+    try:
+        from .l1_task_packet import validate_l1_task_packet_collection
+        coverage = validate_l1_task_packet_collection(
+            collection, source_fact_cards=source_fact_cards
+        )
+    except (L1TaskPacketError, KeyError, TypeError, ValueError):
+        _block("L1_PROJECTION_COLLECTION_NOT_VALIDATED")
+
+    entries: list[dict[str, Any]] = []
+    for packet in collection["packets"]:
+        audit = audit_l1_synthetic_model_projection(
+            packet, source_fact_cards=source_fact_cards
+        )
+        entries.append({
+            "task_id": packet["task_id"],
+            "case_id": packet["case"]["case_id"],
+            "source_group": packet["case"]["provenance"]["source_group"],
+            "source_fact_refs": sorted(packet["source_fact_refs"]),
+            "user_sha256": audit["user_projection_sha256"],
+            "target_sha256": audit["formal_target_sha256"],
+        })
+    # Bind the *content* of each referenced public L0 fact card as well as
+    # its ID. Curator-only L0 notes are deliberately outside the manifest.
+    # Include source cards referenced by current tasks and by history hits,
+    # but not unrelated cards supplied in the validation batch.
+    cards_by_id = {card["case_id"]: card for card in source_fact_cards}
+    referenced_ids = set()
+    for packet in collection["packets"]:
+        referenced_ids.update(packet["source_fact_refs"])
+        for hit in packet["history_context"]["items"]:
+            referenced_ids.update(
+                ref for ref in hit["source_refs"] if ref in cards_by_id
+            )
+    source_digests = [
+        {
+            "source_fact_id": ref,
+            "public_fact_sha256": _digest({
+                key: value for key, value in cards_by_id[ref].items()
+                if key != "internal_review"
+            }),
+        }
+        for ref in sorted(referenced_ids)
+    ]
+    # Stable across JSON array ordering, but changes if membership, event
+    # family, referenced source content, input or formal target changes.
+    entries.sort(key=lambda item: item["task_id"])
+    return {
+        "schema_version": "dgsi-l1-model-projection-collection-preflight.v1",
+        "decision": "BLOCKED_PENDING_EXTERNAL_ADMISSION",
+        "track": "LITERATURE_DERIVED_SYNTHETIC",
+        "packet_count": coverage["packet_count"],
+        "event_family_count": coverage["event_family_count"],
+        "collection_projection_sha256": _digest({
+            "collection_id": collection["collection_id"],
+            "entries": entries,
+            "bound_public_source_facts": source_digests,
+        }),
+        "internal_review_exported": False,
+        "sft_records_emitted": 0,
+        "gold_eligible": False,
+        "training_authorized": False,
+    }
