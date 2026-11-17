@@ -182,3 +182,18 @@ The user clarified that DGSI must deliver both a usable candidate dataset and th
 84. **Keep Skill release state independent from dataset admission.** The Skill can be packaged as a draft production tool while source rights, expert adjudication or SFT authorization still block candidate data. Never make the Skill's package build a surrogate for data approval.
 
 The DGSI Skill is being advanced to `0.2.0-rc.1` with an integrated dataset-production workflow. Its package regression now asserts that the integrated workflow reference and manifest contract are included. The dataset remains blocked pending expert/rights admission.
+
+
+## P5-C2 integrated packet review and candidate correction (2026-11-17)
+
+A curator-level review was applied to all 15 literature-derived synthetic packets. It found the historical L0 evidence-role problem in every packet, not only the five specialized tasks.
+
+86. **Apply evidence-role rules to the whole collection, not only the first failing examples.** A defect discovered in one task family must trigger a collection-wide scan for the same field-role pattern. Fixing only specialized examples leaves the same leakage/attribution defect in the remaining diagnostic-synthesis packets.
+
+87. **Keep source-use status separate from technical source accessibility.** Public NASA/NTRS access, a public abstract or a downloadable paper does not automatically establish third-party derivative or model-training permission. Track rights review per source family and quarantine unresolved sources from SFT authorization.
+
+88. **Do not fill a coverage gap by paraphrasing a blocked source.** When specialized task types are weakly represented but source families are rights-blocked or lack independent episodes, report the gap and defer generation. A valid correct-abstention task must arise from a genuinely underdetermined, source-supported scenario, not an invented incident.
+
+89. **A candidate correction must preserve scenario provenance and change only the intended semantic fields.** For the C2 integrated candidate, only current-vs-historical evidence reference roles, two Pathfinder history compatibility values, collection ID/status and canonical target binding are changed. Preserve source facts, synthetic values/logs, timestamps, task types, event-family IDs, certainty and disposal.
+
+The integrated review candidate is `examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json`; dispositions are in `examples/p5c2_packet_review_dispositions_2026-11-17.json`; coverage decisions are in `examples/p5c2_coverage_gap_report_2026-11-17.json`. All remain curator-reviewed candidates only, with zero expert approvals, zero rights-cleared families and zero SFT records.
