@@ -2,7 +2,7 @@
 
 Status: **BLOCKED_PENDING_EXTERNAL_ADMISSION**. Only LITERATURE_DERIVED_SYNTHETIC candidate packets; never REAL Gold.
 
-Per-packet model projection integrity checks do not establish collection membership or the absence of duplicate task IDs. This read-only preflight validates the existing L1 collection contract and each of its candidate user/assistant projections, then hashes a canonical manifest binding the collection ID, task IDs, case IDs, L0 source refs, event-family source groups, and both projection digests.
+Per-packet model projection integrity checks do not establish collection membership or the absence of duplicate task IDs. This read-only preflight validates the existing L1 collection contract and each of its candidate user/assistant projections, then hashes a canonical manifest binding the collection ID, task IDs, case IDs, L0 source refs and the canonical public content digests of all referenced L0 cards, event-family source groups, and both projection digests.
 
 The report exposes only aggregate counts, a SHA-256 manifest fingerprint and constant blocked statuses. It cannot serialize user inputs, targets, history context, internal reviewer notes, source text or training rows. Packet ordering does not change the fingerprint; changed task membership, source bindings or model-facing content does.
 
@@ -12,4 +12,4 @@ This is **not** a rights/IP/privacy assessment, domain expert decision, source-f
 
 ## Regression evidence
 
-Eight `SYNTHETIC_TEST_ONLY` tests cover current collection metadata, order-invariant canonical digest, model input change, curator note isolation, duplicate task identities, nested curator contamination, premature split/REAL track, and missing L0 source closure. Required Ubuntu and Windows CI must pass at the exact PR head before this is staged.
+Eleven `SYNTHETIC_TEST_ONLY` tests cover current collection metadata, order-invariant canonical digest, model input change, curator note isolation, duplicate task identities, nested curator contamination, premature split/REAL track, missing L0 source closure, changes to referenced public L0 fact content, and stability against changes to private L0 curator notes or unrelated source cards. Required Ubuntu and Windows CI must pass at the exact PR head before this is staged.
