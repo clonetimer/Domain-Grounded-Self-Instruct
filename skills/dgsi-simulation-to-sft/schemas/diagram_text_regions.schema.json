@@ -42,7 +42,7 @@
       "pattern": "^[a-f0-9]{64}$"
     },
     "generation_recipe": {
-      "const": "isolated-ocr-line-v1"
+      "const": "isolated-lines-plus-pair-hypotheses-v2"
     },
     "candidates": {
       "type": "array",
@@ -57,7 +57,8 @@
           "evidence_locators",
           "object_type",
           "interpretation",
-          "review_status"
+          "review_status",
+          "candidate_type"
         ],
         "properties": {
           "candidate_id": {
@@ -71,7 +72,7 @@
           "ocr_line_ids": {
             "type": "array",
             "minItems": 1,
-            "maxItems": 1,
+            "maxItems": 2,
             "uniqueItems": true,
             "items": {
               "type": "string",
@@ -123,8 +124,57 @@
           },
           "review_status": {
             "const": "MANUAL_REVIEW_REQUIRED"
+          },
+          "candidate_type": {
+            "enum": [
+              "SINGLE_LINE",
+              "MULTI_LINE_HYPOTHESIS"
+            ]
+          },
+          "grouping_rule": {
+            "const": "horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "candidate_type": {
+                  "const": "SINGLE_LINE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "ocr_line_ids": {
+                  "minItems": 1,
+                  "maxItems": 1
+                },
+                "grouping_rule": false
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "candidate_type": {
+                  "const": "MULTI_LINE_HYPOTHESIS"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "ocr_line_ids": {
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "grouping_rule": {
+                  "const": "horizontal-overlap-ge-0.5-and-vertical-gap-le-2x-height-v1"
+                }
+              }
+            }
+          }
+        ]
       }
     },
     "review_status": {
