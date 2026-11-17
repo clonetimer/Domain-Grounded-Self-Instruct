@@ -252,3 +252,17 @@ This was a test-fixture construction defect, not a production grouping failure. 
 Reusable rule 28:
 
 28. **Make adversarial fixtures valid up to the invariant under test.** A test intended to exercise grouping order or adjacency must first satisfy source hash, image bounds, parent-child geometry and schema invariants. Otherwise an earlier fail-closed gate masks the behavior being tested. Add fixture self-checks or comments showing why each geometry is valid.
+
+## P5-B4.2b final exact-head CI and fixture correction
+
+The corrected P5-B4.2b head `9299ccfb0f9e8b9aeb855c653de5ed6f5cf2d261` completed workflow `44005948905`:
+- Ubuntu: 818/818 PASS
+- Windows: 818/818 PASS
+- Both logs contain the new recipe/schema parity and adjacent-line grouping tests.
+- Both logs contain portable ZIP and required-file regression checks.
+
+The first failure was a stale v1 recipe assertion; the second was an out-of-bounds synthetic test fixture. Both were corrected and independently re-run. This confirms why a failure must be diagnosed at the first rejecting layer: the second failure was caught by the provenance gate before the adjacency behavior under test could execute.
+
+Reusable rule 29:
+
+29. **Make the review receipt's trust level explicit in the result vocabulary.** A locally supplied reviewer alias and timestamp can be bound to a candidate record, but cannot authenticate identity, role, signature or actual inspection. Report `REVIEW_RECEIPT_BOUND_NOT_AUTHENTICATED`; do not emit `HUMAN_APPROVED`, `VERIFIED`, Gold eligibility or SFT authorization from metadata binding alone.
