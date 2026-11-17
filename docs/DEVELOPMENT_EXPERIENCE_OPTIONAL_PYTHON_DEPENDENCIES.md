@@ -292,6 +292,15 @@ Reusable rule 31:
 
 31. **For local review receipts, distinguish binding from authentication and adjudication.** Hash and locator checks prove that a receipt refers to a specific candidate artifact; they do not prove reviewer identity, actual visual inspection, domain expertise or scientific correctness. Downstream graph conversion must keep these records proposed/unverified unless a separate trusted review mechanism supplies authenticated approval.
 
+## P5-B4.3a latest-head confirmation
+
+After the missing-import correction, the PR branch advanced to head `5d536bb74f2a0414a1e7c46a79cb160bf57e543b`. Its exact-head workflow `44010887487` also completed successfully:
+- Ubuntu: 829/829 PASS
+- Windows: 829/829 PASS
+- Both logs contain the review CLI privacy/rejection tests and portable ZIP tests.
+
+This second green run confirms the development-experience update and PR metadata changes did not invalidate the previously tested receipt implementation.
+
 ## P5-B4.3b exact-head CI: review-to-proposed-graph import
 
 Exact head `4b407eefc68e7d00d96c5491316ef4c8c6aaeb14` completed workflow `44011216046`:
