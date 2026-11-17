@@ -214,3 +214,13 @@ Reusable rule 25:
 25. **Test the user-facing CLI and detached package, not only the Python function.** A pure-function test cannot catch argument wiring, output overwrite, stdout leakage or missing portable files. Add subprocess tests for exit codes, payload-free stdout and filesystem effects, and a ZIP-level regression that opens the generated archive, checks the allowlist and verifies every manifest hash.
 
 The 812-test result confirms the code and packaging contracts on these two CI platforms. It does not establish OCR recognition accuracy or engineering-semantic correctness.
+
+## P5-B4.2b implementation note: preserve actual line boundaries in grouped OCR text
+
+While reviewing the new two-line grouping implementation before CI, a source-generation escaping issue was found: the join expression initially used a literal backslash-plus-`n` rather than an actual newline separator. The implementation and regression expectation were corrected before the CI run.
+
+Reusable rule 26:
+
+26. **Test serialized text semantics, not just candidate membership.** For multi-line OCR hypotheses, assert the exact separator and ordering in the emitted text, alongside source line IDs and geometry. Escaping mistakes can preserve candidate counts and IDs while silently corrupting the reviewer's displayed label.
+
+The pair grouping remains a geometric hypothesis only. The original single-line candidates are retained, and no component semantics are inferred.
