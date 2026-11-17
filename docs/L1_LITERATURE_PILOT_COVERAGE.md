@@ -47,6 +47,12 @@ Every packet:
 
 For the Lunar Orbiter startup task, the target preserves both source explanations—launch mechanical-stress release and post-launch internal-pressure decay—as candidates. It does not choose one without discriminating evidence.
 
+## L0 source fact versus synthetic current-fault evidence (2026-11-17)
+
+The public L0 literature fact card is a **source constraint** on the generated scenario, not a real sensor observation or actual ML/log receipt for the newly constructed synthetic incident. Its exact quoted facts and provenance remain available in `case.input.knowledge_evidence`, the L0 fact-card collection and `synthetic_provenance`. The synthetic assistant may discuss what the historical paper actually supports, with source certainty and applicability limitations. **It must not list an L0 knowledge-evidence ID as direct current-fault support** in `cause_localization.candidates[].supporting_refs` or `evidence_assessment.supporting_refs`.
+
+An audit of the 15 packets found this role confusion in all 15 (16 candidate citations and 15 overall-evidence citations, 31 total). These entries have been removed from the direct-support lists; genuine *scenario* ML/log/evidence references remain, and the source-fact narrative has not been reclassified as flight evidence. A validator regression blocks reintroduction in future literature-derived packets. This is a **target semantic correction**, not new source verification or expert approval. The changed packet bytes invalidate any earlier packet-hash-bound review receipts; reviewers must receive newly computed exact packet hashes, without carrying over historical approvals.
+
 ## Evaluation status
 
 The 15 packets are task-coverage fixtures for expert review and validator regression. They are not 15 real incidents, not 15 expert-approved targets, and not an approved SFT corpus. The real-case/Gold track remains separate and requires real authorized upstream ML outputs, diagnostic logs, spacecraft/mission context and independent expert adjudication.
