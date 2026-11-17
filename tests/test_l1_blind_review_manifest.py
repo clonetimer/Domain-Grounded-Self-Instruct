@@ -108,6 +108,12 @@ class BlindReviewFingerprintManifestTests(unittest.TestCase):
         with self.assertRaisesRegex(L1BlindReviewManifestError, "REVIEW_RECEIPT_REVIEWER_NOT_INDEPENDENT"):
             check_blind_review_pair(self.entry, rows)
 
+    def test_whitespace_alias_of_same_review_token_rejected(self):
+        rows = _receipts(self.entry)
+        rows[1]["reviewer_token"] = "  " + rows[0]["reviewer_token"] + " "
+        with self.assertRaisesRegex(L1BlindReviewManifestError, "REVIEW_RECEIPT_REVIEWER_NOT_INDEPENDENT"):
+            check_blind_review_pair(self.entry, rows)
+
     def test_insufficient_receipts_and_unknown_status_rejected(self):
         rows = _receipts(self.entry)
         with self.assertRaisesRegex(L1BlindReviewManifestError, "REVIEW_RECEIPTS_REQUIRE_TWO"):
