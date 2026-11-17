@@ -1,0 +1,85 @@
+{
+  "schema_version": "dgsi-sft-readiness-baseline.v1",
+  "snapshot_id": "DGSI-P5C-BASELINE-2026-11-17",
+  "baseline_commit": "9ce3c387a7edfc646e39c3d40337383a6b782fd5",
+  "status": "REVIEW_REQUIRED_NOT_TRAINING_AUTHORIZED",
+  "source_manifests": [
+    "examples/l1_literature_synthetic_task_packets_v0.1.json",
+    "examples/l1_literature_pilot_coverage_v0.1.json",
+    "examples/l0_public_literature_fact_cards_2026-11-15.json",
+    "docs/CONTROLLED_SFT_EFFECTIVENESS_PROTOCOL.md",
+    "docs/L1_SFT_RELEASE_PREFLIGHT.md"
+  ],
+  "tracks": {
+    "LITERATURE_DERIVED_SYNTHETIC": {
+      "packet_count": 15,
+      "event_family_count": 9,
+      "review_required_count": 15,
+      "approved_for_l1_experiment_count": 0,
+      "official_split_assignment_count": 0,
+      "task_type_counts": {
+        "diagnostic_synthesis": 10,
+        "conflict_reconciliation": 1,
+        "historical_case_reuse": 1,
+        "evidence_sufficiency": 1,
+        "next_step_recommendation": 1,
+        "handover_summary": 1
+      },
+      "history_context": {
+        "NO_HIT": 12,
+        "HIT": 3
+      },
+      "event_class_counts": {
+        "FLIGHT_EVENT": 8,
+        "GROUND_TEST_EVENT": 4
+      },
+      "source_family_packet_counts": {
+        "LITERATURE-DERIVED:SEASAT-SLIPRING-1978": 1,
+        "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967": 2,
+        "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023": 2,
+        "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION": 1,
+        "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023": 2,
+        "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12": 2,
+        "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987": 2,
+        "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST": 2,
+        "LITERATURE-DERIVED:FUSE-RWA-2000-2001": 1
+      }
+    },
+    "L0_source_cards": {
+      "total_count": 13,
+      "referenced_by_l1_count": 12,
+      "referenced_and_pending_domain_expert_confirmation_count": 12,
+      "unreferenced_knowledge_source_not_event_count": 1,
+      "domain_expert_confirmed_count": 0,
+      "domain_expert_rejected_count": 0
+    },
+    "real_case_track": {
+      "real_gold_admitted_count": 0,
+      "real_gold_training_authorized_count": 0,
+      "candidate_inventory_status": "NOT_COUNTED_BY_THIS_LITERATURE_PILOT_SNAPSHOT"
+    },
+    "downstream": {
+      "authorized_sft_serialized_count": 0,
+      "official_train_validation_test_assignment_count": 0,
+      "fine_tuning_run_count": 0,
+      "effectiveness_result": "NOT_MEASURED"
+    },
+    "hard_gates": {
+      "gold_eligible": false,
+      "training_authorized": false,
+      "sft_export_authorized": false,
+      "real_flight_record": false
+    },
+    "interpretation": {
+      "dataset_product_status": "FOUNDATION_AND_REVIEW_FIXTURES_ONLY",
+      "primary_bottleneck": "Independent domain-expert confirmation of referenced L0 sources, followed by L1 target adjudication",
+      "counting_rule": "Task variants are not independent incidents; event-family count is reported separately and is the grouping unit for future split assignment.",
+      "limitations": [
+        "The 15 L1 packets are literature-derived synthetic scenarios, not real flight/test records.",
+        "All 12 referenced L0 event cards remain pending domain-expert confirmation.",
+        "The unreferenced thirteenth L0 card is knowledge-source-not-event and is not counted as a fault episode.",
+        "No official split, authorized SFT serialization, fine-tuning run, or effectiveness result exists in this snapshot."
+      ]
+    }
+  }
+}
