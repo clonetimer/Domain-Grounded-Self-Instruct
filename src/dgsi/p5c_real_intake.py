@@ -7,6 +7,8 @@ editing this register cannot manufacture validated upstream runs or reviews.
 from __future__ import annotations
 
 from collections import Counter
+import hashlib
+import json
 from typing import Any
 
 
@@ -154,6 +156,24 @@ def audit_real_candidate_intake(payload: dict[str, Any]) -> dict[str, Any]:
     if (not isinstance(evidence_request, list) or not evidence_request
             or not all(isinstance(v, str) and v for v in evidence_request)):
         _block("REAL_INTAKE_STRUCTURE_INVALID")
+
+    # This register is an immutable, public, *metadata-only* snapshot. Earlier
+    # semantic checks catch misleading claims with specific error codes, while
+    # this final canonical fingerprint also rejects edits to free-text notes,
+    # source review scope and requested evidence that could introduce private
+    # excerpts without altering the declared missing-evidence states.
+    try:
+        canonical = json.dumps(
+            item, ensure_ascii=False, sort_keys=True,
+            separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8")
+    except (TypeError, ValueError, OverflowError):
+        _block("REAL_INTAKE_SNAPSHOT_TEXT_DRIFT")
+    if hashlib.sha256(canonical).hexdigest() != (
+        "86b8b985fc33abe71e8304f34433d282"
+        "d7ba5020fdfe589338f1c392c1546243"
+    ):
+        _block("REAL_INTAKE_SNAPSHOT_TEXT_DRIFT")
 
     return {
         "schema_version": "dgsi-real-candidate-intake-audit.v1",
