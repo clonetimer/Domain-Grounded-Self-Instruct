@@ -17,6 +17,19 @@ The pair checker validates two receipts' task ID, full packet digest, public sou
 3. Compare signed/verified offline receipts and resolve disagreements via controlled adjudication. This module's token check is not a signature, identity service or Gold promotion.
 4. Only after separate rights, source, independent expert, split leakage and release gates may another explicitly authorized system consider SFT output. This PR adds no serializer.
 
+## Generate a local JSON expert-review identity pack
+
+Run from the repository checkout (never from an untrusted packet source):
+
+```bash
+python scripts/create_l1_blind_review_manifest.py \
+  --collection examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json \
+  --source-facts examples/l0_public_literature_fact_cards_2026-11-15.json \
+  --output local_review/l1_blind_review_fingerprint_manifest.json
+```
+
+The CLI writes only review IDs, snapshot fingerprints, two **unassigned** reviewer slots and blocking states. It refuses to overwrite an existing destination, prints aggregate-only status and does not emit SFT rows. `local_review/` is an operator-managed directory; the output is not an expert receipt or an admission decision. The generated JSON must be kept paired with the exact L1/L0 source snapshots when distributed for controlled blind review.
+
 ## Regression scope
 
 Run `python -m unittest tests.test_l1_blind_review_manifest` with repository `src/` on `PYTHONPATH`, or run the repository's established full CI matrix. The tests use `SYNTHETIC_TEST_ONLY` reviewer tokens and do not represent genuine expert reviews.
