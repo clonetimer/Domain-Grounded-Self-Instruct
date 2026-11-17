@@ -148,6 +148,20 @@ def audit_l1_synthetic_collection_projection(
         _block("L1_PROJECTION_COLLECTION_REAL_TRACK_NOT_AUTHORIZED")
     if collection.get("split_assignments"):
         _block("L1_PROJECTION_COLLECTION_SPLIT_NOT_AUTHORIZED")
+    # Security boundary before schema validation: an injected curator field
+    # must receive the precise isolation rejection, not be obscured by a
+    # generic invalid-case schema failure.
+    packet_items = collection.get("packets")
+    if isinstance(packet_items, list):
+        for packet in packet_items:
+            if not isinstance(packet, dict):
+                continue
+            case = packet.get("case")
+            candidate_input = case.get("input") if isinstance(case, dict) else None
+            if _has_curator_keys(candidate_input) or _has_curator_keys(
+                packet.get("formal_target")
+            ):
+                _block("L1_PROJECTION_CURATOR_FIELD_IN_MODEL_SURFACE")
     try:
         from .l1_task_packet import validate_l1_task_packet_collection
         coverage = validate_l1_task_packet_collection(
