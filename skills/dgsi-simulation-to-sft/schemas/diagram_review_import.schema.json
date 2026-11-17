@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI diagram review import wrapper v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "diagram_annotation",
+    "conversion_receipt"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi.diagram-review-import.v1"
+    },
+    "diagram_annotation": {
+      "$ref": "diagram_annotation.schema.json"
+    },
+    "conversion_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_id",
+        "candidate_record_sha256",
+        "source_sha256",
+        "asset_sha256",
+        "accepted_candidate_ids",
+        "review_receipt_decision",
+        "reviewer_authentication",
+        "graph_validation",
+        "node_status",
+        "ports_created",
+        "edges_created",
+        "training_authorized",
+        "gold_authorized"
+      ],
+      "properties": {
+        "review_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_record_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "asset_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "accepted_candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^OCR-[a-f0-9]{20}$"
+          },
+          "uniqueItems": true
+        },
+        "review_receipt_decision": {
+          "const": "REVIEW_RECEIPT_BOUND_NOT_AUTHENTICATED"
+        },
+        "reviewer_authentication": {
+          "const": "NOT_AUTHENTICATED_BY_LOCAL_TOOL"
+        },
+        "graph_validation": {
+          "type": "object"
+        },
+        "node_status": {
+          "const": "AI_PROPOSED"
+        },
+        "ports_created": {
+          "const": 0
+        },
+        "edges_created": {
+          "const": 0
+        },
+        "training_authorized": {
+          "const": false
+        },
+        "gold_authorized": {
+          "const": false
+        }
+      }
+    }
+  }
+}
