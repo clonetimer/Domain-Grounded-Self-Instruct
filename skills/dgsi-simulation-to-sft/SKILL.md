@@ -33,6 +33,10 @@ Raw telemetry remains with upstream ML. Do not make the LLM a raw time-series de
 11. **Human review is mandatory.** Automated schema/CI checks are structural checks, not scientific approval.
 12. **Respect rights and privacy.** Use only materials the user is authorized to share with the selected AI provider. De-identify spacecraft IDs, serials, people, credentials and restricted mission details.
 
+## P5-C2 integrated production workflow
+
+The reusable Skill/toolkit and the evidence-grounded candidate dataset are **co-equal deliverables** serving one spacecraft-diagnosis SFT goal. Read `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` for the coordinated C2-B scientific review, C2-C formal target review, C2-D allowlisted projection, and C2-E event-family coverage process. All tasks remain candidate-only; source-use rights, independent expert adjudication, and SFT authorization must pass separately. No data are exported by the blocked projection preflight.
+
 ## Workflow
 
 ### Stage 0 — Confirm task boundary and permissions
@@ -149,6 +153,7 @@ For diagram/image ingestion, also read `references/DOCUMENT_INGESTION_ADAPTERS.m
 
 Read these files before production:
 - `references/WORKFLOW.md`
+- `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md`
 - `references/SOURCE_INGESTION.md`
 - `references/DOCUMENT_INGESTION_ADAPTERS.md`
 - `references/DIAGRAM_ANNOTATION.md`
