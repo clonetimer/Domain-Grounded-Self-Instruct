@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import tempfile
 from pathlib import Path
 import sys
 
@@ -45,14 +47,24 @@ def main(argv=None) -> int:
         )
         stage = "WRITE_REVIEW_MANIFEST"
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        # "x" enforces atomic exclusive creation on Ubuntu and Windows.
-        # Checking Path.exists() and then writing is a TOCTOU race; it also
-        # misses dangling symlinks and could overwrite their targets.
-        with args.output.open("x", encoding="utf-8", newline="\n") as output:
-            output.write(
-                json.dumps(manifest, ensure_ascii=False, indent=2, allow_nan=False)
-                + "\n"
-            )
+        # On Windows, Python's file mode "x" may follow a dangling output
+        # symlink and create its target. Instead publish a fully written
+        # same-directory temporary file via a hard link. Creating the final
+        # directory entry is atomic and fails if *any* entry, including a
+        # dangling symlink, already uses that name. Never fall back to rename
+        # or copy, which could replace an existing review snapshot.
+        fd, temp_name = tempfile.mkstemp(
+            prefix=".dgsi-blind-review-", suffix=".tmp", dir=args.output.parent
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as temp_output:
+                temp_output.write(
+                    json.dumps(manifest, ensure_ascii=False, indent=2, allow_nan=False)
+                    + "\n"
+                )
+            os.link(temp_name, args.output)
+        finally:
+            os.unlink(temp_name)
     except (L1BlindReviewManifestError, L1ProjectionAuditError) as exc:
         return _reject(str(exc), stage)
     except FileExistsError:
