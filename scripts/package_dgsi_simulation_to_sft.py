@@ -32,6 +32,7 @@ DOCS = (
     "docs/REAL_DIAGNOSTIC_MATERIAL_REVIEW_HANDOFF.md",
     "docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md",
     "docs/P5B4_DIAGRAM_CANDIDATE_EXTRACTION_CONTRACT.md",
+    "docs/P5B4_HUMAN_LABEL_REVIEW_RECEIPTS.md",
 )
 VALIDATOR_FILES = (
     "requirements-validation.txt",
@@ -45,9 +46,12 @@ VALIDATOR_FILES = (
     "scripts/ocr_dgsi_image.py",
     "scripts/audit_diagram_asset_provenance.py",
     "scripts/propose_diagram_text_regions.py",
+    "scripts/audit_diagram_text_review.py",
     "tests/test_diagram_provenance.py",
+    "src/dgsi/diagram_text_review.py",
     "tests/test_diagram_text_regions.py",
     "tests/test_diagram_text_regions_cli.py",
+    "tests/test_diagram_text_review.py",
     "tests/test_ocr_candidates.py",
     "tests/test_cross_ai_evaluation.py",
     "tests/test_document_ingestion.py",
