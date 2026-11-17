@@ -71,3 +71,18 @@ PR #117 adds a case-specific evidence request matrix for the five user-supplied 
 53. **Do not infer dedicated feature coverage from a green full-suite run.** Inspect test names in completed logs. If a newly added data artifact has no dedicated validator/test signature, report that fact and add a targeted contract test only when it protects a real data-integrity boundary; do not present unrelated suite count as feature-specific proof.
 
 PR #117 matrix status remains `EVIDENCE_REQUEST_PREPARATION_ONLY`; no evidence has been received by this artifact, and the five candidates remain zero evidence-complete, zero REAL_GOLD and zero SFT-authorized.
+
+
+## P5-C1 SADA first-case evidence contract (2026-11-17)
+
+The exact source file `DGSI_用户原始5例_正式结论与内部审核分离_v0.1.docx`, page 2, was reopened. It explicitly separates formal conclusion fields from internal-review questions. The SADA source states three current/main-error-voltage drops, shaft/housing temperature maxima, stall during south-array angle adjustment, disc-ring/brush debris arcing and short circuit, and “停用南太阳翼”. It does not state conclusion certainty or confirm execution/effectiveness of the disposal measure.
+
+54. **Build claim-to-evidence maps from the exact formal source section, not from a prior summary.** Preserve source wording, page/section, source certainty and the fault-source/affected-object distinction. Internal-review questions must remain curator-only and must not leak into the model-visible prompt or assistant target.
+
+55. **Do not invent temporal joins between separately reported observations.** “Three drops”, temperature maxima and a stall in the same case description do not establish simultaneity or causal ordering. Require timestamped, channel-identified, time-basis-aware source records before asserting a sequence or cross-channel causal link.
+
+56. **Keep a source-attributed cause distinct from an independently verified cause.** A source fact card can preserve a stated mechanism while marking certainty NOT_EXPLICITLY_STATED and current evidence NOT_RECEIVED. Do not promote it to expert-confirmed or REAL_GOLD solely because the user regards the general localization as plausible.
+
+57. **Disposal text is not proof of execution or success.** “停用南太阳翼” is recorded as a measure in the source; command/state records and post-action status are still needed before the assistant target can say it was executed and effective.
+
+The SADA claim/evidence map is a source-grounded intake artifact only. No actual ML result, diagnostic log, spacecraft context, private telemetry, expert review or SFT target was added.
