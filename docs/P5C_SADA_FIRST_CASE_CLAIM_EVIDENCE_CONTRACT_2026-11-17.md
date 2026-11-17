@@ -17,7 +17,7 @@ The formal source fields state:
 - Source certainty: NOT_EXPLICITLY_STATED.
 - Disposal notation: `SOURCE_RECORDS_MEASURE`; text says “停用南太阳翼”, but does not state execution time or subsequent verification.
 
-The three questions in the source's internal-review section are deliberately excluded from the model-visible input and assistant target. They are retained as curator-only prompts in the claim/evidence map.
+The three curator questions in the source's internal-review section are excluded from model-visible input and formal assistant targets. The public Case-root `internal_review` contains only opaque prompt references, `not_for_sft=true`, and a private-storage boundary; the question texts must remain in authorized private review storage rather than this public metadata artifact.
 
 ## Claim-level evidence plan
 
@@ -56,3 +56,10 @@ A future assistant target may contain the final fault-source localization, affec
 - Training: false
 
 Raw telemetry, command histories, private reports and identifying material stay in authorized private storage. Public repository stores only this source-attributed metadata and opaque references.
+
+## P5-C1 curator-channel safety gate (2026-11-17)
+
+- `src/dgsi/p5c_sada_claim_map.py` audits this **candidate-only** map and rejects inline reviewer prompts, nested `internal_review`, claim-text/certainty drift, fabricated ML/evidence receipts, disposal execution upgrades, unsupported source rights, Gold, split and training promotions.
+- Run `python scripts/audit_p5c_sada_claim_map.py`; success means `BLOCKED_PENDING_REAL_EVIDENCE`, **not** admission. Tests live in `tests/test_p5c_sada_claim_map.py` and use synthetic mutations only.
+- The old public inline `excluded_internal_review_prompts` property has been removed from the current JSON; prompt text is **not** migrated into user context or SFT targets. Earlier Git commits can still contain previously committed text; this change does not erase repository history.
+- Opaque `SADA-IR-01..03` are unresolved private curator references, not verified expert review receipts. No private source or reviewer identities were uploaded, and there is no evidence acceptance, REAL_GOLD, official split or SFT release.
