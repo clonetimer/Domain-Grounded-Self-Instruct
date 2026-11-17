@@ -46,6 +46,18 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     "skills/dgsi-simulation-to-sft/schemas/design_derived_batch.schema.json",
                     names,
                 )
+                self.assertIn(
+                    "skills/dgsi-simulation-to-sft/references/P5C2_INTEGRATED_DATASET_PRODUCTION.md",
+                    names,
+                )
+                self.assertIn(
+                    "skills/dgsi-simulation-to-sft/references/OPERATOR_QUICKSTART.md",
+                    names,
+                )
+                self.assertIn(
+                    "skills/dgsi-simulation-to-sft/SKILL.md",
+                    names,
+                )
                 self.assertFalse(
                     any(
                         name.startswith("examples/")
