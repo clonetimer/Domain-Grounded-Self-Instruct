@@ -82,7 +82,7 @@ def propose_diagram_text_regions(
             f"asset:{asset_id}@sha256:{receipt['asset_sha256']}"
             f"#{locator_kind}:{locator_ids}#bbox-px:{bounds}"
         )
-        label_text = ordered[0]["text"] if len(ordered) == 1 else "\\n".join(
+        label_text = ordered[0]["text"] if len(ordered) == 1 else "\n".join(
             line["text"] for line in ordered
         )
         identity = {
