@@ -140,3 +140,6 @@ The audit report is `examples/p5c2_l1_pilot_structural_audit_2026-11-17.json`; t
 **Lesson — keep release independent of structure.** Even with a canonical target, reviewed instruction allowlist, 12 adversarial tests, L0 ref closure and SHA-256 consistency, the state remains BLOCKED_PENDING_EXTERNAL_ADMISSION. No external source-use authorization, expert authentication, reviewer agreement, official split, or training permission can be inferred from this pass.
 
 **Integration caveat.** This branch is stacked on #121, while #122 is a sibling packet-quality review. Treat these as independent review tracks; reconcile both against the same source/target snapshot and exact CI head before adopting either in an integrated branch.
+
+
+**CI regression lesson (PR #123 initial head):** The first Ubuntu/Windows run reached 945 tests but failed one new test with \`KeyError: 'notes'\`. L1 packet-level \`review\` uses \`notes\`, while the nested Diagnostic Case-level \`review\` uses \`review_notes\`. The test fixture incorrectly treated their contracts as identical. Repair the test against the actual declared schemas rather than weakening validators or suppressing the test; only the latest corrected head may count as a PASS.
