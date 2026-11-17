@@ -266,3 +266,13 @@ The first failure was a stale v1 recipe assertion; the second was an out-of-boun
 Reusable rule 29:
 
 29. **Make the review receipt's trust level explicit in the result vocabulary.** A locally supplied reviewer alias and timestamp can be bound to a candidate record, but cannot authenticate identity, role, signature or actual inspection. Report `REVIEW_RECEIPT_BOUND_NOT_AUTHENTICATED`; do not emit `HUMAN_APPROVED`, `VERIFIED`, Gold eligibility or SFT authorization from metadata binding alone.
+
+## P5-B4.3a CI failure: subprocess CLI test omitted its standard-library fixture import
+
+Workflow `44006251004` failed on both Ubuntu and Windows with 829 tests executed and two errors. Both errors were in the newly added `DiagramTextReviewCliTests`: `NameError: name 'tempfile' is not defined` at `tempfile.TemporaryDirectory()`. The validator and CLI behavior were not reached; the test module omitted the standard-library import required by its subprocess fixture.
+
+Correction: add an explicit `import tempfile` to `tests/test_diagram_text_review.py` and rerun exact-head CI.
+
+Reusable rule 30:
+
+30. **Declare standard-library dependencies in the test module that uses them.** Do not assume another test module's imports are shared. For subprocess/filesystem tests, verify every fixture helper (`tempfile`, `subprocess`, `json`, `Path`, etc.) is imported in that module, then run the test module directly before the full matrix.
