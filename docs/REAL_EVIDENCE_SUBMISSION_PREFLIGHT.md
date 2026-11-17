@@ -57,9 +57,12 @@ Evidence refs must resolve consistently to **one claimed digest and one evidence
 across the bundle. Reusing a ref with another evidence type is rejected, even
 if both declarations have the same digest. ML results, diagnostic logs, analysis
 cutoff receipts, historical as-of retrievals and blind-review requests are
-**case-scoped**: the same ref cannot be claimed by different REAL candidates.
-This avoids double-counting a shared run/log or reviewer request as distinct
-case-specific evidence. Shared permission records, deidentification reports,
+**case-scoped**: neither the same ref nor the same `(evidence_type, evidence_sha256)`
+may be claimed by different REAL candidates, even if the ref strings differ.
+This blocks digest-alias double counting of identical ML results, logs, cutoff
+records, historical retrieval receipts or blind-review requests.
+Different hashes and references are still not sufficient to prove independent
+runs, episodes or expert review; those facts require source-level audit. Shared permission records, deidentification reports,
 mission context and event-family documents may remain cross-case when
 legitimately applicable, pending independent applicability review.
 A multi-episode shared run requires separately scoped, attributable receipts
