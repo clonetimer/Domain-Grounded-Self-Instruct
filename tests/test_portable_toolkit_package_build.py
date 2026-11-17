@@ -97,6 +97,18 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     "sft_export_authorized",
                 ):
                     self.assertIs(False, manifest[flag])
+                # Verify the extracted preview CLI starts in a clean environment
+                # without repository checkout or PYTHONPATH.
+                with tempfile.TemporaryDirectory() as extracted_dir:
+                    archive.extractall(extracted_dir)
+                    extracted_root = Path(extracted_dir)
+                    clean_env = {k: v for k, v in __import__("os").environ.items() if k != "PYTHONPATH"}
+                    help_result = subprocess.run(
+                        [sys.executable, str(extracted_root / "scripts/create_l1_model_preview.py"), "--help"],
+                        cwd=extracted_root, env=clean_env, capture_output=True, text=True, timeout=30, check=False,
+                    )
+                    self.assertEqual(0, help_result.returncode, help_result.stderr[:500])
+                    self.assertIn("--collection", help_result.stdout)
                 for item in manifest["files"]:
                     content = archive.read(item["path"])
                     self.assertEqual(len(content), item["size_bytes"])
