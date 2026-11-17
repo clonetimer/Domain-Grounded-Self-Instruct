@@ -214,3 +214,6 @@ The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/cr
 
 
 94. **Do not collapse actionable runtime failures into one generic input error.** Keep user-facing errors privacy-safe, but identify the processing stage (read collection, read source facts, validate/build projection, write output) and a stable error category. This lets operators correct missing files, invalid JSON, schema fields, permissions and output conflicts without exposing raw telemetry, prompts or source payloads. Keep fail-closed behavior and assert that rejected runs emit zero SFT rows.
+
+
+95. **Package transitive runtime schema dependencies and exercise the same validation path after extraction.** The L1 preview CLI imports successfully and can read its two externally supplied JSON inputs, yet still fails in `BUILD_PREVIEW` if `schema_validation.py` cannot open `resources/l1_task_packet_collection.schema.json` in the extracted toolkit. Maintain an explicit runtime schema allowlist in `package_dgsi_simulation_to_sft.py`, assert required schemas in the ZIP, and invoke the extracted CLI against the real external 15-packet candidate with repository `PYTHONPATH` removed. Keep stable aggregate-only errors (`INPUT_FILE_NOT_FOUND`, stage) and do not work around a missing schema by bypassing validation or embedding private datasets.
