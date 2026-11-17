@@ -114,7 +114,7 @@ class SFTAblationDesignTests(unittest.TestCase):
         self.assertBlocked(p, "ABLATION_DUPLICATE_FAMILY")
 
     def test_noncanonical_event_family_identifiers_fail_closed(self):
-        for alias in ("FAMILY A", "FAMILY\\nA", "ＦＡＭＩＬＹ", "FAMILY\\u200bA", " A", "A "):
+        for alias in ("FAMILY A", "FAMILY\nA", "ＦＡＭＩＬＹ", "FAMILY\u200bA", " A", "A "):
             with self.subTest(alias=repr(alias)):
                 p = _plan()
                 p["candidate_training_families"] = [
