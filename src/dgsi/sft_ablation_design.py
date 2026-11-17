@@ -34,6 +34,9 @@ METRICS = (
 )
 TRACKS = {"REAL_GOLD", "LITERATURE_DERIVED_SYNTHETIC"}
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+# Canonical source-family aliases are ASCII identifiers, never display labels.
+# Reject compatibility glyphs/invisible characters rather than guessing identity.
+FAMILY_REF = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$")
 
 
 class SFTAblationDesignError(ValueError):
@@ -59,15 +62,16 @@ def _families(items: Any, code: str) -> tuple[set[str], set[str], dict[str, int]
     for item in items:
         _exact(item, {"family_ref", "track", "fact_card_sha256"}, code)
         ref, track, digest = (item[k] for k in ("family_ref", "track", "fact_card_sha256"))
-        if not isinstance(ref, str) or not ref.strip() or ref != ref.strip() or len(ref) > 128:
+        if not isinstance(ref, str) or FAMILY_REF.fullmatch(ref) is None:
             _fail(code)
         if not isinstance(track, str) or track not in TRACKS or not isinstance(digest, str) or HEX_SHA256.fullmatch(digest) is None:
             _fail(code)
-        if ref in found:
+        canonical_ref = ref.casefold()
+        if canonical_ref in found:
             _fail("ABLATION_DUPLICATE_FAMILY")
         if digest in digests:
             _fail("ABLATION_DUPLICATE_SOURCE_FACT_DIGEST")
-        found.add(ref)
+        found.add(canonical_ref)
         digests.add(digest)
         counts[track] += 1
     return found, digests, counts
