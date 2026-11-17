@@ -83,6 +83,28 @@ class SadaClaimMapTests(unittest.TestCase):
         item["required_dgsi_inputs"]["upstream_ml_result"]["status"] = "RECEIVED"
         self.assert_blocked(item, "SADA_MAP_UNVERIFIED_EVIDENCE")
 
+    def test_required_ml_evidence_field_cannot_be_deleted(self):
+        item = fixture()
+        item["required_dgsi_inputs"]["upstream_ml_result"]["required"].remove("score_semantics")
+        self.assert_blocked(item, "SADA_MAP_INPUT_REQUIREMENTS_DRIFT")
+
+    def test_required_fields_cannot_be_substituted_with_placeholders(self):
+        for name in ("upstream_ml_result", "diagnostic_logs", "spacecraft_context"):
+            with self.subTest(input_type=name):
+                item = fixture()
+                item["required_dgsi_inputs"][name]["required"] = ["placeholder"]
+                self.assert_blocked(item, "SADA_MAP_INPUT_REQUIREMENTS_DRIFT")
+
+    def test_required_evidence_order_is_version_frozen(self):
+        item = fixture()
+        item["required_dgsi_inputs"]["spacecraft_context"]["required"].reverse()
+        self.assert_blocked(item, "SADA_MAP_INPUT_REQUIREMENTS_DRIFT")
+
+    def test_non_string_evidence_field_is_invalid(self):
+        item = fixture()
+        item["required_dgsi_inputs"]["diagnostic_logs"]["required"] = [True]
+        self.assert_blocked(item, "SADA_MAP_INPUTS_INVALID")
+
     def test_disposal_execution_is_not_inferred(self):
         item = fixture()
         item["formal_source_claims"][4]["execution_status"] = "EXECUTED"
