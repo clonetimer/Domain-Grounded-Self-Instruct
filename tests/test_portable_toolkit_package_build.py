@@ -38,6 +38,8 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 names = archive.namelist()
                 self.assertEqual(len(names), len(set(names)))
                 self.assertIn("PACKAGE_SHA256_MANIFEST.json", names)
+                # Collection validation in the extracted toolkit requires this schema.
+                self.assertIn("resources/l1_task_packet_collection.schema.json", names)
                 self.assertIn(
                     "scripts/create_l1_model_preview.py",
                     names,
