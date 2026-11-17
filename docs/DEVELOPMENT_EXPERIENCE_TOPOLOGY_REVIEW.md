@@ -208,3 +208,6 @@ The implementation is `src/dgsi/l1_model_projection_preview.py`, CLI `scripts/cr
 
 
 92. **Test portable tools after extraction, not only ZIP contents.** A ZIP can contain every expected file and valid hashes while its CLI still fails to import the package from a clean extracted directory. Bootstrap imports relative to the package root or document/install dependencies explicitly, then run at least `--help` and a minimal offline smoke test with repository `PYTHONPATH` removed.
+
+
+93. **Distinguish portable tooling from input datasets in operator instructions.** A reusable Skill ZIP should not silently imply that repository example data is included. State clearly that the operator supplies authorized L0/L1 inputs, provide shell-specific path examples, and test the extracted CLI against external fixture data. This proves the tool can process an independently supplied batch without bundling source-derived or private datasets.
