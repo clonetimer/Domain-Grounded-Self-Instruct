@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import json
 import sys
 import tempfile
 import unittest
@@ -208,6 +209,25 @@ class DiagramTextRegionTests(unittest.TestCase):
         ocr["lines"] = [
             self._line("L1", "Left", 10, 20),
             self._line("L2", "Right", 30, 25),
+        ]
+        result = self.propose(ocr=ocr)
+        self.assertFalse(any(
+            c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"
+            for c in result["candidates"]
+        ))
+
+    def test_runtime_recipe_matches_schema_contract(self):
+        from dgsi.diagram_text_regions import RECIPE
+        schema_path = ROOT / "skills/dgsi-simulation-to-sft/schemas/diagram_text_regions.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        self.assertEqual(schema["properties"]["generation_recipe"]["const"], RECIPE)
+
+    def test_pair_hypothesis_only_uses_adjacent_vertical_lines(self):
+        ocr = copy.deepcopy(self.ocr)
+        ocr["lines"] = [
+            self._line("L1", "Top label", 10, 10),
+            self._line("L2", "Unrelated middle", 150, 30),
+            self._line("L3", "Bottom label", 10, 50),
         ]
         result = self.propose(ocr=ocr)
         self.assertFalse(any(
