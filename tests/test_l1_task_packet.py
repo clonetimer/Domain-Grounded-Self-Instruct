@@ -590,5 +590,30 @@ class L1TaskPacketTests(unittest.TestCase):
         self.assertEqual(result["source_fact_domain_review_status_counts"]["DOMAIN_EXPERT_CONFIRMED"], 0)
 
 
+    def test_confirmed_compatible_history_is_not_current_fault_support(self):
+        packet = make_packet(history_status="CONFIRMED")
+        history_ref = packet["history_context"]["items"][0]["case_ref"]
+        packet["case"]["expected_output"]["cause_localization"]["candidates"][0]["supporting_refs"].append(history_ref)
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "^HISTORY_DIRECT_EVIDENCE_ROLE_FORBIDDEN$"):
+            self.validate(packet)
+
+    def test_rejected_history_is_not_evidence_assessment_support(self):
+        packet = make_packet(history_status="REJECTED")
+        history_ref = packet["history_context"]["items"][0]["case_ref"]
+        packet["case"]["expected_output"]["evidence_assessment"]["supporting_refs"].append(history_ref)
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "^HISTORY_DIRECT_EVIDENCE_ROLE_FORBIDDEN$"):
+            self.validate(packet)
+
+    def test_partially_confirmed_history_is_not_current_contradicting_observation(self):
+        packet = make_packet(history_status="PARTIALLY_CONFIRMED")
+        history_ref = packet["history_context"]["items"][0]["case_ref"]
+        packet["case"]["expected_output"]["evidence_assessment"]["contradicting_refs"].append(history_ref)
+        packet["formal_target"] = copy.deepcopy(packet["case"]["expected_output"])
+        with self.assertRaisesRegex(L1TaskPacketError, "^HISTORY_DIRECT_EVIDENCE_ROLE_FORBIDDEN$"):
+            self.validate(packet)
+
+
 if __name__ == "__main__":
     unittest.main()
