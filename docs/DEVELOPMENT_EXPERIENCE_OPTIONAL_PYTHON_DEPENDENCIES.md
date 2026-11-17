@@ -276,3 +276,18 @@ Correction: add an explicit `import tempfile` to `tests/test_diagram_text_review
 Reusable rule 30:
 
 30. **Declare standard-library dependencies in the test module that uses them.** Do not assume another test module's imports are shared. For subprocess/filesystem tests, verify every fixture helper (`tempfile`, `subprocess`, `json`, `Path`, etc.) is imported in that module, then run the test module directly before the full matrix.
+
+## P5-B4.3a exact-head CI: review receipt CLI and portable integration
+
+The corrected head `80ec5ab8182221a0eff0628aab390e83af831255` completed workflow `44010524344`:
+- Ubuntu: 829/829 PASS
+- Windows: 829/829 PASS
+- Both logs contain `test_cli_emits_aggregate_only_summary` and `test_cli_rejects_invalid_receipt_without_echoing_values`.
+- Both logs contain reviewer-authentication rejection, source/candidate binding and portable ZIP inclusion checks.
+- The full toolkit ZIP and required-file tests passed on both platforms.
+
+The missing `tempfile` import was the only failure in the preceding run. After adding the import and rerunning the exact latest head, both platforms passed. This confirms the CLI tests actually executed, not merely that the module imported.
+
+Reusable rule 31:
+
+31. **For local review receipts, distinguish binding from authentication and adjudication.** Hash and locator checks prove that a receipt refers to a specific candidate artifact; they do not prove reviewer identity, actual visual inspection, domain expertise or scientific correctness. Downstream graph conversion must keep these records proposed/unverified unless a separate trusted review mechanism supplies authenticated approval.
