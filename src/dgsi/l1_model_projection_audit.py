@@ -130,3 +130,60 @@ def audit_l1_synthetic_model_projection(
         "gold_eligible": False,
         "training_authorized": False,
     }
+
+
+def audit_l1_synthetic_collection_projection(
+    collection: dict[str, Any], *, source_fact_cards: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Audit a *whole* synthetic candidate collection without exporting SFT rows.
+
+    Per-packet projection success cannot certify collection membership, split
+    isolation, or an omitted packet. Revalidate the collection and bind every
+    candidate digest to its task, source group and literature references.
+    This never assigns a split, admits Gold or returns input/target content.
+    """
+    if not isinstance(collection, dict):
+        _block("L1_PROJECTION_COLLECTION_SHAPE_INVALID")
+    if collection.get("track") != "LITERATURE_DERIVED_SYNTHETIC":
+        _block("L1_PROJECTION_COLLECTION_REAL_TRACK_NOT_AUTHORIZED")
+    if collection.get("split_assignments"):
+        _block("L1_PROJECTION_COLLECTION_SPLIT_NOT_AUTHORIZED")
+    try:
+        from .l1_task_packet import validate_l1_task_packet_collection
+        coverage = validate_l1_task_packet_collection(
+            collection, source_fact_cards=source_fact_cards
+        )
+    except (L1TaskPacketError, KeyError, TypeError, ValueError):
+        _block("L1_PROJECTION_COLLECTION_NOT_VALIDATED")
+
+    entries: list[dict[str, Any]] = []
+    for packet in collection["packets"]:
+        audit = audit_l1_synthetic_model_projection(
+            packet, source_fact_cards=source_fact_cards
+        )
+        entries.append({
+            "task_id": packet["task_id"],
+            "case_id": packet["case"]["case_id"],
+            "source_group": packet["case"]["provenance"]["source_group"],
+            "source_fact_refs": sorted(packet["source_fact_refs"]),
+            "user_sha256": audit["user_projection_sha256"],
+            "target_sha256": audit["formal_target_sha256"],
+        })
+    # Stable across JSON array ordering, but changes if membership, event
+    # family, source refs, input or formal target changes.
+    entries.sort(key=lambda item: item["task_id"])
+    return {
+        "schema_version": "dgsi-l1-model-projection-collection-preflight.v1",
+        "decision": "BLOCKED_PENDING_EXTERNAL_ADMISSION",
+        "track": "LITERATURE_DERIVED_SYNTHETIC",
+        "packet_count": coverage["packet_count"],
+        "event_family_count": coverage["event_family_count"],
+        "collection_projection_sha256": _digest({
+            "collection_id": collection["collection_id"],
+            "entries": entries,
+        }),
+        "internal_review_exported": False,
+        "sft_records_emitted": 0,
+        "gold_eligible": False,
+        "training_authorized": False,
+    }
