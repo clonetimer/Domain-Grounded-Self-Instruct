@@ -30,6 +30,7 @@ class PortableSimulationSftToolkitTests(unittest.TestCase):
             "../../docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md",
             "schemas/ocr_candidates.schema.json",
             "schemas/diagram_annotation.schema.json",
+            "schemas/diagram_text_regions.schema.json",
             "schemas/document_ingestion.schema.json",
             "references/SIMULATION_TRUTH_SEPARATION.md",
             "references/GENERATION_TASKS.md",
