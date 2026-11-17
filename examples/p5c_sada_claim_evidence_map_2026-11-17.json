@@ -1,0 +1,138 @@
+{
+  "schema_version": "dgsi-real-case-claim-evidence-map.v1",
+  "case_id": "USER-ADCS-SADA-001",
+  "track": "REAL_CASE_CANDIDATE",
+  "status": "SOURCE_FACTS_TRANSCRIBED_EVIDENCE_NOT_RECEIVED",
+  "source": {
+    "artifact_ref": "USER_LIBRARY:DGSI_用户原始5例_正式结论与内部审核分离_v0.1.docx",
+    "page": 2,
+    "source_type": "USER_SUPPLIED_WORD_L0_FACT_CARD",
+    "source_sha256": null,
+    "rights_and_training_use": "PENDING_SOURCE_OWNER"
+  },
+  "formal_source_claims": [
+    {
+      "claim_id": "SADA-C01",
+      "claim_type": "OBSERVED_PHENOMENON",
+      "source_text": "输出总电流和主误差电压发生 3 次跌落",
+      "source_certainty": "SOURCE_STATED_NOT_INDEPENDENTLY_VERIFIED",
+      "evidence_needed": [
+        "original_parameter_time_series",
+        "channel_dictionary",
+        "timestamp_time_basis"
+      ],
+      "current_evidence_status": "NOT_RECEIVED",
+      "allowed_current_use": "SOURCE_ATTRIBUTED_CASE_DESCRIPTION_ONLY"
+    },
+    {
+      "claim_id": "SADA-C02",
+      "claim_type": "OBSERVED_PHENOMENON",
+      "source_text": "轴温最高升至 181°C，壳温最高升至 150°C",
+      "source_certainty": "SOURCE_STATED_NOT_INDEPENDENTLY_VERIFIED",
+      "evidence_needed": [
+        "sensor_ids_and_physical_locations",
+        "calibration_and_validity",
+        "time_stamped_temperature_series"
+      ],
+      "current_evidence_status": "NOT_RECEIVED",
+      "allowed_current_use": "SOURCE_ATTRIBUTED_CASE_DESCRIPTION_ONLY"
+    },
+    {
+      "claim_id": "SADA-C03",
+      "claim_type": "OBSERVED_PHENOMENON",
+      "source_text": "调整南太阳翼角度时出现堵转",
+      "source_certainty": "SOURCE_STATED_NOT_INDEPENDENTLY_VERIFIED",
+      "evidence_needed": [
+        "solar_array_angle_commands",
+        "drive_state_and_stall_logs",
+        "time_aligned_current_and_voltage"
+      ],
+      "current_evidence_status": "NOT_RECEIVED",
+      "allowed_current_use": "SOURCE_ATTRIBUTED_CASE_DESCRIPTION_ONLY"
+    },
+    {
+      "claim_id": "SADA-C04",
+      "claim_type": "SOURCE_CAUSE_LOCALIZATION",
+      "source_text": "盘环与电刷摩擦产生的碎屑引发内功率通路弧光放电，导致短路。",
+      "fault_source_as_stated": "SADA 盘环/电刷接触组件",
+      "affected_objects_as_stated": "南太阳翼驱动/供电相关通路；具体边界需依据原始系统定义",
+      "source_certainty": "NOT_EXPLICITLY_STATED",
+      "evidence_needed": [
+        "inspection_or_failure_analysis_for_brush_debris",
+        "arc_or_short_circuit_test_evidence",
+        "disc_ring_brush_assembly_configuration"
+      ],
+      "current_evidence_status": "NOT_RECEIVED",
+      "allowed_current_use": "SOURCE_ATTRIBUTED_CAUSE_HYPOTHESIS_NOT_EXPERT_CONFIRMED"
+    },
+    {
+      "claim_id": "SADA-C05",
+      "claim_type": "SOURCE_DISPOSAL",
+      "source_text": "停用南太阳翼",
+      "disposal_record_type": "SOURCE_RECORDS_MEASURE",
+      "execution_status": "NOT_STATED_IN_SOURCE",
+      "evidence_needed": [
+        "command_or_operation_record",
+        "execution_timestamp",
+        "post_shutdown_status_and_effect"
+      ],
+      "current_evidence_status": "NOT_RECEIVED",
+      "allowed_current_use": "RECORDED_MEASURE_ONLY_NOT_VERIFIED_EXECUTION"
+    }
+  ],
+  "excluded_internal_review_prompts": [
+    "三次电流/主误差电压跌落与太阳翼调整堵转的先后关系是否有原始日志支持？",
+    "轴温 181°C 和壳温 150°C 分别对应哪个测点及测量定义？",
+    "停用南太阳翼是实际执行措施，是否有后续状态记录？"
+  ],
+  "required_dgsi_inputs": {
+    "upstream_ml_result": {
+      "status": "NOT_RECEIVED",
+      "required": [
+        "algorithm_and_model_version",
+        "actual_run_id",
+        "score_semantics",
+        "ranked_candidates",
+        "evidence_references"
+      ]
+    },
+    "diagnostic_logs": {
+      "status": "NOT_RECEIVED",
+      "required": [
+        "timestamped_logs",
+        "original_time_basis",
+        "event_and_channel_ids"
+      ]
+    },
+    "spacecraft_context": {
+      "status": "NOT_RECEIVED",
+      "required": [
+        "as_flown_configuration",
+        "SADA_component_mapping",
+        "mission_phase",
+        "operating_mode"
+      ]
+    },
+    "history_context": {
+      "status": "NOT_PROVIDED",
+      "rule": "CONTEXT_ONLY_NOT_DIRECT_CURRENT_EVENT_EVIDENCE"
+    }
+  },
+  "target_admission": {
+    "l0_fact_card_preserved": true,
+    "complete_l1_input": false,
+    "formal_assistant_target_created": false,
+    "independent_reviews_complete": 0,
+    "real_gold_admitted": false,
+    "official_split_assigned": false,
+    "sft_export_authorized": false,
+    "training_authorized": false
+  },
+  "source_handling": {
+    "no_raw_logs_or_private_telemetry_in_repository": true,
+    "no_synthetic_values_in_real_case": true,
+    "source_attribution_must_be_preserved": true,
+    "no_inferred_temporal_order": true,
+    "no_claim_of_verified_execution_without_command_and_state_evidence": true
+  }
+}
