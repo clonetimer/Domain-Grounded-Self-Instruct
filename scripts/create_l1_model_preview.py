@@ -3,6 +3,11 @@
 from __future__ import annotations
 import argparse, json, sys
 from pathlib import Path
+# Make the portable ZIP self-contained when invoked from its extracted root.
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+if SRC.is_dir() and str(SRC) not in sys.path:
+ sys.path.insert(0, str(SRC))
 from dgsi.l1_model_projection_preview import build_collection_preview
 from dgsi.l1_model_projection_audit import L1ProjectionAuditError
 
