@@ -58,12 +58,18 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     "skills/dgsi-simulation-to-sft/references/P5C2_INTEGRATED_DATASET_PRODUCTION.md",
                     names,
                 )
+                self.assertIn(
+                    "skills/dgsi-simulation-to-sft/references/OPERATOR_QUICKSTART.md",
+                    names,
+                )
                 skill_text = archive.read("skills/dgsi-simulation-to-sft/SKILL.md").decode("utf-8")
                 self.assertIn("P5-C2 integrated production workflow", skill_text)
                 self.assertIn("co-equal deliverables", skill_text)
                 manifest_contract = json.loads(
                     archive.read("skills/dgsi-simulation-to-sft/TOOLKIT_MANIFEST.json")
                 )
+                version = (ROOT / "skills/dgsi-simulation-to-sft/VERSION").read_text(encoding="utf-8").strip()
+                self.assertEqual(version, manifest_contract["version"])
                 self.assertEqual(manifest_contract["version"], "0.2.0-rc.1")
                 self.assertTrue(manifest_contract["dataset_and_skill_are_coequal_deliverables"])
                 self.assertFalse(
@@ -84,6 +90,7 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 version = (ROOT / "skills/dgsi-simulation-to-sft/VERSION").read_text(encoding="utf-8").strip()
                 self.assertEqual(version, skill_manifest["version"])
                 self.assertEqual(version, manifest["version"])
+                self.assertEqual(version, manifest_contract["version"])
                 for flag in (
                     "training_authorized",
                     "gold_authorized",
