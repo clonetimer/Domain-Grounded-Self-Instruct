@@ -156,3 +156,30 @@ Reusable rule:
 19. **Insert tests at the correct syntactic scope.** When extending compact test modules, inspect the class boundary and module entry-point guard before appending. Run compile/import or a focused test command before launching full cross-platform CI; verify newly added test names appear in the CI log.
 
 The failure reinforces that a passing prior workflow cannot validate code added afterward. Exact-head CI must run after every test-source change.
+
+## P5-B4.1 exact-head CI: nested OCR geometry and source-level failure propagation
+
+The corrected provenance implementation completed exact-head cross-platform CI:
+
+- Exact head: `d91b6e4bf8023e2060f69af5ace2729bd5b554dd`
+- PR workflow: `43904056941`
+- Ubuntu: 798/798 PASS
+- Windows: 798/798 PASS
+- Both logs contain the two new provenance regressions:
+  - `test_empty_ocr_line_id_rejected`
+  - `test_ocr_word_boxes_must_fit_inside_parent_line`
+
+The additional checks close two distinct geometry gaps:
+1. A whitespace-only OCR line ID is not a usable evidence identity, even if it is technically a non-empty string.
+2. A word box can be inside the image but outside its declared parent line box. Image-bound checks alone are insufficient; nested geometry must be validated.
+
+A subsequent review also identified a source-level state propagation gap: a document manifest marked `BLOCKED` must not become admissible merely because a separately extracted asset and OCR record have matching hashes. PR #95 adds an explicit fail-closed check before asset processing. A source-level rejection status takes precedence over child artifact consistency.
+
+Reusable rules:
+
+20. **Validate geometry at every containment level.** Check image bounds, line bounds, and word-within-line bounds independently; a child can be image-valid but parent-invalid.
+21. **Reject semantically blank identifiers.** Whitespace-only IDs pass basic non-empty string checks but cannot provide stable evidence identity.
+22. **Propagate parent failure states to child workflows.** A matching child hash cannot override a source/document manifest marked BLOCKED. Validate parent admission status before expensive or downstream processing.
+23. **Do not stop at one green workflow when later commits extend the same PR.** Re-verify the latest head, exact new test names and both platform logs; earlier green commits do not validate later geometry or source-state changes.
+
+These tests prove structural consistency and fail-closed behavior only. They do not prove OCR accuracy, diagram semantics, source authenticity or training eligibility.
