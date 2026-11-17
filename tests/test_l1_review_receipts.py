@@ -50,6 +50,35 @@ def _receipt(packet, cards):
 
 
 class L1ReviewReceiptTests(unittest.TestCase):
+    def test_review_material_fingerprint_manifest_is_current_and_non_authorizing(self):
+        collection = json.loads(
+            (ROOT / "examples/l1_literature_synthetic_task_packets_v0.1.json").read_text("utf-8")
+        )
+        cards = json.loads(
+            (ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json").read_text("utf-8")
+        )["cards"]
+        manifest = json.loads(
+            (ROOT / "examples/l1_review_material_fingerprints_20261117.json").read_text("utf-8")
+        )
+        self.assertEqual(manifest["packet_count"], len(collection["packets"]))
+        self.assertEqual(manifest["review_status"], "REVIEW_REQUIRED")
+        self.assertFalse(manifest["gold_eligible"])
+        self.assertFalse(manifest["training_authorized"])
+        fingerprints = {item["task_id"]: item for item in manifest["packets"]}
+        self.assertEqual(len(fingerprints), manifest["packet_count"])
+        self.assertEqual(
+            set(fingerprints), {packet["task_id"] for packet in collection["packets"]}
+        )
+        for packet in collection["packets"]:
+            with self.subTest(task=packet["task_id"]):
+                actual = fingerprint_l1_review_material(packet, source_fact_cards=cards)
+                declared = fingerprints[packet["task_id"]]
+                self.assertEqual(actual["packet_sha256"], declared["packet_sha256"])
+                self.assertEqual(
+                    actual["source_fact_cards_sha256"], declared["source_fact_cards_sha256"]
+                )
+                self.assertEqual(packet["review"]["status"], "REVIEW_REQUIRED")
+
     def test_receipt_binds_synthetic_packet_and_l0_without_approving_gold(self):
         packet, cards = _fixture()
         result = validate_l1_review_receipt(
