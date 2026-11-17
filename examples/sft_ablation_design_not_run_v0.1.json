@@ -1,0 +1,62 @@
+{
+  "schema_version": "dgsi-sft-ablation-design.v1",
+  "arm_specs": [
+    {
+      "arm": "BASE_MODEL",
+      "training_source": "NONE",
+      "context_mode": "NONE",
+      "run_status": "NOT_RUN"
+    },
+    {
+      "arm": "GENERIC_SELF_INSTRUCT",
+      "training_source": "GENERIC_SELF_INSTRUCT",
+      "context_mode": "NONE",
+      "run_status": "NOT_RUN"
+    },
+    {
+      "arm": "DGSI_LITERATURE_DERIVED_SYNTHETIC",
+      "training_source": "LITERATURE_DERIVED_SYNTHETIC",
+      "context_mode": "NONE",
+      "run_status": "NOT_RUN"
+    },
+    {
+      "arm": "DGSI_REAL_GOLD",
+      "training_source": "REAL_GOLD",
+      "context_mode": "NONE",
+      "run_status": "NOT_RUN"
+    },
+    {
+      "arm": "DGSI_WITH_RETRIEVED_HISTORY",
+      "training_source": "LITERATURE_DERIVED_SYNTHETIC",
+      "context_mode": "AS_OF_RETRIEVED",
+      "run_status": "NOT_RUN"
+    }
+  ],
+  "evaluation_metrics": [
+    "fault_source_localization",
+    "affected_component_accuracy",
+    "evidence_consistency",
+    "uncertainty_and_abstention",
+    "disposal_fidelity",
+    "historical_transfer_validity",
+    "confidence_calibration_if_eligible"
+  ],
+  "candidate_training_families": [],
+  "candidate_holdout_families": [],
+  "holdout_policy": {
+    "provisional_only": true,
+    "unit": "EVENT_FAMILY",
+    "same_across_arms": true
+  },
+  "history_policy": {
+    "retrieval_mode": "USER_CONTEXT_ONLY",
+    "analysis_cutoff_enforced": true,
+    "timestamp_required": true,
+    "source_status_preserved": true,
+    "same_family_excluded": true,
+    "hardware_scope_required": true
+  },
+  "gold_eligible": false,
+  "training_authorized": false,
+  "evaluation_executed": false
+}
