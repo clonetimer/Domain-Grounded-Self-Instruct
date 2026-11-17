@@ -1,0 +1,270 @@
+{
+  "schema_version": "dgsi-real-case-independent-review-scorecard.v1",
+  "review_batch_id": "DGSI-P5C1-USER-5CASE-REVIEW-2026-11-17",
+  "status": "NOT_STARTED",
+  "source_document_ref": "USER_LIBRARY:故障案例参考.docx",
+  "source_separation_policy": {
+    "formal_conclusion_fields": [
+      "phenomenon_analysis",
+      "cause_localization",
+      "fault_source",
+      "affected_objects",
+      "certainty_in_source",
+      "source_disposal_text"
+    ],
+    "internal_review_fields": [
+      "review_questions",
+      "quality_flags",
+      "missing_materials"
+    ],
+    "internal_review_fields_excluded_from_model_input_and_assistant_target": true
+  },
+  "scoring": {
+    "decision_enum": [
+      "ACCEPT_FOR_L1_ADJUDICATION",
+      "CONDITIONAL_ACCEPT",
+      "REVISE_SOURCE_FACT_CARD",
+      "REJECT"
+    ],
+    "dimensions": [
+      {
+        "id": "source_fidelity",
+        "meaning": "Formal fields accurately transcribed; no unsupported additions"
+      },
+      {
+        "id": "phenomenon_cause_separation",
+        "meaning": "Observed phenomenon is separated from inferred cause"
+      },
+      {
+        "id": "fault_source_localization",
+        "meaning": "Fault-source component is distinguished from affected components"
+      },
+      {
+        "id": "certainty_calibration",
+        "meaning": "Source certainty is preserved; unstated certainty remains NOT_EXPLICITLY_STATED"
+      },
+      {
+        "id": "disposal_semantics",
+        "meaning": "Recorded measure, conditional procedure, recommendation and verified execution are distinguished"
+      },
+      {
+        "id": "temporal_consistency",
+        "meaning": "Chronology is supported by source timestamps and measurement definitions"
+      },
+      {
+        "id": "evidence_traceability",
+        "meaning": "Every material claim has a source locator or is marked missing"
+      },
+      {
+        "id": "migration_scope",
+        "meaning": "Known transfer limitations and hardware/configuration dependence are recorded"
+      }
+    ],
+    "rating_enum": [
+      "PASS",
+      "CONDITIONAL",
+      "FAIL",
+      "NOT_ASSESSABLE"
+    ],
+    "adjudication_rule": "Two independent reviews are collected separately. Any disagreement on fault source, certainty, event chronology, or disposal execution requires adjudication. A completed scorecard does not itself authorize REAL_GOLD or SFT."
+  },
+  "cases": [
+    {
+      "case_id": "USER-ADCS-SADA-001",
+      "reviewer_1": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "reviewer_2": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "adjudication": {
+        "required": false,
+        "decision": "NOT_STARTED",
+        "rationale": []
+      },
+      "upstream_evidence_status": {
+        "upstream_ml_output": "MISSING",
+        "diagnostic_logs": "MISSING",
+        "spacecraft_configuration": "MISSING",
+        "mission_phase_and_operating_mode": "MISSING",
+        "measurement_definitions_and_time_alignment": "MISSING",
+        "disposal_execution_and_effectiveness": "MISSING"
+      },
+      "admission": {
+        "real_case_candidate": true,
+        "independently_reviewed": false,
+        "real_gold_admitted": false,
+        "official_split_assigned": false,
+        "sft_export_authorized": false,
+        "training_authorized": false
+      }
+    },
+    {
+      "case_id": "USER-COMM-TWTA-002",
+      "reviewer_1": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "reviewer_2": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "adjudication": {
+        "required": false,
+        "decision": "NOT_STARTED",
+        "rationale": []
+      },
+      "upstream_evidence_status": {
+        "upstream_ml_output": "MISSING",
+        "diagnostic_logs": "MISSING",
+        "spacecraft_configuration": "MISSING",
+        "mission_phase_and_operating_mode": "MISSING",
+        "measurement_definitions_and_time_alignment": "MISSING",
+        "disposal_execution_and_effectiveness": "MISSING"
+      },
+      "admission": {
+        "real_case_candidate": true,
+        "independently_reviewed": false,
+        "real_gold_admitted": false,
+        "official_split_assigned": false,
+        "sft_export_authorized": false,
+        "training_authorized": false
+      }
+    },
+    {
+      "case_id": "USER-COMM-KU-TWTA-003",
+      "reviewer_1": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "reviewer_2": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "adjudication": {
+        "required": false,
+        "decision": "NOT_STARTED",
+        "rationale": []
+      },
+      "upstream_evidence_status": {
+        "upstream_ml_output": "MISSING",
+        "diagnostic_logs": "MISSING",
+        "spacecraft_configuration": "MISSING",
+        "mission_phase_and_operating_mode": "MISSING",
+        "measurement_definitions_and_time_alignment": "MISSING",
+        "disposal_execution_and_effectiveness": "MISSING"
+      },
+      "admission": {
+        "real_case_candidate": true,
+        "independently_reviewed": false,
+        "real_gold_admitted": false,
+        "official_split_assigned": false,
+        "sft_export_authorized": false,
+        "training_authorized": false
+      }
+    },
+    {
+      "case_id": "USER-PROP-THRUSTER-004",
+      "reviewer_1": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "reviewer_2": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "adjudication": {
+        "required": false,
+        "decision": "NOT_STARTED",
+        "rationale": []
+      },
+      "upstream_evidence_status": {
+        "upstream_ml_output": "MISSING",
+        "diagnostic_logs": "MISSING",
+        "spacecraft_configuration": "MISSING",
+        "mission_phase_and_operating_mode": "MISSING",
+        "measurement_definitions_and_time_alignment": "MISSING",
+        "disposal_execution_and_effectiveness": "MISSING"
+      },
+      "admission": {
+        "real_case_candidate": true,
+        "independently_reviewed": false,
+        "real_gold_admitted": false,
+        "official_split_assigned": false,
+        "sft_export_authorized": false,
+        "training_authorized": false
+      }
+    },
+    {
+      "case_id": "USER-ADCS-RW-BEARING-005",
+      "reviewer_1": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "reviewer_2": {
+        "reviewer_ref": null,
+        "reviewed_at": null,
+        "decision": "PENDING",
+        "dimension_ratings": {},
+        "findings": []
+      },
+      "adjudication": {
+        "required": false,
+        "decision": "NOT_STARTED",
+        "rationale": []
+      },
+      "upstream_evidence_status": {
+        "upstream_ml_output": "MISSING",
+        "diagnostic_logs": "MISSING",
+        "spacecraft_configuration": "MISSING",
+        "mission_phase_and_operating_mode": "MISSING",
+        "measurement_definitions_and_time_alignment": "MISSING",
+        "disposal_execution_and_effectiveness": "MISSING"
+      },
+      "admission": {
+        "real_case_candidate": true,
+        "independently_reviewed": false,
+        "real_gold_admitted": false,
+        "official_split_assigned": false,
+        "sft_export_authorized": false,
+        "training_authorized": false
+      }
+    }
+  ],
+  "batch_admission": {
+    "independent_reviews_complete": 0,
+    "adjudications_complete": 0,
+    "real_gold_admitted": 0,
+    "sft_export_authorized": 0,
+    "training_authorized": false
+  }
+}

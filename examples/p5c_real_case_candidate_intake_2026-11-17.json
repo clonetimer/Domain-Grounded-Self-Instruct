@@ -1,0 +1,146 @@
+{
+  "schema_version": "dgsi-real-case-candidate-intake.v1",
+  "intake_id": "DGSI-P5C1-USER-CASES-2026-11-17",
+  "track": "REAL_CASE_CANDIDATE",
+  "source_document": {
+    "name": "故障案例参考.docx",
+    "origin": "USER_SUPPLIED_WORD",
+    "storage_policy": "SOURCE_DOCUMENT_REMAINS_IN_USER_LIBRARY; DO_NOT_COPY_RAW_DOCUMENT_OR_PRIVATE_DETAILS_TO_PUBLIC_REPOSITORY",
+    "content_reviewed_artifact": "DGSI_用户原始5例_正式结论与内部审核分离_v0.1.docx",
+    "review_scope": "The five case summaries below are limited to facts transcribed from the user-supplied document. No upstream ML outputs, diagnostic logs, mission context, execution records or expert review have been invented."
+  },
+  "case_count": 5,
+  "cases": [
+    {
+      "case_id": "USER-ADCS-SADA-001",
+      "domain": "ADCS",
+      "source_fact_status": "USER_SUPPLIED_FACTS_TRANSCRIBED",
+      "phenomenon_cause_available": true,
+      "disposal_record_type": "SOURCE_RECORDS_MEASURE",
+      "disposal_text_present": true,
+      "independent_case_review": "PENDING",
+      "upstream_ml_result": "MISSING",
+      "diagnostic_logs": "MISSING",
+      "spacecraft_configuration": "MISSING",
+      "mission_phase_and_operating_mode": "MISSING",
+      "time_aligned_sensor_definitions": "MISSING",
+      "disposal_execution_and_effectiveness": "MISSING",
+      "target_adjudication": "NOT_STARTED",
+      "sft_eligibility": false,
+      "notes": [
+        "Cause certainty is not explicitly stated in the source material.",
+        "Temperature measurement-point definitions and event chronology need source evidence.",
+        "Do not treat the stated solar-array shutdown as verified execution without follow-up status records."
+      ]
+    },
+    {
+      "case_id": "USER-COMM-TWTA-002",
+      "domain": "COMM",
+      "source_fact_status": "USER_SUPPLIED_FACTS_TRANSCRIBED",
+      "phenomenon_cause_available": true,
+      "disposal_record_type": "SOURCE_RECORDS_TEXT",
+      "disposal_text_present": true,
+      "independent_case_review": "PENDING",
+      "upstream_ml_result": "MISSING",
+      "diagnostic_logs": "MISSING",
+      "spacecraft_configuration": "MISSING",
+      "mission_phase_and_operating_mode": "MISSING",
+      "time_aligned_sensor_definitions": "MISSING",
+      "disposal_execution_and_effectiveness": "MISSING",
+      "target_adjudication": "NOT_STARTED",
+      "sft_eligibility": false,
+      "notes": [
+        "Cause certainty is not explicitly stated in the source material.",
+        "The phrase '可自行恢复' is semantically ambiguous; do not infer a concrete recovery action or successful validation."
+      ]
+    },
+    {
+      "case_id": "USER-COMM-KU-TWTA-003",
+      "domain": "COMM",
+      "source_fact_status": "USER_SUPPLIED_FACTS_TRANSCRIBED",
+      "phenomenon_cause_available": true,
+      "disposal_record_type": "SOURCE_RECORDS_CONDITIONAL_PROCEDURE",
+      "disposal_text_present": true,
+      "independent_case_review": "PENDING",
+      "upstream_ml_result": "MISSING",
+      "diagnostic_logs": "MISSING",
+      "spacecraft_configuration": "MISSING",
+      "mission_phase_and_operating_mode": "MISSING",
+      "protection_and_shutdown_state_evidence": "MISSING",
+      "disposal_execution_and_effectiveness": "MISSING",
+      "target_adjudication": "NOT_STARTED",
+      "sft_eligibility": false,
+      "notes": [
+        "Cause certainty is not explicitly stated in the source material.",
+        "Preserve the three conditional disposal branches; do not convert them into actions that were executed."
+      ]
+    },
+    {
+      "case_id": "USER-PROP-THRUSTER-004",
+      "domain": "PROPULSION",
+      "source_fact_status": "USER_SUPPLIED_FACTS_TRANSCRIBED",
+      "phenomenon_cause_available": true,
+      "disposal_record_type": "SOURCE_RECORDS_MEASURE",
+      "disposal_text_present": true,
+      "independent_case_review": "PENDING",
+      "upstream_ml_result": "MISSING",
+      "diagnostic_logs": "MISSING",
+      "spacecraft_configuration": "MISSING",
+      "mission_phase_and_operating_mode": "MISSING",
+      "time_aligned_temperature_and_thrust_evidence": "MISSING",
+      "disposal_execution_and_effectiveness": "MISSING",
+      "target_adjudication": "NOT_STARTED",
+      "sft_eligibility": false,
+      "notes": [
+        "Cause certainty is not explicitly stated in the source material.",
+        "Temperature measurement location, thrust measurement source and momentum-wheel/attitude timeline need clarification.",
+        "Do not elevate structural damage beyond the evidence available in the source."
+      ]
+    },
+    {
+      "case_id": "USER-ADCS-RW-BEARING-005",
+      "domain": "ADCS",
+      "source_fact_status": "USER_SUPPLIED_FACTS_TRANSCRIBED",
+      "phenomenon_cause_available": true,
+      "disposal_record_type": "SOURCE_RECORDS_CONDITIONAL_MEASURE",
+      "disposal_text_present": true,
+      "independent_case_review": "PENDING",
+      "upstream_ml_result": "MISSING",
+      "diagnostic_logs": "MISSING",
+      "spacecraft_configuration": "MISSING",
+      "mission_phase_and_operating_mode": "MISSING",
+      "time_aligned_temperature_and_speed_evidence": "MISSING",
+      "disposal_execution_and_effectiveness": "MISSING",
+      "target_adjudication": "NOT_STARTED",
+      "sft_eligibility": false,
+      "notes": [
+        "Cause certainty is not explicitly stated in the source material.",
+        "Distinguish the stated configuration switch from the conditional 2000 rpm recommendation; execution state is not documented."
+      ]
+    }
+  ],
+  "aggregate": {
+    "source_fact_cards_transcribed": 5,
+    "independent_expert_approved": 0,
+    "complete_dgsi_input_packets": 0,
+    "real_gold_admitted": 0,
+    "official_split_assignments": 0,
+    "authorized_sft_records": 0,
+    "training_authorized": false
+  },
+  "required_next_evidence": [
+    "Authorized provenance and de-identification/usage approval for the user-supplied source.",
+    "Upstream ML output with algorithm/model version, run ID, score semantics, candidate status and evidence references.",
+    "Time-stamped diagnostic logs and event chronology.",
+    "Spacecraft configuration, subsystem/component mapping, mission phase and operating mode.",
+    "Measurement point definitions and units for all reported sensor/temperature/power/speed values.",
+    "Actual execution records and post-action verification for disposal measures; retain conditional/planned actions separately.",
+    "Two independent domain reviews and documented adjudication of disagreements."
+  ],
+  "policy": {
+    "no_synthetic_filling_of_missing_real_case_fields": true,
+    "historical_experience_role": "CONTEXT_ONLY_NOT_DIRECT_CURRENT_EVENT_EVIDENCE",
+    "do_not_convert_to_sft_until_complete_and_admitted": true,
+    "source_document_not_committed": true
+  }
+}
