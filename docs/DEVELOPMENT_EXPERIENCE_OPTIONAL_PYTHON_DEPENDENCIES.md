@@ -252,3 +252,51 @@ This was a test-fixture construction defect, not a production grouping failure. 
 Reusable rule 28:
 
 28. **Make adversarial fixtures valid up to the invariant under test.** A test intended to exercise grouping order or adjacency must first satisfy source hash, image bounds, parent-child geometry and schema invariants. Otherwise an earlier fail-closed gate masks the behavior being tested. Add fixture self-checks or comments showing why each geometry is valid.
+
+## P5-B4.2b final exact-head CI and fixture correction
+
+The corrected P5-B4.2b head `9299ccfb0f9e8b9aeb855c653de5ed6f5cf2d261` completed workflow `44005948905`:
+- Ubuntu: 818/818 PASS
+- Windows: 818/818 PASS
+- Both logs contain the new recipe/schema parity and adjacent-line grouping tests.
+- Both logs contain portable ZIP and required-file regression checks.
+
+The first failure was a stale v1 recipe assertion; the second was an out-of-bounds synthetic test fixture. Both were corrected and independently re-run. This confirms why a failure must be diagnosed at the first rejecting layer: the second failure was caught by the provenance gate before the adjacency behavior under test could execute.
+
+Reusable rule 29:
+
+29. **Make the review receipt's trust level explicit in the result vocabulary.** A locally supplied reviewer alias and timestamp can be bound to a candidate record, but cannot authenticate identity, role, signature or actual inspection. Report `REVIEW_RECEIPT_BOUND_NOT_AUTHENTICATED`; do not emit `HUMAN_APPROVED`, `VERIFIED`, Gold eligibility or SFT authorization from metadata binding alone.
+
+## P5-B4.3a CI failure: subprocess CLI test omitted its standard-library fixture import
+
+Workflow `44006251004` failed on both Ubuntu and Windows with 829 tests executed and two errors. Both errors were in the newly added `DiagramTextReviewCliTests`: `NameError: name 'tempfile' is not defined` at `tempfile.TemporaryDirectory()`. The validator and CLI behavior were not reached; the test module omitted the standard-library import required by its subprocess fixture.
+
+Correction: add an explicit `import tempfile` to `tests/test_diagram_text_review.py` and rerun exact-head CI.
+
+Reusable rule 30:
+
+30. **Declare standard-library dependencies in the test module that uses them.** Do not assume another test module's imports are shared. For subprocess/filesystem tests, verify every fixture helper (`tempfile`, `subprocess`, `json`, `Path`, etc.) is imported in that module, then run the test module directly before the full matrix.
+
+## P5-B4.3a exact-head CI: review receipt CLI and portable integration
+
+The corrected head `80ec5ab8182221a0eff0628aab390e83af831255` completed workflow `44010524344`:
+- Ubuntu: 829/829 PASS
+- Windows: 829/829 PASS
+- Both logs contain `test_cli_emits_aggregate_only_summary` and `test_cli_rejects_invalid_receipt_without_echoing_values`.
+- Both logs contain reviewer-authentication rejection, source/candidate binding and portable ZIP inclusion checks.
+- The full toolkit ZIP and required-file tests passed on both platforms.
+
+The missing `tempfile` import was the only failure in the preceding run. After adding the import and rerunning the exact latest head, both platforms passed. This confirms the CLI tests actually executed, not merely that the module imported.
+
+Reusable rule 31:
+
+31. **For local review receipts, distinguish binding from authentication and adjudication.** Hash and locator checks prove that a receipt refers to a specific candidate artifact; they do not prove reviewer identity, actual visual inspection, domain expertise or scientific correctness. Downstream graph conversion must keep these records proposed/unverified unless a separate trusted review mechanism supplies authenticated approval.
+
+## P5-B4.3a latest-head confirmation
+
+After the missing-import correction, the PR branch advanced to head `5d536bb74f2a0414a1e7c46a79cb160bf57e543b`. Its exact-head workflow `44010887487` also completed successfully:
+- Ubuntu: 829/829 PASS
+- Windows: 829/829 PASS
+- Both logs contain the review CLI privacy/rejection tests and portable ZIP tests.
+
+This second green run confirms the development-experience update and PR metadata changes did not invalidate the previously tested receipt implementation.
