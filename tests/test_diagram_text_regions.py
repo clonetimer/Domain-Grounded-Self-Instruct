@@ -174,7 +174,7 @@ class DiagramTextRegionTests(unittest.TestCase):
         groups = [c for c in result["candidates"] if c["candidate_type"] == "MULTI_LINE_HYPOTHESIS"]
         self.assertEqual(len(singles), 2)
         self.assertEqual(len(groups), 1)
-        self.assertEqual(groups[0]["label_text"], "Reaction\\nWheel")
+        self.assertEqual(groups[0]["label_text"], "Reaction\nWheel")
         self.assertEqual(groups[0]["ocr_line_ids"], ["L1", "L2"])
         self.assertEqual(groups[0]["object_type"], "UNKNOWN")
         self.assertEqual(groups[0]["interpretation"], "UNRESOLVED_OCR_TEXT")
