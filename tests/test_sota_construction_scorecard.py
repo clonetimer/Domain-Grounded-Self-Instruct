@@ -55,6 +55,7 @@ class ScorecardTests(unittest.TestCase):
     def test_partial_source_and_token_budget_cannot_claim_comparison(self):
         rows = [trial(a) for a in ARMS]
         rows[-1]["source_group"] = "OTHER"
+        rows[-1]["event_family"] = "OTHER"
         self.assertFalse(summarize_construction_trials(doc(rows))["source_group_budget_matched"])
         rows = [trial(a) for a in ARMS]
         rows[-1]["token_budget"] = 999
