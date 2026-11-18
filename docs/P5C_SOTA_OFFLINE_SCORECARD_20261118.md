@@ -12,7 +12,7 @@ Run locally with:
 
     python scripts/score_sota_construction.py --input /private/trials.json --output /private/summary.json
 
-Keep the input JSON in an access-controlled local directory. The summary contains only counts, token budgets/usage, accepted yield, number of critical-failure trials and adjudicated dimension means; it omits source snippets, target text, trial IDs, reviewers and private raw scores.
+Keep the input JSON in an access-controlled local directory. The summary contains only counts, token budgets/usage, preliminary filter-accepted yield, number of critical-failure trials and *separately reported REAL_GOLD versus literature-SYNTHETIC* adjudicated dimension means; it omits source snippets, target text, trial IDs, reviewers and private raw scores.
 
 ## Five-arm matched design
 
@@ -29,7 +29,7 @@ Same permitted source groups, episode/event families, task coverage, attempted c
 Each trial JSON row represents exactly one *attempted candidate*, with:
 
 - trial_id, arm, source_group, event_family, track
-- attempts=1, accepted_candidates=0 or 1
+- attempts=1, accepted_candidates=0 or 1 (provisional generator/filter acceptance, **not** expert or dataset admission)
 - generation_tokens (actual nonnegative integer) and token_budget (allocated nonnegative integer)
 - critical_failures (supported fixed codes; no accepted candidate with a critical failure)
 - review_status=PENDING or ADJUDICATED
@@ -44,7 +44,7 @@ The root JSON has schema_version=dgsi-sota-construction-scorecard.v1, purpose=CO
 - MATCHED_UNREVIEWED: same source-group/episode/track and budget, but no complete independent scoring
 - REVIEWED_COMPARABLE_INPUT: matching submitted records with complete claimed adjudications; still requires offline receipt/authenticity and scientific source verification before claiming measured effectiveness
 
-Never fill an unrun arm with speculative scores. Separate REAL_GOLD from LITERATURE_DERIVED_SYNTHETIC, retain all causal certainty and disposal-source boundaries, and do not convert history-only evidence into current-fault confirmation. A user-supplied gold_admitted=true assertion is insufficient by itself for admission.
+Never fill an unrun arm with speculative scores. Always score REAL_GOLD and LITERATURE_DERIVED_SYNTHETIC independently, without pooling their per-track rubric means; separate REAL_GOLD from LITERATURE_DERIVED_SYNTHETIC, retain all causal certainty and disposal-source boundaries, and do not convert history-only evidence into current-fault confirmation. A user-supplied gold_admitted=true assertion is insufficient by itself for admission.
 
 Downstream training: NOT_RUN until explicit permission, expert-reviewed source-cleared training data and independent frozen holdout are available. Green CI proves tool execution, not model superiority.
 
