@@ -28,7 +28,10 @@ def build_c2_source_rights_queue(dossier: dict[str, Any]) -> dict[str, Any]:
     ):
         raise C2SourceRightsQueueError("C2_RIGHTS_DOSSIER_NOT_REVIEW_ONLY")
     documents: dict[str, dict[str, Any]] = {}
-    known_facts: dict[str, str] = {}
+    # The same L0 case can appear in multiple L1 tasks. Its SHA alone
+    # does not establish source-document or episode identity: a caller must
+    # not move an unchanged digest to another publication or event family.
+    known_facts: dict[str, tuple[str, str, str, str | None, str, str, str | None]] = {}
     seen_tasks: set[str] = set()
     for item in dossier["items"]:
         task_id = item.get("task_id")
@@ -72,9 +75,22 @@ def build_c2_source_rights_queue(dossier: dict[str, Any]) -> dict[str, Any]:
             digest = ref_to_digest.get(case_id)
             if digest is None:
                 raise C2SourceRightsQueueError("C2_RIGHTS_UNBOUND_L0_FACT")
-            if case_id in known_facts and known_facts[case_id] != digest:
-                raise C2SourceRightsQueueError("C2_RIGHTS_L0_FINGERPRINT_DRIFT")
-            known_facts[case_id] = digest
+            family, source_class = fact.get("event_family_id"), fact.get("source_class")
+            locator = ref.get("source_locator")
+            if not isinstance(family, str) or not family.strip():
+                raise C2SourceRightsQueueError("C2_RIGHTS_EVENT_FAMILY_INVALID")
+            if not isinstance(source_class, str) or not source_class.strip():
+                raise C2SourceRightsQueueError("C2_RIGHTS_SOURCE_CLASS_INVALID")
+            if locator is not None and not isinstance(locator, str):
+                raise C2SourceRightsQueueError("C2_RIGHTS_SOURCE_LOCATOR_INVALID")
+            identity = (digest, source_id, title, url, family, source_class, locator)
+            earlier = known_facts.get(case_id)
+            if earlier is not None:
+                if earlier[0] != digest:
+                    raise C2SourceRightsQueueError("C2_RIGHTS_L0_FINGERPRINT_DRIFT")
+                if earlier[1:] != identity[1:]:
+                    raise C2SourceRightsQueueError("C2_RIGHTS_L0_IDENTITY_DRIFT")
+            known_facts[case_id] = identity
             document = documents.setdefault(source_id, {
                 "source_id": source_id,
                 "source_title": title,
@@ -91,7 +107,6 @@ def build_c2_source_rights_queue(dossier: dict[str, Any]) -> dict[str, Any]:
             document["task_ids"].add(task_id)
             document["event_families"].add(fact["event_family_id"])
             document["source_classes"].add(fact["source_class"])
-            locator = ref.get("source_locator")
             if isinstance(locator, str) and locator.strip():
                 document["source_locators"].add(locator)
         if fact_ids != set(ref_to_digest):
