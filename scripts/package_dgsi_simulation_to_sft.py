@@ -166,6 +166,24 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def canonical_checkout_bytes(data: bytes) -> bytes:
+    """Normalize Git checkout CRLF in UTF-8 text; preserve opaque binary bytes.
+
+    Windows checkout may use CRLF while Ubuntu uses LF for the same committed
+    text.  ZIP member metadata alone cannot ensure byte-identical artifacts.
+    Canonicalize only decodable, NUL-free UTF-8 payloads, before hashing and
+    writing the archive, so the manifest authenticates the actual member bytes.
+    Binary and non-UTF-8 files are passed through without modification.
+    """
+    if b"\x00" in data:
+        return data
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return data.replace(b"\r\n", b"\n")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -193,7 +211,7 @@ def main() -> int:
                 raise RuntimeError(f"Refusing to package sensitive-looking path: {relative}")
             if file_path.suffix in {".pyc", ".pyo"} or "__pycache__" in file_path.parts:
                 continue
-            selected[relative] = file_path.read_bytes()
+            selected[relative] = canonical_checkout_bytes(file_path.read_bytes())
 
     manifest = {
         "toolkit": "dgsi-simulation-to-sft",
