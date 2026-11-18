@@ -47,3 +47,20 @@ Earlier #163 paired `comparison_unit_id`, and #164 paired a self-declared hash, 
 ## 2026-11-19 nested-content regression
 
 The original root-only forbidden-key check allowed raw telemetry, curator-only review content and leaked reference answers inside nested upstream ML records, diagnostic-log entries or mission-context arrays. Such inputs can contaminate five-arm fairness even when their hashes match perfectly. The new recursive guard rejects these fields without changing canonical hashing of valid scenarios. Added synthetic-only nested/privacy, answer-label, valid nested data and depth-limit regression tests. No source content is included in public CI.
+
+## 2026-11-19 root-envelope regression
+
+A hash covering only the six specified scenario fields could previously omit an
+unvalidated *sibling* at the scenario root (for example, a reference answer or
+method-specific instruction), and the top-level manifest wrapper was not
+checked for review-only payloads. Five-arm consumers might inadvertently read
+such unbound fields despite a matching digest. Scenario entries now require
+exactly the six declared root fields, and the manifest wrapper requires
+exactly `schema_version` and `scenarios`. The recursive prohibited-key scan
+runs over the entire scenario entry and manifest wrapper, rather than only
+`shared_input`. Explicit answer/review keys and mixed whitespace/hyphen
+separators are rejected. Four SYNTHETIC_TEST_ONLY adversarial regression tests
+cover these boundary cases; clean scenario digests stay unchanged. This remains
+a schema/key-level control, not a substitute for independent source or privacy
+review. Lesson: every field accessible to a generation arm must be either
+included in the canonical pairing digest or rejected before the prompt stage.
