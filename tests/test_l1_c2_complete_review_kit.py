@@ -57,10 +57,25 @@ class C2CompleteReviewKitTests(unittest.TestCase):
             self.assertEqual(set(outer.namelist()), {
                 "reviewer_A.zip", "reviewer_B.zip",
                 "COORDINATOR_REVIEW_ONLY_MANIFEST.json",
+                "C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json",
                 "README_REVIEW_ONLY.txt", "SHA256SUMS.txt",
             })
             coordinator = json.loads(outer.read("COORDINATOR_REVIEW_ONLY_MANIFEST.json"))
             self.assertEqual(coordinator, self.manifest)
+            rights = json.loads(outer.read("C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json"))
+            self.assertEqual(rights["distinct_source_document_count"], 7)
+            self.assertEqual(rights["bound_l0_fact_count"], 12)
+            self.assertEqual(rights["task_count"], 15)
+            self.assertFalse(rights["source_rights_verified"])
+            self.assertFalse(rights["training_authorized"])
+            self.assertEqual(rights["collection_projection_sha256"],
+                             coordinator["collection_projection_sha256"])
+            self.assertEqual(
+                sha256(outer.read("C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json")).hexdigest(),
+                coordinator["source_rights_queue_sha256"],
+            )
+            self.assertEqual(coordinator["source_rights_document_count"], 7)
+            self.assertEqual(coordinator["source_rights_bound_l0_fact_count"], 12)
             dossiers = []
             forms = []
             for slot in ("A", "B"):
