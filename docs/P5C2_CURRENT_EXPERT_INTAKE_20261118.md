@@ -56,7 +56,9 @@ python scripts/audit_l1_c2_current_expert_intake.py \
 
 ## 兼容性与验证
 
-原 RC2 审核表 schema 与 15 项候选没有改动，已交付空白表可以直接用于此入口。RC3 便携包增加新模块、CLI、测试和本说明；解压回归从工具包实际生成审核 ZIP，再将 A/B 原始空白 JSON 回送当前输入校验，仓库 `PYTHONPATH` 不参与运行。
+原 RC2 审核表可与未改动的 2026-11-17 候选继续使用本入口。2026-11-18 的[内容修订 cohort](P5C2_CONTENT_CORRECTION_2026-11-18.md)已改变任务及来源绑定，须使用其配套新 A/B 表和 L0/L1 文件；旧表对新材料应被拒绝，不能迁移旧绑定冒充新审核。
+
+RC3 增加本接收模块、CLI、测试和说明；RC4 登记内容修订所需的三条专用任务指令。评分表 schema 和评分规则未改变。解压回归从工具包实际生成审核 ZIP，再将 A/B 原始空白 JSON 回送当前输入校验，仓库 `PYTHONPATH` 不参与运行。
 
 ```bash
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_l1_c2_expert_intake*.py' -v

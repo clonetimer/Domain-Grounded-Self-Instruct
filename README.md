@@ -27,15 +27,16 @@ Raw telemetry remains in the upstream ML pipeline. DGSI may retain restricted ar
 
 ## P5-C2 current engineering candidate
 
-The reusable toolkit is at **0.2.0-rc.3**. The current review candidate contains **15 literature-derived synthetic tasks, 9 source event families, 12 bound L0 fact cards and 7 source publications**. These counts describe coverage, not statistically independent incidents. Independent expert adjudications, rights-cleared publications, official dataset splits and authorized SFT rows remain **zero**; training is not authorized.
+The reusable toolkit is at **0.2.0-rc.4**, with three exact task-specific instructions registered for the content-corrected cohort. The current review candidate contains **15 literature-derived synthetic tasks, 9 source event families, 12 bound L0 fact cards and 7 primary source ID groups**. Cassini chronology has three separately listed corroborating sources. These counts describe coverage, not statistically independent incidents. Independent expert adjudications, rights-cleared publications, official dataset splits and authorized SFT rows remain **zero**; training is not authorized.
 
 - Start with the [operator quick start](skills/dgsi-simulation-to-sft/references/OPERATOR_QUICKSTART.md).
-- Review the [current 15-task candidate](examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json), [per-task dispositions](examples/p5c2_packet_review_dispositions_2026-11-17.json) and [integrated curator review](docs/P5C2_INTEGRATED_CURATOR_REVIEW_2026-11-17.md).
+- Review the [content-corrected 15-task candidate](examples/l1_literature_synthetic_task_packets_c2_content_corrected_2026-11-18.json), [matching L0 source cards](examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json), [source and per-task correction ledger](examples/p5c2_content_correction_review_2026-11-18.json) and [integrated content report](docs/P5C2_CONTENT_CORRECTION_2026-11-18.md). The [2026-11-17 snapshot](examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json) remains immutable.
+- The [corrected coverage report](examples/p5c2_content_corrected_coverage_2026-11-18.json) records 11 diagnostic-synthesis tasks and one each for history reuse, evidence sufficiency, next-step recommendation and handover. Current conflicting-evidence tasks are absent; the old 003 label overstated that coverage.
 - Generate separate A/B review kits with the [delivery contract](docs/P5C2_PACKAGE_DELIVERY_2026-11-18.md), then use the [current-source-bound expert intake](docs/P5C2_CURRENT_EXPERT_INTAKE_20261118.md) to receive completed or partial forms and produce the pending-action queue.
 - Receive source-rights worksheets through the separate [current-source rights preflight](docs/P5C2_CURRENT_SOURCE_RIGHTS_PREFLIGHT_20261118.md).
 - See [main reconciliation evidence](docs/P5C2_MAIN_RECONCILIATION_20261118.md) and the preserved [historical specialized-task review](docs/P5C2_SPECIALIZED_TASK_REVIEW_2026-11-17.md).
 
-The expert intake accepts original RC2 forms for an unchanged current candidate. It does not authenticate reviewers, resolve scientific disagreements or authorize source use. REAL and literature-derived synthetic candidates remain separate parallel tracks.
+The expert intake accepts original RC2 forms against their unchanged 2026-11-17 candidate. The content-corrected cohort requires its newly bound A/B forms and matching L0/L1 inputs. Intake does not authenticate reviewers, resolve scientific disagreements or authorize source use. REAL and literature-derived synthetic candidates remain separate parallel tracks.
 
 ## Foundational Phase 1 assets
 

@@ -1,0 +1,1994 @@
+{
+  "schema_version": "dgsi-p5c2-source-content-correction-review.v1",
+  "review_date": "2026-11-18",
+  "timezone": "Asia/Shanghai",
+  "review_type": "AI_CURATOR_SOURCE_AND_TARGET_REVIEW_NOT_EXPERT_ADJUDICATION",
+  "source_baseline_commit": "d0eb33db1991de2d3f1bb02138e63d055a31dbbe",
+  "old_snapshots": {
+    "examples/l0_public_literature_fact_cards_2026-11-15.json": "aa05427acf803fea583b6b155b589824166911aa6b0949275088f75e58b4f2d4",
+    "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json": "1a64639925a12cb3189b6c5defe805c29f4dbb75489556bb588581de017e34ab"
+  },
+  "new_snapshots": {
+    "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json": "b4e9947958348c31dac519b7403f9f54db21bcd0c5df3051e3ed1f5112a9d905",
+    "examples/l1_literature_synthetic_task_packets_c2_content_corrected_2026-11-18.json": "da20c86fc99f7ea26669544927f0409d0daf62f1900a1049744c118b3051d7b4"
+  },
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-CONTENT-CORRECTED-2026-11-18",
+  "source_evidence": [
+    {
+      "source_id": "NASA-NTRS-20040171604",
+      "url": "https://ntrs.nasa.gov/citations/20040171604",
+      "verified_locator": "NTRS abstract / summary",
+      "access_scope": "PRIMARY_ABSTRACT_ONLY",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    },
+    {
+      "source_id": "MITLL-TROPICS-LESSONS-2025",
+      "url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+      "verified_locator": "Section 6, PDF / printed pp.4–5",
+      "access_scope": "PRIMARY_PDF_RELEVANT_PASSAGES",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    },
+    {
+      "source_id": "NASA-CR-66461",
+      "url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+      "verified_locator": "PDF pp.119–120 and173; printed pp.111–112 and165",
+      "access_scope": "PRIMARY_PDF_RELEVANT_PASSAGES",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    },
+    {
+      "source_id": "NASA-LLIS-1416",
+      "url": "https://llis.nasa.gov/lesson/1416",
+      "verified_locator": "Driving Event / Lessons Learned / Recommendations",
+      "access_scope": "PRIMARY_TEXT_INDEXED_BY_SEARCH",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    },
+    {
+      "source_id": "NASA-TM-100232",
+      "url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+      "verified_locator": "PDF pp.4–7,11; printed pp.3–6,10",
+      "access_scope": "PRIMARY_PDF_RELEVANT_PASSAGES",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    },
+    {
+      "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+      "url": "https://kjdzjs.spacejournal.cn/cn/article/pdf/preview/f2124d75-67bc-4508-b88e-79845ac6f8ce.pdf",
+      "verified_locator": "2026,23(2):46–53; PDF pp.2–7",
+      "access_scope": "PRIMARY_PUBLISHED_PDF_RELEVANT_PASSAGES",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    },
+    {
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "verified_locator": "Section3, physical PDF p.5",
+      "access_scope": "PRIMARY_PDF_RELEVANT_PASSAGES",
+      "expert_review_complete": false,
+      "rights_cleared": false
+    }
+  ],
+  "supplementary_chronology_sources": [
+    {
+      "url": "https://science.nasa.gov/missions/cassini/significant-event-report-for-week-ending-12202000/",
+      "scope": "Contemporaneous date and mode-transition chronology"
+    },
+    {
+      "url": "https://science.nasa.gov/missions/cassini/significant-event-report-for-week-ending-152001/",
+      "scope": "RWA Earth-point return and later science sequence restart"
+    },
+    {
+      "url": "https://descanso.jpl.nasa.gov/DPSummary/DESCANSO17_Cassini_RevA.pdf",
+      "scope": "Section2.5.2 indexed primary extract; root full-PDF retrieval exceeded size limit; daily-date convention left unresolved"
+    }
+  ],
+  "source_count_policy": "Seven primary source_id groups bind twelve L0 cards; Cassini has three separately listed supplementary chronology sources. This count is not a rights clearance or a claim that all publications are covered by seven licenses.",
+  "packet_dispositions": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:SEASAT-SLIPRING-1978",
+      "source_fact_refs": [
+        "LIT-SEASAT-SLIPRING-001"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.evidence_assessment.missing_information[2]",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[1]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.cause_localization.candidates",
+        "$.formal_target.cause_localization.certainty",
+        "$.formal_target.cause_localization.status",
+        "$.formal_target.disposition",
+        "$.formal_target.evidence_assessment.supporting_refs",
+        "$.formal_target.machine_result_interpretation",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "conflict_reconciliation",
+      "event_family": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.case.task_type",
+        "$.formal_target.cause_localization.affected_components",
+        "$.formal_target.historical_experience_relevance[0].relevance",
+        "$.formal_target.uncertainty.reasons[1]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.disposal_measures",
+        "$.formal_target.disposal_status",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "RECORDED",
+      "current_action_evidence_refs": [
+        "LOG-42"
+      ],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.disposal_measures",
+        "$.formal_target.disposal_status",
+        "$.formal_target.evidence_assessment.missing_information[1]",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "RECORDED",
+      "current_action_evidence_refs": [
+        "LOG-62"
+      ],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "changed_paths": [
+        "$.case.input.diagnostic_logs[1].timestamp",
+        "$.formal_target.cause_localization.candidates[0].component",
+        "$.formal_target.cause_localization.candidates[0].limitations",
+        "$.formal_target.cause_localization.candidates[0].supporting_refs",
+        "$.formal_target.cause_localization.candidates[1].component",
+        "$.formal_target.cause_localization.candidates[1].limitations",
+        "$.formal_target.cause_localization.candidates[1].supporting_refs",
+        "$.formal_target.cause_localization.certainty",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.cause_localization.status",
+        "$.formal_target.disposition",
+        "$.formal_target.machine_result_interpretation",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "changed_paths": [
+        "$.case.review.review_notes",
+        "$.formal_target.cause_localization.affected_components",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.evidence_assessment.missing_information",
+        "$.formal_target.machine_result_interpretation",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]",
+        "$.review.notes"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.disposal_measures",
+        "$.formal_target.disposal_status",
+        "$.formal_target.follow_up_actions[2].action",
+        "$.formal_target.follow_up_actions[2].rationale",
+        "$.formal_target.phenomenon_analysis",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "RECORDED",
+      "current_action_evidence_refs": [
+        "LOG-91"
+      ],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-CATALYST-010"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "task_type": "diagnostic_synthesis",
+      "previous_task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.formal_target.cause_localization.candidates[0].limitations[0]",
+        "$.formal_target.cause_localization.candidates[0].limitations[1]",
+        "$.formal_target.cause_localization.candidates[0].limitations[2]",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.evidence_assessment.missing_information[0]",
+        "$.formal_target.evidence_assessment.missing_information[1]",
+        "$.formal_target.evidence_assessment.missing_information[2]",
+        "$.formal_target.evidence_assessment.missing_information[3]",
+        "$.formal_target.evidence_assessment.missing_information[4]",
+        "$.formal_target.follow_up_actions[0].action",
+        "$.formal_target.follow_up_actions[0].rationale",
+        "$.formal_target.follow_up_actions[1].action",
+        "$.formal_target.follow_up_actions[1].rationale",
+        "$.formal_target.follow_up_actions[2].action",
+        "$.formal_target.follow_up_actions[2].priority",
+        "$.formal_target.follow_up_actions[2].rationale",
+        "$.formal_target.follow_up_actions[3].action",
+        "$.formal_target.follow_up_actions[3].rationale",
+        "$.formal_target.machine_result_interpretation",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.level",
+        "$.formal_target.uncertainty.reasons[0]",
+        "$.formal_target.uncertainty.reasons[1]",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "task_type": "historical_case_reuse",
+      "previous_task_type": "historical_case_reuse",
+      "event_family": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "changed_paths": [
+        "$.case.input.historical_cases[0].applicability_limitations[0]",
+        "$.case.input.historical_cases[0].applicability_limitations[1]",
+        "$.case.input.historical_cases[0].applicability_limitations[2]",
+        "$.case.input.historical_cases[0].applicability_limitations[3]",
+        "$.case.input.historical_cases[0].applicability_limitations[4]",
+        "$.case.input.historical_cases[0].prior_conclusion",
+        "$.case.input.knowledge_evidence[0].claim_boundary",
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.case.input.knowledge_evidence[1].excerpt",
+        "$.case.review.review_notes",
+        "$.formal_target.cause_localization.affected_components",
+        "$.formal_target.cause_localization.candidates[0].fault_mode",
+        "$.formal_target.cause_localization.candidates[0].limitations",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.disposal_measures",
+        "$.formal_target.disposal_status",
+        "$.formal_target.evidence_assessment.missing_information",
+        "$.formal_target.follow_up_actions[0].action",
+        "$.formal_target.follow_up_actions[0].rationale",
+        "$.formal_target.follow_up_actions[1].action",
+        "$.formal_target.follow_up_actions[1].rationale",
+        "$.formal_target.follow_up_actions[2].action",
+        "$.formal_target.follow_up_actions[2].rationale",
+        "$.formal_target.historical_experience_relevance[0].relevance",
+        "$.formal_target.historical_experience_relevance[0].transfer_limitations[0]",
+        "$.formal_target.historical_experience_relevance[0].transfer_limitations[1]",
+        "$.formal_target.historical_experience_relevance[0].transfer_limitations[2]",
+        "$.formal_target.historical_experience_relevance[0].transfer_limitations[3]",
+        "$.formal_target.machine_result_interpretation",
+        "$.formal_target.phenomenon_analysis",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[0]",
+        "$.formal_target.uncertainty.reasons[1]",
+        "$.formal_target.uncertainty.reasons[2]",
+        "$.formal_target.uncertainty.reasons[3]",
+        "$.formal_target.uncertainty.reasons[4]",
+        "$.history_context.items[0].applicability_limitations[0]",
+        "$.history_context.items[0].applicability_limitations[1]",
+        "$.history_context.items[0].applicability_limitations[2]",
+        "$.history_context.items[0].applicability_limitations[3]",
+        "$.history_context.items[0].applicability_limitations[4]",
+        "$.history_context.items[0].summary",
+        "$.review.notes",
+        "$.synthetic_provenance.scenario_assumptions"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "RECORDED",
+      "current_action_evidence_refs": [
+        "LOG-122"
+      ],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "task_type": "evidence_sufficiency",
+      "previous_task_type": "evidence_sufficiency",
+      "event_family": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "changed_paths": [
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.case.instruction",
+        "$.formal_target.cause_localization.affected_components",
+        "$.formal_target.evidence_assessment.missing_information[3]",
+        "$.formal_target.historical_experience_relevance[0].relevance",
+        "$.formal_target.report_text"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "task_type": "next_step_recommendation",
+      "previous_task_type": "next_step_recommendation",
+      "event_family": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "changed_paths": [
+        "$.case.instruction",
+        "$.case.review.review_notes",
+        "$.formal_target.cause_localization.affected_components",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.evidence_assessment.missing_information",
+        "$.formal_target.follow_up_actions[0].action",
+        "$.formal_target.follow_up_actions[0].rationale",
+        "$.formal_target.follow_up_actions[1].action",
+        "$.formal_target.follow_up_actions[1].rationale",
+        "$.formal_target.follow_up_actions[2].action",
+        "$.formal_target.follow_up_actions[2].rationale",
+        "$.formal_target.machine_result_interpretation",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]",
+        "$.review.notes"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "task_type": "handover_summary",
+      "previous_task_type": "handover_summary",
+      "event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "changed_paths": [
+        "$.case.input.diagnostic_logs[1].content",
+        "$.case.input.knowledge_evidence[0].excerpt",
+        "$.case.input.knowledge_evidence[0].passage_id",
+        "$.case.instruction",
+        "$.formal_target.cause_localization.candidates[0].limitations",
+        "$.formal_target.cause_localization.mechanism_summary",
+        "$.formal_target.evidence_assessment.missing_information[2]",
+        "$.formal_target.follow_up_actions",
+        "$.formal_target.phenomenon_analysis",
+        "$.formal_target.report_text",
+        "$.formal_target.uncertainty.reasons[2]"
+      ],
+      "source_content_disposition": "REVISED_AI_CURATOR_PENDING_INDEPENDENT_EXPERT",
+      "current_action_status": "NOT_RECORDED",
+      "current_action_evidence_refs": [],
+      "expert_adjudicated": false,
+      "rights_cleared": false,
+      "training_authorized": false
+    }
+  ],
+  "findings": [
+    {
+      "review_group": "root",
+      "finding_id": "SC-01",
+      "task_ids": [
+        "L1-SEASAT-SLIPRING-SYNTH-001"
+      ],
+      "paths": [
+        "L0.source_reference",
+        "case.input.knowledge_evidence[0].passage_id"
+      ],
+      "issue": "The card cites the NTRS report summary but links a legacy full-PDF URL; the legacy URL was inaccessible and the alternate PDF exceeded the retrieval limit.",
+      "correction": "Point the bounded citation to the accessible original NTRS summary; explicitly retain abstract-level verification, not full-report verification.",
+      "evidence": {
+        "url": "https://ntrs.nasa.gov/citations/20040171604",
+        "locator": "NTRS abstract, cause paragraph",
+        "access_level": "PRIMARY_ABSTRACT_ONLY"
+      },
+      "review_type": "AI_CURATOR_NOT_EXPERT_ADJUDICATION"
+    },
+    {
+      "review_group": "root",
+      "finding_id": "SC-02",
+      "task_ids": [
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002"
+      ],
+      "paths": [
+        "L0.source_reference",
+        "L0.cause_localization.certainty_in_source",
+        "case.input.knowledge_evidence[0]"
+      ],
+      "issue": "The historical DSS cross-check stated in the target is absent from model-visible input; the L0 page range is one page early and a proposed diode mechanism is labeled most likely.",
+      "correction": "Add a short bounded historical cross-check to visible knowledge context, correct physical PDF/printed pages, and distinguish circuit localization from a proposed component mechanism.",
+      "evidence": {
+        "url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+        "locator": "PDF pp.119–120 (printed pp.111–112); summary PDF p.173 (printed p.165)",
+        "access_level": "PRIMARY_FULL_TEXT_PASSAGES"
+      },
+      "review_type": "AI_CURATOR_NOT_EXPERT_ADJUDICATION"
+    },
+    {
+      "review_group": "root",
+      "finding_id": "SC-03",
+      "task_ids": [
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002"
+      ],
+      "paths": [
+        "formal_target.disposition",
+        "formal_target.cause_localization",
+        "formal_target.evidence_assessment",
+        "formal_target.machine_result_interpretation",
+        "formal_target.report_text"
+      ],
+      "issue": "The target accepts with qualification, lists only monitor drift, and uses the ML power-loss candidate and missing-measurement log as positive support for that alternative.",
+      "correction": "Retain two unresolved interpretation branches; assign each only relevant current evidence, treat missingness as missingness, and request the discriminating measurement.",
+      "evidence": {
+        "basis": "Exactly supplied ML-FINDING-01 / ML-E-002, LOG-11 and LOG-12; no additional current measurement invented."
+      },
+      "review_type": "AI_CURATOR_NOT_EXPERT_ADJUDICATION"
+    },
+    {
+      "review_group": "root",
+      "finding_id": "SC-04",
+      "task_ids": [
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007"
+      ],
+      "paths": [
+        "formal_target.cause_localization",
+        "formal_target.machine_result_interpretation",
+        "formal_target.disposition",
+        "L0.cause_localization.certainty_in_source"
+      ],
+      "issue": "The target locates both internal mechanical/pressure explanations in the helix power supply and cites generic startup observations as direct mechanism support.",
+      "correction": "Keep the supplied upstream label for interpretation, move formal localization to unresolved TWTA internal mechanism, remove nonexistent mechanism-specific positive support, and preserve both explicit candidate explanations.",
+      "evidence": {
+        "url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+        "locator": "PDF p.173 / printed p.165, first-turn-on paragraph"
+      },
+      "review_type": "AI_CURATOR_NOT_EXPERT_ADJUDICATION"
+    },
+    {
+      "review_group": "root",
+      "finding_id": "SC-05",
+      "task_ids": [
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007"
+      ],
+      "paths": [
+        "case.input.diagnostic_logs[1].timestamp"
+      ],
+      "issue": "LOG-71 is at 08:10 and LOG-72 at 08:17, while LOG-72 describes a decrease after about 1.5 minutes without defining a delayed reporting time.",
+      "correction": "Use 08:11:30 as the constructed event timestamp, consistent with the existing 1.5-minute synthetic narrative. This is a synthetic consistency correction, not a historical timestamp.",
+      "evidence": {
+        "basis": "Existing synthetic LOG-71 / LOG-72; no real mission timestamp asserted."
+      },
+      "review_type": "AI_CURATOR_NOT_EXPERT_ADJUDICATION"
+    },
+    {
+      "review_group": "tropics",
+      "id": "TROPICS-F01",
+      "priority": "MEDIUM",
+      "category": "source_locator",
+      "summary": "四张L0卡与五项L1的来源页码少计一页。PDF抽取P3/P4是从零开始的页索引；印刷页码及普通PDF页码为4/5。",
+      "evidence": [
+        "PDF §6 begins L234@P3; page footer 4 at L258; continues on P4 and footer 5 at L357."
+      ],
+      "source_ref": "turn544528185view0",
+      "proposed_edits": [
+        {
+          "file": "L0",
+          "json_path": "$.cards[1].source_reference.source_locator",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed pp.4–5 (PDF pages 4–5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[1].source_reference.page_or_section",
+          "proposed_replacement": "Section 6, printed pp.4–5 (PDF pages 4–5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[2].source_reference.source_locator",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[2].source_reference.page_or_section",
+          "proposed_replacement": "Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[3].source_reference.source_locator",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[3].source_reference.page_or_section",
+          "proposed_replacement": "Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[4].source_reference.source_locator",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[4].source_reference.page_or_section",
+          "proposed_replacement": "Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[2].case.input.knowledge_evidence[0].passage_id",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[3].case.input.knowledge_evidence[0].passage_id",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed pp.4–5 (PDF pages 4–5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[4].case.input.knowledge_evidence[0].passage_id",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].case.input.knowledge_evidence[0].passage_id",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[12].case.input.knowledge_evidence[0].passage_id",
+          "proposed_replacement": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+          "mirror_to_case_expected_output": false
+        }
+      ]
+    },
+    {
+      "review_group": "tropics",
+      "id": "TROPICS-F02",
+      "priority": "HIGH",
+      "category": "model_visible_source_closure",
+      "summary": "004引入未提供的SEASAT比较；005目标的历史反转缓解、006目标的历史停机与另一单元比较均未出现在各自model-visible知识片段。完整L0卡不在候选user surface中。006还把历史停机写成无历史限定的“该单元”状态。",
+      "evidence": [
+        "L1 $.packets[3].formal_target.cause_localization.mechanism_summary: SEASAT未出现在case.input。",
+        "L1 $.packets[4,5].case.input.knowledge_evidence[0].excerpt仅说明CRC与滑环相关、机理未解决。",
+        "src/dgsi/l1_model_projection_audit.py: user_candidate只投影case_id/task_type/instruction/data_classification/input；不投影完整L0。"
+      ],
+      "source_locators": [
+        "PDF printed p.5 §6, L302–309; historical A/B outcomes."
+      ],
+      "proposed_edits": [
+        {
+          "file": "L1",
+          "json_path": "$.packets[3].formal_target.cause_localization.mechanism_summary",
+          "proposed_replacement": "当前合成日志支持将滑环旋转接触界面异常保留为候选；线束调整未消除CRC、接触电阻随环境变化，仍不能唯一确认故障位置或stick-slip机制，也不构成实际短路的证据。",
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[4].case.input.knowledge_evidence[0].excerpt",
+          "proposed_replacement": "历史载荷A（本资料用于区分两台载荷的标签，并非论文给出的飞行器编号）在2023年7月出现CRC错误；来源记载反向旋转后获得缓解并继续运行。该结果属于此历史单元，不能单独确认具体滑环机制，也不证明当前合成场景已执行或可复制该操作。",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].case.input.knowledge_evidence[0].excerpt",
+          "proposed_replacement": "历史载荷B（本资料用于区分两台载荷的标签，并非论文给出的飞行器编号）出现CRC错误后持续恶化，论文成稿时已不再工作；来源未记载本单元的处置措施。另一台历史载荷A的反向旋转缓解属于独立事件，不可并入本单元；具体失效机制仍未获确认。",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].formal_target.cause_localization.mechanism_summary",
+          "proposed_replacement": "历史载荷B在论文所述事件中恶化并停止工作；当前合成日志只记录CRC增加及通信重试后链路仍不稳定，尚不能据此判定当前载荷整体停机或确认具体物理机制。另一历史单元的缓解结果不适用于当前处置记录。",
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].formal_target.evidence_assessment.missing_information[1]",
+          "proposed_replacement": "本合成单元的独立诊断记录",
+          "mirror_to_case_expected_output": true
+        }
+      ],
+      "bounds": "保留现有claim_boundary；新增片段仅支持历史事实，不把L0-E-005/L0-E-006加入当前正向支持引用。不得向004加入新的SEASAT事件。"
+    },
+    {
+      "review_group": "tropics",
+      "id": "TROPICS-F03",
+      "priority": "HIGH",
+      "category": "recorded_action_vs_no_action",
+      "summary": "004 LOG-42记载线束走线调整；006 LOG-62记载多次通信重试。目标却均为NOT_RECORDED/空措施，并声称未记录当前实际处置。应记录场景中的失败尝试，不能把未恢复写成未行动。",
+      "evidence": [
+        "L1 $.packets[3].case.input.diagnostic_logs[1] (LOG-42)",
+        "L1 $.packets[5].case.input.diagnostic_logs[1] (LOG-62)",
+        "resources/diagnostic_case.schema.json: RECORDED支持EXECUTED措施；措施引用日志。"
+      ],
+      "proposed_edits": [
+        {
+          "file": "L1",
+          "json_path": "$.packets[3].formal_target.disposal_status",
+          "proposed_replacement": "RECORDED",
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[3].formal_target.disposal_measures",
+          "proposed_replacement": [
+            {
+              "measure": "合成场景记录已调整线束走线；调整后CRC错误仍出现，未证明故障已排除。",
+              "measure_type": "EXECUTED",
+              "evidence_refs": [
+                "LOG-42"
+              ]
+            }
+          ],
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[3].formal_target.report_text",
+          "proposed_replacement": "热真空地面测试合成场景中，载荷UART链路出现间歇性CRC错误；日志记录线束走线已调整，但错误仍存在，旋转状态下接触电阻随测试环境变化。上游合成ML的0.71为排序分数。滑环接触异常仍属候选，尚不能确认物理根因；已记录的调整未消除异常，后续检查仍为建议。",
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].formal_target.disposal_status",
+          "proposed_replacement": "RECORDED",
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].formal_target.disposal_measures",
+          "proposed_replacement": [
+            {
+              "measure": "合成场景记录已进行多次通信重试，但链路仍未恢复稳定；重试次数、触发主体及进一步处置未提供。",
+              "measure_type": "EXECUTED",
+              "evidence_refs": [
+                "LOG-62"
+              ]
+            }
+          ],
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[5].formal_target.report_text",
+          "proposed_replacement": "当前合成场景记录CRC错误增加，以及多次通信重试后链路仍不稳定；这些日志未证明载荷整体停机。上游合成ML的0.73为排序分数，旋转接触退化仍属候选。已记录通信重试且未恢复稳定链路，其他检查仅为建议；不能继承历史载荷A的缓解结果。",
+          "mirror_to_case_expected_output": true
+        }
+      ],
+      "bounds": "RECORDED仅指明确标为合成的日志内动作，不是实际飞行处置。006通信重试不等于已证实的人工作业或成功恢复；不得补造重试次数、操作者或成功效果。"
+    },
+    {
+      "review_group": "tropics",
+      "id": "TROPICS-F04",
+      "priority": "MEDIUM",
+      "category": "observed_vs_hypothesized_effect",
+      "summary": "003/013将bus_fpga_io列入无条件affected_components，但输入日志仅观察到三个接口的异常；构型中列出FPGA不等于记录其损伤。L0 Pathfinder卡也把作者条件性提出的LVDS/FPGA损伤与观察到的接口异常混列。",
+      "evidence": [
+        "L1 $.packets[2,12].case.input.diagnostic_logs (LOG-21/22/23)",
+        "L1 $.packets[2,12].case.input.spacecraft_context.subsystem_context[0].components",
+        "L0 $.cards[4].cause_localization.affected_components"
+      ],
+      "source_locators": [
+        "PDF printed p.5 §6 L310–324; observed functional anomalies vs conditional damage path."
+      ],
+      "proposed_edits": [
+        {
+          "file": "L1",
+          "json_path": "$.packets[2].formal_target.cause_localization.affected_components",
+          "proposed_replacement": [
+            "payload_serial_interface",
+            "sada_drive_interface",
+            "star_tracker_interface"
+          ],
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[12].formal_target.cause_localization.affected_components",
+          "proposed_replacement": [
+            "payload_serial_interface",
+            "sada_drive_interface",
+            "star_tracker_interface"
+          ],
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[4].cause_localization.affected_components",
+          "proposed_replacement": [
+            "载荷接口（来源记录功能异常）",
+            "星敏感器接口（来源记录功能异常）",
+            "SADA驱动接口（来源记录功能异常）"
+          ],
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L0",
+          "json_path": "$.cards[4].cause_localization.mechanism_notes",
+          "proposed_replacement": [
+            "跨网短接是作者比较后提出的较可能解释，尚非直接物证确诊。",
+            "在该假设下，电压瞬变可能损伤载荷LVDS接收器及总线FPGA I/O bank；这是条件性损伤路径，不应写成已独立检查确认的损伤。",
+            "故障源候选为滑环跨网短接；接口功能异常与可能的次生损伤应分别记录。"
+          ],
+          "mirror_to_case_expected_output": false
+        }
+      ],
+      "bounds": "保留source certainty MOST_LIKELY与当前CANDIDATE；保留缺失的I/O映射/电气测量问题，不删除潜在共因分析方向。"
+    },
+    {
+      "review_group": "tropics",
+      "id": "TROPICS-F05",
+      "priority": "MEDIUM",
+      "category": "task_semantics",
+      "summary": "003没有互相冲突的当前ML、日志、试验或分系统报告；已否决且硬件不确定的独立历史SEL不能充当有效冲突。当前目标适合diagnostic_synthesis。013目标已正确请求补证，但其指令未明确要求证据充分性分层判断。",
+      "evidence": [
+        "skills/dgsi-simulation-to-sft/references/GENERATION_TASKS.md §§3–4",
+        "L1 $.packets[2].case.input.machine_diagnosis.findings仅有一个短接候选，contradicting_refs为空。",
+        "L1 $.packets[2,12].history_context.items[0]: REJECTED, UNKNOWN, diagnostic_vote_allowed=false。"
+      ],
+      "proposed_edits": [
+        {
+          "file": "L1",
+          "json_path": "$.packets[2].case.task_type",
+          "proposed_replacement": "diagnostic_synthesis",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[12].case.instruction",
+          "proposed_replacement": "请依据当前合成输入，分别判断是否足以确认异常现象、定位受影响接口和确认物理根因；列明可支持的结论、不能排除的解释、缺失的关键证据及优先补证动作。历史文献与已否决历史案例仅作CONTEXT，不得作为当前根因的确证；区分已记录处置与建议。",
+          "mirror_to_case_expected_output": false
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[12].formal_target.report_text",
+          "proposed_replacement": "当前合成日志足以描述载荷CRC错误和SADA驱动、星敏感器接口通信异常，支持将共享接口列为排查范围；尚不足以确认滑环为物理故障源、12V与串行线实际短接或总线FPGA损伤，也不能排除其他接口故障。独立合成历史案例的SEL假设已被否决；这一历史结论不能排除当前SEL或证明当前短接。建议优先核对接口拓扑并补充直接电气证据；未记录当前处置措施。",
+          "mirror_to_case_expected_output": true
+        }
+      ],
+      "bounds": "不增加任务、不虚构冲突。重分类后conflict_reconciliation覆盖为0，需如实记录；013新指令需沿既有精确模板审核路径进入allowlist，不能绕过门禁。"
+    },
+    {
+      "review_group": "tropics",
+      "id": "TROPICS-F06",
+      "priority": "LOW",
+      "category": "history_scope_clarity",
+      "summary": "独立合成历史案例的REJECTED结论只适用于它自身，既不是原论文把SEL正式排除的证据，也不能排除当前SEL。建议目标更明确这一负向迁移边界。",
+      "evidence": [
+        "L1 $.packets[2,12].case.input.historical_cases[0]",
+        "L1 $.packets[2,12].synthetic_provenance.generated_fields[4]"
+      ],
+      "proposed_edits": [
+        {
+          "file": "L1",
+          "json_path": "$.packets[2].formal_target.historical_experience_relevance[0].relevance",
+          "proposed_replacement": "该独立合成历史案例仅说明其自身SEL假设已被否决；既不支持当前SEL确诊，也不能排除当前SEL或证明当前跨网短接。",
+          "mirror_to_case_expected_output": true
+        },
+        {
+          "file": "L1",
+          "json_path": "$.packets[12].formal_target.historical_experience_relevance[0].relevance",
+          "proposed_replacement": "该独立合成历史案例仅说明其自身SEL假设已被否决；既不支持当前SEL确诊，也不能排除当前SEL或证明当前跨网短接。",
+          "mirror_to_case_expected_output": true
+        }
+      ],
+      "bounds": "保留mode=CONTEXT、outcome_status=REJECTED、hardware_compatibility=UNKNOWN、diagnostic_vote_allowed=false。"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W01",
+      "severity": "REQUIRED_CONTENT_CORRECTION",
+      "tasks": [
+        "008",
+        "014"
+      ],
+      "issue": "The target incorrectly attributes a lubrication diagnosis to the upstream ML finding.",
+      "input_paths": [
+        "$.packets[7].case.input.machine_diagnosis.findings[0].result",
+        "$.packets[13].case.input.machine_diagnosis.findings[0].result"
+      ],
+      "input_value": "REACTION_WHEEL_BEARING_DRAG_INCREASE",
+      "target_paths": [
+        "$.packets[7].formal_target.machine_result_interpretation",
+        "$.packets[7].case.expected_output.machine_result_interpretation",
+        "$.packets[7].formal_target.report_text",
+        "$.packets[7].case.expected_output.report_text",
+        "$.packets[13].formal_target.machine_result_interpretation",
+        "$.packets[13].case.expected_output.machine_result_interpretation"
+      ],
+      "current_claim": "上游合成ML将反作用轮轴承润滑状态退化列为候选",
+      "why": "Drag increase is the provided ML candidate; lubricant state is a history-informed mechanism hypothesis. Calling it the ML output makes the system appear more mechanically specific than the input.",
+      "exact_replacement_machine_result_interpretation": "上游合成ML将反作用轮轴承拖曳增大列为候选，排序分数0.79不是故障概率。润滑状态异常仅是结合Cassini文献提出的待核实解释，不是本次ML已输出或确认的根因。",
+      "exact_replacement_008_report_text": "合成场景中反作用轮拖曳指标高于健康基线，并记录了近零转速驻留及频繁过零。上游合成ML给出轴承拖曳增大候选，0.79为未校准排序分数。润滑状态异常属于历史文献启发的待核实解释；当前输入不能确认其物理原因，也未记录当前处置。",
+      "source_ids": [
+        "CASSINI_LLIS",
+        "CASSINI_JPL_2001_01_04"
+      ],
+      "verification_after_correction": "Input result remains unchanged; both target mirrors use the same faithful ML paraphrase; no report_text silently upgrades the ML specificity.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W02",
+      "severity": "REQUIRED_CONTENT_CORRECTION",
+      "tasks": [
+        "012"
+      ],
+      "issue": "Current synthetic restart is present in the input but the target says no disposal is recorded.",
+      "input_paths": [
+        "$.packets[11].case.input.diagnostic_logs[1]",
+        "$.packets[11].case.input.operational_context.recent_operations[0]"
+      ],
+      "target_paths": [
+        "$.packets[11].formal_target.disposal_status",
+        "$.packets[11].formal_target.disposal_measures",
+        "$.packets[11].case.expected_output.disposal_status",
+        "$.packets[11].case.expected_output.disposal_measures"
+      ],
+      "why": "LOG-122 records a restart in the current synthetic scene. A synthetic action remains a recorded action inside that scene. Historical FUSE restart and current synthetic restart must have separate attribution. The current log only says drag declined, not that it normalized or that a physical wear mechanism was proven.",
+      "exact_replacement_disposal_status": "RECORDED",
+      "exact_replacement_disposal_measures": [
+        {
+          "measure": "合成场景中已进行一次反作用轮重启；这不是实际FUSE飞行操作记录。",
+          "measure_type": "EXECUTED",
+          "evidence_refs": [
+            "LOG-122"
+          ]
+        }
+      ],
+      "exact_report_sentence": "LOG-122记载一次场景内合成重启后拖曳指标逐渐回落，但未记录回到健康基线、长期恢复或根因得到验证。",
+      "local_contract_locators": [
+        "docs/DATASET_PURPOSE_CORRECTION.md: 正式诊断结论与内部研判过程分离",
+        "src/dgsi/diagnostic_context.py: _validate_disposal_contract",
+        "tests/test_disposal_source_review.py: synthetic_executed"
+      ],
+      "source_ids": [
+        "FUSE_SPIE"
+      ],
+      "verification_after_correction": "Only LOG-122 supports the executed synthetic action. No historical L0 citation is used to establish current execution; no statement upgrades declining drag to confirmed recovery.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W03",
+      "severity": "REQUIRED_INPUT_TARGET_GROUNDING_CORRECTION",
+      "tasks": [
+        "012"
+      ],
+      "issue": "The target gives several later FUSE episode facts that are not supplied to the model.",
+      "input_paths": [
+        "$.packets[11].case.input.knowledge_evidence[0]"
+      ],
+      "target_paths": [
+        "$.packets[11].formal_target.phenomenon_analysis",
+        "$.packets[11].formal_target.machine_result_interpretation",
+        "$.packets[11].formal_target.cause_localization.mechanism_summary",
+        "$.packets[11].formal_target.uncertainty.reasons[4]",
+        "$.packets[11].formal_target.report_text",
+        "$.packets[11].case.expected_output"
+      ],
+      "why": "The source card contains the later history, but the model input has only the short 2000 Kapton excerpt plus Cassini context. The existing projection copies case.input, not source_fact_refs or the L0 cards. The target therefore requests unsupplied historical detail even though the detail is source-correct.",
+      "recommended_resolution": "Extend the existing FUSE knowledge excerpt with bounded historical contrast, using the already cited source; alternatively remove the absent historical details from the target. Do not invent current logs or new tasks.",
+      "exact_replacement_passage_id": "FUSE-SPIE-4854-72-SECTION-3-PDF-PAGE-5",
+      "exact_replacement_claim_boundary": "This source supports the separate historical FUSE wheel episodes and the vendor-attributed mechanisms stated here; it does not verify the synthetic current event, current hardware design or current recovery.",
+      "exact_replacement_excerpt": "FUSE论文第3节将2000-08-04俯仰轮事件的Kapton衬层起泡列为供应商提出的可能解释；重启后拖曳消退与该假设相容，未构成独立确诊。2001-02-16偏航轮相似停机属于另一事件；2001-11-25偏航轮和12-10俯仰轮完全失效，供应商另归因于壳体热变形与转子接触。",
+      "local_contract_locators": [
+        "src/dgsi/l1_model_projection_audit.py: audit_l1_synthetic_model_projection constructs user_candidate from case.input"
+      ],
+      "source_ids": [
+        "FUSE_SPIE"
+      ],
+      "verification_after_correction": "Every FUSE date and later-mechanism claim retained in the target is present in the model-facing historical evidence, with separate episodes and vendor attribution.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W04",
+      "severity": "REQUIRED_TASK_ALIGNMENT_CORRECTION",
+      "tasks": [
+        "014"
+      ],
+      "issue": "The task_type requests next_step_recommendation but its instruction is the same synthesis-only instruction as 008; follow-up rationales are only partly discriminative.",
+      "paths": [
+        "$.packets[13].case.instruction",
+        "$.packets[13].formal_target.follow_up_actions",
+        "$.packets[13].case.expected_output.follow_up_actions",
+        "$.packets[13].formal_target.report_text",
+        "$.packets[13].case.expected_output.report_text"
+      ],
+      "exact_replacement_instruction": "请依据上游合成机器诊断结果、诊断日志、当前设备构型与运行限制及给定文献，提出能够区分当前候选解释的下一步检查。按优先级说明每项检查要补充的证据、拟区分的解释及后续决策条件，先核对轮组型号和既有轮速/拖曳记录。保留候选状态和证据缺口；历史升速经历只能作为条件化参考，不得改写为当前已执行处置或未经型号核实的操作指令。",
+      "suggested_follow_up_actions": [
+        {
+          "action": "补齐当前轮组型号、轴承/润滑结构、运行限制以及拖曳指标定义和健康基线的适用条件。",
+          "rationale": "先检查文献机理的硬件适用性，以及指标或基线差异能否解释表观拖曳升高；若这些条件不明，不能将润滑异常作为确定原因。",
+          "priority": "HIGH"
+        },
+        {
+          "action": "请上游补充按转速区间、近零速驻留和过零情况整理的拖曳摘要，并在可取得时保持温度与控制状态可比；区分绝对零速静止和低速运行。",
+          "rationale": "检查拖曳变化是否与低速驻留或频繁过零对应；相符只增强润滑相关假设的合理性，不足以排除其他摩擦或测量原因；不相符则应降低该假设优先级。",
+          "priority": "HIGH"
+        },
+        {
+          "action": "在型号适用性、运行边界和可用验证记录明确后，再评估是否需要额外受控检查。",
+          "rationale": "检查方案应预先明确要观察的指标和终止条件；本报告不生成轮速命令，也不把历史升速观察视为当前已执行或必然有效的处置。",
+          "priority": "MEDIUM"
+        }
+      ],
+      "exact_replacement_report_text": "下一步先补齐当前轮组构型、运行限制和拖曳指标基线，再请求上游给出分转速区间的对照摘要。对应关系若成立，可保留润滑相关假设；若不成立，应降低其优先级并核查其他解释。任何额外受控检查都以型号适用性和运行边界明确为前提。当前尚无处置执行记录。",
+      "why": "The proposed output tests a diagnostic hypothesis and describes what evidence would change the conclusion. These are proposed checks, not additional current observations.",
+      "source_ids": [
+        "CASSINI_LLIS"
+      ],
+      "verification_after_correction": "The revised instruction is admitted narrowly by the existing reviewed instruction mechanism; target priorities and conditional interpretations answer it; both output mirrors match. This is a content-specific gate update, not a request for new generic tooling.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W05",
+      "severity": "REQUIRED_SOURCE_LOCATOR_CORRECTION",
+      "tasks": [
+        "012"
+      ],
+      "issue": "FUSE source_locator points to the wrong PDF page.",
+      "paths": [
+        "$.cards[12].source_reference.source_locator"
+      ],
+      "current_value": "FUSE SPIE 4854-72, Section 3, PDF p.3 (2000 pitch-wheel event; subsequent 2001 wheel events and vendor thermal-distortion attribution)",
+      "exact_replacement": "FUSE SPIE 4854-72, Section 3, PDF physical p.5 (zero-based page index 4): separate 2000 pitch-wheel, 2001 yaw-wheel recovery, and later complete-failure episodes; vendor cause attributions retained.",
+      "source_ids": [
+        "FUSE_SPIE"
+      ],
+      "verification_after_correction": "Source locator names physical page 5 / zero-based index 4; do not confuse section number 3 with PDF page 3.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W06",
+      "severity": "REQUIRED_ATTRIBUTION_AND_CHRONOLOGY_CLARIFICATION",
+      "tasks": [
+        "012",
+        "L0-Cassini"
+      ],
+      "issue": "The Cassini excerpt attributed only to LLIS includes later-summary wording and dates; the historical summary can also imply uninterrupted friction through December 22.",
+      "paths": [
+        "$.packets[11].case.input.knowledge_evidence[1]",
+        "$.packets[11].case.input.historical_cases[0].prior_conclusion",
+        "$.packets[11].history_context.items[0].summary",
+        "$.cards[7].phenomenon_analysis",
+        "$.cards[7].cause_localization.mechanism_notes[0]"
+      ],
+      "why": "NASA LLIS itself does not supply all the precise December dates in that excerpt. The later DESCANSO summary has different daily labels from the contemporaneous NASA reports. The reports distinguish abnormal friction, the mode-control interval, testing, Earth pointing and science-sequence resumption. Current wording compresses these into one date range.",
+      "exact_replacement_llis_excerpt": "Cassini历史事件中的过量摩擦被认为可能与长期接近零转速运行后的润滑不足有关，零速附近频繁振荡也可能促成。LLIS另将巡航期绝对零速静止并每三个月exercise的情形，与低速区间驻留区分。该历史经验不能确认当前合成根因。",
+      "exact_replacement_history_summary": "Cassini于2000年12月发生反作用轮2异常摩擦并触发RWA至RCS自动切换。历史资料将长期近零速运行后的润滑不足列为可能原因，零速附近频繁振荡也可能促成；该历史结论保留PARTIALLY_CONFIRMED状态。LLIS区分巡航期按其周期exercise的绝对零速静止与低速区间驻留。",
+      "exact_replacement_l0_phenomenon": "Cassini反作用轮2在2000年12月中旬出现异常摩擦，触发RWA至RCS自动切换。NASA任务周报将起始时刻记为12月15日约17:00太平洋时间，随后记载12月21日恢复RWA地球指向、12月28日重启C23序列；这些是不同阶段，不能把整个期间都写成持续异常摩擦。",
+      "exact_replacement_l0_chronology_note": "事件发生在2000年12月。具体日期保留来源口径：同期NASA任务周报记为12月15日约17:00太平洋时间触发、12月21日恢复RWA地球指向和12月28日重启C23；后续DESCANSO摘要将RWA至RCS区间记为12月16日至22日。部分日差可能与时区或报告口径有关，未补齐时间基准前不强行统一。LLIS的2004-05-10是Lesson Date，标题中的2001不得替代事件年份。",
+      "source_ids": [
+        "CASSINI_LLIS",
+        "CASSINI_WEEK_2000_12_20",
+        "CASSINI_WEEK_2001_01_05",
+        "CASSINI_DESCANSO"
+      ],
+      "verification_after_correction": "Keep monthly event-family grouping. Preserve 2004 available_at as an explicitly normalized LLIS lesson-date assumption only for LLIS-bounded content; do not silently date a later retrospective passage to 2004. Mirror the revised history summary in both locations.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "wheels",
+      "finding_id": "W07",
+      "severity": "CURRENT_EFFECT_SCOPE_REVIEW",
+      "tasks": [
+        "008",
+        "012",
+        "014"
+      ],
+      "issue": "Targets list attitude-pointing performance or pitch-axis control authority as affected despite no current log of impaired pointing/control.",
+      "paths": [
+        "$.packets[7].formal_target.cause_localization.affected_components",
+        "$.packets[7].case.expected_output.cause_localization.affected_components",
+        "$.packets[11].formal_target.cause_localization.affected_components",
+        "$.packets[11].case.expected_output.cause_localization.affected_components",
+        "$.packets[13].formal_target.cause_localization.affected_components",
+        "$.packets[13].case.expected_output.cause_localization.affected_components"
+      ],
+      "why": "The current logs establish drag indicators only. Historical RCS transitions and wheel shutdowns do not establish current attitude-control impairment. If affected_components includes potential consequences by design, that distinction must be made explicit; otherwise narrow it to the observed wheel scope.",
+      "recommended_affected_components_008_014": [
+        "reaction_wheel_assembly"
+      ],
+      "recommended_affected_components_012": [
+        "FUSE_pitch_axis_reaction_wheel"
+      ],
+      "exact_missing_information_to_add": "当前姿态指向误差、控制裕度或控制模式变化摘要；现有输入未证明指向性能或控制权限已下降。",
+      "verification_after_correction": "No current impairment is asserted without a corresponding synthetic input; potential impact remains a question to verify.",
+      "prepared_resolution_status": "APPLIED_IN_SCRATCH_REVISED_OBJECTS_PENDING_PARENT_REVIEW"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-001",
+      "priority": "HIGH",
+      "tasks": [
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"
+      ],
+      "finding": "当前合成日志明确记录已执行烘烤尝试，formal target却声明未记录任何处置。执行过不等于成功；应记录尝试并保留效果和因果不确定性。",
+      "evidence": [
+        "L1 /packets/8/case/input/diagnostic_logs/0 (LOG-91): 使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。LOG-92/93只记录后续爆裂和流量中断。"
+      ],
+      "patches": [
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/formal_target/disposal_status",
+          "operation": "replace",
+          "replacement": "RECORDED"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/case/expected_output/disposal_status",
+          "operation": "replace",
+          "replacement": "RECORDED"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/formal_target/disposal_measures",
+          "operation": "replace",
+          "replacement": [
+            {
+              "measure": "合成日志记录已在真空条件下用热灯烘烤推进器，尝试处理潜在催化床污染；当前输入未记录去污成功或性能恢复。",
+              "measure_type": "EXECUTED",
+              "evidence_refs": [
+                "LOG-91"
+              ]
+            }
+          ]
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/case/expected_output/disposal_measures",
+          "operation": "replace",
+          "replacement": [
+            {
+              "measure": "合成日志记录已在真空条件下用热灯烘烤推进器，尝试处理潜在催化床污染；当前输入未记录去污成功或性能恢复。",
+              "measure_type": "EXECUTED",
+              "evidence_refs": [
+                "LOG-91"
+              ]
+            }
+          ]
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/formal_target/report_text",
+          "operation": "replace_text",
+          "old_text": "当前任务未记录实际处置措施。",
+          "replacement_text": "当前合成日志记录已尝试热灯真空烘烤，尚无去污成功或性能恢复记录；后续阀门爆裂与流量中断的因果链仍需核实。"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/case/expected_output/report_text",
+          "operation": "replace_text",
+          "old_text": "当前任务未记录实际处置措施。",
+          "replacement_text": "当前合成日志记录已尝试热灯真空烘烤，尚无去污成功或性能恢复记录；后续阀门爆裂与流量中断的因果链仍需核实。"
+        }
+      ],
+      "preserve": "CANDIDATE_ONLY/CANDIDATE；不得把历史已证实的热灯—自分解—阀爆裂链直接确诊为当前场景原因。"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-002",
+      "priority": "HIGH",
+      "tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011"
+      ],
+      "finding": "report_text误称TWTA论文为NASA公开案例；source_id实际指向《空间电子技术》论文。",
+      "evidence": [
+        "TWTA-PDF p.1 / printed p.46, authors, affiliations, citation; ref turn840867640view1 lines 0–38."
+      ],
+      "patches": [
+        {
+          "document": "L1",
+          "json_pointer": "/packets/10/formal_target/report_text",
+          "operation": "replace_text",
+          "old_text": "NASA公开案例",
+          "replacement_text": "《空间电子技术》所载地面测试案例"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/10/case/expected_output/report_text",
+          "operation": "replace_text",
+          "old_text": "NASA公开案例",
+          "replacement_text": "《空间电子技术》所载地面测试案例"
+        }
+      ]
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-003",
+      "priority": "MEDIUM",
+      "tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011"
+      ],
+      "finding": "knowledge_evidence把封装气氛中的氢含量写成LNA内部氢含量，混淆测量对象与失效器件。",
+      "evidence": [
+        "TWTA-PDF p.5 / printed p.50 §2.2; ref turn840867640view1 lines 284–307; screenshot turn236582045view1."
+      ],
+      "patches": [
+        {
+          "document": "L1",
+          "json_pointer": "/packets/10/case/input/knowledge_evidence/0/excerpt",
+          "operation": "replace_text",
+          "old_text": "两模块NC1062C LNA内部氢含量10300/12000 ppm（限值2000 ppm）",
+          "replacement_text": "两只故障模块内部气氛的氢含量为10300/12000 ppm（限值2000 ppm）；模块内NC1062C LNA性能退化"
+        }
+      ],
+      "additional_occurrence": "docs/L0_SOURCE_FACT_DOMAIN_REVIEW_MATRIX.md 的该卡Source cause statement有同一测量对象表述；若刷新该文档应同步改正。"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-004",
+      "priority": "MEDIUM",
+      "tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "finding": "015多处把LCAMP与TWTA本体对举。原论文定义S-LTWTA包含LCAMP、EPC和TWT；应把待隔离部件明确写成TWT，避免把LCAMP错误放到整机之外。",
+      "evidence": [
+        "TWTA-PDF p.2 / printed p.47 introduction and Fig.1; ref turn840867640view1 lines 52–66."
+      ],
+      "patches": [
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/case/input/diagnostic_logs/1/content",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/formal_target/phenomenon_analysis",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/case/expected_output/phenomenon_analysis",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/formal_target/evidence_assessment/missing_information/2",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/case/expected_output/evidence_assessment/missing_information/2",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/formal_target/follow_up_actions/0/rationale",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/case/expected_output/follow_up_actions/0/rationale",
+          "operation": "replace_text",
+          "old_text": "TWTA本体",
+          "replacement_text": "行波管TWT"
+        }
+      ],
+      "preserve": "初步未发现直接异常不等于完整隔离测试确认正常；不应升级当前场景对TWT或EPC的排除结论。"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-005",
+      "priority": "MEDIUM",
+      "tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "finding": "task_type为handover_summary，但instruction仍是通用diagnostic_synthesis文案；report_text的五段分隔为字面量反斜杠n，解码后没有真实换行。应明确交接任务并提供可直接阅读的交接文本。",
+      "evidence": [
+        "L1 /packets/14/case/task_type, /case/instruction and /formal_target/report_text; docs/DATASET_PURPOSE_CORRECTION.md defines handover_summary as a handover for duty staff/engineers."
+      ],
+      "patches": [
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/case/instruction",
+          "operation": "replace",
+          "replacement": "请为接班工程师生成当前合成地面转发器测试的交接摘要，按【任务状态】【当前研判】【证据边界】【后续工作】【处置状态】组织report_text，并与结构化字段一致。交代截至analysis_cutoff已知的现象、上游合成ML候选及限制，列出优先复核事项；未提供责任人、完成时限或执行结果时不得补造。严格区分历史文献事实与当前合成输入，不得将文献模块替换及恢复写成当前事件已执行或已生效的处置。"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/formal_target/report_text",
+          "operation": "replace",
+          "replacement": "【任务状态】合成地面转发器测试中，S频段输出功率低于基线，LCAMP增益测试异常。\n【当前研判】上游合成ML将线性化通道LNA增益退化列为候选；氢中毒是历史文献提供的待核实机制，当前输入尚不足以确认。\n【证据边界】当前ML和日志均为合成输入，缺少当前场景的封装气氛、芯片分析及模块替换验证；文献对TWT和EPC的排查结论不能代替当前隔离测试。\n【后续工作】优先复核LCAMP模块增益，并核对与TWT、EPC的隔离测试；随后核查批次和氢含量控制记录，补充材料及封装气体分析。\n【处置状态】当前输入未记录已执行处置；上述后续工作均为建议。"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/14/case/expected_output/report_text",
+          "operation": "replace",
+          "replacement": "【任务状态】合成地面转发器测试中，S频段输出功率低于基线，LCAMP增益测试异常。\n【当前研判】上游合成ML将线性化通道LNA增益退化列为候选；氢中毒是历史文献提供的待核实机制，当前输入尚不足以确认。\n【证据边界】当前ML和日志均为合成输入，缺少当前场景的封装气氛、芯片分析及模块替换验证；文献对TWT和EPC的排查结论不能代替当前隔离测试。\n【后续工作】优先复核LCAMP模块增益，并核对与TWT、EPC的隔离测试；随后核查批次和氢含量控制记录，补充材料及封装气体分析。\n【处置状态】当前输入未记录已执行处置；上述后续工作均为建议。"
+        }
+      ],
+      "scope_note": "task_type本身已进入模型输入，因此原任务并非完全不可识别；这是明确任务意图与交接可读性的有界修正，不需要新任务或新投影框架。"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-006",
+      "priority": "MEDIUM",
+      "tasks": [
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010"
+      ],
+      "finding": "两张NASA L0卡用NOT_APPLICABLE和空措施遗漏了历史报告明确记载的尝试；应分别记录，不把未成功措施当作恢复。",
+      "evidence": [
+        "NASA-TM-100232 report p.4 (PDF p.5), Test Results and Post-Test Disassembly and Analysis; ref turn552270615view0 lines 221–239, 275; screenshot turn236582045view2."
+      ],
+      "patches": [
+        {
+          "document": "L0",
+          "json_pointer": "/cards/9/disposal_status",
+          "operation": "replace",
+          "replacement": "SOURCE_RECORDS_MEASURE"
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/9/disposal_source_note",
+          "operation": "replace",
+          "replacement": "历史地面试验中的恢复尝试未成功；不是当前合成场景已执行的动作，也不是在轨恢复措施。"
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/9/disposal_measures",
+          "operation": "replace",
+          "replacement": [
+            "更换爆裂的推进剂阀后仍无法点火；尝试疏通喷注器未成功，后续寿命试验终止并送回拆检。"
+          ]
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/10/disposal_status",
+          "operation": "replace",
+          "replacement": "SOURCE_RECORDS_MEASURE"
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/10/disposal_source_note",
+          "operation": "replace",
+          "replacement": "该尝试针对当时怀疑的苯胺污染，不是已验证的Fe/Ni中毒修复；随后发生独立的阀门爆裂与喷注器堵塞episode。"
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/10/disposal_measures",
+          "operation": "replace",
+          "replacement": [
+            "曾在真空中使用热灯尝试烘除可能的苯胺污染；报告未证明该尝试消除了催化床金属污染或恢复了催化性能。"
+          ]
+        }
+      ],
+      "preserve": "L1-010仍为NOT_RECORDED：其当前合成输入只记录异常、拆解分析和批次追溯，未记录上述历史烘烤尝试。"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-007",
+      "priority": "LOW",
+      "tasks": [
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010"
+      ],
+      "finding": "NASA locator混用了报告印刷页码与PDF物理页码；Tables II/IV实际在报告p.6/PDF p.7。",
+      "evidence": [
+        "NASA PDF cover at zero-based P0; printed report pp.4,5 correspond to P4,P5; Tables II/IV at P6. refs turn552270615view0 and turn463567209view0."
+      ],
+      "patches": [
+        {
+          "document": "L0",
+          "json_pointer": "/cards/9/source_reference/source_locator",
+          "operation": "replace",
+          "replacement": "NASA-TM-100232, report pp.3–5 (PDF pp.4–6), especially Post-Test Disassembly and Analysis and Concluding Remarks; Fig.8 on report p.10 (PDF p.11)."
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/9/source_reference/page_or_section",
+          "operation": "replace",
+          "replacement": "报告pp.3–5（PDF pp.4–6）；Fig.8：报告p.10（PDF p.11）"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/8/case/input/knowledge_evidence/0/passage_id",
+          "operation": "replace",
+          "replacement": "NASA-TM-100232, report pp.4–5 (PDF pp.5–6), Post-Test Disassembly and Analysis; Fig.8 on report p.10 (PDF p.11)"
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/10/source_reference/source_locator",
+          "operation": "replace",
+          "replacement": "NASA-TM-100232, report pp.3–5 (PDF pp.4–6), Test Results and Post-Test Disassembly and Analysis; Tables II and IV on report p.6 (PDF p.7)."
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/10/source_reference/page_or_section",
+          "operation": "replace",
+          "replacement": "报告pp.3–5（PDF pp.4–6）；Tables II and IV：报告p.6（PDF p.7）"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/9/case/input/knowledge_evidence/0/passage_id",
+          "operation": "replace",
+          "replacement": "NASA-TM-100232, report pp.3–5 (PDF pp.4–6); Tables II and IV on report p.6 (PDF p.7)"
+        }
+      ]
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-008",
+      "priority": "LOW",
+      "tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "finding": "当前可访问出版终稿为2026,23(2):46–53；L0和011仍引用预出版的23(0):1–8。",
+      "evidence": [
+        "TWTA-PDF p.1 / printed p.46; ref turn840867640view1 lines 33–39; publisher issue listing turn817988919search1."
+      ],
+      "patches": [
+        {
+          "document": "L0",
+          "json_pointer": "/cards/11/source_reference/source_locator",
+          "operation": "replace",
+          "replacement": "Space Electronic Technology, 2026, 23(2):46–53; DOI 10.3969/j.issn.1674-7135.2026.02.007; published PDF pp.2–7 (printed pp.47–52), Sections 1–5 and Tables 1–4."
+        },
+        {
+          "document": "L0",
+          "json_pointer": "/cards/11/source_reference/publication_metadata_note",
+          "operation": "replace",
+          "replacement": "依据出版终稿：2026年4月，第23卷第2期，页46–53；引用页码同时区分PDF物理页与期刊印刷页。"
+        },
+        {
+          "document": "L1",
+          "json_pointer": "/packets/10/case/input/knowledge_evidence/0/passage_id",
+          "operation": "replace",
+          "replacement": "Space Electronic Technology 2026, 23(2):46–53, published PDF pp.2–7 (printed pp.47–52), Sections 1–5 and Tables 1–4"
+        }
+      ],
+      "access_note": "官方8页全文PDF现已实际读取，细节核验不再受仅摘要限制；权利审查和独立专家审查仍未完成。"
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-009",
+      "priority": "LOW",
+      "tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "finding": "L0内部curator提示声称论文小节标题有氮中毒，但当前出版终稿§2.2写的是氢中毒。应删除过期版本提示。",
+      "evidence": [
+        "TWTA-PDF p.4 / printed p.49 §2.2; turn840867640view1 line 231; find 氮中毒 returned no match (turn712336106view0)."
+      ],
+      "patches": [
+        {
+          "document": "L0",
+          "json_pointer": "/cards/11/internal_review/curator_prompts/2",
+          "operation": "replace",
+          "replacement": "故障芯片机理为氢中毒；氢含量数值来自故障模块内部气氛测试，不是芯片本体含氢量。"
+        }
+      ]
+    },
+    {
+      "review_group": "propulsion-twta",
+      "id": "PT-010",
+      "priority": "MEDIUM",
+      "tasks": [
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "finding": "Model-visible knowledge excerpts omitted historical context referenced by the targets; added bounded historical context and clarified scenario scope without adding current observations.",
+      "changes": [
+        "009: Add source episode separation; label earlier pressure/washout as historical or unverified current context; retain observed current valve/flow sequence and recorded bakeout only.",
+        "010: Add the separate historical later injector blockage to input and label it historical in report_text.",
+        "011: Remove the implication of a currently identified real device from missing_information; keep all synthetic measurements and numeric values.",
+        "015: Add full-text-backed historical TWT/EPC isolation and recorded module replacement as context, explicitly separate the current generic gain candidate from the hydrogen-poisoning hypothesis, and align recommended next steps with the handover report."
+      ],
+      "primary_source_refs": [
+        "turn552270615view0",
+        "turn840867640view1",
+        "turn463567209view1"
+      ]
+    },
+    {
+      "review_group": "integration",
+      "finding_id": "SC-08",
+      "task_ids": [
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"
+      ],
+      "issue": "Synthetic provenance was being confused with diagnostic evidence strength; supplied measurements were requested again as if absent.",
+      "correction": "Use provided results as scenario evidence, request only missing validation/comparison/effect summaries, and rate remaining scenario uncertainty from actual evidence gaps.",
+      "patches": [
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/machine_result_interpretation",
+          "operation": "replace",
+          "old_value": "上游合成ML将LCAMP双模块增益退化列为候选，排序分数0.81不是校准概率。Z2/Z6模块增益下降合计约4 dB，与整机现象相符；封装氢含量和EMMI结果为合成场景内支持线索，但均为合成输入而非真实拆检记录。",
+          "replacement": "上游合成ML提出LCAMP双模块LNA增益退化/氢中毒候选，排序分数0.81不是校准概率。LOG-B2至LOG-B4已给出场景内的隔离测试、模块增益/电流、封装气氛和EMMI结果，应据此评估候选；增益损失与整机现象一致，氢超限与EMMI异常进一步支持该机制。尚缺这些结果的检测质量、样品对应关系及正常对照的上游核验摘要，不应把已给出的气氛或EMMI结果重新列为未提供。",
+          "mirror_pointer": "/case/expected_output/machine_result_interpretation",
+          "reason": "Treat supplied scenario results as supplied evidence; distinguish missing validation from missing measurements."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/cause_localization/candidates/0/limitations",
+          "operation": "replace",
+          "old_value": [
+            "ML findings and all current diagnostic logs are synthetic scenario values, not an actual satellite AIT record.",
+            "The public source supports the historical Z2/Z6 NC1062C LNA failure mechanism but does not verify the synthetic hardware or module identity.",
+            "The source's package hydrogen levels and EMMI evidence are historical measurements; they are not measurements from this synthetic scenario."
+          ],
+          "replacement": [
+            "LOG-B2 through LOG-B4 are supplied observations within this synthetic scenario and count as scenario evidence; they are not externally verified records of a real spacecraft test.",
+            "Upstream validation summaries linking the gas, gain/current and EMMI results to the same specimens and test conditions, together with normal-device comparison conclusions, are not provided.",
+            "No current-scene module replacement or resulting system-level effect validation is recorded; the historical paper's reported recovery is not a current-scene outcome."
+          ],
+          "mirror_pointer": "/case/expected_output/cause_localization/candidates/0/limitations",
+          "reason": "Separate scenario givens, missing test-quality/context summaries, and absent intervention outcomes."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/cause_localization/mechanism_summary",
+          "operation": "replace",
+          "old_value": "历史来源定位到LCAMP的Z2、Z6衰减放大模块内NC1062C GaAs低噪放芯片氢中毒，导致偏置电流和增益下降；两模块增益损失合计约4 dB。独立TWT测试正常，故障不在TWT本体。当前合成场景的模块增益、电流、封装氢含量和EMMI信息仅为合成证据，不能当作真实拆检确证。",
+          "replacement": "当前场景给定的Z2/Z6增益损失与整机功率下降量相符，芯片电流/增益下降、封装氢含量超限和EMMI发光不均匀共同支持LNA氢中毒候选；LOG-B2中独立TWT测试接近正常，使TWT本体成为相对较弱的解释。历史文献提供一致的机理参考。当前仍缺检测质量与样品对应关系的核验摘要、正常器件对照判读及有判别力的效果验证，因此保留候选定位；不能将历史案例的换件恢复写成当前场景结果。",
+          "mirror_pointer": "/case/expected_output/cause_localization/mechanism_summary",
+          "reason": "The mechanism is supported by scenario observations rather than by synthetic provenance itself; do not overstate TWT exclusion or intervention success."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/evidence_assessment/missing_information",
+          "operation": "replace",
+          "old_value": [
+            "LCAMP拓扑与Z2/Z6模块型号的确认依据（现有日志为合成设定，未提供独立材料）",
+            "模块封装内部氢含量的独立测量及水汽含量检测",
+            "NC1062C或等效LNA芯片的微波探针增益/电流复测",
+            "EMMI与正常同型号芯片的对照结果",
+            "替换同型号合格批次模块后的系统级复测"
+          ],
+          "replacement": [
+            "LOG-B2至LOG-B4的上游验证摘要与记录索引，说明配置、样品/芯片标识和测试工况的对应关系。",
+            "LOG-B4气氛检测的质量复核摘要，包括检测方法、适用规范与2000 ppm限值的适用性、测量不确定度及校准状态；氢含量和水汽合格结论本身已在输入中提供。",
+            "已有增益/电流结果的基线与测试条件可比性核验，以及EMMI与正常同型号芯片的对照判读摘要。",
+            "尚未覆盖的隔离分支和其他偏置/匹配退化机制的排查结论摘要；不以重复全部已给出测试作为默认要求。",
+            "模块替换或其他验证性措施的执行状态、系统级复测与效果评价摘要；当前输入未记录此类措施已执行或性能恢复。"
+          ],
+          "mirror_pointer": "/case/expected_output/evidence_assessment/missing_information",
+          "reason": "Request missing provenance/comparison/effect information, not a second copy of the supplied hydrogen, moisture or EMMI findings."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/uncertainty",
+          "operation": "replace",
+          "old_value": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No independent physical inspection or raw telemetry is supplied."
+            ]
+          },
+          "replacement": {
+            "level": "MODERATE",
+            "reasons": [
+              "模块增益、电流、封装气氛和EMMI结果已提供且相互一致，但检测质量及样品对应关系的上游核验摘要未提供。",
+              "正常同型号芯片对照、测试条件可比性及其他偏置/匹配退化机制的排查结论未完整给出，机制唯一性尚未闭合。",
+              "当前未记录换件或其他有判别力验证后的系统级效果；历史文献的恢复结果不能补足这一缺口。"
+            ]
+          },
+          "mirror_pointer": "/case/expected_output/uncertainty",
+          "reason": "MODERATE is a scenario-conditional uncertainty judgment based on unresolved evidence questions; synthetic provenance and intentionally excluded raw telemetry are not uncertainty reasons."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/follow_up_actions",
+          "operation": "replace",
+          "old_value": [
+            {
+              "action": "按FGM/ALC模式分别复测LCAMP输入输出特性和遥测",
+              "rationale": "区分LCAMP前级/后级增益损失及遥测表征关系",
+              "priority": "HIGH"
+            },
+            {
+              "action": "独立测试TWT、EPC、开关、电缆和输入衰减器",
+              "rationale": "验证系统级隔离结果，避免将LCAMP故障误定位到TWT本体",
+              "priority": "HIGH"
+            },
+            {
+              "action": "对Z2/Z6模块开展+5 V电流、最大增益和封装氢含量检查",
+              "rationale": "验证模块级异常及氢含量是否超过适用规范",
+              "priority": "HIGH"
+            },
+            {
+              "action": "必要时开展LNA芯片微波探针与EMMI失效分析",
+              "rationale": "区分芯片氢中毒与其他偏置/匹配网络退化机制",
+              "priority": "MEDIUM"
+            }
+          ],
+          "replacement": [
+            {
+              "action": "索取并复核LOG-B2至LOG-B4的上游验证摘要与记录索引",
+              "rationale": "核对已给出结果的检测质量、样品对应和测试条件，保留这些结果作为场景内证据",
+              "priority": "HIGH"
+            },
+            {
+              "action": "补充正常同型号芯片的EMMI对照判读及增益/电流测试条件可比性摘要",
+              "rationale": "确认异常表征的判别力，并核对其他偏置或匹配退化解释",
+              "priority": "HIGH"
+            },
+            {
+              "action": "核对系统隔离测试的覆盖范围，对尚未覆盖的分支补充结论摘要",
+              "rationale": "保留既有TWT与输入衰减器测试结果，明确仍未排查的部分；仅在矛盾或质量问题出现时安排针对性复测",
+              "priority": "MEDIUM"
+            },
+            {
+              "action": "如需进一步闭环，评估合格同型号模块替换或其他有判别力的验证，并记录执行状态和系统级效果摘要",
+              "rationale": "补足当前缺失的干预与效果验证，不将建议或历史换件结果当作当前已执行处置",
+              "priority": "MEDIUM"
+            }
+          ],
+          "mirror_pointer": "/case/expected_output/follow_up_actions",
+          "reason": "Prioritize upstream summaries and targeted unresolved questions over unconditional repetition of supplied tests. No execution or replacement result is invented."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+          "json_pointer": "/formal_target/report_text",
+          "operation": "replace",
+          "old_value": "合成整星AIT转发器测试中，S频段线性化TWTA输出功率下降约4 dB。上游合成ML将LCAMP双模块增益退化列为候选；合成模块测试显示Z2和Z6增益分别下降约1.5 dB和2.5 dB，+5 V电流同步下降，独立TWT测试接近正常。《空间电子技术》所载地面测试案例将类似故障定位于LCAMP Z2/Z6模块内NC1062C低噪放芯片氢中毒，历史封装氢含量为10300/12000 ppm且EMMI呈现栅条发光不均匀。当前合成场景虽与该机理相符，但其ML、模块数据、氢含量和EMMI均为合成输入，不能作为真实失效确证。后续应先核对模块型号和LCAMP拓扑，再开展模块级增益、电流、封装氢含量及芯片失效分析。当前任务未记录实际处置措施。",
+          "replacement": "在该合成整星AIT场景中，LOG-B2/B3支持异常集中于LCAMP的Z2/Z6模块：增益损失合计约4 dB，电流下降，独立TWT测试接近正常。LOG-B4进一步给出封装氢含量超限、水汽合格、NC1062C芯片增益/电流下降及EMMI发光不均匀，因而氢中毒候选获得多项一致的场景内证据支持。尚缺检测质量和样品对应关系的上游核验摘要、正常同型号对照判读，以及当前换件或其他验证性措施的系统级效果记录，因此保留候选定位和中等不确定性。文献结论只作历史机理参考，本任务不代表真实航天器已确诊。当前未记录已执行处置；后续优先复核已有结果的来源和对照，再根据核查结果决定是否补充试验。",
+          "mirror_pointer": "/case/expected_output/report_text",
+          "reason": "Align the report with supplied evidence, missing upstream summaries, and absent intervention outcomes; avoid dismissing evidence merely because the scenario is synthetic."
+        },
+        {
+          "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+          "json_pointer": "/formal_target/phenomenon_analysis",
+          "operation": "replace_text",
+          "old_text": "当前合成输入未提供早期压力曲线或独立诊断结果。",
+          "replacement_text": "当前合成输入未提供早期压力异常的上游验证摘要或独立诊断结果。",
+          "mirror_pointer": "/case/expected_output/phenomenon_analysis",
+          "reason": "The LLM should receive upstream validation/diagnostic summaries, not raw pressure curves."
+        },
+        {
+          "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+          "json_pointer": "/formal_target/follow_up_actions/2/action",
+          "operation": "replace_text",
+          "old_text": "如需研判此前催化床washout线索，另行补充对应试验日志与压力记录",
+          "replacement_text": "如需研判此前催化床washout线索，另行补充对应工况、压力/流量异常及其质量核验的上游分析摘要",
+          "mirror_pointer": "/case/expected_output/follow_up_actions/2/action",
+          "reason": "Keep the recommendation within the second-stage diagnostic input contract; no raw telemetry request."
+        }
+      ]
+    },
+    {
+      "review_group": "integration",
+      "finding_id": "SC-06",
+      "task_ids": [
+        "L1-CASSINI-RWA-DRAG-SYNTH-008",
+        "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "L1-SEASAT-SLIPRING-SYNTH-001",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+        "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+        "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+        "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+        "L1-TROPICS-TVAC-SLIPRING-SYNTH-004"
+      ],
+      "issue": "Some targets treated omitted raw telemetry as a defect or asked for raw records despite the upstream-ML input boundary.",
+      "correction": "Request upstream verification summaries and discriminating inspection results instead of raw telemetry in the LLM prompt.",
+      "edits": [
+        {
+          "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+          "path": "formal_target.uncertainty.reasons[1]",
+          "before": "没有独立硬件检查或原始遥测证据。",
+          "after": "缺少能够区分当前物理机理的独立检查结果或上游证据核验摘要。"
+        },
+        {
+          "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+          "path": "formal_target.evidence_assessment.missing_information[2]",
+          "before": "驱动电流和母线电压同步原始记录",
+          "after": "上游对驱动电流与母线电压同步原始记录的校核摘要及时间对齐结论"
+        },
+        {
+          "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+          "path": "formal_target.uncertainty.reasons[1]",
+          "before": "没有独立硬件检查或原始遥测证据。",
+          "after": "缺少能够区分当前物理机理的独立检查结果或上游证据核验摘要。"
+        },
+        {
+          "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+          "path": "formal_target.uncertainty.reasons[1]",
+          "before": "没有独立硬件检查或原始遥测证据。",
+          "after": "缺少能够区分当前物理机理的独立检查结果或上游证据核验摘要。"
+        },
+        {
+          "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+          "path": "formal_target.evidence_assessment.missing_information[3]",
+          "before": "当前合成场景未提供的原始遥测波形和物理检查结果",
+          "after": "上游对相关原始记录的校核摘要及可区分短接路径的物理检查结果；无需向LLM内联原始波形"
+        },
+        {
+          "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        },
+        {
+          "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+          "path": "formal_target.uncertainty.reasons[2]",
+          "before": "No independent physical inspection or raw telemetry is supplied.",
+          "after": "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+        }
+      ]
+    },
+    {
+      "review_group": "integration",
+      "finding_id": "SC-07",
+      "task_ids": [
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012"
+      ],
+      "issue": "A history availability timestamp derived from the LLIS lesson date was not separately identified as a synthetic availability assumption.",
+      "correction": "Add that explicit provenance limitation without changing the task cutoff, timestamp or historical outcome."
+    },
+    {
+      "review_group": "integration",
+      "finding_id": "SC-09",
+      "task_ids": [
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010"
+      ],
+      "issue": "The target retained detailed historical iron-leaching chemistry absent from the visible excerpt and denied inspection evidence even though LOG-A2 gives specimen results.",
+      "correction": "Add the verified, bounded historical iron pathway; acknowledge LOG-A2 while requesting missing quantitative, sampling-chain and test-quality summaries.",
+      "paths": [
+        "case.input.knowledge_evidence[0].excerpt",
+        "formal_target.uncertainty.reasons[2]"
+      ],
+      "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+      "source_locator": "PDF pp.5–6, printed pp.4–5; Post-Test Disassembly and Analysis"
+    }
+  ],
+  "l0_changed_paths": [
+    {
+      "case_id": "LIT-SEASAT-SLIPRING-001",
+      "paths": [
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator",
+        "$.source_reference.source_url"
+      ]
+    },
+    {
+      "case_id": "LIT-TROPICS-SLIPRING-TVAC-002",
+      "paths": [
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-TROPICS-FLIGHT-CRC-003-A",
+      "paths": [
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-TROPICS-FLIGHT-CRC-003-B",
+      "paths": [
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+      "paths": [
+        "$.cause_localization.affected_components",
+        "$.cause_localization.mechanism_notes",
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-LUNAR-ORBITER-HELIX-005",
+      "paths": [
+        "$.cause_localization.certainty_in_source"
+      ]
+    },
+    {
+      "case_id": "LIT-LUNAR-ORBITER-POWER-MONITOR-006",
+      "paths": [
+        "$.cause_localization.certainty_in_source",
+        "$.cause_localization.mechanism_notes",
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-CASSINI-RWA-DRAG-007",
+      "paths": [
+        "$.cause_localization.mechanism_notes[0]",
+        "$.cause_localization.mechanism_notes[1]",
+        "$.cause_localization.source_statement",
+        "$.internal_review.curator_prompts[0]",
+        "$.internal_review.curator_prompts[1]",
+        "$.internal_review.reviewer_questions[0]",
+        "$.migration_assessment.constraints[0]",
+        "$.migration_assessment.constraints[1]",
+        "$.phenomenon_analysis",
+        "$.source_reference.page_or_section",
+        "$.source_reference.publication_metadata_note",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+      "paths": [
+        "$.disposal_measures",
+        "$.disposal_source_note",
+        "$.disposal_status",
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-NASA-HYDRAZINE-CATALYST-010",
+      "paths": [
+        "$.disposal_measures",
+        "$.disposal_source_note",
+        "$.disposal_status",
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+      "paths": [
+        "$.internal_review.curator_prompts[2]",
+        "$.source_reference.publication_metadata_note",
+        "$.source_reference.source_locator"
+      ]
+    },
+    {
+      "case_id": "LIT-FUSE-RWA-KAPTON-001",
+      "paths": [
+        "$.cause_localization.fault_source",
+        "$.source_reference.page_or_section",
+        "$.source_reference.source_locator"
+      ]
+    }
+  ],
+  "admission": {
+    "packet_count": 15,
+    "event_family_count": 9,
+    "bound_l0_card_count": 12,
+    "primary_source_id_count": 7,
+    "expert_adjudicated": 0,
+    "rights_cleared": 0,
+    "official_splits": 0,
+    "sft_records_emitted": 0,
+    "training_authorized": false
+  }
+}

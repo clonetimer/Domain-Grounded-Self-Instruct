@@ -1,0 +1,80 @@
+{
+  "schema_version": "dgsi-p5c2-content-corrected-preflight.v1",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-CONTENT-CORRECTED-2026-11-18",
+  "validation": {
+    "schema_version": "dgsi-l1-collection-audit.v1",
+    "decision": "VALID_L1_COLLECTION",
+    "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-CONTENT-CORRECTED-2026-11-18",
+    "track": "LITERATURE_DERIVED_SYNTHETIC",
+    "packet_count": 15,
+    "event_family_count": 9,
+    "source_fact_domain_review_status_counts": {
+      "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION": 12,
+      "DOMAIN_EXPERT_CONFIRMED": 0,
+      "DOMAIN_EXPERT_REJECTED": 0
+    },
+    "split_assignment_count": 0,
+    "split_audit_performed": false,
+    "packet_decisions": [
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW"
+    ],
+    "gold_eligible_count": 0,
+    "training_authorized": false
+  },
+  "projection": {
+    "schema_version": "dgsi-l1-model-projection-collection-preflight.v1",
+    "decision": "BLOCKED_PENDING_EXTERNAL_ADMISSION",
+    "track": "LITERATURE_DERIVED_SYNTHETIC",
+    "packet_count": 15,
+    "event_family_count": 9,
+    "collection_projection_sha256": "cb5de1f25d7083c2206d926e5b98a596a9c2a38acd88e12abab08fb5f116a95c",
+    "internal_review_exported": false,
+    "sft_records_emitted": 0,
+    "gold_eligible": false,
+    "training_authorized": false
+  },
+  "blank_intake_summary": {
+    "schema_version": "dgsi-c2-current-expert-intake.v1",
+    "decision": "CURRENT_EXPERT_INTAKE_REVIEW_ONLY",
+    "current_public_source_snapshot_matched": true,
+    "packet_count": 15,
+    "complete_scorecard_count": 0,
+    "incomplete_scorecard_count": 30,
+    "paired_review_count": 0,
+    "ten_dimension_rubric_validated_count": 0,
+    "pending_completion_count": 15,
+    "adjudication_status_counts": {
+      "PENDING_REVIEW_COMPLETION": 15,
+      "PENDING_REVIEWER_AUTHENTICATION": 0,
+      "PENDING_SECURE_ADJUDICATION": 0
+    },
+    "identity_authenticated": false,
+    "source_rights_verified": false,
+    "expert_adjudicated_count": 0,
+    "rights_cleared_count": 0,
+    "official_splits_assigned": false,
+    "sft_records_emitted": 0,
+    "gold_eligible": false,
+    "training_authorized": false
+  },
+  "old_cohort_forms_against_new_sources": {
+    "decision": "REJECTED_AS_EXPECTED",
+    "reason_code": "C2_EXPERT_HANDOFF_METADATA_INVALID"
+  },
+  "training_authorized": false,
+  "sft_records_emitted": 0
+}
