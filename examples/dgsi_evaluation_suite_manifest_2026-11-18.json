@@ -98,8 +98,8 @@
       "track": "SYNTHETIC_TEST_ONLY",
       "classification": "UPSTREAM_ML_INGESTION_INTEGRATION_FIXTURE",
       "count": 1,
-      "artifact_file": "DGSI_AAS_RUN03F_score_only_integration_demo_20261118.zip",
-      "artifact_sha256": "6d5a2f3f47401e5ce630a3518a6b90589cca409870280939bf66b3d85e306f9e",
+      "artifact_file": "DGSI_AAS_RUN03F_score_only_integration_demo_corrected_20261118.zip",
+      "artifact_sha256": "ef0ca966d5b9f762945bd20502f35971f1ae87ec48a69bc3ccd4e7bdb10c5c44",
       "source_evidence_sha256": "f381ee9db81c126d0a37db31c8f63043ef6135c42cc36965210d057b4933da1b",
       "expected_behaviors": [
         "faithfully interpret score-only detector result",
@@ -110,8 +110,10 @@
       "known_limits": [
         "synthetic software acceptance data, not in-orbit telemetry",
         "does not match any of the five user REAL cases",
-        "not an L1 training packet, Gold or SFT example"
-      ]
+        "not an L1 training packet, Gold or SFT example",
+        "corrected artifact supersedes earlier score-as-threshold field mapping; original retained only as historical evidence"
+      ],
+      "supersedes_artifact_file": "DGSI_AAS_RUN03F_score_only_integration_demo_20261118.zip"
     },
     {
       "id": "DGSI-SCHEMA-ILLUSTRATIONS",
