@@ -1,0 +1,410 @@
+{
+  "record_type": "AI_PRE_REVIEW_VERSION_BINDING_AUDIT",
+  "date": "2026-11-18",
+  "purpose": "Public metadata record of AI pre-review version bindings and unchanged-input checks through existing intake functions.",
+  "input_zip_sha256": "f2e12c4a2bda75d26bd08f313186c20055793ec2f4eae8fe26d5e5e310707463",
+  "repository_tree_used": "a3729afeebde3dd3d9bc1e96a57bf982221c5de0",
+  "matching_public_base_commit": "a1722612c130a007b0d3f71c7640140539b04fe4",
+  "package_integrity": {
+    "manifest_declared_file_count": 14,
+    "files_checked": 14,
+    "size_match_count": 14,
+    "sha256_match_count": 14,
+    "result": "14_OF_14_FILES_MATCH_PACKAGE_MANIFEST",
+    "scope": "File integrity against the package manifest; no author authentication or review/rights approval."
+  },
+  "cohorts": {
+    "original15": {
+      "packet_count": 15,
+      "collection_projection_sha256": "2d752d898cb6ef8988f5d7829b040bf129f8bf29c154f976af428be26797f0c3"
+    },
+    "corrected15": {
+      "packet_count": 15,
+      "collection_projection_sha256": "cb5de1f25d7083c2206d926e5b98a596a9c2a38acd88e12abab08fb5f116a95c"
+    },
+    "current21": {
+      "packet_count": 21,
+      "collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5"
+    }
+  },
+  "binding_method": {
+    "existing_function": "build_l1_blind_review_manifest",
+    "packet_hash_method": "SHA-256 of canonical UTF-8 JSON with sorted object keys and compact separators.",
+    "source_hash_method": "Existing manifest source_public_sha256 over source_fact_bindings, including referenced historical L0 cards.",
+    "original_delivered_A_B_forms_canonical_equal_to_regenerated_original15_handoffs": true,
+    "cohort_rule": "Identical per-task bytes do not make receipts interchangeable between different collection projections."
+  },
+  "binding_summary": {
+    "returned_unique_task_count": 15,
+    "returned_A_task_count": 15,
+    "returned_B_task_count": 15,
+    "returned_task_set_equals_original15": true,
+    "returned_A_B_projection_matches_original15": true,
+    "returned_A_B_projection_matches_corrected15": false,
+    "returned_A_B_projection_matches_current21": false,
+    "original15_packet_matches_per_perspective": 15,
+    "original15_source_public_matches_per_perspective": 15,
+    "current21_packet_matches_per_perspective": 0,
+    "current21_source_public_matches_per_perspective": 0,
+    "corrected15_current21_shared_packet_canonical_equal_count": 15,
+    "corrected15_current21_shared_source_binding_equal_count": 15
+  },
+  "task_bindings": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "original15": {
+        "packet_sha256": "06a01a093ed964a951a91456810c663b00d0207e6f9e0666fc65ea2a322f4274",
+        "source_public_sha256": "49bc171bb713994e2ff8882aa83a12e7500bab8657aa92dde82c298322e92590"
+      },
+      "current21": {
+        "packet_sha256": "5bb1a499c75a11a4d28f2548c353142bbcb708eaf160bc4728b7253f1d98b7e3",
+        "source_public_sha256": "c0131f05b2d33ca12cf9e74c06ea7d2477b16c33b59f27046979b61c673df0b0"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "original15": {
+        "packet_sha256": "85a1b501c42345cba7638dfb29578b3c03b4b87f435c26cacd494d487bbed0ee",
+        "source_public_sha256": "fed10f2defe88489394f6d61af9784325df5b6f9d43514cfa0153c28f89174a3"
+      },
+      "current21": {
+        "packet_sha256": "19e6993bd7d0c5bde10d2875d2f931223adb6bba2424b9e85736e662e5073b04",
+        "source_public_sha256": "47ee9a8be60193664204f2bc4731d325f39771e16165597af8b735eab05fc085"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "original15": {
+        "packet_sha256": "a74de60b1f466475351b55e9b25d64abae4d47c5f7ff676cd654064eb4d5f6af",
+        "source_public_sha256": "afffcdacf0349ec17d65a2b8cce290cfe8a5f8c375e9986cf4eeb0f56370780b"
+      },
+      "current21": {
+        "packet_sha256": "4b14c8dce62612d0c555ea9817bb57199701d60d7524526eadc091a6db5f12d8",
+        "source_public_sha256": "1be586fafebadfb5204f5b5b908962fea1a7e13718e9f907f4d5f4c85ea530ab"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "original15": {
+        "packet_sha256": "7094fca64c495c5e6ffcbda645a38eaf2284148b1d3418954f8bd2091098640a",
+        "source_public_sha256": "382d8b55992aef2685a27b2f4bd05007314b515bcb6724a719cfeaf73caa7024"
+      },
+      "current21": {
+        "packet_sha256": "8de3eec1257e3a75a8a9adb2e3f5851c4662b4190d12dd262afc5fb6ad893f1b",
+        "source_public_sha256": "2799b6b2d5b0858751c74e027eee0dd2816a88eaa9a1070eb68445e354266cc1"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "original15": {
+        "packet_sha256": "3fb504da56c4768faf398fe15b7e3f521d56f1d57a236e1ad0e1dc9cec27af97",
+        "source_public_sha256": "73ac7f1ef240bf37cc89d4a9fb22f6ee78e694589095f28f2168b0fe36b4d6e7"
+      },
+      "current21": {
+        "packet_sha256": "c64ad2b261fb808638a0bbd7e30ac3728c500cfda4c802f27b1f56dba49be1a2",
+        "source_public_sha256": "0e1b1782f845a06392a6a0ffc152bec7fb70500fa9a1d435865197385195c454"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "original15": {
+        "packet_sha256": "7e1696402362dae6f2742a692c202ef1258abdbc1c9df1558804f83f4054c289",
+        "source_public_sha256": "ac8e19e1783b8eb64f8c81120eec0f5a55c30eccf721b50dac88629f1e7bd8ba"
+      },
+      "current21": {
+        "packet_sha256": "fa8f41330382e7075934275ac75b8f03d9d228246892567c11ea132d252b76c0",
+        "source_public_sha256": "9e2e4e87b5d6f175d756fe4fa13d0854164605d7411d03db6533e6535bdf0b16"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "original15": {
+        "packet_sha256": "b6498e724eeeb10503e2f68c7c8359b5178a89ac1b4d4a96314b564518c0dfca",
+        "source_public_sha256": "4cab1ff02c56fbd81910bdb572375e66c2bdf350b895b80dcd12be2003352aa2"
+      },
+      "current21": {
+        "packet_sha256": "ced9dd9f7a5c3fa4a1618346b04dba1f5ca2dbc53454ae3455203d0966331100",
+        "source_public_sha256": "1fca81e485a4a3989689c759bc0dec3d029d7ebeb69b80ea4656592d3f6e7002"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "original15": {
+        "packet_sha256": "2a4f7f229911115a96aea468cf1049c0b0c7b18b99dcbb0202c10c06fa532399",
+        "source_public_sha256": "eb5f350d95ba3e3619cc6980b14b91c7caf8cfa3989255a507b41fad27ac3899"
+      },
+      "current21": {
+        "packet_sha256": "70c3fa277576ec8f4318c041bf8c170b6de63921a9ae7c54e25825c38f96602a",
+        "source_public_sha256": "8c3e5cb69700d40340b2cddc55aa0a144ad163bd4c628b48e6220a84fce3a34b"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "original15": {
+        "packet_sha256": "720be3f93498b0abec0adb4ca21ce28dec27c92b49f01ff704fd64382254d556",
+        "source_public_sha256": "6b594075e44ad38b9c0f3a8bdd30b1076ec6247111b95157a6c65d596bda191f"
+      },
+      "current21": {
+        "packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+        "source_public_sha256": "a14311d8c9f95a52129bb9c1815032d4d6ab600ba260df3778741217fefc0094"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "original15": {
+        "packet_sha256": "c7f04f15a38d95bc35b5799dcb07344fe37deef94a93134e56f3d7cf022b3ac1",
+        "source_public_sha256": "459055ce3eca818182b768a7d33b78169442897235fb3886de4eacafd56b7943"
+      },
+      "current21": {
+        "packet_sha256": "bf47c1a9fd00949bea18916458cf96441836b275464a886a42accb5b84e5f8f6",
+        "source_public_sha256": "8d5112c4a624c9c90fb1bc6d039d11508ecd2ee2c7f988ac27d905d58055ea50"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "original15": {
+        "packet_sha256": "58b28a957357c4190952eef101e4ce30ea5382f874d179daede6389a42f3100f",
+        "source_public_sha256": "c5976f49db53c0a216acf08b2470165371cdc3bfca6e539715fab7a4fefc7f3e"
+      },
+      "current21": {
+        "packet_sha256": "27e6faa54553914b7f1bdb1d0aa718809aec119692c270937b1b9a714a69d236",
+        "source_public_sha256": "06d7368eacfd7f2373de77f4aa1b7f6ab03b0bb4e1758d0fcc66242d844ba4f2"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "original15": {
+        "packet_sha256": "f1d1ff01bce2865a4e47cb4fba8e5a55f232241772859d02eb03be1b9b908358",
+        "source_public_sha256": "cec6cc7f2715bcbe831473176b2a4025bcab7bd874060ef0a475b97e2693e8e7"
+      },
+      "current21": {
+        "packet_sha256": "97cd456f22a982b3b4718ac3c0bd1f73bc901569ebd803bc73ed3d5034e1e316",
+        "source_public_sha256": "b4c6140d69642d0257007dda6958658b6f21ddeebf10fa1cdc5bbf9674dd8f44"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "original15": {
+        "packet_sha256": "7731ccd3222bc4b5389664608ecd0c2e30517ef03382c18f56156deb64fa4410",
+        "source_public_sha256": "afffcdacf0349ec17d65a2b8cce290cfe8a5f8c375e9986cf4eeb0f56370780b"
+      },
+      "current21": {
+        "packet_sha256": "a8f3872b94a6ff782680d1d142c32ce146d8f393af3610f52630ce13ce7bd0c4",
+        "source_public_sha256": "1be586fafebadfb5204f5b5b908962fea1a7e13718e9f907f4d5f4c85ea530ab"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "original15": {
+        "packet_sha256": "dcfdbca595fb0dbfe9c482d356798141416fe72664c81deb8f5fe03c75c2d25d",
+        "source_public_sha256": "eb5f350d95ba3e3619cc6980b14b91c7caf8cfa3989255a507b41fad27ac3899"
+      },
+      "current21": {
+        "packet_sha256": "a03e4c71f1091d7de1067805a879432a1701daa7037cee6404f825e07f900780",
+        "source_public_sha256": "8c3e5cb69700d40340b2cddc55aa0a144ad163bd4c628b48e6220a84fce3a34b"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "original15": {
+        "packet_sha256": "10fcfd6769743ae0ae55dbe67afa62bc9beb6023b10cdf54e26871825844c88a",
+        "source_public_sha256": "c5976f49db53c0a216acf08b2470165371cdc3bfca6e539715fab7a4fefc7f3e"
+      },
+      "current21": {
+        "packet_sha256": "2e913878e9578f1c923a1a100a13a3a407ca24212cc48e590800d194b6e13924",
+        "source_public_sha256": "06d7368eacfd7f2373de77f4aa1b7f6ab03b0bb4e1758d0fcc66242d844ba4f2"
+      },
+      "returned_A_and_B_bindings_match_original15": true,
+      "returned_A_and_B_bindings_match_current21": false,
+      "corrected15_and_current21_packet_canonical_equal": true,
+      "corrected15_and_current21_source_public_sha256_equal": true,
+      "corrected15_and_current21_source_fact_bindings_equal": true
+    }
+  ],
+  "coverage": {
+    "current_task_count": 21,
+    "returned_unique_task_count": 15,
+    "uncovered_task_count": 6,
+    "uncovered_task_ids": [
+      "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+      "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021"
+    ],
+    "uncovered_A_B_suggestion_slots": 12,
+    "all_current_tasks_still_require_authenticated_independent_expert_review": true
+  },
+  "existing_intake_checks": [
+    {
+      "function": "audit_c2_expert_intake_against_current_sources",
+      "current_source_cohort": "original15",
+      "input": "UNCHANGED_AI_A_B_SUGGESTION_PATCHES",
+      "outcome": "REJECTED",
+      "error_code": "C2_EXPERT_HANDOFF_METADATA_INVALID",
+      "rejection_stage": "HANDOFF_METADATA",
+      "task_stale_binding_check_reached": false
+    },
+    {
+      "function": "audit_c2_expert_intake_against_current_sources",
+      "current_source_cohort": "corrected15",
+      "input": "UNCHANGED_AI_A_B_SUGGESTION_PATCHES",
+      "outcome": "REJECTED",
+      "error_code": "C2_EXPERT_HANDOFF_METADATA_INVALID",
+      "rejection_stage": "HANDOFF_METADATA",
+      "task_stale_binding_check_reached": false
+    },
+    {
+      "function": "audit_c2_expert_intake_against_current_sources",
+      "current_source_cohort": "current21",
+      "input": "UNCHANGED_AI_A_B_SUGGESTION_PATCHES",
+      "outcome": "REJECTED",
+      "error_code": "C2_EXPERT_HANDOFF_METADATA_INVALID",
+      "rejection_stage": "HANDOFF_METADATA",
+      "task_stale_binding_check_reached": false
+    },
+    {
+      "function": "audit_c2_source_rights_intake",
+      "current_source_cohort": "current21",
+      "input": "UNCHANGED_AI_RIGHTS_EVIDENCE_REGISTER",
+      "outcome": "REJECTED",
+      "error_code": "C2_RIGHTS_INTAKE_ENVELOPE_FIELDS_DRIFT",
+      "rejection_stage": "ENVELOPE_FIELDS"
+    },
+    {
+      "function": "audit_c2_rights_intake_against_current_sources",
+      "current_source_cohort": "current21",
+      "input": "UNCHANGED_AI_RIGHTS_EVIDENCE_REGISTER",
+      "outcome": "REJECTED",
+      "error_code": "C2_RIGHTS_INTAKE_ENVELOPE_FIELDS_DRIFT",
+      "rejection_stage": "ENVELOPE_FIELDS"
+    }
+  ],
+  "intake_result_interpretation": {
+    "expert_metadata_rejection_precedes_task_stale_binding_checks": true,
+    "old_vs_current_hash_mismatches_established_by_separate_manifest_comparison": true,
+    "AI_rights_register_is_official_worksheet": false,
+    "AI_note_hashes_are_authenticated_permission_evidence": false,
+    "no_input_rewrapped_or_converted_to_official_submission": true
+  },
+  "current21_regenerated_blank_intake": {
+    "expert": {
+      "function": "audit_c2_expert_intake_against_current_sources",
+      "packet_count": 21,
+      "pending_completion_count": 21,
+      "complete_scorecard_count": 0,
+      "incomplete_scorecard_count": 42,
+      "paired_review_count": 0,
+      "ten_dimension_rubric_validated_count": 0
+    },
+    "rights": {
+      "function": "audit_c2_rights_intake_against_current_sources",
+      "distinct_source_document_count": 7,
+      "pending_independent_source_rights_review_count": 7,
+      "rights_cleared_document_count": 0
+    }
+  },
+  "review_identity_and_scope": {
+    "AI_system_count_as_declared": 1,
+    "analytic_perspective_count": 2,
+    "authenticated_independent_human_reviewers_evidenced": 0,
+    "formal_human_submission": false,
+    "full_L0_L1_inspection_established": false,
+    "metadata_hash_match_establishes_complete_review": false,
+    "classification": "AI_PRE_REVIEW_ONLY",
+    "limitation": "The returned material describes two perspectives from one AI system and discloses that full frozen L0/L1 inputs were unavailable. Matching metadata hashes do not prove complete review."
+  },
+  "record_content": {
+    "contains_raw_AI_scores": false,
+    "contains_raw_returned_files": false,
+    "contains_private_reviewer_text": false,
+    "contains_local_filesystem_paths": false,
+    "scorecard_transfer_performed": false,
+    "reviewer_tokens_created": 0,
+    "existing_source_data_or_kits_changed": false,
+    "new_API_or_tests_created": false
+  },
+  "authorization_state": {
+    "identity_authenticated": false,
+    "reviewer_independence_authenticated": false,
+    "source_rights_verified": false,
+    "expert_review_complete": false,
+    "expert_adjudicated_count": 0,
+    "rights_cleared_document_count": 0,
+    "official_splits_assigned": false,
+    "gold_eligible": false,
+    "training_authorized": false,
+    "sft_records_emitted": 0
+  }
+}
