@@ -120,12 +120,27 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         reviewed = [r for r in rows if r["review_status"] == "ADJUDICATED"]
         attempted = sum(r["attempts"] for r in rows)
         accepted = sum(r["accepted_candidates"] for r in rows)
+        by_track_summary = {}
+        for track in TRACKS:
+            track_rows = [r for r in rows if r["track"] == track]
+            track_reviewed = [r for r in track_rows if r["review_status"] == "ADJUDICATED"]
+            by_track_summary[track] = {
+                "attempts": len(track_rows),
+                "filter_accepted_candidates": sum(r["accepted_candidates"] for r in track_rows),
+                "critical_failure_trials": sum(bool(r.get("critical_failures")) for r in track_rows),
+                "adjudicated_trials": len(track_reviewed),
+                "reviewer_reported_dimension_means": (
+                    {d: round(sum(r["scores"][d] for r in track_reviewed) / len(track_reviewed), 4)
+                     for d in DIMENSIONS} if track_reviewed else None
+                ),
+            }
         summaries[arm] = {
+            "by_track": by_track_summary,
             "status": "NOT_RUN" if not rows else ("REVIEW_PENDING" if len(reviewed) != len(rows) else "ADJUDICATED_INPUT"),
             "trials": len(rows), "source_groups": len(groups[arm]),
             "tokens_used": sum(r["generation_tokens"] for r in rows),
             "token_budget": sum(r["token_budget"] for r in rows),
-            "attempts": attempted, "accepted_candidates": accepted,
+            "attempts": attempted, "filter_accepted_candidates": accepted,
             "yield_per_100_attempts": round(100 * accepted / attempted, 4) if attempted else None,
             "critical_failure_trials": sum(bool(r.get("critical_failures")) for r in rows),
             "adjudicated_trials": len(reviewed),
