@@ -11,6 +11,8 @@ python -m pip install -r requirements-validation.txt
 
 The portable Skill ZIP intentionally does **not** contain the repository's example L0/L1 dataset. This avoids bundling candidate data, source-derived material or private records into the reusable tool. Supply your own authorized collection JSON and matching source-fact JSON from your working directory.
 
+The 2026-11-18 content-corrected cohort requires toolkit **0.2.0-rc.4** for its three task-specific instructions. Pair that cohort with its matching L0 and newly generated A/B forms. Original RC2 forms remain bound to the unchanged 2026-11-17 snapshot; do not transplant their metadata to a new cohort. The full content changes and source limitations are in `docs/P5C2_CONTENT_CORRECTION_2026-11-18.md`.
+
 ## Run the production sequence
 INGEST → L0 → L1 → TARGET → AUDIT → independent REVIEW → PROJECT → COVERAGE → PACKAGE.
 
@@ -34,7 +36,7 @@ The preview contains three messages for engineering inspection only. It has no s
 
 When working in a source checkout, the repository's current review candidate can be used for a smoke test:
 ```bash
-python scripts/create_l1_model_preview.py --collection examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json --source-facts examples/l0_public_literature_fact_cards_2026-11-15.json --output dist/l1-three-message-preview.json
+python scripts/create_l1_model_preview.py --collection examples/l1_literature_synthetic_task_packets_c2_content_corrected_2026-11-18.json --source-facts examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json --output dist/l1-three-message-preview.json
 python -m unittest tests.test_l1_model_projection_preview -v
 ```
 The example files above are repository fixtures, not contents of the portable Skill ZIP.
