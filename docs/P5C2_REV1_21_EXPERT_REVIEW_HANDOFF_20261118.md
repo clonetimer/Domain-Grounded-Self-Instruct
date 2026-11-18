@@ -4,11 +4,11 @@
 
 The original 21-task C2 review candidate contained an over-specific task 015 structured fault-mode label. PR #155 preserves the earlier cohort and adds a **new, immutable REV1** correction: the task 015 synthetic ML result supports *LNA gain degradation as a candidate*, not an observed hydrogen-poisoning root cause. The earlier single-AI/two-lens advisory **is not two human expert reviews**.
 
-This stacked PR (base: PR #155) adds a REV1-specific, source-snapshot-bound, checkout-only generator. The original PR #154 generator binds the **prior** 21-task cohort. Both pre-REV1 15-task and 21-task review forms are **obsolete for REV1**, and their responses must not be transferred to REV1 as official reviewer receipts.
+PR #155 is now merged into main as `3b162ac74638641278c12fc7da0335fbb0e56a0d`. This PR adds a REV1-specific, source-snapshot-bound, checkout-only generator on top of that main baseline. The original PR #154 generator binds the **prior** 21-task cohort. Both pre-REV1 15-task and 21-task review forms are **obsolete for REV1**, and their responses must not be transferred to REV1 as official reviewer receipts.
 
 ## Reproducible, no-admission local handoff
 
-Run in a checkout that includes PR #155 and this PR, with a pre-existing, authorized **outside-repository** destination directory:
+Run from current main plus this PR, with a pre-existing, authorized **outside-repository** destination directory:
 
 ```bash
 python scripts/create_l1_c2_rev1_review_kit.py --output-file /secure/outside/repo/DGSI_C2_REV1_21_REVIEW_ONLY.zip
@@ -30,4 +30,4 @@ This script is **not** part of the frozen RC4 allowlist and must not modify any 
 
 The earlier 21-task review wrapper correctly pinned its cohort. The actual failure mode arises when an advisory-driven scientific field correction creates REV1 but the review distribution entrypoint still produces the older package. Safe recovery is a new immutable cohort-specific wrapper, independent forms and a test that rejects the old collection ID, rather than mutating old data or reusing old receipts.
 
-Acceptance requires the **same newest PR head** to pass full Ubuntu and Windows CI. Parent PR #155 must remain open/unmerged until explicitly authorized. Independent source-rights and domain-expert judgments remain missing.
+Acceptance requires the **same newest PR head** to pass full Ubuntu and Windows CI. Parent PR #155 has been merged; REV1 handoff remains a separate review-only change. Independent source-rights and domain-expert judgments remain missing.
