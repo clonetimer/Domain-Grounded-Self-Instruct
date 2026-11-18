@@ -30,6 +30,40 @@ def _nonempty(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+
+_FORBIDDEN_SHARED_KEYS = frozenset({
+    "raw_telemetry", "internal_review", "expert_identity", "expert_signature",
+    "reviewer_identity", "curator_prompt", "curator_prompts",
+    "formal_target", "assistant_target",
+})
+
+
+def _reject_nested_private_or_answer_fields(payload: Any) -> None:
+    """Fail closed on curator, answer-label, and raw telemetry keys at any depth.
+
+    The shared scenario is common to all generation arms, never a place for
+    target answers or restricted curator content. This is a key-name guard,
+    not a complete PII scanner or authorization check.
+    """
+    stack: list[tuple[Any, int]] = [(payload, 0)]
+    visited = 0
+    while stack:
+        value, depth = stack.pop()
+        visited += 1
+        if depth > 64 or visited > 100_000:
+            _fail("SOTA_MANIFEST_NESTING_LIMIT")
+        if isinstance(value, dict):
+            for key, child in value.items():
+                if not isinstance(key, str):
+                    _fail("SOTA_MANIFEST_JSON_INVALID")
+                normalized = key.strip().casefold().replace("-", "_").replace(" ", "_")
+                if normalized in _FORBIDDEN_SHARED_KEYS:
+                    _fail("SOTA_MANIFEST_FORBIDDEN_INPUT")
+                stack.append((child, depth + 1))
+        elif isinstance(value, list):
+            stack.extend((child, depth + 1) for child in value)
+
+
 def canonical_scenario_sha256(entry: dict[str, Any]) -> str:
     """Fingerprint shared scenario content, excluding method-specific prompt text.
 
@@ -49,8 +83,7 @@ def canonical_scenario_sha256(entry: dict[str, Any]) -> str:
             or not isinstance(payload["historical_context"], list)
             or not isinstance(payload["provenance"], dict)):
         _fail("SOTA_MANIFEST_INPUT_TYPES")
-    if any(k in payload for k in ("raw_telemetry", "internal_review", "expert_identity")):
-        _fail("SOTA_MANIFEST_FORBIDDEN_INPUT")
+    _reject_nested_private_or_answer_fields(payload)
     cutoff = payload["analysis_cutoff"]
     if not _nonempty(cutoff):
         _fail("SOTA_MANIFEST_CUTOFF_INVALID")
