@@ -148,6 +148,11 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 names = archive.namelist()
                 self.assertEqual(len(names), len(set(names)))
                 self.assertIn("PACKAGE_SHA256_MANIFEST.json", names)
+                self.assertNotIn("src/dgsi/l1_holdout_independence.py", names)
+                self.assertEqual(
+                    "6a96983b2aa07f3cb68358f34d19b54534530f693e769e682d65f6f6c647f2b9",
+                    hashlib.sha256(output.read_bytes()).hexdigest(),
+                )
                 # The extracted projection validator loads this collection schema
                 # from resources/ at runtime; file presence alone is not enough,
                 # so the clean-room preview smoke below exercises the import path.
