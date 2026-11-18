@@ -34,7 +34,7 @@ The AAS RUN-03F fixture demonstrates:
 
 Important correction to the first draft: the values around 49.56–50.55 are **per-sample scores**, not a threshold array. The actual decision threshold is 2.5 (also represented as 24 per-sample decision thresholds of 2.5). The earlier integration note that called the score vector a threshold array is superseded. The source chart trace distinguishes `scores`, `decision_threshold` and `decision_thresholds`.
 
-This is a useful integration/abstention example, not a model-accuracy result.
+This is a useful integration/abstention example, not a model-accuracy result. The field mapping correction is recorded in [AAS_RUN03F_INTEGRATION_FIELD_MAPPING_CORRECTION_2026-11-18.md](AAS_RUN03F_INTEGRATION_FIELD_MAPPING_CORRECTION_2026-11-18.md); use the corrected local demonstration package, not the superseded original.
 
 ### 2.2 Existing exploratory A/B evidence (adjacent ADCS/EPS curation Skills)
 
