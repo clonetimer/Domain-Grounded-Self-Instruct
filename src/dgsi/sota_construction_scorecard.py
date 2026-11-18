@@ -157,7 +157,10 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         summaries[arm] = {
             "by_track": by_track_summary,
             "status": "NOT_RUN" if not rows else ("REVIEW_PENDING" if len(reviewed) != len(rows) else "ADJUDICATED_INPUT"),
-            "trials": len(rows), "source_groups": len(groups[arm]),
+            "trials": len(rows),
+            "source_groups": len({r["source_group"] for r in rows}),
+            "comparison_units": len({r.get("comparison_unit_id") for r in rows
+                                     if r.get("comparison_unit_id") is not None}),
             "tokens_used": sum(r["generation_tokens"] for r in rows),
             "token_budget": sum(r["token_budget"] for r in rows),
             "attempts": attempted, "filter_accepted_candidates": accepted,
