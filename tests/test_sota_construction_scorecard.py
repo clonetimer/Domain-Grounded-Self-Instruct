@@ -15,6 +15,7 @@ def trial(arm="M0", group="G1", track="LITERATURE_DERIVED_SYNTHETIC", status="PE
     item = {
         "trial_id": f"{arm}-{group}", "source_group": group, "event_family": group,
         "comparison_unit_id": f"SLOT-{group}", "requested_task_type": "diagnostic_synthesis",
+        "canonical_scenario_sha256": "a" * 64,
         "arm": arm, "track": track, "attempts": 1, "accepted_candidates": 1,
         "generation_tokens": 900, "token_budget": 1000,
         "critical_failures": [], "review_status": status,
@@ -194,6 +195,45 @@ class ScorecardTests(unittest.TestCase):
         second = trial("M1", "G2")
         second["comparison_unit_id"] = first["comparison_unit_id"]
         self.reject("SOTA_COMPARISON_UNIT_COLLISION", doc([first, second]))
+
+
+    def test_shared_unit_with_different_source_scenario_is_blocked(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["canonical_scenario_sha256"] = "b" * 64
+        self.reject("SOTA_SCENARIO_HASH_COLLISION", doc(rows))
+
+    def test_unfingerprinted_legacy_rows_never_claim_matched_input(self):
+        rows = [trial(a) for a in ARMS]
+        for row in rows:
+            del row["canonical_scenario_sha256"]
+        result = summarize_construction_trials(doc(rows))
+        self.assertTrue(result["comparison_units_complete"])
+        self.assertFalse(result["scenario_fingerprints_complete"])
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_invalid_or_noncanonical_scenario_digest_is_rejected(self):
+        row = trial()
+        row["canonical_scenario_sha256"] = "A" * 64
+        self.reject("SOTA_SCENARIO_HASH_INVALID", doc([row]))
+        row["canonical_scenario_sha256"] = "z" * 64
+        self.reject("SOTA_SCENARIO_HASH_INVALID", doc([row]))
+        row["canonical_scenario_sha256"] = True
+        self.reject("SOTA_SCENARIO_HASH_INVALID", doc([row]))
+
+    def test_two_independent_scenario_units_preserve_paired_comparability(self):
+        rows = []
+        for arm in ARMS:
+            for group, digest in (("G1", "a" * 64), ("G2", "b" * 64)):
+                row = trial(arm, group)
+                row["canonical_scenario_sha256"] = digest
+                rows.append(row)
+        result = summarize_construction_trials(doc(rows))
+        self.assertTrue(result["source_group_budget_matched"])
+        self.assertTrue(result["scenario_fingerprints_complete"])
+        self.assertEqual(result["arms"]["M4"]["comparison_units"], 2)
+        self.assertNotIn("a" * 64, json.dumps(result))
+        self.assertNotIn("b" * 64, json.dumps(result))
 
 
 if __name__ == "__main__":
