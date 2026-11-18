@@ -1,0 +1,839 @@
+{
+  "schema_version": "dgsi-c2-current-source-rights-research.v1",
+  "purpose": "PUBLIC_SOURCE_RIGHTS_RESEARCH_ONLY_NOT_CLEARANCE",
+  "research_date": "2026-11-18",
+  "notice": "Public metadata, copyright notices and search-index excerpts are research leads. This register issues no permission, legal determination, independent rights approval or training authorization. A source identity crosswalk does not transfer a prior review to the current cohort. This REV1 candidate changes only task 015 structured fault_mode; all rights findings and zero-clearance states are unchanged and require fresh cohort-bound review.",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
+  "collection_file": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json",
+  "l0_file": "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json",
+  "collection_projection_sha256": "3927c976af6eb46a8842b68926fd893b021df69b034ae8981dc5ed136278521a",
+  "task_count": 21,
+  "bound_l0_fact_count": 12,
+  "distinct_source_document_count": 7,
+  "source_task_binding_count": 22,
+  "source_mapping_basis": "Current authoritative blank rights queue, independently checked against all current packet source_id occurrences, including historical-experience uses.",
+  "prior_returned_scope_reconciliation": {
+    "prior_task_count": 15,
+    "current_task_count": 21,
+    "new_task_ids": [
+      "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021",
+      "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+      "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017"
+    ],
+    "new_source_documents": 0,
+    "previously_omitted_existing_binding": {
+      "source_id": "NASA-LLIS-1416",
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "role": "historical_experience"
+    },
+    "note_hash_boundary": "The prior AI-note hashes validate note bytes only. They are not copied into any license_or_permission_evidence_ref and are not treated as rights-holder evidence."
+  },
+  "independent_rights_review_complete": false,
+  "source_rights_verified": false,
+  "rights_cleared_count": 0,
+  "rights_cleared_document_count": 0,
+  "training_authorized": false,
+  "gold_eligible": false,
+  "not_for_sft": true,
+  "official_splits_assigned": false,
+  "sft_records_emitted": 0,
+  "formal_queue_updated": false,
+  "third_parties_contacted": false,
+  "legal_determination_made": false,
+  "shared_policy_evidence": [
+    {
+      "official_url": "https://sti.nasa.gov/disclaimers/",
+      "access_date": "2026-11-18",
+      "access_result": "READABLE_OFFICIAL_PAGE",
+      "evidence_role": "OFFICIAL_GENERAL_POLICY",
+      "observations": [
+        "NASA STI区分联邦雇员履职作品、承包商/受资助人作品、共同创作与第三方材料；公开发布所依据的政府用途许可不必然转授给下载者。",
+        "该页表示美国政府作品通常在美国不受版权保护，未受版权保护的文件可复制分发；具体材料附加条款和文档metadata仍须核对。"
+      ],
+      "limits": [
+        "这是NASA STI政策背景，不是本项目个别来源或特定司法辖区的许可决定；不能直接推广覆盖LLIS、JPL、SPIE或中文期刊。"
+      ],
+      "is_authenticated_permission": false
+    }
+  ],
+  "requested_review_scope_fields": [
+    "project legal entity and users",
+    "countries/jurisdictions of access, processing and distribution",
+    "specific source versions and extracted passages/figures",
+    "copying, translation, paraphrase and factual extraction separately described",
+    "training input versus evaluation-only use",
+    "commercial or noncommercial operation",
+    "internal versus public redistribution of source material, synthetic tasks, models and datasets",
+    "attribution, rights notices and any sublicensing limits",
+    "authenticated original notice or permission and independent reviewer scope decision"
+  ],
+  "access_boundaries": {
+    "twta_article_and_issue": "CAPTCHA observed on first batch direct opens; no bypass, solving or repeat direct requests.",
+    "twta_different_doi_pdf": "HTTP420; no repeat request. Official indexed excerpt only, exact page association not verified.",
+    "llis_item": "Direct page had no readable lines; official search-index text used and marked.",
+    "spie_publisher_pages": "Search-index excerpts available; direct fetch timed out. No derived grant.",
+    "ntrs_api": "web tool could not open JSON endpoints; same unrestricted public URLs read once via ordinary HTTP. Values retained as metadata observations only."
+  },
+  "source_documents": [
+    {
+      "source_key": "SEASAT",
+      "source_id": "NASA-NTRS-20040171604",
+      "source_title": "Report of the Seasat Failure Review Board",
+      "source_url": "https://ntrs.nasa.gov/citations/20040171604",
+      "source_id_aliases": [],
+      "source_identity_resolution": {
+        "prior_source_id": "NASA-NTRS-20040171604",
+        "current_source_id": "NASA-NTRS-20040171604",
+        "basis": "IDENTICAL_SOURCE_ID_AND_NTRS_CITATION_URL",
+        "identity_keys": [
+          "NTRS:20040171604"
+        ],
+        "explanation": "回传与当前队列均为同一NTRS citation 20040171604。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-SEASAT-SLIPRING-SYNTH-001"
+      ],
+      "new_task_bindings": [],
+      "previously_omitted_existing_task_bindings": [],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-SEASAT-SLIPRING-001",
+          "public_fact_sha256": "7557626cbe10ca073cd763a7fbfa6a50d8e6f6f209f548127c2fb0406627d7f4"
+        }
+      ],
+      "source_locators": [
+        "NASA NTRS 20040171604, report abstract / summary (not a full-report passage audit)"
+      ],
+      "research_classification": "PUBLIC_GOVERNMENT_METADATA_LEAD_RETAINED_PENDING_REVIEW",
+      "official_evidence": [
+        {
+          "official_url": "https://ntrs.nasa.gov/citations/20040171604",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_PAGE",
+          "evidence_role": "ITEM_METADATA",
+          "observations": [
+            "Distribution Limits: Public。Copyright: Work of the US Gov. Public Use Permitted.",
+            "作者metadata列Bruce T. Lundin，机构NASA Lewis Research Center；文档类型为Preprint，日期为1978-12-21，另列2004会议信息。"
+          ],
+          "limits": [],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://ntrs.nasa.gov/api/citations/20040171604",
+          "access_date": "2026-11-18",
+          "access_result": "WEB_TOOL_UNAVAILABLE_THEN_NORMAL_PUBLIC_HTTP_JSON_SUCCEEDED",
+          "evidence_role": "RAW_PUBLIC_METADATA",
+          "observations": [
+            "普通HTTP读取的distribution=PUBLIC；copyright.determinationType=GOV_PUBLIC_USE_PERMITTED。",
+            "API的belongsToUsGov等若干布尔项为false，thirdPartyContentCondition=NOT_SET；本记录不能把这些未解释字段当成第三方权利已经排除的证明。"
+          ],
+          "limits": [
+            "web open不可用，随后仅对同一公共NASA JSON端点作一次普通只读HTTP请求成功；未规避登录、付费墙或安全验证。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "回传准确记录了该条目的人读版权标签；保留为来源专属公开metadata线索。"
+      ],
+      "corrections_and_limits": [
+        "CONDITIONAL_FAVORABLE仅为原回传AI描述，不是法律批准或项目用途中已获许可的状态。",
+        "应把NTRS摘要、下载PDF及1978/2004著录关系分别锁定；本轮未声称做过报告全部页的第三方材料审查。"
+      ],
+      "unsupported_inferences": [
+        "不能由Public分发字段单独推出再利用权利；本条更具体的US Gov/Public Use标签应保留并与分发字段分开。",
+        "不能把在美国的政府作品政策外推为所有司法辖区、全部版本和嵌入图表的无条件许可。"
+      ],
+      "pending_requirements": [
+        "固定实际使用对象：当前L0定位为NTRS摘要/summary，确认是否还处理下载报告原文或图表。",
+        "保存对应条目/所用版本的原始公开权利声明与出处；逐项核查实际使用片段的第三方标记。",
+        "按项目主体、使用地、提取/改写/训练/分发范围完成独立来源权利审查；若依据政府作品地位，记录该依据和边界，不以是否出现AI一词作为唯一标准。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false,
+      "public_api_metadata_observation": {
+        "distribution": "PUBLIC",
+        "copyright_determinationType": "GOV_PUBLIC_USE_PERMITTED",
+        "thirdPartyContentCondition": "NOT_SET"
+      }
+    },
+    {
+      "source_key": "TROPICS",
+      "source_id": "MITLL-TROPICS-LESSONS-2025",
+      "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+      "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+      "source_id_aliases": [],
+      "source_identity_resolution": {
+        "prior_source_id": "MITLL-TROPICS-LESSONS-2025",
+        "current_source_id": "MITLL-TROPICS-LESSONS-2025",
+        "basis": "IDENTICAL_SOURCE_ID_AND_CITATION_DOWNLOAD_PARENT",
+        "identity_keys": [
+          "NTRS:20240011771",
+          "IEEEAero_TROPICS_2025_for_approval.pdf"
+        ],
+        "explanation": "回传citation URL与当前download URL同属NTRS 20240011771；当前ID与回传ID相同。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+        "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+        "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+        "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+        "L1-TROPICS-TVAC-SLIPRING-SYNTH-004"
+      ],
+      "new_task_bindings": [
+        "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017"
+      ],
+      "previously_omitted_existing_task_bindings": [],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-TROPICS-FLIGHT-CRC-003-A",
+          "public_fact_sha256": "c08d332585342123fb51bc01f6236621fe2b5e8de595a0d8606d6cf7278b89a1"
+        },
+        {
+          "case_id": "LIT-TROPICS-FLIGHT-CRC-003-B",
+          "public_fact_sha256": "1905fa8e80ff8ddc3d908e8caf33e58f28b0b4a4d8f2008d417b90df02e16b47"
+        },
+        {
+          "case_id": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+          "public_fact_sha256": "ab4a3a6cb73f11f88af2106c86c0dc5ae59e2d1da64feb207c979f8a865bf6fa"
+        },
+        {
+          "case_id": "LIT-TROPICS-SLIPRING-TVAC-002",
+          "public_fact_sha256": "e852f55129f1ae4cfc5409bdf87de6c6365fabb50cd13b92442e591c525b34e9"
+        }
+      ],
+      "source_locators": [
+        "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+        "NASA NTRS 20240011771, Section 6, printed pp.4–5 (PDF pages 4–5)"
+      ],
+      "research_classification": "CONTRACTOR_AND_PUBLISHER_NOTICE_LEADS_PENDING_REVIEW",
+      "official_evidence": [
+        {
+          "official_url": "https://ntrs.nasa.gov/citations/20240011771",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_PAGE",
+          "evidence_role": "ITEM_METADATA",
+          "observations": [
+            "Distribution Limits: Public。Copyright: Use by or on behalf of the US Gov. Permitted.",
+            "全部所列作者机构为MIT Lincoln Laboratory；Conference Paper；资助合同FA8702-15-D-0001。"
+          ],
+          "limits": [],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://ntrs.nasa.gov/api/citations/20240011771",
+          "access_date": "2026-11-18",
+          "access_result": "WEB_TOOL_UNAVAILABLE_THEN_NORMAL_PUBLIC_HTTP_JSON_SUCCEEDED",
+          "evidence_role": "RAW_PUBLIC_METADATA",
+          "observations": [
+            "distribution=PUBLIC；copyright.determinationType=GOV_PERMITTED；belongsToContractor=true；containsIndication=true；licenseType=NO。"
+          ],
+          "limits": [
+            "web ref仅记录web端点失败；随后同一公共API普通HTTP请求成功，字段按原值记录，不解释为项目法律结论。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_6_PAGE_PDF",
+          "evidence_role": "SOURCE_VERSION_COPYRIGHT_NOTICE",
+          "observations": [
+            "首页同时出现©2024 MIT与©2025 IEEE，说明NASA支持、空军合同，以及交付美国政府的合同定义Unlimited Rights。",
+            "首页另有Distribution Statement A公开发行说明，并提示政府特别授权以外的使用可能涉及作品中存在的版权。"
+          ],
+          "limits": [
+            "仅记录首页声明；未取得完整合同、政府具体授权或MIT/IEEE针对本项目的许可证。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://journals.ieeeauthorcenter.ieee.org/become-an-ieee-journal-author/publishing-ethics/guidelines-and-policies/post-publication-policies/",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_PAGE",
+          "evidence_role": "PUBLISHER_GENERAL_POLICY",
+          "observations": [
+            "IEEE期刊政策对OA的非商业TDM与商业/非OA TDM分开处理，后者政策要求联系IEEE取得许可。"
+          ],
+          "limits": [
+            "该页面是期刊政策；不能单凭它断定本会议稿的具体合同、OA状态或许可范围，也不能自动把TDM等同于全部模型训练与再分发。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "MIT/IEEE首页版权和政府权利范围线索与回传一致。",
+        "保留公开发行与copyright政府使用字段并列的事实，避免合并成public domain。"
+      ],
+      "corrections_and_limits": [
+        "补入回传未明确写出的NTRS政府或其代表使用标签以及承包商metadata。",
+        "原文件名含for_approval；本轮不能据此单独确定最终IEEE出版版本、权利转移链或适用开放许可证。",
+        "PERMISSION_NEEDED不得被提升为本轮法律裁决；当前登记保持独立权利审核待办。"
+      ],
+      "unsupported_inferences": [
+        "Distribution Statement A和NTRS Public说明公开发行，不证明本项目获得政府Unlimited Rights。",
+        "美国政府或其代表的许可不自动覆盖任意第三方；IEEE题头亦不足以单独确定MIT和IEEE的完整权利分配。"
+      ],
+      "pending_requirements": [
+        "锁定当前NTRS稿与IEEE出版版本的对应关系、最终版权/OA状态、使用的具体段落或图表。",
+        "如主张代表美国政府使用，需可核验的适用授权及合同范围；否则需适用于项目主体和实际行为的许可或经独立审查确认的其他依据。",
+        "分别记录原文提取、事实改写、训练输入、权重/模型交付、合成任务和数据集公开/商业再分发的范围及归属要求。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false,
+      "public_api_metadata_observation": {
+        "distribution": "PUBLIC",
+        "copyright_determinationType": "GOV_PERMITTED",
+        "belongsToContractor": true,
+        "containsIndication": true,
+        "licenseType": "NO"
+      }
+    },
+    {
+      "source_key": "LUNAR",
+      "source_id": "NASA-CR-66461",
+      "source_title": "Lunar Orbiter III Mission System Performance",
+      "source_url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+      "source_id_aliases": [
+        "NASA-NTRS-19670027946"
+      ],
+      "source_identity_resolution": {
+        "prior_source_id": "NASA-NTRS-19670027946",
+        "current_source_id": "NASA-CR-66461",
+        "basis": "NTRS_CITATION_METADATA_REPORT_NUMBER",
+        "identity_keys": [
+          "NTRS:19670027946",
+          "NASA-CR-66461",
+          "D2-100753-3"
+        ],
+        "explanation": "NTRS 19670027946官方条目同时列出报告号NASA-CR-66461；当前PDF下载URL亦属于该citation。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+        "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002"
+      ],
+      "new_task_bindings": [
+        "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+        "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016"
+      ],
+      "previously_omitted_existing_task_bindings": [],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-LUNAR-ORBITER-HELIX-005",
+          "public_fact_sha256": "7f0316938540b2ee23b0951663a373599829de598f253753326902b3f3c3f6da"
+        },
+        {
+          "case_id": "LIT-LUNAR-ORBITER-POWER-MONITOR-006",
+          "public_fact_sha256": "ab7c6768862cd1bd0f2e8c6f1c16ac5b4698f900caccd3083e7cf65c562bfb9c"
+        }
+      ],
+      "source_locators": [
+        "NASA CR-66461, PDF p.173 (printed p.165), High TWTA Helix Current at First Turn-On",
+        "NASA CR-66461, Section 3.2.4.4, PDF pp.119–120 (printed pp.111–112); anomaly summary PDF p.173 (printed p.165), TWTA Power Output Variations"
+      ],
+      "research_classification": "GOVERNMENT_LABEL_WITH_CONTRACTOR_METADATA_PENDING_REVIEW",
+      "official_evidence": [
+        {
+          "official_url": "https://ntrs.nasa.gov/citations/19670027946",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_PAGE",
+          "evidence_role": "ITEM_METADATA",
+          "observations": [
+            "Distribution Limits: Public。Copyright: Work of the US Gov. Public Use Permitted.",
+            "Document Type: Contractor Report (CR)；报告号NASA-CR-66461、D2-100753-3；合同NAS1-3800。"
+          ],
+          "limits": [],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://ntrs.nasa.gov/api/citations/19670027946",
+          "access_date": "2026-11-18",
+          "access_result": "WEB_TOOL_UNAVAILABLE_THEN_NORMAL_PUBLIC_HTTP_JSON_SUCCEEDED",
+          "evidence_role": "RAW_PUBLIC_METADATA",
+          "observations": [
+            "distribution=PUBLIC；copyright.determinationType=GOV_PUBLIC_USE_PERMITTED；thirdPartyContentCondition=NOT_SET。"
+          ],
+          "limits": [
+            "若干ownership/third-party布尔项均为false；缺少字段语义的情况下不作为不存在承包商权利的证明。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "回传正确记录了US Gov/Public Use标签与Contractor Report并存；这两个事实都应保留。"
+      ],
+      "corrections_and_limits": [
+        "把回传NASA-NTRS-19670027946映射到当前canonical source_id NASA-CR-66461；只在triage中保留别名，不更改正式队列。",
+        "Contractor Report是文档类型，不足以单独推翻US Gov标签；US Gov标签也不能代替对相关合同和实际使用材料的核验。"
+      ],
+      "unsupported_inferences": [
+        "不能将NASA出版/收藏、承包商报告类型或单个metadata字段作为完整权利链的决定性证据。",
+        "不因没有训练专门字样而断言本来源必须重新取得所有许可；独立审核应判断实际适用依据。"
+      ],
+      "pending_requirements": [
+        "核查所用CR-66461版的封面/版权说明、NAS1-3800相关权利依据和实际取用页中的第三方材料。",
+        "将报告pp.111–112、p.165等实际使用范围与任务016/018新增绑定一并纳入审查，区分文献事实、翻译/改写和图表。",
+        "确认用途、主体、司法辖区、再分发对象和署名条件；原始声明与独立结论单独存证。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false,
+      "public_api_metadata_observation": {
+        "distribution": "PUBLIC",
+        "copyright_determinationType": "GOV_PUBLIC_USE_PERMITTED",
+        "thirdPartyContentCondition": "NOT_SET"
+      }
+    },
+    {
+      "source_key": "CASSINI",
+      "source_id": "NASA-LLIS-1416",
+      "source_title": "Cassini RWA Flight Anomaly Due to Extended Use at Slow Speed (2001)",
+      "source_url": "https://llis.nasa.gov/lesson/1416",
+      "source_id_aliases": [],
+      "source_identity_resolution": {
+        "prior_source_id": "NASA-LLIS-1416",
+        "current_source_id": "NASA-LLIS-1416",
+        "basis": "IDENTICAL_SOURCE_ID_AND_LLIS_LESSON_URL",
+        "identity_keys": [
+          "LLIS:1416"
+        ],
+        "explanation": "回传与当前队列均对应Lesson 1416，URL相同；任务012也使用此来源作历史经验。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-CASSINI-RWA-DRAG-SYNTH-008",
+        "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+        "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021",
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012"
+      ],
+      "new_task_bindings": [
+        "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021"
+      ],
+      "previously_omitted_existing_task_bindings": [
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012"
+      ],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-CASSINI-RWA-DRAG-007",
+          "public_fact_sha256": "c34a91e2f7ecb5a3bf6fcc1b4b6b19b2669c2ef5402a5c13ef48e034a6724bb4"
+        }
+      ],
+      "source_locators": [
+        "NASA LLIS Lesson 1416, Lesson Date 2004-05-10, Driving Event / Lessons Learned / Recommendations (https://llis.nasa.gov/lesson/1416); contemporaneous chronology: NASA Cassini reports dated 2000-12-20 (https://science.nasa.gov/missions/cassini/significant-event-report-for-week-ending-12202000/) and 2001-01-05 (https://science.nasa.gov/missions/cassini/significant-event-report-for-week-ending-152001/); retrospective date comparison: JPL DESCANSO Article 17, Section 2.5.2 (https://descanso.jpl.nasa.gov/DPSummary/DESCANSO17_Cassini_RevA.pdf). Source date conventions are preserved, not silently harmonized."
+      ],
+      "research_classification": "LLIS_JPL_PROVENANCE_LEAD_ITEM_SCOPE_UNRESOLVED",
+      "official_evidence": [
+        {
+          "official_url": "https://llis.nasa.gov/lesson/1416",
+          "access_date": "2026-11-18",
+          "access_result": "DIRECT_OPEN_NO_READABLE_LINES_OFFICIAL_SEARCH_INDEX_AVAILABLE",
+          "evidence_role": "OFFICIAL_ITEM_SEARCH_INDEX",
+          "observations": [
+            "NASA官方搜索索引提供Lesson Number 1416、Lesson Date 2004-05-10、Submitting Organization jpl及对应Cassini RWA标题。"
+          ],
+          "limits": [
+            "直接open返回0行，正文来源使用官方页面的搜索索引；本轮未取得该lesson独立版权/再使用许可证。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://www.jpl.nasa.gov/caltechjpl-privacy-policies-and-important-notices/",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_PAGE",
+          "evidence_role": "JPL_GENERAL_POLICY",
+          "observations": [
+            "JPL说明jpl.nasa.gov站点一般由Caltech管理；其文档版权段说明JPL作者文件为NASA合同资助，服务器文档可能受美国及外国版权保护、复制可能需许可。"
+          ],
+          "limits": [
+            "该政策描述jpl.nasa.gov，不能直接作为llis.nasa.gov上Lesson 1416的个别许可，也不能仅凭提交单位判定该lesson全体作者的法律身份。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "保持SCOPE_UNRESOLVED和每lesson权利范围未核验这一事实。",
+        "JPL提交来源是有用的具体线索，需核对而不能自动当成联邦雇员作品。"
+      ],
+      "corrections_and_limits": [
+        "不把NASA STI总政策直接套用为LLIS文字的权利许可。",
+        "补齐任务021及原清单漏列的任务012历史经验绑定；012的输入knowledge_evidence[1].source_id也明确指向NASA-LLIS-1416。",
+        "当前来源定位还包含NASA时序报告和JPL DESCANSO文章作为交叉核查；本轮按现行7来源队列归组，不替这些辅助材料宣告授权。"
+      ],
+      "unsupported_inferences": [
+        "NASA域名、JPL提交单位或公开访问均不能单独证明lesson正文由联邦雇员履职创作。",
+        "JPL一般政策不是Lesson 1416的完整许可或明确版权归属证明；也不能推出全部JPL相关内容同一状态。"
+      ],
+      "pending_requirements": [
+        "取得Lesson 1416作者/提交材料来源、发布所依据的权利授权及适用于拟用文字/图表的许可或其他经审查依据。",
+        "明确LLIS正文、引用的JPL ISA/演示稿、NASA时序报告和DESCANSO材料中哪些内容实际进入L0/L1/训练；仅交叉核查的外链与实际复制材料须区分。",
+        "把历史复用任务012及新增021纳入相同来源权利范围；核查署名、跨法域、训练与数据集再分发条件。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "source_key": "HYDRAZINE",
+      "source_id": "NASA-TM-100232",
+      "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
+      "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+      "source_id_aliases": [
+        "NASA-NTRS-19880002368"
+      ],
+      "source_identity_resolution": {
+        "prior_source_id": "NASA-NTRS-19880002368",
+        "current_source_id": "NASA-TM-100232",
+        "basis": "NTRS_CITATION_METADATA_REPORT_NUMBER",
+        "identity_keys": [
+          "NTRS:19880002368",
+          "NASA-TM-100232"
+        ],
+        "explanation": "NTRS 19880002368官方条目报告号为NASA-TM-100232；当前PDF下载URL属于同一citation。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"
+      ],
+      "new_task_bindings": [],
+      "previously_omitted_existing_task_bindings": [],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-NASA-HYDRAZINE-CATALYST-010",
+          "public_fact_sha256": "3c9e9a36f1de68fbac01b992cfbe9c2d8cd3a7f8019d98d94185bb59edef5b11"
+        },
+        {
+          "case_id": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+          "public_fact_sha256": "2b87e1e1a62bed25efadb9f710ce998781f0b03263284b3b8e563671860439d8"
+        }
+      ],
+      "source_locators": [
+        "NASA-TM-100232, report pp.3–5 (PDF pp.4–6), Test Results and Post-Test Disassembly and Analysis; Tables II and IV on report p.6 (PDF p.7).",
+        "NASA-TM-100232, report pp.3–5 (PDF pp.4–6), especially Post-Test Disassembly and Analysis and Concluding Remarks; Fig.8 on report p.10 (PDF p.11)."
+      ],
+      "research_classification": "PUBLIC_GOVERNMENT_LABEL_WITH_PRIVATE_COAUTHOR_PENDING_REVIEW",
+      "official_evidence": [
+        {
+          "official_url": "https://ntrs.nasa.gov/citations/19880002368",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_PAGE",
+          "evidence_role": "ITEM_METADATA",
+          "observations": [
+            "Distribution Limits: Public。Copyright: Work of the US Gov. Public Use Permitted.",
+            "Document Type: Technical Memorandum；报告号NASA-TM-100232；列出四名NASA Lewis作者及Rocket Research Corp.的D. A. Pahl。"
+          ],
+          "limits": [],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://ntrs.nasa.gov/api/citations/19880002368",
+          "access_date": "2026-11-18",
+          "access_result": "WEB_TOOL_UNAVAILABLE_THEN_NORMAL_PUBLIC_HTTP_JSON_SUCCEEDED",
+          "evidence_role": "RAW_PUBLIC_METADATA",
+          "observations": [
+            "distribution=PUBLIC；copyright.determinationType=GOV_PUBLIC_USE_PERMITTED；thirdPartyContentCondition=NOT_SET。"
+          ],
+          "limits": [
+            "布尔ownership字段均为false的旧metadata不足以证明私人共同作者的具体贡献已获本项目许可。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "回传public-use标签和企业共同作者提醒均有官方条目支持。"
+      ],
+      "corrections_and_limits": [
+        "当前canonical source_id是NASA-TM-100232，回传NTRS ID作为别名保留。",
+        "不能将企业共同作者存在视为自动否定public-use标签；也不能忽略需要核对的贡献和第三方部分。"
+      ],
+      "unsupported_inferences": [
+        "公开NASA TM和政府标签不能单独确定全部共同创作内容、插图和境外用途的权利范围。"
+      ],
+      "pending_requirements": [
+        "对实际所用pp.3–6、Fig.8等文本/表图，检查报告内版权或第三方说明，并明确Rocket Research共同作者贡献和有关授权依据。",
+        "将输入复制、摘要/翻译/结构化事实加工、模型训练及输出数据集再分发分别列入独立审核范围。",
+        "保存原始声明/适用依据，注明版本、主体、地区和署名条件；不将摘要笔记哈希充当授权证据。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false,
+      "public_api_metadata_observation": {
+        "distribution": "PUBLIC",
+        "copyright_determinationType": "GOV_PUBLIC_USE_PERMITTED",
+        "thirdPartyContentCondition": "NOT_SET"
+      }
+    },
+    {
+      "source_key": "TWTA",
+      "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+      "source_title": "某星载S频段线性化行波管放大器输出功率下降问题研究",
+      "source_url": "https://kjdzjs.spacejournal.cn/article/doi/10.3969/j.issn.1674-7135.2026.02.007",
+      "source_id_aliases": [
+        "DOI:10.3969/j.issn.1674-7135.2026.02.007"
+      ],
+      "source_identity_resolution": {
+        "prior_source_id": "DOI:10.3969/j.issn.1674-7135.2026.02.007",
+        "current_source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+        "basis": "IDENTICAL_ARTICLE_URL_AND_DOI",
+        "identity_keys": [
+          "DOI:10.3969/j.issn.1674-7135.2026.02.007"
+        ],
+        "explanation": "回传DOI别名与当前JOURNAL ID具有同一文章URL及2026.02.007 DOI；2025.S1.017不在此身份映射中。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011"
+      ],
+      "new_task_bindings": [
+        "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019"
+      ],
+      "previously_omitted_existing_task_bindings": [],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+          "public_fact_sha256": "e8901221f356368a352a8aaf0ec942ec9c6ef07317463d65af32949775a622e2"
+        }
+      ],
+      "source_locators": [
+        "Space Electronic Technology, 2026, 23(2):46–53; DOI 10.3969/j.issn.1674-7135.2026.02.007; published PDF pp.2–7 (printed pp.47–52), Sections 1–5 and Tables 1–4."
+      ],
+      "research_classification": "ARTICLE_RIGHTS_NOT_VERIFIED_CAPTCHA_BOUNDARY_GENERAL_POLICY_LEAD_ONLY",
+      "official_evidence": [
+        {
+          "official_url": "https://kjdzjs.spacejournal.cn/article/doi/10.3969/j.issn.1674-7135.2026.02.007",
+          "access_date": "2026-11-18",
+          "access_result": "CAPTCHA_STOPPED_NO_BYPASS",
+          "evidence_role": "ACCESS_BOUNDARY_AND_OFFICIAL_INDEX",
+          "observations": [
+            "直接文章页重定向到安全验证；此前官方搜索索引可识别题名、王军/禹旭敏/徐磊和摘要。"
+          ],
+          "limits": [
+            "未取得文章页完整版权栏或本文PDF许可证；索引不代表当前正文页访问成功。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://kjdzjs.spacejournal.cn/article/2026/2",
+          "access_date": "2026-11-18",
+          "access_result": "CAPTCHA_STOPPED_NO_BYPASS",
+          "evidence_role": "ACCESS_BOUNDARY",
+          "observations": [
+            "目录页也重定向到同一安全验证。"
+          ],
+          "limits": [
+            "与文章页在同批首次open中返回CAPTCHA；之后未再次请求受限页。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://kjdzjs.spacejournal.cn/cn/article/2026/2",
+          "access_date": "2026-11-18",
+          "access_result": "OFFICIAL_SEARCH_INDEX_ONLY_NO_DIRECT_RETRY",
+          "evidence_role": "BIBLIOGRAPHIC_INDEX",
+          "observations": [
+            "官方目录搜索索引列本文2026,23(2):46–53，DOI为10.3969/j.issn.1674-7135.2026.02.007。"
+          ],
+          "limits": [
+            "这个条目支持书目信息，不含本文训练/再分发许可。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://www.spacejournal.cn/kjdzjs/cn/article/pdf/preview/10.3969/j.issn.1674-7135.2025.S1.017.pdf",
+          "access_date": "2026-11-18",
+          "access_result": "OFFICIAL_SEARCH_INDEX_EXCERPT_DIRECT_FETCH_HTTP_420_STOPPED",
+          "evidence_role": "DIFFERENT_DOI_GENERAL_GUIDELINE_LEAD",
+          "observations": [
+            "该URL的DOI为2025.S1.017，与目标2026.02.007不同；官方索引命中《空间电子技术》通用投稿说明文本。",
+            "索引文字要求作者拥有合法著作权、录用后签署版权协议，并列相关合作数据库可数字化复制、汇编、发行、网络传播的安排。"
+          ],
+          "limits": [
+            "不得将整个PDF命名为投稿须知：搜索索引片段的具体页及是否为附页本轮未定位，直接PDF获取失败。",
+            "该说明的时间、具体版本与目标文章适用性需核查；合作数据库范围不能转授为本项目使用许可。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "正式卷期页码可从官方索引保留；初核未获得本文开放许可证或特定训练许可的状态可保留。",
+        "不同DOI文件中的投稿说明仅保留为同刊一般政策研究线索，并注明片段/页码定位限制。"
+      ],
+      "corrections_and_limits": [
+        "第三URL不是本篇DOI，其索引片段不能作为目标论文的许可证、许可附件或权利人签署文件。",
+        "把“未取得/未核实到CC许可”保留为本次证据状态，不能升级为“本文不存在任何许可”或法律判定。",
+        "rights_owner_claim的作者/期刊/主办方仍未核实；数据库合作条款不能确定本篇的完整权利转移链。",
+        "不再次访问、绕过或自动处理CAPTCHA；直接获取失败不以索引推断替代。"
+      ],
+      "unsupported_inferences": [
+        "可下载/可索引、目录页著录、投稿权利保证或期刊对合作数据库的安排均不证明本项目拥有训练与公开衍生数据权利。",
+        "旧期刊通用投稿说明不证明本篇作者实际签署了什么协议，也不证明任何第三方获得再许可。"
+      ],
+      "pending_requirements": [
+        "由可正常访问的人工来源或权利人提供目标DOI正式出版PDF、版权页、文章特定开放许可及适用版本；本轮不联系第三方。",
+        "核明作者/出版者/主办方的权利分配及可授权主体，取得对应本文和本项目用途的许可原件或独立确认的其他依据。",
+        "逐项覆盖复制、摘录/翻译/改写、结构化数据形成、训练、模型/数据集交付、公开与商业再分发，以及署名条件。",
+        "补入任务019的来源绑定；预刊页码关系仍需对正式文件定位确认。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false
+    },
+    {
+      "source_key": "FUSE",
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "source_title": "FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes",
+      "source_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "source_id_aliases": [
+        "STSCI-FUSE-SPIE-4854-72"
+      ],
+      "source_identity_resolution": {
+        "prior_source_id": "STSCI-FUSE-SPIE-4854-72",
+        "current_source_id": "FUSE-SPIE-2002-RWA",
+        "basis": "IDENTICAL_SOURCE_PDF_URL_AND_OFFICIAL_BIBLIOGRAPHIC_INDEX",
+        "identity_keys": [
+          "SPIE:4854:paper72",
+          "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf"
+        ],
+        "explanation": "回传与当前来源为同一STScI PDF；官方Extended Mission目录将其列作2002年SPIE卷4854论文72。",
+        "applies_to": "Source identity only; not rights or review approval"
+      },
+      "task_ids": [
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+        "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020"
+      ],
+      "new_task_bindings": [
+        "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020"
+      ],
+      "previously_omitted_existing_task_bindings": [],
+      "bound_l0_fact_bindings": [
+        {
+          "case_id": "LIT-FUSE-RWA-KAPTON-001",
+          "public_fact_sha256": "56f2e2d957e95ef462cd59b1641613342270ac161ec6e9b5eaa8c093de1b1e0d"
+        }
+      ],
+      "source_locators": [
+        "FUSE SPIE 4854-72, Section 3, PDF physical p.5 (zero-based page index 4): separate 2000 pitch-wheel, 2001 yaw-wheel recovery, and later complete-failure episodes; vendor cause attributions retained."
+      ],
+      "research_classification": "EXPLICIT_MIRROR_RESTRICTIONS_PUBLISHER_SCOPE_PENDING_REVIEW",
+      "official_evidence": [
+        {
+          "official_url": "https://archive.stsci.edu/fuse/technical.html",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_MIRROR_NOTICE",
+          "evidence_role": "SOURCE_COLLECTION_COPYRIGHT_NOTICE",
+          "observations": [
+            "STScI的FUSE技术文献页说明SPIE论文由SPIE享有出版当年版权，镜像电子重印已获SPIE允许；仅允许个人制作一份打印或电子副本。",
+            "同一说明限制系统/多份复制、多处传播、收费/商业复制以及内容修改。"
+          ],
+          "limits": [],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://archive.stsci.edu/fuse/papers/ext_mission.html",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_INDEX_WITH_COPYRIGHT_LINK",
+          "evidence_role": "ITEM_TO_POLICY_LINK",
+          "observations": [
+            "Extended Mission目录列本篇为2002年SPIE卷4854、paper72，并链接具体PDF和Copyright Notes。"
+          ],
+          "limits": [],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+          "access_date": "2026-11-18",
+          "access_result": "READABLE_OFFICIAL_12_PAGE_PDF_TITLE_EXTRACTION_PARTLY_GARBLED",
+          "evidence_role": "SOURCE_VERSION",
+          "observations": [
+            "PDF可打开，首页列Johns Hopkins University与Orbital Sciences Corp.作者机构。"
+          ],
+          "limits": [
+            "本篇的限制性镜像声明由目录和技术文献页关联，不由NASA资助或任务名称消除。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://journals.spiedigitallibrary.org/terms-of-use",
+          "access_date": "2026-11-18",
+          "access_result": "OFFICIAL_SEARCH_INDEX_AVAILABLE_DIRECT_OPEN_TIMEOUT",
+          "evidence_role": "PUBLISHER_GENERAL_POLICY",
+          "observations": [
+            "当前SPIE Publications条款索引说明版权材料的个人使用/研究及进一步复制分发限制，并明确保留TDM、AI训练和类似技术的权利。"
+          ],
+          "limits": [
+            "只是当前SPIE平台政策线索；直接open超时，不将其自动追溯为2002稿件或本次STScI获取的合同。"
+          ],
+          "is_authenticated_permission": false
+        },
+        {
+          "official_url": "https://electronicimaging.spiedigitallibrary.org/article-sharing-policies",
+          "access_date": "2026-11-18",
+          "access_result": "OFFICIAL_SEARCH_INDEX_AVAILABLE_DIRECT_OPEN_TIMEOUT",
+          "evidence_role": "PERMISSION_ROUTE_LEAD",
+          "observations": [
+            "SPIE官方分享政策索引提供重新使用已出版材料的许可申请入口。"
+          ],
+          "limits": [
+            "只记录公开入口，没有发起申请或联系SPIE；此条不是本项目许可。"
+          ],
+          "is_authenticated_permission": false
+        }
+      ],
+      "retainable_leads": [
+        "回传关于STScI镜像仅限个人一份副本、限制批量复制/传播/修改的摘述可保留。",
+        "目录明确把本篇与版权说明联系起来，比只用NASA总政策更贴合该来源。"
+      ],
+      "corrections_and_limits": [
+        "当前canonical source_id为FUSE-SPIE-2002-RWA；回传STSCI-FUSE-SPIE-4854-72只作别名。",
+        "补入任务020，并与任务012中另外使用的Cassini来源分开绑定。",
+        "不能将镜像站取得的存档许可传递成用户的训练/数据集许可；当前SPIE一般政策也不是个别许可原件。"
+      ],
+      "unsupported_inferences": [
+        "STScI公开镜像、NASA任务背景或允许个人复制一份，不证明系统性加工或分发合成数据、训练模型的权限。",
+        "本轮不将出版者/镜像的声明独立裁定为覆盖所有事实抽取、法定例外或所有司法辖区。"
+      ],
+      "pending_requirements": [
+        "锁定2002稿与正式出版版本、文章特定许可和权利主体；如依赖作者/出版者授权，核验具体授权权能。",
+        "逐项确认源文复制、原文摘录/修改、结构化事实加工、训练、合成样本和模型/数据集分发的范围与条件，取得适用许可或经独立审核认可的其他依据。",
+        "对任务012与020共用的来源范围统一审核，同时保留012的Cassini历史来源独立要求。"
+      ],
+      "rights_review_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "license_or_permission_evidence_ref": null,
+      "permitted_reuse_scope": null,
+      "rights_decision": null,
+      "rights_cleared": false,
+      "training_authorized": false
+    }
+  ]
+}
