@@ -77,7 +77,12 @@ class C2CompleteReviewKitTests(unittest.TestCase):
                     self.assertEqual(form["reviewer_slot"], slot)
                     self.assertEqual(len(form["tasks"]), 15)
                     self.assertEqual(len(dossier["items"]), 15)
+                    self.assertEqual(
+                        sum(dossier["l0_domain_review_status_counts"].values()),
+                        dossier["l0_bound_fact_card_count"],
+                    )
                     self.assertIn("SYNTHETIC", html)
+                    self.assertIn("L0 领域审核状态", html)
                     self.assertNotIn("<script", html)
                     self.assertTrue(docx.startswith(b"PK"))
                     self.assertNotIn('"internal_review"', json.dumps(dossier))
