@@ -289,3 +289,17 @@ The RC3 continuation starts from `b20b498b6aba84e25845505c201ef9305175eb16` and 
 120. **Synthetic provenance and diagnostic uncertainty are different axes.** Supplied synthetic test results are still givens inside their scenario. Packets010/011 already provided specimen or gas/EMMI results; treating those results as absent would teach the wrong behavior. Ask for missing validation, comparison and effect summaries; derive uncertainty from remaining evidentiary questions. Keep the real-world provenance boundary and external admission gates explicit. Version the corrected corpus independently, issue freshly bound review forms, and register only the three required instruction templates in the existing runtime. RC4 is a compatibility revision for this dataset; it adds no new CLI or schema.
 
 The source-content continuation starts from main `d0eb33db1991de2d3f1bb02138e63d055a31dbbe`. Its report and per-task changes are recorded in `docs/P5C2_CONTENT_CORRECTION_2026-11-18.md` and `examples/p5c2_content_correction_review_2026-11-18.json`. Earlier data snapshots and their issued review forms remain historical records; new forms bind only to the new cohort.
+
+
+### 2026-11-18 — C2 current 21-task AI advisory and rights evidence disposition
+
+- [x] Verified uploaded archive: 8 entries; 49 original-entry checks; zero SHA-256 failures; 21 task records; 7 source groups; 22 source-task bindings.
+- [x] Confirmed A/B outputs are one AI system's two lenses, with human_expert_count=0, reviewer_authenticated=false, official_handoff_compatible=false and scores_import_authorized=false.
+- [x] Independently checked task 015: ML input says LNA gain degradation, but both formal_target and case.expected_output use hydrogen poisoning as fault_mode. Narrative correctly keeps hydrogen poisoning as historical hypothesis; structured field is over-specific.
+- [x] Created a new immutable REV1 cohort; changed only the duplicated task 015 fault_mode field pair to linearizer_LNA_gain_degradation_candidate. All other 20 tasks and L0 source facts remain unchanged.
+- [x] Recomputed and bound a new whole-cohort projection fingerprint; old A/B and rights forms are stale for REV1.
+- [x] Preserved all seven rights statuses as pending with null permission evidence/scope/decision and zero clearance.
+- [ ] Generate and independently review fresh REV1 A/B forms and source-rights queue.
+- [ ] Obtain authenticated permission/rights scope and two independent human scientific reviews before any admission.
+
+See `docs/P5C2_AI_ADVISORY_DISPOSITION_2026-11-18.md` and `docs/DEVELOPMENT_EXPERIENCE_C2_AI_ADVISORY_20261118.md`.
