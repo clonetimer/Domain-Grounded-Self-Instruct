@@ -3,7 +3,9 @@
 from __future__ import annotations
 import argparse
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,14 +41,29 @@ def main(argv=None):
         cards = source_payload["cards"]
         stage = "BUILD_PREVIEW"
         result = build_collection_preview(collection, source_fact_cards=cards)
-        stage = "CHECK_OUTPUT"
-        if args.output.exists():
-            return _reject("OUTPUT_ALREADY_EXISTS", stage)
         stage = "WRITE_PREVIEW"
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        # Do not use exists()+write_text() or Path.open("x"): both have
+        # cross-platform no-clobber gaps (including dangling symlinks).
+        # Publish complete content with a same-directory hard link; a losing
+        # concurrent writer or any existing directory entry is rejected.
+        # Never fall back to copy/rename on an unsupported filesystem.
+        fd, temp_name = tempfile.mkstemp(
+            prefix=".dgsi-l1-preview-", suffix=".tmp", dir=args.output.parent
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as temp_output:
+                temp_output.write(
+                    json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False)
+                    + "\n"
+                )
+            os.link(temp_name, args.output)
+        finally:
+            os.unlink(temp_name)
     except L1ProjectionAuditError as exc:
         return _reject(str(exc), stage)
+    except FileExistsError:
+        return _reject("OUTPUT_ALREADY_EXISTS", stage)
     except FileNotFoundError:
         return _reject("INPUT_FILE_NOT_FOUND", stage)
     except PermissionError:
