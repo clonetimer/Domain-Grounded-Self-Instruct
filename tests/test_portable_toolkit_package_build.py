@@ -148,6 +148,8 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 names = archive.namelist()
                 self.assertEqual(len(names), len(set(names)))
                 self.assertIn("PACKAGE_SHA256_MANIFEST.json", names)
+                self.assertNotIn("src/dgsi/l1_holdout_independence.py", names)
+                self.assertEqual(52, sum(name.startswith("src/dgsi/") for name in names))
                 # The extracted projection validator loads this collection schema
                 # from resources/ at runtime; file presence alone is not enough,
                 # so the clean-room preview smoke below exercises the import path.
@@ -227,6 +229,13 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 manifest = json.loads(
                     archive.read("PACKAGE_SHA256_MANIFEST.json").decode("utf-8")
                 )
+                # The manifest bytes are cross-platform stable; ZIP deflate
+                # output bytes can differ across zlib/runtime versions.
+                self.assertEqual(
+                    "d73497efe158d203d52b1604c709a69cce4d344bdbfbcec60c4495875c4608bd",
+                    hashlib.sha256(archive.read("PACKAGE_SHA256_MANIFEST.json")).hexdigest(),
+                )
+                self.assertEqual(158, len(manifest["files"]))
                 skill_manifest = json.loads(
                     (ROOT / "skills/dgsi-simulation-to-sft/TOOLKIT_MANIFEST.json").read_text(encoding="utf-8")
                 )

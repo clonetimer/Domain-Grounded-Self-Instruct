@@ -51,7 +51,58 @@ DOCS = (
 )
 VALIDATOR_FILES = (
     "requirements-validation.txt",
-    "src/dgsi",
+    "src/dgsi/__init__.py",
+    "src/dgsi/astrograph_adapter.py",
+    "src/dgsi/basilisk_receipt.py",
+    "src/dgsi/case_history_asof.py",
+    "src/dgsi/case_sft_binding.py",
+    "src/dgsi/cli.py",
+    "src/dgsi/cross_ai_evaluation.py",
+    "src/dgsi/design_derived_intake.py",
+    "src/dgsi/diagnostic_context.py",
+    "src/dgsi/diagram_annotation.py",
+    "src/dgsi/diagram_provenance.py",
+    "src/dgsi/diagram_review_import.py",
+    "src/dgsi/diagram_text_regions.py",
+    "src/dgsi/diagram_text_review.py",
+    "src/dgsi/diagram_topology_review.py",
+    "src/dgsi/disposal_source_review.py",
+    "src/dgsi/document_ingestion.py",
+    "src/dgsi/handoff_digest_reuse.py",
+    "src/dgsi/handoff_run_lineage.py",
+    "src/dgsi/history_split_exposure.py",
+    "src/dgsi/history_temporal_gate.py",
+    "src/dgsi/l1_blind_review_manifest.py",
+    "src/dgsi/l1_c2_current_rights_preflight.py",
+    "src/dgsi/l1_c2_expert_handoff.py",
+    "src/dgsi/l1_c2_expert_intake.py",
+    "src/dgsi/l1_c2_rights_intake_audit.py",
+    "src/dgsi/l1_c2_scientific_dossier.py",
+    "src/dgsi/l1_c2_scored_review.py",
+    "src/dgsi/l1_c2_source_rights_queue.py",
+    "src/dgsi/l1_coverage_review.py",
+    "src/dgsi/l1_global_lineage.py",
+    "src/dgsi/l1_model_projection_audit.py",
+    "src/dgsi/l1_model_projection_preview.py",
+    "src/dgsi/l1_review_receipts.py",
+    "src/dgsi/l1_sft_release.py",
+    "src/dgsi/l1_task_packet.py",
+    "src/dgsi/local_handoff_integrity.py",
+    "src/dgsi/ocr_candidates.py",
+    "src/dgsi/p5c_readiness.py",
+    "src/dgsi/p5c_real_intake.py",
+    "src/dgsi/p5c_sada_claim_map.py",
+    "src/dgsi/quality.py",
+    "src/dgsi/real_case_binding.py",
+    "src/dgsi/real_case_handoff.py",
+    "src/dgsi/review_ledger.py",
+    "src/dgsi/schema_validation.py",
+    "src/dgsi/sft_lineage.py",
+    "src/dgsi/sft_provenance.py",
+    "src/dgsi/simulation_run_receipt.py",
+    "src/dgsi/skill_eval.py",
+    "src/dgsi/source_admission.py",
+    "src/dgsi/source_fact_cards.py",
     "tests/test_l1_model_projection_preview.py",
     "scripts/create_l1_blind_review_manifest.py",
     "scripts/create_l1_c2_complete_review_kit.py",
@@ -115,6 +166,24 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def canonical_checkout_bytes(data: bytes) -> bytes:
+    """Normalize Git checkout CRLF in UTF-8 text; preserve opaque binary bytes.
+
+    Windows checkout may use CRLF while Ubuntu uses LF for the same committed
+    text.  ZIP member metadata alone cannot ensure byte-identical artifacts.
+    Canonicalize only decodable, NUL-free UTF-8 payloads, before hashing and
+    writing the archive, so the manifest authenticates the actual member bytes.
+    Binary and non-UTF-8 files are passed through without modification.
+    """
+    if b"\x00" in data:
+        return data
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return data.replace(b"\r\n", b"\n")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -142,7 +211,7 @@ def main() -> int:
                 raise RuntimeError(f"Refusing to package sensitive-looking path: {relative}")
             if file_path.suffix in {".pyc", ".pyo"} or "__pycache__" in file_path.parts:
                 continue
-            selected[relative] = file_path.read_bytes()
+            selected[relative] = canonical_checkout_bytes(file_path.read_bytes())
 
     manifest = {
         "toolkit": "dgsi-simulation-to-sft",
