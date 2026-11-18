@@ -165,5 +165,23 @@ class DocumentConnectedHoldoutTests(unittest.TestCase):
         self.assertFalse(result["gold_eligible"])
         self.assertFalse(result["training_authorized"])
 
+
+    def test_shared_opaque_synthetic_history_ref_connects_different_families(self):
+        # SYNTHETIC_TEST_ONLY mutation: two prior-history items across distinct
+        # current families cite the exact same synthetic source token.
+        # An unresolved alias cannot be silently treated as independent.
+        candidate = copy.deepcopy(COLLECTION)
+        fuse = next(p for p in candidate["packets"]
+                    if p["case"]["task_type"] == "historical_case_reuse")
+        fuse["history_context"]["items"][0]["source_refs"].append(
+            "SYNTHETIC-HISTORY-REVIEW-REF-001"
+        )
+        result = audit_l1_holdout_independence(
+            candidate, source_fact_cards=copy.deepcopy(CARDS)
+        )
+        self.assertEqual(result["independent_connected_group_count"], 5)
+        self.assertFalse(result["official_splits_assigned"])
+        self.assertFalse(result["training_authorized"])
+
 if __name__ == "__main__":
     unittest.main()
