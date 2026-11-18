@@ -61,6 +61,7 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 self.assertIn("tests/test_l1_model_preview_cli_no_clobber.py", names)
                 self.assertIn("docs/P5C2_COMPLETE_TWO_REVIEWER_KIT_2026-11-18.md", names)
                 self.assertIn("docs/P5C2_SOURCE_RIGHTS_DEDUPLICATED_QUEUE_2026-11-18.md", names)
+                self.assertIn("docs/P5C2_PACKAGE_DELIVERY_2026-11-18.md", names)
                 self.assertIn(
                     "skills/dgsi-simulation-to-sft/references/BLIND_EXPERT_REVIEW.md",
                     names,
