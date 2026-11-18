@@ -3,6 +3,12 @@
 ## What to prepare
 Use the complete DGSI Skill folder or extracted toolkit. Before processing, confirm source-use rights, de-identify restricted data, keep raw logs/telemetry/reviewer identities in authorized private storage, and freeze source hashes, event-family IDs and analysis cutoff.
 
+Use Python 3.11 or later and install the declared validation dependency:
+
+```bash
+python -m pip install -r requirements-validation.txt
+```
+
 The portable Skill ZIP intentionally does **not** contain the repository's example L0/L1 dataset. This avoids bundling candidate data, source-derived material or private records into the reusable tool. Supply your own authorized collection JSON and matching source-fact JSON from your working directory.
 
 ## Run the production sequence
@@ -42,6 +48,32 @@ python scripts/create_l1_c2_complete_review_kit.py --collection /authorized/inpu
 ```
 
 The coordinator ZIP contains `reviewer_A.zip` and `reviewer_B.zip`. Each includes its own blank Word/JSON form and the same scientific dossier. Distribute the inner ZIPs separately through an authorized channel. The outer coordinator manifest binds the cohort and both archive hashes. Keep the original `C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json` unchanged and edit a separate copy for rights evidence intake.
+
+## Receive independent expert forms
+
+Keep each original JSON and have the corresponding reviewer fill a separate copy. Only `tasks[].scorecard` may change. Leave all other template metadata, including the original blank/status labels, unchanged. The intake report records the new completion state. Each reviewer uses one consistent private token throughout their form; A and B use distinct tokens. The ten scores are integers 1–5, with a decision `ACCEPT_L1`, `REVISE` or `REJECT` and the existing fixed finding codes. Unfilled values remain `null`; never generate missing scores. Word is a readable working copy: a completed Word form must be faithfully transcribed to its matching JSON and checked by the reviewer before intake.
+
+Supply current L0/L1 files independently of the returned forms. From the extracted toolkit, choose a new private report filename in an existing directory:
+
+```bash
+python scripts/audit_l1_c2_current_expert_intake.py --reviewer-a /authorized/review/reviewer-A-return.json --reviewer-b /authorized/review/reviewer-B-return.json --current-collection /authorized/input/l1-candidate-collection.json --current-l0-facts /authorized/input/l0-source-facts.json --output-file /authorized/review/current-expert-intake.json
+```
+
+PowerShell:
+
+```powershell
+python scripts/audit_l1_c2_current_expert_intake.py --reviewer-a "D:\DGSI\review\reviewer-A-return.json" --reviewer-b "D:\DGSI\review\reviewer-B-return.json" --current-collection "D:\DGSI\input\l1-candidate-collection.json" --current-l0-facts "D:\DGSI\input\l0-source-facts.json" --output-file "D:\DGSI\review\current-expert-intake.json"
+```
+
+Stdout contains aggregate counts. The optional private file contains the source-bound task queue and fixed next actions, without reviewer tokens or scores. Existing files and symlinks are never overwritten. Omit `--output-file` for counts only.
+
+| Intake state | Coordinator action |
+|---|---|
+| `PENDING_REVIEW_COMPLETION` | Obtain missing independent assessment fields. A blank or partly filled scorecard is not a completed review. |
+| `PENDING_SECURE_ADJUDICATION` | Resolve REVISE, REJECT, substantive findings or disagreement in the authorized review process. Reviewer identity remains unverified. |
+| `PENDING_REVIEWER_AUTHENTICATION` | Verify reviewer identities and independence; complete source rights and authoritative admission separately. |
+
+A missing task row, duplicate task, changed binding or invalid field rejects the intake. Reordering task rows is allowed. Changing current L0/L1 review material requires new forms and re-review. RC2 forms for an unchanged candidate are compatible with this RC3 intake. See `docs/P5C2_CURRENT_EXPERT_INTAKE_20261118.md` for the precise boundary and partial-form behavior.
 
 ## Audit a rights worksheet against current sources
 

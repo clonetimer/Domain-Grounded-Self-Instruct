@@ -5,9 +5,11 @@
 **Responsibility boundary:** upstream ML/statistical methods process raw telemetry and produce anomaly/fault candidates, localization and evidence summaries. The LLM does not re-diagnose raw telemetry in this SFT task. DGSI trains second-stage engineering synthesis, historical-case reuse, conflict reconciliation, evidence sufficiency, uncertainty handling and next-step recommendations.
 
 The current LLM-facing contracts are:
+
 - [Diagnostic context case schema](resources/diagnostic_case.schema.json)
 - [Chat SFT export schema](resources/diagnostic_sft.schema.json)
-- [Hypothetical case example](examples/diagnostic_context_case_illustrative.json) — schema illustration only, not a training example\n- [Hypothetical chat SFT serialization](examples/diagnostic_context_sft_illustrative.json) — review-required illustration, not approved training data
+- [Hypothetical case example](examples/diagnostic_context_case_illustrative.json) — schema illustration only, not a training example
+- [Hypothetical chat SFT serialization](examples/diagnostic_context_sft_illustrative.json) — review-required illustration, not approved training data
 - [Corrected dataset purpose and roadmap](docs/DATASET_PURPOSE_CORRECTION.md)
 - [Formal report vs. curator review boundary](docs/FORMAL_REPORT_VS_CURATOR_REVIEW.md)
 - [L0 source fact card schema](resources/source_fact_card.schema.json)
@@ -15,22 +17,38 @@ The current LLM-facing contracts are:
 - [L1 task packet schema](resources/l1_task_packet.schema.json)
 - [L1 collection/split manifest schema](resources/l1_task_packet_collection.schema.json)
 - [First L1 literature-derived synthetic pilot](examples/l1_literature_synthetic_task_packets_v0.1.json)
-- [Controlled SFT effectiveness protocol](docs/CONTROLLED_SFT_EFFECTIVENESS_PROTOCOL.md)\n- [D0 preliminary asset inventory](docs/D0_PRELIMINARY_ASSET_INVENTORY.md)\n- [Local read-only inventory script](scripts/inventory_diagnostic_case_assets.py)\n- [AstroGraph result mapping and diagnostic-log intake gate](docs/ASTROGRAPH_RESULT_MAPPING_AND_LOG_GATE.md)
+- [Controlled SFT effectiveness protocol](docs/CONTROLLED_SFT_EFFECTIVENESS_PROTOCOL.md)
+- [D0 preliminary asset inventory](docs/D0_PRELIMINARY_ASSET_INVENTORY.md)
+- [Local read-only inventory script](scripts/inventory_diagnostic_case_assets.py)
+- [AstroGraph result mapping and diagnostic-log intake gate](docs/ASTROGRAPH_RESULT_MAPPING_AND_LOG_GATE.md)
 
 Raw telemetry remains in the upstream ML pipeline. DGSI may retain restricted artifact references for lineage, but must not inline raw waveforms/high-rate telemetry into the LLM prompt. Uncalibrated ML scores are not probabilities; fault candidates are not confirmed root causes; historical unresolved cases remain unresolved.
 
 
-## Current scope (Phase 1)
+## P5-C2 current engineering candidate
+
+The reusable toolkit is at **0.2.0-rc.3**. The current review candidate contains **15 literature-derived synthetic tasks, 9 source event families, 12 bound L0 fact cards and 7 source publications**. These counts describe coverage, not statistically independent incidents. Independent expert adjudications, rights-cleared publications, official dataset splits and authorized SFT rows remain **zero**; training is not authorized.
+
+- Start with the [operator quick start](skills/dgsi-simulation-to-sft/references/OPERATOR_QUICKSTART.md).
+- Review the [current 15-task candidate](examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json), [per-task dispositions](examples/p5c2_packet_review_dispositions_2026-11-17.json) and [integrated curator review](docs/P5C2_INTEGRATED_CURATOR_REVIEW_2026-11-17.md).
+- Generate separate A/B review kits with the [delivery contract](docs/P5C2_PACKAGE_DELIVERY_2026-11-18.md), then use the [current-source-bound expert intake](docs/P5C2_CURRENT_EXPERT_INTAKE_20261118.md) to receive completed or partial forms and produce the pending-action queue.
+- Receive source-rights worksheets through the separate [current-source rights preflight](docs/P5C2_CURRENT_SOURCE_RIGHTS_PREFLIGHT_20261118.md).
+- See [main reconciliation evidence](docs/P5C2_MAIN_RECONCILIATION_20261118.md) and the preserved [historical specialized-task review](docs/P5C2_SPECIALIZED_TASK_REVIEW_2026-11-17.md).
+
+The expert intake accepts original RC2 forms for an unchanged current candidate. It does not authenticate reviewers, resolve scientific disagreements or authorize source use. REAL and literature-derived synthetic candidates remain separate parallel tracks.
+
+## Foundational Phase 1 assets
 
 - Public indexes: `resources/sources.json` (33 sources), `resources/source_passages.json` (42 passage records), `resources/terms.json` (ADCS), `resources/eps_terms.json` (EPS), `resources/telemetry_channels.csv`, `resources/fault_effects.json`.
 - Run admission contract: `resources/simulation_truth.json` (initially **zero verified runs**).
 - Versioned candidate JSON contract: `resources/seed.schema.json`.
-- Conservative Python preflight CLI: `src/dgsi/quality.py`, 69 adversarial tests.
+- Conservative Python preflight CLI: `src/dgsi/quality.py`; the initial Phase 1 suite contained 69 adversarial tests.
 - Human workflows and **draft** reusable Skills: `docs/`, `skills/adcs-gold-seed-curation/SKILL.md`, `skills/eps-gold-seed-curation/SKILL.md`.
 
-## Run locally (Python 3.11+; no external runtime dependencies)
+## Run validation locally (Python 3.11+)
 
 ```bash
+python -m pip install -r requirements-validation.txt
 PYTHONPATH=src python -m unittest discover -s tests -v
 PYTHONPATH=src python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
 ```
@@ -38,6 +56,7 @@ PYTHONPATH=src python -m dgsi.cli validate examples/illustrative_gyro_abstain.js
 PowerShell:
 
 ```powershell
+python -m pip install -r requirements-validation.txt
 $env:PYTHONPATH = 'src'
 python -m unittest discover -s tests -v
 python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
@@ -86,3 +105,5 @@ python scripts/package_dgsi_simulation_to_sft.py
 ## Development experience
 
 Reusable cross-platform engineering lessons are recorded in [`docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md`](docs/DEVELOPMENT_EXPERIENCE_OPTIONAL_PYTHON_DEPENDENCIES.md), including the OCR optional-dependency mocking failure, its correction, and the rule for testing Python package import semantics.
+
+The ongoing [development experience record](docs/DEVELOPMENT_EXPERIENCE_TOPOLOGY_REVIEW.md) also covers source binding, review delivery, deterministic packaging, main reconciliation and the independent-review return path. Lessons 107 onward record the RC3 continuation.

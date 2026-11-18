@@ -46,6 +46,7 @@ DOCS = (
     "docs/P5C2_CURRENT_SOURCE_RIGHTS_PREFLIGHT_20261118.md",
     "docs/P5C2_OFFLINE_SOURCE_RIGHTS_INTAKE_20261118.md",
     "docs/P5C2_SOURCE_DOCUMENT_IDENTITY_GUARD_20261118.md",
+    "docs/P5C2_CURRENT_EXPERT_INTAKE_20261118.md",
 )
 VALIDATOR_FILES = (
     "requirements-validation.txt",
@@ -56,6 +57,7 @@ VALIDATOR_FILES = (
     "scripts/create_l1_c2_expert_review_handoff.py",
     "scripts/create_l1_c2_scientific_dossier.py",
     "scripts/audit_l1_c2_current_rights_intake.py",
+    "scripts/audit_l1_c2_current_expert_intake.py",
     "scripts/audit_l1_c2_source_rights_intake.py",
     "tests/test_l1_blind_review_manifest.py",
     "tests/test_l1_blind_review_manifest_cli.py",
@@ -65,6 +67,8 @@ VALIDATOR_FILES = (
     "tests/test_l1_c2_scored_review.py",
     "tests/test_l1_c2_source_rights_queue.py",
     "tests/test_l1_c2_current_rights_preflight.py",
+    "tests/test_l1_c2_expert_intake.py",
+    "tests/test_l1_c2_expert_intake_cli.py",
     "tests/test_l1_c2_rights_intake_audit.py",
     "tests/test_l1_model_preview_cli_no_clobber.py",
     "scripts/audit_diagnostic_sft_lineage.py",

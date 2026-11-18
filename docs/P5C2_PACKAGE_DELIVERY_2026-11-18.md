@@ -4,7 +4,7 @@
 
 This milestone produces two separately versioned outputs:
 
-1. **Portable DGSI Skill/toolkit** — reusable production instructions, schemas, validators, preview CLI, blind-review manifest CLI, complete two-reviewer kit generator, references and regression tests. Built as `dgsi-simulation-to-sft-toolkit-0.2.0-rc.2.zip`.
+1. **Portable DGSI Skill/toolkit** — reusable production instructions, schemas, validators, preview CLI, blind-review manifest CLI, complete two-reviewer kit generator, current-source-bound expert/rights intake, references and regression tests. Built as `dgsi-simulation-to-sft-toolkit-0.2.0-rc.3.zip`.
 2. **L1 synthetic dataset review kit** — a controlled, review-only package for the frozen 15-task / 9-event-family candidate. It contains two independently distributable reviewer archives, the coordinator manifest, a blank source-rights queue and SHA-256 checksums. It is not an SFT dataset release.
 
 ## Build the Skill package
@@ -13,11 +13,13 @@ From a clean repository checkout:
 
 ```bash
 python -m pip install -r requirements-validation.txt
-python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.2.zip
+python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.3.zip
 python -m unittest discover -s tests -p "test_portable_toolkit_package_build.py" -v
 ```
 
 The package manifest records per-file byte counts and SHA-256 digests. The regression extracts the actual ZIP into a clean directory without repository `PYTHONPATH`, runs the preview, blind-review and complete review-kit CLIs against external L0/L1 fixtures, verifies the generated reviewer ZIPs, and checks that no training authorization is present.
+
+RC3 additionally receives the actual generated A/B blank forms through the extracted expert-intake CLI. The round-trip must report 15 pending tasks, 30 incomplete scorecards and zero paired reviews. RC2 remains an immutable earlier toolkit; its already delivered review forms remain compatible because the candidate and handoff schema are unchanged.
 
 GitHub Actions workflow `.github/workflows/package-p5c2.yml` publishes only this reusable Skill ZIP as an Actions artifact. The candidate data/reviewer package is deliberately not uploaded to a public artifact because source-use rights are still pending.
 
@@ -40,6 +42,21 @@ The destination parent directory must already exist and the output path must be 
 - SHA-256 checksums and explicit REVIEW_ONLY notices.
 
 Send reviewer A and reviewer B their respective inner ZIPs separately through an authorized channel. Keep the outer package and coordinator manifest in the controlled workspace. Never put completed expert forms, reviewer identities or restricted source materials into the public repository.
+
+## Receive independent expert forms
+
+Only `tasks[].scorecard` is editable in returned JSON copies. Provide independently loaded current L0/L1 files; all other form metadata must remain unchanged. A blank or partial form produces a pending-completion report, not an invented completed review.
+
+```bash
+python scripts/audit_l1_c2_current_expert_intake.py \
+  --reviewer-a /authorized/review/reviewer-A-return.json \
+  --reviewer-b /authorized/review/reviewer-B-return.json \
+  --current-collection /authorized/input/l1-candidate-collection.json \
+  --current-l0-facts /authorized/input/l0-source-facts.json \
+  --output-file /authorized/review/current-expert-intake.json
+```
+
+Stdout contains aggregate counts; the new private file contains the task queue without reviewer tokens or scores. Complete pairs use the existing ten-dimension rubric and remain pending identity verification or secure adjudication. The separate rights process remains necessary. See [current expert intake](P5C2_CURRENT_EXPERT_INTAKE_20261118.md).
 
 ## Receive a rights worksheet
 
@@ -73,6 +90,6 @@ The L0 repository contains an additional unbound ISEE expert-system card; it is 
 
 ## Release interpretation
 
-A successful package build establishes structural integrity. RC2 also verifies byte-for-byte reproducibility under different clocks within the same Python/compression implementation. It does not establish scientific correctness, reviewer identity, source rights, REAL Gold, SFT authorization or training readiness.
+A successful package build establishes structural integrity. RC3 retains RC2's byte-for-byte reproducibility under different clocks within the same Python/compression implementation. It does not establish scientific correctness, reviewer identity, source rights, REAL Gold, SFT authorization or training readiness.
 
 The Skill package may be distributed as a candidate-generation tool. The dataset package must remain a controlled review candidate until independent science review and source-use rights are completed. The two outputs must retain separate manifests and SHA-256 hashes.

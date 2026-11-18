@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -169,6 +170,10 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 self.assertIn("tests/test_l1_c2_source_rights_queue.py", names)
                 self.assertIn("tests/test_l1_model_preview_cli_no_clobber.py", names)
                 for required in (
+                    "scripts/audit_l1_c2_current_expert_intake.py",
+                    "tests/test_l1_c2_expert_intake.py",
+                    "tests/test_l1_c2_expert_intake_cli.py",
+                    "docs/P5C2_CURRENT_EXPERT_INTAKE_20261118.md",
                     "scripts/audit_l1_c2_current_rights_intake.py",
                     "scripts/audit_l1_c2_source_rights_intake.py",
                     "tests/test_l1_c2_current_rights_preflight.py",
@@ -349,6 +354,41 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                         self.assertEqual(0, kit_manifest["sft_records_emitted"])
                         blank_queue = extracted_root / "rights-queue-blank.json"
                         blank_queue.write_bytes(kit.read("C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json"))
+                        reviewer_forms = {}
+                        for slot in ("A", "B"):
+                            with zipfile.ZipFile(io.BytesIO(kit.read(f"reviewer_{slot}.zip"))) as reviewer_zip:
+                                form_path = extracted_root / f"reviewer_{slot}_blank.json"
+                                form_path.write_bytes(reviewer_zip.read(f"C2_reviewer_{slot}_BLANK.json"))
+                                reviewer_forms[slot] = form_path
+                    # The actual blank handoffs must round-trip through the
+                    # extracted intake CLI without any invented expert scores.
+                    expert_queue = extracted_root / "expert-intake-pending.json"
+                    expert_smoke = subprocess.run(
+                        [sys.executable,
+                         str(extracted_root / "scripts/audit_l1_c2_current_expert_intake.py"),
+                         "--reviewer-a", str(reviewer_forms["A"]),
+                         "--reviewer-b", str(reviewer_forms["B"]),
+                         "--current-collection",
+                         str(ROOT / "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json"),
+                         "--current-l0-facts",
+                         str(ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json"),
+                         "--output-file", str(expert_queue)],
+                        cwd=extracted_root, env=clean_env,
+                        capture_output=True, text=True, timeout=90, check=False,
+                    )
+                    self.assertEqual(0, expert_smoke.returncode, expert_smoke.stdout[:1000] + expert_smoke.stderr[:1000])
+                    expert_summary = json.loads(expert_smoke.stdout)
+                    self.assertEqual(15, expert_summary["packet_count"])
+                    self.assertEqual(30, expert_summary["incomplete_scorecard_count"])
+                    self.assertEqual(0, expert_summary["complete_scorecard_count"])
+                    self.assertEqual(0, expert_summary["paired_review_count"])
+                    self.assertEqual(15, expert_summary["pending_completion_count"])
+                    self.assertNotIn("task_queue", expert_summary)
+                    expert_report = json.loads(expert_queue.read_text(encoding="utf-8"))
+                    self.assertEqual(15, len(expert_report["task_queue"]))
+                    self.assertIs(True, expert_report["current_public_source_snapshot_matched"])
+                    self.assertIs(False, expert_report["training_authorized"])
+                    self.assertEqual(0, expert_report["sft_records_emitted"])
                     # Exercise both shipped rights CLIs using the real kit's blank
                     # queue. A structural/current-source match grants no clearance.
                     for script_name, extra_args in (
