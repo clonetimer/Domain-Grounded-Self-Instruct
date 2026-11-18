@@ -50,6 +50,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
     ids: set[str] = set()
     by_arm: dict[str, list[dict[str, Any]]] = defaultdict(list)
     source_tracks: dict[str, str] = {}
+    family_groups: dict[str, str] = {}
     for trial in trials:
         if not isinstance(trial, dict):
             _fail("SOTA_TRIAL_INVALID")
@@ -67,6 +68,10 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         if group in source_tracks and source_tracks[group] != track:
             _fail("SOTA_SOURCE_TRACK_COLLISION")
         source_tracks[group] = track
+        family = trial["event_family"]
+        if family in family_groups and family_groups[family] != group:
+            _fail("SOTA_EVENT_FAMILY_GROUP_COLLISION")
+        family_groups[family] = group
         attempts, accepted = trial.get("attempts"), trial.get("accepted_candidates")
         used, budget = trial.get("generation_tokens"), trial.get("token_budget")
         if any(type(v) is not int or v < 0 for v in (attempts, accepted, used, budget)):
@@ -85,7 +90,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         status = trial.get("review_status")
         scores, reviewers = trial.get("scores", {}), trial.get("reviewer_tokens", [])
         if status == "PENDING":
-            if scores or reviewers:
+            if scores != {} or reviewers != [] or "review_receipt_sha256" in trial:
                 _fail("SOTA_PENDING_HAS_SCORES")
         elif status == "ADJUDICATED":
             if (not isinstance(reviewers, list) or len(reviewers) < 2
@@ -106,17 +111,17 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
 
     summaries: dict[str, Any] = {}
     groups: dict[str, set[tuple[str, str, str]]] = {}
-    budgets: dict[str, dict[tuple[str, str, str], tuple[int, int]]] = {}
+    budgets: dict[str, dict[tuple[str, str, str], tuple[int, ...]]] = {}
     for arm in ARMS:
         rows = by_arm[arm]
         key_counts: dict[tuple[str, str, str], int] = defaultdict(int)
-        budget_by_key: dict[tuple[str, str, str], int] = defaultdict(int)
+        budget_by_key: dict[tuple[str, str, str], list[int]] = defaultdict(list)
         for row in rows:
             key = (row["source_group"], row["event_family"], row["track"])
             key_counts[key] += 1
-            budget_by_key[key] += row["token_budget"]
+            budget_by_key[key].append(row["token_budget"])
         groups[arm] = set(key_counts)
-        budgets[arm] = {k: (v, key_counts[k]) for k, v in budget_by_key.items()}
+        budgets[arm] = {k: tuple(sorted(v)) for k, v in budget_by_key.items()}
         reviewed = [r for r in rows if r["review_status"] == "ADJUDICATED"]
         attempted = sum(r["attempts"] for r in rows)
         accepted = sum(r["accepted_candidates"] for r in rows)
@@ -146,7 +151,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
             "adjudicated_trials": len(reviewed),
             "reviewer_reported_dimension_means": (
                 {d: round(sum(r["scores"][d] for r in reviewed) / len(reviewed), 4) for d in DIMENSIONS}
-                if reviewed else None
+                if reviewed and len({r["track"] for r in reviewed}) == 1 else None
             ),
         }
     comparable = (
