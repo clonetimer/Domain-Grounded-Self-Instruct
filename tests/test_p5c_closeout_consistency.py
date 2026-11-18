@@ -15,6 +15,7 @@ MANIFEST = ROOT / "examples" / "dgsi_evaluation_suite_manifest_2026-11-18.json"
 CORRECTION = ROOT / "docs" / "AAS_RUN03F_INTEGRATION_FIELD_MAPPING_CORRECTION_2026-11-18.md"
 COMPARISON = ROOT / "docs" / "DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md"
 CLOSEOUT = ROOT / "docs" / "PRODUCT_CLOSEOUT_PLAN.md"
+README = ROOT / "README.md"
 
 
 class CloseoutConsistencyTests(unittest.TestCase):
@@ -24,6 +25,7 @@ class CloseoutConsistencyTests(unittest.TestCase):
         cls.correction = CORRECTION.read_text(encoding="utf-8")
         cls.comparison = COMPARISON.read_text(encoding="utf-8")
         cls.closeout = CLOSEOUT.read_text(encoding="utf-8")
+        cls.readme = README.read_text(encoding="utf-8")
 
     def test_manifest_binds_corrected_aas_score_artifact(self):
         items = [x for x in self.manifest["suite_components"] if x["id"] == "AAS-RUN03F-001"]
@@ -63,6 +65,9 @@ class CloseoutConsistencyTests(unittest.TestCase):
         self.assertIn("not DGSI's product completion", self.closeout)
         self.assertIn("block declaring the product goal achieved", self.closeout)
         self.assertIn("separately classified and evaluated", self.closeout)
+        self.assertIn("single spacecraft fault-diagnosis SFT dataset product goal", self.readme)
+        self.assertNotIn("Skill product is being closed out separately", self.readme)
+        self.assertIn("Auto-Instruct-style ranking", self.closeout)
 
 
 if __name__ == "__main__":
