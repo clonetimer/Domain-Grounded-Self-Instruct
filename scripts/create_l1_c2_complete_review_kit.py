@@ -55,6 +55,23 @@ def _zip_bytes(files: dict[str, bytes]) -> bytes:
     return memory.getvalue()
 
 
+def _normalized_word_document(blob: bytes) -> bytes:
+    """Strip ZIP timestamps from upstream minimal OOXML without changing XML."""
+    required = {"[Content_Types].xml", "_rels/.rels", "word/document.xml"}
+    with ZipFile(BytesIO(blob)) as input_docx:
+        if set(input_docx.namelist()) != required:
+            raise ValueError("REVIEW_KIT_UNEXPECTED_WORD_PART")
+        parts = {name: input_docx.read(name) for name in sorted(required)}
+    stream = BytesIO()
+    with ZipFile(stream, "w") as output_docx:
+        for name, payload in sorted(parts.items()):
+            info = ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type = ZIP_DEFLATED
+            info.external_attr = 0o600 << 16
+            output_docx.writestr(info, payload)
+    return stream.getvalue()
+
+
 def build_review_kit(collection: dict, cards: list[dict]) -> tuple[bytes, dict]:
     """Assemble review-only artifacts; fail before publishing on any mismatch."""
     dossier = build_c2_scientific_dossier(collection, source_fact_cards=cards)
@@ -89,7 +106,7 @@ def build_review_kit(collection: dict, cards: list[dict]) -> tuple[bytes, dict]:
                 raise ValueError("REVIEW_KIT_FORM_NOT_BLANK")
         archives[f"reviewer_{slot}.zip"] = _zip_bytes({
             f"C2_reviewer_{slot}_BLANK.json": _json_bytes(form),
-            f"C2_reviewer_{slot}_BLANK.docx": _word_document(form),
+            f"C2_reviewer_{slot}_BLANK.docx": _normalized_word_document(_word_document(form)),
             "C2_SYNTHETIC_SCIENTIFIC_REVIEW_ONLY.json": dossier_json,
             "C2_SYNTHETIC_SCIENTIFIC_REVIEW_ONLY.html": dossier_html,
             "README_REVIEW_ONLY.txt": NOTICE.encode("utf-8"),
