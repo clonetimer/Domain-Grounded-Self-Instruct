@@ -55,6 +55,7 @@ class ScorecardTests(unittest.TestCase):
     def test_partial_source_and_token_budget_cannot_claim_comparison(self):
         rows = [trial(a) for a in ARMS]
         rows[-1]["source_group"] = "OTHER"
+        rows[-1]["event_family"] = "OTHER"
         self.assertFalse(summarize_construction_trials(doc(rows))["source_group_budget_matched"])
         rows = [trial(a) for a in ARMS]
         rows[-1]["token_budget"] = 999
@@ -118,6 +119,46 @@ class ScorecardTests(unittest.TestCase):
                 scorecard_file(inp, out)
             with self.assertRaisesRegex(ScorecardError, "SOTA_NO_INPUT_OVERWRITE"):
                 scorecard_file(inp, inp)
+
+    def test_event_family_cannot_change_source_group(self):
+        rows = [trial("M0", "G1"), trial("M1", "G2")]
+        rows[-1]["event_family"] = "G1"
+        self.reject("SOTA_EVENT_FAMILY_GROUP_COLLISION", doc(rows))
+
+    def test_matched_budget_total_cannot_hide_per_attempt_shift(self):
+        rows = []
+        for arm in ARMS:
+            for idx, budget in enumerate((400, 600)):
+                r = trial(arm)
+                r["trial_id"] = f"{arm}-{idx}"
+                r["generation_tokens"] = 0
+                r["token_budget"] = budget if arm != "M4" else (300, 700)[idx]
+                rows.append(r)
+        result = summarize_construction_trials(doc(rows))
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_mixed_tracks_never_receive_pooled_expert_mean(self):
+        rows = [trial(a, status="ADJUDICATED") for a in ARMS]
+        for a in ARMS:
+            r = trial(a, group="R", track="REAL_GOLD", status="ADJUDICATED")
+            r["gold_admitted"] = True
+            r["scores"]["source_fidelity"] = 0
+            rows.append(r)
+        result = summarize_construction_trials(doc(rows))
+        self.assertEqual(result["comparison_status"], "REVIEWED_COMPARABLE_INPUT")
+        arm = result["arms"]["M4"]
+        self.assertIsNone(arm["reviewer_reported_dimension_means"])
+        self.assertEqual(arm["by_track"]["REAL_GOLD"]["reviewer_reported_dimension_means"]["source_fidelity"], 0)
+        self.assertEqual(arm["by_track"]["LITERATURE_DERIVED_SYNTHETIC"]["reviewer_reported_dimension_means"]["source_fidelity"], 2)
+
+    def test_pending_review_rejects_stale_receipt_and_wrong_score_shapes(self):
+        r = trial()
+        r["review_receipt_sha256"] = "a" * 64
+        self.reject("SOTA_PENDING_HAS_SCORES", doc([r]))
+        r = trial()
+        r["scores"] = None
+        self.reject("SOTA_PENDING_HAS_SCORES", doc([r]))
 
 
 if __name__ == "__main__":
