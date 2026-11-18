@@ -117,9 +117,9 @@ The ongoing [development experience record](docs/DEVELOPMENT_EXPERIENCE_TOPOLOGY
 [Lessons 127–132 on processing a returned preliminary review](docs/DEVELOPMENT_EXPERIENCE_C2_REVIEW_RETURN_20261118.md) cover version reconciliation, evidence-sensitive disposition, rights dependencies and complete review handoffs.
 
 
-## DGSI Skill product closeout
+## DGSI SFT dataset program — tooling handoff milestone
 
-The Skill product is being closed out separately from any future formal SFT dataset. The 21 literature-derived tasks, five user-provided L0 case facts and AAS RUN-03F fixture are Evaluation Suite materials; they are not automatically Gold or training data. The five deliverables and acceptance boundary are defined in [PRODUCT_CLOSEOUT_PLAN.md](docs/PRODUCT_CLOSEOUT_PLAN.md).
+The Skill/toolkit may be handed off as an engineering milestone **within the single spacecraft fault-diagnosis SFT dataset product goal**; this does not complete that goal. The 21 literature-derived tasks, five user-provided L0 case facts and AAS RUN-03F fixture are Evaluation Suite materials; they are not automatically Gold or training data. Formal dataset admission remains blocked pending source rights, independent expert review, complete upstream ML/log/mission evidence, safe holdout separation and explicit authorization. The five deliverables and acceptance boundary are defined in [PRODUCT_CLOSEOUT_PLAN.md](docs/PRODUCT_CLOSEOUT_PLAN.md).
 
 The closeout includes a fifth deliverable: a matched-budget comparison of DGSI data construction against Self-Instruct, Evol-Instruct/WizardLM, Auto-Instruct and a clearly labelled Magpie-style adaptation. The protocol first compares candidate-data quality; downstream SFT comparison is conditional on a separate authorized training cohort and untouched event-family holdout. See [DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md](docs/DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md).
 

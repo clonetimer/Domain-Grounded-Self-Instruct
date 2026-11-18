@@ -24,6 +24,7 @@ A separate downstream question asks whether SFT on approved DGSI data improves s
 | M0 | Self-Instruct | Same seed-task pool; generate instruction, input and output; apply invalidity and similarity filtering. No DGSI-specific evidence validators. |
 | M1 | Evol-Instruct / WizardLM-style | Same seed tasks; depth evolution (constraints, depth, specificity, reasoning steps) and breadth mutation; eliminate failed or non-informative evolutions. |
 | M2 | Magpie-style | Use a documented aligned-model pre-query template to elicit user queries and responses, constrained to the same spacecraft-diagnosis source scope. Call this a Magpie-style adaptation, not the official method, unless its original template and procedure are reproduced. |
+| M3 | Auto-Instruct-style ranking | Generate diverse candidate instructions for the same task/source pool, then rank them with a documented instruction-quality scorer. The original Auto-Instruct paper studies instruction selection for black-box model prompting; any adaptation to generating complete diagnostic SFT targets must be identified and evaluated separately. |
 | M4 | DGSI | L0 source facts, field-level provenance, ML result + logs + mission context + time-safe history, task taxonomy, evidence/target separation, source-closure checks, uncertainty and abstention. |
 | M5 (ablation) | DGSI without retrieved history | Same DGSI process with historical Context removed. This isolates Context contribution; it is not a separate SOTA baseline. |
 
@@ -31,6 +32,7 @@ A separate downstream question asks whether SFT on approved DGSI data improves s
 - Self-Instruct, ACL 2023: https://aclanthology.org/2023.acl-long.754/
 - WizardLM / Evol-Instruct, ICLR 2024: https://proceedings.iclr.cc/paper_files/paper/2024/hash/82eec786fdfbbfa53450c5feb7d1ac92-Abstract-Conference.html
 - Magpie, ICLR 2025: https://proceedings.iclr.cc/paper_files/paper/2025/hash/be06e3802e9411381feece79b4d960c1-Abstract-Conference.html
+- Auto-Instruct, Findings EMNLP 2023: https://aclanthology.org/2023.findings-emnlp.659/
 - Official Magpie implementation: https://github.com/magpie-align/magpie
 
 UltraFeedback is primarily a preference-feedback resource, not a directly equivalent instruction-construction baseline. Keep it for a separate preference-optimization study if needed.
@@ -81,6 +83,7 @@ Compare:
 - Self-Instruct SFT;
 - Evol-Instruct SFT;
 - Magpie-style SFT;
+- Auto-Instruct-style candidate-selection adaptation (only if the adapter produces complete, source-grounded SFT examples; otherwise report NOT APPLICABLE, not a fabricated training arm);
 - DGSI SFT;
 - DGSI SFT + time-safe Context, paired against the same DGSI checkpoint without retrieved history.
 
@@ -102,7 +105,7 @@ If no separate approved training cohort exists, the downstream SFT comparison is
 
 1. Freeze this protocol and identify a permitted source pool.
 2. Freeze a representative development set and separate unseen evaluation set.
-3. Implement only the minimum adapters needed to reproduce M0–M4; reuse existing DGSI schemas, validators and evaluation runner.
+3. Implement only the minimum adapters needed to compare M0–M4 and the M5 Context ablation; reuse existing DGSI schemas, validators and evaluation runner.
 4. Generate equal-budget candidate pools and retain rejected outputs/reason codes.
 5. Blind-score construction quality and report paired per-case deltas and critical failures.
 6. Run downstream SFT only if approved training data and an untouched holdout exist.
