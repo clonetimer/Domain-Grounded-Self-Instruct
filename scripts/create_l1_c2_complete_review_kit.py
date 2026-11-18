@@ -21,6 +21,7 @@ from create_l1_c2_expert_review_handoff import _word_document
 from create_l1_c2_scientific_dossier import _html
 from dgsi.l1_c2_expert_handoff import build_c2_expert_handoff
 from dgsi.l1_c2_scientific_dossier import build_c2_scientific_dossier
+from dgsi.l1_c2_source_rights_queue import build_c2_source_rights_queue
 
 NOTICE = (
     "DGSI C2 SYNTHETIC / INDEPENDENT EXPERT REVIEW ONLY\n"
@@ -28,6 +29,8 @@ NOTICE = (
     "flight logs, authenticated expert conclusions, Gold, or SFT.\n"
     "Send reviewer_A.zip and reviewer_B.zip separately through an authorized "
     "channel. Neither reviewer should see the other's completed assessment.\n"
+    "The coordinator also receives a BLANK rights intake grouped by source "
+    "publication; a public download URL does not grant reuse permission.\n"
     "Read the cited source publications independently and check permissions. "
     "Literature facts constrain a synthetic scenario; they do not prove its "
     "current fault. No real telemetry is part of the default model input.\n"
@@ -80,6 +83,10 @@ def build_review_kit(collection: dict, cards: list[dict]) -> tuple[bytes, dict]:
         raise ValueError("REVIEW_KIT_DUPLICATE_DOSSIER_TASK")
     dossier_json = _json_bytes(dossier)
     dossier_html = _html(dossier).encode("utf-8")
+    rights_queue = build_c2_source_rights_queue(dossier)
+    rights_queue_bytes = _json_bytes(rights_queue)
+    if rights_queue["collection_projection_sha256"] != dossier["collection_projection_sha256"]:
+        raise ValueError("REVIEW_KIT_SOURCE_RIGHTS_COHORT_DRIFT")
     archives: dict[str, bytes] = {}
     for slot in ("A", "B"):
         form = build_c2_expert_handoff(
@@ -122,6 +129,9 @@ def build_review_kit(collection: dict, cards: list[dict]) -> tuple[bytes, dict]:
             name: sha256(data).hexdigest() for name, data in archives.items()
         },
         "reviewer_forms": "BLANK_UNAUTHENTICATED",
+        "source_rights_document_count": rights_queue["distinct_source_document_count"],
+        "source_rights_bound_l0_fact_count": rights_queue["bound_l0_fact_count"],
+        "source_rights_queue_sha256": sha256(rights_queue_bytes).hexdigest(),
         "source_rights_verified": False,
         "expert_review_complete": False,
         "not_for_sft": True,
@@ -134,6 +144,7 @@ def build_review_kit(collection: dict, cards: list[dict]) -> tuple[bytes, dict]:
     package = _zip_bytes({
         **archives,
         "COORDINATOR_REVIEW_ONLY_MANIFEST.json": manifest_bytes,
+        "C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json": rights_queue_bytes,
         "README_REVIEW_ONLY.txt": NOTICE.encode("utf-8"),
         "SHA256SUMS.txt": (
             "".join(f"{sha256(data).hexdigest()}  {name}\n"
