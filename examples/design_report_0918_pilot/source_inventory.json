@@ -1,0 +1,22 @@
+{
+  "source_id": "SRC-DESIGN-0918-001",
+  "filename": "航天器自主故障诊断与重构仿真验证平台_方案设计报告_0918.docx",
+  "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "sha256": "573765ababd2a370ae838d9c185b855036d8dd904427da14d7bc034e767faf4e",
+  "size_bytes": 1327356,
+  "source_track": "KNOWLEDGE_SOURCE_NOT_EVENT",
+  "source_type": "DESIGN_DOCUMENT",
+  "document_date": "2026-09",
+  "permission_basis": "User-uploaded for this conversation; external AI processing permission not independently established",
+  "confidentiality": "USER_PROVIDED_ENGINEERING_DOCUMENT",
+  "extraction_status": "FIRST_PASS_TEXT_AND_RENDERED_PAGE_REVIEW",
+  "limitations": [
+    "No test report or actual simulation run logs were supplied for this pilot.",
+    "No upstream ML result bundle was supplied.",
+    "The document describes design/model configuration; it does not prove any fault was actually injected, executed, observed or diagnosed.",
+    "Several formula symbols are lost or garbled in text extraction; only clearly legible parameter values and narrative relationships are used.",
+    "PDF pages 55-57 contain missile/aircraft SDG material inconsistent with the spacecraft platform scope; quarantined from spacecraft fact extraction pending source-owner clarification.",
+    "The report describes Simulink R2025b and Python 3.11.9; it is not evidence that those exact versions were used for a later run."
+  ],
+  "page_locator_convention": "PDF page number in the uploaded 63-page DOCX rendering; section number retained where available."
+}

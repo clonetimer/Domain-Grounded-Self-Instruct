@@ -1,0 +1,25 @@
+# Do not commit training data, traces, local credentials, or review identities
+.env
+.env.*
+*.key
+*.pem
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.venv/
+.uv/
+.local/
+.private/
+.superpowers/
+logs/
+raw/
+traces/
+run_bundles/
+*.parquet
+*.sqlite
+*.db
+*.npy
+*.npz
+
+# Local blind-evaluation outputs may contain model-generated candidate text
+reports/skill_blind_eval/

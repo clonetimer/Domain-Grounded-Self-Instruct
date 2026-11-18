@@ -1,0 +1,481 @@
+{
+  "schema_version": "dgsi-p5c2-packet-review-dispositions.v1",
+  "snapshot": "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json",
+  "source_baseline": "778f675f0893b112f43773936cdd407f7563259c",
+  "review_type": "CURATOR_REVIEW_NOT_EXPERT_ADJUDICATION",
+  "totals": {
+    "packets": 15,
+    "event_families": 9,
+    "expert_approved": 0,
+    "rights_cleared": 0,
+    "sft_authorized": 0
+  },
+  "packets": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:SEASAT-SLIPRING-1978",
+      "source_fact_refs": [
+        "LIT-SEASAT-SLIPRING-001"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-001",
+        "LOG-01",
+        "LOG-02",
+        "ML-E-001",
+        "LOG-01",
+        "LOG-02"
+      ],
+      "history_context_refs": [
+        "L0-E-001"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-002",
+        "LOG-11",
+        "LOG-12",
+        "ML-E-002",
+        "LOG-11",
+        "LOG-12"
+      ],
+      "history_context_refs": [
+        "L0-E-002"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "task_type": "conflict_reconciliation",
+      "event_family": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-003",
+        "LOG-21",
+        "LOG-22",
+        "LOG-23",
+        "ML-E-003",
+        "LOG-21",
+        "LOG-22",
+        "LOG-23"
+      ],
+      "history_context_refs": [
+        "L0-E-003"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-004",
+        "LOG-41",
+        "LOG-42",
+        "ML-E-004",
+        "LOG-41",
+        "LOG-42"
+      ],
+      "history_context_refs": [
+        "L0-E-004"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-005",
+        "LOG-51",
+        "LOG-52",
+        "ML-E-005",
+        "LOG-51",
+        "LOG-52"
+      ],
+      "history_context_refs": [
+        "L0-E-005"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-006",
+        "LOG-61",
+        "LOG-62",
+        "ML-E-006",
+        "LOG-61",
+        "LOG-62"
+      ],
+      "history_context_refs": [
+        "L0-E-006"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-007",
+        "LOG-71",
+        "LOG-72",
+        "ML-E-007",
+        "LOG-71",
+        "LOG-72",
+        "ML-E-007",
+        "LOG-71",
+        "LOG-72"
+      ],
+      "history_context_refs": [
+        "L0-E-007"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-008",
+        "LOG-81",
+        "LOG-82",
+        "ML-E-008",
+        "LOG-81",
+        "LOG-82"
+      ],
+      "history_context_refs": [
+        "L0-E-008"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-009",
+        "LOG-91",
+        "LOG-92",
+        "LOG-93",
+        "ML-E-009",
+        "LOG-91",
+        "LOG-92",
+        "LOG-93"
+      ],
+      "history_context_refs": [
+        "L0-E-009"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-CATALYST-010"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-010",
+        "LOG-A1",
+        "LOG-A2",
+        "LOG-A3",
+        "ML-E-010",
+        "LOG-A1",
+        "LOG-A2",
+        "LOG-A3"
+      ],
+      "history_context_refs": [
+        "L0-E-010"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "task_type": "diagnostic_synthesis",
+      "event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-011",
+        "LOG-B1",
+        "LOG-B2",
+        "LOG-B3",
+        "LOG-B4",
+        "ML-E-011",
+        "LOG-B1",
+        "LOG-B2",
+        "LOG-B3",
+        "LOG-B4"
+      ],
+      "history_context_refs": [
+        "L0-E-011"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "task_type": "historical_case_reuse",
+      "event_family": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-012",
+        "LOG-121",
+        "LOG-122",
+        "ML-E-012",
+        "LOG-121",
+        "LOG-122"
+      ],
+      "history_context_refs": [
+        "L0-E-012",
+        "HIST-L0-E-008"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "task_type": "evidence_sufficiency",
+      "event_family": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-003",
+        "LOG-21",
+        "LOG-22",
+        "LOG-23",
+        "ML-E-003",
+        "LOG-21",
+        "LOG-22",
+        "LOG-23"
+      ],
+      "history_context_refs": [
+        "L0-E-003"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "task_type": "next_step_recommendation",
+      "event_family": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "c2b_disposition": "PENDING_EXPERT",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "PENDING_SOURCE_RIGHTS_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-008",
+        "LOG-81",
+        "LOG-82",
+        "ML-E-008",
+        "LOG-81",
+        "LOG-82"
+      ],
+      "history_context_refs": [
+        "L0-E-008"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "PENDING_SOURCE_RIGHTS_REVIEW"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "task_type": "handover_summary",
+      "event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "c2b_disposition": "QUARANTINE_SOURCE_RIGHTS",
+      "c2c_disposition": "CURATOR_REVIEWED_CANDIDATE_PENDING_INDEPENDENT_EXPERT",
+      "rights_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW",
+      "findings": [
+        "Historical L0 context IDs are kept in knowledge_evidence and removed from current-scenario direct supporting_refs.",
+        "Curator-only internal_review subtree retained in full packet and excluded from model projection.",
+        "Synthetic ML/log/context fields remain synthetic and are not physical verification.",
+        "No independent expert approval or training-use rights inferred."
+      ],
+      "current_scenario_support_refs": [
+        "ML-E-011",
+        "LOG-B1",
+        "LOG-B2",
+        "ML-E-011",
+        "LOG-B1",
+        "LOG-B2"
+      ],
+      "history_context_refs": [
+        "L0-E-011"
+      ],
+      "expert_review_status": "PENDING",
+      "source_rights_review_status": "QUARANTINE_SOURCE_RIGHTS_PENDING_LICENSE_REVIEW"
+    }
+  ]
+}

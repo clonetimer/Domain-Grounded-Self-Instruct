@@ -1,0 +1,301 @@
+{
+  "schema_version": "dgsi-skill-pressure-cases.v3",
+  "notice": "Public-literature grounded synthetic pressure cases. These are not raw flight telemetry, not observed run bundles, and not ground-truth fault labels. Expected behaviors are judge-only and must not be sent to the generator.",
+  "cases": [
+    {
+      "case_id": "A01_NEOSSAT_MAG",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "NEOSSAT_MAGNETOMETER_FAILURE"
+      ],
+      "term_ids": [
+        "magnetometer",
+        "fault_source",
+        "affected_component",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered public NEOSSat case passage, draft one diagnostic seed about the 2016 magnetometer loss. The report says fine attitude pointing was lost and the spacecraft entered a quasi-tumbling state; it separately identifies a residual magnetic dipole as the primary disturbance contributor to momentum accumulation. Keep the failure event and the later disturbance explanation distinct.",
+      "expected_behaviors": [
+        "Identify the magnetometer loss as the reported component failure.",
+        "Do not claim the residual dipole caused the magnetometer itself to fail; it is reported as a disturbance contributor to momentum accumulation.",
+        "Distinguish the failed sensor, the disturbance source and the system-level attitude consequence.",
+        "Do not invent telemetry values, thresholds or a physical cause for the magnetometer failure."
+      ]
+    },
+    {
+      "case_id": "E01_IMAGE_SSPC_INSTANT_TRIP",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "IMAGE_SSPC_SEU_INSTANT_TRIP",
+        "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH"
+      ],
+      "term_ids": [
+        "solid_state_power_controller",
+        "single_event_upset",
+        "power_distribution_unit",
+        "power_bus_voltage"
+      ],
+      "task_prompt": "Using the public IMAGE Failure Review Board report, draft a diagnostic seed for the transponder power loss. The board considered an SEU-induced SSPC instant trip the likely cause. The instant trip was not reflected in the SSPC status telemetry, so the PDU/FDC could see a closed status while the output was physically off. Keep the board's uncertainty and distinguish physical state from reported state.",
+      "expected_behaviors": [
+        "Preserve 'likely cause' rather than claim conclusive proof of SEU.",
+        "Distinguish SSPC physical output state from stale reported status bit.",
+        "Explain why FDC did not command recovery because status appeared closed.",
+        "Do not claim the battery or solar array failed; the FRB treated battery/array cases as alternatives and telemetry was healthy."
+      ]
+    },
+    {
+      "case_id": "A02_NEOSSAT_TORQUER_MCU",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "NEOSSAT_TORQUE_ROD_CONTROLLER_FAILURE"
+      ],
+      "term_ids": [
+        "magnetorquer",
+        "fault_source",
+        "affected_component",
+        "evidence"
+      ],
+      "task_prompt": "Using the registered public NEOSSat case passage, draft one seed about the permanent loss of torque-rod communication after an STM32 microcontroller anomaly. Explain what the report localizes and what it does not establish.",
+      "expected_behaviors": [
+        "Localize the reported failure to the torque-rod controller/microcontroller communication path.",
+        "Do not relabel it as a confirmed torque-rod coil open, short or magnetic-moment failure.",
+        "Explain the loss of desaturation capability and momentum-management impact.",
+        "Do not invent electrical telemetry or a more specific failed part."
+      ]
+    },
+    {
+      "case_id": "E02_IDEASSAT_RESET_SEL",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
+      ],
+      "term_ids": [
+        "eps_reset_circuit",
+        "schmitt_trigger_inverter",
+        "single_event_latchup"
+      ],
+      "task_prompt": "Using the public IDEASSat on-orbit anomaly analysis, draft a seed explaining the likely EPS cause of extended power-down and communication blackout. The paper identifies a single-gate CMOS Schmitt-trigger inverter in the reset circuit and discusses SEL as a possible mechanism. Separate the reported likely cause from the proposed physical mechanism.",
+      "expected_behaviors": [
+        "Localize the likely issue to the EPS reset circuit's Schmitt-trigger inverter/control path.",
+        "Do not state SEL was directly confirmed if the source only discusses it as a possible mechanism.",
+        "Explain how an inverter output affecting the main switch enable could hold spacecraft avionics power off.",
+        "Do not mislabel the event as battery cell failure or DC/DC converter failure."
+      ]
+    },
+    {
+      "case_id": "A03_NEOSSAT_XWHEEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "NEOSSAT_XWHEEL_SUSPECTED_ELECTRICAL_FAILURE"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "gyro",
+        "fault_source",
+        "affected_component",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered public NEOSSat case passage, draft one seed for the 2021 X-wheel anomaly. The report describes a slow wheel-speed ramp-down rather than seizure; the cause was suspected to be electrical. Speed/torque commands caused the wheel to shut off, and the same-axis rate sensor also powered down.",
+      "expected_behaviors": [
+        "Preserve the source's wording that an electrical cause was suspected, not confirmed.",
+        "Do not diagnose a mechanical seizure because the report explicitly contrasts the observed ramp-down with seizure.",
+        "Represent the wheel/rate-sensor shared power or availability dependency as an operational coupling, not proof that the rate sensor itself failed.",
+        "Mention the three-wheel reconfiguration only as the documented operational recovery, not as proof of the internal fault mechanism."
+      ]
+    },
+    {
+      "case_id": "E03_NOAA13_ARRAY_GROUND_SHORT",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT"
+      ],
+      "term_ids": [
+        "solar_array",
+        "solar_array_bus",
+        "solar_array_bus_ground_short",
+        "battery"
+      ],
+      "task_prompt": "Using NASA Lessons Learned #387 for NOAA-13, draft a seed for the 1993 EPS anomaly. Telemetry indicated that in full sun the solar array was producing power, but no power reached the battery charging unit; the spacecraft was running from batteries. The review surmised a solar-array bus-to-ground short, possibly caused by thermal cycling and mounting bolts penetrating insulation.",
+      "expected_behaviors": [
+        "Separate observed telemetry and the board's inferred/surmis ed physical cause.",
+        "Do not state the bolt penetration mechanism was directly confirmed by teardown.",
+        "Do not claim the solar cells themselves were all failed; the proposed short is in the bus/ground path.",
+        "Preserve the downstream effect: batteries not charging, then spacecraft power depletion and loss of contact."
+      ]
+    },
+    {
+      "case_id": "A04_GYRO_BIAS_MODEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_GYRO_ADDITIVE_MEASUREMENT_FAULT"
+      ],
+      "term_ids": [
+        "gyro",
+        "gyro_bias",
+        "angular_velocity",
+        "measurement_noise",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered 2009 spacecraft attitude-determination FDD paper passage, draft one seed explaining how a gyro bias can be represented in an additive sensor measurement-fault model and estimated with vector-sensor fusion.",
+      "expected_behaviors": [
+        "State that additive measurement fault is the paper's model formulation, not a universal physical law for every gyro failure.",
+        "Distinguish an estimated bias term from proof of a hardware failure in the gyroscope.",
+        "Explain that vector-sensor/gyro fusion supplies estimation redundancy, without inventing exact numerical thresholds.",
+        "Keep measurement bias, noise and physical component failure as separate concepts."
+      ]
+    },
+    {
+      "case_id": "E04_TDRS8_ARRAY_BVL",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES",
+        "TDRS8_BVL_PARASITIC_SHUNT",
+        "TDRS8_BATTERY_UNDERPERFORMING_CELLS"
+      ],
+      "term_ids": [
+        "solar_array_circuit",
+        "bus_voltage_limiter",
+        "parasitic_shunt_current",
+        "battery"
+      ],
+      "task_prompt": "Using the NASA TDRS-8 power status report, draft a seed distinguishing three reported conditions: six of 32 solar-array circuit failures, BVL modules shunting a static current instead of regulating, and four underperforming battery cells. Explain how they affect power margin without inventing their internal component-level root causes.",
+      "expected_behaviors": [
+        "Keep solar-array circuit failures, BVL parasitic shunting and battery-cell underperformance as distinct observations.",
+        "Do not infer a common root cause across the three conditions.",
+        "Do not invent a failed BVL transistor, array cell crack or battery internal short.",
+        "Preserve source context: the report describes status and mitigation, not detailed physical failure analysis."
+      ]
+    },
+    {
+      "case_id": "A05_RW_FAULT_MODEL",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_MED_CASCADE_FAULT_MODEL"
+      ],
+      "term_ids": [
+        "reaction_wheel",
+        "fault_mode",
+        "evidence",
+        "uncertainty"
+      ],
+      "task_prompt": "Using the registered momentum-exchange-device fault-model paper, draft one seed distinguishing additive and multiplicative fault models for a reaction-wheel motor/variable-speed-drive cascade.",
+      "expected_behaviors": [
+        "Represent the reaction-wheel/momentum-exchange device as a coupled motor and variable-speed-drive model within the cited study.",
+        "Distinguish additive from multiplicative fault-model terms.",
+        "Do not generalize the paper's modeled control-accuracy severity ranking into a universal spacecraft failure rule.",
+        "Do not present simulated fault scenarios as actual in-orbit failure statistics."
+      ]
+    },
+    {
+      "case_id": "E05_TERRA_BATTERY_HEATER",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
+        "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS"
+      ],
+      "term_ids": [
+        "battery",
+        "battery_cell",
+        "battery_heater_control",
+        "mmod_strike"
+      ],
+      "task_prompt": "Using the NASA TERRA anomaly report and NASA on-orbit status summary, draft a seed for the 2009 event: battery cell #50 failed with loss of pressure and near-zero voltage, while four of nine battery heater groups lost temperature control. The later NASA status summary identifies an MMOD strike as the likely/suspected common cause. Preserve the evidence strength and separate direct observations from the proposed common mechanism.",
+      "expected_behaviors": [
+        "Record cell #50 failure and four-of-nine heater-group control loss as separate observed conditions.",
+        "Preserve the NASA summary's likely/suspected MMOD common-cause wording; do not claim the impact was conclusively confirmed.",
+        "Do not assert that the battery-cell failure caused the heater-control failure or vice versa.",
+        "Do not invent recovered debris, impact location, exact damaged conductor or internal failed heater component.",
+        "Explain the thermal risk and the role of the battery thermal model without inventing an unreported root cause."
+      ]
+    },
+    {
+      "case_id": "A06_ADCS_FDD_LIMITS",
+      "domain": "adcs",
+      "term_registry": "terms.json",
+      "skill_path": "skills/adcs-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "ADCS_FDD_PRACTICAL_LIMITATIONS",
+        "NASA_STAR_TRACKER_VALIDITY"
+      ],
+      "term_ids": [
+        "star_tracker",
+        "gyro",
+        "evidence",
+        "uncertainty"
+      ],
+      "task_prompt": "A star-tracker solution becomes invalid during a high-angular-rate maneuver and external glare. Use the registered NASA star-tracker passage and ADCS FDD review to draft a seed that distinguishes measurement-validity loss from hardware failure.",
+      "expected_behaviors": [
+        "Treat high angular rate, field-of-view and glare as possible solution-validity conditions.",
+        "Do not infer a permanent star-tracker hardware failure from invalid solution output alone.",
+        "Mention model fidelity, residual sensitivity and noisy measurements as FDD limitations only within the review's scope.",
+        "Preserve uncertainty if no independent sensor evidence is supplied."
+      ]
+    },
+    {
+      "case_id": "E06_WMAP_CELL_COLLAPSE",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"
+      ],
+      "term_ids": [
+        "battery",
+        "battery_cell",
+        "battery_cell_voltage_collapse",
+        "electrolyte_bridging"
+      ],
+      "task_prompt": "Using the NASA NESC WMAP battery assessment, draft a seed for repeated NiH2 cell voltage drops. A 1.4 V reduction is consistent with complete self-discharge of an individual cell. The team could not determine a definitive root cause; electrolyte bridging between two cell stacks was its consensus theory.",
+      "expected_behaviors": [
+        "Distinguish observed cell voltage collapses from the proposed electrolyte-bridging mechanism.",
+        "Do not call the fault a confirmed internal short.",
+        "Preserve the NESC finding that root cause was not definitively determined.",
+        "Mention the limited diagnostic value of a single cell-voltage change without pressure/temperature/charge history."
+      ]
+    },
+    {
+      "case_id": "E07_IMAGE_COUNTERFACTUALS",
+      "domain": "eps",
+      "term_registry": "eps_terms.json",
+      "skill_path": "skills/eps-gold-seed-curation/SKILL.md",
+      "source_passage_ids": [
+        "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL",
+        "IMAGE_BATTERY_OPEN_CELL_COUNTERFACTUAL",
+        "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL"
+      ],
+      "term_ids": [
+        "battery_internal_short",
+        "battery_open_cell",
+        "solar_array_string",
+        "battery"
+      ],
+      "task_prompt": "Using the IMAGE FRB appendix, draft a seed that explains why battery internal-short, battery open-cell and solar-array short/open cases must not be labeled as observed IMAGE faults. The report analyzes these as alternatives and states that available battery and solar-array telemetry were healthy.",
+      "expected_behaviors": [
+        "Explicitly label these as counterfactual/alternative hypotheses, not observed IMAGE anomalies.",
+        "Do not create a positive IMAGE battery or solar-array fault label from this passage.",
+        "Explain that the report used expected electrical behavior and telemetry to rule alternatives out.",
+        "Preserve the actual likely SSPC instant-trip explanation as a separate finding, not a battery/array root cause."
+      ]
+    }
+  ]
+}

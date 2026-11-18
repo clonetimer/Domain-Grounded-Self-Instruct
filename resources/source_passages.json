@@ -1,0 +1,645 @@
+{
+  "schema_version": "dgsi-source-passages.v1",
+  "notice": "Passage records are precise locators and claim boundaries, not copied source text. A registered locator does not prove that a candidate claim is correctly interpreted; the cited passage must be checked by a reviewer.",
+  "passages": [
+    {
+      "passage_id": "NASA_GNC_ADCS_SCOPE",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.1 Introduction, HTML lines 267-340",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "TERMINOLOGY",
+        "COMPONENT_ROLE",
+        "ARCHITECTURE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Defines the ADCS expansion and lists representative attitude sensors and actuators. It does not establish any spacecraft-specific fault or root cause."
+    },
+    {
+      "passage_id": "NASA_REACTION_WHEEL_FUNCTION",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.2 Reaction Wheels, HTML lines 391-397",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports reaction-wheel torque and momentum storage, angular-momentum exchange, speed saturation, and redundancy considerations. It does not prove a particular wheel fault or bearing failure."
+    },
+    {
+      "passage_id": "NASA_MAGNETIC_TORQUER_ROD_RESIDUAL_FIELD",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.3 Magnetic Torquers, HTML lines 474-483",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "CAUSAL",
+        "INTERFERENCE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Describes residual fields in ferrous-core torquer bars/rods and their potential effect on magnetometers, and the use of magnetic torquers for wheel momentum desaturation. Do not generalize the rod construction to all magnetorquers."
+    },
+    {
+      "passage_id": "NASA_STAR_TRACKER_VALIDITY",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.5 Star Trackers, HTML lines 534-537",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "OBSERVABILITY",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Describes star-field visibility, field-of-view, angular-rate, external-light and glare conditions that can corrupt or invalidate a solution, and IMU propagation between star-tracker updates. It does not identify the cause of a particular invalid measurement."
+    },
+    {
+      "passage_id": "NASA_MAGNETOMETER_LOCAL_FIELD",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.6 Magnetometers, HTML lines 577-584",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "CAUSAL",
+        "INTERFERENCE",
+        "OBSERVABILITY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "States that a magnetometer cannot differentiate magnetic-field sources and that reaction wheels, magnetic torquer rods, power systems, cabling harnesses and solar cells can change the local field. This is not a unique root-cause signature."
+    },
+    {
+      "passage_id": "NASA_SUN_SENSOR_ESTIMATION",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.7 Sun Sensors, HTML lines 600-603",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "OBSERVABILITY",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Describes body-frame Sun-direction estimates, the need for another independent attitude source for a three-axis estimate, and possible albedo/glint measurement perturbations. It does not prove a specific sensor failure."
+    },
+    {
+      "passage_id": "NASA_INERTIAL_SENSOR_GYRO_BIAS",
+      "source_id": "NASA_SMALLSAT_GNC",
+      "locator": "Chapter 5.0, §5.2.9 Inertial Sensing, HTML lines 678-684",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "allowed_claim_types": [
+        "TERMINOLOGY",
+        "MECHANISM",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Defines gyroscope/accelerometer roles, IMU propagation between non-inertial sensor updates, and the need to estimate turn-on bias and bias drift. It does not set universal fault thresholds."
+    },
+    {
+      "passage_id": "NASA_NESC_BP5",
+      "source_id": "NASA_NESC_GNC",
+      "locator": "NASA/TP-20230005922, GN&C Best Practice #5, printed page 68",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20230005922/downloads/20230005922.pdf?attachment=true",
+      "allowed_claim_types": [
+        "METHODOLOGY",
+        "INDEPENDENCE_REQUIREMENT"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports independence of autonomous GN&C fault management from hardware/software involved in causing or diagnosing faults, including the warning against using the same gyro to monitor a control loop that uses it. It is a design principle, not a specific ADCS fault signature."
+    },
+    {
+      "passage_id": "CNSA_ADCS_CLOSED_LOOP",
+      "source_id": "CNSA_SATELLITE_ATTITUDE_CONTROL",
+      "locator": "卫星科普：卫星姿态控制，§如何控制卫星姿态，HTML lines 62-77",
+      "locator_url": "https://www.cnsa.gov.cn/n6758968/n6758973/c10578880/content.html",
+      "allowed_claim_types": [
+        "TERMINOLOGY",
+        "ARCHITECTURE",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Provides Chinese-language descriptions of the sensor-controller-actuator loop and common sensor/actuator names. It is educational material, not a normative terminology standard or fault-diagnosis case."
+    },
+    {
+      "passage_id": "ASTROGRAPH_PROJECT_SCHEMA_V3",
+      "source_id": "ASTROGRAPH_KG_SCHEMA",
+      "locator": "src/astrograph/knowledge/schema_v3.py: GraphLayer, KnowledgeNodeTypeV3 and KnowledgeRelationTypeV3",
+      "locator_url": "https://github.com/clonetimer/AstroGraph-LLM/blob/9bdb92e95f1878b7ed057c169fcd116ae29ec83f/src/astrograph/knowledge/schema_v3.py",
+      "allowed_claim_types": [
+        "PROJECT_SCHEMA",
+        "PROJECT_DEFINITION"
+      ],
+      "evidence_status": "SCHEMA_INDEXED",
+      "claim_boundary": "Supports the project's data-model distinctions only; it does not establish domain-standard terminology or physical causality."
+    },
+    {
+      "passage_id": "BASILISK_2_11_0_RELEASE",
+      "source_id": "BASILISK_RELEASE_2_11_0",
+      "locator": "Version 2.11.0 Release Notes, release heading dated July 7, 2026",
+      "locator_url": "https://avslab.github.io/basilisk/Support/bskReleaseNotes/2.11.html",
+      "allowed_claim_types": [
+        "SIM_VERSION",
+        "SIM_INTERFACE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports release identity and documented compatibility changes only; not a substitute for versioned module documentation or an admitted simulation run."
+    },
+    {
+      "passage_id": "NEOSSAT_MAGNETOMETER_FAILURE",
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "locator": "§2.2 Attitude Control Anomalies & Recovery, lines 53–59 (PDF pp. 2–3)",
+      "locator_url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "CASE_HISTORY",
+        "SYSTEM_EFFECT",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report states that the magnetometer ceased functioning in 2016, the spacecraft lost fine pointing and entered a quasi-tumbling state; a residual magnetic dipole was identified as the primary disturbance contributor to momentum accumulation. Do not infer the physical cause of the magnetometer failure or generalize the case to all magnetometers.",
+      "evidence_summary": "The NEOSSat operational report says the magnetometer stopped functioning in 2016; fine attitude pointing was lost and the spacecraft entered a quasi-tumbling state. The report separately identifies a residual magnetic dipole as the primary disturbance contributor to momentum accumulation."
+    },
+    {
+      "passage_id": "NEOSSAT_TORQUE_ROD_CONTROLLER_FAILURE",
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "locator": "§2.2 Attitude Control Anomalies & Recovery, lines 65–69 (PDF p. 3)",
+      "locator_url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "CASE_HISTORY",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report attributes permanent loss of torque-rod communication to an STM32 microcontroller anomaly. This is a controller/communication failure description; it does not establish a torque-rod coil open/short or magnetic-moment hardware failure.",
+      "evidence_summary": "The report says an STM32 microcontroller anomaly caused permanent loss of communication with the torque rods. This removed the normal desaturation technique and led to increased momentum; later recovery used a dipole-desaturation mode."
+    },
+    {
+      "passage_id": "NEOSSAT_XWHEEL_SUSPECTED_ELECTRICAL_FAILURE",
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "locator": "§2.2 Attitude Control Anomalies & Recovery, lines 70–75 (PDF p. 3)",
+      "locator_url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "allowed_claim_types": [
+        "OBSERVATION",
+        "CASE_HISTORY",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "claim_boundary": "The report says the 2021 X-wheel failure was suspected to be electrical because wheel speed ramped down slowly rather than showing a seizure; commands to speed/torque caused shutdown. The same-axis rate sensor also powered down when the wheel was off. Preserve 'suspected'; the report does not identify the failed internal part.",
+      "evidence_summary": "The report describes a 2021 X-wheel anomaly: wheel speed slowly ramped down rather than showing seizure; the cause was suspected to be electrical. Speed/torque commands caused the wheel to shut off. The same-axis rate sensor also powered down with the wheel, affecting use of a Sun-Point mode that required all four rate-sensor inputs."
+    },
+    {
+      "passage_id": "ADCS_MED_CASCADE_FAULT_MODEL",
+      "source_id": "ADCS_MED_FAULT_MODEL_2020",
+      "locator": "Abstract and Introduction; motor/variable-speed-drive cascade fault model and simulation results",
+      "locator_url": "https://doi.org/10.1016/j.jfranklin.2020.02.015",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "FAULT_MODEL",
+        "SIMULATION_RESULT"
+      ],
+      "evidence_status": "RESEARCH_MODEL",
+      "claim_boundary": "The paper models momentum-exchange devices as cascaded electric motor and variable-speed-drive systems, considers additive and multiplicative fault models, and compares modeled control-accuracy effects. Do not treat model fault classes or relative severity as universal flight failure statistics.",
+      "evidence_summary": "The paper represents momentum-exchange devices as cascaded electric motor and variable-speed-drive systems and studies additive and multiplicative fault models. Its comparisons are results within the paper's modeled scenarios and control-accuracy metric."
+    },
+    {
+      "passage_id": "ADCS_GYRO_ADDITIVE_MEASUREMENT_FAULT",
+      "source_id": "ADCS_SENSOR_FDD_2009",
+      "locator": "Abstract; §2 sensor fault model; §3 integrated attitude determination/FDD filters (Acta Astronautica 65, pp. 710–729)",
+      "locator_url": "https://doi.org/10.1016/j.actaastro.2009.03.002",
+      "allowed_claim_types": [
+        "MEASUREMENT_MODEL",
+        "METHOD",
+        "MECHANISM"
+      ],
+      "evidence_status": "RESEARCH_MODEL",
+      "claim_boundary": "The paper formulates sensor faults as additive terms in a measurement equation and estimates gyro bias using fused gyro/vector-sensor measurements. This is a modeling and estimation approach, not proof that every observed bias change is a physical gyro failure.",
+      "evidence_summary": "The paper develops attitude estimation using rate gyros and vector sensors, estimates gyro bias, and formulates sensor faults as additive terms in the measurement equation. This is an FDD modeling choice, not a universal statement that all gyro faults are additive."
+    },
+    {
+      "passage_id": "ADCS_FDD_PRACTICAL_LIMITATIONS",
+      "source_id": "ADCS_FDD_REVIEW_2023",
+      "locator": "Abstract and review summary",
+      "locator_url": "https://doi.org/10.1177/09544100231157132",
+      "allowed_claim_types": [
+        "METHODOLOGY",
+        "LIMITATION"
+      ],
+      "evidence_status": "RESEARCH_REVIEW",
+      "claim_boundary": "The review discusses residual sensitivity, plant-model fidelity, noisy measurements, tuning, robustness and practical applicability. It supports discussion of FDD limitations, not specific spacecraft fault causes."
+    },
+    {
+      "passage_id": "IMAGE_SSPC_SEU_INSTANT_TRIP",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Executive Summary and Root Cause Details, printed pp. 1–2 (PDF lines 17–49); §4.5, printed pp. 12–13",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "CASE_HISTORY",
+        "HYPOTHESIS",
+        "OBSERVATION",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_FAILURE_REVIEW",
+      "claim_boundary": "The FRB judged an SEU-induced SSPC instant trip the likely cause of IMAGE transponder power loss, while retaining other unlikely alternatives. Instant-trip current transients were not reflected in the status telemetry, so the SSPC could be physically off while reporting closed. Preserve 'likely'; do not upgrade it to absolute proof.",
+      "evidence_summary": "The IMAGE FRB judged an SEU-induced SSPC instant trip the likely cause of the transponder power loss, while retaining unlikely alternatives. The device's instant-trip event was not reflected in status telemetry."
+    },
+    {
+      "passage_id": "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Root Cause Details, printed p. 2 (PDF lines 38–49); §4.5, printed pp. 12–13",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "OBSERVATION",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_FAILURE_REVIEW",
+      "claim_boundary": "A design behavior caused instant-trip status not to be reported; FDC read a stale closed status and did not command recovery. Distinguish physical switch state, reported state and FDC decision. Do not generalize to every SSPC.",
+      "evidence_summary": "The SSPC could be physically off after an instant trip while its status bit still reported closed. The PDU FDC therefore did not detect an off state and did not issue the expected recovery command."
+    },
+    {
+      "passage_id": "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Appendix, Battery Failure Case 1, printed p. 24 (PDF lines 1182–1198)",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "HYPOTHESIS",
+        "COUNTERFACTUAL",
+        "OBSERVABILITY"
+      ],
+      "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
+      "claim_boundary": "The report analyzes a single-cell internal short in a 22-cell series battery as a possible alternative. It states that IMAGE telemetry showed healthy batteries and no indication of cell shorting; multiple simultaneous shorts were considered highly improbable. This is not an observed IMAGE battery fault.",
+      "evidence_summary": "The FRB analyzed a single-cell internal short as an alternative but reported healthy battery telemetry and no indication of cell shorting in IMAGE. Multiple simultaneous cell shorts were considered highly improbable."
+    },
+    {
+      "passage_id": "IMAGE_BATTERY_OPEN_CELL_COUNTERFACTUAL",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Appendix, Battery Failure Case 2, printed p. 24 (PDF lines 1200–1214)",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "HYPOTHESIS",
+        "COUNTERFACTUAL",
+        "OBSERVABILITY"
+      ],
+      "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
+      "claim_boundary": "The report reasons about a hypothetical open cell in IMAGE's series battery and the expected bus behavior in sunlight/eclipses. It concludes such a failure could not explain the actual loss of communications under the observed continuous-sunlight conditions. Do not label it as an observed IMAGE failure.",
+      "evidence_summary": "The FRB analyzed a hypothetical open battery cell and reasoned about expected bus behavior under sunlight and eclipse. It concluded this could not explain the actual communications loss under the observed continuous-sunlight conditions."
+    },
+    {
+      "passage_id": "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL",
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "locator": "Appendix, Solar Array Failure, printed pp. 24–25 (PDF lines 1239–1276)",
+      "locator_url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
+      "allowed_claim_types": [
+        "MECHANISM",
+        "HYPOTHESIS",
+        "COUNTERFACTUAL",
+        "OBSERVABILITY"
+      ],
+      "evidence_status": "ALTERNATIVE_HYPOTHESIS_NOT_OBSERVED",
+      "claim_boundary": "The report analyzes potential cell/string/segment short or open scenarios, including bypass diode effects, but states IMAGE had no solar-array anomaly history and telemetry showed a healthy array. This is a design-level alternative analysis, not an observed IMAGE solar-array failure.",
+      "evidence_summary": "The FRB analyzed possible solar-array cell/string/segment short or open conditions, including bypass protection, but stated IMAGE had no solar-array anomaly history and telemetry showed a healthy array."
+    },
+    {
+      "passage_id": "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT",
+      "source_id": "NASA_NOAA13_SOLAR_ARRAY_1995",
+      "locator": "NASA Lessons Learned #387, Abstract and Driving Event",
+      "locator_url": "https://llis.nasa.gov/lesson/387",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_LESSONS_LEARNED",
+      "claim_boundary": "NOAA-13 telemetry indicated the solar array was producing power in full sun but no power reached the battery charging unit; the spacecraft ran on batteries and was lost within six orbits. The cause was surmised as a solar-array bus short to spacecraft ground, possibly due to thermal cycling allowing mounting bolts to penetrate insulation. Preserve 'surmised/possible'; do not claim direct teardown confirmation.",
+      "evidence_summary": "NOAA-13 telemetry showed the array producing power in full sun but no power reaching the battery charger. The review surmised a bus-to-ground short, possibly caused by thermal cycling allowing mounting bolts to penetrate insulation."
+    },
+    {
+      "passage_id": "IDEASSAT_EPS_RESET_CIRCUIT_SEL",
+      "source_id": "IDEASSAT_EPS_CASE_2022",
+      "locator": "Abstract; §4.3 Anomaly Analysis and Recovery; Figure 27 and Conclusions (Aerospace 2022, 9(2), 110)",
+      "locator_url": "https://www.mdpi.com/2226-4310/9/2/110",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "OBSERVATION",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_ANALYSIS",
+      "claim_boundary": "Replay of flight data allowed the authors to attribute the 1.5-month communications blackout to the EPS reset circuit's inability to recover from an ionizing-radiation-induced single-event latch-up (SEL). The single-gate CMOS Schmitt-trigger inverter in the reset circuit was identified as the likely susceptible element; the paper explains that an SEL in this element could hold the main switch enable in the off state until the latch-up cleared. Present this as the authors' flight-data-based diagnosis, while distinguishing it from direct measurement of the internal transistor current waveform.",
+      "evidence_summary": "IDEASSat flight-data replay led the authors to attribute the extended power-down/communications blackout to the EPS reset circuit's inability to recover from radiation-induced SEL. The single-gate CMOS Schmitt-trigger inverter was identified as the likely susceptible element; an SEL there could hold the main switch enable off."
+    },
+    {
+      "passage_id": "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
+      "source_id": "NASA_TERRA_BATTERY_2009",
+      "locator": "Abstract and §II Anomaly and Investigation, printed pp. 1–2 (PDF lines 4–23, 110–120)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20100021395/downloads/20100021395.pdf?attachment=true",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_FLIGHT_ANOMALY_REPORT",
+      "claim_boundary": "TERRA experienced a battery cell voltage anomaly and simultaneous failures of several battery heater-control circuits after a routine maneuver. Multiple cells approached minimum survival temperature; primary and redundant HCE paths both showed anomalous behavior. The paper does not establish that the cell anomaly caused the HCE anomaly or vice versa.",
+      "evidence_summary": "TERRA experienced a battery-cell voltage anomaly together with failures of several battery heater-control circuits. Multiple cells approached minimum survival temperature; primary and redundant heater-control paths showed anomalous performance."
+    },
+    {
+      "passage_id": "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES",
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "locator": "Slide 8, 'TDRS-8 Power Subsystem Decline', PDF pp. 8–9 (PDF lines 95–102)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "DEGRADATION",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
+      "claim_boundary": "NASA reported at least six failed solar-array circuits out of 32, with array current about 20% below expected after normal degradation was accounted for. The presentation does not identify the internal physical failure mechanism of each circuit.",
+      "evidence_summary": "NASA reported at least six failed solar-array circuits out of 32 and array current about 20% below expected after normal degradation was accounted for. The presentation does not identify the internal cause of each circuit failure."
+    },
+    {
+      "passage_id": "TDRS8_BVL_PARASITIC_SHUNT",
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "locator": "Slide 8, 'TDRS-8 Power Subsystem Decline', PDF p. 9 (PDF lines 103–109)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
+      "claim_boundary": "NASA reported BVL modules shunting a static current rather than regulating bus voltage; disabling one module on each solar wing recovered parasitic shunts. Do not infer a specific internal semiconductor failure not stated in the presentation.",
+      "evidence_summary": "NASA reported BVL modules shunting a static current instead of regulating bus voltage. Disabling one module on each solar wing recovered parasitic shunts; internal failed parts were not identified."
+    },
+    {
+      "passage_id": "TDRS8_BATTERY_UNDERPERFORMING_CELLS",
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "locator": "Slide 8, 'TDRS-8 Power Subsystem Decline', PDF p. 9 (PDF lines 110–113)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "DEGRADATION",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_ON_ORBIT_STATUS_REPORT",
+      "claim_boundary": "NASA reported four underperforming battery cells but assessed the battery as not an immediate concern and said the spacecraft could survive loss of two additional cells. Do not convert 'underperforming' into confirmed internal short/open failure.",
+      "evidence_summary": "NASA reported four underperforming TDRS-8 battery cells but assessed the battery as not an immediate concern and said two additional cell losses could be tolerated."
+    },
+    {
+      "passage_id": "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
+      "source_id": "NASA_WMAP_BATTERY_2010",
+      "locator": "§4.0 Executive Summary, printed pp. 8–10 (PDF lines 564–590, 667–723)",
+      "locator_url": "https://ntrs.nasa.gov/api/citations/20100030608/downloads/20100030608.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "DEGRADATION",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_NESC_TECHNICAL_ASSESSMENT",
+      "claim_boundary": "WMAP NiH2 flight battery cells experienced repeated voltage drops; a 1.4 V reduction was consistent with complete self-discharge of an individual cell. The NESC team could not determine a definitive root cause; its consensus theory involved electrolyte bridging between two cell stacks in a common pressure vessel. Do not label it a confirmed internal short.",
+      "evidence_summary": "WMAP NiH2 cells experienced repeated voltage drops; a 1.4 V reduction was consistent with complete self-discharge of one cell. NESC could not determine a definitive root cause; electrolyte bridging was the team's consensus theory."
+    },
+    {
+      "passage_id": "EPS_ON_ORBIT_FAILURE_STATISTICS",
+      "source_id": "EPS_FAILURE_RELIABILITY_2012",
+      "locator": "Abstract and introduction; Reliability Engineering & System Safety 98(1), pp. 55–65",
+      "locator_url": "https://doi.org/10.1016/j.ress.2011.10.005",
+      "allowed_claim_types": [
+        "STATISTICAL_FINDING",
+        "METHODOLOGY",
+        "LIMITATION"
+      ],
+      "evidence_status": "RESEARCH_STATISTICS",
+      "claim_boundary": "The paper analyzes more than one thousand spacecraft launched 1990–2008 and compares batteries, power distribution and solar arrays. Use for subsystem-level reliability context, not for inferring a particular component mechanism in an individual case.",
+      "evidence_summary": "The paper analyzed more than one thousand spacecraft launched from 1990 to 2008 and compared EPS failures/degradation across batteries, power distribution and solar arrays. It supports subsystem-level reliability analysis, not case-level component causality."
+    },
+    {
+      "passage_id": "NASA_SMALLSAT_EPS_ARCHITECTURE",
+      "source_id": "NASA_SMALLSAT_POWER_2026",
+      "locator": "Chapter 3.0 Power, §§3.2–3.6, updated 2026-05-07",
+      "locator_url": "https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/",
+      "allowed_claim_types": [
+        "ARCHITECTURE",
+        "COMPONENT_ROLE",
+        "TERMINOLOGY"
+      ],
+      "evidence_status": "OFFICIAL_DOMAIN_REFERENCE",
+      "claim_boundary": "NASA overview of solar generation, energy storage and power management/distribution. Use for architecture and component role only; it is not a case-specific fault diagnosis source.",
+      "evidence_summary": "NASA's SmallSat Power chapter reviews solar power generation, battery energy storage and power management/distribution architectures. It provides component roles and design context, not a fault diagnosis for a specific spacecraft."
+    },
+    {
+      "passage_id": "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS",
+      "source_id": "NASA_TERRA_ANOMALY_SUMMARY_2014",
+      "locator": "Spacecraft Anomalies, printed PDF pp. 3–4: BBAT Heater Control Anomaly and BBAT Cell Failure, Oct. 13, 2009",
+      "locator_url": "https://terra.nasa.gov/wp-content/uploads/2014/03/ESMO_TerraWebStatus_June2014.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_ON_ORBIT_ANOMALY_SUMMARY",
+      "claim_boundary": "NASA records four of nine BBAT heater groups unable to provide temperature control, a failed BBAT cell #50 identified by loss of cell pressure and near-zero voltage, and a suspected common MMOD strike as the likely cause of both anomalies. Preserve 'likely/suspected'; the source does not report recovered impact debris or a confirmed impact location.",
+      "evidence_summary": "The NASA Terra status summary records four of nine BBAT heater groups losing temperature control and cell #50 failing with loss of pressure and near-zero voltage, later tripping its bypass switch. It identifies MMOD strike as the likely/suspected common cause, not a confirmed impact finding."
+    },
+    {
+      "passage_id": "SOHO_GYRO_B_FALSE_DIAGNOSIS",
+      "source_id": "SOHO_FAILURE_BOARD_1998",
+      "locator": "Factors Directly Contributing to the Loss, printed pp. 6–7; HTML lines 202–213",
+      "locator_url": "https://soho.nascom.nasa.gov/operations/Recovery/docs/SOHO_final_report.html",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_ESA_FAILURE_REVIEW",
+      "claim_boundary": "The board states Gyro A was despun and not active for roll control; Gyro B's gain was erroneously high and initially indicated 20 times the actual roll rate. After the spacecraft developed a real roll rate, Gyro B correctly measured it, but ground operations misdiagnosed Gyro B as faulty and commanded it off. Loss of autonomous fault detection and continued use of despun Gyro A contributed to loss of attitude control. The board concluded there were no onboard spacecraft anomalies.",
+      "evidence_summary": "SOHO's loss was not caused by a confirmed gyro hardware failure. A despun Gyro A was used for roll control, a high-gain Gyro B initially generated a false high-rate indication, then Gyro B correctly measured the later actual roll rate but was misdiagnosed and disabled by ground operations, removing an autonomous safety net."
+    },
+    {
+      "passage_id": "SOHO_A_CONFIG_N_GYRO_RESPIN_OMISSION",
+      "source_id": "SOHO_FAILURE_BOARD_1998",
+      "locator": "Appendix E, A_CONFIG_N Modification History, printed pp. 18–19; HTML lines 234–237 and 703–757",
+      "locator_url": "https://soho.nascom.nasa.gov/operations/Recovery/docs/SOHO_final_report.html",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "CAUSAL",
+        "METHODOLOGY",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "NASA_ESA_FAILURE_REVIEW",
+      "claim_boundary": "The A_CONFIG_N procedure was modified to despin Gyro A but omitted the software enable command needed to respin it when emergency safe mode was entered. The modification was not properly communicated and reviewed. Do not label this as an onboard gyro component failure; it was a ground procedure/software-configuration error.",
+      "evidence_summary": "The modified A_CONFIG_N sequence despun Gyro A without re-enabling the automatic respin function required for emergency sun-reacquisition mode. The failure board traced this to an inadequately reviewed and communicated ground procedure change."
+    },
+    {
+      "passage_id": "KEPLER_TWO_REACTION_WHEELS_FAILED",
+      "source_id": "NASA_KEPLER_REACTION_WHEELS_2013",
+      "locator": "NASA Release 13-254, paragraphs 2–5, 2013-08-15",
+      "locator_url": "https://www.nasa.gov/news-release/nasa-ends-attempts-to-fully-recover-kepler-spacecraft-potential-new-missions-considered/",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_MISSION_UPDATE",
+      "claim_boundary": "NASA reports two of four reaction wheels failed, one in July 2012 and one in May 2013, and restoration attempts were unsuccessful. The release gives no internal physical failure mechanism. Three functioning wheels were required for the original precision-pointing mission; two remaining wheels and thrusters were considered for a different mission profile. Do not invent a bearing, lubrication, motor or electronics root cause.",
+      "evidence_summary": "Kepler lost two of its four reaction wheels and could no longer meet the original three-wheel precision-pointing requirement. NASA's public release does not disclose why the wheels failed internally."
+    },
+    {
+      "passage_id": "SWIFT_WHEEL5_PRELIMINARY_MECHANICAL_FAILURE",
+      "source_id": "NASA_SWIFT_GCN_31547",
+      "locator": "GCN Circular 31547, paragraphs 1–4, 2022-02-04",
+      "locator_url": "https://gcn.nasa.gov/circulars/31547",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_GCN_OPERATIONAL_UPDATE",
+      "claim_boundary": "The Swift team reported reaction wheel #5 of 6 failed and stated that the failure mode was believed to be mechanical based on preliminary analysis. The notice does not identify the specific mechanical part or confirm a detailed mechanism. Five-wheel reconfiguration was being prepared; do not convert the preliminary belief into a confirmed bearing or rotor failure.",
+      "evidence_summary": "NASA/GSFC identified Swift wheel #5 as failed and described a mechanical failure mode as a preliminary belief. No internal failed part or detailed mechanism is specified."
+    },
+    {
+      "passage_id": "INTEGRAL_WHEEL_STOP_RADIATION_BELT_TRIGGER",
+      "source_id": "ESA_INTEGRAL_WHEEL_ANOMALY_2021",
+      "locator": "Sections 'What on Earth?' and 'Darmstadt, we have a problem', paragraphs 1–4, 2021-10-18",
+      "locator_url": "https://www.esa.int/Enabling_Support/Operations/Three_hours_to_save_Integral",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
+      "claim_boundary": "ESA reports one of Integral's three active reaction wheels stopped without warning, causing spacecraft rotation and safe-mode entry. ESA says the trigger appeared associated with charged particles trapped in Earth's radiation belts, while explicitly distinguishing this from solar-weather activity. Do not state a confirmed microscopic wheel failure mechanism or assert a solar flare caused it.",
+      "evidence_summary": "Integral's active reaction wheel stopped; ESA associated the trigger with charged particles trapped in Earth's radiation belts, not a contemporaneous solar-weather event. The public account does not identify the wheel's internal failed part."
+    },
+    {
+      "passage_id": "INTEGRAL_STAR_TRACKER_OCCULTATION_SECOND_SPIN",
+      "source_id": "ESA_INTEGRAL_WHEEL_ANOMALY_2021",
+      "locator": "Section 'An Apollo 13 moment', paragraphs 1–2, 2021-10-18",
+      "locator_url": "https://www.esa.int/Enabling_Support/Operations/Three_hours_to_save_Integral",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
+      "claim_boundary": "After the initial wheel recovery, Integral began rotating again with reaction wheels at high speed. ESA says the reason was not completely understood and was thought to be associated with star-tracker occultation or blinding that the control system did not handle correctly. Preserve this as a tentative explanation for the recurrence, not the confirmed cause of the original wheel stop.",
+      "evidence_summary": "The second rotation episode occurred after initial wheel recovery and was only tentatively associated with star-tracker occultation/blinding. It is a separate event from the initial reaction-wheel stop."
+    },
+    {
+      "passage_id": "SEASAT_SLIP_RING_PROGRESSIVE_SHORT_ARC",
+      "source_id": "NASA_SEASAT_FAILURE_REVIEW_1993",
+      "locator": "Failure Review Board report, Executive Summary and findings on power loss / solar-array slip-ring assembly",
+      "locator_url": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930015504.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "HYPOTHESIS",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_FAILURE_REVIEW",
+      "claim_boundary": "Seasat failed after 105 days following loss of electrical power in the Agena bus. The board attributed the loss to a massive progressive short in a slip-ring assembly connecting rotating solar arrays into the power subsystem. An arc between adjacent brush assemblies was the most likely cause; the initiating path could have been wire-to-brush contact, brush-to-brush contact or a contaminant bridge. Preserve uncertainty about the exact initiator.",
+      "evidence_summary": "The Seasat board identified a progressive short in the solar-array rotary slip-ring assembly and considered arcing between adjacent brushes the most likely mechanism. It did not uniquely determine the initiating contact or contaminant path."
+    },
+    {
+      "passage_id": "INTELSAT_IS804_ESD_BATTERY_HIGH_VOLTAGE_PROPAGATION",
+      "source_id": "INTELSAT_FORM20F_2014_POWER_ANOMALIES",
+      "locator": "Form 20-F, Item 4B, 'Significant Anomalies', printed pp. 39–40; SEC HTML lines 1485–1487",
+      "locator_url": "https://www.sec.gov/Archives/edgar/data/1525773/000119312515052796/d801063d20f.htm",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "PUBLIC_REGULATORY_FILING_SUMMARIZING_FRB",
+      "claim_boundary": "IS-804 was lost after a sudden EPS anomaly on 2005-01-14. The filing summarizes the failure board's belief that an electrostatic discharge triggered a high-current event in the battery circuitry, which propagated to cause failure of the high-voltage power system. Preserve 'most likely' and do not claim direct observation of the initiating ESD or exact failed internal part.",
+      "evidence_summary": "The filing reports the failure board's most-likely chain: ESD → battery-circuit high-current event → propagated high-voltage power-system failure. This is a board conclusion summarized in a regulatory filing, not direct telemetry or teardown proof."
+    },
+    {
+      "passage_id": "INTELSAT_IS802_SOUTH_ARRAY_HARNESS_SHORT",
+      "source_id": "INTELSAT_FORM20F_2014_POWER_ANOMALIES",
+      "locator": "Form 20-F, Item 4B, 'Significant Anomalies', printed p. 40; SEC HTML lines 1488–1497",
+      "locator_url": "https://www.sec.gov/Archives/edgar/data/1525773/000119312515052796/d801063d20f.htm",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "PUBLIC_REGULATORY_FILING_SUMMARIZING_FRB",
+      "claim_boundary": "IS-802 experienced reduced electrical power capability in 2006, with some transponders later reactivated. The failure review board concluded the anomaly was most likely caused by an electrical short inside the solar-array harness on the south solar-array boom. Do not relabel it as a solar-cell failure or claim the precise short location/physical initiator was confirmed.",
+      "evidence_summary": "The reported root-cause localization is an internal electrical short in the south solar-array harness, described as most likely by the review board; the filing does not identify a specific wire, connector or cell."
+    },
+    {
+      "passage_id": "COSMIC_ADCS_RECOVERY_LOOP_EPS_PROPAGATION",
+      "source_id": "COSMIC_CUBESAT_ADCS_EPS_2026",
+      "locator": "Abstract and on-orbit anomaly analysis; Aerospace 2026, 13(7), 654",
+      "locator_url": "https://www.mdpi.com/2226-4310/13/7/654",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "OBSERVATION",
+        "MECHANISM",
+        "CAUSAL",
+        "SYSTEM_EFFECT",
+        "THERMAL_MECHANICAL_INTERACTION",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
+      "claim_boundary": "The paper attributes repeated reboots to an infinite loop in an ADCS recovery sequence. Reboots prevented completion of early-orbit mode and solar-array deployment, reducing charging current and battery voltage. They also suppressed internal heat generation, allowing battery temperature to fall below the heater activation threshold. The loop was terminated by ground command and arrays were deployed using a worst-case burn time validated during thermal-vacuum testing. This is a cross-subsystem causal chain: ADCS recovery logic produced EPS energy and thermal symptoms.",
+      "evidence_summary": "An ADCS recovery infinite loop caused repeated reboots; the spacecraft did not complete early orbit mode or deploy solar arrays, leading to low battery charging and cooling below heater activation temperature. Recovery involved terminating the loop and commanding array deployment."
+    },
+    {
+      "passage_id": "FUSE_RWA_PITCH_DRAG_KAPTON_2000",
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "locator": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control",
+      "locator_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "allowed_claim_types": [
+        "CASE_HISTORY",
+        "MECHANISM",
+        "CAUSAL",
+        "FAILURE_MODE",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "claim_boundary": "Supports the 2000-08-04 FUSE pitch-axis reaction-wheel drag shutdown, restart outcome and vendor's likely Kapton-tape-bubble explanation. The paper separately describes later 2001 wheel failures and a broader vendor attribution to thermally induced housing distortion; do not merge those episodes or treat the likely cause as independently confirmed."
+    }
+  ]
+}

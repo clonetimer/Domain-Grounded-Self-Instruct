@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI diagram text-region review receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "source_sha256",
+    "asset_id",
+    "asset_sha256",
+    "candidate_record_sha256",
+    "reviewer_ref",
+    "reviewer_authentication",
+    "reviewed_at",
+    "decisions",
+    "review_status",
+    "training_authorized",
+    "gold_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi.diagram-text-review.v1"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "asset_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "asset_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "candidate_record_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "reviewer_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "reviewer_authentication": {
+      "const": "NOT_AUTHENTICATED_BY_LOCAL_TOOL"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "decision",
+          "evidence_locator"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^OCR-[a-f0-9]{20}$"
+          },
+          "decision": {
+            "enum": [
+              "ACCEPT_AS_LABEL",
+              "REJECT_LABEL",
+              "UNRESOLVED"
+            ]
+          },
+          "object_type": {
+            "enum": [
+              "SPACECRAFT",
+              "SUBSYSTEM",
+              "UNIT",
+              "COMPONENT",
+              "FUNCTION",
+              "EXTERNAL_SYSTEM",
+              "UNKNOWN"
+            ]
+          },
+          "evidence_locator": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "decision": {
+                  "const": "ACCEPT_AS_LABEL"
+                }
+              },
+              "required": [
+                "decision"
+              ]
+            },
+            "then": {
+              "required": [
+                "object_type"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "decision": {
+                  "enum": [
+                    "REJECT_LABEL",
+                    "UNRESOLVED"
+                  ]
+                }
+              },
+              "required": [
+                "decision"
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "object_type"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "review_status": {
+      "const": "REVIEW_REQUIRED"
+    },
+    "training_authorized": {
+      "const": false
+    },
+    "gold_authorized": {
+      "const": false
+    }
+  }
+}

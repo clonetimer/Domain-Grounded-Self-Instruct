@@ -1,0 +1,88 @@
+# DGSI L1 literature-derived pilot v0.1 — coverage and review status
+
+## Current inventory
+
+The pilot now contains **15 L1 literature-derived synthetic packets across 9 L0 event families**. All are `REVIEW_REQUIRED`, `gold_eligible=false`, and `training_authorized=false`.
+
+| Task | Source event class | Main diagnostic challenge |
+|---|---|---|
+| SEASAT slip-ring short | Flight | Solar-array power and rotary-interface common cause |
+| Lunar Orbiter power monitor | Flight | CE02 temperature-sensitive telemetry vs stable DSS received signal; independent cross-check indicates actual RF output did not appreciably change |
+| TROPICS Pathfinder cross-short | Flight | Multi-interface common cause vs multiple independent failures; rejected SEL Context |
+| TROPICS slip-ring TVAC | Ground test | Intermittent contact resistance and CRC under thermal-vacuum test |
+| TROPICS payload A CRC | Flight | Candidate cause and source-recorded mitigation kept separate from current synthetic action |
+| TROPICS payload B CRC | Flight | Progressive failure; payload A mitigation must not be transferred |
+| Lunar Orbiter TWTA startup | Flight | Preserve both source explanations; no unique root cause |
+| Cassini reaction-wheel drag | Flight | Low-speed lubricant redistribution distinguished from oil-line blockage |
+| NASA 22 N injector plugging | Ground test | Valve-seat material shedding and injector obstruction |
+| NASA catalyst contamination | Ground test | Fe/Ni contamination, low hydrogen chemisorption and catalyst washout; separate from later valve-burst / Teflon injector blockage |
+| Spaceborne S-band TWTA output loss | Ground test | AIT ground-test root cause localized to LCAMP Z2/Z6 NC1062C LNA chips via gain/current, package H2 and EMMI evidence; TWT/EPC/external path excluded |
+| FUSE pitch-axis RWA history reuse | Flight | Cassini partially confirmed history with unknown hardware compatibility; no direct root-cause transfer |
+| TROPICS Pathfinder evidence sufficiency | Flight | Decide whether current evidence supports cross-interface short or requires additional analysis |
+| Cassini RWA next-step recommendation | Flight | Check model, lubrication design and operating limits before considering a speed strategy |
+| Spaceborne S-band TWTA handover | Ground test | Preserve LNA location, ground-test source class, candidate status and evidence gaps |
+
+Machine-readable manifest: `examples/l1_literature_pilot_coverage_v0.1.json`.
+
+## Family grouping and leakage
+
+Three source families have multiple L1 tasks:
+- TROPICS flight slip-ring family: payload A and payload B are separate episodes but remain grouped for split assignment.
+- Lunar Orbiter III TWTA report family: power-monitor indication and first-turn-on helix-current anomaly remain separate episodes but cannot cross splits.
+- NASA 22 N hydrazine life-test family: injector plugging and catalyst contamination remain separate episodes but cannot cross splits.
+
+The collection-level split auditor rejects any event family whose derived tasks are assigned to more than one of train/validation/test. No split assignments have been created for this pilot because independent L0 source confirmation and L1 expert review are pending.
+
+## Data provenance and output boundaries
+
+Every packet:
+- references exactly one AI-assisted-curated public L0 source fact card; the referenced L0 collection remains pending domain-expert confirmation;
+- uses an explicitly synthetic upstream ML result and synthetic run ID;
+- uses synthetic log IDs, timestamps, spacecraft identifiers, equipment configuration and operational context;
+- records field-level provenance, generation recipe/version, scenario assumptions and non-simulated source material;
+- sets `raw_telemetry_included=false`;
+- keeps formal assistant target separate from Case `internal_review`;
+- uses `NOT_RECORDED` and an empty disposal list for the current synthetic episode, even when the historical source describes an action;
+- remains non-Gold and not training-authorized.
+
+For the Lunar Orbiter startup task, the target preserves both source explanations—launch mechanical-stress release and post-launch internal-pressure decay—as candidates. It does not choose one without discriminating evidence.
+
+## Evaluation status
+
+The 15 packets are task-coverage fixtures for expert review and validator regression. They are not 15 real incidents, not 15 expert-approved targets, and not an approved SFT corpus. The real-case/Gold track remains separate and requires real authorized upstream ML outputs, diagnostic logs, spacecraft/mission context and independent expert adjudication.
+
+## Review next step
+
+Use `docs/L1_TARGET_QUALITY_REVIEW_RUBRIC.md` and `resources/l1_quality_review.schema.json` to review each frozen packet. A high score permits consideration for an L1 controlled experiment only; it does not automatically grant Gold status or authorize fine-tuning.
+
+
+## History-reuse example
+
+The FUSE pitch-axis reaction-wheel drag task retrieves the Cassini RWA slow-speed drag case as a **PARTIALLY_CONFIRMED** historical contrast. Cassini's source describes likely lubricant redistribution after prolonged near-zero-speed operation; FUSE's source describes a likely Kapton-liner bubble/contact mechanism. The prior case is marked `hardware_compatibility=UNKNOWN`, with explicit transfer limitations. It may guide differential checks but cannot support the current FUSE root-cause candidate or transfer Cassini's speed-management action.
+
+The Cassini lesson date is 2004-05-10. For the synthetic retrieval snapshot, `available_at=2004-05-10T23:59:59Z` is a conservative date-normalization convention (end of the stated lesson date), not a claim about the exact publication time.
+
+
+## Task-type coverage
+
+The 15-packet pilot now covers all six task types declared in the Case schema: `diagnostic_synthesis`, `historical_case_reuse`, `conflict_reconciliation`, `evidence_sufficiency`, `next_step_recommendation` and `handover_summary`. These task-type variants are grouped by their source `event_family_id`; adding a new task type does not create an independent incident or a new train/test group.
+
+
+## L0 domain-review state (important)
+
+The L0 source-fact collection currently declares `AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. The 12 L0 cards referenced by the 15-task pilot are explicitly marked with this state and have no domain-review evidence digest. The remaining ISEE expert-system knowledge card is not used as an event source.
+
+This means:
+- the L0 facts are curated candidates with source references and migration constraints, not domain-expert-confirmed source facts;
+- the L1 tasks may be structurally validated and prepared for joint L0/L1 expert review;
+- no task can be marked `APPROVED_FOR_L1_EXPERIMENT` while any referenced L0 card remains pending or rejected;
+- changing an L0 review decision changes the source-card fingerprint and invalidates prior L1 review receipts, requiring review against the updated source state.
+
+A digest is only a binding to a separately retained authorized review record; it does not authenticate reviewer identity by itself.
+
+
+## L0 source-review status — important qualification
+
+The referenced L0 collection records `review_status=AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION`. The 12 L0 event source cards referenced by the 15 L1 packets are individually marked pending and have no domain-review evidence digest; the ISEE/IUE expert-system knowledge card is not used as an event source.
+
+Before any L1 target can be considered for an effectiveness experiment, reviewers must inspect the cited public source passage and confirm the L0 statement, source certainty, event class, episode grouping, disposal status and migration constraints. A SHA-256 binding proves only which bytes were reviewed; it does not prove source correctness or expert approval.

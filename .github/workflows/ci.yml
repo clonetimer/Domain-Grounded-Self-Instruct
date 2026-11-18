@@ -1,0 +1,47 @@
+name: ADCS and EPS seed quality gates
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: PowerShell launcher syntax
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            "scripts/Run-SkillBlindEval.ps1",
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }
+      - name: Install JSON Schema validator
+        shell: bash
+        run: python -m pip install -r requirements-validation.txt
+      - name: Adversarial tests + candidate smoke
+        shell: bash
+        run: |
+          export PYTHONPATH=src
+          python -m unittest discover -s tests -v
+          python scripts/audit_diagnostic_sft_lineage.py --input examples/diagnostic_context_sft_illustrative.json
+          python -m dgsi.cli validate examples/illustrative_gyro_abstain.json --root .
+          python -m dgsi.cli validate examples/illustrative_eps_abstain.json --root .
+          python scripts/run_skill_blind_eval.py --suite skill_pressure_cases.json
+          python scripts/run_skill_blind_eval.py --suite skill_holdout_cases.json
+          python -m compileall -q src tests

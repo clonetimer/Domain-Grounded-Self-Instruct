@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/seed.schema.json",
+  "title": "DGSI Candidate Seed v1 (structural contract)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "seed_id",
+    "domain",
+    "task_type",
+    "instruction",
+    "input",
+    "answer",
+    "evidence",
+    "claims",
+    "term_ids",
+    "provenance",
+    "review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-seed.v1"
+    },
+    "seed_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domain": {
+      "enum": ["adcs", "eps"]
+    },
+    "task_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "kind",
+        "observations"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "HYPOTHETICAL",
+            "TRACE"
+          ]
+        },
+        "observations": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": true
+    },
+    "answer": {
+      "type": "object",
+      "required": [
+        "status",
+        "effect_id",
+        "summary",
+        "evidence_ids"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "DIAGNOSED",
+            "NORMAL",
+            "AMBIGUOUS",
+            "UNKNOWN_FAULT",
+            "INSUFFICIENT_EVIDENCE",
+            "DATA_ERROR",
+            "CONFLICTING_EVIDENCE"
+          ]
+        },
+        "effect_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evidence_id",
+          "source_id",
+          "origin",
+          "statement"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "origin": {
+            "enum": [
+              "HYPOTHETICAL",
+              "MEASURED",
+              "DOCUMENT_EXCERPT"
+            ]
+          },
+          "statement": {
+            "type": "string"
+          },
+          "passage_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Registered passage_id for DOCUMENT_EXCERPT evidence."
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "claim_type",
+          "text",
+          "source_ids",
+          "evidence_ids"
+        ],
+        "properties": {
+          "claim_id": {
+            "type": "string"
+          },
+          "claim_type": {
+            "enum": [
+              "OBSERVATION",
+              "MECHANISM",
+              "CAUSAL",
+              "UNCERTAINTY"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source_passage_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Registered source passage IDs; required by semantic validation for MECHANISM and CAUSAL claims."
+          }
+        }
+      }
+    },
+    "term_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "generation_mode",
+        "trace_used",
+        "truth_in_prompt"
+      ]
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ]
+    }
+  },
+  "$comment": "Deterministic semantic checks are in dgsi.quality; JSON Schema alone cannot establish provenance, causal support or genuine human review."
+}

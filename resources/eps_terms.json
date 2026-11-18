@@ -1,0 +1,507 @@
+{
+  "schema_version": "dgsi-terms.v1",
+  "review_status": "DRAFT_AWAITING_DOMAIN_REVIEW",
+  "note": "EPS terminology is a draft, source-bounded vocabulary. It distinguishes power generation, storage, management/distribution, control and telemetry. Failure modes, observed anomalies, suspected causes and counterfactual hypotheses must not be conflated.",
+  "alias_policy": {
+    "EXACT": "Same concept; safe to normalize in the declared context.",
+    "ALTERNATE_TRANSLATION": "Alternative rendering; preserve the preferred form in canonical output.",
+    "CONTEXTUAL_SHORT_FORM": "Meaning depends on the spacecraft architecture or source context; do not normalize without context.",
+    "BROADER_FUNCTIONAL_DESCRIPTION": "Describes a broader function or class, not an exact synonym.",
+    "RELATED_COMPONENT": "Related but physically distinct component; never collapse into the same entity.",
+    "RELATED_CONCEPT": "A distinct but semantically related concept; not an alias."
+  },
+  "terms": [
+    {
+      "term_id": "eps",
+      "preferred_zh": "电源分系统",
+      "preferred_en": "Electrical Power Subsystem",
+      "definition_zh": "负责航天器电能获取、储存、调节、管理和分配的分系统。具体架构随任务和平台变化。",
+      "status": "PROJECT_PREFERRED_TRANSLATION",
+      "source_ids": [
+        "NASA_SMALLSAT_POWER_2026",
+        "EPS_FAILURE_RELIABILITY_2012"
+      ],
+      "source_passage_ids": [
+        "NASA_SMALLSAT_EPS_ARCHITECTURE",
+        "EPS_ON_ORBIT_FAILURE_STATISTICS"
+      ],
+      "aliases": [
+        {
+          "text": "EPS",
+          "kind": "EXACT",
+          "note": "英文缩写。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "solar_array",
+      "preferred_zh": "太阳电池阵",
+      "preferred_en": "Solar Array",
+      "definition_zh": "由太阳电池、组件、串并联支路和互连结构构成的航天器光伏电能生成装置。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_POWER_2026",
+        "NASA_NOAA13_SOLAR_ARRAY_1995",
+        "NASA_TDRS8_POWER_2019"
+      ],
+      "source_passage_ids": [
+        "NASA_SMALLSAT_EPS_ARCHITECTURE",
+        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT",
+        "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES"
+      ],
+      "aliases": [
+        {
+          "text": "太阳翼",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "常用于带展开机构的阵面结构；不必然等同于全部太阳电池阵电气组件。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "solar_cell",
+      "preferred_zh": "太阳电池",
+      "preferred_en": "Solar Cell",
+      "definition_zh": "将入射光能转换为电能的光伏单元。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_POWER_2026",
+        "NASA_IMAGE_FRB_EPS_2006"
+      ],
+      "source_passage_ids": [
+        "NASA_SMALLSAT_EPS_ARCHITECTURE",
+        "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL"
+      ],
+      "aliases": [
+        {
+          "text": "光伏电池",
+          "kind": "ALTERNATE_TRANSLATION",
+          "note": "可作一般技术表述；航天器工程文档优先使用太阳电池。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "solar_array_string",
+      "preferred_zh": "太阳电池串",
+      "preferred_en": "Solar Cell String",
+      "definition_zh": "由多个太阳电池串联形成的光伏支路；其输出电流、电压受串联/并联拓扑及旁路保护影响。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006",
+        "NASA_SMALLSAT_POWER_2026"
+      ],
+      "source_passage_ids": [
+        "IMAGE_SOLAR_ARRAY_STRING_COUNTERFACTUAL",
+        "NASA_SMALLSAT_EPS_ARCHITECTURE"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "solar_array_circuit",
+      "preferred_zh": "太阳电池阵电路",
+      "preferred_en": "Solar Array Circuit",
+      "definition_zh": "太阳电池阵内部或输出侧的独立电气电路/支路。具体边界应以卫星电气设计和遥测定义为准。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_TDRS8_POWER_2019"
+      ],
+      "source_passage_ids": [
+        "TDRS8_SOLAR_ARRAY_CIRCUIT_FAILURES"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "solar_array_bus",
+      "preferred_zh": "太阳电池阵母线",
+      "preferred_en": "Solar Array Bus",
+      "definition_zh": "连接太阳电池阵输出与后级充电、调节或配电设备的电气母线/互连路径。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_NOAA13_SOLAR_ARRAY_1995"
+      ],
+      "source_passage_ids": [
+        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery",
+      "preferred_zh": "蓄电池组",
+      "preferred_en": "Spacecraft Battery",
+      "definition_zh": "在日照或其他充电条件下储存电能，并在阴影期或功率需求变化时向母线和负载供电的储能装置。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_SMALLSAT_POWER_2026",
+        "NASA_TERRA_BATTERY_2009",
+        "NASA_WMAP_BATTERY_2010",
+        "NASA_TDRS8_POWER_2019"
+      ],
+      "source_passage_ids": [
+        "NASA_SMALLSAT_EPS_ARCHITECTURE",
+        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
+        "TDRS8_BATTERY_UNDERPERFORMING_CELLS"
+      ],
+      "aliases": [
+        {
+          "text": "电池组",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "通用简称；正式技术语境应注明电池化学体系和组级结构。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery_cell",
+      "preferred_zh": "蓄电池单体",
+      "preferred_en": "Battery Cell",
+      "definition_zh": "构成蓄电池组的基本电化学单元；单体电压、温度和容量状态需与组级母线量区分。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_WMAP_BATTERY_2010",
+        "NASA_TERRA_BATTERY_2009",
+        "NASA_IMAGE_FRB_EPS_2006"
+      ],
+      "source_passage_ids": [
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
+        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY",
+        "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery_cell_voltage_collapse",
+      "preferred_zh": "电池单体电压塌陷",
+      "preferred_en": "Battery Cell Voltage Collapse",
+      "definition_zh": "电池单体电压出现显著下降或自放电状态的异常表现；不应仅凭电压下降就认定其内部短路或确定唯一失效机理。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_WMAP_BATTERY_2010"
+      ],
+      "source_passage_ids": [
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery_internal_short",
+      "preferred_zh": "电池单体内部短路",
+      "preferred_en": "Battery Cell Internal Short",
+      "definition_zh": "电池单体内部形成低阻导电通路的故障模式。IMAGE FRB 中该模式仅作为替代假设分析，不能当作 IMAGE 已发生的故障。",
+      "status": "CONTEXT_LIMITED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006"
+      ],
+      "source_passage_ids": [
+        "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery_open_cell",
+      "preferred_zh": "电池单体开路",
+      "preferred_en": "Battery Cell Open Circuit",
+      "definition_zh": "电池单体内部或连接路径形成开路的故障模式；组级影响取决于串并联拓扑、旁路设计和母线工作状态。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006"
+      ],
+      "source_passage_ids": [
+        "IMAGE_BATTERY_OPEN_CELL_COUNTERFACTUAL"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery_heater_control",
+      "preferred_zh": "电池加热控制",
+      "preferred_en": "Battery Heater Control",
+      "definition_zh": "用于维持电池单体温度及温度梯度在规定范围内的控制功能，包括加热器、控制电子学和测温反馈。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_TERRA_BATTERY_2009"
+      ],
+      "source_passage_ids": [
+        "TERRA_BATTERY_HEATER_CONTROL_ANOMALY"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "power_distribution_unit",
+      "preferred_zh": "配电单元",
+      "preferred_en": "Power Distribution Unit",
+      "definition_zh": "对航天器电能进行负载开关控制、过流保护、状态监视和分配的设备或功能单元。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006",
+        "NASA_SMALLSAT_POWER_2026"
+      ],
+      "source_passage_ids": [
+        "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH",
+        "NASA_SMALLSAT_EPS_ARCHITECTURE"
+      ],
+      "aliases": [
+        {
+          "text": "PDU",
+          "kind": "EXACT",
+          "note": "英文缩写；具体设备边界依平台设计而定。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "solid_state_power_controller",
+      "preferred_zh": "固态功率控制器",
+      "preferred_en": "Solid-State Power Controller",
+      "definition_zh": "集成固态开关和电路保护功能的负载供电控制器，可依据电流瞬态或过流条件切断输出。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006"
+      ],
+      "source_passage_ids": [
+        "IMAGE_SSPC_SEU_INSTANT_TRIP",
+        "IMAGE_SSPC_STATUS_TELEMETRY_MISMATCH"
+      ],
+      "aliases": [
+        {
+          "text": "SSPC",
+          "kind": "EXACT",
+          "note": "英文缩写。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "power_bus_voltage",
+      "preferred_zh": "电源母线电压",
+      "preferred_en": "Power Bus Voltage",
+      "definition_zh": "电源母线两端的电压状态量；其变化受发电、储能、负载和调节/配电设备共同影响。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006",
+        "NASA_SMALLSAT_POWER_2026"
+      ],
+      "source_passage_ids": [
+        "IMAGE_BATTERY_INTERNAL_SHORT_COUNTERFACTUAL",
+        "NASA_SMALLSAT_EPS_ARCHITECTURE"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "bus_voltage_limiter",
+      "preferred_zh": "母线电压限制器",
+      "preferred_en": "Bus Voltage Limiter",
+      "definition_zh": "通过分流等方式限制或调节电源母线电压的功能模块。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_TDRS8_POWER_2019"
+      ],
+      "source_passage_ids": [
+        "TDRS8_BVL_PARASITIC_SHUNT"
+      ],
+      "aliases": [
+        {
+          "text": "BVL",
+          "kind": "EXACT",
+          "note": "TDRS-8公开报告中的英文缩写。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "parasitic_shunt_current",
+      "preferred_zh": "寄生分流电流",
+      "preferred_en": "Parasitic Shunt Current",
+      "definition_zh": "非预期分流支路持续吸收的电流；可能改变母线调节状态和可用功率。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_TDRS8_POWER_2019"
+      ],
+      "source_passage_ids": [
+        "TDRS8_BVL_PARASITIC_SHUNT"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "eps_reset_circuit",
+      "preferred_zh": "电源分系统复位电路",
+      "preferred_en": "EPS Reset Circuit",
+      "definition_zh": "用于控制航天器主电源开关或电源复位时序的电路。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "IDEASSAT_EPS_CASE_2022"
+      ],
+      "source_passage_ids": [
+        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "schmitt_trigger_inverter",
+      "preferred_zh": "施密特触发反相器",
+      "preferred_en": "Schmitt Trigger Inverter",
+      "definition_zh": "具有迟滞输入特性的逻辑反相器；IDEASSat论文指出其单门CMOS器件位于EPS复位电路，并将其识别为导致长时间断电/通信中断的可能敏感器件。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "IDEASSAT_EPS_CASE_2022"
+      ],
+      "source_passage_ids": [
+        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "single_event_latchup",
+      "preferred_zh": "单粒子闩锁",
+      "preferred_en": "Single-Event Latchup",
+      "definition_zh": "电离辐射触发寄生导通结构形成低阻状态的单粒子效应；IDEASSat论文将EPS复位电路无法从辐射诱发SEL中恢复作为该次通信中断的作者诊断，并讨论复位反相器中的SEL如何维持主电源开关关闭。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "IDEASSAT_EPS_CASE_2022"
+      ],
+      "source_passage_ids": [
+        "IDEASSAT_EPS_RESET_CIRCUIT_SEL"
+      ],
+      "aliases": [
+        {
+          "text": "SEL",
+          "kind": "EXACT",
+          "note": "英文缩写。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "single_event_upset",
+      "preferred_zh": "单粒子翻转",
+      "preferred_en": "Single-Event Upset",
+      "definition_zh": "单个高能粒子引起数字状态或逻辑状态翻转的单粒子效应；需与单粒子闩锁和永久性损伤区分。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_IMAGE_FRB_EPS_2006"
+      ],
+      "source_passage_ids": [
+        "IMAGE_SSPC_SEU_INSTANT_TRIP"
+      ],
+      "aliases": [
+        {
+          "text": "SEU",
+          "kind": "EXACT",
+          "note": "英文缩写。"
+        }
+      ],
+      "related_terms": [
+        {
+          "text": "单粒子闩锁",
+          "kind": "RELATED_CONCEPT",
+          "note": "不同单粒子效应，不能互换。"
+        }
+      ]
+    },
+    {
+      "term_id": "electrolyte_bridging",
+      "preferred_zh": "电解液桥接",
+      "preferred_en": "Electrolyte Bridging",
+      "definition_zh": "WMAP NESC团队提出的NiH2共用压力容器双电池堆之间的电解液迁移/桥接理论，用于解释单堆电压塌陷；该理论是团队共识假说，不是确定根因。",
+      "status": "HYPOTHESIS_ONLY",
+      "source_ids": [
+        "NASA_WMAP_BATTERY_2010"
+      ],
+      "source_passage_ids": [
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "solar_array_bus_ground_short",
+      "preferred_zh": "太阳电池阵母线对地短路",
+      "preferred_en": "Solar Array Bus-to-Ground Short",
+      "definition_zh": "太阳电池阵输出母线与航天器结构地之间形成非预期导电通路。NOAA-13案例中的具体形成机理为故障审查委员会推断。",
+      "status": "HYPOTHESIS_LIMITED",
+      "source_ids": [
+        "NASA_NOAA13_SOLAR_ARRAY_1995"
+      ],
+      "source_passage_ids": [
+        "NOAA13_SOLAR_ARRAY_BUS_GROUND_SHORT"
+      ],
+      "aliases": [],
+      "related_terms": []
+    },
+    {
+      "term_id": "battery_state_of_charge",
+      "preferred_zh": "荷电状态",
+      "preferred_en": "State of Charge",
+      "definition_zh": "表征蓄电池剩余可用电量相对于规定容量的状态指标。",
+      "status": "SOURCE_BOUNDED",
+      "source_ids": [
+        "NASA_WMAP_BATTERY_2010",
+        "NASA_TDRS8_POWER_2019"
+      ],
+      "source_passage_ids": [
+        "WMAP_NIH2_CELL_VOLTAGE_COLLAPSE",
+        "TDRS8_BATTERY_UNDERPERFORMING_CELLS"
+      ],
+      "aliases": [
+        {
+          "text": "SOC",
+          "kind": "EXACT",
+          "note": "英文缩写。"
+        }
+      ],
+      "related_terms": []
+    },
+    {
+      "term_id": "mmod_strike",
+      "preferred_zh": "微流星体或轨道碎片撞击",
+      "preferred_en": "Micrometeoroid or Orbital Debris (MMOD) Impact",
+      "definition_zh": "由微流星体或轨道碎片高速撞击航天器结构或部件引起的损伤事件。具体损伤形态和影响范围需由遥测、结构检查或其他独立证据确定。",
+      "status": "SOURCE_BOUNDED_HYPOTHESIS",
+      "source_ids": [
+        "NASA_TERRA_ANOMALY_SUMMARY_2014"
+      ],
+      "source_passage_ids": [
+        "TERRA_MMOD_COMMON_CAUSE_HYPOTHESIS"
+      ],
+      "aliases": [
+        {
+          "text": "MMOD撞击",
+          "kind": "CONTEXTUAL_SHORT_FORM",
+          "note": "工程语境常用缩写表达，正式首次出现时建议给出全称。"
+        }
+      ],
+      "related_terms": []
+    }
+  ],
+  "forbidden_phrases": [
+    {
+      "phrase": "太阳电池阵电流下降必然是太阳电池失效",
+      "reason": "Array output depends on illumination, temperature, topology, load and regulation; not a unique root-cause signature."
+    },
+    {
+      "phrase": "电池单体电压塌陷证明内部短路",
+      "reason": "WMAP NESC report did not determine a definitive root cause; electrolyte bridging was a consensus theory."
+    },
+    {
+      "phrase": "EPS复位异常等于电池故障",
+      "reason": "IDEASSat describes a reset-circuit/control-path issue, not a battery-cell failure."
+    },
+    {
+      "phrase": "单粒子翻转和单粒子闩锁相同",
+      "reason": "SEU and SEL are distinct radiation effects."
+    }
+  ]
+}

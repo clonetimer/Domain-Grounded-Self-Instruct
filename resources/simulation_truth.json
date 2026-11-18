@@ -1,0 +1,7 @@
+{
+  "schema_version": "dgsi-simulation-truth.v1",
+  "admission_policy": "Per-run trace, simulator identity, physical effect evidence, source hash, verified fault event window and human-reviewed mapping required before DIAGNOSED/normal ground truth can be used.",
+  "runs": [],
+  "status": "NO_RUNS_ADMITTED",
+  "privacy_note": "R21 raw records, filenames, hashes, onset times and private paths are not included in this public repository."
+}

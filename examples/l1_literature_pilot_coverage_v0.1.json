@@ -1,0 +1,144 @@
+{
+  "schema_version": "dgsi-l1-literature-pilot-coverage.v1",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-001",
+  "classification": "LITERATURE_DERIVED_SYNTHETIC",
+  "review_status": "REVIEW_REQUIRED",
+  "packet_count": 15,
+  "event_family_count": 9,
+  "gold_eligible": false,
+  "training_authorized": false,
+  "tasks": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "source_fact_ref": "LIT-SEASAT-SLIPRING-001",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "shared solar-array rotary power interface short candidate",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "source_fact_ref": "LIT-LUNAR-ORBITER-POWER-MONITOR-006",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "measurement-chain temperature sensitivity vs actual RF output change",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "source_fact_ref": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "cross-interface common-cause short vs multiple independent failures",
+      "history_variant": "Rejected historical SEL hypothesis"
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "source_fact_ref": "LIT-TROPICS-SLIPRING-TVAC-002",
+      "event_status": "GROUND_TEST_EVENT",
+      "challenge": "intermittent rotary contact and CRC under thermal-vacuum test",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "source_fact_ref": "LIT-TROPICS-FLIGHT-CRC-003-A",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "CRC candidate with source-recorded mitigation on payload A; not a current action",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "source_fact_ref": "LIT-TROPICS-FLIGHT-CRC-003-B",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "progressive CRC failure on payload B; do not transfer payload A mitigation",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "source_fact_ref": "LIT-LUNAR-ORBITER-HELIX-005",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "first-turn-on TWTA helix current transient; preserve two unresolved explanations",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "source_fact_ref": "LIT-CASSINI-RWA-DRAG-007",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "reaction-wheel drag and low-speed lubricant redistribution; distinguish from oil-line blockage",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "source_fact_ref": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+      "event_status": "GROUND_TEST_EVENT",
+      "challenge": "22 N thruster injector plugging from valve-seat material shedding",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "source_fact_ref": "LIT-NASA-HYDRAZINE-CATALYST-010",
+      "event_status": "GROUND_TEST_EVENT",
+      "challenge": "iron/nickel catalyst contamination; separate episode from injector plugging",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "source_fact_ref": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+      "event_status": "GROUND_TEST_EVENT",
+      "challenge": "S-band output loss traced to linearizer LNA chip, not TWTA internal electron gun/helix/EPC",
+      "history_variant": "No history"
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "source_fact_ref": "LIT-FUSE-RWA-KAPTON-001",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "Reuse a partially confirmed Cassini RWA drag case as qualified Context; hardware compatibility UNKNOWN and mechanism differs from FUSE Kapton-liner contact",
+      "history_variant": "PARTIALLY_CONFIRMED + UNKNOWN hardware compatibility"
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "source_fact_ref": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "Evidence sufficiency: determine whether cross-interface common-cause short is actually confirmed; identify direct electrical evidence still missing.",
+      "history_variant": "REJECTED historical SEL hypothesis retained as negative precedent"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "source_fact_ref": "LIT-CASSINI-RWA-DRAG-007",
+      "event_status": "FLIGHT_EVENT",
+      "challenge": "Next-step recommendation: prioritize hardware-scope verification and speed/drag analysis before considering any operating strategy.",
+      "history_variant": "No history hit"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "source_fact_ref": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+      "event_status": "GROUND_TEST_EVENT",
+      "challenge": "Handover summary: preserve ground-test context, LNA candidate localization, evidence gap and follow-up actions.",
+      "history_variant": "No history hit"
+    }
+  ],
+  "split_groups": [
+    {
+      "event_family": "TROPICS-SLIPRING-FLIGHT-2023",
+      "tasks": [
+        "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006"
+      ],
+      "rule": "Keep both payload episodes and all derived variants in the same train/validation/test split."
+    },
+    {
+      "event_family": "LUNAR-ORBITER-III-TWTA-1967",
+      "tasks": [
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007"
+      ],
+      "rule": "Different failure/measurement episodes from the same report remain grouped for split isolation."
+    },
+    {
+      "event_family": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "tasks": [
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010"
+      ],
+      "rule": "Injector plugging and catalyst contamination are distinct episodes but share a test/report family."
+    }
+  ],
+  "note": "All ML findings, scores, logs, timestamps, run IDs, spacecraft identifiers and configuration/operational details are synthetic. Public L0 sources constrain historical facts and certainty only. No packet is Gold or training-authorized. One history-reuse task uses the public Cassini RWA case as a partially confirmed, hardware-unknown contrast for the FUSE wheel event; its availability timestamp is conservatively normalized to the end of the NASA LLIS lesson date (2004-05-10). Three additional task-type variants cover evidence_sufficiency, next_step_recommendation and handover_summary. Variants derived from the same source event family remain grouped for future split assignment."
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/l1_task_packet_collection.schema.json",
+  "title": "DGSI L1 Task Packet Collection v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "collection_id",
+    "track",
+    "packet_count",
+    "data_status",
+    "split_policy",
+    "packets",
+    "gold_eligible",
+    "training_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-l1-task-packet-collection.v1"
+    },
+    "collection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "track": {
+      "enum": [
+        "REAL_CASE_CANDIDATE",
+        "LITERATURE_DERIVED_SYNTHETIC"
+      ]
+    },
+    "packet_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "data_status": {
+      "enum": [
+        "DRAFT",
+        "REVIEW_REQUIRED",
+        "APPROVED_FOR_L1_EXPERIMENT",
+        "REJECTED"
+      ]
+    },
+    "split_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "packets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "split_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_id",
+          "split"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "split": {
+            "enum": [
+              "train",
+              "validation",
+              "test"
+            ]
+          }
+        }
+      }
+    },
+    "gold_eligible": {
+      "const": false
+    },
+    "training_authorized": {
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI blinded cross-AI evaluation record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evaluation_id",
+    "source_batch_sha256",
+    "skill_revision",
+    "prompt_revision",
+    "blind_protocol",
+    "runs",
+    "adjudication",
+    "status",
+    "training_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-cross-ai-evaluation.v1"
+    },
+    "evaluation_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,63}$"
+    },
+    "source_batch_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "skill_revision": {
+      "type": "string",
+      "minLength": 7,
+      "maxLength": 64
+    },
+    "prompt_revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "blind_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "same_source_bundle",
+        "same_prompt",
+        "hidden_truth_withheld",
+        "prior_outputs_withheld",
+        "randomized_provider_aliases",
+        "independent_adjudication"
+      ],
+      "properties": {
+        "same_source_bundle": {
+          "const": true
+        },
+        "same_prompt": {
+          "const": true
+        },
+        "hidden_truth_withheld": {
+          "const": true
+        },
+        "prior_outputs_withheld": {
+          "const": true
+        },
+        "randomized_provider_aliases": {
+          "const": true
+        },
+        "independent_adjudication": {
+          "const": true
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "blind_alias",
+          "provider",
+          "model_id",
+          "model_version",
+          "run_at",
+          "settings_fingerprint",
+          "raw_output_sha256",
+          "candidate_count",
+          "status"
+        ],
+        "properties": {
+          "blind_alias": {
+            "type": "string",
+            "pattern": "^AI-[A-Z0-9]{2,8}$"
+          },
+          "provider": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "model_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "model_version": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 128
+          },
+          "run_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "settings_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "raw_output_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "candidate_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "COMPLETE",
+              "PARTIAL",
+              "FAILED"
+            ]
+          }
+        }
+      }
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewer_role",
+        "reviewed_at",
+        "reference_basis",
+        "dimensions",
+        "critical_failures",
+        "reviewer_independence"
+      ],
+      "properties": {
+        "reviewer_role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reference_basis": {
+          "enum": [
+            "SOURCE_GROUNDED_HUMAN_ADJUDICATION",
+            "EXPERT_ADJUDICATION",
+            "NOT_ADJUDICATED"
+          ]
+        },
+        "reviewer_independence": {
+          "const": true
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "blind_alias",
+              "dimension",
+              "score",
+              "evidence_note"
+            ],
+            "properties": {
+              "blind_alias": {
+                "type": "string",
+                "pattern": "^AI-[A-Z0-9]{2,8}$"
+              },
+              "dimension": {
+                "enum": [
+                  "source_coverage",
+                  "locator_precision",
+                  "fact_fidelity",
+                  "evidence_classification",
+                  "object_hierarchy",
+                  "physical_consistency",
+                  "fault_semantics",
+                  "uncertainty",
+                  "truth_isolation",
+                  "task_value",
+                  "target_restraint",
+                  "schema_lineage"
+                ]
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2
+              },
+              "evidence_note": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "minItems": 0
+        },
+        "critical_failures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "blind_alias",
+              "failure_code",
+              "evidence_note"
+            ],
+            "properties": {
+              "blind_alias": {
+                "type": "string",
+                "pattern": "^AI-[A-Z0-9]{2,8}$"
+              },
+              "failure_code": {
+                "enum": [
+                  "FABRICATED_FACT",
+                  "UNSUPPORTED_ROOT_CAUSE",
+                  "SOURCE_LOCATOR_MISMATCH",
+                  "DESIGN_AS_OBSERVATION",
+                  "TRUTH_LEAKAGE",
+                  "INVALID_PROVENANCE",
+                  "PHYSICAL_MECHANISM_ERROR",
+                  "UNSUPPORTED_DISPOSAL",
+                  "PRIVACY_OR_RIGHTS_VIOLATION"
+                ]
+              },
+              "evidence_note": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "enum": [
+        "PROTOCOL_READY",
+        "RUNS_RECORDED",
+        "ADJUDICATION_PENDING",
+        "ADJUDICATED",
+        "INVALID"
+      ]
+    },
+    "training_authorized": {
+      "const": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "RUNS_RECORDED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runs": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "ADJUDICATION_PENDING",
+              "ADJUDICATED"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runs": {
+            "minItems": 2
+          },
+          "adjudication": {
+            "properties": {
+              "dimensions": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ADJUDICATED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adjudication": {
+            "properties": {
+              "reference_basis": {
+                "enum": [
+                  "SOURCE_GROUNDED_HUMAN_ADJUDICATION",
+                  "EXPERT_ADJUDICATION"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

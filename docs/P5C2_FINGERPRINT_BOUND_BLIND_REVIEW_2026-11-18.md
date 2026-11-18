@@ -1,0 +1,50 @@
+# P5-C2: L1 fingerprint-bound double-blind review metadata (candidate only)
+
+This is a **metadata-only technical review request** for the existing **15 literature-derived SYNTHETIC tasks / 9 source event families**. The authoritative candidate inputs remain `examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json` and `examples/l0_public_literature_fact_cards_2026-11-15.json`. No tasks, synthetic ML results, logs, source facts or expert judgments are created in this change.
+
+## Contract
+
+`build_l1_blind_review_manifest(collection, source_fact_cards=cards)` first runs the existing collection-level source, schema, context, track and leakage projection gates. Each sorted row has `task_id`, `case_id`, `event_family`, `task_type`, full `packet_sha256`, referenced L0 **public fact** digests, their aggregate `source_public_sha256`, and unassigned A/B review slots. The whole manifest carries the current projection hash and cannot authorize Gold, SFT, official train/validation/test split or training.
+
+A source/content change requires a new manifest and new expert review tied to the new fingerprints. Historical source excerpts are not current-scenario direct evidence; these fingerprints establish review identity only, **not** truth or approval. `internal_review` content is excluded from L0 public hashes and no reviewer notes, identity, raw prompt or formal target are exported by the manifest.
+
+The pair checker validates two receipts' task ID, **whole-collection projection digest**, full packet digest, public source digest, distinct nonempty reviewer tokens and allowed `ACCEPT/REVISE/REJECT` recommendations. It **does not verify expert identities, authorizations, rights, independence beyond token inequality, adjudication or correctness**. Even two `ACCEPT` values return `expert_adjudicated=false`, `gold_eligible=false`, `training_authorized=false`. Never store real reviewer identity or restricted opinions in the public repository.
+
+## External expert/rights steps still required
+
+1. Independently confirm L0 claim locators, event-vs-ground-test class, certainty, episode and source usage rights. The TROPICS MIT rights language and S-band TWTA journal use remain priority blockers.
+2. Give two qualified independent reviewers the **same frozen task and source hashes** under separately controlled identities. Review scientific fidelity, current-vs-historical evidence roles, ML calibration semantics, cause vs affected components, disposal fidelity, uncertainty, historical transfer and actionability.
+3. Compare signed/verified offline receipts and resolve disagreements via controlled adjudication. This module's token check is not a signature, identity service or Gold promotion.
+4. Only after separate rights, source, independent expert, split leakage and release gates may another explicitly authorized system consider SFT output. This PR adds no serializer.
+
+## Generate a local JSON expert-review identity pack
+
+Run from the repository checkout (never from an untrusted packet source):
+
+```bash
+python scripts/create_l1_blind_review_manifest.py \
+  --collection examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json \
+  --source-facts examples/l0_public_literature_fact_cards_2026-11-15.json \
+  --output local_review/l1_blind_review_fingerprint_manifest.json
+```
+
+The CLI writes only review IDs, snapshot fingerprints, two **unassigned** reviewer slots and blocking states. Output publishing uses an atomic, same-directory hard-link creation from a complete temporary file (not a rename/copy or an `exists()`-then-write check): existing regular files, existing symlinks (including dangling symlinks), and a losing concurrent writer are refused with `OUTPUT_ALREADY_EXISTS`. This prevents an accidental overwrite of another review snapshot or a symlink target on both Windows and Ubuntu. If the filesystem cannot create hard links, the operation fails closed. It prints aggregate-only status and does not emit SFT rows. `local_review/` is an operator-managed directory; the output is not an expert receipt or an admission decision. The generated JSON must be kept paired with the exact L1/L0 source snapshots when distributed for controlled blind review.
+
+## Regression scope
+
+Run `python -m unittest tests.test_l1_blind_review_manifest` with repository `src/` on `PYTHONPATH`, or run the repository's established full CI matrix. The tests use `SYNTHETIC_TEST_ONLY` reviewer tokens and do not represent genuine expert reviews.
+
+
+## No-clobber guarantee and limits (2026-11-18)
+
+The atomic hard-link publication contract is regression-tested with two concurrent CLI writers and a dangling output symlink. Only one concurrent process can publish a new output path, and publication happens after the complete JSON has been written. The manifest and source files must still reside in an operator-controlled directory with appropriate OS permissions; this safeguard is not a reviewer signature, a tamper-proof storage system, a scientific audit, or an authorization to train. An interruption before the hard-link step leaves no published manifest (though an orphaned temporary file can remain after abrupt process termination); treat any unreadable or truncated JSON as rejected, and generate a new named manifest instead of overwriting it.
+
+The first candidate `Path.open("x")` passed Ubuntu but failed the Windows dangling-symlink regression: the Windows runner followed the dangling symlink. The hardened design uses `tempfile.mkstemp` + `os.link` only; cross-platform tests must pass at the final exact head before this fix is accepted.
+
+## Collection-bound receipt contract (2026-11-18)
+
+The manifest now copies the existing `collection_projection_sha256` into **each review packet entry**. A receipt must echo that digest in addition to `task_id`, `packet_sha256`, `source_public_sha256`, `reviewer_token`, and `recommendation`. The pair checker rejects missing or stale cohort identities with `REVIEW_RECEIPT_STALE_COLLECTION`; a missing/invalid digest on the trusted manifest entry yields `REVIEW_ENTRY_COLLECTION_FINGERPRINT_INVALID`.
+
+This fixes cross-collection receipt reuse: an unchanged individual task and its L0 fact cards cannot carry an earlier review into a new collection snapshot that changes other tasks, references, or event-family membership. All older receipts lacking this field are **incompatible** with the new checker and require new offline review against the frozen current manifest. This is structural integrity only; identical tokens are not authenticated human identities, and two `ACCEPT` recommendations still cannot authorize SFT, Gold, official splits, or training.
+
+Regression tests cover a different collection digest, a missing receipt digest, and an invalid manifest-entry digest. Follow the same latest-head Ubuntu/Windows CI gate before any integration.

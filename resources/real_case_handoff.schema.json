@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DGSI Real Diagnostic Case Handoff Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "source_class",
+    "permission_status",
+    "event_family_id",
+    "analysis_cutoff",
+    "redaction"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-real-case-handoff.v1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable pseudonymous episode ID."
+    },
+    "source_class": {
+      "enum": [
+        "REAL_FLIGHT",
+        "REAL_GROUND_TEST",
+        "ENGINEERING_TEST",
+        "SIMULATION",
+        "SYNTHETIC_FIXTURE",
+        "UNKNOWN"
+      ]
+    },
+    "permission_status": {
+      "enum": [
+        "AUTHORIZED_FOR_REVIEW",
+        "AUTHORIZED_FOR_TRAINING",
+        "RESTRICTED_REVIEW_ONLY",
+        "UNKNOWN"
+      ]
+    },
+    "source_owner": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "event_family_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pseudonymous incident family used for deduplication and split isolation."
+    },
+    "spacecraft_pseudonym": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "configuration_pseudonym": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "analysis_cutoff": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timestamp_policy": {
+      "enum": [
+        "ORIGINAL_TIMEZONE_AWARE",
+        "CONSISTENTLY_SHIFTED",
+        "PARTIALLY_UNKNOWN"
+      ]
+    },
+    "redaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_identifiers_removed",
+        "sensitive_ids_pseudonymized",
+        "time_shifted",
+        "redacted_fields"
+      ],
+      "properties": {
+        "personal_identifiers_removed": {
+          "type": "boolean"
+        },
+        "sensitive_ids_pseudonymized": {
+          "type": "boolean"
+        },
+        "time_shifted": {
+          "type": "boolean"
+        },
+        "redacted_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "available_files": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "diagnosis_result.json",
+          "diagnostic_logs.jsonl",
+          "diagnostic_logs.csv",
+          "spacecraft_context.json",
+          "operational_context.json",
+          "historical_cases.json",
+          "knowledge_refs.json",
+          "expert_target.json"
+        ]
+      }
+    },
+    "reviewer_role": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outcome_status": {
+      "enum": [
+        "CONFIRMED",
+        "PARTIALLY_CONFIRMED",
+        "REJECTED",
+        "UNRESOLVED",
+        "UNKNOWN"
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "input_file_sha256": {
+      "type": "object",
+      "description": "Optional, untrusted local-input SHA-256 mapping; expert target prohibited. Actual local files must be hashed separately by authorized custodian.",
+      "additionalProperties": false,
+      "properties": {
+        "diagnosis_result.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "diagnostic_logs.jsonl": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "diagnostic_logs.csv": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "spacecraft_context.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "operational_context.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "historical_cases.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "knowledge_refs.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

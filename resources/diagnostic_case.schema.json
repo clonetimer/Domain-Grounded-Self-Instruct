@@ -1,0 +1,796 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/diagnostic_case.schema.json",
+  "title": "DGSI Diagnostic Context Case v1",
+  "description": "LLM-facing case packet built from upstream machine-learning diagnosis results, diagnostic logs and operational context. Raw telemetry is not an input.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "domain",
+    "task_type",
+    "input",
+    "expected_output",
+    "provenance",
+    "review",
+    "internal_review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-diagnostic-case.v1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domain": {
+      "enum": [
+        "adcs",
+        "eps",
+        "comm",
+        "thermal",
+        "integrated"
+      ]
+    },
+    "task_type": {
+      "enum": [
+        "diagnostic_synthesis",
+        "historical_case_reuse",
+        "conflict_reconciliation",
+        "evidence_sufficiency",
+        "next_step_recommendation",
+        "handover_summary"
+      ]
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "machine_diagnosis",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "analysis_cutoff"
+      ],
+      "properties": {
+        "machine_diagnosis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "producer",
+            "analysis_scope",
+            "status",
+            "findings"
+          ],
+          "properties": {
+            "producer": {
+              "type": "object",
+              "required": [
+                "method",
+                "version"
+              ],
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "model_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "analysis_scope": {
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "NORMAL",
+                "ANOMALY",
+                "FAULT_CANDIDATE",
+                "MULTIPLE_CANDIDATES",
+                "INSUFFICIENT_DATA",
+                "DATA_QUALITY_ERROR"
+              ]
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "finding_id",
+                  "finding_type",
+                  "target",
+                  "result"
+                ],
+                "properties": {
+                  "finding_id": {
+                    "type": "string"
+                  },
+                  "finding_type": {
+                    "enum": [
+                      "ANOMALY",
+                      "FAULT_CLASS",
+                      "COMPONENT_LOCALIZATION",
+                      "ROOT_CAUSE_CANDIDATE",
+                      "RESIDUAL",
+                      "DATA_QUALITY",
+                      "OTHER"
+                    ]
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "result": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "score_semantics": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "supporting_evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "limitations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "machine_summary": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "known_limitations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "diagnostic_logs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "log_id",
+              "timestamp",
+              "log_type",
+              "content"
+            ],
+            "properties": {
+              "log_id": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "log_type": {
+                "enum": [
+                  "ALARM",
+                  "EVENT",
+                  "OPERATOR_NOTE",
+                  "ENGINEERING_ANALYSIS",
+                  "MAINTENANCE",
+                  "TELECOMMAND",
+                  "REVIEW",
+                  "OTHER"
+                ]
+              },
+              "content": {
+                "type": "string"
+              },
+              "author_role": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "source_ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "spacecraft_context": {
+          "type": "object",
+          "required": [
+            "spacecraft_id",
+            "configuration",
+            "subsystem_context"
+          ],
+          "properties": {
+            "spacecraft_id": {
+              "type": "string"
+            },
+            "spacecraft_type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "configuration": {
+              "type": "object"
+            },
+            "subsystem_context": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "subsystem",
+                  "components"
+                ],
+                "properties": {
+                  "subsystem": {
+                    "type": "string"
+                  },
+                  "components": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "configuration_notes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": true
+        },
+        "operational_context": {
+          "type": "object",
+          "required": [
+            "mission_phase",
+            "operating_mode"
+          ],
+          "properties": {
+            "mission_phase": {
+              "type": "string"
+            },
+            "operating_mode": {
+              "type": "string"
+            },
+            "recent_operations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "environmental_context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "maintenance_history": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "known_constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "historical_cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "case_ref",
+              "similarity_basis",
+              "prior_conclusion",
+              "outcome_status"
+            ],
+            "properties": {
+              "case_ref": {
+                "type": "string"
+              },
+              "similarity_basis": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "prior_conclusion": {
+                "type": "string"
+              },
+              "outcome_status": {
+                "enum": [
+                  "CONFIRMED",
+                  "PARTIALLY_CONFIRMED",
+                  "REJECTED",
+                  "UNRESOLVED",
+                  "UNKNOWN"
+                ]
+              },
+              "applicability_limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "knowledge_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "evidence_id",
+              "source_id",
+              "passage_id",
+              "claim_boundary"
+            ],
+            "properties": {
+              "evidence_id": {
+                "type": "string"
+              },
+              "source_id": {
+                "type": "string"
+              },
+              "passage_id": {
+                "type": "string"
+              },
+              "claim_boundary": {
+                "type": "string"
+              },
+              "excerpt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "raw_telemetry_included": {
+          "const": false
+        },
+        "telemetry_reference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional pointer to upstream analysis artifact; never inline raw telemetry."
+        },
+        "analysis_cutoff": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Information cutoff for the LLM decision; logs after this timestamp are prohibited from the prompt."
+        }
+      }
+    },
+    "expected_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disposition",
+        "phenomenon_analysis",
+        "machine_result_interpretation",
+        "cause_localization",
+        "evidence_assessment",
+        "uncertainty",
+        "disposal_status",
+        "disposal_measures",
+        "follow_up_actions"
+      ],
+      "properties": {
+        "disposition": {
+          "enum": [
+            "ACCEPT_MACHINE_FINDING",
+            "ACCEPT_WITH_QUALIFICATION",
+            "REQUEST_ADDITIONAL_ANALYSIS",
+            "CONFLICTING_EVIDENCE",
+            "INSUFFICIENT_CONTEXT",
+            "NO_FAULT_INDICATED"
+          ]
+        },
+        "phenomenon_analysis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "machine_result_interpretation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cause_localization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "candidates",
+            "affected_components",
+            "certainty",
+            "mechanism_summary"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "SUPPORTED",
+                "CANDIDATE_ONLY",
+                "UNRESOLVED",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "candidates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "component",
+                  "fault_mode",
+                  "supporting_refs",
+                  "limitations"
+                ],
+                "properties": {
+                  "component": {
+                    "type": "string"
+                  },
+                  "fault_mode": {
+                    "type": "string"
+                  },
+                  "supporting_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "limitations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "affected_components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "certainty": {
+              "enum": [
+                "CONFIRMED",
+                "MOST_LIKELY",
+                "CANDIDATE",
+                "UNRESOLVED",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "mechanism_summary": {
+              "type": "string"
+            }
+          }
+        },
+        "evidence_assessment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "supporting_refs",
+            "contradicting_refs",
+            "missing_information"
+          ],
+          "properties": {
+            "supporting_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "contradicting_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "missing_information": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "historical_experience_relevance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case_ref",
+              "relevance",
+              "transfer_limitations"
+            ],
+            "properties": {
+              "case_ref": {
+                "type": "string"
+              },
+              "relevance": {
+                "type": "string"
+              },
+              "transfer_limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "uncertainty": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "reasons"
+          ],
+          "properties": {
+            "level": {
+              "enum": [
+                "LOW",
+                "MODERATE",
+                "HIGH",
+                "UNRESOLVED"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "disposal_status": {
+          "enum": [
+            "RECORDED",
+            "NOT_RECORDED",
+            "RECOMMENDED_ONLY",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "disposal_measures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "measure",
+              "measure_type",
+              "evidence_refs"
+            ],
+            "properties": {
+              "measure": {
+                "type": "string"
+              },
+              "measure_type": {
+                "enum": [
+                  "EXECUTED",
+                  "PLANNED",
+                  "RECOMMENDED"
+                ]
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "follow_up_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "action",
+              "rationale",
+              "priority"
+            ],
+            "properties": {
+              "action": {
+                "type": "string"
+              },
+              "rationale": {
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW"
+                ]
+              }
+            }
+          }
+        },
+        "report_text": {
+          "type": "string"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_group",
+        "source_artifact_hashes",
+        "diagnosis_run_refs"
+      ],
+      "properties": {
+        "source_group": {
+          "type": "string"
+        },
+        "source_artifact_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "diagnosis_run_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "historical_case_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "generation_method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "DRAFT",
+            "REVIEW_REQUIRED",
+            "APPROVED",
+            "REJECTED"
+          ]
+        },
+        "reviewer_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "review_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "internal_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "not_for_sft",
+        "curator_prompts",
+        "alternative_hypotheses_to_check",
+        "counterexamples",
+        "reviewer_questions",
+        "quality_flags"
+      ],
+      "properties": {
+        "not_for_sft": {
+          "const": true
+        },
+        "curator_prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "alternative_hypotheses_to_check": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counterexamples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "REVIEWED",
+            "RESOLVED"
+          ]
+        }
+      }
+    }
+  }
+}

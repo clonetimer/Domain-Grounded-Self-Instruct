@@ -1,0 +1,505 @@
+{
+  "schema_version": "dgsi-sources.v1",
+  "notice": "This is a public index, not evidence of reviewed passages or permission to reproduce source contents. Source scopes express intended usage, not automatically verified claims.",
+  "sources": [
+    {
+      "source_id": "NASA_SMALLSAT_GNC",
+      "title": "NASA SmallSat State of the Art: Guidance, Navigation, and Control",
+      "url": "https://www.nasa.gov/smallsat-institute/sst-soa/guidance-navigation-and-control/",
+      "kind": "OFFICIAL_DOMAIN_REFERENCE",
+      "scopes": [
+        "TERMINOLOGY",
+        "MECHANISM"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Chapter 5.0, updated 2026-05-07. Use the registered section-level passage locators; technical descriptions do not prove spacecraft-specific fault occurrences.",
+      "published_or_updated": "2026-05-07"
+    },
+    {
+      "source_id": "NASA_NESC_GNC",
+      "title": "NESC GN&C Robust and Reliable Space Vehicle Best Practices",
+      "url": "https://ntrs.nasa.gov/citations/20230005922",
+      "kind": "OFFICIAL_DOMAIN_REFERENCE",
+      "scopes": [
+        "METHODOLOGY",
+        "INDEPENDENCE_REQUIREMENT"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "NASA/TP-20230005922, including GN&C Best Practice #5 (printed page 68); supports fault-management independence methodology, not case-level fault labels.",
+      "download_url": "https://ntrs.nasa.gov/api/citations/20230005922/downloads/20230005922.pdf?attachment=true",
+      "published_or_updated": "2023-04-01"
+    },
+    {
+      "source_id": "BASILISK_DOCS",
+      "title": "Basilisk spacecraft simulation official documentation",
+      "url": "https://avslab.github.io/basilisk/",
+      "kind": "SIMULATOR_DOCUMENTATION",
+      "scopes": [
+        "SIM_INTERFACE",
+        "TERMINOLOGY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Official documentation landing page. Pin the installed Basilisk release and exact versioned module page before making API or model-behavior claims."
+    },
+    {
+      "source_id": "AAS_CHANNEL_CATALOG",
+      "title": "User-supplied AAS 56-channel telemetry catalog (2026-10-20)",
+      "url": null,
+      "kind": "PRIVATE_CATALOG_POINTER",
+      "scopes": [
+        "CHANNEL_SCHEMA"
+      ],
+      "evidence_status": "CATALOG_ONLY",
+      "scope_note": "Public repository stores no source CSV or raw telemetry; channel names and units in this repo are selected metadata, not observed samples."
+    },
+    {
+      "source_id": "AAS_FAULT_CATALOG",
+      "title": "User-supplied AAS fault type catalog (2026-10-20)",
+      "url": null,
+      "kind": "PRIVATE_CATALOG_POINTER",
+      "scopes": [
+        "FAULT_CATALOG"
+      ],
+      "evidence_status": "CATALOG_ONLY",
+      "scope_note": "Fault identity and sample group metadata are not admissible prediction inputs."
+    },
+    {
+      "source_id": "AAS_OBSERVABILITY_CATALOG",
+      "title": "User-supplied AAS 19-run observability summary (2026-10-23)",
+      "url": null,
+      "kind": "PRIVATE_CATALOG_POINTER",
+      "scopes": [
+        "OBSERVABILITY_CATALOG"
+      ],
+      "evidence_status": "CATALOG_ONLY",
+      "scope_note": "Direct observation channel count in catalog does not prove per-run observability or observed fault severity."
+    },
+    {
+      "source_id": "SATSIM_ADCS_CAPABILITY",
+      "title": "SatAgentSimulation Basilisk ADCS unified capability manifest",
+      "url": "https://github.com/clonetimer/SatAgentSimulation/blob/62cf8bfb45d7f07d14ff6d0f2e2ca49e85f66e23/src/sat_sim/capabilities/subsystem.adcs_unified_native.v1.yaml",
+      "kind": "PROJECT_INTERFACE_DECLARATION",
+      "scopes": [
+        "SIM_INTERFACE",
+        "FAULT_CATALOG",
+        "CHANNEL_SCHEMA"
+      ],
+      "evidence_status": "DECLARED_ONLY",
+      "scope_note": "Declared/candidate capability or effect is not a verified fault-injection run."
+    },
+    {
+      "source_id": "ASTROGRAPH_KG_SCHEMA",
+      "title": "AstroGraph-LLM knowledge schema v3",
+      "url": "https://github.com/clonetimer/AstroGraph-LLM/blob/9bdb92e95f1878b7ed057c169fcd116ae29ec83f/src/astrograph/knowledge/schema_v3.py",
+      "kind": "PROJECT_KNOWLEDGE_SCHEMA",
+      "scopes": [
+        "KNOWLEDGE_SCHEMA"
+      ],
+      "evidence_status": "SCHEMA_INDEXED",
+      "scope_note": "Contains structural definitions and human-review states, not validated physical relationships."
+    },
+    {
+      "source_id": "SELF_INSTRUCT_PAPER",
+      "title": "Self-Instruct: Aligning Language Models with Self-Generated Instructions (ACL 2023)",
+      "url": "https://aclanthology.org/2023.acl-long.754/",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "METHODOLOGY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Methodology only; cannot validate aerospace facts."
+    },
+    {
+      "source_id": "SPACECRAFT_FAULT_KG_2023",
+      "title": "面向多源异构数据的航天器故障知识图谱构建方法 (2023)",
+      "url": null,
+      "kind": "USER_LIBRARY_REFERENCE",
+      "scopes": [
+        "METHODOLOGY",
+        "TERMINOLOGY",
+        "KNOWLEDGE_SCHEMA"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Title only, no copyrighted PDF or text copied to this repository."
+    },
+    {
+      "source_id": "ESA_OPS_SAT_AD",
+      "title": "ESA benchmark for anomaly detection in satellite telemetry (Scientific Data)",
+      "url": "https://www.nature.com/articles/s41597-025-05035-3",
+      "kind": "RESEARCH_DATASET_REFERENCE",
+      "scopes": [
+        "BENCHMARK",
+        "METHODOLOGY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Anomaly labels must not be converted into component-level root-cause labels."
+    },
+    {
+      "source_id": "CNSA_SATELLITE_ATTITUDE_CONTROL",
+      "title": "卫星科普：卫星姿态控制",
+      "url": "https://www.cnsa.gov.cn/n6758968/n6758973/c10578880/content.html",
+      "kind": "OFFICIAL_DOMAIN_REFERENCE",
+      "scopes": [
+        "TERMINOLOGY",
+        "ARCHITECTURE",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2024-07-19",
+      "scope_note": "Chinese-language official educational description of attitude frames and the sensor-controller-actuator loop; not a normative terminology standard or a fault-specific diagnosis source."
+    },
+    {
+      "source_id": "BASILISK_RELEASE_2_11_0",
+      "title": "Basilisk Version 2.11.0 Release Notes",
+      "url": "https://avslab.github.io/basilisk/Support/bskReleaseNotes/2.11.html",
+      "kind": "SIMULATOR_RELEASE_NOTES",
+      "scopes": [
+        "SIM_VERSION",
+        "SIM_INTERFACE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2026-07-07",
+      "version": "2.11.0",
+      "scope_note": "Release-specific compatibility and packaging record. It does not by itself establish a fault model, physical effect, or telemetry truth."
+    },
+    {
+      "source_id": "NEOSSAT_ADCS_CASE_2023",
+      "title": "NEOSSat: Operational and Scientific Evolution of Canada’s Resilient Space Telescope",
+      "url": "https://conference.sdo.esoc.esa.int/proceedings/neosst2/paper/79/NEOSST2-paper79.pdf",
+      "kind": "PUBLIC_FLIGHT_CASE_REPORT",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "COMPONENT_FAILURE",
+        "OBSERVABILITY",
+        "SYSTEM_EFFECT"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "published_or_updated": "2023-02",
+      "scope_note": "Public operational history describing magnetometer, torque-rod controller and X reaction-wheel anomalies. Preserve explicit uncertainty: the 2021 X-wheel cause was suspected electrical, not confirmed."
+    },
+    {
+      "source_id": "ADCS_MED_FAULT_MODEL_2020",
+      "title": "Fault modeling of general momentum exchange devices in spacecraft attitude control systems",
+      "url": "https://doi.org/10.1016/j.jfranklin.2020.02.015",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "ADCS_FAULT_MODEL",
+        "MECHANISM_MODEL",
+        "SIMULATION_MODEL"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2020-07",
+      "scope_note": "Models reaction wheels and single-gimbal CMGs as motor/variable-speed-drive cascades. Model-specific additive/multiplicative fault results must not be generalized beyond stated assumptions."
+    },
+    {
+      "source_id": "ADCS_SENSOR_FDD_2009",
+      "title": "Fault detection and diagnosis in a spacecraft attitude determination system",
+      "url": "https://doi.org/10.1016/j.actaastro.2009.03.002",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "ADCS_SENSOR_FDD",
+        "MEASUREMENT_FAULT_MODEL",
+        "ESTIMATION_METHOD"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2009-09",
+      "scope_note": "Uses rate gyros and vector sensors with Kalman filtering and gyro-bias estimation; additive sensor-fault formulation is a model assumption, not a universal physical failure law."
+    },
+    {
+      "source_id": "ADCS_FDD_REVIEW_2023",
+      "title": "Advanced fault detection and diagnosis in spacecraft attitude control systems: Current state and challenges",
+      "url": "https://doi.org/10.1177/09544100231157132",
+      "kind": "RESEARCH_REVIEW",
+      "scopes": [
+        "ADCS_FDD_METHOD",
+        "LIMITATIONS",
+        "METHODOLOGY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2023-02-17",
+      "scope_note": "Review of spacecraft attitude-control FDD methods and practical gaps including residual sensitivity, model fidelity, noise, tuning and robustness."
+    },
+    {
+      "source_id": "NASA_IMAGE_FRB_EPS_2006",
+      "title": "IMAGE Failure Review Board Final Report",
+      "url": "https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf",
+      "kind": "NASA_FAILURE_REVIEW_REPORT",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "POWER_DISTRIBUTION",
+        "MECHANISM",
+        "OBSERVABILITY"
+      ],
+      "evidence_status": "PUBLIC_FAILURE_REVIEW",
+      "published_or_updated": "2006-09-19",
+      "scope_note": "NASA FRB report. The board assessed an SEU-induced SSPC instant trip as the likely cause of transponder power loss; the device status telemetry could indicate closed while output was actually off. Battery short/open and solar-array short/open are analyzed as alternative hypotheses and explicitly not observed IMAGE anomalies."
+    },
+    {
+      "source_id": "NASA_NOAA13_SOLAR_ARRAY_1995",
+      "title": "NOAA-13 Satellite Solar Array Bus Short to Ground",
+      "url": "https://llis.nasa.gov/lesson/387",
+      "kind": "NASA_LESSONS_LEARNED_CASE",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "SOLAR_ARRAY",
+        "MECHANISM",
+        "THERMAL_MECHANICAL_INTERACTION"
+      ],
+      "evidence_status": "PUBLIC_CASE_REPORT",
+      "published_or_updated": "1995-02-21",
+      "scope_note": "NASA Lessons Learned records a NOAA-13 in-orbit loss of solar-array-to-battery charging. The cause was surmised by the operations team and concluded by the GSFC FRB as a solar-array bus-to-ground short, possibly from thermal cycling causing mounting bolts to penetrate insulation. Preserve the source's surmised/likely status."
+    },
+    {
+      "source_id": "IDEASSAT_EPS_CASE_2022",
+      "title": "Lessons Learned from IDEASSat: Design, Testing, on Orbit Operations, and Anomaly Analysis of a First University CubeSat Intended for Ionospheric Science",
+      "url": "https://www.mdpi.com/2226-4310/9/2/110",
+      "kind": "OPEN_ACCESS_RESEARCH_CASE",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "POWER_DISTRIBUTION",
+        "RESET_CIRCUIT",
+        "RADIATION_MECHANISM",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_CASE_ANALYSIS",
+      "published_or_updated": "2022-02-22",
+      "scope_note": "The paper's abstract and conclusions attribute the extended power-down/communications blackout to the EPS reset circuit's inability to recover from an ionizing-radiation-induced SEL. The single-gate CMOS Schmitt-trigger inverter is identified as the likely susceptible element. This is the authors' flight-data-based diagnosis; distinguish it from a direct measurement of the internal device current waveform."
+    },
+    {
+      "source_id": "NASA_TERRA_BATTERY_2009",
+      "title": "TERRA Battery Thermal Control Anomaly — Simulation and Corrective Actions",
+      "url": "https://ntrs.nasa.gov/api/citations/20100021395/downloads/20100021395.pdf?attachment=true",
+      "kind": "NASA_PUBLIC_TECHNICAL_PAPER",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "BATTERY",
+        "THERMAL_CONTROL",
+        "OBSERVABILITY",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_FLIGHT_ANOMALY_REPORT",
+      "published_or_updated": "2010",
+      "scope_note": "Reports an October 2009 battery cell voltage anomaly and simultaneous loss of several battery-heater control circuits. Primary and redundant heater-control sides both showed anomalous behavior. The paper develops a thermal model from telemetry; it does not establish that one anomaly caused the other."
+    },
+    {
+      "source_id": "NASA_TDRS8_POWER_2019",
+      "title": "TDRS-8 Power Challenges and Planning for End of Mission",
+      "url": "https://ntrs.nasa.gov/api/citations/20190028285/downloads/20190028285.pdf",
+      "kind": "NASA_PUBLIC_ENGINEERING_PRESENTATION",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "SOLAR_ARRAY",
+        "BUS_VOLTAGE_REGULATION",
+        "BATTERY",
+        "OBSERVABILITY",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_ON_ORBIT_STATUS_REPORT",
+      "published_or_updated": "2019-07-22",
+      "scope_note": "NASA engineering presentation reports six of 32 solar-array circuit failures, BVL modules shunting a static current rather than regulating, and four underperforming battery cells. It is an on-orbit condition report; it does not specify the internal root cause of each failed circuit/module."
+    },
+    {
+      "source_id": "NASA_WMAP_BATTERY_2010",
+      "title": "Wilkinson Microwave Anisotropy Probe (WMAP) Battery Operations Problem Resolution Team",
+      "url": "https://ntrs.nasa.gov/api/citations/20100030608/downloads/20100030608.pdf",
+      "kind": "NASA_NESC_TECHNICAL_ASSESSMENT",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "BATTERY",
+        "CELL_DEGRADATION",
+        "MECHANISM",
+        "OBSERVABILITY",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "PUBLIC_TECHNICAL_ASSESSMENT",
+      "published_or_updated": "2010-08-05",
+      "scope_note": "NESC report documents repeated NiH2 cell voltage collapses on orbit. A 1.4 V reduction is consistent with complete self-discharge of one cell; root cause was not definitively determined. Team consensus theory involved electrolyte bridging between two cell stacks within a common pressure vessel."
+    },
+    {
+      "source_id": "EPS_FAILURE_RELIABILITY_2012",
+      "title": "Spacecraft electrical power subsystem: Failure behavior, reliability, and multi-state failure analyses",
+      "url": "https://doi.org/10.1016/j.ress.2011.10.005",
+      "kind": "RESEARCH_PAPER",
+      "scopes": [
+        "EPS_RELIABILITY",
+        "BATTERY",
+        "POWER_DISTRIBUTION",
+        "SOLAR_ARRAY",
+        "METHODOLOGY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2012-02",
+      "scope_note": "Statistical analysis of more than one thousand spacecraft launched 1990–2008. Useful for subsystem-level failure/reliability context across batteries, distribution and solar arrays; not a component-level causal case record."
+    },
+    {
+      "source_id": "NASA_SMALLSAT_POWER_2026",
+      "title": "NASA State-of-the-Art of Small Spacecraft Technology — 3.0 Power",
+      "url": "https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/",
+      "kind": "OFFICIAL_DOMAIN_REFERENCE",
+      "scopes": [
+        "EPS_ARCHITECTURE",
+        "POWER_GENERATION",
+        "ENERGY_STORAGE",
+        "POWER_MANAGEMENT",
+        "COMPONENT_ROLE"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "published_or_updated": "2026-05-07",
+      "scope_note": "NASA chapter on solar generation, battery energy storage, power management and distribution. It is architecture/technology reference material, not evidence that a specific flight fault occurred."
+    },
+    {
+      "source_id": "NASA_TERRA_ANOMALY_SUMMARY_2014",
+      "title": "Terra Spacecraft Anomalies — Hex Bay Battery Cell and Heater Control",
+      "url": "https://terra.nasa.gov/wp-content/uploads/2014/03/ESMO_TerraWebStatus_June2014.pdf",
+      "kind": "NASA_PUBLIC_ON_ORBIT_STATUS_REPORT",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "BATTERY",
+        "THERMAL_CONTROL",
+        "OBSERVATION",
+        "HYPOTHESIS",
+        "MECHANISM"
+      ],
+      "evidence_status": "PUBLIC_ON_ORBIT_ANOMALY_SUMMARY",
+      "published_or_updated": "2014-06",
+      "scope_note": "NASA Terra status summary records BBAT cell #50 near-zero voltage and loss of cell pressure, four of nine heater groups losing temperature control, and a suspected common MMOD strike as the likely cause. Preserve 'likely/suspected'; the summary does not describe a recovered fragment or confirm the impact point."
+    },
+    {
+      "source_id": "SOHO_FAILURE_BOARD_1998",
+      "title": "SOHO Mission Interruption Joint NASA/ESA Investigation Board Final Report",
+      "url": "https://soho.nascom.nasa.gov/operations/Recovery/docs/SOHO_final_report.html",
+      "kind": "NASA_FAILURE_REVIEW_REPORT",
+      "scopes": [
+        "ADCS_OPERATIONAL_FAILURE",
+        "GYRO_CONFIGURATION",
+        "FAULT_DETECTION",
+        "GROUND_OPERATIONS",
+        "SYSTEM_EFFECT",
+        "MECHANISM",
+        "CAUSAL"
+      ],
+      "evidence_status": "PUBLIC_FAILURE_REVIEW",
+      "published_or_updated": "1998-08-31",
+      "scope_note": "The board concluded there were no onboard spacecraft anomalies; ground operational errors, a modified gyro command sequence, inadequate status monitoring and disabling autonomous fault detection led to loss of attitude control. Gyro B was correctly measuring the actual roll rate when it was misdiagnosed."
+    },
+    {
+      "source_id": "NASA_KEPLER_REACTION_WHEELS_2013",
+      "title": "NASA Ends Attempts to Fully Recover Kepler Spacecraft",
+      "url": "https://www.nasa.gov/news-release/nasa-ends-attempts-to-fully-recover-kepler-spacecraft-potential-new-missions-considered/",
+      "kind": "NASA_PUBLIC_CASE_REPORT",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "REACTION_WHEEL_FAILURE",
+        "MISSION_CAPABILITY",
+        "UNCERTAINTY"
+      ],
+      "evidence_status": "NASA_PUBLIC_MISSION_UPDATE",
+      "published_or_updated": "2013-08-15",
+      "scope_note": "NASA reports two of Kepler's four reaction wheels failed, one in July 2012 and one in May 2013. The release does not disclose the internal physical failure mechanism; do not invent bearing, lubrication, motor or electronics causes."
+    },
+    {
+      "source_id": "NASA_SWIFT_GCN_31547",
+      "title": "Swift Reaction Wheel Anomaly Update (GCN Circular 31547)",
+      "url": "https://gcn.nasa.gov/circulars/31547",
+      "kind": "NASA_GCN_CIRCULAR",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "REACTION_WHEEL_FAILURE",
+        "MECHANISM_HYPOTHESIS",
+        "SAFE_MODE",
+        "RECONFIGURATION"
+      ],
+      "evidence_status": "NASA_PUBLIC_OPERATIONAL_UPDATE",
+      "published_or_updated": "2022-02-04",
+      "scope_note": "NASA/GSFC update says Swift reaction wheel #5 of 6 failed and the failure mode was believed mechanical based on preliminary analysis. Five-wheel operations were prepared; the notice does not identify a specific internal failed part or confirmed mechanical mechanism."
+    },
+    {
+      "source_id": "ESA_INTEGRAL_WHEEL_ANOMALY_2021",
+      "title": "Three hours to save Integral",
+      "url": "https://www.esa.int/Enabling_Support/Operations/Three_hours_to_save_Integral",
+      "kind": "ESA_PUBLIC_CASE_REPORT",
+      "scopes": [
+        "ADCS_CASE_HISTORY",
+        "REACTION_WHEEL_FAILURE",
+        "RADIATION_ASSOCIATION",
+        "STAR_TRACKER_VALIDITY",
+        "SAFE_MODE",
+        "SYSTEM_EFFECT",
+        "MECHANISM",
+        "CAUSAL"
+      ],
+      "evidence_status": "ESA_PUBLIC_OPERATIONAL_REPORT",
+      "published_or_updated": "2021-10-18",
+      "scope_note": "ESA describes an Integral reaction wheel stopping, a likely trigger from charged particles trapped in Earth's radiation belts, and a later recurrence thought associated with star-tracker occultation/blinding that was not completely understood. Preserve different certainty levels for the two events."
+    },
+    {
+      "source_id": "NASA_SEASAT_FAILURE_REVIEW_1993",
+      "title": "Report of the Seasat Failure Review Board",
+      "url": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930015504.pdf",
+      "kind": "NASA_FAILURE_REVIEW_REPORT",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "SOLAR_ARRAY_ROTARY_INTERFACE",
+        "SLIP_RING_SHORT",
+        "ARC_MECHANISM",
+        "POWER_LOSS",
+        "MECHANISM",
+        "CAUSAL"
+      ],
+      "evidence_status": "NASA_PUBLIC_FAILURE_REVIEW",
+      "published_or_updated": "1993",
+      "scope_note": "Seasat lost electrical power after 105 days. The report attributes the loss to a massive progressive short in a slip-ring assembly connecting rotating solar arrays to the power subsystem; an arc between adjacent brush assemblies was the most likely cause, but the initiating contact/contaminant mechanism remained uncertain."
+    },
+    {
+      "source_id": "INTELSAT_FORM20F_2014_POWER_ANOMALIES",
+      "title": "Intelsat S.A. 2014 Form 20-F — Significant Satellite Anomalies",
+      "url": "https://www.sec.gov/Archives/edgar/data/1525773/000119312515052796/d801063d20f.htm",
+      "kind": "SEC_PUBLIC_FILING",
+      "scopes": [
+        "EPS_CASE_HISTORY",
+        "BATTERY_CIRCUIT",
+        "ELECTROSTATIC_DISCHARGE",
+        "HIGH_VOLTAGE_POWER",
+        "SOLAR_ARRAY_HARNESS",
+        "UNCERTAINTY",
+        "MECHANISM",
+        "CAUSAL"
+      ],
+      "evidence_status": "PUBLIC_REGULATORY_FILING",
+      "published_or_updated": "2015-02",
+      "scope_note": "The filing summarizes failure-review-board conclusions for IS-804 and IS-802. IS-804 was most likely a battery-circuit high-current event triggered by ESD and propagated to the high-voltage power system; IS-802 was most likely an electrical short inside the south solar-array harness. Both are reported as most-likely conclusions, not direct teardown proof."
+    },
+    {
+      "source_id": "COSMIC_CUBESAT_ADCS_EPS_2026",
+      "title": "Verification and Testing of a Resource-Constrained University CubeSat: On-Orbit Results and Lessons Learned from COSMIC",
+      "url": "https://www.mdpi.com/2226-4310/13/7/654",
+      "kind": "OPEN_ACCESS_RESEARCH_CASE",
+      "scopes": [
+        "ADCS_RECOVERY_LOGIC",
+        "EPS_POWER_GENERATION",
+        "BATTERY_DISCHARGE",
+        "THERMAL_EFFECT",
+        "CROSS_SUBSYSTEM_PROPAGATION",
+        "MECHANISM",
+        "CAUSAL"
+      ],
+      "evidence_status": "OPEN_ACCESS_ON_ORBIT_CASE",
+      "published_or_updated": "2026",
+      "scope_note": "The paper attributes repeated reboots to an ADCS recovery-sequence infinite loop. The loop prevented early-orbit-mode completion and solar-array deployment, reducing battery charging; suppressed internal heat generation also lowered battery temperature below heater activation. Ground command terminated the loop and allowed array deployment. This is a cross-subsystem propagation case."
+    },
+    {
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "title": "FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes",
+      "url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "kind": "PUBLIC_FLIGHT_ANOMALY_REPORT",
+      "scopes": [
+        "FAULT_EVENT",
+        "MECHANISM",
+        "CASE_HISTORY"
+      ],
+      "evidence_status": "REFERENCE_INDEXED",
+      "scope_note": "Section 3 documents FUSE reaction-wheel drag and shutdown episodes. The 2000 pitch-axis drag episode is distinct from later 2001 wheel failures; vendor explanations remain source-attributed, not independent ground truth.",
+      "publication_year": 2002
+    }
+  ]
+}

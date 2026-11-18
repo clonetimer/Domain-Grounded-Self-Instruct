@@ -1,0 +1,12 @@
+{
+  "schema_version": "dgsi-effects.v1",
+  "notice": "Catalog presence is not evidence that a physical anomaly was observed or that a fault source can be uniquely diagnosed.",
+  "effects": [
+    {"effect_id":"gyro_axis_dropout", "effect_kind":"FAULT", "component":"gyroscope", "declared_observation_channels":["adcs.sensor.gyro_measured_rad_s_x", "adcs.sensor.gyro_measured_rad_s_y", "adcs.sensor.gyro_measured_rad_s_z"], "source_id":"AAS_FAULT_CATALOG", "verification_state":"CATALOG_ONLY"},
+    {"effect_id":"star_tracker_dropout", "effect_kind":"FAULT", "component":"star_tracker", "declared_observation_channels":["adcs.star_tracker.valid", "adcs.star_tracker.q0", "adcs.star_tracker.q1", "adcs.star_tracker.q2", "adcs.star_tracker.q3"], "source_id":"AAS_FAULT_CATALOG", "verification_state":"CATALOG_ONLY"},
+    {"effect_id":"magnetometer_noise", "effect_kind":"FAULT", "component":"magnetometer", "declared_observation_channels":["adcs.magnetometer.tesla_x", "adcs.magnetometer.tesla_y", "adcs.magnetometer.tesla_z"], "source_id":"AAS_FAULT_CATALOG", "verification_state":"CATALOG_ONLY"},
+    {"effect_id":"adcs_rw_jamming", "effect_kind":"FAULT", "component":"reaction_wheel", "declared_observation_channels":[], "source_id":"SATSIM_ADCS_CAPABILITY", "verification_state":"DECLARED_ONLY", "note":"Native runtime fields differ from older AAS CSV channels; do not invent a mapping."},
+    {"effect_id":"rw_friction_degradation", "effect_kind":"DEGRADATION", "component":"reaction_wheel", "declared_observation_channels":[], "source_id":"SATSIM_ADCS_CAPABILITY", "verification_state":"DECLARED_ONLY"},
+    {"effect_id":"gyro_bias_step", "effect_kind":"FAULT", "component":"gyroscope", "declared_observation_channels":[], "source_id":"SATSIM_ADCS_CAPABILITY", "verification_state":"DECLARED_ONLY"}
+  ]
+}

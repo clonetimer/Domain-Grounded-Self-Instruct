@@ -1,5 +1,7 @@
 # P5-C2 specialized L1 task review and bounded correction
 
+> Historical curator-review record from source snapshot `10ad4aba6d50ba4635db969725ed6d100ba29584`. The v0.2 candidate and test paths named below describe that earlier work and are not present in the current integrated tree. The current candidate is [the C2 15-packet collection](../examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json), with [per-packet dispositions](../examples/p5c2_packet_review_dispositions_2026-11-17.json) and [the integrated curator review](P5C2_INTEGRATED_CURATOR_REVIEW_2026-11-17.md). The evidence-role correction now covers all 15 packets. This record does not establish independent expert approval, source-use clearance or training authorization.
+
 Status: review candidate only. Source snapshot: `10ad4aba6d50ba4635db969725ed6d100ba29584`. The original v0.1 collection remains unchanged. The v0.2 review candidate is not expert-approved, split-assigned, Gold or training-authorized.
 
 ## 1. Scope

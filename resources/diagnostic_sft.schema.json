@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/clonetimer/Domain-Grounded-Self-Instruct/blob/main/resources/diagnostic_sft.schema.json",
+  "title": "DGSI Diagnostic Context SFT Example v1",
+  "description": "Chat fine-tuning example whose user message contains diagnosis outputs and case context, not raw telemetry.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "example_id",
+    "task_type",
+    "messages",
+    "case_ref",
+    "source_group",
+    "split",
+    "provenance",
+    "review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dgsi-diagnostic-sft.v1"
+    },
+    "example_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_type": {
+      "enum": [
+        "diagnostic_synthesis",
+        "historical_case_reuse",
+        "conflict_reconciliation",
+        "evidence_sufficiency",
+        "next_step_recommendation",
+        "handover_summary"
+      ]
+    },
+    "messages": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "system",
+              "user",
+              "assistant"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "case_ref": {
+      "type": "string"
+    },
+    "source_group": {
+      "type": "string"
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "diagnosis_result_refs",
+        "diagnostic_log_refs",
+        "context_refs",
+        "knowledge_passage_ids",
+        "source_artifact_hashes"
+      ],
+      "properties": {
+        "diagnosis_result_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "diagnostic_log_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "context_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "knowledge_passage_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_artifact_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "REVIEW_REQUIRED",
+            "APPROVED",
+            "REJECTED"
+          ]
+        },
+        "reviewer_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
