@@ -106,6 +106,67 @@ class C2SourceRightsQueueTests(unittest.TestCase):
                                     "C2_RIGHTS_DUPLICATE_OR_INVALID_TASK"):
             build_c2_source_rights_queue(changed)
 
+    def _tamper_second_occurrence(self, edit):
+        """Change one repeated L0 reference without changing its bound digest."""
+        from collections import Counter
+
+        changed = copy.deepcopy(self.dossier)
+        counts = Counter(
+            fact["case_id"] for item in changed["items"]
+            for fact in item["l0_public_source_context"]
+        )
+        repeated = next(case_id for case_id, count in counts.items() if count > 1)
+        occurrences = 0
+        for item in changed["items"]:
+            for fact in item["l0_public_source_context"]:
+                if fact["case_id"] == repeated:
+                    occurrences += 1
+                    if occurrences == 2:
+                        edit(fact)
+                        return changed
+        self.fail("Synthetic fixture must contain a reused L0 case")
+
+    def test_repeated_l0_cannot_change_publication_without_hash_change(self):
+        changed = self._tamper_second_occurrence(
+            lambda fact: fact["source_reference"].update({
+                "source_id": "FORGED-SYNTHETIC-DOCUMENT",
+                "source_title": "Wrong publication for same L0 digest",
+            })
+        )
+        with self.assertRaisesRegex(
+            C2SourceRightsQueueError, "C2_RIGHTS_L0_IDENTITY_DRIFT"
+        ):
+            build_c2_source_rights_queue(changed)
+
+    def test_repeated_l0_cannot_change_event_family_without_hash_change(self):
+        changed = self._tamper_second_occurrence(
+            lambda fact: fact.update({"event_family_id": "FORGED-FAMILY"})
+        )
+        with self.assertRaisesRegex(
+            C2SourceRightsQueueError, "C2_RIGHTS_L0_IDENTITY_DRIFT"
+        ):
+            build_c2_source_rights_queue(changed)
+
+    def test_repeated_l0_cannot_change_source_locator_without_hash_change(self):
+        changed = self._tamper_second_occurrence(
+            lambda fact: fact["source_reference"].update({
+                "source_locator": "FORGED-PAGE-999"
+            })
+        )
+        with self.assertRaisesRegex(
+            C2SourceRightsQueueError, "C2_RIGHTS_L0_IDENTITY_DRIFT"
+        ):
+            build_c2_source_rights_queue(changed)
+
+    def test_repeated_l0_cannot_change_source_class_without_hash_change(self):
+        changed = self._tamper_second_occurrence(
+            lambda fact: fact.update({"source_class": "FORGED_SOURCE_CLASS"})
+        )
+        with self.assertRaisesRegex(
+            C2SourceRightsQueueError, "C2_RIGHTS_L0_IDENTITY_DRIFT"
+        ):
+            build_c2_source_rights_queue(changed)
+
     def test_cannot_launder_training_approval_into_rights_queue(self):
         changed = copy.deepcopy(self.dossier)
         changed["training_authorized"] = True
