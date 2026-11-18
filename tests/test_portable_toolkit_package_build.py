@@ -50,6 +50,13 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     "tests/test_l1_model_projection_preview.py",
                     names,
                 )
+                self.assertIn("scripts/create_l1_blind_review_manifest.py", names)
+                self.assertIn("tests/test_l1_blind_review_manifest.py", names)
+                self.assertIn("tests/test_l1_blind_review_manifest_cli.py", names)
+                self.assertIn(
+                    "skills/dgsi-simulation-to-sft/references/BLIND_EXPERT_REVIEW.md",
+                    names,
+                )
                 self.assertIn(
                     "src/dgsi/design_derived_intake.py",
                     names,
@@ -113,6 +120,12 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     )
                     self.assertEqual(0, help_result.returncode, help_result.stderr[:500])
                     self.assertIn("--collection", help_result.stdout)
+                    review_help = subprocess.run(
+                        [sys.executable, str(extracted_root / "scripts/create_l1_blind_review_manifest.py"), "--help"],
+                        cwd=extracted_root, env=clean_env, capture_output=True, text=True, timeout=30, check=False,
+                    )
+                    self.assertEqual(0, review_help.returncode, review_help.stderr[:500])
+                    self.assertIn("--source-facts", review_help.stdout)
                     # Run a real 15-packet preview from the extracted toolkit,
                     # while keeping the candidate dataset external to the ZIP.
                     preview_output = extracted_root / "preview-output.json"
@@ -140,6 +153,34 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     self.assertEqual(9, preview_result["event_family_count"])
                     self.assertEqual(0, preview_result["sft_records_emitted"])
                     self.assertFalse(preview_result["training_authorized"])
+                    review_output = extracted_root / "blind-review-manifest.json"
+                    review_smoke = subprocess.run(
+                        [
+                            sys.executable,
+                            str(extracted_root / "scripts/create_l1_blind_review_manifest.py"),
+                            "--collection",
+                            str(ROOT / "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json"),
+                            "--source-facts",
+                            str(ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json"),
+                            "--output",
+                            str(review_output),
+                        ],
+                        cwd=extracted_root,
+                        env=clean_env,
+                        capture_output=True,
+                        text=True,
+                        timeout=60,
+                        check=False,
+                    )
+                    self.assertEqual(0, review_smoke.returncode, f"stdout={review_smoke.stdout[:1000]!r}; stderr={review_smoke.stderr[:1000]!r}")
+                    review_result = json.loads(review_output.read_text(encoding="utf-8"))
+                    self.assertEqual(15, review_result["packet_count"])
+                    self.assertEqual(9, review_result["event_family_count"])
+                    self.assertEqual(15, len(review_result["review_packets"]))
+                    self.assertEqual(0, review_result["sft_records_emitted"])
+                    self.assertFalse(review_result["training_authorized"])
+                    self.assertFalse(review_result["gold_eligible"])
+                    self.assertTrue(all(row["collection_projection_sha256"] == review_result["collection_projection_sha256"] for row in review_result["review_packets"]))
                 for item in manifest["files"]:
                     content = archive.read(item["path"])
                     self.assertEqual(len(content), item["size_bytes"])

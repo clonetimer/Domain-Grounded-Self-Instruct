@@ -226,3 +226,6 @@ The DGSI 0.2.0-rc.1 Skill now includes both `references/P5C2_INTEGRATED_DATASET_
 
 
 - **Treat the Skill version as a single source of truth.** The human-readable VERSION file, toolkit manifest and generated ZIP manifest must agree. The package builder should read VERSION rather than hardcode a second value; CI must compare all three. A green ZIP build with stale version metadata is not a valid release.
+
+
+96. **Verify the final integration tree, not merely the status of each stacked PR.** In a multi-level PR stack, merging a child PR updates only its declared base branch. A sibling or parent feature branch does not automatically inherit that merge, even when every child PR reports merged and its own exact-head CI is green. Before declaring a feature stack integrated, compare the complete recursive file tree (including blob SHAs) against the intended final branch and inspect critical contract fields. A portable-package smoke test caught that the collection fingerprint was present at manifest level but missing from each review entry because the PR #132 receipt-binding change had been merged into a nested base branch but not propagated into the P5-C2 integration branch. Repair by explicitly reconciling the required files, then rerun exact-head Ubuntu/Windows Push and PR CI. Do not trust PR state alone as proof of integration.
