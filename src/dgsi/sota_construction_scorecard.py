@@ -51,6 +51,8 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
     by_arm: dict[str, list[dict[str, Any]]] = defaultdict(list)
     source_tracks: dict[str, str] = {}
     family_groups: dict[str, str] = {}
+    unit_sources: dict[str, tuple[str, str, str, str]] = {}
+    comparison_units_complete = True
     for trial in trials:
         if not isinstance(trial, dict):
             _fail("SOTA_TRIAL_INVALID")
@@ -72,6 +74,18 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         if family in family_groups and family_groups[family] != group:
             _fail("SOTA_EVENT_FAMILY_GROUP_COLLISION")
         family_groups[family] = group
+        # Matching an event family alone can compare different prompts/scenarios.
+        # Legacy rows are readable but must never claim matched input units.
+        unit, task_type = trial.get("comparison_unit_id"), trial.get("requested_task_type")
+        if unit is None and task_type is None:
+            comparison_units_complete = False
+        else:
+            if not _nonempty(unit) or not _nonempty(task_type):
+                _fail("SOTA_COMPARISON_UNIT_INVALID")
+            source_key = (group, family, track, task_type)
+            if unit in unit_sources and unit_sources[unit] != source_key:
+                _fail("SOTA_COMPARISON_UNIT_COLLISION")
+            unit_sources[unit] = source_key
         attempts, accepted = trial.get("attempts"), trial.get("accepted_candidates")
         used, budget = trial.get("generation_tokens"), trial.get("token_budget")
         if any(type(v) is not int or v < 0 for v in (attempts, accepted, used, budget)):
@@ -110,14 +124,15 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         by_arm[arm].append(trial)
 
     summaries: dict[str, Any] = {}
-    groups: dict[str, set[tuple[str, str, str]]] = {}
-    budgets: dict[str, dict[tuple[str, str, str], tuple[int, ...]]] = {}
+    groups: dict[str, set[tuple[str, ...]]] = {}
+    budgets: dict[str, dict[tuple[str, ...], tuple[int, ...]]] = {}
     for arm in ARMS:
         rows = by_arm[arm]
-        key_counts: dict[tuple[str, str, str], int] = defaultdict(int)
-        budget_by_key: dict[tuple[str, str, str], list[int]] = defaultdict(list)
+        key_counts: dict[tuple[str, ...], int] = defaultdict(int)
+        budget_by_key: dict[tuple[str, ...], list[int]] = defaultdict(list)
         for row in rows:
-            key = (row["source_group"], row["event_family"], row["track"])
+            key = (row["source_group"], row["event_family"], row["track"],
+                   row.get("comparison_unit_id"), row.get("requested_task_type"))
             key_counts[key] += 1
             budget_by_key[key].append(row["token_budget"])
         groups[arm] = set(key_counts)
@@ -155,7 +170,8 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
             ),
         }
     comparable = (
-        all(by_arm[a] for a in ARMS)
+        comparison_units_complete
+        and all(by_arm[a] for a in ARMS)
         and all(groups[a] == groups[ARMS[0]] for a in ARMS)
         and all(budgets[a] == budgets[ARMS[0]] for a in ARMS)
     )
@@ -166,6 +182,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         "comparison_status": ("REVIEWED_COMPARABLE_INPUT" if ready else
                               "MATCHED_UNREVIEWED" if comparable else "NOT_COMPARABLE_OR_NOT_RUN"),
         "source_group_budget_matched": comparable,
+        "comparison_units_complete": comparison_units_complete,
         "tracks": {t: sum(r["track"] == t for rows in by_arm.values() for r in rows) for t in TRACKS},
         "arms": summaries,
         "training_authorized": False,
