@@ -1,0 +1,171 @@
+{
+  "schema_version": "dgsi-rev1-review-only-proposed-revision-options.v0.1",
+  "classification": "INTERNAL_REVIEW_ONLY",
+  "not_for_sft": true,
+  "not_an_sft_export": true,
+  "source_ref": "261588371259ab2f7d61803bbb7aadcc6436f0f0",
+  "source_path": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
+  "collection_projection_sha256": "3927c976af6eb46a8842b68926fd893b021df69b034ae8981dc5ed136278521a",
+  "source_track": "LITERATURE_DERIVED_SYNTHETIC",
+  "human_review_complete": false,
+  "rights_cleared": false,
+  "gold_eligible": false,
+  "training_authorized": false,
+  "official_splits_assigned": false,
+  "rules": [
+    "Every proposal is non-executable and non-authoritative until independently adjudicated by two qualified reviewers.",
+    "Never edit frozen REV1 data or silently change packet hashes. On approval, create REV2 separately, recompute its entire collection projection and packet hashes, and regenerate reviewer forms.",
+    "No reviewer name, timestamp, approval, rights authorization, real ML run, log or physical measurement is invented.",
+    "Disposal is relative to the episode being diagnosed. A prior action may be a precursor without being a response to the subsequent fault.",
+    "A model's cited monitoring source is evidence that the monitor indication changed, not independent evidence of transmitted RF power decrease."
+  ],
+  "cases": [
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "finding_id": "SCI-009-PRECURSOR-AS-DISPOSAL",
+      "source_evidence": [
+        {
+          "ref": "LOG-91",
+          "role": "PRIOR_CATALYST_CONCERN_HEAT_LAMP_BAKE_SYNTHETIC"
+        },
+        {
+          "ref": "LOG-92",
+          "role": "LATER_VALVE_RUPTURE_SYNTHETIC"
+        },
+        {
+          "ref": "LOG-93",
+          "role": "LATER_INJECTOR_FLOW_INTERRUPTION_SYNTHETIC"
+        }
+      ],
+      "options": [
+        {
+          "option_id": "A_EPISODE_RELATIVE_DISPOSAL_CORRECTION",
+          "status": "PROPOSED_NOT_APPROVED",
+          "rationale": "LOG-91 precedes and targets an earlier catalyst concern; classify it as an antecedent/potential precursor of the current valve/injector episode, not as an action executed in response to that episode.",
+          "suggested_fields": [
+            {
+              "field_path": "formal_target.disposal_status",
+              "old_value": "RECORDED",
+              "proposed_value": "NOT_RECORDED"
+            },
+            {
+              "field_path": "formal_target.disposal_measures",
+              "old_description": "one EXECUTED action referencing LOG-91",
+              "proposed_value": []
+            },
+            {
+              "field_path": "formal_target.report_text",
+              "change": "Replace the last sentence characterizing the bake as a current disposition with a source-bounded statement that LOG-91 was performed for the earlier suspected catalyst issue and predated the current valve/injector fault; no response to the later failure is recorded."
+            }
+          ],
+          "unchanged_fields": [
+            "case.input.diagnostic_logs",
+            "case.input.machine_diagnosis",
+            "formal_target.cause_localization.status",
+            "formal_target.follow_up_actions",
+            "source_fact_refs",
+            "synthetic_provenance"
+          ]
+        },
+        {
+          "option_id": "B_RETAIN_WITH_EXPLICIT_CROSS_EPISODE_CLASSIFICATION",
+          "status": "PROPOSED_NOT_APPROVED",
+          "rationale": "Retain LOG-91 in chronology as an earlier executed operation but require evidence-supported event-role metadata proving it belongs in a separate prior episode and cannot be treated as current-fault remediation; do not add a new positive repair claim.",
+          "suggested_fields": [],
+          "requires_schema_design_if_selected": true
+        },
+        {
+          "option_id": "C_MORE_EVIDENCE_REQUIRED",
+          "status": "PROPOSED_NOT_APPROVED",
+          "rationale": "Hold task 009 from SFT acceptance pending source/episode analysis and expert adjudication.",
+          "suggested_fields": []
+        }
+      ],
+      "reviewer_A_decision": null,
+      "reviewer_B_decision": null,
+      "adjudicated_option": null,
+      "human_comments": null
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "packet_sha256": "6e30feb4190b10d4db49548e7c5ecd69d41dd4caeec9308e4bbee5298bbb760d",
+      "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "finding_id": "SCI-016-MONITOR-AS-RF-POSITIVE-SUPPORT",
+      "source_evidence": [
+        {
+          "ref": "ML-E-016-MONITOR",
+          "role": "SYNTHETIC_ONBOARD_POWER_MONITOR_INDICATION_NOT_INDEPENDENT_RF"
+        },
+        {
+          "ref": "LOG-161",
+          "role": "SAME_SYNTHETIC_MONITOR_LINEAGE"
+        },
+        {
+          "ref": "LOG-162",
+          "role": "INDEPENDENT_SYNTHETIC_GROUND_CARRIER_OBSERVATION"
+        },
+        {
+          "ref": "LOG-163",
+          "role": "SYNTHETIC_COMPARABILITY_QUALITY_SUMMARY"
+        }
+      ],
+      "options": [
+        {
+          "option_id": "A_REMOVE_POSITIVE_RF_SUPPORT_LINK",
+          "status": "PROPOSED_NOT_APPROVED",
+          "rationale": "RF decrease remains an unverified upstream hypothesis, with no current independent positive RF evidence. The monitor alias may be reported as input to the ML claim, not as supporting physical evidence for the RF output path.",
+          "suggested_fields": [
+            {
+              "field_path": "formal_target.cause_localization.candidates[1].supporting_refs",
+              "old_value": [
+                "ML-E-016-MONITOR"
+              ],
+              "proposed_value": []
+            }
+          ],
+          "unchanged_fields": [
+            "case.input.machine_diagnosis",
+            "case.input.diagnostic_logs",
+            "formal_target.machine_result_interpretation",
+            "formal_target.evidence_assessment",
+            "formal_target.disposal_status",
+            "formal_target.disposal_measures"
+          ]
+        },
+        {
+          "option_id": "B_RETAIN_AS_CLAIM_PROVENANCE_ONLY",
+          "status": "PROPOSED_NOT_APPROVED",
+          "rationale": "If supporting_refs is explicitly defined as claim provenance rather than positive physical support, require a separately typed link. Without schema clarification, do not admit task 016.",
+          "suggested_fields": [],
+          "requires_schema_design_if_selected": true
+        },
+        {
+          "option_id": "C_MORE_EVIDENCE_REQUIRED",
+          "status": "PROPOSED_NOT_APPROVED",
+          "rationale": "Hold task 016 pending additional independent evidence and expert decision.",
+          "suggested_fields": []
+        }
+      ],
+      "reviewer_A_decision": null,
+      "reviewer_B_decision": null,
+      "adjudicated_option": null,
+      "human_comments": null
+    },
+    {
+      "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "packet_sha256": "1e14342290e190d659a130cc78543ec80cf46ee3b0a7f97d438e3a2e88645cfe",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "finding_id": "SCI-017-LOCAL-PASS-DOES-NOT-CLOSE-FAIL",
+      "review_scope": "Confirm the existing formal target keeps low-humidity FAIL and high-humidity PASS as condition-scoped, rejects global-normal ML extrapolation, preserves unknown facility/chain/handling effects, and does not relabel either ground-air test as TVAC.",
+      "suggested_fields": [],
+      "reviewer_A_decision": null,
+      "reviewer_B_decision": null,
+      "adjudicated_option": null,
+      "human_comments": null
+    }
+  ],
+  "acceptance_rule": "No case is approved, split-assigned or exported by this artifact. All approved revisions must rebind the two independent reviews to the REV2 packet hashes and retain track separation."
+}
