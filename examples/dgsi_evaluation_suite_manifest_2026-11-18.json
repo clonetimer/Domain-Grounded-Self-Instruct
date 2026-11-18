@@ -1,0 +1,155 @@
+{
+  "schema_version": "dgsi-evaluation-suite-manifest.v1",
+  "suite_id": "DGSI-EVALUATION-SUITE-2026-11-18",
+  "suite_version": "0.1.0",
+  "purpose": "Evaluate DGSI Skill generation, evidence handling, uncertainty, conflict reconciliation, historical Context, serialization and upstream-result ingestion. This suite is not an SFT training dataset.",
+  "created_from_main_commit": "39c391560fe1a9b5202b4a7ad0217e3f3cd6d04d",
+  "suite_components": [
+    {
+      "id": "DGSI-L1-REV1-21",
+      "track": "LITERATURE_DERIVED_SYNTHETIC",
+      "classification": "EVALUATION_ONLY_REVIEW_REQUIRED",
+      "count": 21,
+      "event_families": 9,
+      "primary_source_groups": 7,
+      "repo_path": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json",
+      "git_blob_sha": "f141694748d5425b63b469b5b0b25064e1b402c8",
+      "coverage_path": "examples/p5c2_coverage_candidate_coverage_2026-11-18_r1.json",
+      "coverage_git_blob_sha": "920c1fc00439ca85dc32f0c00a5b4f0876df3151",
+      "expected_behaviors": [
+        "diagnostic synthesis",
+        "conflict reconciliation",
+        "evidence sufficiency and justified abstention",
+        "historical case reuse",
+        "next-step recommendation",
+        "handover summary"
+      ],
+      "known_limits": [
+        "not 21 independent real incidents",
+        "not human-adjudicated Gold",
+        "source rights are not cleared for formal SFT",
+        "must not be used as training data or final blind holdout in the same comparison"
+      ]
+    },
+    {
+      "id": "ADCS-EPS-PRESSURE-13",
+      "track": "PUBLIC_LITERATURE_DERIVED_SYNTHETIC",
+      "classification": "SKILL_PRESSURE_EVALUATION",
+      "count": 13,
+      "domain_counts": {
+        "ADCS": 6,
+        "EPS": 7
+      },
+      "repo_path": "resources/skill_pressure_cases.json",
+      "git_blob_sha": "0889be26a9400708d55bdc6f8301cca2a3d1c8cf",
+      "expected_behaviors": [
+        "terminology discipline",
+        "evidence passage attribution",
+        "causal calibration",
+        "counterfactual and truth separation",
+        "abstention"
+      ],
+      "known_limits": [
+        "tests ADCS/EPS curation subskills, not direct evidence of DGSI LLM-facing SFT effectiveness",
+        "public-literature-derived prompts, not flight telemetry"
+      ]
+    },
+    {
+      "id": "ADCS-EPS-HOLDOUT-8",
+      "track": "PUBLIC_LITERATURE_DERIVED_SYNTHETIC",
+      "classification": "PROCESS_HOLDOUT",
+      "count": 8,
+      "domain_counts": {
+        "ADCS": 4,
+        "EPS": 4
+      },
+      "repo_path": "resources/skill_holdout_cases.json",
+      "git_blob_sha": "59c28f899549242119d6a9c5a695dc749550fab4",
+      "expected_behaviors": [
+        "transfer to source families not used in skill drafting",
+        "component localization restraint",
+        "episode separation",
+        "causal uncertainty"
+      ],
+      "known_limits": [
+        "process holdout only; source cases are public and may occur in foundation-model pretraining",
+        "if used to tune Skill, prompt or rubric, retire it from holdout"
+      ]
+    },
+    {
+      "id": "USER-REAL-L0-5",
+      "track": "USER_SUPPLIED_REAL_CASE_FACTS",
+      "classification": "PRIVATE_SOURCE_FACT_FIXTURES_NOT_COMPLETE_L1",
+      "count": 5,
+      "library_source": "DGSI_用户原始5例_L0事实卡_v0.1.json",
+      "expected_behaviors": [
+        "preserve user-supplied observations and cause statements",
+        "distinguish recorded actions from recommendations",
+        "identify missing ML result, logs and operational context"
+      ],
+      "known_limits": [
+        "L0 facts only; no complete upstream ML/log/context packet",
+        "not independently adjudicated Gold",
+        "not included in public repository or portable package"
+      ]
+    },
+    {
+      "id": "AAS-RUN03F-001",
+      "track": "SYNTHETIC_TEST_ONLY",
+      "classification": "UPSTREAM_ML_INGESTION_INTEGRATION_FIXTURE",
+      "count": 1,
+      "artifact_file": "DGSI_AAS_RUN03F_score_only_integration_demo_20261118.zip",
+      "artifact_sha256": "6d5a2f3f47401e5ce630a3518a6b90589cca409870280939bf66b3d85e306f9e",
+      "source_evidence_sha256": "f381ee9db81c126d0a37db31c8f63043ef6135c42cc36965210d057b4933da1b",
+      "expected_behaviors": [
+        "faithfully interpret score-only detector result",
+        "preserve unavailable ground truth and empty metrics",
+        "flag training/inference scaling-range mismatch for investigation",
+        "avoid physical fault localization without corroboration"
+      ],
+      "known_limits": [
+        "synthetic software acceptance data, not in-orbit telemetry",
+        "does not match any of the five user REAL cases",
+        "not an L1 training packet, Gold or SFT example"
+      ]
+    },
+    {
+      "id": "DGSI-SCHEMA-ILLUSTRATIONS",
+      "track": "HYPOTHETICAL_ILLUSTRATION",
+      "classification": "SCHEMA_AND_SERIALIZATION_ONLY",
+      "count": 2,
+      "repo_paths": [
+        "examples/diagnostic_context_case_illustrative.json",
+        "examples/diagnostic_context_sft_illustrative.json"
+      ],
+      "git_blob_shas": [
+        "db2e451205aba49b9085d400f31487444f836916",
+        "2e632a59227262a47d59bb78485c0352efb9ce3f"
+      ],
+      "expected_behaviors": [
+        "schema validity",
+        "chat serialization",
+        "provenance sidecar shape"
+      ],
+      "known_limits": [
+        "illustrative only; not observed event, not training data"
+      ]
+    }
+  ],
+  "exclusion_rules": [
+    "No component in this suite is automatically Gold or SFT-authorized.",
+    "Do not merge tracks into a single count of independent events.",
+    "Do not treat the five user L0 facts as complete L1 examples.",
+    "Do not treat AAS RUN-03F as REAL or as evidence for the RW bearing case.",
+    "Do not use REV1 development cases as both method-development prompts and final blind holdout.",
+    "Keep private/user source files and restricted full-text documents out of public packages."
+  ],
+  "current_admission_state": {
+    "human_expert_adjudicated": 0,
+    "rights_cleared_publications": 0,
+    "official_splits": 0,
+    "gold_examples": 0,
+    "authorized_sft_rows": 0,
+    "training_authorized": false
+  }
+}
