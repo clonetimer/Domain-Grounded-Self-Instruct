@@ -59,7 +59,7 @@ def _reject_nested_private_or_answer_fields(payload: Any) -> None:
             for key, child in value.items():
                 if not isinstance(key, str):
                     _fail("SOTA_MANIFEST_JSON_INVALID")
-                normalized = re.sub(r"[\\s_-]+", "_", key.strip().casefold()).strip("_")
+                normalized = re.sub(r"[\s_-]+", "_", key.strip().casefold()).strip("_")
                 if normalized in _FORBIDDEN_SHARED_KEYS:
                     _fail("SOTA_MANIFEST_FORBIDDEN_INPUT")
                 stack.append((child, depth + 1))

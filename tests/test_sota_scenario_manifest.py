@@ -169,7 +169,7 @@ class ScenarioManifestTests(unittest.TestCase):
     def test_private_key_tab_separator_is_rejected(self):
         entry = scenario()
         entry["shared_input"]["diagnostic_logs"].append(
-            {"raw\\ttelemetry": "SYNTHETIC_TEST_ONLY"})
+            {"raw\ttelemetry": "SYNTHETIC_TEST_ONLY"})
         with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
             canonical_scenario_sha256(entry)
 
