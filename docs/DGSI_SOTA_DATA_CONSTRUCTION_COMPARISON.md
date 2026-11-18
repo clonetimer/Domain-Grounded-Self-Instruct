@@ -30,7 +30,7 @@ A separate downstream question asks whether SFT on approved DGSI data improves s
 **Primary references**
 - Self-Instruct, ACL 2023: https://aclanthology.org/2023.acl-long.754/
 - WizardLM / Evol-Instruct, ICLR 2024: https://proceedings.iclr.cc/paper_files/paper/2024/hash/82eec786fdfbbfa53450c5feb7d1ac92-Abstract-Conference.html
-- Magpie, ICLR 2025: https://proceedings.iclr.cc/paper_files/paper/2025/hash/be06e3802e9411381feece79b4d960c1-Abstract-Conference.html
+- Auto-Instruct, Findings of EMNLP 2023: https://aclanthology.org/2023.findings-emnlp.659/\n- Magpie, ICLR 2025: https://proceedings.iclr.cc/paper_files/paper/2025/hash/be06e3802e9411381feece79b4d960c1-Abstract-Conference.html
 - Official Magpie implementation: https://github.com/magpie-align/magpie
 
 UltraFeedback is primarily a preference-feedback resource, not a directly equivalent instruction-construction baseline. Keep it for a separate preference-optimization study if needed.
@@ -98,7 +98,19 @@ The five user-provided cases are L0 source facts, not complete ML/log/context pa
 
 If no separate approved training cohort exists, the downstream SFT comparison is NOT RUN. Do not fill the gap with the 21 evaluation tasks or the AAS test fixture. Candidate-construction quality comparison may proceed only on sources permitted for that evaluation, with claims limited to that scope.
 
-## 6. Execution sequence and stopping rule
+## 6. Bounded four-case pilot (authorized 2026-11-18)
+
+Frozen pilot input: `examples/dgsi_sota_4case_pilot_2026-11-18.json`.
+
+Selected cases: 015 (structured fault-mode over-specificity), 016 (conflicting independent power indications), 020 (recovery without baseline/follow-up), and 021 (upstream identity/window mismatch). They are four representative **literature-derived synthetic evaluation cases**, not real incidents or training data. The generator receives only each case's task instruction and model-visible input. Formal target and curator notes are judge-only.
+
+Five arms × four cases = 20 generation calls; one independent blind-judge call per case = 4 calls; **24 calls total**. Use `gpt-6-luna` as the common generator and `gpt-5.6-sol` as the independent judge (distinct model families). Maximum output tokens: 1,200 per generation and 1,800 per judge call. API storage disabled. Hard budget ceiling: USD 5; stop immediately if the ceiling or token cap is reached. No retries beyond one transport retry; any failed call is recorded and not silently regenerated.
+
+This is a pilot of construction quality, not downstream SFT. Do not infer statistical significance from four cases. Report per-case results, critical failures, method-specific limitations, actual token/cost usage and any incomplete arm.
+
+The operator must provide `OPENAI_API_KEY` in the local execution environment or a protected CI secret; never commit or paste the key into source control or chat. The current repository runner only implements a two-condition Skill-vs-baseline pressure/holdout evaluation; it does **not** yet execute these five construction arms. The frozen pilot manifest is the experiment input contract, not evidence that live calls have run.
+
+## 7. Execution sequence and stopping rule
 
 1. Freeze this protocol and identify a permitted source pool.
 2. Freeze a representative development set and separate unseen evaluation set.
@@ -110,6 +122,6 @@ If no separate approved training cohort exists, the downstream SFT comparison is
 
 This protocol does not authorize paid model calls, training jobs or source redistribution. Obtain explicit operator approval for provider, model, budget and compute before those runs.
 
-## 7. Decision rule
+## 8. Decision rule
 
 DGSI is supported as a better construction method only if it improves pre-registered primary metrics over the strongest feasible baseline without increasing critical failures, with transparent cost/yield reporting. A downstream performance claim requires the separate SFT experiment and independent holdout. If gains appear only on synthetic evaluation cases, state that limitation; do not claim real-flight operational improvement.
