@@ -64,6 +64,10 @@ def _components(
 
     family_first: dict[str, str] = {}
     document_first: dict[str, str] = {}
+    # Unknown but explicitly SYNTHETIC history refs still link consumers.
+    # Without this, two separate families citing the same simulated history
+    # document would be incorrectly counted as independent holdout groups.
+    opaque_history_first: dict[str, str] = {}
     current_family_first: dict[str, str] = {}
     task_family: dict[str, str] = {}
     for packet in packets:
@@ -91,7 +95,15 @@ def _components(
             target = current_family_first.get(hit["event_family_id"])
             if target is not None:
                 join(task, target)
-            refs.update(ref for ref in hit["source_refs"] if ref in cards)
+            for ref in hit["source_refs"]:
+                if ref in cards:
+                    refs.add(ref)
+                else:
+                    prior_consumer = opaque_history_first.get(ref)
+                    if prior_consumer is not None:
+                        join(task, prior_consumer)
+                    else:
+                        opaque_history_first[ref] = task
         for ref in sorted(refs):
             document = cards[ref]["source_reference"]["source_id"]
             earlier = document_first.get(document)
