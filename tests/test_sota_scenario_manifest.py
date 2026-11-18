@@ -119,6 +119,45 @@ class ScenarioManifestTests(unittest.TestCase):
         with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
             canonical_scenario_sha256(entry)
 
+
+    def test_nested_raw_telemetry_is_blocked(self):
+        entry = scenario()
+        entry["shared_input"]["upstream_ml_result"]["diagnostic"] = {
+            "source": {"raw_telemetry": [1, 2, 3]}}
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
+            canonical_scenario_sha256(entry)
+
+    def test_nested_internal_review_in_log_is_blocked(self):
+        entry = scenario()
+        entry["shared_input"]["diagnostic_logs"] = [
+            {"event": [{"Internal-Review": {"instructions": "SYNTHETIC_TEST_ONLY"}}]}]
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
+            canonical_scenario_sha256(entry)
+
+    def test_answer_labels_and_curator_prompts_cannot_enter_shared_input(self):
+        for name in ("formal_target", "assistant_target", "curator_prompts", "expert_signature"):
+            with self.subTest(name=name):
+                entry = scenario()
+                entry["shared_input"]["spacecraft_mission_context"]["nested"] = [
+                    {"review_payload": {name: "SYNTHETIC_TEST_ONLY"}}]
+                with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
+                    canonical_scenario_sha256(entry)
+
+    def test_nested_public_metadata_remains_hashable(self):
+        entry = scenario()
+        entry["shared_input"]["diagnostic_logs"] = [
+            {"kind": "SYNTHETIC_TEST_ONLY", "detail": [{"severity": "low"}]}]
+        self.assertEqual(len(canonical_scenario_sha256(entry)), 64)
+
+    def test_excessive_nesting_fails_closed(self):
+        entry = scenario()
+        nested = {"content": "SYNTHETIC_TEST_ONLY"}
+        for _ in range(70):
+            nested = {"deep": nested}
+        entry["shared_input"]["upstream_ml_result"]["deep"] = nested
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_NESTING_LIMIT$"):
+            canonical_scenario_sha256(entry)
+
     def test_fabricated_real_or_unbound_synthetic_provenance_is_rejected(self):
         entry = scenario()
         entry["shared_input"]["provenance"] = {"synthetic": False}
