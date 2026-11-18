@@ -146,6 +146,11 @@ def _validate_history_context(packet: dict[str, Any], case: dict[str, Any]) -> N
                 verified = _date(verified_at)
                 if verified is None or verified > cutoff:
                     _fail("HISTORY_VERIFICATION_TIME_INVALID_OR_FUTURE")
+                # A post-publication review cannot be treated as a status
+                # already available at the older historical snapshot.  The
+                # confirmed-history gate enforces this chronology too.
+                if available_at < verified:
+                    _fail("HISTORY_AVAILABLE_BEFORE_VERIFICATION")
 
     for hit in confirmed_hits:
         screened = screen_historical_memory_hit(
