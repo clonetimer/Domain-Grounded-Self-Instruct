@@ -89,12 +89,15 @@ class C2CurrentScoredReviewTests(unittest.TestCase):
         ):
             self._audit(sources=sources)
 
-    def test_old_manifest_rejected_after_l1_instruction_revision(self):
+    def test_unreviewed_l1_instruction_revision_is_blocked_upstream(self):
+        # A changed instruction that has not been approved by the packet
+        # projection gate is an INVALID current source, not merely a stale
+        # coordinator manifest. Preserve that stronger failure boundary.
         changed = copy.deepcopy(COLLECTION)
         changed["packets"][0]["case"]["instruction"] += " (SYNTHETIC_TEST_ONLY)"
         with self.assertRaisesRegex(
             L1BlindReviewManifestError,
-            "C2_SCORED_STALE_OR_TAMPERED_COORDINATOR_MANIFEST",
+            "C2_SCORED_CURRENT_SOURCE_SNAPSHOT_INVALID",
         ):
             self._audit(collection=changed)
 
