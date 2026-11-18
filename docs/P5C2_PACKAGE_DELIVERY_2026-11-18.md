@@ -4,7 +4,7 @@
 
 This milestone produces two separately versioned outputs:
 
-1. **Portable DGSI Skill/toolkit** — reusable production instructions, schemas, validators, preview CLI, blind-review manifest CLI, complete two-reviewer kit generator, references and regression tests. Built as `dgsi-simulation-to-sft-toolkit-0.2.0-rc.1.zip`.
+1. **Portable DGSI Skill/toolkit** — reusable production instructions, schemas, validators, preview CLI, blind-review manifest CLI, complete two-reviewer kit generator, references and regression tests. Built as `dgsi-simulation-to-sft-toolkit-0.2.0-rc.2.zip`.
 2. **L1 synthetic dataset review kit** — a controlled, review-only package for the frozen 15-task / 9-event-family candidate. It contains two independently distributable reviewer archives, the coordinator manifest, a blank source-rights queue and SHA-256 checksums. It is not an SFT dataset release.
 
 ## Build the Skill package
@@ -13,7 +13,7 @@ From a clean repository checkout:
 
 ```bash
 python -m pip install -r requirements-validation.txt
-python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.1.zip
+python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.2.zip
 python -m unittest discover -s tests -p "test_portable_toolkit_package_build.py" -v
 ```
 
@@ -41,12 +41,26 @@ The destination parent directory must already exist and the output path must be 
 
 Send reviewer A and reviewer B their respective inner ZIPs separately through an authorized channel. Keep the outer package and coordinator manifest in the controlled workspace. Never put completed expert forms, reviewer identities or restricted source materials into the public repository.
 
+## Receive a rights worksheet
+
+Retain the original blank queue from the coordinator ZIP. Audit each separately edited submission against independently loaded current L0/L1 inputs:
+
+```bash
+python scripts/audit_l1_c2_current_rights_intake.py \
+  --blank /authorized/review/C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json \
+  --submission /authorized/review/rights-submission.json \
+  --current-collection /authorized/input/l1-candidate-collection.json \
+  --current-l0-facts /authorized/input/l0-source-facts.json
+```
+
+The four-file command regenerates the complete queue before checking the submission. A source-document, event-family, episode, fact or task change requires a new blank and review round. A `STRUCTURALLY_BOUND_RIGHTS_REVIEW_ONLY_NOT_CLEARANCE` result reports structural agreement only, with zero rights clearance and zero training authorization. Evidence references identify separately retained documents; they do not authenticate the documents or grant reuse permission.
+
 ## Current dataset state
 
 | Measure | State |
 |---|---:|
 | L1 synthetic candidate packets | 15 |
-| Independent source event families | 9 |
+| Source event families | 9 |
 | L0 fact cards bound to this cohort | 12 |
 | Unique source publications in rights queue | 7 |
 | Independent expert adjudications | 0 |
@@ -59,6 +73,6 @@ The L0 repository contains an additional unbound ISEE expert-system card; it is 
 
 ## Release interpretation
 
-A successful package build establishes reproducible packaging and structural integrity only. It does not establish scientific correctness, reviewer identity, source rights, REAL Gold, SFT authorization or training readiness.
+A successful package build establishes structural integrity. RC2 also verifies byte-for-byte reproducibility under different clocks within the same Python/compression implementation. It does not establish scientific correctness, reviewer identity, source rights, REAL Gold, SFT authorization or training readiness.
 
 The Skill package may be distributed as a candidate-generation tool. The dataset package must remain a controlled review candidate until independent science review and source-use rights are completed. The two outputs must retain separate manifests and SHA-256 hashes.

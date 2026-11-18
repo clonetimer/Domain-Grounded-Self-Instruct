@@ -30,8 +30,10 @@ def build_c2_source_rights_queue(dossier: dict[str, Any]) -> dict[str, Any]:
     documents: dict[str, dict[str, Any]] = {}
     # The same L0 case can appear in multiple L1 tasks. Its SHA alone
     # does not establish source-document or episode identity: a caller must
-    # not move an unchanged digest to another publication or event family.
-    known_facts: dict[str, tuple[str, str, str, str | None, str, str, str | None]] = {}
+    # not move an unchanged digest to another publication, event family or episode.
+    known_facts: dict[
+        str, tuple[str, str, str, str | None, str, str | None, str, str | None]
+    ] = {}
     seen_tasks: set[str] = set()
     for item in dossier["items"]:
         task_id = item.get("task_id")
@@ -83,7 +85,10 @@ def build_c2_source_rights_queue(dossier: dict[str, Any]) -> dict[str, Any]:
                 raise C2SourceRightsQueueError("C2_RIGHTS_SOURCE_CLASS_INVALID")
             if locator is not None and not isinstance(locator, str):
                 raise C2SourceRightsQueueError("C2_RIGHTS_SOURCE_LOCATOR_INVALID")
-            identity = (digest, source_id, title, url, family, source_class, locator)
+            identity = (
+                digest, source_id, title, url, family, fact.get("event_episode_id"),
+                source_class, locator,
+            )
             earlier = known_facts.get(case_id)
             if earlier is not None:
                 if earlier[0] != digest:

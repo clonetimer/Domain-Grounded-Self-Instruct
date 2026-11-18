@@ -43,6 +43,9 @@ DOCS = (
     "docs/P5C2_SOURCE_FACT_REVIEW_STATE_VISIBILITY_2026-11-18.md",
     "docs/P5C2_SOURCE_RIGHTS_DEDUPLICATED_QUEUE_2026-11-18.md",
     "docs/P5C2_PACKAGE_DELIVERY_2026-11-18.md",
+    "docs/P5C2_CURRENT_SOURCE_RIGHTS_PREFLIGHT_20261118.md",
+    "docs/P5C2_OFFLINE_SOURCE_RIGHTS_INTAKE_20261118.md",
+    "docs/P5C2_SOURCE_DOCUMENT_IDENTITY_GUARD_20261118.md",
 )
 VALIDATOR_FILES = (
     "requirements-validation.txt",
@@ -52,6 +55,8 @@ VALIDATOR_FILES = (
     "scripts/create_l1_c2_complete_review_kit.py",
     "scripts/create_l1_c2_expert_review_handoff.py",
     "scripts/create_l1_c2_scientific_dossier.py",
+    "scripts/audit_l1_c2_current_rights_intake.py",
+    "scripts/audit_l1_c2_source_rights_intake.py",
     "tests/test_l1_blind_review_manifest.py",
     "tests/test_l1_blind_review_manifest_cli.py",
     "tests/test_l1_c2_complete_review_kit.py",
@@ -59,6 +64,8 @@ VALIDATOR_FILES = (
     "tests/test_l1_c2_scientific_dossier.py",
     "tests/test_l1_c2_scored_review.py",
     "tests/test_l1_c2_source_rights_queue.py",
+    "tests/test_l1_c2_current_rights_preflight.py",
+    "tests/test_l1_c2_rights_intake_audit.py",
     "tests/test_l1_model_preview_cli_no_clobber.py",
     "scripts/audit_diagnostic_sft_lineage.py",
     "scripts/create_l1_model_preview.py",
@@ -134,7 +141,7 @@ def main() -> int:
 
     manifest = {
         "toolkit": "dgsi-simulation-to-sft",
-        "version": (SKILL_ROOT / "VERSION").read_text(encoding="utf-8").strip(),
+        "version": (ROOT / SKILL_ROOT / "VERSION").read_text(encoding="utf-8").strip(),
         "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
         "files": [
             {"path": name, "size_bytes": len(data), "sha256": sha256(data)}
@@ -151,7 +158,11 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, data in sorted(selected.items()):
-            archive.writestr(name, data)
+            # Fixed metadata makes repeated builds identical in the same runtime.
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.create_system = 3
+            info.external_attr = 0o100644 << 16
+            archive.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
     print(f"PACKAGE_CREATED={output}")
     print(f"FILES={len(selected)}")
     print(f"SHA256={sha256(output.read_bytes())}")

@@ -26,18 +26,28 @@ jobs:
           python -m unittest discover -s tests -p "test_portable_toolkit_package_build.py" -v
           python -m unittest discover -s tests -p "test_l1_c2_complete_review_kit.py" -v
           python -m unittest discover -s tests -p "test_l1_c2_source_rights_queue.py" -v
+          python -m unittest discover -s tests -p "test_l1_c2_current_rights_preflight.py" -v
+          python -m unittest discover -s tests -p "test_l1_c2_rights_intake_audit.py" -v
+      - name: Read toolkit version
+        id: toolkit
+        run: |
+          version=$(cat skills/dgsi-simulation-to-sft/VERSION)
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
       - name: Build portable Skill ZIP
+        env:
+          TOOLKIT_VERSION: ${{ steps.toolkit.outputs.version }}
         run: |
           mkdir -p dist
-          python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.1.zip
+          python scripts/package_dgsi_simulation_to_sft.py --output "dist/dgsi-simulation-to-sft-toolkit-${TOOLKIT_VERSION}.zip"
           python - <<'PY'
           import hashlib, json, pathlib, zipfile
-          path = pathlib.Path("dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.1.zip")
+          version = pathlib.Path("skills/dgsi-simulation-to-sft/VERSION").read_text(encoding="utf-8").strip()
+          path = pathlib.Path(f"dist/dgsi-simulation-to-sft-toolkit-{version}.zip")
           with zipfile.ZipFile(path) as archive:
               names = archive.namelist()
               assert len(names) == len(set(names)), "duplicate ZIP paths"
               manifest = json.loads(archive.read("PACKAGE_SHA256_MANIFEST.json"))
-              assert manifest["version"] == "0.2.0-rc.1"
+              assert manifest["version"] == version
               assert manifest["training_authorized"] is False
               assert manifest["gold_authorized"] is False
               assert manifest["sft_export_authorized"] is False
@@ -47,7 +57,7 @@ jobs:
                   assert hashlib.sha256(payload).hexdigest() == item["sha256"]
           digest = hashlib.sha256(path.read_bytes()).hexdigest()
           pathlib.Path("dist/SHA256SUMS.txt").write_text(
-              f"{digest}  {path.name}\\n", encoding="ascii"
+              f"{digest}  {path.name}\n", encoding="ascii", newline="\n"
           )
           print(f"PACKAGE={path}")
           print(f"SHA256={digest}")
@@ -56,9 +66,9 @@ jobs:
       - name: Upload portable Skill package
         uses: actions/upload-artifact@v4
         with:
-          name: dgsi-simulation-to-sft-toolkit-0.2.0-rc.1
+          name: dgsi-simulation-to-sft-toolkit-${{ steps.toolkit.outputs.version }}
           path: |
-            dist/dgsi-simulation-to-sft-toolkit-0.2.0-rc.1.zip
+            dist/dgsi-simulation-to-sft-toolkit-${{ steps.toolkit.outputs.version }}.zip
             dist/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 30

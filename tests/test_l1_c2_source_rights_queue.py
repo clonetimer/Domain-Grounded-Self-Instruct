@@ -147,6 +147,15 @@ class C2SourceRightsQueueTests(unittest.TestCase):
         ):
             build_c2_source_rights_queue(changed)
 
+    def test_repeated_l0_cannot_change_event_episode_without_hash_change(self):
+        changed = self._tamper_second_occurrence(
+            lambda fact: fact.update({"event_episode_id": "FORGED-EPISODE"})
+        )
+        with self.assertRaisesRegex(
+            C2SourceRightsQueueError, "C2_RIGHTS_L0_IDENTITY_DRIFT"
+        ):
+            build_c2_source_rights_queue(changed)
+
     def test_repeated_l0_cannot_change_source_locator_without_hash_change(self):
         changed = self._tamper_second_occurrence(
             lambda fact: fact["source_reference"].update({

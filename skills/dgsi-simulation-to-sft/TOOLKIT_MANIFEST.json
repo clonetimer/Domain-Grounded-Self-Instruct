@@ -1,6 +1,6 @@
 {
   "toolkit_id": "dgsi-simulation-to-sft",
-  "version": "0.2.0-rc.1",
+  "version": "0.2.0-rc.2",
   "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
   "primary_skill": "SKILL.md",
   "supported_source_types": [

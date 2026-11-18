@@ -33,7 +33,27 @@ python -m unittest tests.test_l1_model_projection_preview -v
 ```
 The example files above are repository fixtures, not contents of the portable Skill ZIP.
 
-## Package and verify the Skill
+## Generate separate expert review packs
+
+From the extracted toolkit directory, supply the same frozen external L0/L1 inputs used for the preview. Create the output parent directory first and choose a new ZIP filename:
+
+```bash
+python scripts/create_l1_c2_complete_review_kit.py --collection /authorized/input/l1-candidate-collection.json --source-facts /authorized/input/l0-source-facts.json --output-file /authorized/output/C2-review-only.zip
+```
+
+The coordinator ZIP contains `reviewer_A.zip` and `reviewer_B.zip`. Each includes its own blank Word/JSON form and the same scientific dossier. Distribute the inner ZIPs separately through an authorized channel. The outer coordinator manifest binds the cohort and both archive hashes. Keep the original `C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json` unchanged and edit a separate copy for rights evidence intake.
+
+## Audit a rights worksheet against current sources
+
+Use the four-file command for a real intake. Supply current L0/L1 inputs independently of the editable worksheet:
+
+```bash
+python scripts/audit_l1_c2_current_rights_intake.py --blank /authorized/review/C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json --submission /authorized/review/rights-submission.json --current-collection /authorized/input/l1-candidate-collection.json --current-l0-facts /authorized/input/l0-source-facts.json
+```
+
+A successful result means the source snapshot and worksheet structure agree. Evidence submission still requires independent rights review. The tool cannot grant permission or authorize training. The older `audit_l1_c2_source_rights_intake.py` two-file command is a structural diagnostic and does not establish that the supplied blank is current. See `docs/P5C2_CURRENT_SOURCE_RIGHTS_PREFLIGHT_20261118.md` for the intake contract.
+
+## Build the Skill from a source checkout
 
 From the repository root:
 ```bash

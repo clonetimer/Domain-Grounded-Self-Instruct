@@ -60,7 +60,10 @@ def _zip_bytes(files: dict[str, bytes]) -> bytes:
 
 def _normalized_word_document(blob: bytes) -> bytes:
     """Strip ZIP timestamps from upstream minimal OOXML without changing XML."""
-    required = {"[Content_Types].xml", "_rels/.rels", "word/document.xml"}
+    required = {
+        "[Content_Types].xml", "_rels/.rels", "word/document.xml",
+        "word/styles.xml", "word/_rels/document.xml.rels",
+    }
     with ZipFile(BytesIO(blob)) as input_docx:
         if set(input_docx.namelist()) != required:
             raise ValueError("REVIEW_KIT_UNEXPECTED_WORD_PART")

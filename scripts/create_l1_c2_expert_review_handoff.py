@@ -20,15 +20,17 @@ from dgsi.l1_c2_expert_handoff import build_c2_expert_handoff
 from dgsi.l1_model_projection_audit import L1ProjectionAuditError
 
 
-def _para(value: str, *, heading: bool = False, page_break_before: bool = False) -> str:
+def _para(value: str, *, heading: bool = False, title: bool = False,
+          page_break_before: bool = False) -> str:
     properties = (
-        ('<w:pStyle w:val="Heading1"/>' if heading else "")
+        ('<w:pStyle w:val="Title"/>' if title else
+         '<w:pStyle w:val="Heading1"/>' if heading else "")
         + ('<w:pageBreakBefore/>' if page_break_before else "")
     )
     style = "<w:pPr>" + properties + "</w:pPr>" if properties else ""
     return (
         "<w:p>" + style + "<w:r><w:rPr><w:rFonts "
-        'w:ascii="Arial" w:eastAsia="Microsoft YaHei" w:hAnsi="Arial"/>'
+        'w:ascii="Arial" w:eastAsia="Noto Sans CJK SC" w:hAnsi="Arial"/>'
         '</w:rPr><w:t xml:space="preserve">' + escape(value)
         + "</w:t></w:r></w:p>"
     )
@@ -39,7 +41,7 @@ def _word_document(handoff: dict) -> bytes:
     from io import BytesIO
     slot = handoff["reviewer_slot"]
     body = [
-        _para("DGSI P5-C2 / 专家盲审表 / Reviewer " + slot, heading=True),
+        _para("DGSI P5 C2 专家独立审核表 Reviewer " + slot, title=True),
         _para("空白审核表：未获得专家评分、身份确认、来源权利许可或训练授权。"),
         _para("两名专家须独立填写；不得将已填材料上传公开仓库。"),
         _para("候选集合 SHA-256: " + handoff["collection_projection_sha256"]),
@@ -88,6 +90,7 @@ def _word_document(handoff: dict) -> bytes:
         '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
         '<Default Extension="xml" ContentType="application/xml"/>'
         '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+        '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>'
         '</Types>'
     )
     rels = (
@@ -97,11 +100,43 @@ def _word_document(handoff: dict) -> bytes:
         'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" '
         'Target="word/document.xml"/></Relationships>'
     )
+    # Define and relate every referenced style. Some readers flatten paragraph
+    # formatting (including pageBreakBefore) when the style part is absent.
+    styles = (
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+        '<w:docDefaults><w:rPrDefault><w:rPr>'
+        '<w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:eastAsia="Noto Sans CJK SC"/>'
+        '<w:sz w:val="21"/><w:lang w:val="en-US" w:eastAsia="zh-CN"/>'
+        '</w:rPr></w:rPrDefault><w:pPrDefault><w:pPr>'
+        '<w:spacing w:after="100" w:line="260" w:lineRule="auto"/>'
+        '</w:pPr></w:pPrDefault></w:docDefaults>'
+        '<w:style w:type="paragraph" w:default="1" w:styleId="Normal">'
+        '<w:name w:val="Normal"/><w:qFormat/></w:style>'
+        '<w:style w:type="paragraph" w:styleId="Title">'
+        '<w:name w:val="Title"/><w:basedOn w:val="Normal"/>'
+        '<w:pPr><w:keepNext/><w:spacing w:after="140"/></w:pPr>'
+        '<w:rPr><w:b/><w:color w:val="000000"/><w:sz w:val="28"/></w:rPr></w:style>'
+        '<w:style w:type="paragraph" w:styleId="Heading1">'
+        '<w:name w:val="heading 1"/><w:basedOn w:val="Normal"/>'
+        '<w:pPr><w:keepNext/><w:spacing w:before="120" w:after="120"/></w:pPr>'
+        '<w:rPr><w:b/><w:color w:val="000000"/><w:sz w:val="22"/></w:rPr></w:style>'
+        '</w:styles>'
+    )
+    document_rels = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+        '<Relationship Id="rIdStyles" '
+        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" '
+        'Target="styles.xml"/></Relationships>'
+    )
     buffer = BytesIO()
     with ZipFile(buffer, "w", compression=ZIP_DEFLATED) as z:
         z.writestr("[Content_Types].xml", types)
         z.writestr("_rels/.rels", rels)
         z.writestr("word/document.xml", doc)
+        z.writestr("word/styles.xml", styles)
+        z.writestr("word/_rels/document.xml.rels", document_rels)
     return buffer.getvalue()
 
 

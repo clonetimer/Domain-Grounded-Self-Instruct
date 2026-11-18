@@ -125,8 +125,22 @@ class C2ExpertHandoffTests(unittest.TestCase):
                 docx = out / f"C2_reviewer_{slot}_BLANK.docx"
                 with ZipFile(docx) as archive:
                     self.assertIn("word/document.xml", archive.namelist())
+                    self.assertIn("word/styles.xml", archive.namelist())
+                    self.assertIn("word/_rels/document.xml.rels", archive.namelist())
+                    ns = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
+                    styles = ElementTree.fromstring(archive.read("word/styles.xml"))
+                    style_ids = {
+                        element.get("{" + ns["w"] + "}styleId")
+                        for element in styles.findall("w:style", ns)
+                    }
+                    self.assertTrue({"Normal", "Title", "Heading1"} <= style_ids)
+                    self.assertIn(b'Noto Sans CJK SC', archive.read("word/styles.xml"))
+                    self.assertIn(b'Target="styles.xml"', archive.read("word/_rels/document.xml.rels"))
+                    self.assertIn(b'/word/styles.xml', archive.read("[Content_Types].xml"))
                     xml = archive.read("word/document.xml")
-                    ElementTree.fromstring(xml)
+                    document = ElementTree.fromstring(xml)
+                    self.assertEqual(len(document.findall(".//w:pageBreakBefore", ns)), form["packet_count"] - 1)
+                    self.assertIn(b'w:val="Title"', xml)
                     self.assertIn(b"sha-256", xml.lower())
                     self.assertNotIn(b"formal_target", xml)
             before = (out / "C2_reviewer_A_BLANK.json").read_bytes()
