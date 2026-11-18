@@ -52,7 +52,34 @@ class C2ScientificDossierTests(unittest.TestCase):
             self.assertTrue(set(originals[item["task_id"]]["source_fact_refs"]) <= refs)
             for fact in item["l0_public_source_context"]:
                 self.assertIn("source_reference", fact)
+                self.assertIn("domain_review_status", fact)
+                self.assertIn("domain_review_evidence_sha256", fact)
+                self.assertIn("sft_eligible", fact)
+                self.assertEqual(
+                    fact["domain_review_status"],
+                    next(c["domain_review_status"] for c in SOURCES
+                         if c["case_id"] == fact["case_id"]),
+                )
                 self.assertNotIn("internal_review", fact)
+
+    def test_bound_l0_review_status_counts_do_not_imply_approval(self):
+        dossier = self.dossier
+        all_bound_ids = {
+            fact["case_id"]
+            for item in dossier["items"]
+            for fact in item["l0_public_source_context"]
+        }
+        self.assertEqual(dossier["l0_bound_fact_card_count"], len(all_bound_ids))
+        self.assertEqual(
+            sum(dossier["l0_domain_review_status_counts"].values()), len(all_bound_ids)
+        )
+        self.assertEqual(
+            dossier["l0_domain_review_status_counts"], {
+                "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION": len(all_bound_ids)
+            },
+        )
+        self.assertFalse(dossier["expert_review_complete"])
+        self.assertFalse(dossier["source_rights_verified"])
 
     def test_review_only_full_synthetic_input_and_formal_target(self):
         self.assertTrue(self.dossier["not_for_sft"])
@@ -105,6 +132,8 @@ class C2ScientificDossierTests(unittest.TestCase):
             self.assertEqual(len(json.loads(content)["items"]), 15)
             self.assertIn("SYNTHETIC", page)
             self.assertIn("当前合成事件", page)
+            self.assertIn("L0 领域审核状态", page)
+            self.assertIn("AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION", page)
             self.assertNotIn("<script", page)
             self.assertNotIn('"internal_review"', page)
             second = subprocess.run(command, capture_output=True, text=True)

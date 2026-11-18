@@ -10,6 +10,7 @@ from .l1_c2_expert_handoff import build_c2_expert_handoff
 
 PUBLIC_L0_FIELDS = (
     "case_id", "source_class", "event_status", "knowledge_source_not_event",
+    "domain_review_status", "domain_review_evidence_sha256", "sft_eligible",
     "event_family_id", "event_episode_id", "source_reference",
     "phenomenon_analysis", "cause_localization", "disposal_status",
     "disposal_source_note", "disposal_measures", "migration_assessment",
@@ -56,6 +57,8 @@ def build_c2_scientific_dossier(
         raise C2ReviewDossierError("C2_DOSSIER_DUPLICATE_L0_FACT")
 
     items = []
+    # Count unique *bound* L0 cards, not appearances across L1 tasks.
+    bound_source_card_ids: set[str] = set()
     for entry in handoff["tasks"]:
         packet = packet_map.get(entry["task_id"])
         if packet is None:
@@ -79,6 +82,7 @@ def build_c2_scientific_dossier(
         for ref in bound_refs:
             if ref not in cards:
                 raise C2ReviewDossierError("C2_DOSSIER_L0_SOURCE_UNRESOLVED")
+            bound_source_card_ids.add(ref)
             public_l0.append({
                 field: deepcopy(cards[ref][field])
                 for field in PUBLIC_L0_FIELDS if field in cards[ref]
@@ -108,6 +112,10 @@ def build_c2_scientific_dossier(
         }
         _check_no_private_keys(item)
         items.append(item)
+    review_status_counts: dict[str, int] = {}
+    for ref in sorted(bound_source_card_ids):
+        status = cards[ref]["domain_review_status"]
+        review_status_counts[status] = review_status_counts.get(status, 0) + 1
     dossier = {
         "schema_version": "dgsi-c2-scientific-review-dossier.v1",
         "purpose": "INDEPENDENT_EXPERT_REVIEW_ONLY_NOT_SFT",
@@ -121,6 +129,8 @@ def build_c2_scientific_dossier(
         "collection_projection_sha256": handoff["collection_projection_sha256"],
         "packet_count": handoff["packet_count"],
         "event_family_count": handoff["event_family_count"],
+        "l0_bound_fact_card_count": len(bound_source_card_ids),
+        "l0_domain_review_status_counts": dict(sorted(review_status_counts.items())),
         "items": items,
         "not_for_sft": True,
         "source_rights_verified": False,

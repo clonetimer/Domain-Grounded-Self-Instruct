@@ -38,6 +38,9 @@ def _html(dossier: dict) -> str:
         '<h1>DGSI P5-C2 · SYNTHETIC 科学审核附件</h1>',
         '<p><strong>仅供专家核查；不是 SFT、真实遥测、真实 ML 输出或 Gold。</strong></p>',
         f'<p>Collection SHA-256: {escape(dossier["collection_projection_sha256"])}</p>',
+        '<p><strong>L0 领域审核状态必须逐卡核查：待审不代表专家确认。</strong></p>',
+        f'<p>绑定 L0 事实卡：{dossier["l0_bound_fact_card_count"]}；'
+        f'审核状态：{escape(json.dumps(dossier["l0_domain_review_status_counts"], ensure_ascii=False, sort_keys=True))}</p>',
         '<p>核对原始文献与使用权利；L0 不是当前合成故障的直接证据。</p>',
     ]
     for item in dossier["items"]:
