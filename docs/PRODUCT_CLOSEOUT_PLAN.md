@@ -15,7 +15,7 @@
 2. **Evaluation Suite** — [manifest](../examples/dgsi_evaluation_suite_manifest_2026-11-18.json) freezes 21 L1 synthetic tasks, 13 ADCS/EPS pressure cases, 8 process holdouts, 5 private user L0 facts, one AAS SYNTHETIC_TEST_ONLY integration fixture and two schema illustrations. The suite is not a training corpus.
 3. **Skill effectiveness report** — [DGSI_SKILL_EFFECTIVENESS_REPORT_2026-11-18.md](DGSI_SKILL_EFFECTIVENESS_REPORT_2026-11-18.md) reports measured inventory, integration evidence, adjacent exploratory pretest and all metrics that remain unmeasured. Separate automated checks, AI advisory and human review.
 4. **User/developer handoff** — [PRODUCT_USER_DEVELOPER_HANDOFF.md](PRODUCT_USER_DEVELOPER_HANDOFF.md), operator guide, known limitations, development lessons and exact clean-environment commands.
-5. **SOTA data-construction comparison** — compare DGSI against Self-Instruct, Evol-Instruct/WizardLM and a clearly labelled Magpie-style adaptation under matched source/model/token budgets. First compare candidate-data quality; run downstream SFT only if a separate authorized training cohort and untouched event-family holdout exist. Follow docs/DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md.
+5. **SOTA data-construction comparison** — compare DGSI against Self-Instruct, Evol-Instruct/WizardLM, Auto-Instruct-style ranking and a clearly labelled Magpie-style adaptation under matched source/model/token budgets. First compare candidate-data quality; run downstream SFT only if a separate authorized training cohort and untouched event-family holdout exist. Follow docs/DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md.
 
 ## Tooling-milestone acceptance (not dataset acceptance)
 
