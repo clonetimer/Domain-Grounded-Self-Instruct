@@ -24,8 +24,8 @@ A separate downstream question asks whether SFT on approved DGSI data improves s
 | M0 | Self-Instruct | Same seed-task pool; generate instruction, input and output; apply invalidity and similarity filtering. No DGSI-specific evidence validators. |
 | M1 | Evol-Instruct / WizardLM-style | Same seed tasks; depth evolution (constraints, depth, specificity, reasoning steps) and breadth mutation; eliminate failed or non-informative evolutions. |
 | M2 | Magpie-style | Use a documented aligned-model pre-query template to elicit user queries and responses, constrained to the same spacecraft-diagnosis source scope. Call this a Magpie-style adaptation, not the official method, unless its original template and procedure are reproduced. |
-| M3 | DGSI | L0 source facts, field-level provenance, ML result + logs + mission context + time-safe history, task taxonomy, evidence/target separation, source-closure checks, uncertainty and abstention. |
-| M4 (ablation) | DGSI without retrieved history | Same DGSI process with historical Context removed. This isolates Context contribution; it is not a separate SOTA baseline. |
+| M4 | DGSI | L0 source facts, field-level provenance, ML result + logs + mission context + time-safe history, task taxonomy, evidence/target separation, source-closure checks, uncertainty and abstention. |
+| M5 (ablation) | DGSI without retrieved history | Same DGSI process with historical Context removed. This isolates Context contribution; it is not a separate SOTA baseline. |
 
 **Primary references**
 - Self-Instruct, ACL 2023: https://aclanthology.org/2023.acl-long.754/
@@ -102,7 +102,7 @@ If no separate approved training cohort exists, the downstream SFT comparison is
 
 1. Freeze this protocol and identify a permitted source pool.
 2. Freeze a representative development set and separate unseen evaluation set.
-3. Implement only the minimum adapters needed to reproduce M0–M3; reuse existing DGSI schemas, validators and evaluation runner.
+3. Implement only the minimum adapters needed to reproduce M0–M4; reuse existing DGSI schemas, validators and evaluation runner.
 4. Generate equal-budget candidate pools and retain rejected outputs/reason codes.
 5. Blind-score construction quality and report paired per-case deltas and critical failures.
 6. Run downstream SFT only if approved training data and an untouched holdout exist.
