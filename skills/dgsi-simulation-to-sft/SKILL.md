@@ -190,4 +190,8 @@ Use `scripts/create_l1_model_preview.py` to generate a deterministic three-messa
 This Skill is used for the complete C2-B through C2-E workflow. Follow `references/P5C2_INTEGRATED_DATASET_PRODUCTION.md` for scientific review, formal target review, model projection and coverage. New operators should begin with `references/OPERATOR_QUICKSTART.md`.
 
 The Skill/toolkit and dataset are co-equal deliverables. The Skill defines the repeatable production process; the dataset is a versioned output. Package the Skill with its references, schemas, validators and tests. Keep expert adjudication, source rights, SFT authorization and training as separate gates.
-\n\n## Fingerprint-bound blind expert review\n\nUse `scripts/create_l1_blind_review_manifest.py` to create a metadata-only review manifest for the frozen L1 collection. Follow `references/BLIND_EXPERT_REVIEW.md` for controlled assignment, independent review, receipt interpretation and release-state boundaries. The portable package includes this CLI and its tests; example candidate data remain external.\n
+
+
+## Fingerprint-bound blind expert review
+
+Use `scripts/create_l1_blind_review_manifest.py` to create a metadata-only review manifest for the frozen L1 collection. Follow `references/BLIND_EXPERT_REVIEW.md` for controlled assignment, independent review, receipt interpretation and release-state boundaries. The portable package includes this CLI and its tests; example candidate data remain external.\n
