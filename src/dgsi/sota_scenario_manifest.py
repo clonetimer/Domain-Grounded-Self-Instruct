@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import datetime
 from typing import Any
 
@@ -34,7 +35,9 @@ def _nonempty(value: Any) -> bool:
 _FORBIDDEN_SHARED_KEYS = frozenset({
     "raw_telemetry", "internal_review", "expert_identity", "expert_signature",
     "reviewer_identity", "curator_prompt", "curator_prompts",
-    "formal_target", "assistant_target",
+    "formal_target", "assistant_target", "reference_answer", "gold_answer",
+    "answer_key", "diagnostic_ground_truth", "system_prompt",
+    "developer_prompt", "reviewer_token", "curator_notes",
 })
 
 
@@ -56,7 +59,7 @@ def _reject_nested_private_or_answer_fields(payload: Any) -> None:
             for key, child in value.items():
                 if not isinstance(key, str):
                     _fail("SOTA_MANIFEST_JSON_INVALID")
-                normalized = key.strip().casefold().replace("-", "_").replace(" ", "_")
+                normalized = re.sub(r"[\\s_-]+", "_", key.strip().casefold()).strip("_")
                 if normalized in _FORBIDDEN_SHARED_KEYS:
                     _fail("SOTA_MANIFEST_FORBIDDEN_INPUT")
                 stack.append((child, depth + 1))
@@ -70,7 +73,12 @@ def canonical_scenario_sha256(entry: dict[str, Any]) -> str:
     Input schema is deliberately narrower than L1. It cannot authenticate
     the claimed origin or analyze diagnostic/historical factual correctness.
     """
-    if not isinstance(entry, dict) or not all(k in entry for k in ROOT_FIELDS):
+    if not isinstance(entry, dict):
+        _fail("SOTA_MANIFEST_ENTRY_FIELDS")
+    _reject_nested_private_or_answer_fields(entry)
+    # Unbound root fields would reach downstream prompts without contributing to
+    # the canonical hash; do not silently accept extensible scenario entries.
+    if set(entry) != set(ROOT_FIELDS):
         _fail("SOTA_MANIFEST_ENTRY_FIELDS")
     if not all(_nonempty(entry[k]) for k in ROOT_FIELDS if k != "shared_input"):
         _fail("SOTA_MANIFEST_ID_MISSING")
@@ -83,7 +91,6 @@ def canonical_scenario_sha256(entry: dict[str, Any]) -> str:
             or not isinstance(payload["historical_context"], list)
             or not isinstance(payload["provenance"], dict)):
         _fail("SOTA_MANIFEST_INPUT_TYPES")
-    _reject_nested_private_or_answer_fields(payload)
     cutoff = payload["analysis_cutoff"]
     if not _nonempty(cutoff):
         _fail("SOTA_MANIFEST_CUTOFF_INVALID")
@@ -121,7 +128,10 @@ def audit_local_sota_scenarios(
     this function. The returned counts do not establish scientific approval.
     """
     summary = summarize_construction_trials(trials_document)
-    if (not isinstance(manifest_document, dict)
+    if not isinstance(manifest_document, dict):
+        _fail("SOTA_MANIFEST_SCHEMA")
+    _reject_nested_private_or_answer_fields(manifest_document)
+    if (set(manifest_document) != {"schema_version", "scenarios"}
             or manifest_document.get("schema_version") != MANIFEST_SCHEMA
             or not isinstance(manifest_document.get("scenarios"), list)):
         _fail("SOTA_MANIFEST_SCHEMA")

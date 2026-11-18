@@ -143,6 +143,36 @@ class ScenarioManifestTests(unittest.TestCase):
                 with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
                     canonical_scenario_sha256(entry)
 
+
+    def test_root_private_and_answer_fields_cannot_bypass_digest(self):
+        for name in ("formal_target", "Internal---Review", "reference_answer"):
+            with self.subTest(name=name):
+                entry = scenario()
+                entry[name] = {"secret": "SYNTHETIC_TEST_ONLY"}
+                with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
+                    canonical_scenario_sha256(entry)
+
+    def test_root_unhashed_extensions_fail_closed(self):
+        entry = scenario()
+        entry["method_specific_instruction"] = "SYNTHETIC_TEST_ONLY"
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_ENTRY_FIELDS$"):
+            canonical_scenario_sha256(entry)
+
+    def test_manifest_wrapper_private_fields_and_extensions_fail_closed(self):
+        trials, manifest = documents()
+        manifest["internal_review"] = {"not_for_sft": True}
+        self.reject("SOTA_MANIFEST_FORBIDDEN_INPUT", trials, manifest)
+        trials, manifest = documents()
+        manifest["method_specific_instruction"] = "SYNTHETIC_TEST_ONLY"
+        self.reject("SOTA_MANIFEST_SCHEMA", trials, manifest)
+
+    def test_private_key_tab_separator_is_rejected(self):
+        entry = scenario()
+        entry["shared_input"]["diagnostic_logs"].append(
+            {"raw\\ttelemetry": "SYNTHETIC_TEST_ONLY"})
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_MANIFEST_FORBIDDEN_INPUT$"):
+            canonical_scenario_sha256(entry)
+
     def test_nested_public_metadata_remains_hashable(self):
         entry = scenario()
         entry["shared_input"]["diagnostic_logs"] = [
