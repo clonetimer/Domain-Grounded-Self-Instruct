@@ -1,0 +1,3796 @@
+{
+  "schema_version": "dgsi-p5c2-ai-pre-review-reconciliation.v1",
+  "review_date": "2026-11-18",
+  "purpose": "公开派生的AI预审意见处理记录；以当前模型可见字段为依据，不载入原始预审数值或原始长段评论。",
+  "review_type": "AI_CURATOR_RECONCILIATION_NOT_AUTHENTICATED_HUMAN_EXPERT_REVIEW",
+  "review_input_limitations": {
+    "one_ai_two_perspectives": true,
+    "original_pre_review_had_complete_frozen_l0_l1": false,
+    "suggested_scores_were_conditional": true,
+    "authenticated_human_approvals": 0,
+    "original_private_scorecards_or_long_comments_reproduced": false,
+    "numeric_suggestions_imported_into_official_scorecards": false
+  },
+  "snapshot_binding": {
+    "received_old_15_collection_projection_sha256": "2d752d898cb6ef8988f5d7829b040bf129f8bf29c154f976af428be26797f0c3",
+    "current_21_collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5",
+    "current_collection_file": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18.json",
+    "current_collection_file_sha256": "7cd6d59cd00fb28f83d8b99f2e4ee38578a3f372bf2b445d587e1ef964a65bd7",
+    "current_l0_file": "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json",
+    "current_l0_file_sha256": "b4e9947958348c31dac519b7403f9f54db21bcd0c5df3051e3ed1f5112a9d905",
+    "current_collection_task_count": 21,
+    "received_pre_review_task_count": 15,
+    "reviewed_perspective_slot_count": 30,
+    "old_bindings_reused_as_current_receipts": false,
+    "not_covered_by_returned_pre_review": [
+      "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+      "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021"
+    ],
+    "current_l1_l0_and_rc4_content_changed_by_this_reconciliation": false
+  },
+  "classification_definitions": {
+    "ALREADY_ADDRESSED": "合理建议的具体内容在当前字段中已有实现；给出可验证字段与摘录，不意味着正式科学准入。",
+    "VALID_ACTIONABLE": "当前字段存在可观察且建议成立的缺陷，并应列最小修复。本次未发现此类必须修改项。",
+    "NOT_ADOPTED_AS_STATED": "建议的事实前提、术语或将风险假设升级为已证实缺陷不成立，或要求违背DGSI输入/证据契约；解释不采纳原因。",
+    "NEEDS_EXTERNAL_EVIDENCE": "需要真实专家、原始版本/真实性材料或实际设备证据，不能由本AI自我认证；不自动推定当前合成内容错误。"
+  },
+  "non_adoption_scope_note": "NOT_ADOPTED_AS_STATED逐项区分已观察到的术语误读、条件前提不成立、未观察到建议finding，以及不应作出的延伸解释；不声称每一种禁止的延伸都是回传的字面要求。",
+  "evidence_artifacts": {
+    "current_l1": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18.json",
+    "current_l0": "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json"
+  },
+  "evidence_excerpt_policy": "current_excerpt均来自指定JSON Pointer；长文本或复合值只给短摘/序列化前缀，full_field_canonical_sha256绑定完整当前字段。",
+  "global_result": {
+    "conclusion": "回传预审可作为核对清单保存；逐项与当前修订版比较后，没有发现由该预审证明的新增必须修改的L0/L1科学内容。合理核对点已有字段回应；少数对象误读、缺证前提和推定finding不采纳。继续使用当前21条候选做真实专家审核准备。",
+    "mandatory_scientific_l0_l1_changes": 0,
+    "substantive_check_counts": {
+      "ALREADY_ADDRESSED": 47,
+      "NOT_ADOPTED_AS_STATED": 7,
+      "VALID_ACTIONABLE": 0,
+      "NEEDS_EXTERNAL_EVIDENCE": 0
+    },
+    "external_expert_checklist_item_count": 31,
+    "classification_counts_including_external_checklist_items": {
+      "ALREADY_ADDRESSED": 47,
+      "NOT_ADOPTED_AS_STATED": 7,
+      "VALID_ACTIONABLE": 0,
+      "NEEDS_EXTERNAL_EVIDENCE": 31
+    },
+    "count_unit": "检查项/待外部核验项，不是独立事件数、专家人数或正式准入票数。",
+    "do_not_regress": [
+      "002是TWTA输出功率遥测/测量链鉴别，不是泛指EPS母线电源故障。",
+      "007的helix是TWTA螺旋线电流，不是机械螺旋机构。",
+      "historical/knowledge IDs不进入当前candidate、supporting/contradicting或disposal证据引用。",
+      "合成场景已经给出的阳性测量仍是场景内证据；不得因synthetic一律降HIGH，尤其011。",
+      "LLM默认消费上游诊断与校核摘要，不因未提供raw telemetry判任务不合格。",
+      "004/006/009/012已记录的当前合成动作保留RECORDED/EXECUTED；执行不等于根因修复或持续恢复。",
+      "011与015都是地面任务，但当前证据量不同；不搬用历史或另一变体的测试/换件结果。",
+      "012按2026当前分析截止时间检查历史，而非按FUSE源事件发生年；Cassini可用时间的合成假设已披露。"
+    ],
+    "unresolved_external_review": [
+      "当前21条和绑定L0仍需适配新projection的真实独立领域审核；本回传的30条AI建议不能替代。",
+      "源文事实与候选推理的细粒度确定性、补证优先级和工程适用性须由真实专家审定。",
+      "SEASAT仅原摘要核查、Cassini部分日期/可用性口径等来源限制按现有记录保留，不自补全文验证或原始发布时间。",
+      "真实场景证据真实性、真实操作授权与权利许可需相应外部材料；不由本科学triage给出完成状态。"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "current_packet_index": 0,
+      "source_fact_refs": [
+        "LIT-SEASAT-SLIPRING-001"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "当前仍为滑环起弧/短路候选；ML-E-001有声明，历史SEASAT不作为当前物证，HIGH和未处置状态已有字段支持。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "历史最可能原因、当前候选及分数语义已经分开。",
+          "related_check_ids": [
+            "SCI-001-01",
+            "SCI-001-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "证据ID声明可解析；物理真实性未获认证，raw telemetry默认不进入LLM。",
+          "related_check_ids": [
+            "SCI-001-01",
+            "SCI-001-02",
+            "SCI-001-03",
+            "SCI-001-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-001-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "历史最可能原因、合成现象与当前根因分开；0.74不是概率",
+          "assessment": "当前目标明确历史起弧触发方式不唯一，当前只据ML候选和两条日志作候选定位；未将SEASAT事故结论当作当前硬件故障证明。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-001-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "7cfcb6147dde0e0c218594d97fa426a49232e3513846c0f68b037cb871413d43",
+              "current_excerpt": "上游合成 ML 将太阳翼滑环/电刷接口短路列为候选，排序分数0.74仅用于本合成场景内候选排序，不代表故障概率。文献事实支持相邻电刷间起弧作为SEASAT事故的最可能原因，但具体触发方式仍有多个候选。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2655f4d355adb18df316fb9ce2be85ab9bfa15e8d5644a0044b3b028a45ed15f",
+              "current_excerpt": "CANDIDATE_ONLY",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/cause_localization/candidates/0/limitations",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "452fc4a56fc85dadb631ab875b6673a2a586ec14bff6af88a08c1081558c4787",
+              "current_excerpt": [
+                "The ML finding is synthetic and remains a candidate.",
+                "The literature source is a historical reference, not direct evidence for this synthetic scenario."
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/0/cause_localization/certainty_in_source",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "25527af388692381531599137f2005e7ff03872306dcb8115fd7856dba1a5c04",
+              "current_excerpt": "EXPLICIT_MOST_LIKELY",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "核对ML-E-001的输入声明与当前证据边界",
+          "assessment": "ML-E-001在输入finding的supporting_evidence_ids中明确声明，当前supporting_refs可解析；此契约验证引用连接，不证明上游原件或物理真实性。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-001-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/case/input/machine_diagnosis/findings/0/supporting_evidence_ids",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "06e05c689d88b186d99052bf820a5931b22555d333183330c11f82e0dbcee791",
+              "current_excerpt": [
+                "ML-E-001"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4685f439cde8b570a9ee64fa647427bc134e21f4e56daf686d3d3d6ca8448747",
+              "current_excerpt": [
+                "ML-E-001",
+                "LOG-01",
+                "LOG-02"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "ac65a5e320b4c460336e8453686358b0d599e36976647635c95a4d2fd5e983eb",
+              "current_excerpt": [
+                "实际滑环电气隔离测量",
+                "电刷/盘环检查或碎屑证据",
+                "上游对驱动电流与母线电压同步原始记录的校核摘要及时间对齐结论"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "候选阶段保持高不确定性、补判别证据",
+          "assessment": "当前HIGH不是由预审新引入；缺少电气隔离、检查和时间对齐核验已具体列出。当前处置为空，后续动作保持建议。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-001-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/uncertainty",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "74f7d04cec14325e8fed6615883ab490f8acfa16482b33ffad894638cd7fd25d",
+              "current_excerpt": {
+                "level": "HIGH",
+                "reasons": [
+                  "上游ML结果为合成候选，不是实际算法运行记录。",
+                  "缺少能够区分当前物理机理的独立检查结果或上游证据核验摘要。",
+                  "文献事实只能约束历史机理描述，不能确证当前合成场景。"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/follow_up_actions",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "3478ca81541f3952648b9c45e0278676cd9e9b6c2389bcdcf5871eddd1fdeb13",
+              "current_excerpt": [
+                {
+                  "action": "核查滑环相邻电刷间绝缘与短路路径",
+                  "rationale": "验证候选故障模式是否存在直接电气证据",
+                  "priority": "HIGH"
+                },
+                {
+                  "action": "对齐母线电流跌落与太阳翼驱动受阻的时间关系",
+                  "rationale": "确认两类异常是否属于同一事件链",
+                  "priority": "MEDIUM"
+                }
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "不得由缺少独立evidence表或LLM原始遥测直接判EVIDENCE_REFERENCE_INVALID",
+          "assessment": "项目允许上游finding声明证据ID；默认不向LLM提供raw telemetry。当前要求的是上游校核摘要，不能为采纳预审而改变输入职责。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "预审没有看到全包，不能把待核引用当成已证实无效；raw telemetry缺席符合二阶段诊断契约。",
+          "triage_id": "SCI-001-04",
+          "non_adoption_type": "FINDING_NOT_OBSERVED",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/case/input/raw_telemetry_included",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+              "current_excerpt": false,
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/0/formal_target/evidence_assessment/missing_information/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a1f82952653f53a3dc408694892542958dcc7d1853a6f6a90951ffce39734f2d",
+              "current_excerpt": "上游对驱动电流与母线电压同步原始记录的校核摘要及时间对齐结论",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对源摘要的most likely边界和当前候选支持强度；SEASAT前轮仅核到NTRS原始摘要，不宣称完整失效报告逐页审查。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "独立判断电气隔离与时间对齐等补证顺序是否能区分当前竞争解释；真实上游原件真实性尚未被本AI证明。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "current_packet_index": 1,
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "当前002是TWTA射频输出功率监测鉴别：测量链与真实RF输出变化均未决；精确页码、DSS历史交叉证据和缺测边界已补齐。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "原文页码、DSS历史交叉证据与当前未决双分支已有字段。",
+          "related_check_ids": [
+            "SCI-002-01",
+            "SCI-002-02",
+            "SCI-002-03",
+            "SCI-002-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-002-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "当前监测链与RF功率链均保留候选，缺测未作为阳性证据；不按EPS泛化。",
+          "related_check_ids": [
+            "SCI-002-01",
+            "SCI-002-02",
+            "SCI-002-03",
+            "SCI-002-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-002-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "补Lunar原文页码和历史/当前证据隔离",
+          "assessment": "模型可见知识片段已给NASA CR-66461 §3.2.4.4的PDF119–120页及173页；稳定DSS接收信号明确只属于历史，不能补当前独立RF复测。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-002-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/case/input/knowledge_evidence/0/passage_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b3c07afb27f4360d8dac8a5b49e6c7cdbc4f9f2aa42cabe4128f7cbcdadbb787",
+              "current_excerpt": "NASA CR-66461, Section 3.2.4.4, PDF pp.119–120 (printed pp.111–112); anomaly summary PDF p.173 (printed p.165), TWTA Power Output Variations",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/case/input/knowledge_evidence/0/excerpt",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "bba3631ce972a841aa2cbbb233cb25ec4529fc74cbeffe5edd28e07b0c43aaa3",
+              "current_excerpt": "历史Lunar Orbiter III报告中，CE02功率遥测随温度变化，深空站接收信号却在同一读出期间基本恒定。报告据此判断真实TWTA输出未显著变化、异常位于遥测电路；监测二极管整流特性温漂是所提出的机理解释。该历史交叉证据不属于当前合成场景。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/6/source_reference/page_or_section",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "55d9f51694f6a8a5e40af8de0ca231671868c984f1307a4ed283e38c90bb9b1b",
+              "current_excerpt": "PDF pp.119–120 (printed pp.111–112); summary PDF p.173 (printed p.165)",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "监测通道、真实RF链路、受影响对象与多候选",
+          "assessment": "目标指出ML结果标签与target层级不一致，分别保留温度敏感监测指示和实际RF功率变化；状态UNRESOLVED，不唯一确诊。LOG-12缺测事实没有当作阳性根因证据。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-002-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4ae62e98c6785643c9606853bc35a27e6042706e6290f71f25964e02403ea574",
+              "current_excerpt": "上游合成ML给出的结果标签是TWTA_RF_OUTPUT_POWER_LOSS，目标字段却指向twta_power_monitor；这两者不能等同于已经定位真实RF功率链故障。排序分数0.69不是校准概率。LOG-11只记录功率遥测指示随温度上升，LOG-12说明独立RF复测缺失。历史报告中的稳定地面接收信号只能说明历史判别方法，不能补充当前缺失的测量。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "add6c7dc690c6b0e33cb0387722419cbbe82d16d61a5f653e5ca5396ce945593",
+              "current_excerpt": "UNRESOLVED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/cause_localization/candidates",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "37236bc74c7dcf8b885dcfea023c1321a0b04c519715ec98317793aee84bbc71",
+              "current_excerpt": "[{\"component\":\"twta_power_monitor\",\"fault_mode\":\"temperature_dependent_power_monitor_indication\",\"supporting_refs\":[\"LOG-11\"],\"limitations\":[\"温度相关的遥测变化仅与测量链解释相容，不能据此确认监测二极管温漂。\",\"ML-E-002的输出功率下降标签不是这一替代解释的直接支持。\",\"LOG-12仅记录证据缺失，不是测量链故障的阳性证据。\"]},{\"component\":\"TWT",
+              "excerpt_representation": "JSON_SERIALIZATION_PREFIX"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/cause_localization/affected_components",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "ce2ca79db672a850a1ddb3c15511c4f0ec7c853cff396af6d2d4c36c999b4266",
+              "current_excerpt": [
+                "twta_power_telemetry_channel"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "证据缺口与下一步检测",
+          "assessment": "已经请求独立RF/可比接收信号、二极管温度特性与校准关系；不确定性HIGH，当前未执行处置。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-002-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "070600c70497cd117a0ed807cdec30a1a29d365f76d2ba090e25c7f870437cef",
+              "current_excerpt": [
+                "独立RF功率测量或可比的地面站接收信号强度记录",
+                "功率监测二极管温度特性复测",
+                "温度与功率遥测的校准曲线"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/uncertainty/level",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "de6793686214dfe70d2665a0a589356048ebc50a72ce7ebcc8641b2cc5d8f1dd",
+              "current_excerpt": "HIGH",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/formal_target/follow_up_actions",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "5fcdc7661bccf6f7982903cdb519f0c00ad0f2673b75807e057d811d9a2b6774",
+              "current_excerpt": [
+                {
+                  "action": "使用独立RF功率测量核查实际输出功率",
+                  "rationale": "区分真实功率变化与监测链指示变化",
+                  "priority": "HIGH"
+                },
+                {
+                  "action": "对比功率监测通道温度补偿曲线",
+                  "rationale": "评估温度敏感性对遥测指示的影响",
+                  "priority": "MEDIUM"
+                }
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "将POWER-MONITOR泛读为EPS供电监测或未确认监测事件",
+          "assessment": "当前analysis_scope为COMM / twta_power_monitor，L0具体对象是CE02 TWTA输出功率遥测。通用EPS上下文不改变诊断对象。不能按标题把故障改写为母线/电源系统故障。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "预审仅依报告主题和检索摘要提出的泛化对象与当前精确源锚不符。",
+          "triage_id": "SCI-002-04",
+          "non_adoption_type": "SCOPE_MISREAD_IF_GENERALIZED_TO_EPS",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/1/case/input/machine_diagnosis/analysis_scope",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0e19208d95746fed7dea5507178ebc32c9c5cdb898e45f4f5e4855b78c58f5e4",
+              "current_excerpt": "COMM / twta_power_monitor",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/6/cause_localization/fault_source",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "7f5de05ef15b263d200ac7e34da08868771a4967f012bdcf0a6fac68a274bf7d",
+              "current_excerpt": "TWTA内部滤波/监测组件的CE02功率遥测测量链（可能涉及温度敏感的二极管整流特性）",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对CE02电路判断与二极管温漂机理的确定性层次，确认当前双分支证据分配恰当。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评估独立RF测量或接收信号比较的条件与工程可行性；不因历史CE02判断已成立而确认当前故障。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "current_packet_index": 2,
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "Pathfinder的跨网短接仍为相对较可能的候选；当前接口通信异常与历史条件性次生损伤分开，SEL没有被历史否决案例排除。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "短接仅是较可能解释，当前异常接口与假设性硬件损伤分开。",
+          "related_check_ids": [
+            "SCI-003-01",
+            "SCI-003-02",
+            "SCI-003-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "当前未排除SEL，历史否决不作为当前投票；直接电气证据缺口明确。",
+          "related_check_ids": [
+            "SCI-003-01",
+            "SCI-003-02",
+            "SCI-003-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "比较性更可能与物理确认分开",
+          "assessment": "当前CANDIDATE_ONLY和HIGH保留，mechanism_summary明确症状不能确认短接路径；没有实测波形或破坏性物证的虚假声明。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-003-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2655f4d355adb18df316fb9ce2be85ab9bfa15e8d5644a0044b3b028a45ed15f",
+              "current_excerpt": "CANDIDATE_ONLY",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "345a54a9a0c4382d72e1a2dedfaa9bd5b3cbd4b4b65f052ae7a12815dd444fd9",
+              "current_excerpt": "文献将共同原因短接作为较可能解释；当前合成场景的共享接口异常支持开展共因分析，但尚不能单凭症状确认具体短接路径。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/uncertainty/level",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "de6793686214dfe70d2665a0a589356048ebc50a72ce7ebcc8641b2cc5d8f1dd",
+              "current_excerpt": "HIGH",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/case/input/raw_telemetry_included",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+              "current_excerpt": false,
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "共同接口、受影响部件与条件性硬件损伤",
+          "assessment": "当前只记录payload、SADA、star tracker接口通信异常；L0将LVDS/FPGA损伤保留为短接假设下的可能后果。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-003-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/cause_localization/affected_components",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b3d643d3203adac56b27015114e16291baeb0a0fdb4714571d4c92e9ab1f35dc",
+              "current_excerpt": [
+                "payload_serial_interface",
+                "sada_drive_interface",
+                "star_tracker_interface"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/4/cause_localization/mechanism_notes",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b80f4798b68c8daf6a84790f31ab3d62cd419bd8d392c234e2f1956cb3781c81",
+              "current_excerpt": [
+                "跨网短接是作者比较后提出的较可能解释，尚非直接物证确诊。",
+                "在该假设下，电压瞬变可能损伤载荷LVDS接收器及总线FPGA I/O bank；这是条件性损伤路径，不应写成已独立检查确认的损伤。",
+                "故障源候选为滑环跨网短接；接口功能异常与可能的次生损伤应分别记录。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "保留SEL及其他解释，历史不得投票",
+          "assessment": "目标明确被否决的独立历史SEL不能排除当前SEL，也不能证明当前短接；历史投票关闭，当前supporting_refs只含当前ML/log。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-003-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/historical_experience_relevance/0/relevance",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2a6344623756f8cc9d04ed19c04ef670339967e39e02171ab4cbcb20e2446964",
+              "current_excerpt": "该独立合成历史案例仅说明其自身SEL假设已被否决；既不支持当前SEL确诊，也不能排除当前SEL或证明当前跨网短接。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/history_context/items/0/hit_metadata/diagnostic_vote_allowed",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+              "current_excerpt": false,
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "d4722c860325d27c15042391078d0b622fba06b7f535a0d0b621a95d5d59969d",
+              "current_excerpt": [
+                "ML-E-003",
+                "LOG-21",
+                "LOG-22",
+                "LOG-23"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/2/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "3bd07cfee73d37ce2feb8819418c1ef3611cef740b10e4e85a3a159700e9af12",
+              "current_excerpt": [
+                "12V母线与串行线绝缘/短接直接测量",
+                "接口电路拓扑和受影响I/O bank对应关系",
+                "拆解碎屑或电气检查记录"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [
+          {
+            "case_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+            "event_family_id": "SYNTHETIC-PRIOR-SEL-FAMILY",
+            "declared_available_at": "2026-04-10T08:00:00Z",
+            "analysis_cutoff": "2026-04-12T09:10:00Z",
+            "declared_ordering_valid": true,
+            "diagnostic_vote_allowed": false,
+            "hardware_compatibility": "UNKNOWN",
+            "proves_real_world_original_publication_time": false
+          }
+        ],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评价当前共享接口/时序是否只支持排查范围和候选，保留相应替代机制。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对TROPICS §6关于跨网短接更可能和硬件损伤条件性的原文边界。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "current_packet_index": 3,
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "TVAC单机线束调整、后续项目级返工、物理根因三个层次已分开；当前只记录未消除CRC的线束调整。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "项目级返工与单台TVAC事件、地面阶段已分开。",
+          "related_check_ids": [
+            "SCI-004-01",
+            "SCI-004-02",
+            "SCI-004-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "当前记录线束调整但CRC未消失；执行与效果没有合并。",
+          "related_check_ids": [
+            "SCI-004-01",
+            "SCI-004-02",
+            "SCI-004-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "首台TVAC事件与六台载荷项目级措施分开",
+          "assessment": "L0 disposal_source_note明确后续筛检返工不等于该episode的单机恢复；当前L1未把六台返工结局写入当前处置。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-004-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/1/event_episode_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "e5089c85729da5dac94ee0f4f6a8dd1c306fa456f5eabdd0186b4d660a97f85b",
+              "current_excerpt": "TROPICS-FIRST-FLIGHT-PAYLOAD-TVAC",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/1/disposal_source_note",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "bcd539de491b216f8c19dbf22a5693e5903d64518bb5d5466683be42fe0a006c",
+              "current_excerpt": "本卡对应首个飞行载荷TVAC期间的地面资格试验事件。来源随后另行描述对飞行载荷滑环开展的项目级筛选与返工流程；未明确说明该流程逐项作为首个受影响载荷的单机处置执行。此处保留为后续项目级措施，不等同于该episode的单机恢复记录。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/1/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8bb8830758417dd993aee66cd6dc05cfd4a2978b1e733c8f1238ae6c250a1b96",
+              "current_excerpt": [
+                "后续项目级飞行载荷滑环筛选与返工流程：选择并润滑合适的电刷与轴件；跑合并在温度范围内监测电阻；拆检碎屑，必要时清洁并重新装配；复测合格后用于飞行载荷。论文称返工后六台飞行载荷在载荷与飞行器测试中未再检测到CRC错误。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/formal_target/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "bd1f3e6c2e313e2f1bc55a919c580660d178a1817d49636dd0589874500acdbe",
+              "current_excerpt": [
+                {
+                  "measure": "合成场景记录已调整线束走线；调整后CRC错误仍出现，未证明故障已排除。",
+                  "measure_type": "EXECUTED",
+                  "evidence_refs": [
+                    "LOG-42"
+                  ]
+                }
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "地面工况、干湿/转速相关性及机制边界",
+          "assessment": "输入是GROUND_THERMAL_VACUUM_TEST；环境相关接触电阻仅支持候选，目标未确认stick-slip或短路。复测条件与线束/连接器检查已列明。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-004-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/case/input/operational_context/mission_phase",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "9acc36cb5d1864ac877fdab681102989059cfc50f63f347aa2abb60da1f42d14",
+              "current_excerpt": "GROUND_THERMAL_VACUUM_TEST",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4b027417235ef1c37fe79547fd739e045c388e834421f14cc525933b66e4083f",
+              "current_excerpt": "当前合成日志支持将滑环旋转接触界面异常保留为候选；线束调整未消除CRC、接触电阻随环境变化，仍不能唯一确认故障位置或stick-slip机制，也不构成实际短路的证据。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "1b65cf8771f9f9cde733d966df474b3e87df4228f215b533c8c830f8e86d85e8",
+              "current_excerpt": [
+                "滑环各通道接触电阻同步测量",
+                "湿度/温度/转速条件下的重复性试验",
+                "连接器和线束连续性检查"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/1/migration_assessment/constraints",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b860bbac31b11acc01fce5e82869bb57f020e0b69b13d9e44b0e27eaa0dae956",
+              "current_excerpt": [
+                "不得迁移地面重工、润滑和清洁动作作为在轨处置。",
+                "CRC接触间断与SADA功率短路不是同一现象。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "动作执行与恢复效果分开",
+          "assessment": "LOG-42已记录线束调整，因此RECORDED/EXECUTED成立；目标明确调整后错误仍出现，follow_up_actions仍是建议。不能因无成功修复而删除已执行尝试。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-004-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/case/input/diagnostic_logs/1/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a7714222d1f879832a06cd6be4f0e01cac16d11b8e203d7377990aa7d1fbf3ac",
+              "current_excerpt": "合成场景：线束走线调整后CRC错误仍出现；旋转状态下接触电阻读数随测试环境变化。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6f105f5731b79c03247a9e657ec1eb6993e0a3c8b07f0527b5809daf82f2ae11",
+              "current_excerpt": "RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/formal_target/disposal_measures/0",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "bfd6ededb5f3cafb9cf51d0b353bed5bec8d1ef0dd35f785a99f0851faf41a56",
+              "current_excerpt": {
+                "measure": "合成场景记录已调整线束走线；调整后CRC错误仍出现，未证明故障已排除。",
+                "measure_type": "EXECUTED",
+                "evidence_refs": [
+                  "LOG-42"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/3/formal_target/report_text",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "c6d6bff358d77ea9e3c7316c18a918904823043a455840e6d8cf549857d7253e",
+              "current_excerpt": "热真空地面测试合成场景中，载荷UART链路出现间歇性CRC错误；日志记录线束走线已调整，但错误仍存在，旋转状态下接触电阻随测试环境变化。上游合成ML的0.71为排序分数。滑环接触异常仍属候选，尚不能确认物理根因；已记录的调整未消除异常，后续检查仍为建议。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对后续项目级筛选/返工与首台TVAC事件的归属，判断该关联措施保留方式是否准确。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评估湿度、转速与接触电阻/CRC的判别试验建议是否恰当；不把地面返工转成在轨维修。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "current_packet_index": 4,
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "载荷A的历史反向旋转缓解只在历史片段中出现，当前任务没有反向旋转指令或已执行记录。A/B保持同族不同episode。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "A的历史缓解不确认机制且不可普遍迁移。",
+          "related_check_ids": [
+            "SCI-005-01",
+            "SCI-005-02"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "A/B事件分开，当前无反向旋转执行或指令，建议另列。",
+          "related_check_ids": [
+            "SCI-005-01",
+            "SCI-005-02",
+            "SCI-005-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "A/B隔离与反向旋转来源",
+          "assessment": "当前只绑定A卡；A的源片段明确标签非论文飞行器编号且不证明当前已执行/可复制。L0 A与B共享家族但episode分别保存。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-005-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/4/source_fact_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8ad24c462a15220d66f87f4256178f56c702e9b905ee636594e9a427df4b871a",
+              "current_excerpt": [
+                "LIT-TROPICS-FLIGHT-CRC-003-A"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/4/case/input/knowledge_evidence/0/excerpt",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "e82f42387056d90141507e3c42b10e0da3a9a6664db1fe8146c9fafafd6034ff",
+              "current_excerpt": "历史载荷A（本资料用于区分两台载荷的标签，并非论文给出的飞行器编号）在2023年7月出现CRC错误；来源记载反向旋转后获得缓解并继续运行。该结果属于此历史单元，不能单独确认具体滑环机制，也不证明当前合成场景已执行或可复制该操作。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/2/event_episode_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8deed5b76eb81dba7bbcf4bc6a9c3c3edb4f6cf59af1c8d81ac618f1b2ab69fa",
+              "current_excerpt": "TROPICS-FLIGHT-PAYLOAD-A",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/3/event_episode_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "1add95f339d7ee7b4658b31a01cdaf5ae19b626697e42d8f19a608bc74299179",
+              "current_excerpt": "TROPICS-FLIGHT-PAYLOAD-B",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/2/event_family_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8f3821f5a175e4457a63b273d51ef96945a3ee1ec4007048b369dbfd16f361d4",
+              "current_excerpt": "TROPICS-SLIPRING-FLIGHT-2023",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/3/event_family_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8f3821f5a175e4457a63b273d51ef96945a3ee1ec4007048b369dbfd16f361d4",
+              "current_excerpt": "TROPICS-SLIPRING-FLIGHT-2023",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "历史恢复不确认根因，也不成为通用操作",
+          "assessment": "L0仅限该单元，当前保留接触异常候选；目标明确没有反向旋转执行记录。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-005-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/2/cause_localization/mechanism_notes",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a7583b4c0d5c1d26adb11f7b8d5200bfd69065cbf1bcff6a417533a4abbd8c3f",
+              "current_excerpt": [
+                "反向旋转是该台载荷的历史缓解结果，不是根因确证。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/2/migration_assessment",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "969cfc2602e1fa586e5b4a4b48231133b317e98fe41146fa885c2aa0db6f095f",
+              "current_excerpt": {
+                "tier": "SPECIFIC_UNIT_ONLY",
+                "rationale": "仅限该台载荷的在轨运控经验。",
+                "constraints": [
+                  "与另一台载荷拆分为独立episode。",
+                  "反向旋转不能作为SADA或其他卫星通用操作。"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/4/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a45bca95b7285f5e18a84ca3e0932a42216fb6da21769d367a4135307bf70de2",
+              "current_excerpt": "来源记载该台载荷通过反向旋转获得缓解并继续工作；本合成任务没有执行该操作的记录，不能将来源处置直接写入当前任务处置措施。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "disposal_measures与follow_up_actions分开",
+          "assessment": "当前disposal为NOT_RECORDED且措施为空；后续是CRC分段和同步关系检查，未直接要求反向旋转。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-005-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/4/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/4/formal_target/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "current_excerpt": [],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/4/formal_target/follow_up_actions",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "5f88cb1e98f4e35b006cf10e39914fde036d38befcae73c7cb04b044cee12c00",
+              "current_excerpt": [
+                {
+                  "action": "按旋转状态分段统计CRC错误",
+                  "rationale": "验证错误是否与旋转接触状态相关",
+                  "priority": "HIGH"
+                },
+                {
+                  "action": "检查串行链路与滑环接触状态的同步关系",
+                  "rationale": "排除独立通信收发器异常",
+                  "priority": "MEDIUM"
+                }
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "确认A/B事件拆分及同事件族的防跨split边界，核对反向旋转效果的源文措辞。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "确认当前检查建议在未给出旋转机构与运行许可时不形成通用在轨指令。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "current_packet_index": 5,
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "历史B确有持续恶化、停止工作，当前B只观察到CRC增长与重试后链路不稳；已记录失败重试，不借用A恢复。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "历史B停止工作及未记录处置保留，未借用A恢复。",
+          "related_check_ids": [
+            "SCI-006-01",
+            "SCI-006-02",
+            "SCI-006-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "当前只记录通信重试后仍不稳，未把历史整载荷停机移植为当前结果。",
+          "related_check_ids": [
+            "SCI-006-01",
+            "SCI-006-02",
+            "SCI-006-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "历史B恶化结局与未记载处置",
+          "assessment": "L0 B明确最终不再工作、处置NOT_RECORDED；模型知识片段也写明论文成稿时已不工作及A恢复不可并入。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-006-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/3/phenomenon_analysis",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "c16d0f0daff215e8ccc2b0b40d22485a48a8cac1aac2c83b7927176ef87ed603",
+              "current_excerpt": "2023年7月，另一台TROPICS载荷出现CRC错误；问题持续恶化，最终载荷不再工作。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/3/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/case/input/knowledge_evidence/0/excerpt",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "858d430401f8499dc4427aae898a5644ca5f229bbde464c2e17caf0124678b28",
+              "current_excerpt": "历史载荷B（本资料用于区分两台载荷的标签，并非论文给出的飞行器编号）出现CRC错误后持续恶化，论文成稿时已不再工作；来源未记载本单元的处置措施。另一台历史载荷A的反向旋转缓解属于独立事件，不可并入本单元；具体失效机制仍未获确认。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "当前故障定位与结果不能超过日志",
+          "assessment": "当前候选保留CANDIDATE_ONLY，mechanism_summary明确当前日志不证明载荷整体停机；不能为对齐历史B而把当前链路不稳升级为全载荷失效。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-006-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2655f4d355adb18df316fb9ce2be85ab9bfa15e8d5644a0044b3b028a45ed15f",
+              "current_excerpt": "CANDIDATE_ONLY",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "5c6ef27930f1df89527d7b61e15c8f9064fdae3b244f010188cf90806e91f542",
+              "current_excerpt": "历史载荷B在论文所述事件中恶化并停止工作；当前合成日志只记录CRC增加及通信重试后链路仍不稳定，尚不能据此判定当前载荷整体停机或确认具体物理机制。另一历史单元的缓解结果不适用于当前处置记录。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/formal_target/report_text",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "d49bf72670b99682693181c7e6eb59dc249b4dba36fa2345800b62b3fac09c90",
+              "current_excerpt": "当前合成场景记录CRC错误增加，以及多次通信重试后链路仍不稳定；这些日志未证明载荷整体停机。上游合成ML的0.73为排序分数，旋转接触退化仍属候选。已记录通信重试且未恢复稳定链路，其他检查仅为建议；不能继承历史载荷A的缓解结果。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "独立保存当前已执行重试和未恢复结果",
+          "assessment": "LOG-62支持当前多次通信重试及未恢复稳定链路；RECORDED/EXECUTED未声称成功。未知次数、触发者及进一步动作保留未知。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-006-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/case/input/diagnostic_logs/1/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "3bbc50fc88fe0417aa9a726e2998585c77a6dc5644acc5773056ffa26887809c",
+              "current_excerpt": "合成场景：多次通信重试后仍无法恢复稳定链路。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/formal_target/disposal_measures/0",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "5b5781947aedc2fb03bb32224d28134dc7697baace8807cd79a466181987d3f4",
+              "current_excerpt": {
+                "measure": "合成场景记录已进行多次通信重试，但链路仍未恢复稳定；重试次数、触发主体及进一步处置未提供。",
+                "measure_type": "EXECUTED",
+                "evidence_refs": [
+                  "LOG-62"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/5/formal_target/follow_up_actions/1",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "58e354bcfe126171f469595b8513f1af21c2a71e49005fa9b2682f29593c725a",
+              "current_excerpt": {
+                "action": "保留单元B的故障时间线，不引用另一单元的恢复结果",
+                "rationale": "防止将载荷A的处置结果错误迁移至载荷B",
+                "priority": "MEDIUM"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对B源文结局及无处置记载的边界；不要推定它曾执行与A相同的反向旋转。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "确认当前LOG-62足以支持失败重试状态，而不足以推出当前载荷完全停机或物理根因。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "current_packet_index": 6,
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "007的helix已明确为TWTA螺旋线电流；页码、1.5分钟时序、两个未定内部机理及拟定/已执行动作边界已齐。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "原文及TWTA螺流定义已定位，两个内部机理未决。",
+          "related_check_ids": [
+            "SCI-007-01",
+            "SCI-007-02",
+            "SCI-007-03",
+            "SCI-007-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-007-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "启动时序一致，未确认供电损坏，计划规程未改成执行。",
+          "related_check_ids": [
+            "SCI-007-01",
+            "SCI-007-02",
+            "SCI-007-03",
+            "SCI-007-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-007-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "helix对象、原文和首次启动时序",
+          "assessment": "当前COMM/TWTA螺流对象明确，源锚为NASA CR-66461 PDF173/印刷165页。LOG-71到LOG-72为08:10至08:11:30，与约1.5分钟叙述一致。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-007-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/case/input/machine_diagnosis/analysis_scope",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "02aaaf49acff988af450c799dae255f33df2ffabd57e930b6ec252f2c8c72d7e",
+              "current_excerpt": "COMM / twta_helix_power_supply",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/case/input/knowledge_evidence/0/passage_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2327ee025271ab80936441653e7b39d1b370f3f2ba3ab0c7962f5f75b3551853",
+              "current_excerpt": "NASA CR-66461, PDF p.173 (printed p.165), High TWTA Helix Current at First Turn-On",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/case/input/diagnostic_logs/0/timestamp",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4e2022a294cbffe330cd0c090310334bb902b8b6957325b842a702ab74febe04",
+              "current_excerpt": "2026-04-12T08:10:00Z",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/case/input/diagnostic_logs/1/timestamp",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "509246a703eed1e13cadcdf2657204845866ed3e6b235b2198e8917092febd91",
+              "current_excerpt": "2026-04-12T08:11:30Z",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/5/phenomenon_analysis",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "9bbc2c0534d8ec7c1bc2bf971b7309a301fea62abbf81e75fd765e2c5a681442",
+              "current_excerpt": "Lunar Orbiter III首次启动TWTA时，螺旋线电流遥测指示为8.8 mA，约1.5分钟后下降至5.1 mA并保持；正常启动值约5.75 mA。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "不由高电流定位供电损坏，不确认唯一机械机理",
+          "assessment": "目标UNRESOLVED；机械应力释放和内部压力衰减均为未定位TWTA内部假设，candidate supporting_refs为空。ML/log只支持启动现象，不证明任何具体内部机理。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-007-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "518b6e0960a22f07417c3c896987a564c6ac8fcdecad8018e138853f8ea2ffcc",
+              "current_excerpt": "上游合成ML识别到螺流启动瞬态异常，排序分数0.66不是故障概率。其target字段指向twta_helix_power_supply，但输入没有独立供电测量，不能由高螺流现象把故障定位为供电模块损坏。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "add6c7dc690c6b0e33cb0387722419cbbe82d16d61a5f653e5ca5396ce945593",
+              "current_excerpt": "UNRESOLVED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/cause_localization/candidates",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "6c6c635cd869b8ff263e7734e2c5315ded93b87571afd10575aef706fa0ef6fd",
+              "current_excerpt": "[{\"component\":\"TWTA_internal_startup_mechanism_unlocalized\",\"fault_mode\":\"launch_mechanical_stress_release_candidate\",\"supporting_refs\":[],\"limitations\":[\"The source presents this as one possible explanation only.\",\"The synthetic scenario provides no direct me",
+              "excerpt_representation": "JSON_SERIALIZATION_PREFIX"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "ae040d3d731a315f1ce4d0325751947644188f12abbfca3b3a38d97194814d36",
+              "current_excerpt": [
+                "ML-E-007",
+                "LOG-71",
+                "LOG-72"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "历史拟定规程与当前已执行动作",
+          "assessment": "L0是SOURCE_RECORDS_PLANNED_PROCEDURE，明确将制定启动时间约束、未说明实施；当前NOT_RECORDED，无凭空执行。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-007-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/5/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "cd349840f094902c9e30ef2cce688cc958d0511fe22190cac19676c82cc95fa7",
+              "current_excerpt": "SOURCE_RECORDS_PLANNED_PROCEDURE",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/5/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "881c05818882096b38f01abfddd64ffc91053af1ddda479d0cb9d9e709465d38",
+              "current_excerpt": [
+                "报告提出将制定发射后TWTA启动时间约束，以留出内部放气时间；未说明已经实施。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "current_excerpt": [],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "螺旋结构启动/机械根因的对象误读",
+          "assessment": "helix current是行波管螺旋线电流，不是泛指机械螺旋机构。L0确实保留机械应力这一内部机理假设，但不能将器件类别改成机械驱动机构。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "预审未核准源段即依据helix名称设定机械结构问题；该前提与已定位原文和当前字段不符，不能据此登记证据无效。",
+          "triage_id": "SCI-007-04",
+          "non_adoption_type": "TERMINOLOGY_MISREAD",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/6/formal_target/phenomenon_analysis",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "ad0873b0383a77140c08982706a5265975e60759906880ab910841882e288f94",
+              "current_excerpt": "首次启动合成场景中，TWTA螺旋线电流遥测短时高于常态区间，随后下降并保持在新的稳定值。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/5/cause_localization/source_statement",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "e623b92bb9b7f178c08c52e1fe13c9b40d64f095b678871f1dd51e24ab3aee84",
+              "current_excerpt": "报告保留发射机械应力经温度循环释放，或发射后内部压力缓慢衰减两种解释。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "复核TWTA螺流定义及两种历史解释的工程含义，确认当前输入不能区分二者。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评估启动、热状态及压力相关证据的可获得性和判别力；拟定规程不得变成已实施处置。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "current_packet_index": 7,
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "Cassini当前输出已忠实区分拖曳增大、润滑候选和未证明的姿态影响；速度管理只是待核型号与限制后的评估。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "Cassini经验按型号与工况条件化，未成为当前命令。",
+          "related_check_ids": [
+            "SCI-008-01",
+            "SCI-008-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "ML只给拖曳候选，润滑与未证明姿态后果分开，分数不作概率。",
+          "related_check_ids": [
+            "SCI-008-01",
+            "SCI-008-02",
+            "SCI-008-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "ML分数和物理机理确定性",
+          "assessment": "0.79明确不是概率，ML仅给拖曳增大；润滑是历史启发的待核解释。当前轮组轴承/润滑结构未知，目标没有物理确证。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-008-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b664610a811ca2ddf8279f0f06a9df6cf573c38c55aa2762e32b12064b5e25ed",
+              "current_excerpt": "上游合成ML将反作用轮轴承拖曳增大列为候选，排序分数0.79不是故障概率。润滑状态异常仅是结合Cassini文献提出的待核实解释，不是本次ML已输出或确认的根因。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fc8499e8eb7f317ad5c0477c4d5bc9f6ca5c5ea6efa132c586cea268285c29d8",
+              "current_excerpt": "Cassini历史文献中的低速润滑解释可提示核查本场景的近零速驻留和频繁过零，但当前轮组的轴承/润滑结构尚未明确；现有合成输入不能在润滑相关机理、其他机械拖曳或指标/基线差异之间完成鉴别。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/uncertainty/level",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "de6793686214dfe70d2665a0a589356048ebc50a72ce7ebcc8641b2cc5d8f1dd",
+              "current_excerpt": "HIGH",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "现象、轮组与姿态控制后果分开",
+          "assessment": "当前affected_components只列reaction_wheel_assembly；指向误差/控制裕度/模式摘要作为缺项，未声明姿态能力已经下降。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-008-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/cause_localization/affected_components",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "c108ac6e36ed08e88de70570d313b7a2c776fbeb642ba63e47ff2b759a8cd4f7",
+              "current_excerpt": [
+                "reaction_wheel_assembly"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/evidence_assessment/missing_information/3",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "bd656f2cb3f2ee5a16c3580bd68456572674ea28c38d95fc9b00e39fd0865d48",
+              "current_excerpt": "当前姿态指向误差、控制裕度或控制模式变化摘要；现有输入未证明指向性能或控制权限已下降。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "速度管理适用性和当前处置",
+          "assessment": "建议先结合设备型号/运行限制评估、再分转速对比，不给具体轮速命令。L0保留Cassini低速与绝对零速的条件差异和非通用性；当前未记录处置。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-008-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/follow_up_actions",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a7946087d48d25a42708025eb0c2360383253a79b62129b75b093ef031afcc0a",
+              "current_excerpt": [
+                {
+                  "action": "结合设备型号和运行限制评估转速管理策略",
+                  "rationale": "验证低速运行与摩擦变化的关联",
+                  "priority": "HIGH"
+                },
+                {
+                  "action": "对比不同转速区间的拖曳指标",
+                  "rationale": "避免将其他型号轮组的处置措施直接迁移",
+                  "priority": "MEDIUM"
+                }
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/7/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/7/migration_assessment/constraints",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "9ac0103b3b902cde1809faeb525fef4f28506adfc6d5b7643589ce124e2ab877",
+              "current_excerpt": [
+                "事件家族为2000年12月；同期NASA任务记录与后续DESCANSO的逐日日期标签分别保留。LLIS的2004-05-10为Lesson Date，标题括号中的2001不替代事件时间。",
+                "必须区分低速区间驻留/频繁过零与绝对零速静止；LLIS对后者的描述有巡航期和每三个月exercise的条件。",
+                "需比较轮型、轴承/润滑结构、允许低速区间、转速历史和热环境。",
+                "高转速后拖曳消退是来源记录的经验观察，不应直接迁移为其他型号的在轨处置指令。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对Cassini低速驻留/过零与有条件绝对零速静止的区别、可能原因措辞及跨轮型适用性。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "判断拖曳指标和健康基线比较是否足以支持当前候选；真实轮型、润滑结构和控制限制尚无外部确认。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "current_packet_index": 8,
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "当前是地面寿命试验的加热后阀门爆裂—流量中断候选链；源文的Teflon堵塞与早期催化床问题分开，当前未冒充材料确证。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "地面加热后事件链和早期催化床episode已分开。",
+          "related_check_ids": [
+            "SCI-009-01",
+            "SCI-009-02",
+            "SCI-009-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "时序只支持候选，当前缺材料鉴定；已执行烘烤不等于恢复。",
+          "related_check_ids": [
+            "SCI-009-01",
+            "SCI-009-02",
+            "SCI-009-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "地面试验、热灯干预与后续故障时序",
+          "assessment": "GROUND_LIFE_TEST已标明；LOG-91/92/93明确热灯烘烤在前，阀门事件随后，流量中断在后。当前不被写成在轨自然演化。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-009-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/case/input/operational_context/mission_phase",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2a1ebd4ee4dda6cbd405d6c065bb67def01409d589cc9c226afcf1a8085cd681",
+              "current_excerpt": "GROUND_LIFE_TEST",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/case/input/diagnostic_logs",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "33cb8cd7a3f150939a018c35cde603b009d45a1409a02b8c000cc48dd7a45765",
+              "current_excerpt": "[{\"log_id\":\"LOG-91\",\"timestamp\":\"2026-04-12T08:10:00Z\",\"log_type\":\"OPERATOR_NOTE\",\"content\":\"合成场景：在此前长时试验后，使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。\",\"author_role\":\"synthetic-scenario-generator\",\"source_ref\":\"SYNTHETIC-LOG:LOG-91\"},{\"log_id\":\"LOG-92\",\"timestamp\":\"2026-04-1",
+              "excerpt_representation": "JSON_SERIALIZATION_PREFIX"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/formal_target/phenomenon_analysis",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4d3797127520f6f42afed7706cf5d6e8b6dff706e8b05e3709e8f438e5c88e83",
+              "current_excerpt": "合成地面试验场景中，热灯烘烤后推进剂阀发生异常压力事件并爆裂，随后喷注器供给流量显著下降并触发试验终止。历史源记载的早期催化床washout/压力异常与后期喷注器堵塞属于不同episode；当前合成输入未提供早期压力异常的上游验证摘要或独立诊断结果。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "历史已记载触发链与当前候选证据分开",
+          "assessment": "L0相关原段已定位，历史阀内残余肼分解、阀爆裂及Teflon材料堵塞有明确来源；当前只保留候选，明确缺少阀体拆检与堵塞物材料鉴定。不能因预审摘要较短而删掉已核源链条，也不能将时序当因果确证。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-009-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/9/source_reference/page_or_section",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "853b5e507267caa5affb98e3f633066bc97ff7439e44fac1d10a4db9b71da5ed",
+              "current_excerpt": "报告pp.3–5（PDF pp.4–6）；Fig.8：报告p.10（PDF p.11）",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/9/cause_localization/source_statement",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "773ad3bb906004062feadb3681a6e12bf85358907f92068fa8683747b5f6a643",
+              "current_excerpt": "报告记载，热灯加热使推进剂阀内残余肼自分解，阀门猛烈爆裂，部分Teflon阀座材料被强行射入推进剂喷注器并造成堵塞；拆检发现Teflon材料挤入喷注器小孔并进入分散元件后的燃料供给槽。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "9f538c538a67870a0ae3211f081bb43ad1c9afa42b2ca706b40c83a3369529ae",
+              "current_excerpt": "NASA TM-100232记录的历史链条为：热灯加热使阀内残余肼自分解，阀门爆裂，Teflon阀座材料被射入喷注器并堵塞小孔/燃料供给槽。当前合成任务的时序与该链条相符，但缺少当前场景拆检和材料鉴定，故只能保留为候选。此前催化床washout/压力振荡不能并入该堵塞根因。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "cd22675f7c1333c407b26d4f6a353a729b9b5da11900c7844c8f10acb91cc2bc",
+              "current_excerpt": [
+                "当前合成场景的阀门拆检与残余肼分解证据",
+                "阀座碎片与喷注器堵塞物的材料鉴定",
+                "堵塞位置与流量变化的直接对应",
+                "此前催化床压力振荡的独立诊断结果"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "早期washout与后期堵塞、处置状态分开",
+          "assessment": "目标明确早期催化床异常不能并入堵塞根因；当前仅将LOG-91支持的烘烤尝试记为执行，未声称去污或性能恢复。历史换阀/疏通失败只留于L0。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-009-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/formal_target/disposal_measures/0",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "26eacf83e52f996d760974f3ed80043a5cbba51e54e34d992a7aa14b55bf7499",
+              "current_excerpt": {
+                "measure": "合成日志记录已在真空条件下用热灯烘烤推进器，尝试处理潜在催化床污染；当前输入未记录去污成功或性能恢复。",
+                "measure_type": "EXECUTED",
+                "evidence_refs": [
+                  "LOG-91"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/8/formal_target/follow_up_actions/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f009c414054b100212433e3ac9ce136da1881e023e0434eee3845172e3ac300b",
+              "current_excerpt": {
+                "action": "如需研判此前催化床washout线索，另行补充对应工况、压力/流量异常及其质量核验的上游分析摘要",
+                "rationale": "独立核实该异常，避免沿用历史episode描述作为当前场景的已证实现象或合并根因",
+                "priority": "MEDIUM"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/9/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "74a7bdb2020529e40160d1a42a19ee10ed67a8e6fd265b3c531ac928a711346a",
+              "current_excerpt": [
+                "更换爆裂的推进剂阀后仍无法点火；尝试疏通喷注器未成功，后续寿命试验终止并送回拆检。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "复核TM-100232故障链和两episode划分，尤其阀座Teflon与催化剂污染的因果独立性。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评估在当前合成证据下候选支持强度和拆检/材料鉴定的补证顺序；不借历史拆检确诊当前事件。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "current_packet_index": 9,
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-CATALYST-010"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "010已经给出催化剂样品Fe/Ni及氢化学吸附结果，不是纯行为日志；仍保留污染候选和取样链/定量/批次来源缺口。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "催化剂污染与后期Teflon堵塞分开，铁与镍来源不混推。",
+          "related_check_ids": [
+            "SCI-010-01",
+            "SCI-010-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "当前已经有样品化学分析；需要定量和取样链核验，不是完全无取样。",
+          "related_check_ids": [
+            "SCI-010-01",
+            "SCI-010-02",
+            "SCI-010-03",
+            "SCI-010-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-010-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "污染、压力退化与喷注器堵塞分开",
+          "assessment": "模型可见源片段和目标已区分污染washout与后期Teflon堵塞；铁浸出来源不被推广成镍的同一路径。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-010-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/case/input/knowledge_evidence/0/excerpt",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "aece940a15f913ac2b43781a8587586f3d7c8014b923b076100b06f5431bb42d",
+              "current_excerpt": "历史报告发现催化剂Fe/Ni偏高、氢化学吸附值偏低，并将污染联系到混入的pink hydrazine；文献解释桶密封不良使空气进入，肼与CO2反应生成水及carbazic acid，后者腐蚀金属桶使铁浸出。该路径具体解释铁来源，不能直接补定镍来源。历史试验后期另因阀门爆裂将Teflon阀座材料挤入喷注器而终止；催化剂污染与该堵塞分别归因，均不验证当前合成场景。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "be3a68c0fa7d50d7c637ca625465e8de35d58ee86482aa96d283449cdc9eb4f4",
+              "current_excerpt": "NASA TM-100232报告在催化剂样品中检测到异常Fe/Ni并发现氢化学吸附值偏低，将催化剂中毒/washout与混入试验罐的受污染pink hydrazine联系；报告进一步解释密封不当桶内进气、CO2形成carbazic acid并腐蚀金属桶导致铁浸出。当前合成场景仍需独立确认推进剂批次和取样链，且不得把后期阀门爆裂造成的Teflon喷注器堵塞合并为催化剂污染的同一根因。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/cause_localization/candidates/0/limitations/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "344aaac7c3ed9e0daec393b47ca465a67013a500327521e67d699b4e43bbbf28",
+              "current_excerpt": "The report's iron-leaching explanation should not be assumed to establish the source of every detected metal, including nickel.",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "核对当前场景是否已有化学/样品证据",
+          "assessment": "LOG-A2确实给出拆解催化剂Fe/Ni偏高、氢化学吸附低；LOG-A3给批次追溯线索。目标承认这些阳性证据，同时请求定量、取样链、检测质量与来源核验。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-010-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/case/input/diagnostic_logs/1/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b4ee2590d9ab4a23d3b544c39d80f1934bc81940bcab1b40d32c0df13b7f7a1c",
+              "current_excerpt": "合成场景：拆解后催化剂样品的铁、镍含量异常偏高，氢化学吸附值低于该场景设定的正常参考范围。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/case/input/diagnostic_logs/2/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2571dcb21ebb5afff074f966d17a6e0716b9b51527ad8bd4f13231dbc9eec66f",
+              "current_excerpt": "合成场景：推进剂批次追溯发现试验罐混入一桶异常颜色的肼推进剂，密封状态和污染来源仍需核实。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "931bdec09560edb6157cea0fc84a99449b731fede73aab6b3c9edd48f2246c87",
+              "current_excerpt": "上游合成ML将催化剂金属污染/活性下降列为候选，排序分数0.88不是故障概率。样品分析与推进剂批次追溯提供了合成场景内的支持线索，但仍需核实取样链、污染物定量和推进剂桶来源。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/uncertainty/reasons/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0f2ad5be7f1501616b93a08fb8be44ac89e978941d0d52c03d979a50cd685fd6",
+              "current_excerpt": "LOG-A2已提供拆解样品Fe/Ni偏高与氢化学吸附偏低的场景内结果；仍缺定量与取样链、批次污染来源及检测质量的上游核验摘要。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "未将历史污染发现升级为当前确证",
+          "assessment": "当前CANDIDATE_ONLY、HIGH和未处置状态均保留；missing_information与follow_up_actions针对尚缺定量/链条，不否认已给的样品结果。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-010-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2655f4d355adb18df316fb9ce2be85ab9bfa15e8d5644a0044b3b028a45ed15f",
+              "current_excerpt": "CANDIDATE_ONLY",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "009c07f30dfbccf83a0beae98ddf27fdef8a26b6b4014aa587e6e5c85cf616a2",
+              "current_excerpt": [
+                "推进剂桶密封状态与批次取样链",
+                "推进剂中Fe/Ni的定量分析及来源追溯",
+                "催化剂氢化学吸附值的独立复测",
+                "压力振荡与催化剂活性下降之间的时间/工况对应"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "若当前只有行为特征而无化学取样的条件不能当作已成立缺陷",
+          "assessment": "预审没有拿到全量L1，化学取样缺席是条件假设。当前LOG-A2已经是场景内分析结果；不得因其synthetic就把结果删去或重新列为完全未提供。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "该建议的前提不成立，EVIDENCE_REFERENCE_INVALID也未由实际字段核对得到。真实性待外部审查与场景内结果存在是两个问题。",
+          "triage_id": "SCI-010-04",
+          "non_adoption_type": "CONDITIONAL_PREMISE_FALSE",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/case/input/diagnostic_logs/1",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "7f49cc73809b4676ffed44ab0bc9f4e0e550adff63597083a30d11521c95c9ac",
+              "current_excerpt": {
+                "log_id": "LOG-A2",
+                "timestamp": "2026-04-12T08:17:00Z",
+                "log_type": "ENGINEERING_ANALYSIS",
+                "content": "合成场景：拆解后催化剂样品的铁、镍含量异常偏高，氢化学吸附值低于该场景设定的正常参考范围。",
+                "author_role": "synthetic-scenario-generator",
+                "source_ref": "SYNTHETIC-LOG:LOG-A2"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/9/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "12e3d7f80bd157223b2e70fc628a57e0dfb3b420fbfc8720644d5fb4aa5a1dd9",
+              "current_excerpt": [
+                "ML-E-010",
+                "LOG-A1",
+                "LOG-A2",
+                "LOG-A3"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对Fe/Ni污染、氢化学吸附、压力washout和批次追溯之间的推理边界，尤其镍来源未单独证实。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评价已有样品结果下的当前不确定性是否适度，以及补证应优先量化/取样链/质量而非重复宣称没有化学分析。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "current_packet_index": 10,
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "011已改为终稿页码与地面LCAMP Z2/Z6—LNA层级；场景内多项阳性证据有效，MODERATE基于剩余核验缺口，当前没有换件或恢复。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "当前是地面LCAMP双模块LNA候选，整机输出与TWT本体分开。",
+          "related_check_ids": [
+            "SCI-011-01",
+            "SCI-011-03",
+            "SCI-011-04",
+            "SCI-011-05"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-011-05"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "终稿版本已更新，当前没有换件恢复；给定多项测量支持MODERATE，不能抹除。",
+          "related_check_ids": [
+            "SCI-011-01",
+            "SCI-011-02",
+            "SCI-011-03",
+            "SCI-011-04",
+            "SCI-011-05"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-011-05"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "地面阶段及TWTA整机、LCAMP模块、LNA芯片层级",
+          "assessment": "当前mission_phase明确地面，LOG-B1是整星AIT；候选定位到Z2/Z6内NC1062C LNA，影响对象列模块与整机输出，不把TWT本体等同根因。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-011-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/case/input/operational_context/mission_phase",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "29f0919e28ff98a355d40006fd6d3ec423cc9bdef67c5416025dd456120c2004",
+              "current_excerpt": "GROUND_TRANSPONDER_PERFORMANCE_TEST",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/case/input/diagnostic_logs/0/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "caf1a26d00bb21f0502cf58cfe2e243fa6002ace8cc75ee0012647f03385de04",
+              "current_excerpt": "合成场景：整星AIT转发器噪声测试中，S频段线性化TWTA输出功率较正常基线下降约4 dB。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/cause_localization/candidates/0/component",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0ec81f34add46de232f550b4e309fe7ad646011aa40632324544c0530adc2a9f",
+              "current_excerpt": "LCAMP_Z2_Z6_NC1062C_GaAs_LNA_chips",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/cause_localization/affected_components",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b94250bc69f571cf39c160e0b59b5da10ec7cc4ba6487d955ae91d29e6497328",
+              "current_excerpt": [
+                "LCAMP_Z2_module",
+                "LCAMP_Z6_module",
+                "S_LTWTA_output_power_path",
+                "transponder_performance"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "预刊与正式出版版本元数据",
+          "assessment": "L0和模型可见passage_id均使用终稿2026,23(2):46–53；PDF物理页与印刷页分别注明。没有沿用23(0):1–8。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-011-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/11/source_reference/source_locator",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2cf5e974ef9735b80ce1ddf24e0a24d4327a1a395c942964341f5c74044c8e88",
+              "current_excerpt": "Space Electronic Technology, 2026, 23(2):46–53; DOI 10.3969/j.issn.1674-7135.2026.02.007; published PDF pp.2–7 (printed pp.47–52), Sections 1–5 and Tables 1–4.",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/11/source_reference/publication_metadata_note",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a6f542e84e1ff9b36e7125e96ad42a8898c50facda964967da405fc710b8187a",
+              "current_excerpt": "依据出版终稿：2026年4月，第23卷第2期，页46–53；引用页码同时区分PDF物理页与期刊印刷页。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/case/input/knowledge_evidence/0/passage_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "c2d032c9e2f4b50ce818e93317bd7afb00c673516729094d60498619822a76f6",
+              "current_excerpt": "Space Electronic Technology 2026, 23(2):46–53, published PDF pp.2–7 (printed pp.47–52), Sections 1–5 and Tables 1–4",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "当前多项证据、历史参考与候选状态",
+          "assessment": "LOG-B2/B3/B4已供隔离、增益/电流、氢气氛与EMMI结果。当前只用ML/log支持候选，不引用L0当当前物证；MODERATE明确由质量/样品对应、正常对照、机制排查和干预效果缺口决定。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-011-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/case/input/diagnostic_logs/1/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a46f270a0159aaa8d45b27a7c1e15430e285956e3bcac7fe42b0dfcab17784e8",
+              "current_excerpt": "合成场景：备份单机和输入10 dB同轴衰减器测试正常；独立TWT测试与正常基线接近，FGM/ALC测试复现整机增益下降。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/case/input/diagnostic_logs/2/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6a1a115b6d3999947d2492ef9ad0a72676839684bfdbcaf027845a5f025e5fcd",
+              "current_excerpt": "合成场景：LCAMP的Z2模块最大增益由19.51 dB降至18.0 dB，+5 V电流由69 mA降至57 mA；Z6模块最大增益由19.49 dB降至17.0 dB，+5 V电流由65 mA降至54 mA。两模块增益下降合计约4 dB。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/case/input/diagnostic_logs/3/content",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "496266863f5dd73c44dbd0383f037a24ee125759a7040d8d044fd182fd5e6107",
+              "current_excerpt": "合成场景：Z2/Z6模块内NC1062C低噪放芯片电流和增益下降；封装内部氢含量分别为10300 ppm和12000 ppm，考核限值为2000 ppm，水汽含量合格，EMMI显示栅条发光不均匀。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/cause_localization/candidates/0/limitations",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "cf6bf870a0b96452ed18978be7e6c0693385ba7277e46c8c1c82e9b8bcb0a746",
+              "current_excerpt": "[\"LOG-B2 through LOG-B4 are supplied observations within this synthetic scenario and count as scenario evidence; they are not externally verified records of a real spacecraft test.\",\"Upstream validation summaries linking the gas, gain/current and EMMI results ",
+              "excerpt_representation": "JSON_SERIALIZATION_PREFIX"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/uncertainty",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "40b25d20167d6f2b2881b92ce49e22f5aeaa649654afb2b05d9e1c15c019f8bf",
+              "current_excerpt": {
+                "level": "MODERATE",
+                "reasons": [
+                  "模块增益、电流、封装气氛和EMMI结果已提供且相互一致，但检测质量及样品对应关系的上游核验摘要未提供。",
+                  "正常同型号芯片对照、测试条件可比性及其他偏置/匹配退化机制的排查结论未完整给出，机制唯一性尚未闭合。",
+                  "当前未记录换件或其他有判别力验证后的系统级效果；历史文献的恢复结果不能补足这一缺口。"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "地面历史换件与当前建议、执行和效果分开",
+          "assessment": "当前NOT_RECORDED、disposal_measures为空；换件只出现在条件化follow_up评估中，明确需记录执行及系统级效果，不转成在轨操作或已恢复。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-011-04",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "current_excerpt": [],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/follow_up_actions/3",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f1cd1887e3f1ddb34a1798e1fc8bd7fda62d73da39b413316ce0257a44c240ac",
+              "current_excerpt": {
+                "action": "如需进一步闭环，评估合格同型号模块替换或其他有判别力的验证，并记录执行状态和系统级效果摘要",
+                "rationale": "补足当前缺失的干预与效果验证，不将建议或历史换件结果当作当前已执行处置",
+                "priority": "MEDIUM"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/11/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f1b067a76637bba78c9e46291889ec4e148b455d0476c225d1567fa8664cb9f0",
+              "current_excerpt": [
+                "将故障Z2、Z6模块更换为氢含量符合要求的另一批次同型号规格产品，并经试验验证后整机恢复正常。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "以synthetic或真实原件未完成外审为由一律抹去当前阳性证据/降HIGH",
+          "assessment": "合成 provenance决定这不是真实卫星诊断记录，不决定场景给定结果在题内无效。当前没有将预审分数用于不确定性，也不把气氛/EMMI再写成缺席。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "不能把预审B的普遍证据担忧解释成必须降低当前场景判断强度；此举会撤回上一轮针对真实证据缺口的纠正。",
+          "triage_id": "SCI-011-05",
+          "non_adoption_type": "UNSUPPORTED_EXTRAPOLATION",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fd5912863d0e0b73db14822e9b8b0a073515d89d79ae8f210ced03d961645532",
+              "current_excerpt": "上游合成ML提出LCAMP双模块LNA增益退化/氢中毒候选，排序分数0.81不是校准概率。LOG-B2至LOG-B4已给出场景内的隔离测试、模块增益/电流、封装气氛和EMMI结果，应据此评估候选；增益损失与整机现象一致，氢超限与EMMI异常进一步支持该机制。尚缺这些结果的检测质量、样品对应关系及正常对照的上游核验摘要，不应把已给出的气氛或EMMI结果重新列为未提供。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/formal_target/evidence_assessment/missing_information/1",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a91aa8bf462140c979b8ff75a8a5e23a1379dd559d1a07ca3a8292668f03f44b",
+              "current_excerpt": "LOG-B4气氛检测的质量复核摘要，包括检测方法、适用规范与2000 ppm限值的适用性、测量不确定度及校准状态；氢含量和水汽合格结论本身已在输入中提供。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/10/synthetic_provenance/generated_fields/1/assumption",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "59a50da666206d188a2aa632871a500cea8eb0e53119a57983b7c7278f181620",
+              "current_excerpt": "Synthetic event/test sequence, module gain/current measurements, package hydrogen levels and EMMI observations; not actual source or flight/test records.",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "MODERATE",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "独立审定多项场景证据对氢中毒候选的支持度及MODERATE是否适当；同时检查2000 ppm要求的适用性、样品对应和正常芯片对照。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对终稿相关原段、模块氢气氛测量与芯片机理的层级，以及有条件换件验证应补充的效果摘要；不认证真实在轨故障。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "current_packet_index": 11,
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "012按2026合成分析截止时间使用Cassini历史，不存在已观察的未来倒灌；FUSE和Cassini家族/机理分开，当前重启不等于恢复。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "FUSE各episode与Cassini机理分开，仅迁移检查方法。",
+          "related_check_ids": [
+            "SCI-012-01",
+            "SCI-012-02",
+            "SCI-012-04",
+            "SCI-012-05"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-012-05"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "2026截止之前的历史声明未构成未来泄漏；可用时刻的合成假设已披露。",
+          "related_check_ids": [
+            "SCI-012-01",
+            "SCI-012-02",
+            "SCI-012-03",
+            "SCI-012-04",
+            "SCI-012-05"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-012-05"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "FUSE源文具体episode与题目主题",
+          "assessment": "当前使用FUSE论文§3 PDF5页的2000俯仰轮拖曳/可能Kapton机理，另列2001偏航恢复和后期完全失效；并未由论文标题中的两轮无陀螺控制能力反推物理根因。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-012-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/case/input/knowledge_evidence/0/passage_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "54815f044d7803bd7b0b0c0b2616436b5e7894ba2671ff8057cb2e9a0a7f445a",
+              "current_excerpt": "FUSE-SPIE-4854-72-SECTION-3-PDF-PAGE-5",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/case/input/knowledge_evidence/0/excerpt",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "dbada4e2d2791d4c64f77e65c8977e194d0247d4d6c8cc84b080c6f44ebc63ee",
+              "current_excerpt": "FUSE论文第3节（PDF第5页）记载：2000-08-04俯仰轮因拖曳增大被关闭，重启后异常拖曳持续数分钟后消失；供应商将Kapton衬层起泡列为可能原因，文中将随后拖曳消退解释为接触处胶带逐渐磨损，并称其与起泡假设相容。2001-02-16偏航轮相似停机是独立事件，恢复后近三天拖曳才完全消退。2001-11-25偏航轮与12-10俯仰轮随后完全失效，供应商另归因于壳体热致变形与转子接触。以上均为历史文献内容，不验证当前合成事件。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/12/event_episode_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "234d14fca3904da9a5e0fc8a6d19a85a9c9da918087da901197c9b80878cc2f3",
+              "current_excerpt": "FUSE-PITCH-RWA-2000-08-04",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "ed6b427861a0d4f2045883816eade9d7efb7b6d69adf50b032414f6e4f8c9ade",
+              "current_excerpt": "历史FUSE 2000-08-04俯仰轮的Kapton起泡解释仍属供应商可能原因；2001-02-16偏航轮恢复事件独立于后来11月/12月的完全失效，后者另有供应商热变形归因。Cassini历史中的低速润滑解释属于另一条条件化诊断线索，不能为当前局部接触或Kapton候选提供确诊。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "历史来源族、硬件构型、状态和禁止结论投票",
+          "assessment": "当前FUSE来源族与Cassini 2000-12家族不同。历史outcome保留PARTIALLY_CONFIRMED、hardware_compatibility=UNKNOWN、diagnostic_vote_allowed=false；当前支持引用只来自ML-E-012/LOG-121/LOG-122。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-012-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/12/event_family_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b2acccd3a3a156c894a643e00b263e32afb40f777573195287e37932e52c7915",
+              "current_excerpt": "FUSE-RWA-2000-2001",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/history_context/items/0/event_family_id",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4c573da8df91914391187fca93c0213df6d2ad8cb7dbf270385897d7f7caeeb1",
+              "current_excerpt": "CASSINI-RWA-LOW-SPEED-2000-12",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/history_context/items/0/outcome_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b41e8e87e4c2db12833a476a3cd052dc6d36b802247f7acbdb6d36b8182aa3cb",
+              "current_excerpt": "PARTIALLY_CONFIRMED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/history_context/items/0/hardware_compatibility",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0f15dc23249e5ae41849d7f070b24f8aea5d052fe3d20972b004e8b9e07349ba",
+              "current_excerpt": "UNKNOWN",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/history_context/items/0/hit_metadata/diagnostic_vote_allowed",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+              "current_excerpt": false,
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "15bb7af034515a43891752a0a4f09d17ca3964424015debc4f65dd64a35a971d",
+              "current_excerpt": [
+                "ML-E-012",
+                "LOG-121",
+                "LOG-122"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "as-of截止时间及来源可用时间的合成假设",
+          "assessment": "本任务当前时间是2026-04-12T09:10:00Z，历史声明available_at=2004-05-10T23:59:59Z，先于截止。provenance明确这是依据LLIS Lesson Date构造的场景可用时间，不是独立核实的原出版时间。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-012-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/case/input/analysis_cutoff",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "9f606b30e40f2767dd7b7837cfd70e4ee2fc8594bbf226607873a8bfba130563",
+              "current_excerpt": "2026-04-12T09:10:00Z",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/history_context/items/0/hit_metadata/available_at",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0e62a300e32a0255ad59b912d7d52517f7ee46cb7b34d275046db2c8486466f4",
+              "current_excerpt": "2004-05-10T23:59:59Z",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/synthetic_provenance/scenario_assumptions/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2f188217551d8b269a790d8f229d5de0083f074488438971e8daa10df7f445fc",
+              "current_excerpt": "The historical hit available_at timestamp is a scenario availability assumption based on the LLIS lesson date; it is not an independently verified original publication timestamp.",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/7/source_reference/publication_metadata_note",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "680733f0c38becd06cbc08391b660949876c942a0bd514581e72a0e49405b8f5",
+              "current_excerpt": "2004 is the year of the LLIS Lesson Date (2004-05-10), not the anomaly year or a verified public-availability timestamp. The title retains (2001); the event-family chronology is December 2000.",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "方法迁移、当前动作与恢复边界",
+          "assessment": "当前仅把Cassini当条件化检查线索，不复制轮速指令。LOG-122支持当前合成重启；目标明确拖曳回落没有证明健康基线或长期稳定。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-012-04",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/formal_target/historical_experience_relevance/0",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "41c294e197d2afc78843bbce1a19791b8fcc67ac6645e61e04b22b4a4a6fc14d",
+              "current_excerpt": "{\"case_ref\":\"HIST-CASSINI-RWA-DRAG-007\",\"relevance\":\"Cassini检索条目保留PARTIALLY_CONFIRMED状态，硬件兼容性为UNKNOWN。它可提示独立核查低速驻留、频繁过零和润滑相关性；FUSE历史Kapton机理及当前局部接触候选均不能由Cassini经验确诊。\",\"transfer_limitations\":[\"FUSE与Cassini轴承、润滑结构、壳体衬层和转子间隙的兼容性未证明。\",\"两份历史来源提出的具体机理不同，症状相似不等同于相同根因",
+              "excerpt_representation": "JSON_SERIALIZATION_PREFIX"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/formal_target/disposal_measures/0",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "eec734c59633b3ce23c21e6d428d0e22e75deb35bb75fcccdb43e8e1f1a84f4b",
+              "current_excerpt": {
+                "measure": "合成场景中已进行一次反作用轮重启；这不是实际FUSE飞行操作记录。",
+                "measure_type": "EXECUTED",
+                "evidence_refs": [
+                  "LOG-122"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/formal_target/phenomenon_analysis",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "66aab2529222fe2fc783f092ead998c9653bd57b92118be55691115e96d434fd",
+              "current_excerpt": "合成场景中，俯仰轴反作用轮拖曳指标高于健康基线；LOG-122记载一次场景内重启后拖曳短时维持高位并逐渐回落。日志未说明已回到健康基线或保持长期稳定；当前ML结果和日志均为合成输入。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "依FUSE历史事件年份或论文主题直接判FUTURE_HISTORY_LEAK/HISTORICAL_TRANSFER_INVALID",
+          "assessment": "2000/2001是源事件年份，不是当前合成诊断截止时间。当前CONTEXT明确家族差异和适用性未知，没有把Cassini结论投票确诊FUSE。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "回传未看完整history_context；其条件核对值得做，但给定当前字段，未来泄漏或已发生非法迁移均未被观察到。",
+          "triage_id": "SCI-012-05",
+          "non_adoption_type": "FINDING_NOT_OBSERVED",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/case/input/analysis_cutoff",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "9f606b30e40f2767dd7b7837cfd70e4ee2fc8594bbf226607873a8bfba130563",
+              "current_excerpt": "2026-04-12T09:10:00Z",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/11/formal_target/historical_experience_relevance/0/transfer_limitations",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f06ac6c3852060d71338fbf5d89330f32563634169cc60116f6409ca535042f9",
+              "current_excerpt": [
+                "FUSE与Cassini轴承、润滑结构、壳体衬层和转子间隙的兼容性未证明。",
+                "两份历史来源提出的具体机理不同，症状相似不等同于相同根因。",
+                "LLIS对绝对零速静止的描述有巡航期与每三个月exercise的条件，不能与低速驻留/频繁过零混同。",
+                "历史升速观察与建议不能变成当前操作指令；当前已记录的合成重启仅由LOG-122支持。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [
+          {
+            "case_ref": "HIST-CASSINI-RWA-DRAG-007",
+            "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
+            "declared_available_at": "2004-05-10T23:59:59Z",
+            "analysis_cutoff": "2026-04-12T09:10:00Z",
+            "declared_ordering_valid": true,
+            "diagnostic_vote_allowed": false,
+            "hardware_compatibility": "UNKNOWN",
+            "proves_real_world_original_publication_time": false
+          }
+        ],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "审定FUSE不同轮轴/日期的故障归因及Cassini条件化对照是否适合该任务，不用症状相似代替硬件兼容。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "如把此合成可用时间提升为真实检索/正式历史回放依据，需要独立来源可用性与版本证据；当前已披露假设，不应伪造原出版时间。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "确认当前重启、拖曳回落、正常基线和持续恢复四者的证据强度保持分开。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "current_packet_index": 12,
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "013明确区分现象与受影响接口的支持程度和物理根因不足；当前HIGH/请求补证，SEL保留，要求上游摘要而非内联原始波形。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "现象、接口范围和物理根因分别评估，未将more likely改成确认。",
+          "related_check_ids": [
+            "SCI-013-01",
+            "SCI-013-02",
+            "SCI-013-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "HIGH及关键电气/拓扑缺口已列，SEL未排除，索取上游摘要。",
+          "related_check_ids": [
+            "SCI-013-01",
+            "SCI-013-02",
+            "SCI-013-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "相对解释优势不等于机制确认",
+          "assessment": "REQUEST_ADDITIONAL_ANALYSIS、CANDIDATE_ONLY和HIGH均保留。report_text明确足以描述异常与排查共享接口，不足以确认滑环物理源、跨网短接或FPGA损伤。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-013-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/disposition",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "12e02b3af30c3f00e1074fc918018f8a2e11fb9b248097c079ff07e359ff4545",
+              "current_excerpt": "REQUEST_ADDITIONAL_ANALYSIS",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/cause_localization/status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2655f4d355adb18df316fb9ce2be85ab9bfa15e8d5644a0044b3b028a45ed15f",
+              "current_excerpt": "CANDIDATE_ONLY",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/uncertainty",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6d71b0cd2160e942dffa941f165ca312b0ffda1fd74bde42ab4a947236707869",
+              "current_excerpt": {
+                "level": "HIGH",
+                "reasons": [
+                  "现有ML候选与合成日志只提示多个接口异常的时间关联。",
+                  "文献作者将跨网短接作为较可能解释，但当前合成任务没有直接短接测量。",
+                  "已否决的历史SEL假设不能弥补当前直接证据缺失。"
+                ]
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/report_text",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b1e2344302be447cd8105638b8c37ebbc94f55132ac151d521b4b29fbd6ace5a",
+              "current_excerpt": "当前合成日志足以描述载荷CRC错误和SADA驱动、星敏感器接口通信异常，支持将共享接口列为排查范围；尚不足以确认滑环为物理故障源、12V与串行线实际短接或总线FPGA损伤，也不能排除其他接口故障。独立合成历史案例的SEL假设已被否决；这一历史结论不能排除当前SEL或证明当前短接。建议优先核对接口拓扑并补充直接电气证据；未记录当前处置措施。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "独立硬件、时序和拓扑证据缺口",
+          "assessment": "当前补证包含直接绝缘/短接测量、逐点I/O映射、共因与独立故障的区分，且明确上游原始记录校核摘要即可；不要求LLM内联原始波形。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-013-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "84ff43e3a415694736d283c123bbf97105cae56239489d454cc4aa05af598d8e",
+              "current_excerpt": [
+                "12V母线与串行通信线之间的直接绝缘/短接测量",
+                "滑环接口电路拓扑与受影响I/O bank之间的逐点映射",
+                "可区分共同原因短接与多个独立接口故障的独立硬件证据",
+                "上游对相关原始记录的校核摘要及可区分短接路径的物理检查结果；无需向LLM内联原始波形"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/follow_up_actions",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a87dc628a9cdfa883cacadbc6a2a9ca2ccdc91c843795df1969ff434b56bbaaf",
+              "current_excerpt": [
+                {
+                  "action": "核查12V母线与串行线之间的绝缘及短接证据",
+                  "rationale": "验证共同原因跨接口故障候选",
+                  "priority": "HIGH"
+                },
+                {
+                  "action": "按共享接口拓扑复核受影响设备范围",
+                  "rationale": "区分故障源与受影响接口",
+                  "priority": "MEDIUM"
+                }
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/case/input/raw_telemetry_included",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+              "current_excerpt": false,
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "SEL与被否决历史不得排除当前竞争解释",
+          "assessment": "目标明确历史SEL只在其自身被否决，不能排除当前SEL；历史ID不进入当前支持引用。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-013-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/historical_experience_relevance/0/relevance",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "2a6344623756f8cc9d04ed19c04ef670339967e39e02171ab4cbcb20e2446964",
+              "current_excerpt": "该独立合成历史案例仅说明其自身SEL假设已被否决；既不支持当前SEL确诊，也不能排除当前SEL或证明当前跨网短接。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "d4722c860325d27c15042391078d0b622fba06b7f535a0d0b621a95d5d59969d",
+              "current_excerpt": [
+                "ML-E-003",
+                "LOG-21",
+                "LOG-22",
+                "LOG-23"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/12/history_context/items/0/hit_metadata/diagnostic_vote_allowed",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+              "current_excerpt": false,
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [
+          {
+            "case_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+            "event_family_id": "SYNTHETIC-PRIOR-SEL-FAMILY",
+            "declared_available_at": "2026-04-10T08:00:00Z",
+            "analysis_cutoff": "2026-04-12T09:10:00Z",
+            "declared_ordering_valid": true,
+            "diagnostic_vote_allowed": false,
+            "hardware_compatibility": "UNKNOWN",
+            "proves_real_world_original_publication_time": false
+          }
+        ],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "评价现象、接口范围、物理故障源这三个层次的充分性判断和最小补证方案。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "核对当前保留SEL/其他接口原因是否适当；历史否决案例不得当作当前反证。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "current_packet_index": 13,
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "014已经按构型/基线、上游分工况摘要、再评估受控验证排序；包含验证指标及终止条件，无具体轮速命令和处置执行声称。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "后续动作均待评估，历史升速未成为当前处置。",
+          "related_check_ids": [
+            "SCI-014-01",
+            "SCI-014-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "先核构型和基线，再看分工况摘要，受控检查有边界和终止条件。",
+          "related_check_ids": [
+            "SCI-014-01",
+            "SCI-014-02",
+            "SCI-014-03"
+          ],
+          "non_adoption_check_ids": [],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "建议作为待评估follow_up而非当前执行/授权",
+          "assessment": "当前disposal NOT_RECORDED且为空；follow_up先核型号、结构、运行限制和基线，再看速度/拖曳摘要，最后有条件评估额外检查。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-014-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "current_excerpt": [],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/follow_up_actions/0",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0d3ca2605946db7faf263932eae7a58849bd86dfe1e7bd134a4aa66586fa0aca",
+              "current_excerpt": {
+                "action": "补齐当前轮组型号、轴承/润滑结构、运行限制以及拖曳指标定义和健康基线的适用条件。",
+                "rationale": "先检查文献机理的硬件适用性，以及指标或基线差异能否解释表观拖曳升高；若这些条件不明，不能将润滑异常作为确定原因。",
+                "priority": "HIGH"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/follow_up_actions/1",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "c0cdcfa53b3fc42766134601115f9a233d67d3cdfd7fbe0f00660d98c5c8b850",
+              "current_excerpt": {
+                "action": "请上游补充按转速区间、近零速驻留和过零情况整理的拖曳摘要，并在可取得时保持温度与控制状态可比；区分绝对零速静止和低速运行。",
+                "rationale": "检查拖曳变化是否与低速驻留或频繁过零对应；相符只增强润滑相关假设的合理性，不足以排除其他摩擦或测量原因；不相符则应降低该假设优先级。",
+                "priority": "HIGH"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "实施边界、监测量、验证结果和停止条件",
+          "assessment": "建议明确不同结果如何改变假设优先级；额外检查要求型号适用性、运行边界、可用验证记录，预先定义观察指标与终止条件，不生成轮速命令。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-014-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/follow_up_actions/1/rationale",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6b31d5662de3c9f2335de741af1fa669322a840473a7b42c356fa80c0d912489",
+              "current_excerpt": "检查拖曳变化是否与低速驻留或频繁过零对应；相符只增强润滑相关假设的合理性，不足以排除其他摩擦或测量原因；不相符则应降低该假设优先级。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/follow_up_actions/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "716c45811aa991121f42b53114aa2ab0d3c118e2e5dedfd1a673d51d0cbac63e",
+              "current_excerpt": {
+                "action": "在型号适用性、运行边界和可用验证记录明确后，再评估是否需要额外受控检查。",
+                "rationale": "检查方案应预先明确要观察的指标和终止条件；本报告不生成轮速命令，也不把历史升速观察视为当前已执行或必然有效的处置。",
+                "priority": "MEDIUM"
+              },
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/report_text",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a4363ae7b89c18216439650ecb2ccf8a83e5cfee941153b188b9d0872a78c2e4",
+              "current_excerpt": "下一步先补齐当前轮组构型、运行限制和拖曳指标基线，再请求上游给出分转速区间的对照摘要。对应关系若成立，可保留润滑相关假设；若不成立，应降低其优先级并核查其他解释。任何额外受控检查都以型号适用性和运行边界明确为前提。当前尚无处置执行记录。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "Cassini个案与当前根因分开",
+          "assessment": "当前ML是拖曳候选，润滑仅为历史启发；型号未知、可能的测量/基线差异与其他机械机理仍保留。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-014-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/machine_result_interpretation",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b664610a811ca2ddf8279f0f06a9df6cf573c38c55aa2762e32b12064b5e25ed",
+              "current_excerpt": "上游合成ML将反作用轮轴承拖曳增大列为候选，排序分数0.79不是故障概率。润滑状态异常仅是结合Cassini文献提出的待核实解释，不是本次ML已输出或确认的根因。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "fc8499e8eb7f317ad5c0477c4d5bc9f6ca5c5ea6efa132c586cea268285c29d8",
+              "current_excerpt": "Cassini历史文献中的低速润滑解释可提示核查本场景的近零速驻留和频繁过零，但当前轮组的轴承/润滑结构尚未明确；现有合成输入不能在润滑相关机理、其他机械拖曳或指标/基线差异之间完成鉴别。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/13/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "78adc42ef0bc0ee0b84441e7fdb74e08a6c8c27d0a42e5b6c3162b09bf068b7e",
+              "current_excerpt": [
+                "轴承内部润滑剂状态直接证据",
+                "不同转速区间下的拖曳/摩擦对照",
+                "该型号轮组润滑结构和运行限制",
+                "当前姿态指向误差、控制裕度或控制模式变化摘要；现有输入未证明指向性能或控制权限已下降。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "审核检查顺序、可比工况、指标/停止条件能否区分假设；具体参数必须来自实际轮型与任务边界。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "判定源文低速润滑经验的可迁移范围，不将参考建议当作任何实际在轨授权。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "current_packet_index": 14,
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "content_disposition": "ALREADY_ADDRESSED",
+      "summary": "015是证据较少的地面交接变体：当前只支持线性化通道/LNA增益退化候选，氢中毒来自历史待核，未写换件或恢复；不能套用011的丰富日志。",
+      "requires_l0_l1_modification": false,
+      "minimum_repair": null,
+      "perspective_slots": [
+        {
+          "perspective": "A",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "地面交接分开当前增益候选与历史氢中毒机理。",
+          "related_check_ids": [
+            "SCI-015-01",
+            "SCI-015-02",
+            "SCI-015-03",
+            "SCI-015-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-015-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        },
+        {
+          "perspective": "B",
+          "classification": "ALREADY_ADDRESSED",
+          "summary": "层级和处置状态明确，无当前换件或恢复，不搬用011额外日志。",
+          "related_check_ids": [
+            "SCI-015-01",
+            "SCI-015-02",
+            "SCI-015-03",
+            "SCI-015-04"
+          ],
+          "non_adoption_check_ids": [
+            "SCI-015-04"
+          ],
+          "external_expert_review_still_required": true,
+          "official_decision_recorded": false,
+          "official_numeric_scores_written": false
+        }
+      ],
+      "checks": [
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "地面任务、整机现象和模块/芯片层级",
+          "assessment": "当前明确地面转发器测试，输出下降与LCAMP增益异常分开。知识片段将Z2/Z6、LNA氢中毒及TWT/EPC排除限定为历史，不能作当前分层隔离结果。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-015-01",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/case/input/operational_context/mission_phase",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "29f0919e28ff98a355d40006fd6d3ec423cc9bdef67c5416025dd456120c2004",
+              "current_excerpt": "GROUND_TRANSPONDER_PERFORMANCE_TEST",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/case/input/knowledge_evidence/0/excerpt",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "0ec8ec771e3dc4af762da324db3762e11d9f8459a7801df8105a3926a2f78d06",
+              "current_excerpt": "历史地面整星测试中，排查支持TWT、EPC及外部射频链路正常，异常定位到LCAMP的Z2/Z6模块内低噪放芯片氢中毒。论文记录更换为氢含量合格的同型号另一批次模块，并经复测恢复整机性能；这些是历史案例信息，不是当前合成场景的隔离或处置结果。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/phenomenon_analysis",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "b44bbd0e7d4a9ca6a8d53752f843bd73bd96e84c34905e3247bfd2c57bec8ce4",
+              "current_excerpt": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供行波管TWT内部故障的直接证据。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f87d33af2c57be4f96aeb703514e5ec33e4bbf465e72a3ee14838e4498a767ed",
+              "current_excerpt": "当前合成输入支持线性化通道/LNA增益退化候选，未提供当前场景的氢含量或芯片失效分析证据，氢中毒仅为历史文献提供的待核实机制。文献根因位于LCAMP微波模块中的LNA芯片，历史排查支持TWT和EPC正常；这不能代替当前场景的分层隔离测试。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "当前候选与文献已确认起因的边界",
+          "assessment": "当前仅两条LOG-B1/B2，ML标签为LNA增益退化；目标明确无当前气氛或芯片分析，氢中毒为历史待核机制，HIGH与候选状态一致。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-015-02",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/case/input/machine_diagnosis/findings/0/result",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8a822948a5f3fc12919b0320d32c0c5c1b7c402287cb6dadf5464e5b050a41e0",
+              "current_excerpt": "LINEARIZER_LNA_GAIN_DEGRADATION",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/case/input/diagnostic_logs",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "dbfaebc33280368791904a239c794260d39c510771d50dcaf3d1abd38acae1ea",
+              "current_excerpt": "[{\"log_id\":\"LOG-B1\",\"timestamp\":\"2026-04-12T08:10:00Z\",\"log_type\":\"ALARM\",\"content\":\"合成场景：S频段转发器输出功率较基线下降。\",\"author_role\":\"synthetic-scenario-generator\",\"source_ref\":\"SYNTHETIC-LOG:LOG-B1\"},{\"log_id\":\"LOG-B2\",\"timestamp\":\"2026-04-12T08:17:00Z\",\"log_type\":\"ENGI",
+              "excerpt_representation": "JSON_SERIALIZATION_PREFIX"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/cause_localization/candidates/0/limitations/2",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "d09ea54c2240e76b6dcc33e244e83148c52834fb8935abf699d9dde9d8a59996",
+              "current_excerpt": "Current synthetic inputs contain no module-atmosphere hydrogen result or chip failure analysis; hydrogen poisoning remains a historical hypothesis to test.",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/uncertainty/level",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "de6793686214dfe70d2665a0a589356048ebc50a72ce7ebcc8641b2cc5d8f1dd",
+              "current_excerpt": "HIGH",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "ALREADY_ADDRESSED",
+          "recommendation_topic": "源实物更换、当前交接处置和后续工作分开",
+          "assessment": "当前NOT_RECORDED，disposal_measures为空；交接摘要明示全部后续为建议，未写已恢复。L0的合格模块替换和复测恢复仍留在历史。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": null,
+          "triage_id": "SCI-015-03",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/disposal_status",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "6adfdbf3cf13d77ef72a51d1c9be946b7a4f1d5c9ea7e8018ff28ea0a8dd0445",
+              "current_excerpt": "NOT_RECORDED",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "current_excerpt": [],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/report_text",
+              "excerpt_is_full_value": false,
+              "full_field_canonical_sha256": "2a573fb39aef8904ecec301b421b1e3bb593f84374ebea7921ad556a5542bce7",
+              "current_excerpt": "【任务状态】合成地面转发器测试中，S频段输出功率低于基线，LCAMP增益测试异常。\n【当前研判】上游合成ML将线性化通道LNA增益退化列为候选；氢中毒是历史文献提供的待核实机制，当前输入尚不足以确认。\n【证据边界】当前ML和日志均为合成输入，缺少当前场景的封装气氛、芯片分析及模块替换验证；文献对TWT和EPC的排查结论不能代替当前隔离测试。\n【后续工作】优先复核LCAMP模块增益，并核对与TWT、EPC的隔离测试；随后核查批次和氢含量控",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l0",
+              "json_pointer": "/cards/11/disposal_measures",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f1b067a76637bba78c9e46291889ec4e148b455d0476c225d1567fa8664cb9f0",
+              "current_excerpt": [
+                "将故障Z2、Z6模块更换为氢含量符合要求的另一批次同型号规格产品，并经试验验证后整机恢复正常。"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        },
+        {
+          "perspectives": [
+            "A",
+            "B"
+          ],
+          "classification": "NOT_ADOPTED_AS_STATED",
+          "recommendation_topic": "把历史氢中毒起因或011的Z2/Z6气氛/EMMI结果变成015当前已确认事实",
+          "assessment": "同一来源不代表两个任务给定证据相同。011有LOG-B3/B4，015没有；015现有候选名的氢中毒含义必须连同已写明的历史待核限制阅读，不可升级为当前确诊。",
+          "requires_l0_l1_modification": false,
+          "actual_defect": null,
+          "minimum_repair": null,
+          "not_adopted_reason": "A所说明确故障起因若被解释为当前确认LNA氢中毒，会超过当前输入；也不能为了细化模块层级而补造当前Z2/Z6检测。",
+          "triage_id": "SCI-015-04",
+          "non_adoption_type": "UNSUPPORTED_EXTRAPOLATION",
+          "current_field_evidence": [
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/cause_localization/mechanism_summary",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "f87d33af2c57be4f96aeb703514e5ec33e4bbf465e72a3ee14838e4498a767ed",
+              "current_excerpt": "当前合成输入支持线性化通道/LNA增益退化候选，未提供当前场景的氢含量或芯片失效分析证据，氢中毒仅为历史文献提供的待核实机制。文献根因位于LCAMP微波模块中的LNA芯片，历史排查支持TWT和EPC正常；这不能代替当前场景的分层隔离测试。",
+              "excerpt_representation": "TEXT_SUBSTRING"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/evidence_assessment/supporting_refs",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "a67ed4508bdbdc199d7671e119ad18483267e30fce6ab93f82dddb92957d5a53",
+              "current_excerpt": [
+                "ML-E-011",
+                "LOG-B1",
+                "LOG-B2"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            },
+            {
+              "source_artifact": "current_l1",
+              "json_pointer": "/packets/14/formal_target/evidence_assessment/missing_information",
+              "excerpt_is_full_value": true,
+              "full_field_canonical_sha256": "8db99dbbe5e048317544f5924409ed4d784f50322425363d422aeff4e0403cfc",
+              "current_excerpt": [
+                "当前合成任务的模块级替换验证",
+                "LNA芯片材料/封装气体分析",
+                "线性化通道与行波管TWT的隔离测试"
+              ],
+              "excerpt_representation": "JSON_VALUE"
+            }
+          ]
+        }
+      ],
+      "field_checks": {
+        "formal_target_equals_case_expected_output": true,
+        "current_evidence_refs_all_declared_in_machine_or_logs": true,
+        "non_current_refs_in_current_support": [],
+        "raw_telemetry_included": false,
+        "historical_hit_checks": [],
+        "current_uncertainty_level": "HIGH",
+        "current_disposal_status": "NOT_RECORDED"
+      },
+      "remaining_real_domain_expert_items": [
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "审核交接层级与词义：当前增益退化候选、历史氢中毒假设、仍缺的气氛/芯片分析应保持清楚，候选名不可被误读为已确诊。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        },
+        {
+          "classification": "NEEDS_EXTERNAL_EVIDENCE",
+          "item": "确认交接建议优先级及TWT/EPC隔离覆盖；分别评估015和011，不因同源或相同日志ID前缀而搬用后者额外证据。",
+          "status": "PENDING_REAL_DOMAIN_EXPERT",
+          "automatic_data_rewrite_allowed": false
+        }
+      ],
+      "official_admission_state_changed": false
+    }
+  ],
+  "read_only_verification": {
+    "fresh_collection_projection_check": {
+      "decision": "BLOCKED_PENDING_EXTERNAL_ADMISSION",
+      "collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5",
+      "packet_count": 21,
+      "event_family_count": 9,
+      "sft_records_emitted": 0,
+      "gold_eligible": false,
+      "training_authorized": false
+    },
+    "field_excerpts_generated_from_exact_json_pointers": true,
+    "all_15_formal_targets_equal_mirrored_expected_output": true,
+    "all_15_current_evidence_references_resolve_to_current_declared_ml_or_log_ids": true,
+    "historical_or_l0_ids_in_current_evidence_references": 0,
+    "history_hits_with_declared_available_at_after_cutoff": 0,
+    "verification_does_not_authenticate_physical_evidence": true
+  },
+  "admission": {
+    "not_for_sft": true,
+    "gold_eligible": false,
+    "training_authorized": false,
+    "expert_adjudicated_count": 0,
+    "official_splits_assigned": false,
+    "sft_records_emitted": 0,
+    "rights_cleared_by_this_triage": false,
+    "authenticated_human_approvals": 0,
+    "formal_scorecard_imports": 0
+  }
+}
