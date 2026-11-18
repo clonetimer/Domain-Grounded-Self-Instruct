@@ -24,7 +24,7 @@ Keep the input JSON in an access-controlled local directory. The summary contain
 
 The M5 no-Context DGSI ablation is *not* a sixth independent SOTA construction method; handle it as a paired ablation outside this five-arm core.
 
-Same permitted source groups, episode/event families, task coverage, attempted candidates and **allocated token budgets** are required for a direct M0–M4 comparison. Actual token *usage* can differ and is reported separately. Do not share publication-linked or history-linked incident groups across training and holdout, and do not regard existing 21 REV1 review candidates as five independent generated arms or an untouched final test set.
+Same permitted source groups, episode/event families, task coverage, attempted candidates and **allocated token budgets per attempt** are required for a direct M0–M4 comparison. Matching only total token budget can hide an unfair per-attempt reallocation. An event family cannot be assigned to different source groups or tracks. Actual token *usage* can differ and is reported separately. Do not share publication-linked or history-linked incident groups across training and holdout, and do not regard existing 21 REV1 review candidates as five independent generated arms or an untouched final test set.
 
 Each trial JSON row represents exactly one *attempted candidate*, with:
 
@@ -35,7 +35,7 @@ Each trial JSON row represents exactly one *attempted candidate*, with:
 - review_status=PENDING or ADJUDICATED
 - reviewer_tokens, scores and review_receipt_sha256 only for an adjudicated row
 
-The root JSON has schema_version=dgsi-sota-construction-scorecard.v1, purpose=CONSTRUCTION_ONLY, and trials=[...]. Unreviewed rows must have reviewer_tokens=[] and scores={}. An adjudicated row needs two distinct anonymized reviewer tokens, a lowercase 64-character SHA-256 receipt digest, and all ten existing L1 science rubric dimensions, each scored 0/1/2. This is a receipt *format check*, not authentication, source-rights verification, proof of independent expertise or Gold admission.
+The root JSON has schema_version=dgsi-sota-construction-scorecard.v1, purpose=CONSTRUCTION_ONLY, and trials=[...]. Unreviewed rows must have reviewer_tokens=[] and scores={}, and must not contain a stale review_receipt_sha256. Aggregated ten-dimension means are available only within a single data track: when REAL_GOLD and literature-derived SYNTHETIC both occur, the per-arm pooled mean is null and the by_track means are the only reported review means. An adjudicated row needs two distinct anonymized reviewer tokens, a lowercase 64-character SHA-256 receipt digest, and all ten existing L1 science rubric dimensions, each scored 0/1/2. This is a receipt *format check*, not authentication, source-rights verification, proof of independent expertise or Gold admission.
 
 ## Conservative result states
 
