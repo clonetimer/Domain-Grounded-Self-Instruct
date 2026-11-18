@@ -53,6 +53,14 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                 self.assertIn("scripts/create_l1_blind_review_manifest.py", names)
                 self.assertIn("tests/test_l1_blind_review_manifest.py", names)
                 self.assertIn("tests/test_l1_blind_review_manifest_cli.py", names)
+                self.assertIn("scripts/create_l1_c2_complete_review_kit.py", names)
+                self.assertIn("scripts/create_l1_c2_expert_review_handoff.py", names)
+                self.assertIn("scripts/create_l1_c2_scientific_dossier.py", names)
+                self.assertIn("tests/test_l1_c2_complete_review_kit.py", names)
+                self.assertIn("tests/test_l1_c2_source_rights_queue.py", names)
+                self.assertIn("tests/test_l1_model_preview_cli_no_clobber.py", names)
+                self.assertIn("docs/P5C2_COMPLETE_TWO_REVIEWER_KIT_2026-11-18.md", names)
+                self.assertIn("docs/P5C2_SOURCE_RIGHTS_DEDUPLICATED_QUEUE_2026-11-18.md", names)
                 self.assertIn(
                     "skills/dgsi-simulation-to-sft/references/BLIND_EXPERT_REVIEW.md",
                     names,
@@ -126,6 +134,12 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     )
                     self.assertEqual(0, review_help.returncode, review_help.stderr[:500])
                     self.assertIn("--source-facts", review_help.stdout)
+                    kit_help = subprocess.run(
+                        [sys.executable, str(extracted_root / "scripts/create_l1_c2_complete_review_kit.py"), "--help"],
+                        cwd=extracted_root, env=clean_env, capture_output=True, text=True, timeout=30, check=False,
+                    )
+                    self.assertEqual(0, kit_help.returncode, kit_help.stderr[:500])
+                    self.assertIn("--output-file", kit_help.stdout)
                     # Run a real 15-packet preview from the extracted toolkit,
                     # while keeping the candidate dataset external to the ZIP.
                     preview_output = extracted_root / "preview-output.json"
@@ -181,6 +195,39 @@ class PortableToolkitPackageBuildTests(unittest.TestCase):
                     self.assertFalse(review_result["training_authorized"])
                     self.assertFalse(review_result["gold_eligible"])
                     self.assertTrue(all(row["collection_projection_sha256"] == review_result["collection_projection_sha256"] for row in review_result["review_packets"]))
+                    kit_output = extracted_root / "c2-two-reviewer-kit.zip"
+                    kit_smoke = subprocess.run(
+                        [
+                            sys.executable,
+                            str(extracted_root / "scripts/create_l1_c2_complete_review_kit.py"),
+                            "--collection",
+                            str(ROOT / "examples/l1_literature_synthetic_task_packets_c2_review_candidate_2026-11-17.json"),
+                            "--source-facts",
+                            str(ROOT / "examples/l0_public_literature_fact_cards_2026-11-15.json"),
+                            "--output-file",
+                            str(kit_output),
+                        ],
+                        cwd=extracted_root,
+                        env=clean_env,
+                        capture_output=True,
+                        text=True,
+                        timeout=90,
+                        check=False,
+                    )
+                    self.assertEqual(0, kit_smoke.returncode, f"stdout={kit_smoke.stdout[:1000]!r}; stderr={kit_smoke.stderr[:1000]!r}")
+                    self.assertTrue(kit_output.is_file())
+                    with zipfile.ZipFile(kit_output) as kit:
+                        kit_names = kit.namelist()
+                        self.assertIn("reviewer_A.zip", kit_names)
+                        self.assertIn("reviewer_B.zip", kit_names)
+                        self.assertIn("C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json", kit_names)
+                        kit_manifest = json.loads(kit.read("COORDINATOR_REVIEW_ONLY_MANIFEST.json"))
+                        self.assertEqual(15, kit_manifest["packet_count"])
+                        self.assertEqual(9, kit_manifest["event_family_count"])
+                        self.assertFalse(kit_manifest["source_rights_verified"])
+                        self.assertFalse(kit_manifest["expert_review_complete"])
+                        self.assertFalse(kit_manifest["training_authorized"])
+                        self.assertEqual(0, kit_manifest["sft_records_emitted"])
                 for item in manifest["files"]:
                     content = archive.read(item["path"])
                     self.assertEqual(len(content), item["size_bytes"])
