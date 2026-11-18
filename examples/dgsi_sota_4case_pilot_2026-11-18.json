@@ -1,7 +1,7 @@
 {
   "schema_version": "dgsi-sota-construction-pilot.v1",
   "experiment_id": "DGSI-SOTA-4CASE-PILOT-2026-11-18",
-  "status": "FROZEN_FOR_BOUNDED_LIVE_RUN",
+  "status": "FROZEN_FOR_IN_SESSION_DRY_RUN_ONLY",
   "purpose": "Evaluation-only comparison of five data-construction methods; not an SFT dataset and not a real-flight benchmark.",
   "source_collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
   "source_collection_git_blob_sha": "f141694748d5425b63b469b5b0b25064e1b402c8",
@@ -928,10 +928,10 @@
     }
   ],
   "controls": {
-    "generator_model": "gpt-6-luna",
-    "generator_model_family": "gpt-6-luna",
-    "judge_model": "gpt-5.6-sol",
-    "judge_model_family": "gpt-5.6-sol",
+    "generator_model": "GPT-6 (current ChatGPT session; interactive generation only)",
+    "generator_model_family": "OpenAI GPT-6",
+    "judge_model": null,
+    "judge_model_family": null,
     "generation_calls": 20,
     "judging_calls": 4,
     "total_calls": 24,
@@ -943,7 +943,14 @@
     "no_raw_telemetry": true,
     "evaluation_only": true,
     "max_budget_usd": 5,
-    "stop_on_budget_exceeded": true
+    "stop_on_budget_exceeded": true,
+    "independent_judge_status": "NOT_AVAILABLE_IN_CURRENT_TOOL_SESSION",
+    "live_external_api_calls": 0,
+    "live_generation_calls": 0,
+    "live_judging_calls": 0,
+    "api_key_required": false,
+    "execution_note": "The user has no API key. This session has no exposed callable independent model endpoint or model-switch tool. The assistant may draft candidates using the current GPT-6 session, but a second pass by the same model is not an independent judge and must not be represented as one. Wait for an actual separately callable judge model before claiming the authorized independent-judge experiment is complete.",
+    "budget_usd": 0
   },
   "metrics": [
     "claim_evidence_support",
