@@ -52,7 +52,9 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
     source_tracks: dict[str, str] = {}
     family_groups: dict[str, str] = {}
     unit_sources: dict[str, tuple[str, str, str, str]] = {}
+    unit_scenario_hashes: dict[str, str] = {}
     comparison_units_complete = True
+    scenario_fingerprints_complete = True
     for trial in trials:
         if not isinstance(trial, dict):
             _fail("SOTA_TRIAL_INVALID")
@@ -86,6 +88,19 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
             if unit in unit_sources and unit_sources[unit] != source_key:
                 _fail("SOTA_COMPARISON_UNIT_COLLISION")
             unit_sources[unit] = source_key
+        # A unit ID alone cannot detect swapped ML findings, logs or contexts.
+        # Hash the canonical shared scenario, not method-specific instructions.
+        scenario_hash = trial.get("canonical_scenario_sha256")
+        if scenario_hash is None:
+            scenario_fingerprints_complete = False
+        else:
+            if (not isinstance(scenario_hash, str) or len(scenario_hash) != 64
+                    or any(c not in "0123456789abcdef" for c in scenario_hash)):
+                _fail("SOTA_SCENARIO_HASH_INVALID")
+            if _nonempty(unit):
+                if unit in unit_scenario_hashes and unit_scenario_hashes[unit] != scenario_hash:
+                    _fail("SOTA_SCENARIO_HASH_COLLISION")
+                unit_scenario_hashes[unit] = scenario_hash
         attempts, accepted = trial.get("attempts"), trial.get("accepted_candidates")
         used, budget = trial.get("generation_tokens"), trial.get("token_budget")
         if any(type(v) is not int or v < 0 for v in (attempts, accepted, used, budget)):
@@ -174,6 +189,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         }
     comparable = (
         comparison_units_complete
+        and scenario_fingerprints_complete
         and all(by_arm[a] for a in ARMS)
         and all(groups[a] == groups[ARMS[0]] for a in ARMS)
         and all(budgets[a] == budgets[ARMS[0]] for a in ARMS)
@@ -186,6 +202,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
                               "MATCHED_UNREVIEWED" if comparable else "NOT_COMPARABLE_OR_NOT_RUN"),
         "source_group_budget_matched": comparable,
         "comparison_units_complete": comparison_units_complete,
+        "scenario_fingerprints_complete": scenario_fingerprints_complete,
         "tracks": {t: sum(r["track"] == t for rows in by_arm.values() for r in rows) for t in TRACKS},
         "arms": summaries,
         "training_authorized": False,
@@ -194,6 +211,7 @@ def summarize_construction_trials(document: dict[str, Any]) -> dict[str, Any]:
         "limits": [
             "Human adjudication and permissions are external; receipt hashes do not independently prove reviewer identity",
             "Construction-quality scores do not prove downstream SFT effectiveness",
+            "Submitted scenario digests do not authenticate the underlying input bytes",
         ],
     }
 
