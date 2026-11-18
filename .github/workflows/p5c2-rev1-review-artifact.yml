@@ -1,0 +1,107 @@
+name: DGSI P5-C2 REV1 independent expert review-only artifact
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/p5c2-rev1-review-artifact.yml
+      - scripts/create_l1_c2_rev1_review_kit.py
+      - scripts/create_l1_c2_complete_review_kit.py
+      - examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json
+      - examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-only-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install local validation dependencies
+        run: python -m pip install -r requirements-validation.txt
+      - name: Verify immutable REV1 scientific cohort and blank handoff
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p "test_l1_c2_rev1_review_kit.py" -v
+          python -m unittest discover -s tests -p "test_l1_c2_complete_review_kit.py" -v
+      - name: Generate review-only ZIP outside checkout
+        env:
+          PYTHONPATH: src
+        run: |
+          mkdir -p "$RUNNER_TEMP/dgsi-review"
+          python scripts/create_l1_c2_rev1_review_kit.py \
+            --output-file "$RUNNER_TEMP/dgsi-review/DGSI_C2_REV1_21_REVIEW_ONLY.zip"
+      - name: Audit artifact contents and non-admission status
+        env:
+          DGSI_REVIEW_DIR: ${{ runner.temp }}/dgsi-review
+        run: |
+          python - <<'PY'
+          from hashlib import sha256
+          from io import BytesIO
+          import json
+          import os
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          root = Path(os.environ["DGSI_REVIEW_DIR"])
+          target = root / "DGSI_C2_REV1_21_REVIEW_ONLY.zip"
+          with ZipFile(target) as outer:
+              expected = {
+                  "reviewer_A.zip", "reviewer_B.zip",
+                  "COORDINATOR_REVIEW_ONLY_MANIFEST.json",
+                  "C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json",
+                  "README_REVIEW_ONLY.txt", "SHA256SUMS.txt",
+              }
+              assert set(outer.namelist()) == expected, "unexpected review-only artifact member"
+              manifest = json.loads(outer.read("COORDINATOR_REVIEW_ONLY_MANIFEST.json"))
+              assert manifest["collection_id"] == "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18"
+              assert manifest["collection_projection_sha256"] == "3927c976af6eb46a8842b68926fd893b021df69b034ae8981dc5ed136278521a"
+              assert manifest["packet_count"] == 21
+              assert manifest["event_family_count"] == 9
+              assert manifest["source_rights_document_count"] == 7
+              assert manifest["reviewer_forms"] == "BLANK_UNAUTHENTICATED"
+              assert manifest["not_for_sft"] is True
+              for field in ("source_rights_verified", "expert_review_complete",
+                            "gold_eligible", "official_splits_assigned", "training_authorized"):
+                  assert manifest[field] is False, field
+              assert manifest["sft_records_emitted"] == 0
+              rights = json.loads(outer.read("C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json"))
+              assert rights["distinct_source_document_count"] == 7
+              assert sha256(outer.read("C2_SOURCE_RIGHTS_CLEARANCE_QUEUE_BLANK.json")).hexdigest() == manifest["source_rights_queue_sha256"]
+              for slot in ("A", "B"):
+                  blob = outer.read(f"reviewer_{slot}.zip")
+                  assert sha256(blob).hexdigest() == manifest["reviewer_archives_sha256"][f"reviewer_{slot}.zip"]
+                  with ZipFile(BytesIO(blob)) as reviewer:
+                      assert len(reviewer.namelist()) == 5
+                      form = json.loads(reviewer.read(f"C2_reviewer_{slot}_BLANK.json"))
+                      assert len(form["tasks"]) == 21
+                      assert form["packet_count"] == 21
+                      for task in form["tasks"]:
+                          scorecard = task["scorecard"]
+                          assert scorecard["reviewer_token"] is None
+                          assert scorecard["decision"] is None
+                          assert all(v is None for v in scorecard["scores"].values())
+          digest = sha256(target.read_bytes()).hexdigest()
+          (root / "SHA256SUMS.txt").write_text(
+              f"{digest}  {target.name}\n", encoding="ascii", newline="\n"
+          )
+          print("REVIEW_ONLY_REV1_21=PASS")
+          print("TRAINING_AUTHORIZED=false")
+          print("SFT_RECORDS_EMITTED=0")
+          print(f"REVIEW_ZIP_SHA256={digest}")
+          PY
+      - name: Upload blank public-literature synthetic review material
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgsi-c2-rev1-21-review-only-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/dgsi-review/DGSI_C2_REV1_21_REVIEW_ONLY.zip
+            ${{ runner.temp }}/dgsi-review/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 3
