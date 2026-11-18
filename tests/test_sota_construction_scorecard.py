@@ -82,6 +82,20 @@ class ScorecardTests(unittest.TestCase):
         del r["scores"][DIMENSIONS[0]]
         self.reject("SOTA_SCORE_DIMENSIONS", doc([r]))
 
+    def test_real_and_synthetic_adjudication_are_stratified(self):
+        rows = [trial(a, status="ADJUDICATED") for a in ARMS]
+        for a in ARMS:
+            r = trial(a, group="REAL-2", track="REAL_GOLD", status="ADJUDICATED")
+            r["gold_admitted"] = True
+            r["scores"]["source_fidelity"] = 0
+            rows.append(r)
+        result = summarize_construction_trials(doc(rows))
+        arm = result["arms"]["M4"]
+        self.assertEqual(arm["by_track"]["REAL_GOLD"]["reviewer_reported_dimension_means"]["source_fidelity"], 0)
+        self.assertEqual(arm["by_track"]["LITERATURE_DERIVED_SYNTHETIC"]["reviewer_reported_dimension_means"]["source_fidelity"], 2)
+        self.assertEqual(result["tracks"]["REAL_GOLD"], 5)
+        self.assertFalse(result["gold_authorized"])
+
     def test_no_pending_scores(self):
         r = trial()
         r["scores"] = {"source_fidelity": 2}
