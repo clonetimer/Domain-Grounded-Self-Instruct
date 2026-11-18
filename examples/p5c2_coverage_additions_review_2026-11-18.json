@@ -1,0 +1,272 @@
+{
+  "schema_version": "dgsi-p5c2-coverage-additions-review.v1",
+  "date": "2026-11-18",
+  "status": "AI_CURATED_REVIEW_REQUIRED",
+  "baseline_main_commit": "ea18a6f0dd1de55ea2565f6ec95829ed57ce27c5",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-2026-11-18",
+  "collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5",
+  "inputs": {
+    "baseline_collection": {
+      "path": "examples/l1_literature_synthetic_task_packets_c2_content_corrected_2026-11-18.json",
+      "sha256": "da20c86fc99f7ea26669544927f0409d0daf62f1900a1049744c118b3051d7b4"
+    },
+    "current_collection": {
+      "path": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18.json",
+      "sha256": "7cd6d59cd00fb28f83d8b99f2e4ee38578a3f372bf2b445d587e1ef964a65bd7"
+    },
+    "unchanged_l0": {
+      "path": "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json",
+      "sha256": "b4e9947958348c31dac519b7403f9f54db21bcd0c5df3051e3ed1f5112a9d905"
+    }
+  },
+  "preservation": {
+    "baseline_packet_count": 15,
+    "canonical_identical_packet_count": 15,
+    "baseline_task_ids": [
+      "L1-SEASAT-SLIPRING-SYNTH-001",
+      "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+      "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+      "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+      "L1-CASSINI-RWA-DRAG-SYNTH-008",
+      "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+      "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+      "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+      "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+    ],
+    "l0_bytes_unchanged": true,
+    "source_family_set_unchanged": true,
+    "new_source_event_family_count": 0,
+    "runtime_version": "0.2.0-rc.4",
+    "runtime_change_required": false
+  },
+  "additions": [
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "title": "同窗独立测量约束 ML 的功率下降推断",
+      "task_type": "conflict_reconciliation",
+      "source_group": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "distinct_learning_target": "Same identified path, carrier, baseline and time window with checked comparison conditions; independent received-carrier evidence narrows the ML interpretation, without establishing total-RF health or a unique diode cause.",
+      "related_baseline_tasks": [
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002"
+      ],
+      "disposition": "CONFLICTING_EVIDENCE",
+      "cause_status": "CANDIDATE_ONLY",
+      "current_disposal_status": "NOT_RECORDED",
+      "current_evidence_scope": "Model-visible synthetic ML/log/QA summaries; historical source IDs are context, not current support.",
+      "review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "title": "保留不同试验条件下的 PASS 与 FAIL",
+      "task_type": "conflict_reconciliation",
+      "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "distinct_learning_target": "Two reports for the same unit have different humidity and incompletely controlled facility/order/history conditions. Reject the global closure claim while preserving both conditional observations; do not certify humidity as the sole cause.",
+      "related_baseline_tasks": [
+        "L1-TROPICS-TVAC-SLIPRING-SYNTH-004"
+      ],
+      "disposition": "CONFLICTING_EVIDENCE",
+      "cause_status": "CANDIDATE_ONLY",
+      "current_disposal_status": "NOT_RECORDED",
+      "current_evidence_scope": "Model-visible synthetic ML/log/QA summaries; historical source IDs are context, not current support.",
+      "review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+      "title": "共变趋势不能区分两种因果解释",
+      "task_type": "evidence_sufficiency",
+      "source_group": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "distinct_learning_target": "当两种可能解释的时间变量在已给摘要中完全共变时，增加观测次数并不自动增加机理可辨识性；拒绝把热循环相关趋势升级为唯一原因。",
+      "related_baseline_tasks": [
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007"
+      ],
+      "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+      "cause_status": "UNRESOLVED",
+      "current_disposal_status": "NOT_RECORDED",
+      "current_evidence_scope": "Model-visible synthetic ML/log/QA summaries; historical source IDs are context, not current support.",
+      "review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "title": "整机异常尚不能定位内部模块与化学机理",
+      "task_type": "evidence_sufficiency",
+      "source_group": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "distinct_learning_target": "允许在合成场景内接受经过校核的整机输出功率下降，同时拒绝在尚无分层隔离证据时直接定位LCAMP某模块或GaAs芯片氢中毒。",
+      "related_baseline_tasks": [
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+      "cause_status": "UNRESOLVED",
+      "current_disposal_status": "NOT_RECORDED",
+      "current_evidence_scope": "Model-visible synthetic ML/log/QA summaries; historical source IDs are context, not current support.",
+      "review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "task_id": "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "title": "短窗改善尚不能证明恢复，也不能反证持续异常",
+      "task_type": "evidence_sufficiency",
+      "source_group": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "distinct_learning_target": "将已执行动作、短窗内相对改善、达到正常基线和持续恢复四个命题分开；缺少正常基线时不能宣告恢复，也不能反向断言当前仍异常。",
+      "related_baseline_tasks": [
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012"
+      ],
+      "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+      "cause_status": "UNRESOLVED",
+      "current_disposal_status": "RECORDED",
+      "current_evidence_scope": "Model-visible synthetic ML/log/QA summaries; historical source IDs are context, not current support.",
+      "review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021",
+      "title": "输入归属错误阻断当前物理状态判断",
+      "task_type": "evidence_sufficiency",
+      "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "distinct_learning_target": "识别有效的输入质量失败证据，保留当前物理状态判断；错误归属的拖曳/低速摘要既不能确诊当前轮故障，也不能因结果无效而判当前轮正常。",
+      "related_baseline_tasks": [
+        "L1-CASSINI-RWA-DRAG-SYNTH-008",
+        "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014"
+      ],
+      "disposition": "INSUFFICIENT_CONTEXT",
+      "cause_status": "UNRESOLVED",
+      "current_disposal_status": "NOT_RECORDED",
+      "current_evidence_scope": "Model-visible synthetic ML/log/QA summaries; historical source IDs are context, not current support.",
+      "review_status": "REVIEW_REQUIRED"
+    }
+  ],
+  "source_anchors": [
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "source_group": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_id": "NASA-CR-66461",
+      "url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+      "verified_passages": [
+        {
+          "locator": "Section 3.2.4.4, PDF pp.119–120 / printed pp.111–112",
+          "paraphrase": "CE02 indicated output tracked temperature, eventually showing 11.28 W at turn-on and 19.93 W at turn-off in orbits 154–155. DSS received signal stayed essentially steady within each readout. The report used this independent observation to infer little actual output change and a CE02 telemetry-circuit malfunction."
+        },
+        {
+          "locator": "Anomaly summary, PDF p.173 / printed p.165",
+          "paraphrase": "The monitor samples RF using rectifying diodes and indicates total power, which can also depend on harmonic content. Temperature-related rectification drift is the proposed mechanism, not a uniquely verified current diode fault."
+        }
+      ],
+      "verification_method": "Opened original NASA PDF, read extracted passages, and visually checked PDF p.120."
+    },
+    {
+      "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "source_id": "MITLL-TROPICS-LESSONS-2025",
+      "url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+      "verified_passages": [
+        {
+          "locator": "Section 6, PDF/printed p.5",
+          "paraphrase": "Rotating contact resistance across temperature was noisy and outside requirements at MITLL but met requirements at the vendor. The paper identifies low humidity below 20% versus above 80% as a major environmental difference and discusses possible stick-slip."
+        },
+        {
+          "locator": "Section 6, PDF/printed pp.4–5",
+          "paraphrase": "CRC errors persisted after routing changes in the earlier qualification investigation. The later program-wide screening/rework is described separately; it must not be invented as a completed action in the synthetic comparison."
+        }
+      ],
+      "verification_method": "Opened original NASA-hosted author paper, read Section 6, and visually checked PDF p.5."
+    },
+    {
+      "task_id": "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-HELIX-005"
+      ],
+      "source_group": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_id": "NASA-CR-66461",
+      "url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+      "locator": "PDF physical p.173 / printed p.165, High TWTA Helix Current at First Turn-On",
+      "verified_source_boundary": "原报告对首次启动异常保留发射机械应力经温度循环释放、发射后内部压力缓慢衰减两种解释，没有从二者中唯一确诊。",
+      "new_design_not_historical_fact": "三次6/12/18小时启动、0/1/2温度循环、共变结构及上游排序均为新构造的合成情景；不是文献实际时序或新发现的Lunar事件。"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "source_group": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+      "url": "https://kjdzjs.spacejournal.cn/article/doi/10.3969/j.issn.1674-7135.2026.02.007",
+      "published_pdf_url": "https://kjdzjs.spacejournal.cn/cn/article/pdf/preview/f2124d75-67bc-4508-b88e-79845ac6f8ce.pdf",
+      "locator": "Space Electronic Technology 2026, 23(2):46–53; PDF pp.2–3 / printed pp.47–48 for FGM/ALC and TWT isolation; PDF p.4 / printed p.49 for modules; PDF p.5 / printed p.50 for gas and EMMI; PDF p.7 / printed p.52 for replacement validation.",
+      "verified_source_boundary": "出版者摘要和PDF确认：约4 dB整机下降后，作者通过多项地面排查定位LCAMP内两个微波模块的LNA氢中毒，并经更换合格模块和试验验证恢复。该完整证据链不能由初始功率幅度替代。",
+      "verification_limit": "This continuation could access publisher metadata/abstract but a renewed full-PDF request reached a CAPTCHA. Detailed page locators are inherited from the prior completed full-text review recorded in examples/p5c2_content_correction_review_2026-11-18.json and the unchanged corrected L0 card; this batch does not claim a new complete PDF verification or additional current ground-test evidence.",
+      "new_design_not_historical_fact": "两次重复测量、当前校准摘要、只给早期证据的截止边界和上游排序是合成设定，不是新增真实AIT事件。"
+    },
+    {
+      "task_id": "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "source_group": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "source_id": "FUSE-SPIE-2002-RWA",
+      "url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+      "locator": "Section 3, PDF physical p.5 / zero-based page index 4",
+      "verified_source_boundary": "2000年俯仰轮重启后过量拖曳数分钟后消失，Kapton接触磨损为供应商解释；2001年2月另一只偏航轮的拖曳消退约需三天，后来两次完全失效又属独立episode。不能借历史时间尺度确认新场景恢复。",
+      "new_design_not_historical_fact": "五分钟窗口、100到70的归一化指标、当前轮速与工况校核均为合成设定；不把源文献数分钟后消失写成当前结果。"
+    },
+    {
+      "task_id": "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "source_group": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_id": "NASA-LLIS-1416",
+      "url": "https://llis.nasa.gov/lesson/1416",
+      "locator": "Driving Event and Lessons Learned; Lesson Date 2004-05-10. Existing family chronology remains December 2000; title suffix (2001) is not a new event date.",
+      "verified_source_boundary": "NASA LLIS将低速长期运行后的润滑变化称为可能原因，近零速频繁振荡为可能促成因素；巡航期绝对零速且每三个月exercise另有条件化描述。历史记录不能填补当前轮身份和时间窗失配。",
+      "new_design_not_historical_fact": "RWA-2/RWA-3摘要失配、质量校核失败和2026年窗口全部是合成上游材料质量情景；不宣称Cassini发生过这种数据质量事件。"
+    }
+  ],
+  "curation_decisions": [
+    "Use the existing instruction strings and task types; the four dedicated abstention cases are evidence_sufficiency tasks, not a new schema category.",
+    "016 and 017 retain factual input measurement/test scope instead of adding target-style conclusion hints.",
+    "Independent AI review found a conclusion-writing directive in 017 LOG-173. It was moved to internal_review, preserving all test facts and comparison limitations in the model-visible input.",
+    "020 disposal_measures describes only the executed restart supported by LOG-020-01; post-action observations and recovery limitations remain in the separate evidence-backed analysis fields.",
+    "018 formal output describes observed covariation without authoring intent or an unrelated power-supply damage negation.",
+    "All six uncertainty sections assess evidence limitations, not synthetic provenance; synthetic status remains explicit in inputs, provenance, review and delivery.",
+    "The ML evidence ID and the processed log describing that same measurement are one lineage, not independent corroboration.",
+    "No new historical retrieval HIT is manufactured; all six use empty historical_cases and NO_HIT history context.",
+    "New packet multiplicity does not increase the number of source event families or certify statistical independence."
+  ],
+  "admission": {
+    "expert_adjudicated": 0,
+    "rights_cleared": 0,
+    "official_splits": 0,
+    "sft_records_emitted": 0,
+    "gold_eligible": false,
+    "training_authorized": false
+  }
+}

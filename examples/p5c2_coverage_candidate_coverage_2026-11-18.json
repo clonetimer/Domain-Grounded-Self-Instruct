@@ -1,0 +1,146 @@
+{
+  "schema_version": "dgsi-p5c2-coverage-candidate-coverage.v1",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-2026-11-18",
+  "snapshot": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18.json",
+  "collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5",
+  "totals": {
+    "packets": 21,
+    "event_families": 9,
+    "task_types": 6,
+    "conflict_reconciliation": 2,
+    "diagnostic_synthesis": 11,
+    "evidence_sufficiency": 5,
+    "handover_summary": 1,
+    "historical_case_reuse": 1,
+    "next_step_recommendation": 1,
+    "bound_l0_cards": 12,
+    "full_l0_cards": 13,
+    "primary_source_id_groups": 7,
+    "new_source_event_families": 0
+  },
+  "counting_note": "Task variants share source event families. These counts do not certify independent real incidents, statistical independence, expert correctness or training eligibility.",
+  "task_type_coverage": [
+    {
+      "task_type": "conflict_reconciliation",
+      "packet_count": 2,
+      "source_event_family_count": 2,
+      "task_ids": [
+        "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+        "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017"
+      ],
+      "status": "REVIEW_REQUIRED_CANDIDATE_COVERAGE"
+    },
+    {
+      "task_type": "diagnostic_synthesis",
+      "packet_count": 11,
+      "source_event_family_count": 8,
+      "task_ids": [
+        "L1-SEASAT-SLIPRING-SYNTH-001",
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+        "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+        "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+        "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+        "L1-CASSINI-RWA-DRAG-SYNTH-008",
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011"
+      ],
+      "status": "REVIEW_REQUIRED_CANDIDATE_COVERAGE"
+    },
+    {
+      "task_type": "evidence_sufficiency",
+      "packet_count": 5,
+      "source_event_family_count": 5,
+      "task_ids": [
+        "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+        "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+        "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+        "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+        "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021"
+      ],
+      "status": "REVIEW_REQUIRED_CANDIDATE_COVERAGE"
+    },
+    {
+      "task_type": "handover_summary",
+      "packet_count": 1,
+      "source_event_family_count": 1,
+      "task_ids": [
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015"
+      ],
+      "status": "REVIEW_REQUIRED_CANDIDATE_COVERAGE"
+    },
+    {
+      "task_type": "historical_case_reuse",
+      "packet_count": 1,
+      "source_event_family_count": 1,
+      "task_ids": [
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012"
+      ],
+      "status": "REVIEW_REQUIRED_CANDIDATE_COVERAGE"
+    },
+    {
+      "task_type": "next_step_recommendation",
+      "packet_count": 1,
+      "source_event_family_count": 1,
+      "task_ids": [
+        "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014"
+      ],
+      "status": "REVIEW_REQUIRED_CANDIDATE_COVERAGE"
+    }
+  ],
+  "dedicated_correct_abstention": {
+    "packet_count": 4,
+    "task_type": "evidence_sufficiency",
+    "not_a_new_task_type": true,
+    "task_ids": [
+      "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+      "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021"
+    ],
+    "patterns": [
+      "confounded_causal_trend",
+      "missing_layered_isolation",
+      "recovery_without_baseline_or_followup",
+      "upstream_identity_and_window_mismatch"
+    ]
+  },
+  "current_attempted_action_vs_proven_effect": {
+    "packet_count": 5,
+    "task_ids": [
+      "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020"
+    ]
+  },
+  "bound_source_event_classes": {
+    "FLIGHT_EVENT": 8,
+    "GROUND_TEST_EVENT": 4
+  },
+  "additions": {
+    "new_packet_count": 6,
+    "conflict_reconciliation": 2,
+    "dedicated_correct_abstention": 4,
+    "old_packet_objects_unchanged": 15,
+    "new_source_event_family_count": 0
+  },
+  "remaining_limits": [
+    "All 21 tasks are literature-derived synthetic candidates pending independent expert review.",
+    "Two conflict cases and four explicit abstention cases fill demonstrated structural gaps but do not establish broad domain coverage.",
+    "History reuse, next-step recommendation and handover each still have one task.",
+    "No new REAL case, independent incident family, official split or admitted SFT row is added.",
+    "Existing event-family grouping must be preserved for any later split; no split is assigned here."
+  ],
+  "admission": {
+    "expert_adjudicated": 0,
+    "rights_cleared": 0,
+    "official_splits": 0,
+    "sft_records_emitted": 0,
+    "gold_eligible": false,
+    "training_authorized": false
+  }
+}

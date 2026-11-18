@@ -1,0 +1,147 @@
+{
+  "schema_version": "dgsi-p5c2-coverage-candidate-preflight.v1",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-2026-11-18",
+  "current_collection_file_sha256": "7cd6d59cd00fb28f83d8b99f2e4ee38578a3f372bf2b445d587e1ef964a65bd7",
+  "unchanged_l0_file_sha256": "b4e9947958348c31dac519b7403f9f54db21bcd0c5df3051e3ed1f5112a9d905",
+  "validation": {
+    "schema_version": "dgsi-l1-collection-audit.v1",
+    "decision": "VALID_L1_COLLECTION",
+    "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-2026-11-18",
+    "track": "LITERATURE_DERIVED_SYNTHETIC",
+    "packet_count": 21,
+    "event_family_count": 9,
+    "source_fact_domain_review_status_counts": {
+      "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION": 12,
+      "DOMAIN_EXPERT_CONFIRMED": 0,
+      "DOMAIN_EXPERT_REJECTED": 0
+    },
+    "split_assignment_count": 0,
+    "split_audit_performed": false,
+    "packet_decisions": [
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW",
+      "READY_FOR_L1_EXPERT_REVIEW"
+    ],
+    "gold_eligible_count": 0,
+    "training_authorized": false
+  },
+  "projection": {
+    "schema_version": "dgsi-l1-model-projection-collection-preflight.v1",
+    "decision": "BLOCKED_PENDING_EXTERNAL_ADMISSION",
+    "track": "LITERATURE_DERIVED_SYNTHETIC",
+    "packet_count": 21,
+    "event_family_count": 9,
+    "collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5",
+    "internal_review_exported": false,
+    "sft_records_emitted": 0,
+    "gold_eligible": false,
+    "training_authorized": false
+  },
+  "global_lineage": {
+    "schema_version": "dgsi-l1-cross-collection-lineage-audit.v1",
+    "decision": "STRUCTURAL_PREFLIGHT_ONLY",
+    "collection_count": 1,
+    "task_count": 21,
+    "source_card_count": 13,
+    "canonical_target_family_count": 9,
+    "history_hit_count": 3,
+    "reviewed_alias_declaration_count": 0,
+    "track_task_counts": {
+      "LITERATURE_DERIVED_SYNTHETIC": 21
+    },
+    "track_family_counts": {
+      "LITERATURE_DERIVED_SYNTHETIC": 9
+    },
+    "split_check_mode": "EXISTING_ASSIGNMENTS_ONLY",
+    "gold_eligible_count": 0,
+    "training_authorized": false
+  },
+  "blank_intake_summary": {
+    "schema_version": "dgsi-c2-current-expert-intake.v1",
+    "decision": "CURRENT_EXPERT_INTAKE_REVIEW_ONLY",
+    "current_public_source_snapshot_matched": true,
+    "packet_count": 21,
+    "complete_scorecard_count": 0,
+    "incomplete_scorecard_count": 42,
+    "paired_review_count": 0,
+    "ten_dimension_rubric_validated_count": 0,
+    "pending_completion_count": 21,
+    "adjudication_status_counts": {
+      "PENDING_REVIEW_COMPLETION": 21,
+      "PENDING_REVIEWER_AUTHENTICATION": 0,
+      "PENDING_SECURE_ADJUDICATION": 0
+    },
+    "identity_authenticated": false,
+    "source_rights_verified": false,
+    "expert_adjudicated_count": 0,
+    "rights_cleared_count": 0,
+    "official_splits_assigned": false,
+    "sft_records_emitted": 0,
+    "gold_eligible": false,
+    "training_authorized": false
+  },
+  "blank_rights_intake_summary": {
+    "schema_version": "dgsi-c2-source-rights-intake-audit.v1",
+    "decision": "STRUCTURALLY_BOUND_RIGHTS_REVIEW_ONLY_NOT_CLEARANCE",
+    "collection_projection_sha256": "7e8bc4cdccc61d5d656cd14afe67611fee9f8cc4ccf50ab9f3aa556317e4dad5",
+    "distinct_source_document_count": 7,
+    "status_counts": {
+      "EVIDENCE_SUBMITTED_FOR_RIGHTS_REVIEW": 0,
+      "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW": 7,
+      "REUSE_DENIED": 0,
+      "UNRESOLVED": 0
+    },
+    "referenced_evidence_document_count": 0,
+    "rights_cleared_document_count": 0,
+    "source_rights_verified": false,
+    "expert_review_complete": false,
+    "not_for_sft": true,
+    "gold_eligible": false,
+    "official_splits_assigned": false,
+    "training_authorized": false,
+    "sft_records_emitted": 0,
+    "current_public_source_snapshot_matched": true
+  },
+  "old_cohort_forms_against_new_sources": [
+    {
+      "historical_cohort": "2026-11-17 original 15-task cohort",
+      "decision": "REJECTED_AS_EXPECTED",
+      "reason_code": "C2_EXPERT_HANDOFF_METADATA_INVALID"
+    },
+    {
+      "historical_cohort": "2026-11-18 corrected 15-task cohort",
+      "decision": "REJECTED_AS_EXPECTED",
+      "reason_code": "C2_EXPERT_HANDOFF_METADATA_INVALID"
+    }
+  ],
+  "review_kit": {
+    "filename": "DGSI_C2_21_tasks_COVERAGE_REVIEW_ONLY_20261118.zip",
+    "sha256": "e4d45f9179ab95e91b384fcb374b68ce85157ae1c95e07be724fa8ecc1cb3e09",
+    "packet_count": 21,
+    "event_family_count": 9,
+    "source_rights_document_count": 7,
+    "source_rights_bound_l0_fact_count": 12,
+    "reviewer_forms": "BLANK_UNAUTHENTICATED"
+  },
+  "training_authorized": false,
+  "gold_eligible": false,
+  "sft_records_emitted": 0
+}

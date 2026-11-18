@@ -13,7 +13,11 @@ CARDS=json.loads((ROOT/"examples/l0_public_literature_fact_cards_2026-11-15.json
 CORRECTED=json.loads((ROOT/"examples/l1_literature_synthetic_task_packets_c2_content_corrected_2026-11-18.json").read_text(encoding="utf-8"))
 CORRECTED_CARDS=json.loads((ROOT/"examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json").read_text(encoding="utf-8"))["cards"]
 COHORTS=((CANDIDATE,CARDS),(CORRECTED,CORRECTED_CARDS))
+COVERAGE_PATH=ROOT/"examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18.json"
 class P5C2IntegratedCandidateTests(unittest.TestCase):
+ def _coverage_candidate(self):
+  self.assertTrue(COVERAGE_PATH.is_file(),"The six coverage tasks have not been delivered")
+  return json.loads(COVERAGE_PATH.read_text(encoding="utf-8"))
  def test_candidate_collection_validates_without_promotion(self):
   for candidate,cards in COHORTS:
    with self.subTest(collection=candidate["collection_id"]):
@@ -51,4 +55,50 @@ class P5C2IntegratedCandidateTests(unittest.TestCase):
     self.assertEqual(r["sft_records_emitted"],0)
     self.assertFalse(r["internal_review_exported"])
     self.assertFalse(r["training_authorized"])
+ def test_coverage_candidate_preserves_baseline_and_stays_blocked(self):
+  candidate=self._coverage_candidate()
+  by_id={p["task_id"]:p for p in candidate["packets"]}
+  canonical=lambda value:json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False,separators=(",",":"))
+  for original in CORRECTED["packets"]:
+   self.assertEqual(canonical(by_id[original["task_id"]]),canonical(original))
+  self.assertEqual({p["case"]["provenance"]["source_group"] for p in candidate["packets"]},
+                   {p["case"]["provenance"]["source_group"] for p in CORRECTED["packets"]})
+  validation=validate_l1_task_packet_collection(candidate,source_fact_cards=CORRECTED_CARDS)
+  projection=audit_l1_synthetic_collection_projection(candidate,source_fact_cards=CORRECTED_CARDS)
+  self.assertEqual(validation["decision"],"VALID_L1_COLLECTION")
+  self.assertEqual(validation["packet_count"],21)
+  self.assertEqual(validation["event_family_count"],9)
+  self.assertEqual(validation["gold_eligible_count"],0)
+  self.assertEqual(projection["decision"],"BLOCKED_PENDING_EXTERNAL_ADMISSION")
+  self.assertEqual(projection["packet_count"],21)
+  self.assertEqual(projection["sft_records_emitted"],0)
+  self.assertFalse(projection["training_authorized"])
+ def test_coverage_tasks_keep_conflict_and_abstention_scopes_distinct(self):
+  candidate=self._coverage_candidate()
+  old_ids={p["task_id"] for p in CORRECTED["packets"]}
+  additions=[p for p in candidate["packets"] if p["task_id"] not in old_ids]
+  conflicts=[p for p in additions if p["case"]["task_type"]=="conflict_reconciliation"]
+  abstentions=[p for p in additions if p["case"]["task_type"]=="evidence_sufficiency"]
+  self.assertEqual(len(additions),6)
+  self.assertEqual(len(conflicts),2)
+  self.assertEqual(len(abstentions),4)
+  for p in conflicts:
+   self.assertEqual(p["formal_target"]["disposition"],"CONFLICTING_EVIDENCE")
+   self.assertTrue(p["formal_target"]["evidence_assessment"]["contradicting_refs"])
+  for p in abstentions:
+   self.assertIn(p["formal_target"]["disposition"],{"REQUEST_ADDITIONAL_ANALYSIS","INSUFFICIENT_CONTEXT"})
+   self.assertNotEqual(p["formal_target"]["cause_localization"]["certainty"],"CONFIRMED")
+   self.assertTrue(p["formal_target"]["evidence_assessment"]["missing_information"])
+   self.assertTrue(p["formal_target"]["follow_up_actions"])
+  quality=[p for p in abstentions if p["case"]["input"]["machine_diagnosis"]["status"]=="DATA_QUALITY_ERROR"]
+  self.assertEqual(len(quality),1)
+  self.assertEqual(quality[0]["formal_target"]["disposition"],"INSUFFICIENT_CONTEXT")
+  self.assertEqual(quality[0]["formal_target"]["cause_localization"]["status"],"UNRESOLVED")
+  self.assertEqual(quality[0]["formal_target"]["cause_localization"]["candidates"],[])
+  for p in additions:
+   context={x["evidence_id"] for x in p["case"]["input"]["knowledge_evidence"]}
+   assessment=p["formal_target"]["evidence_assessment"]
+   refs=assessment["supporting_refs"]+assessment["contradicting_refs"]
+   refs += [r for c in p["formal_target"]["cause_localization"]["candidates"] for r in c["supporting_refs"]]
+   self.assertFalse(context.intersection(refs),p["task_id"])
 if __name__=="__main__": unittest.main()
