@@ -68,6 +68,20 @@ Repository CI and package tests validate schema, provenance, source-bound eviden
 | DGSI vs SOTA construction quality | Protocol drafted; no matched generation arms executed | NOT RUN |
 | Downstream SFT benefit | No approved training corpus and no training run | NOT RUN |
 
+
+
+## 4.1 Method-level comparison from published papers (not a DGSI experiment result)
+
+| Method | Published construction mechanism | What it contributes to the comparison | Domain-grounding distinction to test |
+|---|---|---|---|
+| Self-Instruct (ACL 2023) | Bootstrap instructions, inputs and outputs from a language model; filter invalid or similar samples | Basic seed-driven self-generation baseline | Does source closure and explicit evidence/target separation reduce unsupported claims? |
+| Evol-Instruct / WizardLM (ICLR 2024) | Iteratively rewrite seed instructions into more complex instructions and mix evolved samples | Complexity/depth and breadth evolution baseline | Does complexity evolution improve diagnostic coverage without increasing false causal specificity? |
+| Auto-Instruct (Findings EMNLP 2023) | Generate diverse candidate instructions and rank them with an instruction-quality scorer trained over existing tasks | Generation-plus-ranking baseline | Does generic instruction ranking select technically plausible but weakly grounded spacecraft cases? |
+| Magpie (ICLR 2025) | Prompt aligned models with pre-query conversation templates to elicit user queries and responses | Aligned-model self-synthesis baseline | Does open-ended query synthesis preserve required ML/log/context evidence and operational constraints? |
+| DGSI | Source-bound L0/L1 facts, field provenance, model-visible ML/log/context packet, history cutoff, evidence validation and explicit uncertainty | Proposed domain-grounded construction method | Tests whether domain grounding improves evidence support, action fidelity and abstention under matched budgets |
+
+The published papers study broad instruction/alignment data and report results on their own models, data and benchmarks. Their headline scores are **not directly comparable** to DGSI and are not copied into this project's result table. The empirical comparison remains NOT RUN until matched arms are generated and blind-scored.
+
 ## 4. SOTA comparison status
 
 The preregistered comparison includes Self-Instruct, Evol-Instruct/WizardLM, Auto-Instruct, Magpie-style adaptation and DGSI. The first executable study should compare candidate-construction quality under a shared, permitted source pool and matched generator/model/token budget.
