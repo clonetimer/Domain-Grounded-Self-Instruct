@@ -1,0 +1,981 @@
+{
+  "schema_version": "dgsi-sota-construction-pilot.v1",
+  "experiment_id": "DGSI-SOTA-4CASE-PILOT-2026-11-18",
+  "status": "FROZEN_FOR_IN_SESSION_DRY_RUN_ONLY",
+  "purpose": "Evaluation-only comparison of five data-construction methods; not an SFT dataset and not a real-flight benchmark.",
+  "source_collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
+  "source_collection_git_blob_sha": "f141694748d5425b63b469b5b0b25064e1b402c8",
+  "source_collection_projection_sha256": "3927c976af6eb46a8842b68926fd893b021df69b034ae8981dc5ed136278521a",
+  "selected_case_count": 4,
+  "selected_cases": [
+    {
+      "case_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+      "source_track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "generator_view": {
+        "instruction": "请为接班工程师生成当前合成地面转发器测试的交接摘要，按【任务状态】【当前研判】【证据边界】【后续工作】【处置状态】组织report_text，并与结构化字段一致。交代截至analysis_cutoff已知的现象、上游合成ML候选及限制，列出优先复核事项；未提供责任人、完成时限或执行结果时不得补造。严格区分历史文献事实与当前合成输入，不得将文献模块替换及恢复写成当前事件已执行或已生效的处置。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / S_band_transponder_linearizer",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-011",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "S_band_transponder_linearizer",
+                "result": "LINEARIZER_LNA_GAIN_DEGRADATION",
+                "score": 0.81,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-011"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-B1",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：S频段转发器输出功率较基线下降。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-B1"
+            },
+            {
+              "log_id": "LOG-B2",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：线性化通道增益测试结果异常，行波管TWT检查尚未发现直接异常。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-B2"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-011",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "S_band_transponder_linearizer",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "S_band_transponder_linearizer",
+                  "S_band_TWTA_output_power_path",
+                  "transponder_performance"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_TRANSPONDER_PERFORMANCE_TEST",
+            "operating_mode": "S_band_transponder_RF_test",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-011",
+              "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+              "passage_id": "Space Electronic Technology 2026, 23(2):46–53, published PDF pp.2–5 and 7 (printed pp.47–50 and 52), Sections 1–2.2 and 4",
+              "claim_boundary": "This public L0 source supports only the source-stated event, cause wording and certainty. It does not verify this synthetic scenario.",
+              "excerpt": "历史地面整星测试中，排查支持TWT、EPC及外部射频链路正常，异常定位到LCAMP的Z2/Z6模块内低噪放芯片氢中毒。论文记录更换为氢含量合格的同型号另一批次模块，并经复测恢复整机性能；这些是历史案例信息，不是当前合成场景的隔离或处置结果。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z"
+        }
+      },
+      "judge_only_reference": {
+        "expected_output": {
+          "disposition": "ACCEPT_WITH_QUALIFICATION",
+          "phenomenon_analysis": "卫星转发器地面性能测试合成场景中，S频段输出功率低于基线，线性化通道增益测试结果异常；当前未提供行波管TWT内部故障的直接证据。",
+          "machine_result_interpretation": "上游合成ML将线性化通道LNA增益退化列为候选，排序分数0.81不是校准概率。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "S_band_transponder_linearizer",
+                "fault_mode": "linearizer_LNA_gain_degradation_candidate",
+                "supporting_refs": [
+                  "ML-E-011",
+                  "LOG-B1",
+                  "LOG-B2"
+                ],
+                "limitations": [
+                  "ML finding and logs are synthetic scenario values, not an actual flight or test record.",
+                  "Public source is a historical reference, not direct evidence for the synthetic scenario.",
+                  "Current synthetic inputs contain no module-atmosphere hydrogen result or chip failure analysis; hydrogen poisoning remains a historical hypothesis to test."
+                ]
+              }
+            ],
+            "affected_components": [
+              "S_band_TWTA_output_power_path",
+              "transponder_performance"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "当前合成输入支持线性化通道/LNA增益退化候选，未提供当前场景的氢含量或芯片失效分析证据，氢中毒仅为历史文献提供的待核实机制。文献根因位于LCAMP微波模块中的LNA芯片，历史排查支持TWT和EPC正常；这不能代替当前场景的分层隔离测试。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-011",
+              "LOG-B1",
+              "LOG-B2"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "当前合成任务的模块级替换验证",
+              "LNA芯片材料/封装气体分析",
+              "线性化通道与行波管TWT的隔离测试"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "The upstream ML result and logs are synthetic scenario values.",
+              "The public source constrains the historical mechanism but does not confirm this synthetic event.",
+              "No discriminating physical inspection result or upstream evidence-verification summary is supplied."
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "复核LCAMP模块增益，并补充与TWT、EPC的分层隔离测试",
+              "rationale": "区分当前模块增益异常和其他部件影响，避免把历史排查结论当作当前排除证据",
+              "priority": "HIGH"
+            },
+            {
+              "action": "核查模块批次与氢含量控制记录",
+              "rationale": "验证模块材料问题与增益退化的关系",
+              "priority": "MEDIUM"
+            },
+            {
+              "action": "在核对模块身份后补充材料、封装气体和芯片失效分析",
+              "rationale": "检验氢中毒假设，并与其他增益退化机制区分",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "【任务状态】合成地面转发器测试中，S频段输出功率低于基线，LCAMP增益测试异常。\n【当前研判】上游合成ML将线性化通道LNA增益退化列为候选；氢中毒是历史文献提供的待核实机制，当前输入尚不足以确认。\n【证据边界】当前ML和日志均为合成输入，缺少当前场景的封装气氛、芯片分析及模块替换验证；文献对TWT和EPC的排查结论不能代替当前隔离测试。\n【后续工作】优先复核LCAMP模块增益，并核对与TWT、EPC的隔离测试；随后核查批次和氢含量控制记录，补充材料及封装气体分析。\n【处置状态】当前输入未记录已执行处置；上述后续工作均为建议。"
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "Do not represent this scenario as a real flight or actual ground test record.",
+            "Do not promote source certainty to current-scene certainty.",
+            "交接摘要应保留地面测试属性、候选状态和缺失证据，不得把文献根因表述为当前合成事件确诊。"
+          ],
+          "alternative_hypotheses_to_check": [
+            "Check measurement-chain and configuration-specific alternatives."
+          ],
+          "counterexamples": [
+            "Similar symptoms can arise from other hardware/configuration variants."
+          ],
+          "reviewer_questions": [
+            "Does the target preserve the source certainty and event type?",
+            "Are fault source and affected components correctly separated?"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY"
+          ],
+          "status": "OPEN"
+        }
+      }
+    },
+    {
+      "case_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "source_track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "generator_view": {
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.4",
+              "model_id": "SYNTHETIC-ML-MODEL-016"
+            },
+            "analysis_scope": "COMM / SYNTHETIC-TWTA-016-A / transmitted carrier / 2026-04-13T08:10:00Z to 08:20:00Z",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-016-CARRIER",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "TWTA_RF_output_path",
+                "result": "TRANSMITTED_CARRIER_POWER_DECREASE",
+                "score": 0.87,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-016-MONITOR"
+                ],
+                "limitations": [
+                  "Synthetic ML result, score and IDs; not an executed model run.",
+                  "ML-E-016-MONITOR is the synthetic processed monitor evidence summarized in LOG-161; these are one evidence lineage, not independent confirmations.",
+                  "The synthetic ML finding consumed only the onboard monitor summary. It did not ingest LOG-162 or LOG-163."
+                ]
+              }
+            ],
+            "machine_summary": "合成上游ML把2026-04-13 08:10—08:20 UTC内同一路径约3 dB的监测指示下降解释为同幅度的真实发射载波功率下降，并优先考虑输出通路退化；该推断来自ML-E-016-MONITOR，尚未结合独立接收摘要。",
+            "known_limitations": [
+              "All ML content is synthetic.",
+              "No raw telemetry is supplied to the LLM.",
+              "A monitor indication and transmitted carrier power are different quantities."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-161",
+              "timestamp": "2026-04-13T08:21:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景的上游处理摘要：SYNTHETIC-SC-016的SYNTHETIC-TWTA-016-A在2026-04-13 08:10:00—08:20:00 UTC内，星上功率监测指示相对08:10:00基线下降约3 dB，设备温度同期变化。该摘要对应ML-E-016-MONITOR，仅描述监测通道指示；未独立测得真实发射载波或总RF功率下降。全部数值、窗口和身份均为合成设定。",
+              "author_role": "synthetic-monitor-analysis",
+              "source_ref": "SYNTHETIC-LOG:LOG-161"
+            },
+            {
+              "log_id": "LOG-162",
+              "timestamp": "2026-04-13T08:22:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景的独立地面接收处理摘要：对同一SYNTHETIC-SC-016、SYNTHETIC-TWTA-016-A、同一载波和同一08:10:00—08:20:00 UTC窗口，以08:10:00为基线，经标定并按已知链路因素归一化的接收载波功率变化不超过0.2 dB，未见与约3 dB监测指示下降相应的载波下降。证据来自地面RF接收链，不使用星上功率监测值；仅覆盖该载波，不提供总RF功率或谐波检查结果。全部比较结果均为合成设定。",
+              "author_role": "synthetic-ground-receiver-analysis",
+              "source_ref": "SYNTHETIC-LOG:LOG-162"
+            },
+            {
+              "log_id": "LOG-163",
+              "timestamp": "2026-04-13T08:23:00Z",
+              "log_type": "REVIEW",
+              "content": "合成可比性与质量核验摘要：LOG-161和LOG-162的设备身份、活动发射路径、时间基准、载波及调制模式已对齐；窗口内未切换发射路径。已检查接收机标定、固定增益与饱和状态、星地指向、距离修正和已记录链路变化，未发现足以掩盖3 dB载波下降的已检查效应；该场景声明比较容差为0.2 dB。星上监测通道的频谱响应和温度标定尚未独立验证，残余传播、频谱和归一化误差未全部排除。以上核验及容差均为合成结果，不是本项目实际测量或专家认可。",
+              "author_role": "synthetic-comparison-quality-review",
+              "source_ref": "SYNTHETIC-LOG:LOG-163"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-016",
+            "spacecraft_type": "literature-derived illustrative communication spacecraft",
+            "configuration": {
+              "equipment_scope": "twta_power_monitor",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION",
+              "active_equipment_id": "SYNTHETIC-TWTA-016-A",
+              "transmission_path": "SYNTHETIC-S-BAND-PATH-016-A",
+              "comparison_window_utc": "2026-04-13T08:10:00Z/2026-04-13T08:20:00Z",
+              "baseline_time_utc": "2026-04-13T08:10:00Z",
+              "received_quantity": "one identified carrier; not total RF output",
+              "monitor_spectral_response": "not independently verified in the synthetic input"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "twta_power_monitor",
+                  "twta_power_monitor_indication",
+                  "TWTA_RF_output_path",
+                  "ground_receiver_carrier_measurement_chain"
+                ],
+                "configuration_notes": [
+                  "All hardware identities and scope declarations are synthetic; the ground receiver is an external comparison path.",
+                  "The two measurement paths are independently generated within the scenario, with their comparison checks summarized in LOG-163."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_COMMUNICATION_PASS",
+            "operating_mode": "single_TWTA_path_carrier_transmission",
+            "recent_operations": [
+              "Synthetic continuous transmission during the stated comparison window; no path switch or repair is recorded."
+            ],
+            "environmental_context": [
+              "Synthetic equipment temperature changes during the comparison; no unique temperature-response mechanism is established."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "All current ML, measurement and quality-check summaries are synthetic.",
+              "No raw telemetry is provided.",
+              "The independent receiving summary covers the identified carrier only; no total-RF, harmonic-power or other TWTA-function measurement is included.",
+              "No executed remedial action is recorded."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-CONTEXT-016-LUNAR",
+              "source_id": "NASA-CR-66461",
+              "passage_id": "NASA CR-66461, Section 3.2.4.4, PDF pp.119–120 / printed pp.111–112; anomaly summary PDF p.173 / printed p.165",
+              "claim_boundary": "Historical literature context only. The source does not contain or verify the synthetic current measurements, 3 dB/0.2 dB values, quality checks, spacecraft identity or ML result.",
+              "excerpt": "历史Lunar Orbiter III报告中，CE02功率遥测随温度升高而增加，而深空站接收信号在同一读出期间基本恒定。报告据此判断真实TWTA输出未显著变化、异常位于遥测电路；监测二极管整流特性随温度偏移是提出的可能机理。本题的指示下降及独立接收核验均为另外构造的合成输入，不能把历史结论当作当前确诊。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-13T08:25:00Z"
+        }
+      },
+      "judge_only_reference": {
+        "expected_output": {
+          "disposition": "CONFLICTING_EVIDENCE",
+          "phenomenon_analysis": "当前合成窗口内，同一SYNTHETIC-TWTA-016-A的星上功率监测指示下降约3 dB（LOG-161）；独立地面接收链对同一载波、同一窗口和基线的归一化变化不超过0.2 dB（LOG-162）。LOG-163已提供设备、时间、调制与已知链路因素的可比性核验。这两种观测可同时成立；存在冲突的是把监测指示直接解释为同幅度真实载波下降的诊断主张。",
+          "machine_result_interpretation": "ML-FINDING-016-CARRIER将监测指示下降泛化为真实发射载波功率下降，0.87只是合成排序分数。ML-E-016-MONITOR与LOG-161属于同一证据来源，不能重复计为独立支持；它们只支持监测指示发生变化。LOG-162和LOG-163构成对该载波下降推断的当前反证，而非对LOG-161观测真实性的否定。应撤回未经支持的同幅度载波下降判断，优先保留监测链响应或标定异常候选；若后续发现可比性核验失效，再重新评价真实输出变化。",
+          "cause_localization": {
+            "status": "CANDIDATE_ONLY",
+            "candidates": [
+              {
+                "component": "twta_power_monitor",
+                "fault_mode": "monitor_response_or_calibration_anomaly_candidate",
+                "supporting_refs": [
+                  "LOG-161",
+                  "LOG-162",
+                  "LOG-163"
+                ],
+                "limitations": [
+                  "当前交叉证据使监测链解释更值得优先核查，但未定位到具体元件。",
+                  "温度同期变化不足以唯一确认温漂，更不能确诊某只二极管。",
+                  "所有观测及核验均为合成输入，结论限于场景内证据比较。"
+                ]
+              },
+              {
+                "component": "TWTA_RF_output_path",
+                "fault_mode": "transmitted_carrier_power_decrease_unverified",
+                "supporting_refs": [
+                  "ML-E-016-MONITOR"
+                ],
+                "limitations": [
+                  "仅由监测通道解释得到；LOG-162、LOG-163削弱了相同路径和窗口内同幅度载波下降的主张。",
+                  "残余链路、频谱或归一化错误仍可能改变比较结论；当前不能把该分支当作已确认输出通路故障。"
+                ]
+              }
+            ],
+            "affected_components": [
+              "twta_power_monitor_indication"
+            ],
+            "certainty": "CANDIDATE",
+            "mechanism_summary": "当前监测指示与独立载波观察的分歧，使监测链响应或标定异常成为优先候选，尚不能定位故障元件。接收载波稳定仅约束该路径、载波和时间窗，不能推出总RF功率、谐波或全部TWTA功能正常。历史CE02判断及二极管假设只提供判别背景，不作为当前原因支持。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "ML-E-016-MONITOR",
+              "LOG-161"
+            ],
+            "contradicting_refs": [
+              "LOG-162",
+              "LOG-163"
+            ],
+            "missing_information": [
+              "星上监测通道频谱响应、温度标定与参考链比对的上游核验摘要和记录索引",
+              "未纳入LOG-163检查范围的残余传播、频谱与归一化误差界限摘要",
+              "必要时同一输出路径的独立RF功率交叉核验摘要，明确其测量的是载波还是总功率"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "MODERATE",
+            "reasons": [
+              "在合成输入声明的可比性范围内，独立载波结果明确削弱ML的同幅度下降判断，已不再是完全缺少交叉证据。",
+              "监测链具体元件、温度机理和未检查的频谱/链路因素仍未确定。"
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "请求上游补充星上监测通道频谱响应、温度标定及与参考链比对的核验摘要和记录索引",
+              "rationale": "已给出的同窗交叉证据指向监测链优先检查；该结果可区分响应/标定问题与物理输出变化，而不预定二极管根因。",
+              "priority": "HIGH"
+            },
+            {
+              "action": "补充LOG-163范围外的残余链路误差界限；若仍足以改变判断，再取得同路径独立RF功率交叉核验摘要",
+              "rationale": "不重复已明确给出的时间、路径和接收机核验；若剩余误差足以掩盖3 dB变化，应降低当前比较权重，并区分载波与总功率。",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "【冲突主张】合成ML-FINDING-016-CARRIER以LOG-161对应的监测指示下降约3 dB，推断同一窗口内真实发射载波同幅度下降；分数0.87不是概率。\n【当前比较】LOG-162显示同设备、同路径、同载波、同基线窗口的独立归一化接收变化不超过0.2 dB；LOG-163已核对时间、路径、调制、接收机及已知链路因素。这是对ML泛化判断的反证，不否认监测指示确有变化；两种观测能够并存。\n【协调结论】不接受真实载波同幅度下降已获证实。监测链响应或标定异常应优先核查，具体元件和温度机理仍未知；若可比性条件随后被推翻，再重评真实输出变化。接收载波稳定不能扩写为总RF或全部TWTA功能正常。\n【后续与处置】补充监测链响应/标定及剩余链路误差界限的上游核验摘要，必要时作同路径独立功率比较。当前输入未记录处置，建议不等于执行。历史Lunar结论仅作背景，所有当前观测、QA和ML均为合成值。"
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "区分观测可以共存和上游物理解释被反证。",
+            "当前独立核验已经给出，不得因synthetic标记而抹去其场景内证据价值；也不得将其写成真实测量。",
+            "仅撤回未经支持的载波下降判断，不把总RF健康或二极管根因确诊。"
+          ],
+          "alternative_hypotheses_to_check": [
+            "监测链响应或标定异常。",
+            "未覆盖的频谱、链路或归一化误差改变载波比较。"
+          ],
+          "counterexamples": [
+            "接收载波稳定不要求总RF功率及谐波内容完全不变。"
+          ],
+          "reviewer_questions": [
+            "是否把反证明确指向ML推断而不是其中一份观测？",
+            "是否只要求尚未给出的核验摘要？",
+            "是否保持当前支持引用与历史CONTEXT隔离？"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY",
+            "SAME_WINDOW_INDEPENDENT_MEASUREMENT_COMPARISON",
+            "PHYSICAL_MECHANISM_NOT_CONFIRMED"
+          ],
+          "status": "OPEN"
+        }
+      }
+    },
+    {
+      "case_id": "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "source_track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_event_family": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "generator_view": {
+        "instruction": "请依据当前合成输入，分别判断是否足以确认异常现象、定位受影响接口和确认物理根因；列明可支持的结论、不能排除的解释、缺失的关键证据及优先补证动作。历史文献与已否决历史案例仅作CONTEXT，不得作为当前根因的确证；区分已记录处置与建议。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.4",
+              "model_id": "SYNTHETIC-ML-MODEL-020"
+            },
+            "analysis_scope": "ADCS / synthetic_pitch_reaction_wheel",
+            "status": "NORMAL",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-020-A",
+                "finding_type": "OTHER",
+                "target": "synthetic_pitch_reaction_wheel",
+                "result": "RECOVERY_CONFIRMED_FROM_RELATIVE_DRAG_DECREASE",
+                "score": null,
+                "score_semantics": "No numeric score is supplied; the result is a synthetic upstream label.",
+                "supporting_evidence_ids": [
+                  "ML-E-020-A"
+                ],
+                "limitations": [
+                  "Synthetic scenario output; not an actual upstream model run.",
+                  "No healthy reference interval or applicable recovery criterion is supplied.",
+                  "Observation covers only the first five minutes after the synthetic restart."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream output declares recovery from a relative decrease only; it does not supply an absolute healthy comparator or sustained follow-up.",
+            "known_limitations": [
+              "All findings and scores are synthetic scenario inputs.",
+              "No raw telemetry is supplied to the LLM.",
+              "The normalization origin is not a healthy baseline.",
+              "No effective observations after the cutoff are supplied."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-020-01",
+              "timestamp": "2026-11-17T08:00:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：当前俯仰轴反作用轮已完成一次重启；日志只记录动作完成，没有给出修复成功结论。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-020-01"
+            },
+            {
+              "log_id": "LOG-020-02",
+              "timestamp": "2026-11-17T08:05:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：重启后08:00–08:05Z有效观察窗口内轮速非零，拖曳指标由窗口起点归一化的100降至70相对单位。100只是该窗口归一化起点，不是健康基线；上游已核对该窗口内指标定义、转速区间、温度与控制状态可比。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-020-02"
+            },
+            {
+              "log_id": "LOG-020-03",
+              "timestamp": "2026-11-17T08:05:00Z",
+              "log_type": "REVIEW",
+              "content": "合成场景：当前包未提供本轮型在对应工况下的健康区间、恢复判据或08:05Z之后的有效状态摘要。任务请求判断是否足以签署已恢复正常及故障已排除；当前材料的有效观察覆盖仅为08:00–08:05Z。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-020-03"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-020",
+            "spacecraft_type": "literature-derived illustrative spacecraft configuration",
+            "configuration": {
+              "equipment_scope": "synthetic_pitch_reaction_wheel",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION",
+              "wheel_materials_and_clearance": "Not supplied; no Kapton lining or FUSE-equivalent geometry is assumed.",
+              "drag_indicator": "Same-definition relative index; smaller values in the supplied window indicate relative reduction only."
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "ADCS",
+                "components": [
+                  "synthetic_pitch_reaction_wheel",
+                  "synthetic_attitude_control_system"
+                ],
+                "configuration_notes": [
+                  "Illustrative synthetic hardware context; not asserted as the source mission hardware configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_OPERATION",
+            "operating_mode": "post_restart_summary_review",
+            "recent_operations": [
+              "LOG-020-01记录当前合成轮组一次重启已完成。"
+            ],
+            "environmental_context": [
+              "Only the explicit comparison conditions in the synthetic logs are available."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "The normalization origin is not a healthy baseline.",
+              "No effective observations after the cutoff are supplied."
+            ]
+          },
+          "analysis_cutoff": "2026-11-17T08:05:00Z",
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-020",
+              "source_id": "FUSE-SPIE-2002-RWA",
+              "passage_id": "Section 3, PDF physical p.5 / zero-based page index 4; retrieved lines 175–189 and 224–226.",
+              "claim_boundary": "Historical source context only. It supports the stated historical mechanism and certainty, not current synthetic observations, diagnosis, test results or disposal execution.",
+              "excerpt": "FUSE 2000年俯仰轮重启后过量拖曳数分钟后消失，供应商将其与Kapton接触磨损假设相联系。2001年2月偏航轮消退耗时约三天，后续完全失效又属其他episode；这些历史结果不决定当前合成轮组的恢复状态。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null
+        }
+      },
+      "judge_only_reference": {
+        "expected_output": {
+          "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+          "phenomenon_analysis": "合成日志明确记录一次重启。随后五分钟有效窗口内轮速非零，拖曳指标由100降至70相对单位，较窗口起点下降30%；100为归一化起点，不是健康参考值。",
+          "machine_result_interpretation": "上游合成输出把相对下降标成NORMAL和RECOVERY_CONFIRMED，但没有给出健康区间或覆盖恢复判据的观察摘要。这个正常/恢复标签超过了其支持材料；可保留相对改善事实，不能接受已恢复结论。",
+          "cause_localization": {
+            "status": "UNRESOLVED",
+            "candidates": [],
+            "affected_components": [],
+            "certainty": "UNRESOLVED",
+            "mechanism_summary": "FUSE历史中重启后拖曳消失及Kapton磨损解释不能填补当前缺失的基线和后续观察。当前尚不能判断指标终值正常还是仍超限，也没有支持Kapton已磨除、任何物理根因已消除或任务控制能力已恢复的证据。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "LOG-020-01",
+              "LOG-020-02",
+              "LOG-020-03"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "当前轮型、指标定义及对应转速/温度/控制状态的健康参考区间和恢复判据，以及终值与该区间的比较。",
+              "已取得的后续有效观察摘要、覆盖时长和工况可比性；不足时保留观察缺口，不虚构通用恢复等待时长。",
+              "若签署范围涉及任务恢复，还需当前姿态指向、控制裕度等适用验收结果摘要。"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "归一化下降只有相对信息，不能判断是否进入健康区间。",
+              "有效观察止于五分钟，不能判断其后的持续性或复发情况。",
+              "当前没有具体机械机理、根因消除或任务级恢复验证。"
+            ]
+          },
+          "disposal_status": "RECORDED",
+          "disposal_measures": [
+            {
+              "measure": "合成场景内已完成一次俯仰轴反作用轮重启。",
+              "measure_type": "EXECUTED",
+              "evidence_refs": [
+                "LOG-020-01"
+              ]
+            }
+          ],
+          "follow_up_actions": [
+            {
+              "action": "请上游给出当前轮型适用的健康区间和恢复判据，并比较现有终值。",
+              "rationale": "基线缺失时继续只报告改善；若终值仍超限，再依据这一新阳性结果报告未满足判据。",
+              "priority": "HIGH"
+            },
+            {
+              "action": "核对已经取得的后续有效摘要及其工况和时间覆盖。",
+              "rationale": "只有覆盖适用恢复判据的稳定结果才能支持相应观察范围内恢复；没有后续材料不等于没有复发。",
+              "priority": "HIGH"
+            },
+            {
+              "action": "如需要任务级恢复结论，核对已有指向和控制裕度验收摘要。",
+              "rationale": "轮速非零和拖曳下降不足以证明姿态控制能力恢复；不提出新的重启或轮速命令。",
+              "priority": "MEDIUM"
+            }
+          ],
+          "report_text": "暂不能签署反作用轮已恢复正常或故障已排除。当前合成日志支持重启已经执行，以及随后五分钟内轮速非零、拖曳指标相对下降30%。没有健康参考区间和后续有效观察，终值是否正常及改善是否持续都未确定；这也不能反向证明当前仍异常。先补齐适用基线、恢复判据和已有后续摘要，再限定恢复结论的范围。已记录的重启是处置尝试，不是修复成功证据。"
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "本任务只使用合成上游摘要；文献不是当前物理状态或处置结果的直接证据。",
+            "同时阻止已恢复和仍异常两种无依据结论；保留重启EXECUTED与其后相对趋势，不能偷带012的健康基线。"
+          ],
+          "alternative_hypotheses_to_check": [
+            "当前轮型、指标定义及对应转速/温度/控制状态的健康参考区间和恢复判据，以及终值与该区间的比较。",
+            "已取得的后续有效观察摘要、覆盖时长和工况可比性；不足时保留观察缺口，不虚构通用恢复等待时长。",
+            "若签署范围涉及任务恢复，还需当前姿态指向、控制裕度等适用验收结果摘要。"
+          ],
+          "counterexamples": [
+            "若仍使用012的相同输入、相同历史HIT或以Kapton定位为主要目标，仅在末尾加尚未恢复，应删除该新增条目。"
+          ],
+          "reviewer_questions": [
+            "是否明确保留请求中不能支持的结论，并保留输入所支持的观察？",
+            "是否把缺失材料误写成事件未发生，或把输入质量失败误写成设备健康？"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY",
+            "CORRECT_ABSTENTION_CANDIDATE",
+            "RECORDED_ACTION_NOT_PROVEN_RECOVERY",
+            "RELATIVE_TREND_WITHOUT_HEALTHY_BASELINE",
+            "CENSORED_FOLLOW_UP"
+          ],
+          "status": "OPEN"
+        }
+      }
+    },
+    {
+      "case_id": "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021",
+      "source_track": "LITERATURE_DERIVED_SYNTHETIC",
+      "source_event_family": "LITERATURE-DERIVED:CASSINI-RWA-LOW-SPEED-2000-12",
+      "source_fact_refs": [
+        "LIT-CASSINI-RWA-DRAG-007"
+      ],
+      "generator_view": {
+        "instruction": "请依据当前合成输入，分别判断是否足以确认异常现象、定位受影响接口和确认物理根因；列明可支持的结论、不能排除的解释、缺失的关键证据及优先补证动作。历史文献与已否决历史案例仅作CONTEXT，不得作为当前根因的确证；区分已记录处置与建议。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.4",
+              "model_id": "SYNTHETIC-ML-MODEL-021"
+            },
+            "analysis_scope": "ADCS / synthetic_rwa_2",
+            "status": "DATA_QUALITY_ERROR",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-021-A",
+                "finding_type": "DATA_QUALITY",
+                "target": "synthetic_upstream_diagnosis_binding",
+                "result": "WHEEL_ID_AND_WINDOW_MISMATCH",
+                "score": null,
+                "score_semantics": "No numeric score is supplied; the result is a synthetic upstream label.",
+                "supporting_evidence_ids": [
+                  "ML-E-021-A"
+                ],
+                "limitations": [
+                  "Synthetic scenario output; not an actual upstream model run.",
+                  "The only symptom summary belongs to synthetic RWA-3 and an earlier window."
+                ]
+              },
+              {
+                "finding_id": "ML-FINDING-021-B",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "synthetic_rwa_2",
+                "result": "INVALIDATED_LUBRICATION_CANDIDATE_FROM_MISBOUND_SUMMARY",
+                "score": null,
+                "score_semantics": "No numeric score is supplied; the result is a synthetic upstream label.",
+                "supporting_evidence_ids": [
+                  "ML-E-021-B"
+                ],
+                "limitations": [
+                  "Synthetic scenario output; not an actual upstream model run.",
+                  "Retained for provenance trace only; unusable for current hardware assessment after the quality gate failed.",
+                  "No valid current-wheel symptom summary is supplied."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic DATA_QUALITY_ERROR: the header names RWA-2 at 08:00–08:20Z while the sole symptom-summary manifest names RWA-3 at 07:00–07:20Z. The prior physical candidate remains in the package for traceability only.",
+            "known_limitations": [
+              "All findings and scores are synthetic scenario inputs.",
+              "No raw telemetry is supplied to the LLM.",
+              "No valid symptom summary is bound to the current RWA-2 window.",
+              "No independently validated health assessment for current RWA-2 is supplied."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-021-01",
+              "timestamp": "2026-11-17T08:21:00Z",
+              "log_type": "REVIEW",
+              "content": "合成场景：当前任务对象为SYNTHETIC-RWA-2，评估窗口为2026-11-17 08:00–08:20Z。诊断header也标记该轮号和窗口。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-021-01"
+            },
+            {
+              "log_id": "LOG-021-02",
+              "timestamp": "2026-11-17T08:22:00Z",
+              "log_type": "REVIEW",
+              "content": "合成场景：唯一用于拖曳升高和近零速振荡判断的摘要manifest标记SYNTHETIC-RWA-3、2026-11-17 07:00–07:20Z。质量校核确认其与header的轮号和窗口均不一致，尚未建立可验证映射，因此不能用于当前RWA-2窗口判断。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-021-02"
+            },
+            {
+              "log_id": "LOG-021-03",
+              "timestamp": "2026-11-17T08:23:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：质量复核后状态为DATA_QUALITY_ERROR；此前按header形成的RWA-2润滑不足候选保留在包中供追踪，但尚未重算、不能作为当前有效物理诊断。当前包无第二份可归属RWA-2评估窗口的拖曳/转速摘要，也没有当前已执行处置记录。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-021-03"
+            },
+            {
+              "log_id": "LOG-021-04",
+              "timestamp": "2026-11-17T08:24:00Z",
+              "log_type": "OPERATOR_NOTE",
+              "content": "合成场景：评估请求判断能否签署当前RWA-2润滑不足故障，或在旧候选不可用时签署当前轮无故障。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-021-04"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-021",
+            "spacecraft_type": "literature-derived illustrative spacecraft configuration",
+            "configuration": {
+              "equipment_scope": "synthetic_rwa_2",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION",
+              "current_assessment_window": "2026-11-17T08:00:00Z/2026-11-17T08:20:00Z",
+              "wheel_hardware_compatibility_with_cassini": "UNKNOWN"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "ADCS",
+                "components": [
+                  "synthetic_rwa_2",
+                  "synthetic_rwa_3"
+                ],
+                "configuration_notes": [
+                  "Illustrative synthetic hardware context; not asserted as the source mission hardware configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_OPERATION",
+            "operating_mode": "upstream_quality_gate_review",
+            "recent_operations": [
+              "当前进行合成诊断包身份与时间窗口核验；未提供任何当前轮组操作执行记录。"
+            ],
+            "environmental_context": [
+              "Only the explicit comparison conditions in the synthetic logs are available."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No valid symptom summary is bound to the current RWA-2 window.",
+              "No independently validated health assessment for current RWA-2 is supplied."
+            ]
+          },
+          "analysis_cutoff": "2026-11-17T08:25:00Z",
+          "historical_cases": [],
+          "knowledge_evidence": [
+            {
+              "evidence_id": "L0-E-021",
+              "source_id": "NASA-LLIS-1416",
+              "passage_id": "Driving Event and Lessons Learned; Lesson Date 2004-05-10. Existing family chronology remains December 2000; title suffix (2001) is not a new event date.",
+              "claim_boundary": "Historical source context only. It supports the stated historical mechanism and certainty, not current synthetic observations, diagnosis, test results or disposal execution.",
+              "excerpt": "NASA LLIS将Cassini低速长期运行后的润滑变化列为可能原因，并讨论近零速频繁振荡；巡航期绝对零速并定期exercise另有条件化描述。来源没有当前合成轮组的身份、窗口、健康或故障证据。"
+            }
+          ],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null
+        }
+      },
+      "judge_only_reference": {
+        "expected_output": {
+          "disposition": "INSUFFICIENT_CONTEXT",
+          "phenomenon_analysis": "当前可确认的是合成诊断包存在轮号与时间窗绑定错误：header指向RWA-2的08:00–08:20Z窗口，唯一现象摘要manifest却属于RWA-3的07:00–07:20Z窗口。当前RWA-2的高拖曳、低速运行或健康状态均未由有效摘要建立。",
+          "machine_result_interpretation": "上游明确报DATA_QUALITY_ERROR。包内残留的RWA-2润滑不足候选来自尚未校正的header归属，不能作为当前有效物理诊断；也不能因为该候选不可用就把当前RWA-2改判正常。",
+          "cause_localization": {
+            "status": "UNRESOLVED",
+            "candidates": [],
+            "affected_components": [],
+            "certainty": "UNRESOLVED",
+            "mechanism_summary": "Cassini历史中的低速润滑不足为可能机理，依赖可归属的低速/拖曳观察和构型条件。本情景首先缺少当前轮的有效现象证据，不能进入机理确诊。RWA-3旧窗口的摘要不等于当前RWA-2发生低速驻留或润滑故障。"
+          },
+          "evidence_assessment": {
+            "supporting_refs": [
+              "LOG-021-01",
+              "LOG-021-02",
+              "LOG-021-03"
+            ],
+            "contradicting_refs": [],
+            "missing_information": [
+              "与当前RWA-2及08:00–08:20Z绑定的更正或重新生成摘要，包含设备ID、窗口、来源标识、质量状态及所用基线，并核对header、manifest与finding的对应关系。",
+              "身份与质量核验通过后，同一窗口的拖曳和转速分段摘要及健康参考；若需评估润滑机理，再核对近零速驻留/频繁过零与绝对零速静止的区别、轮型和运行条件。"
+            ]
+          },
+          "historical_experience_relevance": [],
+          "uncertainty": {
+            "level": "HIGH",
+            "reasons": [
+              "唯一现象摘要无法归属当前设备与评估窗口。",
+              "没有独立可用的当前RWA-2结果，因此既无当前故障证据也无健康证据。",
+              "历史经验不能修复当前输入的身份或时间错配。"
+            ]
+          },
+          "disposal_status": "NOT_RECORDED",
+          "disposal_measures": [],
+          "follow_up_actions": [
+            {
+              "action": "请上游更正或重生成当前RWA-2窗口的摘要，并完成设备、窗口、来源和质量状态的对应核验。",
+              "rationale": "仅修改header文字或保留无法核实的映射不足以解除INSUFFICIENT_CONTEXT。",
+              "priority": "HIGH"
+            },
+            {
+              "action": "在核验通过后，先按适用基线评价当前拖曳与转速摘要，再决定是否分析润滑机理。",
+              "rationale": "若有效结果在基线内，只能报告覆盖范围内所查指标未见异常；若高拖曳与低速相关，再评估候选和替代解释，不能直接由历史确诊。",
+              "priority": "HIGH"
+            }
+          ],
+          "report_text": "当前不能签署RWA-2润滑不足故障，也不能签署其无故障或已恢复。DATA_QUALITY_ERROR对应的是具体的轮号与窗口失配：唯一现象摘要属于另一只轮的较早窗口，不能建立当前RWA-2的拖曳或近零速运行事实。先取得身份、窗口和质量核验通过的上游摘要，再评价健康状态与可能机理。当前输入未记录处置；历史Cassini经验只能作为条件化背景。"
+        },
+        "internal_review": {
+          "not_for_sft": true,
+          "curator_prompts": [
+            "本任务只使用合成上游摘要；文献不是当前物理状态或处置结果的直接证据。",
+            "phenomenon_analysis只能陈述绑定失败，不得继承RWA-3旧窗口现象；cause candidates和affected_components应为空，不能以NO_FAULT_INDICATED替代缺证。"
+          ],
+          "alternative_hypotheses_to_check": [
+            "与当前RWA-2及08:00–08:20Z绑定的更正或重新生成摘要，包含设备ID、窗口、来源标识、质量状态及所用基线，并核对header、manifest与finding的对应关系。",
+            "身份与质量核验通过后，同一窗口的拖曳和转速分段摘要及健康参考；若需评估润滑机理，再核对近零速驻留/频繁过零与绝对零速静止的区别、轮型和运行条件。"
+          ],
+          "counterexamples": [
+            "若最终作者把失配摘要仍写成当前已知高拖曳，或只是再要求润滑结构与速度数据，就丢失了质量失败学习目标。"
+          ],
+          "reviewer_questions": [
+            "是否明确保留请求中不能支持的结论，并保留输入所支持的观察？",
+            "是否把缺失材料误写成事件未发生，或把输入质量失败误写成设备健康？"
+          ],
+          "quality_flags": [
+            "LITERATURE_DERIVED_SYNTHETIC",
+            "NOT_GOLD",
+            "NO_REAL_ML_RUN",
+            "NO_RAW_TELEMETRY",
+            "CORRECT_ABSTENTION_CANDIDATE",
+            "UPSTREAM_DATA_QUALITY_ERROR",
+            "WHEEL_AND_WINDOW_BINDING_MISMATCH",
+            "NO_CURRENT_PHYSICAL_STATE_INFERENCE"
+          ],
+          "status": "OPEN"
+        }
+      }
+    }
+  ],
+  "arms": [
+    {
+      "arm_id": "M0",
+      "method": "Self-Instruct",
+      "procedure": "Use the supplied task seed and same evidence bundle to generate one instruction/input/answer record; no DGSI-specific validation feedback."
+    },
+    {
+      "arm_id": "M1",
+      "method": "Evol-Instruct/WizardLM-style",
+      "procedure": "Apply one depth evolution to the supplied seed (increase reasoning constraints and diagnostic specificity only where evidence supports it), then generate one record; preserve the same evidence and prohibit new facts."
+    },
+    {
+      "arm_id": "M2",
+      "method": "Auto-Instruct-style",
+      "procedure": "Generate one candidate instruction/record and self-rank it against a frozen instruction-quality checklist; no DGSI evidence/provenance validators. This is an adaptation, not a claim of exact original-method reproduction."
+    },
+    {
+      "arm_id": "M3",
+      "method": "Magpie-style adaptation",
+      "procedure": "Use a documented pre-query prompt to elicit a user query and assistant answer from the same evidence bundle; label as adaptation, not official Magpie reproduction."
+    },
+    {
+      "arm_id": "M4",
+      "method": "DGSI",
+      "procedure": "Apply DGSI L0/L1 provenance, evidence/target separation, upstream ML/log/context handling, uncertainty, history and action-state constraints."
+    }
+  ],
+  "controls": {
+    "generator_model": "GPT-6 (current ChatGPT session; interactive generation only)",
+    "generator_model_family": "OpenAI GPT-6",
+    "judge_model": null,
+    "judge_model_family": null,
+    "generation_calls": 20,
+    "judging_calls": 4,
+    "total_calls": 24,
+    "max_output_tokens_per_generation": 1200,
+    "max_output_tokens_per_judging_call": 1800,
+    "responses_store": false,
+    "blind_judging": true,
+    "same_source_and_evidence_per_case": true,
+    "no_raw_telemetry": true,
+    "evaluation_only": true,
+    "max_budget_usd": 5,
+    "stop_on_budget_exceeded": true,
+    "independent_judge_status": "NOT_AVAILABLE_IN_CURRENT_TOOL_SESSION",
+    "live_external_api_calls": 0,
+    "live_generation_calls": 0,
+    "live_judging_calls": 0,
+    "api_key_required": false,
+    "execution_note": "The user has no API key. This session has no exposed callable independent model endpoint or model-switch tool. The assistant may draft candidates using the current GPT-6 session, but a second pass by the same model is not an independent judge and must not be represented as one. Wait for an actual separately callable judge model before claiming the authorized independent-judge experiment is complete.",
+    "budget_usd": 0
+  },
+  "metrics": [
+    "claim_evidence_support",
+    "source_attribution",
+    "unsupported_specificity",
+    "causal_calibration",
+    "uncertainty_abstention",
+    "conflict_reconciliation",
+    "historical_context_safety",
+    "action_state_fidelity",
+    "schema_validity",
+    "candidate_diversity"
+  ],
+  "critical_failures": [
+    "fabricated evidence/log/ML result",
+    "unsupported definitive root cause",
+    "hidden target leakage",
+    "history treated as current evidence",
+    "false real-flight or expert approval claim"
+  ],
+  "exclusions": [
+    "No SFT training",
+    "No Gold promotion",
+    "No source-rights clearance claim",
+    "No real-flight performance claim",
+    "No training-data export"
+  ]
+}

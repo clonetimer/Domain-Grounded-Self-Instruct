@@ -115,3 +115,12 @@ The ongoing [development experience record](docs/DEVELOPMENT_EXPERIENCE_TOPOLOGY
 [Lessons 121–126 on conflict and justified abstention](docs/DEVELOPMENT_EXPERIENCE_C2_COVERAGE_TASKS_20261118.md) record the six-task extension. This companion keeps the already issued RC4 package unchanged while documenting new content-design findings.
 
 [Lessons 127–132 on processing a returned preliminary review](docs/DEVELOPMENT_EXPERIENCE_C2_REVIEW_RETURN_20261118.md) cover version reconciliation, evidence-sensitive disposition, rights dependencies and complete review handoffs.
+
+
+## DGSI Skill product closeout
+
+The Skill product is being closed out separately from any future formal SFT dataset. The 21 literature-derived tasks, five user-provided L0 case facts and AAS RUN-03F fixture are Evaluation Suite materials; they are not automatically Gold or training data. The five deliverables and acceptance boundary are defined in [PRODUCT_CLOSEOUT_PLAN.md](docs/PRODUCT_CLOSEOUT_PLAN.md).
+
+The closeout includes a fifth deliverable: a matched-budget comparison of DGSI data construction against Self-Instruct, Evol-Instruct/WizardLM, Auto-Instruct and a clearly labelled Magpie-style adaptation. The protocol first compares candidate-data quality; downstream SFT comparison is conditional on a separate authorized training cohort and untouched event-family holdout. See [DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md](docs/DGSI_SOTA_DATA_CONSTRUCTION_COMPARISON.md).
+
+The frozen [Evaluation Suite manifest](examples/dgsi_evaluation_suite_manifest_2026-11-18.json) and [effectiveness report](docs/DGSI_SKILL_EFFECTIVENESS_REPORT_2026-11-18.md) distinguish measured integration/engineering evidence from unrun live model comparisons. The clean-environment [user/developer handoff](docs/PRODUCT_USER_DEVELOPER_HANDOFF.md) contains exact install and verification commands.
