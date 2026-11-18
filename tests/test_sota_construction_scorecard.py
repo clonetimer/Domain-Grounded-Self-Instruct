@@ -14,6 +14,7 @@ from dgsi.sota_construction_scorecard import ARMS, DIMENSIONS, ScorecardError, s
 def trial(arm="M0", group="G1", track="LITERATURE_DERIVED_SYNTHETIC", status="PENDING"):
     item = {
         "trial_id": f"{arm}-{group}", "source_group": group, "event_family": group,
+        "comparison_unit_id": f"SLOT-{group}", "requested_task_type": "diagnostic_synthesis",
         "arm": arm, "track": track, "attempts": 1, "accepted_candidates": 1,
         "generation_tokens": 900, "token_budget": 1000,
         "critical_failures": [], "review_status": status,
@@ -56,6 +57,7 @@ class ScorecardTests(unittest.TestCase):
         rows = [trial(a) for a in ARMS]
         rows[-1]["source_group"] = "OTHER"
         rows[-1]["event_family"] = "OTHER"
+        rows[-1]["comparison_unit_id"] = "SLOT-OTHER"
         self.assertFalse(summarize_construction_trials(doc(rows))["source_group_budget_matched"])
         rows = [trial(a) for a in ARMS]
         rows[-1]["token_budget"] = 999
@@ -159,6 +161,39 @@ class ScorecardTests(unittest.TestCase):
         r = trial()
         r["scores"] = None
         self.reject("SOTA_PENDING_HAS_SCORES", doc([r]))
+
+    def test_same_event_family_different_input_units_not_comparable(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["comparison_unit_id"] = "SLOT-UNPAIRED"
+        result = summarize_construction_trials(doc(rows))
+        self.assertTrue(result["comparison_units_complete"])
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_same_source_family_different_requested_task_not_comparable(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["requested_task_type"] = "evidence_sufficiency"
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_COMPARISON_UNIT_COLLISION$"):
+            summarize_construction_trials(doc(rows))
+
+    def test_missing_legacy_unit_never_claims_fair_comparison(self):
+        rows = [trial(a) for a in ARMS]
+        for row in rows:
+            del row["comparison_unit_id"]
+            del row["requested_task_type"]
+        result = summarize_construction_trials(doc(rows))
+        self.assertFalse(result["comparison_units_complete"])
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_partial_unit_and_aliased_unit_are_blocked(self):
+        row = trial()
+        del row["requested_task_type"]
+        self.reject("SOTA_COMPARISON_UNIT_INVALID", doc([row]))
+        first = trial("M0", "G1")
+        second = trial("M1", "G2")
+        second["comparison_unit_id"] = first["comparison_unit_id"]
+        self.reject("SOTA_COMPARISON_UNIT_COLLISION", doc([first, second]))
 
 
 if __name__ == "__main__":
