@@ -30,10 +30,16 @@ def fixture():
                     "output_valid": True, "dimension_scores": dimensions,
                     "accepted": score >= 11, "critical_failure_codes": [],
                 })
-        cases.append({"case_id": case_id, "source_cluster_id": cluster, "reviews": reviews})
+        cases.append({
+            "case_id": case_id, "source_cluster_id": cluster,
+            "input_sha256": "a" * 64, "target_schema_sha256": "b" * 64,
+            "reviews": reviews,
+        })
     return {
         "schema_version": "dgsi-factorial-review-scorecard.v1",
         "classification": "BLINDED_REVIEW_SCORECARD_NOT_FOR_SFT",
+        "manifest_sha256": "c" * 64,
+        "rubric_sha256": "d" * 64,
         "cases": cases,
     }
 
@@ -88,6 +94,22 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         data = fixture()
         data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-c"
         with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PANEL_MUST_BE_TWO_BLINDED_TOKENS"):
+            MODULE.analyze_scorecard(data)
+
+    def test_scorecard_must_bind_to_frozen_manifest_and_rubric(self):
+        data = fixture()
+        data["manifest_sha256"] = "not-a-hash"
+        with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_BINDING_HASH_INVALID"):
+            MODULE.analyze_scorecard(data)
+
+    def test_reviewer_pair_must_be_identical_across_all_arms(self):
+        data = fixture()
+        data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-c"
+        with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PANEL_MUST_BE_TWO_BLINDED_TOKENS"):
+            MODULE.analyze_scorecard(data)
+        data = fixture()
+        data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-b"
+        with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PAIR_MISMATCH_ACROSS_ARMS"):
             MODULE.analyze_scorecard(data)
 
     def test_rejects_missing_or_extra_review_rows(self):
