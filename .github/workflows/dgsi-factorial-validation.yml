@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - docs/dgsi-2x2-preregistration-20261120
+      - rebase/dgsi-factorial-final-on-189
+      - rebase/dgsi-ablation-attribution-20261120
   pull_request:
     branches:
       - main
+      - rebase/dgsi-ablation-attribution-20261120
   workflow_dispatch:
 
 permissions:
