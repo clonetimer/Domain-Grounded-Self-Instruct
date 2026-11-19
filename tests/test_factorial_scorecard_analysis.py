@@ -1,0 +1,93 @@
+import importlib.util
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+PATH = ROOT / "evaluation" / "refinement_20261120" / "analyze_factorial_scorecard.py"
+SPEC = importlib.util.spec_from_file_location("dgsi_factorial_analysis", PATH)
+MODULE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MODULE)
+
+DIMS = MODULE.DIMENSIONS
+ARMS = MODULE.ARMS
+
+
+def fixture():
+    cases = []
+    reviewer_tokens = ["reviewer-token-a", "reviewer-token-b"]
+    factors = [("case-01", "cluster-a"), ("case-02", "cluster-b")]
+    for case_id, cluster in factors:
+        reviews = []
+        for arm_id, (evolution, selection) in ARMS.items():
+            base = {"A": 10, "B": 12, "C": 11, "D": 13}[arm_id]
+            for reviewer_index, token in enumerate(reviewer_tokens):
+                score = base + reviewer_index
+                dimensions = {dim: 1 for dim in DIMS}
+                for i, dim in enumerate(DIMS):
+                    dimensions[dim] = 2 if i < score - 10 else 1
+                reviews.append({
+                    "arm_id": arm_id, "reviewer_token": token,
+                    "output_valid": True, "dimension_scores": dimensions,
+                    "accepted": score >= 11, "critical_failure_codes": [],
+                })
+        cases.append({"case_id": case_id, "source_cluster_id": cluster, "reviews": reviews})
+    return {
+        "schema_version": "dgsi-factorial-review-scorecard.v1",
+        "classification": "BLINDED_REVIEW_SCORECARD_NOT_FOR_SFT",
+        "cases": cases,
+    }
+
+
+class FactorialScorecardAnalysisTests(unittest.TestCase):
+    def test_paired_factorial_effects_are_calculated_descriptively(self):
+        report = MODULE.analyze_scorecard(fixture())
+        self.assertEqual(report["status"], "ANALYZED")
+        self.assertEqual(report["complete_four_arm_paired_case_count"], 2)
+        self.assertEqual(report["source_cluster_count"], 2)
+        self.assertIsNotNone(report["factorial_contrasts_on_complete_paired_cases_only"]["evolution_main_effect"])
+        self.assertFalse(report["training_authorized"])
+
+    def test_invalid_outputs_are_counted_not_imputed(self):
+        data = fixture()
+        review = data["cases"][0]["reviews"][0]
+        review["output_valid"] = False
+        review["dimension_scores"] = None
+        review["accepted"] = False
+        review["critical_failure_codes"] = ["INVALID_FORMAT"]
+        report = MODULE.analyze_scorecard(data)
+        self.assertEqual(report["arm_summary"]["A"]["invalid_output_count_of_reviews"], 1)
+        self.assertEqual(report["complete_four_arm_paired_case_count"], 1)
+        self.assertEqual(report["case_details"]["case-01"]["A"]["case_mean_score"], None)
+        self.assertEqual(report["arm_summary"]["A"]["critical_failure_code_count"], 1)
+
+    def test_no_complete_paired_cases_produces_not_estimable(self):
+        data = fixture()
+        for case in data["cases"]:
+            for review in case["reviews"]:
+                review["output_valid"] = False
+                review["dimension_scores"] = None
+        report = MODULE.analyze_scorecard(data)
+        self.assertEqual(report["status"], "NOT_ESTIMABLE_NO_COMPLETE_PAIRED_CASES")
+        self.assertIsNone(report["factorial_contrasts_on_complete_paired_cases_only"]["interaction"])
+
+    def test_requires_exactly_two_stable_blinded_reviewer_tokens(self):
+        data = fixture()
+        data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-c"
+        with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PANEL_MUST_BE_TWO_BLINDED_TOKENS"):
+            MODULE.analyze_scorecard(data)
+
+    def test_rejects_missing_or_extra_review_rows(self):
+        data = fixture()
+        data["cases"][0]["reviews"].pop()
+        with self.assertRaisesRegex(MODULE.ScorecardError, "TWO_REVIEWERS_PER_ARM_REQUIRED"):
+            MODULE.analyze_scorecard(data)
+
+    def test_rejects_score_range_drift(self):
+        data = fixture()
+        data["cases"][0]["reviews"][0]["dimension_scores"][DIMS[0]] = 3
+        with self.assertRaisesRegex(MODULE.ScorecardError, "DIMENSION_SCORE_INVALID"):
+            MODULE.analyze_scorecard(data)
+
+
+if __name__ == "__main__":
+    unittest.main()
