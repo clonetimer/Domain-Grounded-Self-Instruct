@@ -1,0 +1,166 @@
+{
+  "schema_version": "dgsi.p5c18.public_source_leads.v0.1",
+  "usage": "COORDINATOR_ONLY_SOURCE_DISCOVERY",
+  "not_for_sft": true,
+  "data_status": "UNVERIFIED_FOR_L0_ADMISSION",
+  "gold_eligible": false,
+  "training_authorized": false,
+  "official_splits_assigned": false,
+  "based_on": {
+    "parent_pr": 183,
+    "parent_sha": "ddf97f4a3d74e6b4575dd7bc6ec3cd38a3a0d34f",
+    "l1_snapshot_blob_sha": "f141694748d5425b63b469b5b0b25064e1b402c8",
+    "l0_snapshot_blob_sha": "73f8f00dd6ecaf60cb75b0e1d566537c4e27579f",
+    "existing_primary_publication_count": 7,
+    "existing_model_visible_source_clusters": 6
+  },
+  "purpose": "Independent public source leads that could eventually support currently single-publication task types. These are bibliographic and abstract-level leads, not new L0 cards, flight logs, ML evidence, expert endorsements or SFT rows.",
+  "source_leads": [
+    {
+      "lead_id": "LEAD-SAMPEX-RW-2008",
+      "primary_source_id_candidate": "NASA-NTRS-20080039634",
+      "source_url": "https://ntrs.nasa.gov/citations/20080039634",
+      "title": "SAMPEX Spin Stabilized Mode",
+      "document_type": "NASA NTRS conference-paper record",
+      "mission": "SAMPEX",
+      "event_class": "FLIGHT_EVENT",
+      "reported_event": "Reaction wheel began to fail on August 18, 2007; recovery team used magnetic torque bars for spin stabilization; achieved 1.0 rpm pitch-axis sun-pointing on September 25, 2007",
+      "source_locator": "NTRS citation 20080039634 abstract",
+      "source_supported_boundaries": [
+        "Flight anomaly and recovery steps appear in the abstract",
+        "Detailed root cause and upstream ML run are not established by this record"
+      ],
+      "potential_task_types": [
+        "next_step_recommendation",
+        "handover_summary",
+        "historical_case_reuse"
+      ],
+      "rights_metadata": "NTRS displays Public Use Permitted; exact permitted training/redistribution/excerpt scope requires independent rights decision",
+      "material_missing": [
+        "verified full paper fact-to-page mapping",
+        "algorithm/version/results and diagnostic logs for a REAL candidate",
+        "mission configuration completeness",
+        "external double expert review",
+        "rights clearance"
+      ],
+      "publication_date_as_reported": "2008-05-12",
+      "rights_cleared": false,
+      "l0_card_created": false,
+      "external_review_status": "NOT_REQUESTED"
+    },
+    {
+      "lead_id": "LEAD-TOMSEP-RECOVERY-2000",
+      "primary_source_id_candidate": "NASA-NTRS-20000033274",
+      "source_url": "https://ntrs.nasa.gov/citations/20000033274",
+      "title": "The Recovery of TOMS-EP",
+      "document_type": "NASA NTRS preprint record",
+      "mission": "TOMS-EP",
+      "event_class": "FLIGHT_EVENT",
+      "reported_event": "December 13, 1998 safe-mode event followed by high-spin state; three-stage magnetic-torquer recovery was conducted December 28-31, 1998",
+      "source_locator": "NTRS citation 20000033274 abstract",
+      "source_supported_boundaries": [
+        "Recovery sequence and spacecraft state changes appear in abstract",
+        "Do not equate paper description of recovery planning with an actual ML diagnosis or a timestamped operations log",
+        "NTRS reports publication date 1998-01-01, earlier than its described Dec 1998 incident; publication metadata requires reconciliation before any verified_date use"
+      ],
+      "potential_task_types": [
+        "handover_summary",
+        "next_step_recommendation",
+        "historical_case_reuse"
+      ],
+      "rights_metadata": "NTRS lists Work of the US Gov. Public Use Permitted; contractor/coauthor and contents still require scope review",
+      "material_missing": [
+        "primary publication date and bibliographic chronology verification",
+        "full text page/section locators",
+        "source-specific usage rights clearance",
+        "real ML results and logs",
+        "independent domain review"
+      ],
+      "publication_date_as_reported": "1998-01-01",
+      "publication_date_consistent_with_event": false,
+      "rights_cleared": false,
+      "l0_card_created": false,
+      "external_review_status": "NOT_REQUESTED"
+    },
+    {
+      "lead_id": "LEAD-VOYAGER2-FAULT-RECOVERY-1993",
+      "primary_source_id_candidate": "NASA-LLIS-284",
+      "source_url": "https://llis.nasa.gov/lesson/284",
+      "title": "In-Flight Spacecraft Fault Recovery",
+      "document_type": "JPL NASA lessons-learned record",
+      "mission": "Voyager 2",
+      "event_class": "FLIGHT_EVENT_SUMMARY",
+      "reported_event": "Receiver failure with reduced redundant receiver acquisition capability and a scan-platform actuator stoppage; hardware testbed supported recovery workaround testing",
+      "source_locator": "NASA LLIS lesson 284 Abstract and Driving Event",
+      "source_supported_boundaries": [
+        "Two anomalies are separate episode candidates; do not combine as one diagnosed root cause",
+        "Lesson date July 12, 1993 is not the flight event date",
+        "No verified current/history as-of timestamps for real inference are provided"
+      ],
+      "potential_task_types": [
+        "historical_case_reuse",
+        "handover_summary",
+        "next_step_recommendation"
+      ],
+      "rights_metadata": "JPL lessons-learned record; item-specific reuse and rights status not established",
+      "material_missing": [
+        "original event chronology and specific source locators",
+        "rights/permission evidence",
+        "as-of availability and verified_at for runtime history",
+        "current ML/log inputs",
+        "two independent expert reviews"
+      ],
+      "lesson_date_as_reported": "1993-07-12",
+      "rights_cleared": false,
+      "l0_card_created": false,
+      "external_review_status": "NOT_REQUESTED"
+    },
+    {
+      "lead_id": "LEAD-CLOUDSAT-BATTERY-2015",
+      "primary_source_id_candidate": "NASA-NTRS-20170008193",
+      "source_url": "https://ntrs.nasa.gov/citations/20170008193",
+      "title": "CloudSat Anomaly and Return to the A-Train: Lessons Learned for Satellite Constellations",
+      "document_type": "NASA NTRS conference-paper record",
+      "mission": "CloudSat",
+      "event_class": "FLIGHT_EVENT",
+      "reported_event": "2011 battery anomaly and emergency mode; daylight-only operations enabled science resumption by November 2011 and return to A-Train in July 2012",
+      "source_locator": "NTRS citation 20170008193 abstract",
+      "source_supported_boundaries": [
+        "Causal root of battery anomaly not established by abstract",
+        "NTRS page currently lists no downloadable full text",
+        "Do not treat abstract mission timeline as ML output or operations log"
+      ],
+      "potential_task_types": [
+        "handover_summary",
+        "next_step_recommendation",
+        "historical_case_reuse"
+      ],
+      "rights_metadata": "NTRS lists Copyright Other and no downloadable document; license and full text access not established",
+      "material_missing": [
+        "lawful primary source full text",
+        "source-specific rights clearance",
+        "verified log/ML results",
+        "double expert review",
+        "event-family independent exposure verification"
+      ],
+      "publication_date_as_reported": "2015-06-08",
+      "rights_cleared": false,
+      "l0_card_created": false,
+      "external_review_status": "NOT_REQUESTED"
+    }
+  ],
+  "scientific_rules": [
+    "A lead is not an admitted new source cluster until independent document, source-identity, overlapping-literature, rights and event-family checks pass",
+    "A real incident described in public literature does not supply real upstream ML findings or logs for DGSI L1; any such fields are newly constructed explicitly SYNTHETIC and must include field-level recipe provenance",
+    "For REAL_GOLD the actual separately authorized upstream result/logs/context and expert review are mandatory",
+    "No history hit from these leads may enter runtime Context without authentic available_at/verified_at earlier than analysis_cutoff, hardware scope and review status",
+    "Proposed task coverage is an authoring hypothesis, not scientific validation or a pre-authorized official split",
+    "Keep all references and reviewer notes coordinator-side; target and user input must not inherit the source-event answer"
+  ],
+  "candidate_source_count": 4,
+  "admitted_source_count": 0,
+  "l0_cards_added": 0,
+  "l1_packets_added": 0,
+  "expert_accepted": 0,
+  "real_gold": 0
+}
