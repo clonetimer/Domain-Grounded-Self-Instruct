@@ -37,6 +37,7 @@ def fixture():
         "model_calls_authorized": False, "training_authorized": False,
         "retry_budget": 0, "regeneration_budget": 0,
         "policy_sha256": policy,
+        "excluded_source_cluster_ids": ["prior-dev-cluster", "DOC-CLUSTER-03", "DOC-CLUSTER-06"],
         "holdout_gate": {
             "rights_verified": True, "development_exposure_excluded": True,
             "source_cluster_independence_verified": True,
@@ -92,11 +93,10 @@ class FactorialManifestTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ManifestError, "REFERENCE_OR_SCORE_LEAKAGE"):
             MODULE.validate_manifest(data)
 
-    def test_previous_development_cases_cannot_be_smuggled_in(self):
+    def test_previous_development_source_cluster_cannot_be_smuggled_in(self):
         data = fixture()
-        data["cases"][0]["case_id"] = "FORWARD-DEV-001"
-        data["arms"][0]["cases"][0]["case_id"] = "FORWARD-DEV-001"
-        with self.assertRaisesRegex(MODULE.ManifestError, "CASE_ROW_INVALID"):
+        data["cases"][0]["source_cluster_id"] = "DOC-CLUSTER-03"
+        with self.assertRaisesRegex(MODULE.ManifestError, "PREVIOUSLY_EXPOSED_SOURCE_CLUSTER"):
             MODULE.validate_manifest(data)
 
     def test_single_source_cluster_is_not_enough(self):
