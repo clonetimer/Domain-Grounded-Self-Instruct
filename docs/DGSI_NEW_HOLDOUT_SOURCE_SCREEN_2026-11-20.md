@@ -171,3 +171,25 @@ Primary sources checked:
 - No holdout, rubric, threshold, weights, or prior scores changed.
 
 **No performance gain can be claimed from this round.** Its value is improved source triage and explicit exclusion reasons. The 2×2 remains NOT_RUN.
+
+
+## Additional archival primary-source check — Nimbus I solar-array drive failure (2026-11-20)
+
+A potentially strong historical case was located in a 69-page scan served through NASA NTRS (accession N68-28825; internal General Electric report dated 1966-08-06, *Final Report - Failure Analysis and Design Report of Nimbus I Solar Array Drive Failure*). The source gives a rich, bounded sequence: after 26 days of operation, solar-array drive control-phase voltage rose over successive orbits, saturated, intermittently recovered, then stalled permanently; the report's conclusion attributes the failure to high motor-bearing temperature, grease deterioration, increased friction and motor stall. It describes flight-data analysis, failure-mode analysis, verification testing, and design changes. It would be technically useful for evidence-role separation and distinguishing telemetry symptoms from post-flight physical cause.
+
+However, the scanned document itself carries the prominent restriction **“FOR USE OF G.E. EMPLOYEES ONLY”** and identifies General Electric Technical Information Series No. 66SD281. NASA NTRS hosting/accessibility and a US Government scan do not override this source-specific restriction or establish a derivative dataset/AI-training license. The current search did not establish permission from GE or its successor rights holder.
+
+Primary source inspected: https://ntrs.nasa.gov/api/citations/19680019353/downloads/19680019353.pdf (especially scanned title page and pp. 1–6; checked 2026-11-20).
+
+**Decision: RIGHTS BLOCK / DO NOT USE.** Do not create an L0 card, quote/republish its contents in the dataset, or include Nimbus I as a confirmatory holdout unless explicit rights clearance is obtained. This is a deliberate exclusion despite its strong technical fit.
+
+### Measured outcome
+
+- One technically strong case found and source-level evidence inspected.
+- One candidate rejected on explicit source-document restriction.
+- New eligible independent clusters: **0**.
+- L0/L1 tasks, generated answers, reviews: **0**.
+- Holdout, rubric, weights, thresholds and previous scores: unchanged.
+- No model calls or training.
+
+This search round improved the quality of the exclusion decision but produced no increase in usable evaluation data and no performance evidence.
