@@ -44,7 +44,7 @@ All four M6 cases and all four M7 cases selected candidate `I1` under the determ
 
 ## Recommendation
 
-Keep `select` as an optional development recipe because it was the best observed arm in this bounded run. Keep baseline as the default. Do not make `evolve-select` the default: it scored below M4, M5 and M6 here.
+Do not designate a winning recipe from these exposed development scores. Keep `baseline` as the default; `evolve`, `select` and `evolve-select` remain optional configurations. M6 was the highest observed arm in this four-case GPT-reviewed development run, but all M6/M7 selections chose I1 under the deterministic tie rule, so selector-specific causal benefit is unproven. These observations do not justify recommending `select` over the other recipes.
 
 Do not claim statistical superiority, global optimality, real-flight transfer or downstream SFT gain. These are GPT advisory scores on visible synthetic materials, not human expert adjudications.
 
