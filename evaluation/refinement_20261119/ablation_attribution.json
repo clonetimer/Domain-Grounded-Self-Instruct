@@ -1,0 +1,115 @@
+{
+  "schema_version": "dgsi-ablation-attribution.v1",
+  "classification": "COORDINATOR_ANALYSIS_NOT_FOR_SFT",
+  "source_commit": "fed424e76e25df77e553c3be683f1ca3546090e2",
+  "source_bundle": "evaluation/refinement_20261119",
+  "frozen_input_sha256": "d36cacfb898ca249cd199abd634fb23acad961d3ced946c8360abf6aaad10368",
+  "holdout": {
+    "cases": 4,
+    "task_types": 3,
+    "event_families": 4,
+    "connected_source_document_clusters": 2
+  },
+  "immutable_inputs": true,
+  "evaluation_changes": false,
+  "score_rule_changes": false,
+  "model_calls": false,
+  "arms": {
+    "M4": {
+      "mean_score": 19.75,
+      "paired_accepts": 3,
+      "critical_failure_candidates": 0,
+      "description": "Original DGSI; baseline policy"
+    },
+    "M5": {
+      "mean_score": 19.875,
+      "paired_accepts": 3,
+      "critical_failure_candidates": 0,
+      "description": "DGSI with instruction evolution only"
+    },
+    "M6": {
+      "mean_score": 20,
+      "paired_accepts": 4,
+      "critical_failure_candidates": 0,
+      "description": "DGSI with three-candidate selection only"
+    },
+    "M7": {
+      "mean_score": 19.625,
+      "paired_accepts": 2,
+      "critical_failure_candidates": 0,
+      "description": "DGSI with evolution followed by three-candidate selection"
+    }
+  },
+  "observed_contrasts": [
+    {
+      "contrast": "M5 - M4",
+      "score_delta": 0.125,
+      "paired_accept_delta": 0,
+      "interpretation": "Small descriptive score increase; no paired-accept gain. Not an isolated evolution effect because M4 does not share the strengthened scope/evidence policy."
+    },
+    {
+      "contrast": "M6 - M4",
+      "score_delta": 0.25,
+      "paired_accept_delta": 1,
+      "interpretation": "Best observed arm; descriptive only. Not an isolated selection effect because M4 does not share the strengthened scope/evidence policy."
+    },
+    {
+      "contrast": "M7 - M4",
+      "score_delta": -0.125,
+      "paired_accept_delta": -1,
+      "interpretation": "Combined recipe underperformed original DGSI in this run."
+    },
+    {
+      "contrast": "M7 - M5",
+      "score_delta": -0.25,
+      "paired_accept_delta": -1,
+      "interpretation": "Adding selection to the evolve-only arm was associated with lower score and one fewer paired accept in this run."
+    },
+    {
+      "contrast": "M7 - M6",
+      "score_delta": -0.375,
+      "paired_accept_delta": -2,
+      "interpretation": "Adding evolution to the select-only arm was associated with lower score and two fewer paired accepts in this run."
+    },
+    {
+      "contrast": "M6 - M5",
+      "score_delta": 0.125,
+      "paired_accept_delta": 1,
+      "interpretation": "Select-only ranked above evolve-only descriptively; candidate count, prompt structure and stochastic generation differ, so this is not a clean component effect."
+    }
+  ],
+  "selector_diagnostic": {
+    "M6_selected_instruction_ids": {
+      "I1": 4
+    },
+    "M7_selected_instruction_ids": {
+      "I1": 4
+    },
+    "candidate_scores_are_generator_self_reports": true,
+    "selector_specific_gain_demonstrated": false,
+    "explanation": "All M6 and M7 cases selected I1 under the deterministic tie rule. The run does not demonstrate that selecting a later candidate improved quality."
+  },
+  "design_gaps": [
+    "No same-policy no-evolution/no-selection control arm: M4 is the original DGSI policy, while M5/M6/M7 share strengthened scope/evidence policy.",
+    "M5/M6/M7 are useful recipe ablations but not a fully identified 2x2 factorial experiment.",
+    "Four cases and two connected source-document clusters are insufficient for population or significance claims.",
+    "Exact token usage and equal actual compute were not observed.",
+    "GPT review is advisory, not independent human expert clearance."
+  ],
+  "next_valid_experiment": {
+    "status": "REQUIRES_NEW_PREREGISTRATION_AND_NEW_UNTOUCHED_SOURCE_CLUSTERS",
+    "arms": [
+      "DGSI strengthened policy, no evolution/no selection",
+      "DGSI strengthened policy + evolution only",
+      "DGSI strengthened policy + selection only",
+      "DGSI strengthened policy + evolution + selection"
+    ],
+    "controls": "Same frozen input bytes, same candidate budget where technically possible, same generation model family and independent blinded judges; record actual token/cost telemetry if available.",
+    "holdout_rule": "Use new source-document clusters untouched by this development run. Do not retune on the four cases in this bundle.",
+    "stopping_rule": "One preregistered run; report all outputs and failures; stop regardless of ranking."
+  },
+  "training_authorized": false,
+  "gold_eligible": false,
+  "official_splits_assigned": false,
+  "human_expert_review_count": 0
+}
