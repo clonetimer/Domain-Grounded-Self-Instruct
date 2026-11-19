@@ -195,5 +195,64 @@ class HistoryPairScienceAuditTests(unittest.TestCase):
         self.reject("PAIR_VISIBLE_ENVELOPE_INVALID")
 
 
+    def enable_log_blind_v04(self):
+        self.enable_source_blind_v03()
+        self.manifest["purpose"] = (
+            "DEV_ONLY_SOURCE_FACT_BLINDED_AND_ENGINEERING_ANALYSIS_QUARANTINED_"
+            "HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING"
+        )
+        self.manifest["model_visible_engineering_analysis_logs"] = 0
+        self.manifest["coordinator_log_quarantine_not_model_visible"] = True
+        self.entry["quarantined_analysis_log_ids"] = ["LOG-SYNTH-ENGINEER"]
+        self.entry["quarantined_analysis_log_count"] = 1
+        self.entry["quarantined_analysis_log_records_sha256"] = audit._digest([{
+            "log_id": "LOG-SYNTH-ENGINEER", "log_type": "ENGINEERING_ANALYSIS",
+            "content": "Synthetic engineer hypothesis, not an observation",
+        }])
+        self.manifest["quarantined_engineering_analysis_logs"] = [{
+            "task_id": self.task,
+            "removed_log_ids": self.entry["quarantined_analysis_log_ids"],
+            "removed_log_count": 1,
+            "removed_log_records_sha256": self.entry["quarantined_analysis_log_records_sha256"],
+            "coordinator_only": True, "not_for_sft": True,
+        }]
+        self.write()
+
+    def test_log_blind_v04_valid(self):
+        self.enable_log_blind_v04()
+        result = audit.audit_pair_zip(self.archive)
+        self.assertEqual(result["model_visible_engineering_analysis_logs"], 0)
+        self.assertEqual(result["quarantined_engineering_analysis_log_occurrences"], 1)
+        self.assertFalse(result["training_authorized"])
+
+    def test_log_blind_v04_rejects_answer_log_even_with_recomputed_hashes(self):
+        self.enable_log_blind_v04()
+        for obj in self.members.values():
+            obj["input"]["diagnostic_logs"] = [{
+                "log_id": "LOG-LEAK", "log_type": "ENGINEERING_ANALYSIS",
+                "content": "Synthetic prior conclusion included in current input",
+            }]
+        self.write()
+        self.reject("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
+
+    def test_log_blind_v04_rejects_coordinator_receipt_tampering(self):
+        self.enable_log_blind_v04()
+        self.entry["quarantined_analysis_log_ids"] = ["LOG-OTHER"]
+        self.write()
+        self.reject("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
+
+    def test_log_blind_v04_rejects_untrusted_release_flag(self):
+        self.enable_log_blind_v04()
+        self.manifest["coordinator_log_quarantine_not_model_visible"] = False
+        self.write()
+        self.reject("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
+
+    def test_v03_legacy_preserves_existing_science_gates(self):
+        self.enable_source_blind_v03()
+        result = audit.audit_pair_zip(self.archive)
+        self.assertEqual(result["model_visible_engineering_analysis_logs"], "NOT_ISOLATED")
+
+
+
 if __name__ == "__main__":
     unittest.main()
