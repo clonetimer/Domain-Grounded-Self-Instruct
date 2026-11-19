@@ -193,3 +193,21 @@ Primary source inspected: https://ntrs.nasa.gov/api/citations/19680019353/downlo
 - No model calls or training.
 
 This search round improved the quality of the exclusion decision but produced no increase in usable evaluation data and no performance evidence.
+
+
+## NOAA GOES-13 instrument anomaly lead — exposed during this screening (2026-11-20)
+
+A NOAA/NESDIS presentation was located describing the September 23, 2012 GOES-13 Sounder/Imager anomaly sequence. It reports prior filter-wheel issues beginning June 2012; a Sounder fault trip at 11:26 UTC on September 23; the root cause as filter-wheel vibration; and a subsequent Imager outage at 21:22 UTC, attributed to vibration transmitted through the shared optical bench and anomalous Imager scan-mirror response.
+
+Source: NOAA/NESDIS quarterly presentation, 2012-10-17, https://satepsanone.nesdis.noaa.gov/pub/Presentations/Joint_NWS-NESDIS_Quarterly/20121017/20121017%20NWS%20Quarterly%20Presentation.pdf (checked 2026-11-20).
+
+**Decision: DEVELOPMENT LEAD ONLY / NOT ADMITTED TO THE BLIND HOLDOUT.** The presentation is now exposed to the coordinator/model context in this screening turn, and it is not the underlying anomaly investigation report. It may guide a future search for an independently rights-cleared primary report, but neither this presentation nor the same event may be relabelled as an untouched holdout case. The coupled Sounder and Imager failures must remain one linked event cluster, not two independent cases.
+
+### Measured result
+
+- One additional technically relevant anomaly sequence identified.
+- One linked two-instrument event family, not two independent cases.
+- New blind-holdout admission: **0**.
+- New L0/L1 task or model evaluation: **0**.
+- Existing cases, scores, rubric, thresholds and manifest unchanged.
+- No performance gain demonstrated.
