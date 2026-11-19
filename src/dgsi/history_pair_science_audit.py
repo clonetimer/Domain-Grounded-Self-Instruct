@@ -89,10 +89,18 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
             allowed_purposes = {
                 "DEV_ONLY_HISTORY_SOURCE_ISOLATED_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
                 "DEV_ONLY_SOURCE_FACT_BLINDED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
+                "DEV_ONLY_SOURCE_FACT_BLINDED_AND_ENGINEERING_ANALYSIS_QUARANTINED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
             }
             if not isinstance(manifest, dict) or manifest.get("purpose") not in allowed_purposes:
                 _fail("PAIR_MANIFEST_NOT_DEV_ONLY")
             source_blind = manifest["purpose"].startswith("DEV_ONLY_SOURCE_FACT_BLINDED_")
+            log_blind = "ENGINEERING_ANALYSIS_QUARANTINED" in manifest["purpose"]
+            if log_blind and (
+                manifest.get("model_visible_engineering_analysis_logs") != 0
+                or manifest.get("coordinator_log_quarantine_not_model_visible") is not True
+                or not isinstance(manifest.get("quarantined_engineering_analysis_logs"), list)
+            ):
+                _fail("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
             if source_blind and (
                 manifest.get("not_for_sft") is not True
                 or manifest.get("current_event_literature_facts_exposed_to_model") is not False
@@ -115,6 +123,17 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
             families, cores, task_ids, expected_members = set(), set(), set(), set()
             hits, missing_verification = 0, 0
             quarantined = {}
+            analysis_quarantined = {}
+            analysis_log_occurrences = 0
+            if log_blind:
+                for row in manifest["quarantined_engineering_analysis_logs"]:
+                    if not isinstance(row, dict) or not isinstance(row.get("task_id"), str):
+                        _fail("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
+                    if row["task_id"] in analysis_quarantined:
+                        _fail("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
+                    analysis_quarantined[row["task_id"]] = row
+                if len(analysis_quarantined) != len(pairs):
+                    _fail("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
             if source_blind:
                 for row in manifest["quarantined_source_fact_items"]:
                     if not isinstance(row, dict) or not isinstance(row.get("task_id"), str):
@@ -210,6 +229,32 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                             or ledger.get("coordinator_only") is not True
                             or ledger.get("not_for_sft") is not True):
                         _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
+                if log_blind:
+                    logs = current.get("diagnostic_logs")
+                    ledger = analysis_quarantined.get(task)
+                    removed_ids = entry.get("quarantined_analysis_log_ids")
+                    removed_count = entry.get("quarantined_analysis_log_count")
+                    removed_digest = entry.get("quarantined_analysis_log_records_sha256")
+                    if (not isinstance(logs, list)
+                            or any(not isinstance(log, dict) or
+                                   log.get("log_type") == "ENGINEERING_ANALYSIS" for log in logs)
+                            or not isinstance(ledger, dict)
+                            or not isinstance(removed_ids, list)
+                            or any(not isinstance(x, str) or not x for x in removed_ids)
+                            or len(set(removed_ids)) != len(removed_ids)
+                            or not isinstance(removed_count, int)
+                            or isinstance(removed_count, bool)
+                            or removed_count != len(removed_ids)
+                            or not isinstance(removed_digest, str)
+                            or len(removed_digest) != 64
+                            or any(ch not in "0123456789abcdef" for ch in removed_digest)
+                            or ledger.get("removed_log_ids") != removed_ids
+                            or ledger.get("removed_log_count") != removed_count
+                            or ledger.get("removed_log_records_sha256") != removed_digest
+                            or ledger.get("coordinator_only") is not True
+                            or ledger.get("not_for_sft") is not True):
+                        _fail("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
+                    analysis_log_occurrences += removed_count
                 history = with_history["historical_cases"]
                 for key in ("history_refs", "history_outcome_statuses",
                             "history_hardware_compatibilities", "history_available_at"):
@@ -247,10 +292,16 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                 _fail("PAIR_MODEL_MEMBER_SET_MISMATCH")
             if source_blind and set(quarantined) != task_ids:
                 _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
+            if log_blind and set(analysis_quarantined) != task_ids:
+                _fail("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
             return {
                 "schema_version": "dgsi-history-pair-science-integrity.v1",
                 "decision": "DEV_ONLY_NOT_RELEASED",
                 "model_visible_source_fact_cards": 0 if source_blind else "NOT_ISOLATED",
+                "model_visible_engineering_analysis_logs": 0 if log_blind else "NOT_ISOLATED",
+                "quarantined_engineering_analysis_log_occurrences": (
+                    analysis_log_occurrences if log_blind else "NOT_AUDITED"
+                ),
                 "pair_count": len(pairs),
                 "model_visible_input_count": len(expected_members),
                 "distinct_current_input_cores": len(cores),
