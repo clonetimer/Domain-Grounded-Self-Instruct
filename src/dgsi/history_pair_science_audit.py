@@ -90,11 +90,16 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                 "DEV_ONLY_HISTORY_SOURCE_ISOLATED_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
                 "DEV_ONLY_SOURCE_FACT_BLINDED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
                 "DEV_ONLY_SOURCE_FACT_BLINDED_AND_ENGINEERING_ANALYSIS_QUARANTINED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
+                "DEV_ONLY_SOURCE_FACT_BLINDED_AND_ENGINEERING_ANALYSIS_QUARANTINED_AND_CASE_ID_BLINDED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
             }
             if not isinstance(manifest, dict) or manifest.get("purpose") not in allowed_purposes:
                 _fail("PAIR_MANIFEST_NOT_DEV_ONLY")
             source_blind = manifest["purpose"].startswith("DEV_ONLY_SOURCE_FACT_BLINDED_")
             log_blind = "ENGINEERING_ANALYSIS_QUARANTINED" in manifest["purpose"]
+            id_blind = "CASE_ID_BLINDED" in manifest["purpose"]
+            if id_blind and (manifest.get("model_visible_case_id_blinded") is not True
+                             or manifest.get("coordinator_case_ids_not_model_visible") is not True):
+                _fail("PAIR_CASE_ID_BLINDING_INVALID")
             if log_blind and (
                 manifest.get("model_visible_engineering_analysis_logs") != 0
                 or manifest.get("coordinator_log_quarantine_not_model_visible") is not True
@@ -121,6 +126,7 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                 _fail("PAIR_LIST_INVALID")
 
             families, cores, task_ids, expected_members = set(), set(), set(), set()
+            seen_opaque_case_ids: set[str] = set()
             hits, missing_verification = 0, 0
             quarantined = {}
             analysis_quarantined = {}
@@ -150,6 +156,19 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                 if not isinstance(task, str) or not task or "/" in task or "\\" in task or task in task_ids:
                     _fail("PAIR_TASK_ID_INVALID")
                 task_ids.add(task)
+                if id_blind:
+                    opaque = entry.get("model_visible_case_id")
+                    prefix = "SYNTHETIC-EVAL-CASE-"
+                    if (not isinstance(opaque, str) or not opaque.startswith(prefix)
+                            or len(opaque) != len(prefix) + 3
+                            or not opaque[len(prefix):].isdigit()
+                            or opaque == entry.get("case_id")
+                            or opaque in seen_opaque_case_ids
+                            or entry.get("case_id_blinding") != "OPAQUE_STABLE_DEVELOPMENT_ID"
+                            or not isinstance(entry.get("case_id"), str)
+                            or entry.get("original_case_id_sha256") != sha256(entry["case_id"].encode()).hexdigest()):
+                        _fail("PAIR_CASE_ID_BLINDING_INVALID")
+                    seen_opaque_case_ids.add(opaque)
                 family = entry.get("event_family")
                 if not isinstance(family, str) or not family:
                     _fail("PAIR_FAMILY_MISSING")
@@ -168,7 +187,7 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                         "input", "instruction", "task_type",
                     }:
                         _fail("PAIR_VISIBLE_ENVELOPE_INVALID")
-                    if (record.get("case_id") != entry.get("case_id")
+                    if (record.get("case_id") != (entry.get("model_visible_case_id") if id_blind else entry.get("case_id"))
                             or record.get("task_type") != entry.get("task_type")
                             or record.get("data_classification") !=
                             "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD"):
@@ -298,6 +317,7 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                 "schema_version": "dgsi-history-pair-science-integrity.v1",
                 "decision": "DEV_ONLY_NOT_RELEASED",
                 "model_visible_source_fact_cards": 0 if source_blind else "NOT_ISOLATED",
+                "model_visible_case_id_blinded": id_blind,
                 "model_visible_engineering_analysis_logs": 0 if log_blind else "NOT_ISOLATED",
                 "quarantined_engineering_analysis_log_occurrences": (
                     analysis_log_occurrences if log_blind else "NOT_AUDITED"
