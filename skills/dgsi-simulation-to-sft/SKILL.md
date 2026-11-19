@@ -13,13 +13,17 @@ Start with `references/CLOSEOUT_QUICKSTART.md` and `python scripts/run_dgsi_skil
 
 ## Mission
 
-For optional instruction evolution/selection, read `references/INSTRUCTION_REFINEMENT.md`
-and use `prepare --recipe select` for the configuration with the highest observed
-score in the frozen four-case development comparison. Evolution remains optional;
-the combined recipe did not score highest. Keep the authoring policy and method
-records outside SFT messages; source input hashes must stay unchanged. Use a new
-frozen evaluation set after changing the recipe; never optimize until a desired
-test ranking appears. This option does not change the default baseline workflow.
+For optional instruction evolution/selection, read `references/INSTRUCTION_REFINEMENT.md`.
+The supported recipes are `baseline`, `evolve`, `select`, and `evolve-select`;
+the latter three correspond to the two ablations and the combined 2×2 arm.
+The default remains `baseline`. Do not designate a winning recipe from the
+development comparison as universally preferred: report the observed result,
+its sample/source-cluster limits, and any uncertainty. Select or change a recipe
+using development data only. Once a holdout manifest is frozen, do not use its
+scores to choose prompts, recipes, retry behavior, or stopping decisions.
+Keep the authoring policy and method records outside SFT messages; source input
+hashes must stay unchanged. Any later method revision requires a new,
+untouched holdout set and a separately preregistered round.
 
 Convert authorized spacecraft engineering materials into traceable diagnostic training candidates for a second-stage LLM. The LLM interprets:
 - upstream ML/statistical diagnosis results;
