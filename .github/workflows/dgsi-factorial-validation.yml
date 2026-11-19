@@ -30,3 +30,4 @@ jobs:
         run: |
           python -m unittest tests/test_factorial_preregistration.py -v
           python -m unittest tests/evaluation/test_factorial_manifest.py -v
+          python -m unittest tests/test_factorial_scorecard_analysis.py -v
