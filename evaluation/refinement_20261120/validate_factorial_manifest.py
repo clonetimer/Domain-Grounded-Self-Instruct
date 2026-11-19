@@ -62,6 +62,11 @@ def validate_manifest(data: dict) -> dict:
     if not isinstance(gate, dict) or any(gate.get(key) is not True for key in required_gate):
         raise ManifestError("HOLDOUT_GATE_NOT_PASSED")
 
+    excluded_clusters = data.get("excluded_source_cluster_ids")
+    if not isinstance(excluded_clusters, list) or not excluded_clusters or any(
+        not isinstance(value, str) or not value.strip() for value in excluded_clusters
+    ):
+        raise ManifestError("EXCLUSION_REGISTER_MISSING")
     cases = data.get("cases")
     if not isinstance(cases, list) or not cases:
         raise ManifestError("HOLDOUT_CASES_MISSING")
@@ -76,6 +81,8 @@ def validate_manifest(data: dict) -> dict:
             raise ManifestError("CASE_ROW_INVALID")
         if row["case_id"] in seen_ids:
             raise ManifestError("DUPLICATE_CASE_ID")
+        if row["source_cluster_id"] in excluded_clusters:
+            raise ManifestError("PREVIOUSLY_EXPOSED_SOURCE_CLUSTER")
         seen_ids.add(row["case_id"])
         for key in ("input_sha256", "target_schema_sha256"):
             value = row[key]
