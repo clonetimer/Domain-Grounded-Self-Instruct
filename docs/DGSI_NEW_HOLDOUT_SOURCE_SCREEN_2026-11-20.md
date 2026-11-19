@@ -24,6 +24,9 @@
 | Nimbus I 太阳翼驱动电机停转 | [GE report scan, NASA NTRS 19680019353](https://ntrs.nasa.gov/api/citations/19680019353/downloads/19680019353.pdf) | 原件醒目标注 “FOR USE OF G.E. EMPLOYEES ONLY”；未获权利人衍生使用许可 | 本轮已向协调上下文暴露 | **版权排除**；技术证据丰富不能覆盖来源限制，不得制作 L0 / L1 |
 | GOES-13 Sounder / Imager 关联异常 | [NOAA/NESDIS 2012-10-17 presentation](https://satepsanone.nesdis.noaa.gov/pub/Presentations/Joint_NWS-NESDIS_Quarterly/20121017/20121017%20NWS%20Quarterly%20Presentation.pdf) | 政府演示文稿可访问；底层调查报告及衍生许可未核实 | 本轮已向协调上下文暴露 | **开发线索，不准入**；Sounder 与 Imager 是同一关联事件簇，不能算两个独立样本 |
 
+| NOAA-10 ERBE 扫描仪内部地址译码电路故障 | [NASA-TM-102661, NTRS 19900016012](https://ntrs.nasa.gov/citations/19900016012) | NTRS 标注 Public / Work of US Gov. Public Use Permitted；作者列表含 ST Systems Corp. 合作者，图表/第三方材料待核验 | GitHub 精确检索本轮未命中该文档 ID 或 NOAA-10 ERBE 组合；但本轮协调检索已暴露该来源，完整历史资料包/PR/检索暴露仍未审计 | **仅作开发候选，不准入本轮盲留出**；摘要提供明确仪器异常与测试分析，适合后续证据角色任务，但需全文核查、第三方材料权利审查及独立性审计 |
+| NOAA-13 太阳阵列母线对地短路 / 电池充电故障 | [NASA Lessons Learned #387](https://llis.nasa.gov/lesson/387)；NASA Release 94-157；NASA SP-2012-4012 | NASA Lesson / NASA 历史材料公开可访问；具体报告及附件的再利用边界仍须按原件确认 | **已确认深度暴露**：已进入 resources/sources.json、resources/source_passages.json、EPS seed-curation skill、pressure cases、domain review checklist 等开发资产 | **排除**；不得将该来源重新包装为新留出；保留“surmised/possible”而非确定根因的原始不确定性 |
+
 ## 统一来源与证据规则
 
 - **历史暴露**包括仓库、PR、历史资料包、既往对话、连接检索源以及本轮协调上下文。仅在 GitHub 默认分支搜索未命中，不足以证明独立。
