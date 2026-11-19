@@ -135,7 +135,9 @@ def validate_manifest(data: dict) -> dict:
             if not isinstance(record.get(key), str) or not record[key].strip():
                 raise ManifestError("SOURCE_REVIEW_EVIDENCE_INCOMPLETE")
         scopes = record.get("exposure_audit_scope")
-        if not isinstance(scopes, list) or not required_exposure_scopes.issubset(set(scopes)):
+        if not isinstance(scopes, list) or any(not isinstance(v, str) or not v.strip() for v in scopes):
+            raise ManifestError("SOURCE_EXPOSURE_AUDIT_SCOPE_INCOMPLETE")
+        if not required_exposure_scopes.issubset(set(scopes)):
             raise ManifestError("SOURCE_EXPOSURE_AUDIT_SCOPE_INCOMPLETE")
         if record.get("review_status") != "PASS":
             raise ManifestError("SOURCE_REVIEW_NOT_PASSED")
