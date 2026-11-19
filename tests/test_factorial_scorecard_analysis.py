@@ -72,6 +72,11 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         self.assertEqual(report["complete_four_arm_paired_case_count"], 2)
         self.assertEqual(report["source_cluster_count"], 2)
         self.assertIsNotNone(report["factorial_contrasts_on_complete_paired_cases_only"]["evolution_main_effect"])
+        self.assertIsNotNone(report["factorial_contrasts_equal_weight_per_source_cluster"]["evolution_main_effect"])
+        self.assertEqual(
+            set(report["factorial_contrasts_equal_weight_per_source_cluster"]),
+            {"evolution_main_effect", "selection_main_effect", "interaction"},
+        )
         self.assertFalse(report["training_authorized"])
         self.assertEqual(set(report["per_dimension_factorial_analysis"]), set(DIMS))
         self.assertIn("evolution_main_effect", report["per_dimension_factorial_analysis"]["source_fidelity"])
@@ -110,6 +115,7 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         report = MODULE.analyze_scorecard(data)
         self.assertEqual(report["status"], "NOT_ESTIMABLE_NO_COMPLETE_PAIRED_CASES")
         self.assertIsNone(report["factorial_contrasts_on_complete_paired_cases_only"]["interaction"])
+        self.assertIsNone(report["factorial_contrasts_equal_weight_per_source_cluster"]["interaction"])
 
     def test_requires_exactly_two_stable_blinded_reviewer_tokens(self):
         data = fixture()
