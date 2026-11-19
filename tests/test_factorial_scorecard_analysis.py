@@ -1,5 +1,7 @@
 import importlib.util
 import unittest
+import hashlib
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -10,6 +12,25 @@ SPEC.loader.exec_module(MODULE)
 
 DIMS = MODULE.DIMENSIONS
 ARMS = MODULE.ARMS
+
+
+def manifest_fixture():
+    return [
+        {"case_id": "case-01", "source_cluster_id": "cluster-a",
+         "input_sha256": "a" * 64, "target_schema_sha256": "b" * 64},
+        {"case_id": "case-02", "source_cluster_id": "cluster-b",
+         "input_sha256": "a" * 64, "target_schema_sha256": "b" * 64},
+    ]
+
+
+def binding_kwargs():
+    manifest_bytes = json.dumps({"cases": manifest_fixture()}, sort_keys=True).encode("utf-8")
+    rubric_bytes = b"frozen-rubric-v1"
+    return {
+        "manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+        "rubric_sha256": hashlib.sha256(rubric_bytes).hexdigest(),
+        "manifest_cases": manifest_fixture(),
+    }
 
 
 def fixture():
@@ -38,15 +59,15 @@ def fixture():
     return {
         "schema_version": "dgsi-factorial-review-scorecard.v1",
         "classification": "BLINDED_REVIEW_SCORECARD_NOT_FOR_SFT",
-        "manifest_sha256": "c" * 64,
-        "rubric_sha256": "d" * 64,
+        "manifest_sha256": binding_kwargs()["manifest_sha256"],
+        "rubric_sha256": binding_kwargs()["rubric_sha256"],
         "cases": cases,
     }
 
 
 class FactorialScorecardAnalysisTests(unittest.TestCase):
     def test_paired_factorial_effects_are_calculated_descriptively(self):
-        report = MODULE.analyze_scorecard(fixture())
+        report = MODULE.analyze_scorecard(fixture(), **binding_kwargs())
         self.assertEqual(report["status"], "ANALYZED")
         self.assertEqual(report["complete_four_arm_paired_case_count"], 2)
         self.assertEqual(report["source_cluster_count"], 2)
@@ -64,7 +85,7 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         review["dimension_scores"] = None
         review["accepted"] = False
         review["critical_failure_codes"] = ["INVALID_FORMAT"]
-        report = MODULE.analyze_scorecard(data)
+        report = MODULE.analyze_scorecard(data, **binding_kwargs())
         self.assertEqual(report["arm_summary"]["A"]["invalid_output_count_of_reviews"], 1)
         self.assertEqual(report["complete_four_arm_paired_case_count"], 1)
         self.assertEqual(report["case_details"]["case-01"]["A"]["case_mean_score"], None)
@@ -101,6 +122,20 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         data["manifest_sha256"] = "not-a-hash"
         with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_BINDING_HASH_INVALID"):
             MODULE.analyze_scorecard(data)
+
+    def test_scorecard_case_ids_and_hashes_must_match_frozen_manifest(self):
+        data = fixture()
+        data["cases"][0]["input_sha256"] = "e" * 64
+        with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_CASE_BINDING_MISMATCH"):
+            MODULE.analyze_scorecard(data, **binding_kwargs())
+        data = fixture()
+        data["cases"].pop()
+        with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_CASE_SET_MISMATCH"):
+            MODULE.analyze_scorecard(data, **binding_kwargs())
+
+    def test_missing_binding_files_fail_closed(self):
+        with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_BINDING_FILES_REQUIRED"):
+            MODULE.analyze_scorecard(fixture())
 
     def test_reviewer_pair_must_be_identical_across_all_arms(self):
         data = fixture()
