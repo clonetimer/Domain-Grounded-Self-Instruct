@@ -86,10 +86,20 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                     _fail("PAIR_MEMBER_JSON_INVALID")
 
             manifest = load("coordinator_ONLY_pairing_manifest.json")
-            if not isinstance(manifest, dict) or manifest.get("purpose") != (
-                "DEV_ONLY_HISTORY_SOURCE_ISOLATED_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING"
-            ):
+            allowed_purposes = {
+                "DEV_ONLY_HISTORY_SOURCE_ISOLATED_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
+                "DEV_ONLY_SOURCE_FACT_BLINDED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING",
+            }
+            if not isinstance(manifest, dict) or manifest.get("purpose") not in allowed_purposes:
                 _fail("PAIR_MANIFEST_NOT_DEV_ONLY")
+            source_blind = manifest["purpose"].startswith("DEV_ONLY_SOURCE_FACT_BLINDED_")
+            if source_blind and (
+                manifest.get("not_for_sft") is not True
+                or manifest.get("current_event_literature_facts_exposed_to_model") is not False
+                or manifest.get("coordinator_source_refs_are_not_model_visible") is not True
+                or not isinstance(manifest.get("quarantined_source_fact_items"), list)
+            ):
+                _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
             for field in ("training_authorized", "gold_eligible",
                           "official_split_assigned", "source_rights_verified",
                           "expert_review_complete"):
@@ -104,6 +114,16 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
 
             families, cores, task_ids, expected_members = set(), set(), set(), set()
             hits, missing_verification = 0, 0
+            quarantined = {}
+            if source_blind:
+                for row in manifest["quarantined_source_fact_items"]:
+                    if not isinstance(row, dict) or not isinstance(row.get("task_id"), str):
+                        _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
+                    if row["task_id"] in quarantined:
+                        _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
+                    quarantined[row["task_id"]] = row
+                if len(quarantined) != len(pairs):
+                    _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
             for entry in pairs:
                 if not isinstance(entry, dict):
                     _fail("PAIR_ENTRY_INVALID")
@@ -171,6 +191,25 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
                     isinstance(v, str) and v.startswith("HIST-") for v in ids
                 ):
                     _fail("PAIR_HISTORY_SOURCE_LEAK")
+                if source_blind:
+                    ledger = quarantined.get(task)
+                    if not isinstance(ledger, dict) or evidence != []:
+                        _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
+                    refs = entry.get("quarantined_source_fact_refs")
+                    digest_hex = entry.get("quarantined_source_fact_evidence_sha256")
+                    source_rows = ledger.get("source_refs_and_passage_digests")
+                    if (entry.get("source_fact_blinding") != "QUARANTINED_IN_SOURCE_V02_ONLY"
+                            or not isinstance(refs, list) or not refs
+                            or not isinstance(source_rows, list)
+                            or len(source_rows) != entry.get("quarantined_source_fact_evidence_count")
+                            or len(refs) != len(source_rows)
+                            or refs != [row.get("evidence_id") for row in source_rows if isinstance(row, dict)]
+                            or not isinstance(digest_hex, str) or len(digest_hex) != 64
+                            or any(c not in "0123456789abcdef" for c in digest_hex)
+                            or ledger.get("source_fact_evidence_sha256") != digest_hex
+                            or ledger.get("coordinator_only") is not True
+                            or ledger.get("not_for_sft") is not True):
+                        _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
                 history = with_history["historical_cases"]
                 for key in ("history_refs", "history_outcome_statuses",
                             "history_hardware_compatibilities", "history_available_at"):
@@ -206,9 +245,12 @@ def audit_pair_zip(path: str | Path) -> dict[str, Any]:
 
             if {n for n in names if n.startswith("model_visible_inputs/")} != expected_members:
                 _fail("PAIR_MODEL_MEMBER_SET_MISMATCH")
+            if source_blind and set(quarantined) != task_ids:
+                _fail("PAIR_SOURCE_FACT_BLINDING_INVALID")
             return {
                 "schema_version": "dgsi-history-pair-science-integrity.v1",
                 "decision": "DEV_ONLY_NOT_RELEASED",
+                "model_visible_source_fact_cards": 0 if source_blind else "NOT_ISOLATED",
                 "pair_count": len(pairs),
                 "model_visible_input_count": len(expected_members),
                 "distinct_current_input_cores": len(cores),

@@ -145,6 +145,55 @@ class HistoryPairScienceAuditTests(unittest.TestCase):
                 z.writestr(name, json.dumps(obj))
         self.reject("PAIR_UNCONTROLLED_CORE_CHANGE")
 
+    def enable_source_blind_v03(self):
+        self.manifest["purpose"] = (
+            "DEV_ONLY_SOURCE_FACT_BLINDED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING"
+        )
+        self.manifest["not_for_sft"] = True
+        self.manifest["current_event_literature_facts_exposed_to_model"] = False
+        self.manifest["coordinator_source_refs_are_not_model_visible"] = True
+        for obj in self.members.values():
+            obj["input"]["knowledge_evidence"] = []
+        self.entry["source_fact_blinding"] = "QUARANTINED_IN_SOURCE_V02_ONLY"
+        self.entry["quarantined_source_fact_evidence_count"] = 1
+        self.entry["quarantined_source_fact_evidence_sha256"] = "a" * 64
+        self.entry["quarantined_source_fact_refs"] = ["CURRENT-001"]
+        self.manifest["quarantined_source_fact_items"] = [{
+            "task_id": self.task,
+            "source_fact_evidence_sha256": "a" * 64,
+            "coordinator_only": True,
+            "not_for_sft": True,
+            "source_refs_and_passage_digests": [{"evidence_id": "CURRENT-001"}],
+        }]
+        self.write()
+
+    def test_source_blind_v03_valid(self):
+        self.enable_source_blind_v03()
+        result = audit.audit_pair_zip(self.archive)
+        self.assertEqual(result["model_visible_source_fact_cards"], 0)
+        self.assertEqual(result["positive_history_transfer"], "NOT_EVALUABLE")
+
+    def test_source_blind_v03_rejects_shared_l0_fact_even_when_hashes_match(self):
+        self.enable_source_blind_v03()
+        for obj in self.members.values():
+            obj["input"]["knowledge_evidence"] = [{
+                "evidence_id": "L0-FACT-001", "excerpt": "synthetic root cause",
+            }]
+        self.write()
+        self.reject("PAIR_SOURCE_FACT_BLINDING_INVALID")
+
+    def test_source_blind_v03_rejects_quarantine_ledger_mismatch(self):
+        self.enable_source_blind_v03()
+        self.entry["quarantined_source_fact_refs"] = ["ALTERED-L0"]
+        self.write()
+        self.reject("PAIR_SOURCE_FACT_BLINDING_INVALID")
+
+    def test_source_blind_v03_rejects_coordinator_data_in_model_envelope(self):
+        self.enable_source_blind_v03()
+        list(self.members.values())[0]["source_fact_provenance"] = "coordinator-only"
+        self.write()
+        self.reject("PAIR_VISIBLE_ENVELOPE_INVALID")
+
 
 if __name__ == "__main__":
     unittest.main()
