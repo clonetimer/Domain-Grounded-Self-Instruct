@@ -56,6 +56,23 @@ class InstructionDesignTests(unittest.TestCase):
                   'selected_candidate_id': 'I1'}
         return user, record
 
+    def test_all_optional_recipe_flags_match_the_factorial_ablation_matrix(self):
+        from dgsi.instruction_design import authoring_recipe
+        expected = {
+            'evolve': (True, False, 1, 'comparability|evidence_roles|bounded_scope'),
+            'select': (False, True, 3, 'style'),
+            'evolve-select': (True, True, 3, 'comparability|evidence_roles|bounded_scope'),
+        }
+        for recipe_id, (evolution, selection, count, operations) in expected.items():
+            with self.subTest(recipe_id=recipe_id):
+                recipe = authoring_recipe(recipe_id)
+                self.assertEqual(recipe['evolution_enabled'], evolution)
+                self.assertEqual(recipe['selection_enabled'], selection)
+                self.assertEqual(recipe['candidate_count'], count)
+                self.assertTrue(recipe['not_for_sft'])
+                self.assertEqual(recipe['recipe_id'], recipe_id)
+                self.assertEqual(recipe['record_contract']['candidates'][0]['operation'], operations)
+
     def test_tie_uses_original_order_and_never_mutates_input(self):
         resolve = self.api()
         user, record = self.fixture()
