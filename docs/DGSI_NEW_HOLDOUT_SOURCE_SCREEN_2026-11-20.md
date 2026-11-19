@@ -51,3 +51,54 @@ A candidate is not eligible for the confirmatory holdout until all checks pass:
 5. Only after rights and exposure gates pass, draft L0 fact cards with page/section locators and explicit missing-material fields for independent review.
 6. If fewer than the preregistered minimum of independent clusters pass, keep the 2×2 experiment at NOT_RUN. Do not substitute familiar or exposed cases.
 
+
+
+## Additional primary-source screening — 2026-11-20 (follow-up)
+
+This follow-up adds public-source verification only. It does not admit any source, create a fact card/task, or alter the preregistered holdout manifest.
+
+### ISS Beta Gimbal Assembly — rights metadata confirmed; independence still open
+
+The exact NASA NTRS record for NASA/TM-2003-212012 (Document ID 20030014592) was opened and checked. NTRS identifies the document as a Technical Memorandum, marks Distribution Limits **Public**, and Copyright **Work of the US Gov. Public Use Permitted**; the full 17-page PDF is downloadable from the record. Its abstract supports increasing drive-motor currents on both Beta Gimbal Assemblies and EPS analyses/workarounds to reduce BGA use while maintaining adequate solar-array power. It does not, by itself, establish a confirmed mechanical root cause. The report lists a NASA Glenn author and a Boeing co-author; inspect the full PDF for any third-party figures/material before derivative reuse.
+
+Primary record: https://ntrs.nasa.gov/citations/20030014592  
+PDF: https://ntrs.nasa.gov/api/citations/20030014592/downloads/20030014592.pdf  
+Checked: 2026-11-20.
+
+**Decision remains CONDITIONAL / NOT ADMITTED.** Public-use metadata now passes the initial document-level rights screen, subject to third-party-material review. The unresolved gate is exposure independence across prior conversations, development bundles, PR history and retrieval indexes. A default-branch code-search miss is insufficient to prove independence.
+
+### MethaneSAT — rights caution strengthened; still not a legal determination
+
+The MBIE-hosted Appendix 9 report is publicly accessible and states that the last received telemetry was nominal, no post-anomaly spacecraft data were available, and the investigation narrowed the direct cause to either flight avionics or EPS while leaving the specific failure reason unknown. It lists three possible contributors and explicitly says their relative likelihood cannot be stated. Preserve that uncertainty; do not choose or rank one contributor.
+
+The publicly posted 2020 MBIE–MethaneSAT MOU states that Work Product IP is owned by the producing participant (or jointly if jointly produced), that neither participant may distribute another participant's Work Product without prior written consent, and that MBIE's license to MethaneSAT IP is non-sublicensable/non-assignable and limited to performing the MOU services. The MOU also says it is not intended to be legally binding. These clauses do **not** establish the current copyright status of Appendix 9 or settle rights for derivative dataset use; public release by MBIE is not itself an explicit license for all transformations. Keep on HOLD pending source-specific permission/rights determination.
+
+Sources: https://www.mbie.govt.nz/dmsdocument/31529-appendix-9-methanesat-anomaly-investigation-report and https://www.mbie.govt.nz/dmsdocument/31526-appendix-1-memorandum-of-understanding-methanesat (sections 3 and 4; checked 2026-11-20).
+
+### New scope-sensitive lead: Inertial Upper Stage (IUS) nozzle failure
+
+NASA NTRS record 19860000811, *Analytical investigation of solid rocket nozzle failure* (NASA-TM-86513), describes an April 5, 1983 IUS loss-of-control event during the second solid-rocket-motor burn. The record says the investigation attributed the anomaly to a solid-rocket-motor malfunction and describes failure analysis, thermal testing, modeling, and design changes. NTRS marks Distribution Limits **Public** and Copyright **Work of the US Gov. Public Use Permitted**; a full PDF is available.
+
+Primary record: https://ntrs.nasa.gov/citations/19860000811  
+PDF: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19860000811.pdf  
+Checked: 2026-11-20.
+
+**Decision: SCREENING LEAD ONLY / NOT ADMITTED.** This is an upper-stage propulsion event, not an ordinary satellite bus/subsystem anomaly. Before considering it, determine whether the project scope includes launch/transfer upper-stage spacecraft and whether its source facts support the same diagnostic task contract. It must also pass repository and prior-work exposure checks. Do not count it as an independent eligible cluster yet.
+
+### Explicit exclusion: Seasat
+
+NASA's *Report of the Seasat Failure Review Board* (NTRS 19930015504) has public-use metadata and a useful failure narrative, but Seasat is already named among the existing P5-C17 holdout sources. It is therefore **EXPOSED / INELIGIBLE** for this new confirmatory experiment, regardless of its source quality. Do not reuse it as a fresh cluster.
+
+Primary record: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19930015504.pdf (checked 2026-11-20).
+
+### Follow-up gate status
+
+- Additional records checked: 3 (ISS BGA, MethaneSAT MOU/report, IUS); Seasat explicitly screened out due existing holdout exposure.
+- Document-level public-use metadata confirmed: ISS BGA and IUS.
+- Candidates admitted to confirmatory holdout: **0**.
+- Candidates requiring exposure/scope checks: ISS BGA and IUS.
+- Candidate requiring source-specific rights determination: MethaneSAT.
+- Existing holdout manifest, cases, references, scores and rubric: unchanged.
+- Generation/model calls/training: not performed.
+
+No candidate is to be promoted merely to meet a quota. The 2×2 remains NOT_RUN until the required number of independent, rights-cleared, scope-compatible source clusters are actually established and frozen.
