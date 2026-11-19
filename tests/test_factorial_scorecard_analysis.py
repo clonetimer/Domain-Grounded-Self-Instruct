@@ -60,6 +60,15 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         self.assertEqual(report["case_details"]["case-01"]["A"]["case_mean_score"], None)
         self.assertEqual(report["arm_summary"]["A"]["critical_failure_code_count"], 1)
 
+    def test_invalid_output_cannot_be_marked_accepted(self):
+        data = fixture()
+        review = data["cases"][0]["reviews"][0]
+        review["output_valid"] = False
+        review["dimension_scores"] = None
+        review["accepted"] = True
+        with self.assertRaisesRegex(MODULE.ScorecardError, "INVALID_OUTPUT_CANNOT_BE_ACCEPTED"):
+            MODULE.analyze_scorecard(data)
+
     def test_no_complete_paired_cases_produces_not_estimable(self):
         data = fixture()
         for case in data["cases"]:
