@@ -36,6 +36,10 @@ def analyze_scorecard(data: dict) -> dict:
         raise ScorecardError("SCORECARD_SCHEMA_INVALID")
     if data.get("classification") != "BLINDED_REVIEW_SCORECARD_NOT_FOR_SFT":
         raise ScorecardError("SCORECARD_CLASSIFICATION_INVALID")
+    for hash_field in ("manifest_sha256", "rubric_sha256"):
+        value = data.get(hash_field)
+        if not isinstance(value, str) or len(value) != 64 or any(ch not in "0123456789abcdef" for ch in value):
+            raise ScorecardError("SCORECARD_BINDING_HASH_INVALID")
     cases = data.get("cases")
     if not isinstance(cases, list) or not cases:
         raise ScorecardError("CASES_MISSING")
@@ -45,9 +49,13 @@ def analyze_scorecard(data: dict) -> dict:
     rows_by_case = {}
     cluster_by_case = {}
     for case in cases:
-        if not isinstance(case, dict) or set(case) != {"case_id", "source_cluster_id", "reviews"}:
+        if not isinstance(case, dict) or set(case) != {"case_id", "source_cluster_id", "input_sha256", "target_schema_sha256", "reviews"}:
             raise ScorecardError("CASE_ROW_INVALID")
         case_id, cluster = case["case_id"], case["source_cluster_id"]
+        for hash_field in ("input_sha256", "target_schema_sha256"):
+            value = case[hash_field]
+            if not isinstance(value, str) or len(value) != 64 or any(ch not in "0123456789abcdef" for ch in value):
+                raise ScorecardError("CASE_BINDING_HASH_INVALID")
         if not isinstance(case_id, str) or not case_id.strip() or not isinstance(cluster, str) or not cluster.strip():
             raise ScorecardError("CASE_ID_OR_CLUSTER_INVALID")
         if case_id in case_ids:
@@ -85,8 +93,11 @@ def analyze_scorecard(data: dict) -> dict:
             by_arm[arm].append(review)
         if any(len(by_arm[arm]) != 2 for arm in ARMS):
             raise ScorecardError("TWO_REVIEWERS_PER_ARM_REQUIRED")
-        if len({r["reviewer_token"] for r in reviews}) != 2:
+        panel_tokens = {r["reviewer_token"] for r in reviews}
+        if len(panel_tokens) != 2:
             raise ScorecardError("REVIEWER_PANEL_MUST_BE_TWO_BLINDED_TOKENS")
+        if any({r["reviewer_token"] for r in by_arm[arm]} != panel_tokens for arm in ARMS):
+            raise ScorecardError("REVIEWER_PAIR_MISMATCH_ACROSS_ARMS")
         rows_by_case[case_id] = by_arm
 
     if len(reviewer_tokens) != 2:
