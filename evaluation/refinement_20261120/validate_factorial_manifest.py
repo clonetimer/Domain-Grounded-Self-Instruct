@@ -6,9 +6,11 @@ or authorize model calls/training.
 from __future__ import annotations
 
 import argparse
+from datetime import date
 import hashlib
 import json
 from pathlib import Path
+from urllib.parse import urlparse
 
 ARMS = {
     "A": (False, False),
@@ -89,8 +91,61 @@ def validate_manifest(data: dict) -> dict:
             if len(value) != 64 or any(c not in "0123456789abcdef" for c in value):
                 raise ManifestError("CASE_HASH_INVALID")
         canonical_cases[row["case_id"]] = row
-    if len({row["source_cluster_id"] for row in cases}) < 2:
+    case_clusters = {row["source_cluster_id"] for row in cases}
+    if len(case_clusters) < 2:
         raise ManifestError("INSUFFICIENT_INDEPENDENT_SOURCE_CLUSTERS")
+
+    # Each declared source cluster must carry an auditable evidence record.
+    # These fields make the evidence trail inspectable; they do not prove that
+    # the curator's assertions are true or replace independent legal/exposure review.
+    evidence_records = data.get("source_evidence_records")
+    if not isinstance(evidence_records, list) or not evidence_records:
+        raise ManifestError("SOURCE_EVIDENCE_RECORDS_MISSING")
+    required_evidence_keys = {
+        "source_cluster_id", "primary_source_url", "source_document_id",
+        "source_document_sha256", "source_locators", "rights_basis",
+        "rights_scope", "rights_review_ref", "exposure_audit_scope",
+        "exposure_audit_ref", "independence_rationale", "review_status",
+        "reviewer_token", "reviewed_at",
+    }
+    required_exposure_scopes = {
+        "repository_and_pr_history",
+        "prior_development_bundles",
+        "connected_retrieval_and_prior_conversations",
+    }
+    evidence_by_cluster = {}
+    for record in evidence_records:
+        if not isinstance(record, dict) or set(record) != required_evidence_keys:
+            raise ManifestError("SOURCE_EVIDENCE_RECORD_INVALID")
+        cluster_id = record.get("source_cluster_id")
+        if not isinstance(cluster_id, str) or not cluster_id.strip() or cluster_id in evidence_by_cluster:
+            raise ManifestError("SOURCE_EVIDENCE_CLUSTER_DUPLICATE_OR_INVALID")
+        parsed_url = urlparse(record.get("primary_source_url", ""))
+        if parsed_url.scheme != "https" or not parsed_url.netloc:
+            raise ManifestError("SOURCE_PRIMARY_URL_INVALID")
+        if not isinstance(record.get("source_document_id"), str) or not record["source_document_id"].strip():
+            raise ManifestError("SOURCE_DOCUMENT_ID_MISSING")
+        digest = record.get("source_document_sha256")
+        if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ManifestError("SOURCE_DOCUMENT_HASH_INVALID")
+        locators = record.get("source_locators")
+        if not isinstance(locators, list) or not locators or any(not isinstance(v, str) or not v.strip() for v in locators):
+            raise ManifestError("SOURCE_LOCATORS_MISSING")
+        for key in ("rights_basis", "rights_scope", "rights_review_ref", "exposure_audit_ref", "independence_rationale", "reviewer_token", "reviewed_at"):
+            if not isinstance(record.get(key), str) or not record[key].strip():
+                raise ManifestError("SOURCE_REVIEW_EVIDENCE_INCOMPLETE")
+        scopes = record.get("exposure_audit_scope")
+        if not isinstance(scopes, list) or not required_exposure_scopes.issubset(set(scopes)):
+            raise ManifestError("SOURCE_EXPOSURE_AUDIT_SCOPE_INCOMPLETE")
+        if record.get("review_status") != "PASS":
+            raise ManifestError("SOURCE_REVIEW_NOT_PASSED")
+        try:
+            date.fromisoformat(record["reviewed_at"])
+        except (TypeError, ValueError):
+            raise ManifestError("SOURCE_REVIEW_DATE_INVALID")
+        evidence_by_cluster[cluster_id] = record
+    if set(evidence_by_cluster) != case_clusters:
+        raise ManifestError("SOURCE_EVIDENCE_CLUSTER_SET_MISMATCH")
 
     arms = data.get("arms")
     if not isinstance(arms, list) or len(arms) != 4:
@@ -135,7 +190,9 @@ def validate_manifest(data: dict) -> dict:
         "status": "MANIFEST_COMPARABILITY_VALIDATED_NOT_EXECUTED",
         "arm_count": 4,
         "case_count": len(cases),
-        "source_cluster_count": len({row["source_cluster_id"] for row in cases}),
+        "source_cluster_count": len(case_clusters),
+        "source_evidence_record_count": len(evidence_records),
+        "source_evidence_manifest_sha256": _canonical_sha256(evidence_records),
         "case_manifest_sha256": _canonical_sha256(cases),
         "model_calls_authorized": False,
         "training_authorized": False,
