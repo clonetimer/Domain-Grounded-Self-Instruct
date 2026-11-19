@@ -18,8 +18,8 @@ A candidate is not eligible for the confirmatory holdout until all checks pass:
 
 | Candidate event family | Primary source | Source-supported facts | Rights status | Exposure/independence status | Decision |
 |---|---|---|---|---|---|
-| IMAGE 2005 loss of communications / transponder power path | IMAGE Failure Review Board Final Report, 2006-09-19, NASA/GSFC-hosted report: https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf | Report states likely SEU-induced instant trip of transponder SSPC; several less likely causes cannot be eliminated. It describes nominal telemetry before loss, unsuccessful recovery attempts, and a design issue where instant trips were not reflected in status telemetry. | NASA-hosted public report found; exact reuse terms for derivative dataset still require confirmation. Do not infer blanket license solely from hosting. | Not listed among the explicit PR #188 exclusions, but repository-wide and retrieval-exposure checks remain required. | HOLD — rights and exposure review |
-| ISS US solar-array Beta Gimbal Assembly rising motor-current anomaly (2000–2001) | NASA NTRS 20030014592, NASA/TM-2003-212012: https://ntrs.nasa.gov/citations/20030014592 | NTRS abstract reports higher-than-expected BGA drive-motor currents increasing over time on both assemblies; EPS analyses supported operational workarounds to reduce BGA use while maintaining adequate solar-array power. | NTRS record explicitly states “Public Use Permitted” and distribution limits “Public”. Verify any third-party material embedded in the full PDF before reuse. | Not listed among explicit PR #188 exclusions; still requires repository-wide and retrieval-exposure check. Event family is distinct from IMAGE. | CONDITIONAL CANDIDATE — rights evidence present; exposure and full-text audit pending |
+| IMAGE 2005 loss of communications / transponder power path | IMAGE Failure Review Board Final Report, 2006-09-19, NASA/GSFC-hosted report: https://spdf.gsfc.nasa.gov/pub/data/image/documents/website/image.gsfc.nasa.gov/publication/document/IMAGE_FRB_Final_Report.pdf | Report states likely SEU-induced instant trip of transponder SSPC; several less likely causes cannot be eliminated. It describes nominal telemetry before loss, unsuccessful recovery attempts, and a design issue where instant trips were not reflected in status telemetry. | NASA content is generally reusable for factual/informational purposes subject to NASA media guidelines, but report-specific third-party material must still be checked: https://www.nasa.gov/nasa-brand-center/images-and-media/ | **EXPOSED / INELIGIBLE** — repository search found this exact source and its fault mechanism already used in EPS seed-curation skill, source registry, source passages, pressure-test cases, domain review checklist and exploratory model pretest. | EXCLUDE from confirmatory holdout; retain only as development material |
+| ISS US solar-array Beta Gimbal Assembly rising motor-current anomaly (2000–2001) | NASA NTRS 20030014592, NASA/TM-2003-212012: https://ntrs.nasa.gov/citations/20030014592 | NTRS abstract reports higher-than-expected BGA drive-motor currents increasing over time on both assemblies; EPS analyses supported operational workarounds to reduce BGA use while maintaining adequate solar-array power. | NTRS record explicitly states “Public Use Permitted” and distribution limits “Public” (NTRS record metadata, checked 2026-11-20). Verify any third-party material embedded in the full PDF before reuse. | GitHub default-branch search for “Beta Gimbal Assembly” and “20030014592” returned no matches. This is only a limited repository-index check, not proof of no exposure in prior chats, connected retrieval or non-indexed PRs. | CONDITIONAL CANDIDATE — rights metadata verified; independence NOT YET ESTABLISHED |
 | MethaneSAT 2025-06-20 loss of communications | New Zealand MBIE-hosted Appendix 9 anomaly investigation report: https://www.mbie.govt.nz/dmsdocument/31529-appendix-9-methanesat-anomaly-investigation-report | Report says last received data were nominal; no post-anomaly telemetry was available; the investigation narrowed the direct event to flight avionics or EPS but could not identify the specific failure. It lists three possible contributors without ranking their relative likelihood. | Government-hosted appendix, but underlying report is authored by MethaneSAT LLC and partners; derivative reuse/IP permission is not established. | Not listed among explicit PR #188 exclusions; full exposure check remains required. | HOLD — rights and exposure review |
 
 ## Source-fidelity constraints
@@ -32,7 +32,9 @@ A candidate is not eligible for the confirmatory holdout until all checks pass:
 ## Current gate result
 
 - Candidate documents screened: 3.
-- Rights fully cleared for derivative DGSI use: 0.
+- Rights metadata explicitly supporting public reuse: 1 (ISS NTRS 20030014592; third-party embedded material still to be checked).
+- Candidate disqualified for prior development exposure: 1 (IMAGE).
+- Candidates still held for rights/exposure review: 2 (ISS independence; MethaneSAT rights and independence).
 - Event/source clusters admitted to confirmatory holdout: 0.
 - L0 fact cards created: 0.
 - L1 tasks created: 0.
@@ -42,9 +44,10 @@ A candidate is not eligible for the confirmatory holdout until all checks pass:
 
 ## Next actions
 
-1. Obtain explicit reuse/IP determination for IMAGE and MethaneSAT; verify third-party content in the ISS NTRS PDF.
-2. Run repository-wide source-hash, event-family, prior-chat/retrieval exposure and excluded-lead checks for all three candidates.
-3. Read the full ISS NTRS report before deciding whether its abstract has enough detail; do not treat an abstract as a complete engineering fact card.
-4. Only after rights and exposure gates pass, draft L0 fact cards with page/section locators and explicit missing-material fields for independent review.
-5. If fewer than the preregistered minimum of independent clusters pass, keep the 2×2 experiment at NOT_RUN. Do not substitute familiar or exposed cases.
+1. Do not reconsider IMAGE for confirmatory holdout: its source and mechanism are already deeply exposed in the DGSI repository and development work.
+2. Verify third-party content and permitted derivative reuse in the full ISS NTRS PDF; obtain the full document and exact page/section locators.
+3. Obtain explicit reuse/IP determination for MethaneSAT; a government-hosted appendix is not by itself proof that the underlying corporate-authored report may be republished or transformed.
+4. Extend exposure screening beyond GitHub code search to prior development bundles, issue/PR history and retrieval indexes before admitting ISS or MethaneSAT.
+5. Only after rights and exposure gates pass, draft L0 fact cards with page/section locators and explicit missing-material fields for independent review.
+6. If fewer than the preregistered minimum of independent clusters pass, keep the 2×2 experiment at NOT_RUN. Do not substitute familiar or exposed cases.
 
