@@ -50,9 +50,15 @@ def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_
     if data["manifest_sha256"] != manifest_sha256 or data["rubric_sha256"] != rubric_sha256:
         raise ScorecardError("SCORECARD_BINDING_HASH_MISMATCH")
     cases = data.get("cases")
-    expected_by_id = {row["case_id"]: row for row in manifest_cases}
-    if len(expected_by_id) != len(manifest_cases):
-        raise ScorecardError("MANIFEST_CASE_DUPLICATE")
+    if not isinstance(manifest_cases, list) or not manifest_cases:
+        raise ScorecardError("MANIFEST_CASES_INVALID")
+    expected_by_id = {}
+    for row in manifest_cases:
+        if not isinstance(row, dict) or not isinstance(row.get("case_id"), str) or not row["case_id"].strip():
+            raise ScorecardError("MANIFEST_CASE_ROW_INVALID")
+        if row["case_id"] in expected_by_id:
+            raise ScorecardError("MANIFEST_CASE_DUPLICATE")
+        expected_by_id[row["case_id"]] = row
     scorecard_by_id = {}
     for row in cases if isinstance(cases, list) else []:
         if isinstance(row, dict) and isinstance(row.get("case_id"), str):
@@ -346,7 +352,7 @@ def main() -> int:
             manifest_cases=manifest["cases"],
         )
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    except (OSError, json.JSONDecodeError, ScorecardError) as exc:
+    except (OSError, json.JSONDecodeError, ScorecardError, ManifestError) as exc:
         print(json.dumps({"valid": False, "error": str(exc)}, ensure_ascii=False))
         return 2
     print(json.dumps({"valid": True, "status": report["status"], "output": str(args.output)}, ensure_ascii=False))
