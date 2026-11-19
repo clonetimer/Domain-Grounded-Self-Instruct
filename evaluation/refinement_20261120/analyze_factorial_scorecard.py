@@ -190,6 +190,7 @@ def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_
             for case_id in complete_cases
         }
     contrasts = {}
+    cluster_contrasts = {}
     if complete_cases:
         evolution_diffs = [
             ((paired["C"][case_id] + paired["D"][case_id]) / 2)
@@ -211,8 +212,36 @@ def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_
             "selection_main_effect": _mean(selection_diffs),
             "interaction": _mean(interaction_diffs),
         }
+        cluster_ids_with_complete_cases = sorted({
+            cluster_by_case[case_id] for case_id in complete_cases
+        })
+        cluster_effects = {"evolution_main_effect": [], "selection_main_effect": [], "interaction": []}
+        for cluster_id in cluster_ids_with_complete_cases:
+            cluster_case_ids = [case_id for case_id in complete_cases if cluster_by_case[case_id] == cluster_id]
+            cluster_arm_means = {
+                arm: _mean([paired[arm][case_id] for case_id in cluster_case_ids])
+                for arm in ARMS
+            }
+            cluster_effects["evolution_main_effect"].append(
+                ((cluster_arm_means["C"] + cluster_arm_means["D"]) / 2)
+                - ((cluster_arm_means["A"] + cluster_arm_means["B"]) / 2)
+            )
+            cluster_effects["selection_main_effect"].append(
+                ((cluster_arm_means["B"] + cluster_arm_means["D"]) / 2)
+                - ((cluster_arm_means["A"] + cluster_arm_means["C"]) / 2)
+            )
+            cluster_effects["interaction"].append(
+                (cluster_arm_means["D"] - cluster_arm_means["C"])
+                - (cluster_arm_means["B"] - cluster_arm_means["A"])
+            )
+        cluster_contrasts = {key: _mean(values) for key, values in cluster_effects.items()}
     else:
         contrasts = {
+            "evolution_main_effect": None,
+            "selection_main_effect": None,
+            "interaction": None,
+        }
+        cluster_contrasts = {
             "evolution_main_effect": None,
             "selection_main_effect": None,
             "interaction": None,
@@ -275,6 +304,7 @@ def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_
             } for arm in ARMS
         },
         "factorial_contrasts_on_complete_paired_cases_only": contrasts,
+        "factorial_contrasts_equal_weight_per_source_cluster": cluster_contrasts,
         "per_dimension_factorial_analysis": dimension_analysis,
         "reviewer_dimension_disagreement_count": reviewer_dimension_disagreements,
         "reviewer_acceptance_disagreement_count": reviewer_acceptance_disagreements,
@@ -283,7 +313,8 @@ def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_
             "Descriptive paired analysis only; no significance or superiority claim.",
             "No score imputation or numeric penalty is assigned to invalid outputs.",
             "Factorial score contrasts use only cases with valid scored outputs in all four arms; invalid-output rates are reported separately.",
-            "Source-cluster-weighted means give each represented source cluster equal weight.",
+            "Source-cluster-weighted means and factorial contrasts give each represented source cluster equal weight.",
+            "Equal-cluster contrasts are descriptive; they do not establish population-level uncertainty or significance.",
             "With few source clusters, population-level uncertainty is not estimable from this report.",
             "GPT or other model-based review is not human expert adjudication.",
         ],
