@@ -1,0 +1,146 @@
+{
+  "schema_version": "dgsi-closeout-replay-manifest.v1",
+  "classification": "LITERATURE_DERIVED_SYNTHETIC_DEV_ONLY",
+  "recipe_version": "dgsi-instruction-refinement-1",
+  "review_kind": "GPT_ADVISORY_NOT_HUMAN_EXPERT",
+  "training_authorized": false,
+  "gold_eligible": false,
+  "files": [
+    {
+      "path": "analysis_results.json",
+      "sha256": "99f59d5a5ad69949e185fb9cc50f23cebcd4d91dd3e22ab8351b93bf004a78ca"
+    },
+    {
+      "path": "analyze.py",
+      "sha256": "6965ff5417191e11ff1573c836d930ee7c845176414448276527d1baf44b520d"
+    },
+    {
+      "path": "coordinator/l1_binding_manifest.json",
+      "sha256": "a45ba63a14bced36bc21cbbc35f2769cafa1abcf050137943abee3a8891b03c9"
+    },
+    {
+      "path": "coordinator/original_score_audit.json",
+      "sha256": "bebf9ed8960484fb162ff98a996307b75a523017f157c9ff76fcbba4d9f9a023"
+    },
+    {
+      "path": "coordinator/source_bindings.json",
+      "sha256": "508b75b2f9f48ac946172793b61ce73f75324fce2df837ca3a56facf94efcc3c"
+    },
+    {
+      "path": "coordinator/source_selection.json",
+      "sha256": "5db7ed01d03fb9fff137125277418c639765b3b2332eeef0b84822ab1d6254fd"
+    },
+    {
+      "path": "fixtures/l0_source_facts.json",
+      "sha256": "da3f7922c0c66a1891ca30cb3f2c6feb685e3c6544b89a7c64942cd5d269aa0d"
+    },
+    {
+      "path": "fixtures/l1_collection.json",
+      "sha256": "efdf586232dc89e43fa8d156acbd4fe1bac4133fb3bbfb3b55b7cceaf7f2b82b"
+    },
+    {
+      "path": "frozen_input_manifest.json",
+      "sha256": "d36cacfb898ca249cd199abd634fb23acad961d3ced946c8360abf6aaad10368"
+    },
+    {
+      "path": "generation_validation.json",
+      "sha256": "24c669e955c39fe1ecbfe077442249581f3b1f6d8bce33e8fa1acd08e444eb9f"
+    },
+    {
+      "path": "generations/M1.json",
+      "sha256": "9d4ad8d2a80b5a6e256e8763c851d1fada67d5205a4ebdab8c2dbce0cc227eae"
+    },
+    {
+      "path": "generations/M3.json",
+      "sha256": "f218f9853a88cdaa3540e91afeb096c0496facd181c6839c2f3bd497a14c5609"
+    },
+    {
+      "path": "generations/M4.json",
+      "sha256": "aa85dd26c319e5ef3a0fee42d19ea4c7f38e4b1fa6ee14360beafed0bbd10ac7"
+    },
+    {
+      "path": "generations/M5.json",
+      "sha256": "d27b81f25e354aeedb5d092452865f1e585b4c2c80b2427ff4a79001504f1b41"
+    },
+    {
+      "path": "generations/M6.json",
+      "sha256": "68b0a1c3accc867ef18727927b0227d65b8d8997405b6f5f84fdc64d53bdab61"
+    },
+    {
+      "path": "generations/M7.json",
+      "sha256": "44b1c2008f2a8107a6773a25af9b7c6e9ecde70b8415adac21cad06ac5e9f63b"
+    },
+    {
+      "path": "gpt_reviews.json",
+      "sha256": "aaaff91f33dba5d73c24fceee8d84d50d7f40a7061f28d2628d7072f87237dcd"
+    },
+    {
+      "path": "instruction_selection_audit.json",
+      "sha256": "b90e004fbf89b1f007a1615702d4b88aff569262f3630a1d2c9a6fd998423b49"
+    },
+    {
+      "path": "prompts/M1.json",
+      "sha256": "51ac9ddaad0910c19bcf11faa146b62b69bf256940d833115b2862d726d2db6b"
+    },
+    {
+      "path": "prompts/M3.json",
+      "sha256": "e31dd5694b84826a2ed730719e444644e7e5caf7ca3538beeb67e4dbcfed6771"
+    },
+    {
+      "path": "prompts/M4.json",
+      "sha256": "cb3fd18ab7d2638790f8873ca0477e990b13268002c304421e1f555b6f8afd96"
+    },
+    {
+      "path": "prompts/M5.json",
+      "sha256": "6b63bef652df2c8dea193a56eecab05fef2a9de6b82c3f79ba09a53d0f21ac4d"
+    },
+    {
+      "path": "prompts/M6.json",
+      "sha256": "2cf7752e30ffa3046bc54a8ffdef2cc3307ff08b1485123682c27a9170c4d3d9"
+    },
+    {
+      "path": "prompts/M7.json",
+      "sha256": "bc0b777f6293d16cbd4258a27a72115f594952d023e8fccf02bb5a7f4df09e12"
+    },
+    {
+      "path": "protocol.json",
+      "sha256": "62de8743c813a3d18470c59c64edfd5e537dc535c89c31a94fa60298840441ff"
+    },
+    {
+      "path": "review_inputs.json",
+      "sha256": "788ec004ea563ef968f506fb1a2f5cdabeca2cd7800e93be80b8ded62a40895d"
+    },
+    {
+      "path": "review_prompt.json",
+      "sha256": "6a3c8625fefea622be6c5d2d9acd243f4bbf5b6a097a5aabc3b04bf05f198f1c"
+    },
+    {
+      "path": "review_summary.json",
+      "sha256": "5e452cec490343089d3a1e851d4a0dffbcd028d158e8bceacbc2a5e150b472e6"
+    },
+    {
+      "path": "reviews/reviewer_A.json",
+      "sha256": "4a12fd147534c0968d92c8dc35fd1722f2890ce863c91abc42d38ac19159db6a"
+    },
+    {
+      "path": "reviews/reviewer_B.json",
+      "sha256": "3ed37d80887449be6daee400a007584ead9e70647f77960a6b3a5fa28f937c8f"
+    },
+    {
+      "path": "run_receipt.json",
+      "sha256": "601c3279ea02d7572f7f722fa51ca49fcdcb0adbdb0e77d78be16600e7234a7a"
+    },
+    {
+      "path": "shared_cases.json",
+      "sha256": "ffde05d3b02b3f329f4dad29320e6a68a75a3d935c0264331bf2afaf4a650b5f"
+    },
+    {
+      "path": "target_schema.json",
+      "sha256": "4710df4e9fcbf7d42fcbf3f12ea6f80ce44135c8acae009e3aee1436112243c2"
+    },
+    {
+      "path": "trials.json",
+      "sha256": "06de9a4634443ebec0ce6babd763cac0ea89b1d6d1d099821fdacf2845199d81"
+    }
+  ]
+}

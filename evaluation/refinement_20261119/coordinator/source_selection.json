@@ -1,0 +1,422 @@
+{
+  "schema_version": "dgsi-forward-case-selection.v1",
+  "status": "METADATA_SELECTION_LOCKED_BEFORE_FORWARD_GENERATION",
+  "purpose": "one prospective frozen forward comparison; DEV_ONLY, not an official or independently validated test set",
+  "source_collection_path": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json",
+  "source_collection_sha256": "876307d2b7d06929ed40b9a57f03c0c364aab7d31d33d67d08302f5cf2f08b45",
+  "corrected_l0_facts_path": "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json",
+  "corrected_l0_facts_sha256": "b4e9947958348c31dac519b7403f9f54db21bcd0c5df3051e3ed1f5112a9d905",
+  "selection_rule": "Coverage-first across unused current-event families: exclude any overlap through original task IDs, all current or historical event-family metadata, source refs, source documents/URLs, or connected document clusters. Choose one packet per remaining family to maximize distinct existing task types; break otherwise equivalent options by the lowest numeric task suffix. No packet edits.",
+  "selection_inputs_used": [
+    "task_id",
+    "case_id",
+    "task_type",
+    "source_fact_refs",
+    "synthetic_provenance.source_fact_refs",
+    "case.provenance source_group and historical_case_refs",
+    "history_context.items case_ref/event_family_id/source_refs/hit_metadata.source_group_id",
+    "case.input.historical_cases case_ref only",
+    "case.input.knowledge_evidence source_id only",
+    "L0 case_id/event_family_id/event_episode_id/source_reference metadata",
+    "frozen original source bindings and packet metadata"
+  ],
+  "selection_inputs_not_used": [
+    "formal_target",
+    "case.expected_output",
+    "case.instruction",
+    "diagnostic logs or ML result content",
+    "candidate scoring or recommendations",
+    "prospective generation or review output"
+  ],
+  "selected_task_ids": [
+    "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+    "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+    "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+    "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"
+  ],
+  "selected_cases": [
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "case_id": "CASE-L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "task_type": "evidence_sufficiency",
+      "primary_event_families": [
+        "TROPICS-PATHFINDER-SLIPRING-2023"
+      ],
+      "source_group": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "primary_source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "historical_items": [
+        {
+          "case_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+          "event_family_id": "SYNTHETIC-PRIOR-SEL-FAMILY",
+          "source_refs": [
+            "SYNTHETIC-HISTORY-REVIEW-REF-001"
+          ],
+          "source_group_id": "SYNTHETIC-PRIOR-SEL-FAMILY"
+        }
+      ],
+      "historical_source_refs": [
+        "SYNTHETIC-HISTORY-REVIEW-REF-001"
+      ],
+      "input_historical_case_refs": [
+        "SYNTHETIC-HISTORY-SEL-REJECTED-001"
+      ],
+      "provenance_historical_case_refs": [
+        "SYNTHETIC-HISTORY-SEL-REJECTED-001"
+      ],
+      "historical_event_families": [
+        "SYNTHETIC-PRIOR-SEL-FAMILY"
+      ],
+      "knowledge_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "all_source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+        "SYNTHETIC-HISTORY-REVIEW-REF-001"
+      ],
+      "mapped_source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "synthetic_or_unmapped_source_refs": [
+        "SYNTHETIC-HISTORY-REVIEW-REF-001"
+      ],
+      "all_document_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "all_document_urls": [
+        "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf"
+      ],
+      "document_cluster_ids": [
+        "DOC-CLUSTER-03"
+      ],
+      "overlap_with_original": {
+        "original_task": false,
+        "event_families": [],
+        "source_fact_or_history_refs": [],
+        "document_source_ids": [],
+        "document_urls": [],
+        "connected_document_clusters": []
+      },
+      "eligible_as_source_disjoint_prospective_case": true,
+      "source_packet_sha256": "a8f3872b94a6ff782680d1d142c32ce146d8f393af3610f52630ce13ce7bd0c4",
+      "primary_source_metadata": [
+        {
+          "case_id": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+          "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
+          "event_episode_id": "TROPICS-PATHFINDER-SPACECRAFT",
+          "source_reference": {
+            "source_id": "MITLL-TROPICS-LESSONS-2025",
+            "source_locator": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+            "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+            "publication_date": null,
+            "publication_year": 2025,
+            "ntrs_accession_year": null,
+            "publication_metadata_note": null,
+            "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+            "page_or_section": "Section 6, printed p.5 (PDF page 5)"
+          }
+        }
+      ]
+    },
+    {
+      "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "case_id": "CASE-L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "task_type": "conflict_reconciliation",
+      "primary_event_families": [
+        "TROPICS-SLIPRING-QUALIFICATION"
+      ],
+      "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "primary_source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "historical_items": [],
+      "historical_source_refs": [],
+      "input_historical_case_refs": [],
+      "provenance_historical_case_refs": [],
+      "historical_event_families": [],
+      "knowledge_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "all_source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "mapped_source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "synthetic_or_unmapped_source_refs": [],
+      "all_document_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "all_document_urls": [
+        "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf"
+      ],
+      "document_cluster_ids": [
+        "DOC-CLUSTER-03"
+      ],
+      "overlap_with_original": {
+        "original_task": false,
+        "event_families": [],
+        "source_fact_or_history_refs": [],
+        "document_source_ids": [],
+        "document_urls": [],
+        "connected_document_clusters": []
+      },
+      "eligible_as_source_disjoint_prospective_case": true,
+      "source_packet_sha256": "1e14342290e190d659a130cc78543ec80cf46ee3b0a7f97d438e3a2e88645cfe",
+      "primary_source_metadata": [
+        {
+          "case_id": "LIT-TROPICS-SLIPRING-TVAC-002",
+          "event_family_id": "TROPICS-SLIPRING-QUALIFICATION",
+          "event_episode_id": "TROPICS-FIRST-FLIGHT-PAYLOAD-TVAC",
+          "source_reference": {
+            "source_id": "MITLL-TROPICS-LESSONS-2025",
+            "source_locator": "NASA NTRS 20240011771, Section 6, printed pp.4–5 (PDF pages 4–5)",
+            "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+            "publication_date": null,
+            "publication_year": 2025,
+            "ntrs_accession_year": null,
+            "publication_metadata_note": null,
+            "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+            "page_or_section": "Section 6, printed pp.4–5 (PDF pages 4–5)"
+          }
+        }
+      ]
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "case_id": "CASE-L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "task_type": "diagnostic_synthesis",
+      "primary_event_families": [
+        "TROPICS-SLIPRING-FLIGHT-2023"
+      ],
+      "source_group": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "primary_source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "historical_items": [],
+      "historical_source_refs": [],
+      "input_historical_case_refs": [],
+      "provenance_historical_case_refs": [],
+      "historical_event_families": [],
+      "knowledge_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "all_source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "mapped_source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "synthetic_or_unmapped_source_refs": [],
+      "all_document_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "all_document_urls": [
+        "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf"
+      ],
+      "document_cluster_ids": [
+        "DOC-CLUSTER-03"
+      ],
+      "overlap_with_original": {
+        "original_task": false,
+        "event_families": [],
+        "source_fact_or_history_refs": [],
+        "document_source_ids": [],
+        "document_urls": [],
+        "connected_document_clusters": []
+      },
+      "eligible_as_source_disjoint_prospective_case": true,
+      "source_packet_sha256": "c64ad2b261fb808638a0bbd7e30ac3728c500cfda4c802f27b1f56dba49be1a2",
+      "primary_source_metadata": [
+        {
+          "case_id": "LIT-TROPICS-FLIGHT-CRC-003-A",
+          "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
+          "event_episode_id": "TROPICS-FLIGHT-PAYLOAD-A",
+          "source_reference": {
+            "source_id": "MITLL-TROPICS-LESSONS-2025",
+            "source_locator": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+            "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+            "publication_date": null,
+            "publication_year": 2025,
+            "ntrs_accession_year": null,
+            "publication_metadata_note": null,
+            "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+            "page_or_section": "Section 6, printed p.5 (PDF page 5)"
+          }
+        }
+      ]
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "case_id": "CASE-L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "task_type": "diagnostic_synthesis",
+      "primary_event_families": [
+        "NASA-22N-HYDRAZINE-LIFE-TEST-1987"
+      ],
+      "source_group": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "primary_source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "historical_items": [],
+      "historical_source_refs": [],
+      "input_historical_case_refs": [],
+      "provenance_historical_case_refs": [],
+      "historical_event_families": [],
+      "knowledge_source_ids": [
+        "NASA-TM-100232"
+      ],
+      "all_source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "mapped_source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "synthetic_or_unmapped_source_refs": [],
+      "all_document_source_ids": [
+        "NASA-TM-100232"
+      ],
+      "all_document_urls": [
+        "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf"
+      ],
+      "document_cluster_ids": [
+        "DOC-CLUSTER-06"
+      ],
+      "overlap_with_original": {
+        "original_task": false,
+        "event_families": [],
+        "source_fact_or_history_refs": [],
+        "document_source_ids": [],
+        "document_urls": [],
+        "connected_document_clusters": []
+      },
+      "eligible_as_source_disjoint_prospective_case": true,
+      "source_packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+      "primary_source_metadata": [
+        {
+          "case_id": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+          "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+          "event_episode_id": "NASA-22N-INJECTOR-PLUGGING",
+          "source_reference": {
+            "source_id": "NASA-TM-100232",
+            "source_locator": "NASA-TM-100232, report pp.3–5 (PDF pp.4–6), especially Post-Test Disassembly and Analysis and Concluding Remarks; Fig.8 on report p.10 (PDF p.11).",
+            "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
+            "publication_date": null,
+            "publication_year": 1987,
+            "ntrs_accession_year": 1988,
+            "publication_metadata_note": "报告年份为1987；NTRS accession identifier对应1988年编目。",
+            "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+            "page_or_section": "报告pp.3–5（PDF pp.4–6）；Fig.8：报告p.10（PDF p.11）"
+          }
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "source_packets": 21,
+    "eligible_packets_after_full_overlap_exclusion": 8,
+    "selected_packets": 4,
+    "primary_event_families": 4,
+    "task_types": 3,
+    "document_source_ids": 2,
+    "connected_document_clusters": 2
+  },
+  "selected_task_types": [
+    "conflict_reconciliation",
+    "diagnostic_synthesis",
+    "evidence_sufficiency"
+  ],
+  "selected_document_clusters": [
+    {
+      "cluster_id": "DOC-CLUSTER-03",
+      "document_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "document_urls": [
+        "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf"
+      ],
+      "primary_event_families": [
+        "TROPICS-PATHFINDER-SLIPRING-2023",
+        "TROPICS-SLIPRING-FLIGHT-2023",
+        "TROPICS-SLIPRING-QUALIFICATION"
+      ],
+      "packet_ids": [
+        "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+        "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+        "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+        "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+        "L1-TROPICS-TVAC-SLIPRING-SYNTH-004"
+      ],
+      "connected_to_original_comparison": false
+    },
+    {
+      "cluster_id": "DOC-CLUSTER-06",
+      "document_source_ids": [
+        "NASA-TM-100232"
+      ],
+      "document_urls": [
+        "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf"
+      ],
+      "primary_event_families": [
+        "NASA-22N-HYDRAZINE-LIFE-TEST-1987"
+      ],
+      "packet_ids": [
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"
+      ],
+      "connected_to_original_comparison": false
+    }
+  ],
+  "original_metadata_only_lowest_id_baseline": [
+    "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+    "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+    "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+    "L1-TROPICS-TVAC-SLIPRING-SYNTH-004"
+  ],
+  "original_comparison_covered_primary_and_history_families": [
+    "CASSINI-RWA-LOW-SPEED-2000-12",
+    "FUSE-RWA-2000-2001",
+    "LUNAR-ORBITER-III-TWTA-1967",
+    "SEASAT-SLIPRING-1978",
+    "SPACEBORNE-SBAND-TWTA-GROUND-TEST"
+  ],
+  "original_comparison_covered_source_ids": [
+    "FUSE-SPIE-2002-RWA",
+    "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+    "NASA-CR-66461",
+    "NASA-LLIS-1416",
+    "NASA-NTRS-20040171604"
+  ],
+  "limitations": [
+    "Three TROPICS cases come from one document. Four current-event families are only two source-document clusters; statistical independence is not established.",
+    "Novelty is relative to the frozen original four-case comparison and its complete source/history lineage, not a claim that the packet library or underlying public documents were never seen by a model.",
+    "Pathfinder carries one synthetic historical case/source reference. This is tracked as a history lineage, not counted as another real document.",
+    "No claims based on source/reference answers may enter projected generator inputs. Use the existing project_user projection unchanged and quarantine formal_target, expected_output and coordinator metadata.",
+    "The corrected L0 ISEE knowledge-study card has no L1 task packet in this collection; adding it would require new case construction, outside this unchanged-packet selection."
+  ],
+  "source_packet_or_fact_modifications": false,
+  "scores_or_recommendations_in_selection": false,
+  "evidence_files": [
+    {
+      "path": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json",
+      "sha256": "876307d2b7d06929ed40b9a57f03c0c364aab7d31d33d67d08302f5cf2f08b45"
+    },
+    {
+      "path": "examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json",
+      "sha256": "b4e9947958348c31dac519b7403f9f54db21bcd0c5df3051e3ed1f5112a9d905"
+    },
+    {
+      "path": "evaluation/closeout_20261119/fixtures/l1_collection.json",
+      "sha256": "483c56de58bf21b5dc9ea331b84267a9a33d61063e4cff491dadf36fb9c2fd49"
+    },
+    {
+      "path": "evaluation/closeout_20261119/fixtures/l0_source_facts.json",
+      "sha256": "fe302f6b9510699ed795d1d486929267e87608c08911fdb2093d6a3811d0b4c2"
+    },
+    {
+      "path": "evaluation/closeout_20261119/coordinator/source_bindings.json",
+      "sha256": "9936a0d04a4d498c69210b64757d68f9c322eb9379b50cfd000695446f534556"
+    }
+  ]
+}

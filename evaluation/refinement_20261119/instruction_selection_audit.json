@@ -1,0 +1,119 @@
+{
+  "not_for_sft": true,
+  "arms": {
+    "M5": {
+      "selected_ids": {
+        "I1": 4
+      },
+      "candidate_scores": [
+        {
+          "comparison_unit_id": "FORWARD-DEV-003",
+          "totals": [
+            10
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-001",
+          "totals": [
+            10
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-004",
+          "totals": [
+            10
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-002",
+          "totals": [
+            10
+          ]
+        }
+      ],
+      "scores_are_generator_self_reports": true
+    },
+    "M6": {
+      "selected_ids": {
+        "I1": 4
+      },
+      "candidate_scores": [
+        {
+          "comparison_unit_id": "FORWARD-DEV-003",
+          "totals": [
+            10,
+            10,
+            9
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-001",
+          "totals": [
+            10,
+            10,
+            9
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-004",
+          "totals": [
+            10,
+            10,
+            9
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-002",
+          "totals": [
+            10,
+            10,
+            9
+          ]
+        }
+      ],
+      "scores_are_generator_self_reports": true
+    },
+    "M7": {
+      "selected_ids": {
+        "I1": 4
+      },
+      "candidate_scores": [
+        {
+          "comparison_unit_id": "FORWARD-DEV-003",
+          "totals": [
+            10,
+            9,
+            10
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-001",
+          "totals": [
+            10,
+            9,
+            10
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-004",
+          "totals": [
+            10,
+            10,
+            9
+          ]
+        },
+        {
+          "comparison_unit_id": "FORWARD-DEV-002",
+          "totals": [
+            10,
+            10,
+            9
+          ]
+        }
+      ],
+      "scores_are_generator_self_reports": true
+    }
+  },
+  "finding": "Every adapted case chose I1; M6/M7 used the frozen tie rule. No demonstrated gain from choosing a later candidate.",
+  "causal_limit": "The observed arm result does not isolate a trained selector effect or stochastic-generation variance."
+}

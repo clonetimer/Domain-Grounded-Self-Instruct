@@ -5,13 +5,21 @@ description: Use when converting spacecraft simulation-platform design documents
 
 # DGSI Simulation-to-SFT Production Skill
 
-**Tooling release: v0.2.0. Data: candidate-generation / SYNTHETIC DEV_ONLY.** This Skill is a portable, provider-neutral production contract. It does not authorize Gold promotion, formal dataset splits, SFT export, or model training.
+**Tooling release: v0.2.1. Data: candidate-generation / SYNTHETIC DEV_ONLY.** This Skill is a portable, provider-neutral production contract. It does not authorize Gold promotion, formal dataset splits, SFT export, or model training.
 
 ## Reproduce or reuse this release
 
 Start with `references/CLOSEOUT_QUICKSTART.md` and `python scripts/run_dgsi_skill.py demo --output local_demo`. The package includes four public synthetic input scenarios, twenty actual method-comparison candidates, and separate GPT reviews. Offline replay does not call a model; fresh generation uses the shipped method prompts in new host-AI sessions. For new authorized L0/L1 inputs, use the same entry point with `prepare`. The coordinator and reference packets never go to the generator.
 
 ## Mission
+
+For optional instruction evolution/selection, read `references/INSTRUCTION_REFINEMENT.md`
+and use `prepare --recipe select` for the configuration with the highest observed
+score in the frozen four-case development comparison. Evolution remains optional;
+the combined recipe did not score highest. Keep the authoring policy and method
+records outside SFT messages; source input hashes must stay unchanged. Use a new
+frozen evaluation set after changing the recipe; never optimize until a desired
+test ranking appears. This option does not change the default baseline workflow.
 
 Convert authorized spacecraft engineering materials into traceable diagnostic training candidates for a second-stage LLM. The LLM interprets:
 - upstream ML/statistical diagnosis results;
