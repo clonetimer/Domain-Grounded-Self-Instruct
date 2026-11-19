@@ -140,6 +140,18 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_CASE_SET_MISMATCH"):
             MODULE.analyze_scorecard(data, **binding_kwargs())
 
+    def test_malformed_manifest_case_rows_fail_closed(self):
+        kwargs = binding_kwargs()
+        kwargs["manifest_cases"] = [{"missing_case_id": "case-01"}]
+        with self.assertRaisesRegex(MODULE.ScorecardError, "MANIFEST_CASE_ROW_INVALID"):
+            MODULE.analyze_scorecard(fixture(), **kwargs)
+
+    def test_duplicate_manifest_case_ids_fail_closed(self):
+        kwargs = binding_kwargs()
+        kwargs["manifest_cases"] = manifest_fixture() + [manifest_fixture()[0]]
+        with self.assertRaisesRegex(MODULE.ScorecardError, "MANIFEST_CASE_DUPLICATE"):
+            MODULE.analyze_scorecard(fixture(), **kwargs)
+
     def test_missing_binding_files_fail_closed(self):
         with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_BINDING_FILES_REQUIRED"):
             MODULE.analyze_scorecard(fixture())
