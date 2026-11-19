@@ -247,6 +247,52 @@ class HistoryPairScienceAuditTests(unittest.TestCase):
         self.write()
         self.reject("PAIR_ANALYSIS_LOG_QUARANTINE_INVALID")
 
+    def enable_case_id_blind_v05(self):
+        self.enable_log_blind_v04()
+        self.manifest["purpose"] = (
+            "DEV_ONLY_SOURCE_FACT_BLINDED_AND_ENGINEERING_ANALYSIS_QUARANTINED_"
+            "AND_CASE_ID_BLINDED_HISTORY_NEGATIVE_TRANSFER_PAIRS_NOT_TRAINING"
+        )
+        self.manifest["model_visible_case_id_blinded"] = True
+        self.manifest["coordinator_case_ids_not_model_visible"] = True
+        self.entry["model_visible_case_id"] = "SYNTHETIC-EVAL-CASE-001"
+        self.entry["original_case_id_sha256"] = audit.sha256(
+            self.entry["case_id"].encode()).hexdigest()
+        self.entry["case_id_blinding"] = "OPAQUE_STABLE_DEVELOPMENT_ID"
+        for record in self.members.values():
+            record["case_id"] = self.entry["model_visible_case_id"]
+        self.write()
+
+    def test_opaque_case_id_v05_success(self):
+        self.enable_case_id_blind_v05()
+        result = audit.audit_pair_zip(self.archive)
+        self.assertTrue(result["model_visible_case_id_blinded"])
+        self.assertFalse(result["training_authorized"])
+
+    def test_opaque_case_id_v05_rejects_unblinded_identifier(self):
+        self.enable_case_id_blind_v05()
+        self.entry["model_visible_case_id"] = "CASE-LABEL-CROSSSHORT"
+        self.write()
+        self.reject("PAIR_CASE_ID_BLINDING_INVALID")
+
+    def test_opaque_case_id_v05_rejects_source_digest_swap(self):
+        self.enable_case_id_blind_v05()
+        self.entry["original_case_id_sha256"] = "0" * 64
+        self.write()
+        self.reject("PAIR_CASE_ID_BLINDING_INVALID")
+
+    def test_opaque_case_id_v05_rejects_arm_identity_divergence(self):
+        self.enable_case_id_blind_v05()
+        list(self.members.values())[1]["case_id"] = "SYNTHETIC-EVAL-CASE-002"
+        self.write()
+        self.reject("PAIR_VISIBLE_BINDING_INVALID")
+
+    def test_opaque_case_id_v05_rejects_coordinator_flag(self):
+        self.enable_case_id_blind_v05()
+        self.manifest["coordinator_case_ids_not_model_visible"] = False
+        self.write()
+        self.reject("PAIR_CASE_ID_BLINDING_INVALID")
+
     def test_v03_legacy_preserves_existing_science_gates(self):
         self.enable_source_blind_v03()
         result = audit.audit_pair_zip(self.archive)
