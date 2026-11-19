@@ -41,8 +41,8 @@ The following initial calibration batch covers **all six source clusters and all
 | 012 | C01 | historical_case_reuse | Cassini PARTIALLY_CONFIRMED, hardware UNKNOWN, missing verified_at, no causal vote |
 | 014 | C01 | next_step_recommendation | Proposed checks versus recorded interventions |
 | 015 | C02 | handover_summary | Evidence-preserving handover, no mechanism invention |
-| 016 | C04 | conflict_reconciliation | SCI-016: competing Lunar Orbiter mechanisms remain competing |
-| 017 | C03 | conflict_reconciliation | SCI-017: ground/flight episode and conflicting qualification evidence |
+| 016 | C04 | conflict_reconciliation | SCI-016: monitor-lineage ML-E-016-MONITOR is not independent positive proof of physical RF carrier decline; retain LOG-162/163 counterevidence |
+| 017 | C03 | conflict_reconciliation | SCI-017: preserve 18% RH FAIL versus 82% RH PASS as separate ground-air test conditions; neither is TVAC or a flight measurement |
 | 020 | C01 | evidence_sufficiency | FUSE unresolved cause and abstention despite synthetic candidate |
 
 These are **ten review assignments, not ten admitted L1 packets**. The remaining eleven packets still require complete two-person review. The selection prioritizes reviewer calibration and coverage, *not* statistical representativeness; C01 is intentionally overrepresented for its singleton task types. For every assignment, the coordinator must bind the exact task_id, packet hash, full permitted source locator, input hash, independent reviewer token, scored rubric and adjudication decision. Reviewers must receive isolated forms; curator-side hypotheses, answer sidecars and paired-arm deltas must not enter model input or the reviewer’s blinded materials. No private reviewer identity or restricted opinion is published.
