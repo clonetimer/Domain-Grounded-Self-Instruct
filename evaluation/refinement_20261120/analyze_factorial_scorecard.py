@@ -12,7 +12,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from validate_factorial_manifest import validate_manifest
+from validate_factorial_manifest import ManifestError, validate_manifest
 
 DIMENSIONS = (
     "source_fidelity", "phenomenon_analysis", "ml_interpretation",
@@ -111,6 +111,8 @@ def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_
             codes = review["critical_failure_codes"]
             if not isinstance(codes, list) or any(not isinstance(code, str) or not code.strip() for code in codes):
                 raise ScorecardError("CRITICAL_FAILURE_CODES_INVALID")
+            if review["accepted"] and codes:
+                raise ScorecardError("CRITICAL_FAILURE_CANNOT_BE_ACCEPTED")
             scores = review["dimension_scores"]
             if review["output_valid"]:
                 if not isinstance(scores, dict) or set(scores) != set(DIMENSIONS):
