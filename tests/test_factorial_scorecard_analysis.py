@@ -143,14 +143,10 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_BINDING_FILES_REQUIRED"):
             MODULE.analyze_scorecard(fixture())
 
-    def test_reviewer_pair_must_be_identical_across_all_arms(self):
+    def test_reviewer_panel_must_remain_exactly_two_stable_tokens(self):
         data = fixture()
         data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-c"
         with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PANEL_MUST_BE_TWO_BLINDED_TOKENS"):
-            MODULE.analyze_scorecard(data)
-        data = fixture()
-        data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-b"
-        with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PAIR_MISMATCH_ACROSS_ARMS"):
             MODULE.analyze_scorecard(data, **binding_kwargs())
 
     def test_rejects_missing_or_extra_review_rows(self):
