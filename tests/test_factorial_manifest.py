@@ -17,6 +17,29 @@ def fixture():
         {"case_id": "opaque-02", "source_cluster_id": "cluster-new-B",
          "input_sha256": "c" * 64, "target_schema_sha256": "b" * 64},
     ]
+    source_evidence_records = [
+        {
+            "source_cluster_id": cluster_id,
+            "primary_source_url": f"https://example.invalid/{cluster_id}",
+            "source_document_id": f"TEST-{cluster_id}",
+            "source_document_sha256": "e" * 64,
+            "source_locators": ["test fixture locator: page 1"],
+            "rights_basis": "test-only fixture assertion; not a real rights determination",
+            "rights_scope": "test-only derivative use scope",
+            "rights_review_ref": "test-fixture-rights-review",
+            "exposure_audit_scope": [
+                "repository_and_pr_history",
+                "prior_development_bundles",
+                "connected_retrieval_and_prior_conversations",
+            ],
+            "exposure_audit_ref": "test-fixture-exposure-audit",
+            "independence_rationale": "Synthetic unit-test fixture only; no real source independence is asserted.",
+            "review_status": "PASS",
+            "reviewer_token": "test-curator-token",
+            "reviewed_at": "2026-11-20",
+        }
+        for cluster_id in ("cluster-new-A", "cluster-new-B")
+    ]
     policy = "d" * 64
     arms = []
     for arm_id, evolution, selection in [
@@ -44,6 +67,7 @@ def fixture():
             "reference_answers_escrowed": True, "case_manifest_frozen": True,
         },
         "cases": cases, "arms": arms,
+        "source_evidence_records": source_evidence_records,
     }
 
 
@@ -55,6 +79,40 @@ class FactorialManifestTests(unittest.TestCase):
         self.assertEqual(report["case_count"], 2)
         self.assertFalse(report["model_calls_authorized"])
         self.assertFalse(report["training_authorized"])
+
+    def test_source_evidence_records_are_required_and_cluster_bound(self):
+        data = fixture()
+        data.pop("source_evidence_records")
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_EVIDENCE_RECORDS_MISSING"):
+            MODULE.validate_manifest(data)
+        data = fixture()
+        data["source_evidence_records"][1]["source_cluster_id"] = "unbound-cluster"
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_EVIDENCE_CLUSTER_SET_MISMATCH"):
+            MODULE.validate_manifest(data)
+
+    def test_source_evidence_requires_rights_and_full_exposure_scope(self):
+        data = fixture()
+        data["source_evidence_records"][0]["rights_review_ref"] = ""
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_REVIEW_EVIDENCE_INCOMPLETE"):
+            MODULE.validate_manifest(data)
+        data = fixture()
+        data["source_evidence_records"][1]["exposure_audit_scope"].remove("connected_retrieval_and_prior_conversations")
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_EXPOSURE_AUDIT_SCOPE_INCOMPLETE"):
+            MODULE.validate_manifest(data)
+
+    def test_source_evidence_rejects_invalid_url_hash_or_review_status(self):
+        data = fixture()
+        data["source_evidence_records"][0]["primary_source_url"] = "http://example.invalid/source"
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_PRIMARY_URL_INVALID"):
+            MODULE.validate_manifest(data)
+        data = fixture()
+        data["source_evidence_records"][0]["source_document_sha256"] = "bad"
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_DOCUMENT_HASH_INVALID"):
+            MODULE.validate_manifest(data)
+        data = fixture()
+        data["source_evidence_records"][0]["review_status"] = "PENDING"
+        with self.assertRaisesRegex(MODULE.ManifestError, "SOURCE_REVIEW_NOT_PASSED"):
+            MODULE.validate_manifest(data)
 
     def test_arm_case_mismatch_is_blocked(self):
         data = fixture()
