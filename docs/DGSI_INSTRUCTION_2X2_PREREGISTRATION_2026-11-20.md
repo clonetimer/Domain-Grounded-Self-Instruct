@@ -67,3 +67,14 @@ Run one preregistered round and stop regardless of ranking. Do not tune prompts 
 The existing four-case results remain unchanged: M4 19.750/20 (3/4 paired accepts), M5 19.875 (3/4), M6 20.000 (4/4), M7 19.625 (2/4). All M6/M7 selections chose I1, so selector-specific benefit was not demonstrated. These results are descriptive GPT advisory scores on visible synthetic development material, not human expert clearance, statistical superiority, real-flight transfer or downstream SFT gain.
 
 **No new generation, model calls, evaluation changes, training splits, Gold promotion or fine-tuning are authorized by this preregistration.**
+
+
+## Pre-generation manifest gate
+
+Before any authorized run, prepare a manifest conforming to `dgsi-2x2-run-manifest.v1` and validate it offline:
+
+```bash
+python evaluation/refinement_20261120/validate_factorial_manifest.py path/to/run-manifest.json
+```
+
+The validator requires the four exact arms, identical opaque case IDs and input/schema hashes in every arm, one shared policy hash, three candidates only in selection-enabled arms, at least two independent source-document clusters, and explicit rights/exposure/escrow/freeze gates. It rejects answer/reference/score fields and previously exposed source clusters. A successful validation means comparability metadata passed only; it does not launch generation or authorize model calls.
