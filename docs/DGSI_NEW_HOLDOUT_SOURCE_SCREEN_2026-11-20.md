@@ -102,3 +102,39 @@ Primary record: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/1993001550
 - Generation/model calls/training: not performed.
 
 No candidate is to be promoted merely to meet a quota. The 2×2 remains NOT_RUN until the required number of independent, rights-cleared, scope-compatible source clusters are actually established and frozen.
+
+
+## Additional candidate discovery — 2026-11-20 (NASA NTRS)
+
+This search round is a discovery screen, not admission. Search-result metadata and abstracts are insufficient to establish full-source fidelity, prior-work independence, or rights for third-party content. No L0/L1 records were created.
+
+| Candidate | Primary-source evidence found | Initial relevance | Current decision |
+|---|---|---|---|
+| ISS Starboard Solar Alpha Rotary Joint (SARJ) anomaly, NTRS 20090034477 | NTRS abstract describes high current draw beginning ~83 days after installation, EVA inspection, damaged race ring, metallurgical/traction/thermal analyses, and a conclusion involving inadequate lubrication and high bearing edge stress. Record marks Distribution Public / Public Use Permitted. Authors include NASA and Boeing personnel. | Strong mechanical/actuator subsystem diagnostic case with observable current anomaly and later physical inspection. | **LEAD ONLY / NOT ADMITTED**. Same ISS platform as BGA, but distinct mechanism and document; do not assume cluster independence. Review full PDF for Boeing/third-party rights and compare exposure against BGA and all prior DGSI materials. |
+| Lucy solar-array partial deployment, NTRS 20250002257 | NTRS abstract reports SAPY wing incomplete deployment after separation; no deployed-state sensor; response team used current-based mathematical models, ADAMS modeling, tests and risk assessment; mistracked lanyard identified as likely proximate cause; incremental redeployment actions. Record marks Distribution Public / Public Use Permitted and NASA Peer Committee review. | Strong contemporary deployment/mechanism case; useful for evidence limitations and distinguishing model inference from physical confirmation. | **LEAD ONLY / NOT ADMITTED**. Download is a PowerPoint presentation associated with an IEEE conference; verify third-party slide/image content and derivative-use boundaries. Search prior repository/chat/retrieval exposure before admission. |
+| Galileo spacecraft anomaly and safing recovery, NTRS 19940019391 | NTRS abstract says four in-flight anomalies triggered safing routines and recovery plans were refined; describes operational recovery and constraints. Record marks Distribution Public / Work of US Gov. Public Use Permitted. | Relevant to fault-protection, safe mode and operational recovery, but the abstract is high-level and does not identify specific root causes for each event. | **LEAD ONLY / LOW INPUT SUFFICIENCY**. Full paper needed to identify whether it contains a bounded, source-supported event with enough facts for the DGSI task contract. |
+| NASA RP-1390, *Spacecraft System Failures and Anomalies Attributed to the Natural Space Environment*, NTRS 19960050463 | Public-use NASA reference publication cataloguing representative space-environment-related failures/anomalies across subsystems. Authors include USRA and Computer Sciences Corp. contributors. | Potential index to multiple events and subsystem categories. | **SOURCE INDEX ONLY / NOT AN INDEPENDENT CASE**. Must identify individual primary event reports and check each source separately; do not treat this synthesis as several independent clusters. |
+| SAMPEX reaction-wheel failure, NTRS 20080039634 | NASA abstract describes reaction-wheel failure after >15 years, transition to magnetic-torquer-only spin-stabilized mode, and recovery using flight-data analysis and dynamics simulation. | Technically strong ADCS case. | **EXPOSED / INELIGIBLE**. SAMPEX NTRS 20080039634 is explicitly named among PR #184's prior source leads and therefore cannot serve as a fresh holdout. |
+| Apollo 13 oxygen-tank failure, NTRS 19710010479 | NASA investigation report; NTRS marks Public / Work of US Gov. Public Use Permitted. | Detailed spacecraft incident investigation. | **OUT OF CURRENT SCOPE** for the present satellite subsystem SFT cohort (crewed command/service module and human-spaceflight incident). Do not add unless scope is formally expanded in a separate study. |
+
+Primary records checked 2026-11-20:
+- SARJ: https://ntrs.nasa.gov/citations/20090034477
+- Lucy: https://ntrs.nasa.gov/citations/20250002257
+- Galileo: https://ntrs.nasa.gov/search.jsp?R=19940019391
+- NASA RP-1390: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19960050463.pdf
+- SAMPEX (excluded as exposed): https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20080039634.pdf
+- Apollo 13 (excluded by scope): https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19710010479.pdf
+
+### Discovery round result
+
+- Additional candidate documents/indexes screened: 6.
+- New potentially useful case leads: 3 (SARJ, Lucy, Galileo).
+- Source index only: 1 (NASA RP-1390).
+- Explicitly exposed and excluded: 1 (SAMPEX).
+- Excluded by current scope: 1 (Apollo 13).
+- New admitted confirmatory clusters: **0**.
+- New L0 fact cards / L1 tasks: **0 / 0**.
+- Existing holdout manifest, source membership, rubric, references and scores: unchanged.
+- This round's measurable benefit: expanded the candidate queue with three plausible leads and identified two exclusions; it did not yet increase the eligible holdout count.
+
+The next valid work is full-document and prior-exposure screening of SARJ, Lucy and Galileo. No candidate is to be counted as eligible until both gates pass.
