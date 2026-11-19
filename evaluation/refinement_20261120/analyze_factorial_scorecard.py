@@ -97,7 +97,9 @@ def analyze_scorecard(data: dict) -> dict:
     arm_acceptance = {arm: [] for arm in ARMS}
     arm_invalid = {arm: 0 for arm in ARMS}
     arm_critical = {arm: 0 for arm in ARMS}
-    reviewer_disagreements = 0
+    arm_dimension_case_scores = {arm: {dimension: {} for dimension in DIMENSIONS} for arm in ARMS}
+    reviewer_dimension_disagreements = 0
+    reviewer_acceptance_disagreements = 0
 
     for case_id, by_arm in rows_by_case.items():
         per_case[case_id] = {}
@@ -112,12 +114,16 @@ def analyze_scorecard(data: dict) -> dict:
                 arm_case_scores[arm][case_id] = _mean(totals)
             else:
                 arm_case_scores[arm][case_id] = None
-            if valid and len(valid) == 2:
+            if len(valid) == 2:
                 dims_a, dims_b = valid[0]["dimension_scores"], valid[1]["dimension_scores"]
-                if dims_a != dims_b:
-                    reviewer_disagreements += 1
+                for dimension in DIMENSIONS:
+                    if dims_a[dimension] != dims_b[dimension]:
+                        reviewer_dimension_disagreements += 1
+                    arm_dimension_case_scores[arm][dimension][case_id] = (
+                        dims_a[dimension] + dims_b[dimension]
+                    ) / 2
             if reviews[0]["accepted"] != reviews[1]["accepted"]:
-                reviewer_disagreements += 1
+                reviewer_acceptance_disagreements += 1
             per_case[case_id][arm] = {
                 "reviewer_total_scores": [sum(r["dimension_scores"].values()) if r["output_valid"] else None for r in reviews],
                 "case_mean_score": arm_case_scores[arm][case_id],
@@ -178,6 +184,45 @@ def analyze_scorecard(data: dict) -> dict:
             "interaction": None,
         }
 
+    dimension_analysis = {}
+    for dimension in DIMENSIONS:
+        complete_dimension_cases = [
+            case_id for case_id in case_ids
+            if all(arm_dimension_case_scores[arm][dimension].get(case_id) is not None for arm in ARMS)
+        ]
+        if complete_dimension_cases:
+            scores = {
+                arm: [arm_dimension_case_scores[arm][dimension][case_id] for case_id in complete_dimension_cases]
+                for arm in ARMS
+            }
+            dimension_analysis[dimension] = {
+                "complete_four_arm_paired_case_count": len(complete_dimension_cases),
+                "arm_means": {arm: _mean(values) for arm, values in scores.items()},
+                "evolution_main_effect": _mean([
+                    ((arm_dimension_case_scores["C"][dimension][case_id] + arm_dimension_case_scores["D"][dimension][case_id]) / 2)
+                    - ((arm_dimension_case_scores["A"][dimension][case_id] + arm_dimension_case_scores["B"][dimension][case_id]) / 2)
+                    for case_id in complete_dimension_cases
+                ]),
+                "selection_main_effect": _mean([
+                    ((arm_dimension_case_scores["B"][dimension][case_id] + arm_dimension_case_scores["D"][dimension][case_id]) / 2)
+                    - ((arm_dimension_case_scores["A"][dimension][case_id] + arm_dimension_case_scores["C"][dimension][case_id]) / 2)
+                    for case_id in complete_dimension_cases
+                ]),
+                "interaction": _mean([
+                    (arm_dimension_case_scores["D"][dimension][case_id] - arm_dimension_case_scores["C"][dimension][case_id])
+                    - (arm_dimension_case_scores["B"][dimension][case_id] - arm_dimension_case_scores["A"][dimension][case_id])
+                    for case_id in complete_dimension_cases
+                ]),
+            }
+        else:
+            dimension_analysis[dimension] = {
+                "complete_four_arm_paired_case_count": 0,
+                "arm_means": {arm: None for arm in ARMS},
+                "evolution_main_effect": None,
+                "selection_main_effect": None,
+                "interaction": None,
+            }
+
     return {
         "schema_version": "dgsi-factorial-analysis-report.v1",
         "classification": "DESCRIPTIVE_ANALYSIS_NOT_FOR_SFT",
@@ -196,7 +241,9 @@ def analyze_scorecard(data: dict) -> dict:
             } for arm in ARMS
         },
         "factorial_contrasts_on_complete_paired_cases_only": contrasts,
-        "reviewer_disagreement_count": reviewer_disagreements,
+        "per_dimension_factorial_analysis": dimension_analysis,
+        "reviewer_dimension_disagreement_count": reviewer_dimension_disagreements,
+        "reviewer_acceptance_disagreement_count": reviewer_acceptance_disagreements,
         "case_details": per_case,
         "limitations": [
             "Descriptive paired analysis only; no significance or superiority claim.",
