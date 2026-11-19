@@ -19,12 +19,20 @@ class DGSI2x2PreregistrationTests(unittest.TestCase):
         self.assertEqual(arms["B"]["role"], "selection_only_ablation")
         self.assertEqual(arms["C"]["role"], "evolution_only_ablation")
 
-    def test_holdout_is_shared_and_prior_dev_bundle_is_excluded(self):
+    def test_all_known_development_exposure_is_excluded(self):
         holdout = self.data["holdout"]
         self.assertTrue(holdout["same_case_manifest_all_arms"])
         self.assertTrue(holdout["freeze_case_ids_source_document_clusters_input_hashes_before_generation"])
         self.assertTrue(holdout["require_new_untouched_source_document_clusters"])
         self.assertFalse(holdout["prior_2026_11_19_four_case_bundle_eligible"])
+        self.assertFalse(holdout["p5c17_existing_six_model_visible_clusters_eligible"])
+        self.assertFalse(holdout["p5c18_public_source_leads_eligible"])
+        excluded = " ".join(holdout["excluded_development_exposure"])
+        self.assertIn("C01-C06", excluded)
+        self.assertIn("SAMPEX", excluded)
+        self.assertIn("TOMS-EP", excluded)
+        self.assertIn("Voyager 2", excluded)
+        self.assertIn("CloudSat", excluded)
         self.assertEqual(holdout["if_insufficient_independent_clusters"], "DO_NOT_RUN")
 
     def test_no_evaluation_tuning_or_training_authority(self):
