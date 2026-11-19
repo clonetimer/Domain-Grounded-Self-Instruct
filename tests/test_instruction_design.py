@@ -75,10 +75,15 @@ class InstructionDesignTests(unittest.TestCase):
                     recipe['record_contract']['candidates'][0]['operation'],
                     'comparability|evidence_roles|bounded_scope|style',
                 )
-                self.assertIn(operations, (
-                    'comparability|evidence_roles|bounded_scope',
-                    'style',
-                ))
+                if evolution:
+                    self.assertIn('从comparability、evidence_roles、bounded_scope中选择演化操作',
+                                  recipe['procedure'])
+                else:
+                    self.assertIn('以不同表述风格提出指令', recipe['procedure'])
+                if selection:
+                    self.assertIn('生成恰好三个不同指令', recipe['procedure'])
+                else:
+                    self.assertIn('生成一条演化指令', recipe['procedure'])
 
     def test_tie_uses_original_order_and_never_mutates_input(self):
         resolve = self.api()
