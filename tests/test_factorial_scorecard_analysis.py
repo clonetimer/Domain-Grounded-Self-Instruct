@@ -46,6 +46,10 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         self.assertEqual(report["source_cluster_count"], 2)
         self.assertIsNotNone(report["factorial_contrasts_on_complete_paired_cases_only"]["evolution_main_effect"])
         self.assertFalse(report["training_authorized"])
+        self.assertEqual(set(report["per_dimension_factorial_analysis"]), set(DIMS))
+        self.assertIn("evolution_main_effect", report["per_dimension_factorial_analysis"]["source_fidelity"])
+        self.assertIn("reviewer_dimension_disagreement_count", report)
+        self.assertIn("reviewer_acceptance_disagreement_count", report)
 
     def test_invalid_outputs_are_counted_not_imputed(self):
         data = fixture()
@@ -59,6 +63,7 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         self.assertEqual(report["complete_four_arm_paired_case_count"], 1)
         self.assertEqual(report["case_details"]["case-01"]["A"]["case_mean_score"], None)
         self.assertEqual(report["arm_summary"]["A"]["critical_failure_code_count"], 1)
+        self.assertEqual(report["per_dimension_factorial_analysis"]["source_fidelity"]["complete_four_arm_paired_case_count"], 1)
 
     def test_invalid_output_cannot_be_marked_accepted(self):
         data = fixture()
