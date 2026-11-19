@@ -69,6 +69,8 @@ def analyze_scorecard(data: dict) -> dict:
             reviewer_tokens.add(token)
             if type(review["output_valid"]) is not bool or type(review["accepted"]) is not bool:
                 raise ScorecardError("REVIEW_BOOLEAN_INVALID")
+            if not review["output_valid"] and review["accepted"]:
+                raise ScorecardError("INVALID_OUTPUT_CANNOT_BE_ACCEPTED")
             codes = review["critical_failure_codes"]
             if not isinstance(codes, list) or any(not isinstance(code, str) or not code.strip() for code in codes):
                 raise ScorecardError("CRITICAL_FAILURE_CODES_INVALID")
@@ -217,7 +219,7 @@ def main() -> int:
     try:
         data = json.loads(args.scorecard.read_text(encoding="utf-8"))
         report = analyze_scorecard(data)
-        args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+        args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     except (OSError, json.JSONDecodeError, ScorecardError) as exc:
         print(json.dumps({"valid": False, "error": str(exc)}, ensure_ascii=False))
         return 2
