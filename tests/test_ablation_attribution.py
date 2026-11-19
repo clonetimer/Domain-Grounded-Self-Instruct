@@ -27,6 +27,13 @@ class AblationAttributionAuditTests(unittest.TestCase):
         self.assertEqual(arms["M6"]["paired_accepts"], 4)
         self.assertEqual(arms["M7"]["paired_accepts"], 2)
 
+    def test_exposed_development_scores_do_not_promote_a_recipe(self):
+        doc = Path(__file__).resolve().parents[1] / "docs" / "DGSI_ABLATION_ATTRIBUTION_2026-11-20.md"
+        text = doc.read_text(encoding="utf-8")
+        self.assertIn("Do not designate a winning recipe", text)
+        self.assertIn("baseline", text)
+        self.assertIn("selector-specific causal benefit is unproven", text)
+
     def test_selection_effect_is_not_overclaimed(self):
         selector = self.data["selector_diagnostic"]
         self.assertEqual(selector["M6_selected_instruction_ids"], {"I1": 4})
