@@ -34,6 +34,19 @@
     "freeze_case_ids_source_document_clusters_input_hashes_before_generation": true,
     "require_new_untouched_source_document_clusters": true,
     "prior_2026_11_19_four_case_bundle_eligible": false,
+    "p5c17_existing_six_model_visible_clusters_eligible": false,
+    "p5c18_public_source_leads_eligible": false,
+    "excluded_development_exposure": [
+      "REV1 six model-visible source clusters C01-C06 documented in PR #183",
+      "SAMPEX NTRS 20080039634, TOMS-EP NTRS 20000033274, Voyager 2 LLIS 284, CloudSat NTRS 20170008193 source leads documented in PR #184"
+    ],
+    "eligibility_gate": [
+      "source-document rights and reuse scope verified",
+      "source publication/event-family independence checked against all development and retrieval exposures",
+      "full source facts and exact input hash frozen before arm generation",
+      "holdout identity and reference answers escrowed from prompt authors and generators",
+      "same manifest and bytes supplied to all four arms"
+    ],
     "if_insufficient_independent_clusters": "DO_NOT_RUN"
   },
   "controls": {
