@@ -5,7 +5,11 @@ description: Use when converting spacecraft simulation-platform design documents
 
 # DGSI Simulation-to-SFT Production Skill
 
-**Status: DRAFT / candidate-generation only.** This Skill is a portable, provider-neutral production contract. It does not authorize Gold promotion, formal dataset splits, SFT export, or model training.
+**Tooling release: v0.2.0. Data: candidate-generation / SYNTHETIC DEV_ONLY.** This Skill is a portable, provider-neutral production contract. It does not authorize Gold promotion, formal dataset splits, SFT export, or model training.
+
+## Reproduce or reuse this release
+
+Start with `references/CLOSEOUT_QUICKSTART.md` and `python scripts/run_dgsi_skill.py demo --output local_demo`. The package includes four public synthetic input scenarios, twenty actual method-comparison candidates, and separate GPT reviews. Offline replay does not call a model; fresh generation uses the shipped method prompts in new host-AI sessions. For new authorized L0/L1 inputs, use the same entry point with `prepare`. The coordinator and reference packets never go to the generator.
 
 ## Mission
 
@@ -30,7 +34,7 @@ Raw telemetry remains with upstream ML. Do not make the LLM a raw time-series de
 8. **No false disposal claims.** Distinguish executed action, planned action, recommended next step, conditional procedure and not recorded.
 9. **History is Context, not a vote.** Include prior cases only with provenance, outcome status, as-of time and hardware applicability limitations. Similar symptoms do not prove a shared mechanism.
 10. **Fail closed.** Missing critical evidence produces an incomplete candidate, an explicit abstention, or rejection—not a guessed value.
-11. **Human review is mandatory.** Automated schema/CI checks are structural checks, not scientific approval.
+11. **Review according to the authorized use.** For development examples, the user may authorize clearly labeled GPT advisory review in independent sessions. Human review is mandatory for claims of human expert approval and the existing formal real-Gold admission path. Automated schema/CI checks and GPT scores do not establish physical truth. Do not block the usable toolkit handoff on unavailable human experts.
 12. **Respect rights and privacy.** Use only materials the user is authorized to share with the selected AI provider. De-identify spacecraft IDs, serials, people, credentials and restricted mission details.
 
 ## P5-C2 integrated production workflow

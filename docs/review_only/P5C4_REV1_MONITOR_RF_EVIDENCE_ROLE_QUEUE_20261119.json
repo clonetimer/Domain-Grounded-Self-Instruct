@@ -1,0 +1,60 @@
+{
+  "schema_version": "dgsi-review-only-monitor-rf-evidence-role.v0.1",
+  "classification": "INTERNAL_REVIEW_ONLY",
+  "not_for_sft": true,
+  "training_authorized": false,
+  "gold_eligible": false,
+  "human_review_complete": false,
+  "rights_cleared": false,
+  "source_pr": 170,
+  "source_pr_head": "41198ed61588a1e38d61823645f4eb111dbe3394",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
+  "collection_projection_sha256": "3927c976af6eb46a8842b68926fd893b021df69b034ae8981dc5ed136278521a",
+  "source_track": "LITERATURE_DERIVED_SYNTHETIC",
+  "new_finding": {
+    "finding_id": "SCI-002-MONITOR-ALIAS-AS-RF-SUPPORT",
+    "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+    "packet_sha256": "19e6993bd7d0c5bde10d2875d2f931223adb6bba2424b9e85736e662e5073b04",
+    "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+    "source_fact_ref": "LIT-LUNAR-ORBITER-POWER-MONITOR-006",
+    "field_path": "formal_target.cause_localization.candidates[1].supporting_refs",
+    "current_value": [
+      "ML-E-002"
+    ],
+    "evidence_roles": [
+      {
+        "id": "ML-E-002",
+        "role": "UPSTREAM_SYNTHETIC_CLAIM_SOURCE_NOT_INDEPENDENT_RF_EVIDENCE"
+      },
+      {
+        "id": "LOG-11",
+        "role": "SYNTHETIC_MONITOR_INDICATION"
+      },
+      {
+        "id": "LOG-12",
+        "role": "SYNTHETIC_INDEPENDENT_RF_MEASUREMENT_ABSENCE"
+      }
+    ],
+    "options": [
+      "A_SEPARATE_POSITIVE_SUPPORT_AND_SET_RF_REF_EMPTY",
+      "B_TYPE_UPSTREAM_CLAIM_VS_PHYSICAL_EVIDENCE",
+      "C_HOLD_FOR_EXPERT_EVIDENCE"
+    ],
+    "reviewer_A_decision": null,
+    "reviewer_B_decision": null,
+    "adjudicated_option": null
+  },
+  "comparators": [
+    {
+      "task_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "packet_sha256": "6e30feb4190b10d4db49548e7c5ecd69d41dd4caeec9308e4bbee5298bbb760d",
+      "role": "EXISTING_SCI_016_INDEPENDENT_CONTRADICTION"
+    },
+    {
+      "task_id": "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "packet_sha256": "4c98577d915597b954bf9ef9ed2c5b3a762fea9ed1a7153b550794f7d3a9ee76",
+      "role": "UNVERIFIED_PHYSICAL_HYPOTHESIS_ABSTENTION_CONTROL"
+    }
+  ],
+  "immutability": "Frozen REV1 is unchanged. If experts approve, construct separately versioned REV2, recompute all hashes and reviewer forms."
+}

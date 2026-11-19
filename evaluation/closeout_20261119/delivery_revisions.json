@@ -1,0 +1,212 @@
+{
+  "schema_version": "dgsi-dev-delivery-revisions.v1",
+  "not_in_primary_comparison": true,
+  "revisions": [
+    {
+      "comparison_unit_id": "SOTA-DEV-003",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "instruction": "仅依据本例SYNTHETIC/DEV_ONLY输入作二次研判：区分监测指示与真实发射载波，按同设备、路径、载波、基线和窗口比较证据；解释未校准ML分数与证据同源性，分别陈述故障源候选、受影响部件和未排除事项，并区分已记录处置与新建议。",
+      "formal_target": {
+        "disposition": "CONFLICTING_EVIDENCE",
+        "phenomenon_analysis": "LOG-161记录2026-04-13 08:10:00—08:20:00 UTC内，SYNTHETIC-TWTA-016-A的星上功率监测指示相对08:10:00下降约3 dB，温度同期变化。LOG-162记录同一载波经标定、归一化后的接收功率变化不超过0.2 dB。两者描述不同测量量。 LOG-163确认活动发射路径及时间基准已对齐，且该窗口内未切换发射路径。",
+        "machine_result_interpretation": "ML-FINDING-016-CARRIER把监测下降解释为真实发射载波约3 dB下降并倾向输出通路退化；0.87是合成排序分数，非校准概率。其ML-E-016-MONITOR与LOG-161同源，不能重复计为独立确认。LOG-162为独立接收证据，LOG-163核验可比性且未发现足以掩盖3 dB载波下降的已检查效应，因此当前不支持ML所述幅度的真实载波下降。 证据支持栏中的LOG-161仅支持监测指示下降这一现象；ML候选是待核查推断，不作为独立支持证据。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "twta_power_monitor",
+              "fault_mode": "监测通道指示偏差候选",
+              "supporting_refs": [
+                "LOG-161",
+                "LOG-162",
+                "LOG-163"
+              ],
+              "limitations": [
+                "测量不一致使监测通道成为优先核查对象，但尚未独立验证其频谱响应和温度标定，不能确认具体失效机制。"
+              ]
+            }
+          ],
+          "affected_components": [
+            "twta_power_monitor_indication"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "已见监测指示异常，故障源仍待定位；温度同期变化不足以确证温漂。载波对照不能证明总RF功率、谐波或TWTA其他功能均正常。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "LOG-161"
+          ],
+          "contradicting_refs": [
+            "LOG-162",
+            "LOG-163"
+          ],
+          "missing_information": [
+            "两条测量链的原始数据与完整误差预算。",
+            "监测通道频谱响应和温度标定的独立核验。",
+            "总RF功率、谐波及其他TWTA功能结果；残余传播、频谱和归一化误差尚未全部排除。"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "在声明的0.2 dB比较容差及核验范围内，独立载波证据反对约3 dB真实载波下降；故障源及具体机制仍不确定。",
+            "未提供原始遥测，独立接收摘要仅覆盖该载波，不能外推整机健康。"
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "获取同窗口原始数据，独立核查监测通道温度标定、频谱响应及两链路残余误差。",
+            "rationale": "优先解释已对齐条件下的指示与载波差异。",
+            "priority": "HIGH"
+          },
+          {
+            "action": "补充总RF功率、谐波和相关TWTA功能检查。",
+            "rationale": "界定单载波对照未覆盖的功能范围。",
+            "priority": "MEDIUM"
+          }
+        ]
+      },
+      "arm": "M4",
+      "generation_file": "generations/M4.json",
+      "generation_file_sha256": "4d8d504a440781a42fc2d541ede9d920c3b0098868569f8a9151ab95a5e868bc",
+      "trial_id": "REVIEW-ITEM-019-R1",
+      "candidate_sha256": "6b72899e9d17755c52ae3af1b817ce98636f74e75bcc0809be58cb4b813f589f",
+      "target_sha256": "58eb4fa83ca177a9d0284fcd0e5c23e451f07d5953ccbc672c141b640aa9925b",
+      "revision_of": "REVIEW-ITEM-019",
+      "revision_of_candidate_sha256": "9d7a8493ff3e7f956cb6226bced869608b7d944e135371cda689a4fec43577c6",
+      "revision_recipe": {
+        "version": "dgsi-closeout-review-correction-1",
+        "author_kind": "GPT",
+        "changed_fields": [
+          "formal_target.phenomenon_analysis",
+          "formal_target.evidence_assessment.supporting_refs",
+          "formal_target.machine_result_interpretation"
+        ],
+        "reason": "Address two concrete GPT advisory findings: explicit active-path comparability and separate ML inference from supporting observation. No changes to the frozen comparison or its scores."
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "trial_id": "REVIEW-ITEM-019-R1",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "58eb4fa83ca177a9d0284fcd0e5c23e451f07d5953ccbc672c141b640aa9925b",
+      "candidate_sha256": "6b72899e9d17755c52ae3af1b817ce98636f74e75bcc0809be58cb4b813f589f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "指令要求按可见合成证据对照并分开处置和建议，未预设故障源。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "正确区分约3 dB的星上指示下降和不超过0.2 dB的归一化接收变化，并明示发射路径对齐且窗口内无切换。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, ML-E-016-MONITOR, LOG-161, LOG-162, LOG-163",
+          "note": "支持栏仅列指示变化摘要；上游推断及同源引用不另计，独立接收和可比性核验承担反证角色。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "优先核查监测指示偏差，保留温度、频谱及残余误差限制，未确认监测器或输出通路故障。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "operational_context.known_constraints",
+          "note": "处置栏标为未记录，新取数与校验留在后续行动，符合可见处置范围。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-019-R1",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "58eb4fa83ca177a9d0284fcd0e5c23e451f07d5953ccbc672c141b640aa9925b",
+      "candidate_sha256": "6b72899e9d17755c52ae3af1b817ce98636f74e75bcc0809be58cb4b813f589f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "指令要求依合成材料核对同设备、路径、载波与时基，并保留候选和处置边界。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-162",
+          "note": "区分约 3 dB 监测指示下降和经标定、归一化的单载波变化；引入 LOG-163 确认路径与时基对齐、窗口内无路径切换。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.evidence_assessment.supporting_refs",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161",
+          "note": "支持栏仅用 LOG-161 指向监测指示；ML 为同源推断，独立接收及可比性核验分别承担反证和质量核验。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.uncertainty.reasons",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "将约 3 dB 下降的反证限定在声明容差与核验范围内，保留具体机理与整机状态的不确定性。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "原始数据、监测标定和残余误差核查作为下一步提出，处置记录保持为空。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "task": "Independently review all 20 candidates against ONLY the corresponding supplied model-visible input. Method identities, reference targets and other reviews are withheld. You are GPT, not a human expert. Do not search for mission answers or read coordinator/source/reference files.",
+  "scope": "source_fidelity here means fidelity to provided scenario material; external literature verification and physical validity are NOT measured. Explicit synthetic ENGINEERING_ANALYSIS or quality-check logs are available scenario claims, not real experts and not automatically raw observations. Use their declared role.",
+  "rules": [
+    "Review exactly 20 items; do not use reviewer diversity or majority votes as physical truth.",
+    "Check generated instruction as well as target. All material findings must identify a field path and a visible evidence ID or precise input omission.",
+    "Current-event literature and historical summaries removed from input cannot be reintroduced from memory. Missing history times means its content is withheld; a retrieval ID/status can explain the block but supplies no cause evidence.",
+    "Upstream candidate and uncalibrated scores must stay candidates/rankings; ML-E references without visible payload are not independent proof.",
+    "Physical components/mechanisms not proven may be follow-up hypotheses explicitly qualified; do not punish well-marked proposals as fabricated observations.",
+    "Executed/planned disposal requires explicit scenario log support. New suggested checks must be follow_up_actions. A logged past restart can be recorded with scope; do not claim it solved the cause.",
+    "Scores: 0 unsupported/incorrect or materially incomplete; 1 mostly supported with material omission; 2 supported, scoped, useful. Do not reduce scores for stylistic preference alone.",
+    "ACCEPT if usable unchanged for a DEV_ONLY diagnostic candidate; REVISE if concrete corrections needed; REJECT if unsafe factual fabrication/label leakage. Any critical finding requires critical_failures code.",
+    "No hidden chain of thought. Brief checkable findings only. Never invent human signatures, independent physical approval, timestamps, model API IDs or token usage."
+  ],
+  "dimensions": [
+    "source_fidelity",
+    "phenomenon_analysis",
+    "ml_interpretation",
+    "fault_source",
+    "affected_components",
+    "evidence_fidelity",
+    "uncertainty",
+    "disposal_fidelity",
+    "historical_context_transfer",
+    "engineering_actionability"
+  ],
+  "critical_failure_codes": [
+    "FABRICATED_SOURCE",
+    "FABRICATED_ML_OR_LOG",
+    "FABRICATED_DISPOSAL",
+    "UNSUPPORTED_CONFIRMED_CAUSE",
+    "HIDDEN_TRUTH_LEAK",
+    "FUTURE_HISTORY_LEAK",
+    "HISTORY_AS_CURRENT_EVIDENCE",
+    "FALSE_EXPERT_OR_RIGHTS_CLAIM"
+  ],
+  "review_record_contract": {
+    "trial_id": "copy",
+    "shared_input_sha256": "copy",
+    "target_sha256": "copy",
+    "candidate_sha256": "copy opaque blinded binding",
+    "reviewer_kind": "GPT",
+    "reviewer_token": "provided session token",
+    "scores": {
+      "source_fidelity": "integer 0,1,2",
+      "phenomenon_analysis": "integer 0,1,2",
+      "ml_interpretation": "integer 0,1,2",
+      "fault_source": "integer 0,1,2",
+      "affected_components": "integer 0,1,2",
+      "evidence_fidelity": "integer 0,1,2",
+      "uncertainty": "integer 0,1,2",
+      "disposal_fidelity": "integer 0,1,2",
+      "historical_context_transfer": "integer 0,1,2",
+      "engineering_actionability": "integer 0,1,2"
+    },
+    "recommendation": "ACCEPT|REVISE|REJECT",
+    "critical_failures": "list of listed codes, empty allowed",
+    "findings": [
+      {
+        "dimension": "one dimension",
+        "field_path": "target/instruction path",
+        "finding_code": "OMISSION|OVERSTATEMENT|EVIDENCE_ROLE|ACTION_SCOPE|NO_MATERIAL_ISSUE or a critical code",
+        "evidence_ref": "visible ID or exact missing-field name",
+        "note": "short Chinese explanation"
+      }
+    ]
+  },
+  "output_contract": {
+    "schema_version": "dgsi-gpt-review-session.v1",
+    "reviewer_kind": "GPT",
+    "reviewer_token": "provided session token",
+    "model": "provided configured model name; exact serving revision unavailable",
+    "reviews": "array of exactly 20 records"
+  },
+  "not_for_sft": true
+}

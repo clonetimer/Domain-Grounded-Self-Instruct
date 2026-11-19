@@ -1,0 +1,1529 @@
+{
+  "schema_version": "dgsi-closeout-gpt-reviews.v1",
+  "reviewer_kind": "GPT",
+  "generation_model": "GPT-6 Astra Pro (session-declared; exact API model ID unavailable)",
+  "review_model": "gpt-6.2-sol (configured; exact serving revision unavailable)",
+  "review_independence": "two fresh method-blinded sessions; same reviewer model may have correlated errors; not human-independent physical assessment",
+  "reviews": [
+    {
+      "trial_id": "REVIEW-ITEM-001",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "d6f47474cc809ae5926eb0a09a9875b960dff4acdeb50d40c1391b636ad8e899",
+      "candidate_sha256": "01b23b696fcab3679e1ae2c9cee9d1cca09e001ed4e767ff7d5d0d4420d446f5",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-01, LOG-019-02",
+          "note": "整星AIT约4 dB下降及同模式复测均有摘要支持，结论止于整机输出。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-03",
+          "note": "先调取可能漏收的记录，再补齐隔离与模块数据，最后验证物理机理。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-002",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "4a5836a1018f17c301aeed4105a7a53f37f5cfa51ea23c8890fa8b58716ef534",
+      "candidate_sha256": "49694e36ce37097d809ba431d84b5364f6bc6082aebed8129765314714577c0e",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-01, ML-E-001",
+          "note": "0.74保留为合成排序分，未附的上游引用未被计为独立证据。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-01, LOG-02",
+          "note": "两条日志只记异常。按规程评估约束和保留数据属于新建议，应放入后续行动，处置栏应体现未记录。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-003",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "ccabee66ec66e7af9115a493237d5fb9d92a882e9bee14ae6ce0cef6242778bb",
+      "candidate_sha256": "ec9d3848a12faf8f32d5ed49d76b14ac5bef9322211c4c14e8ddfdd3fb84a872",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-01, LOG-01, LOG-02",
+          "note": "区分滑环候选、受影响功能及未排除链路，明确日志对故障机理无特异性。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_status",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01, LOG-02",
+          "note": "只记录现象，取数和链路检查均列为待执行建议。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-004",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "41a6ade4dd919d4f30c272491c306e6a390d3e8be8333999e15f3bbd44a866a3",
+      "candidate_sha256": "6465824b084721f66c905a3a15c215f3ef72b910442bc5a7a4dc3037b30638b4",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "可信时间为空且兼容性未知，正确将条目限于阻断元数据。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122",
+          "note": "据日志记录一次重启，并保留对重启效果与健康基线的不确定性。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-005",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "cd5e4955595cb284d970f6935e7348152d9a6aa3ddc0c9eed20d4989b102c88f",
+      "candidate_sha256": "a3a64a25a741965adbac4878eb1b2600eef258c912fe8ab05d83a50f26147393",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "对照可见截止时点、空时间字段及硬件兼容性，未借用屏蔽内容。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122",
+          "note": "已执行范围限于一次重启；拖曳回落未被当作健康恢复或根因消除。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-006",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "f2a02ddd7177aea3f1e7d6af9f25ac0c9c10c1fcb91639f081db36833e67c808",
+      "candidate_sha256": "05552e187ebedbeeb09c3c1b15acce5c9a3c064147cf8c96c5402c2490413fd7",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, LOG-161, LOG-162, LOG-163",
+          "note": "说明同源性与上游未纳入的独立比较，把反证限定于指定载波和窗口。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, ML-E-016-MONITOR, LOG-161",
+          "note": "正文已说明同源，但支持栏仍并列上游推断与监测摘要且未标支持对象。应明确LOG-161支持指示变化，ML条目仅标识受反证的推断。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-007",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "5a49a0bcf61995a6420ab24e30a8574b6bee90a7f5ecd25d1759594a00a87ba2",
+      "candidate_sha256": "0f0c7f7e507081575dc83c7fe306c3c7453e62276562dc0f05324cdef385b643",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01, LOG-02",
+          "note": "完整保留电流短时跌落与南太阳翼调整受阻，联合排查不构成同一根因判断。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01, LOG-02, ML-FINDING-01",
+          "note": "先补齐时序，再分层检查滑环、供电、驱动，能区分上游候选与替代来源。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-008",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "b8c2dff33c87aa752245631e83c45e51349a634a61c04ca24edc60a273f0b6cd",
+      "candidate_sha256": "516e25c40271fff52a442f902be3566ea2e8600b51d98736b6b17d0dc51535c2",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "LOG-019-01, LOG-019-02, LOG-019-03, LOG-019-04",
+          "note": "测量支持来自前两条；缺项清单和评估请求并列在支持栏，需分别标明证据边界和请求角色。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-019-03, LOG-019-04",
+          "note": "核对记录和安排隔离是新补证步骤，已在后续栏列出；处置栏应据操作注记标为未记录。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-009",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "4abe14ad80a9f797b0ee0ec0fa1d172d309b4877f9dccc7e78a1277a43244796",
+      "candidate_sha256": "498c00842f3711363baf583d21e7cd32a2914f6b07e122582b5039fec0d3cac4",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "target.cause_localization.candidates[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-019-A, LOG-019-03, LOG-019-04",
+          "note": "LCAMP只保留为候选，Z2/Z6身份未建立，TWT和EPC未排除。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "LOG-019-01, LOG-019-02, LOG-019-03, LOG-019-04",
+          "note": "同一支持栏混列整机测量、范围核对和操作评估请求，后两条应明确只用于边界或记录状态。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-010",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "52d6c242eed64bec1425fca08f3a199eff0344fef63ec741ab325bac1e419b05",
+      "candidate_sha256": "79e158741e5c1cc9ec63d97a465d62029655d0be274d0020ad95e0fd2a8f2b14",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "交代地面链独立、对齐、无切换和已检查因素，区分测量差异与对上游结论的反证。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "target.uncertainty.reasons",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-162, LOG-163",
+          "note": "将机制的高不确定性同有范围限制的载波反证分开。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-011",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "35303102a9d4e37c9c347c0f97d3bb1558c323d71fd3d322a3fab22d98af8fb1",
+      "candidate_sha256": "8a7e58de3bce4db1fa3c10247aac5cc94df613b50bed001f9ac1e680dcad4b62",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "affected_components",
+          "field_path": "target.cause_localization.affected_components",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-01, LOG-019-02",
+          "note": "受影响范围限于整机和输出路径表现，未把LCAMP、TWT或EPC单独判为已受损。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-01, LOG-019-02, LOG-019-03",
+          "note": "测量支持与未收录结果分开，未将当前材料缺项算为排除证据。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-012",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "0c68f586609e941bfc3edc8c44ff326a2813094d1ee9909d68422e61057a2b6f",
+      "candidate_sha256": "c905d182b41ff6f17ea1f2e727865b581accf021c5250c4f0fb8d66e257c6236",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01, LOG-02",
+          "note": "随后记录的表述符合日志时点，只据此认定两类功能异常。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-01, LOG-01, LOG-02",
+          "note": "候选名来自ML，现象日志没有被解释为电弧短路实证。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-013",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "a96c959af212eeeeceb46b87e7453413a30824f4cd6a3a89928cc8af1bf44fb4",
+      "candidate_sha256": "5ebffab0d501debf7a631d94a4fdfa6ecc1937d7adcab2a59559d83d16f6747b",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "可信时间与兼容性限制得到交代，部分确认标签未用于确认当前设备。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-121, LOG-122, ML-FINDING-012",
+          "note": "明确同步轮级数据、比较持续状态并独立检验局部接触，且重新核验历史资格。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-014",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "6100ee09bac1f34664bedc3f1a9bc23da59aecc42be13d7a5f89032382cf3e18",
+      "candidate_sha256": "fac1809f7e0e62d25826ed010e992ae08abdb136fa4a0115487e3103a48cc023",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122, ML-FINDING-012, HIST-CASSINI-RWA-DRAG-007",
+          "note": "以提问检验接触推断与历史复用，两项均未预先确认为事实。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "target.uncertainty.reasons",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-121, LOG-122",
+          "note": "拖曳变化对机理和重启效果的限制表述明确，独立确认仍缺。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-015",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "0b3e3257aebb7095f77f443ff0925f7087f0908ef0c413bc145d18326cefb7b6",
+      "candidate_sha256": "77316f12e868d3232d617181e825210f5d4b716237984fa169988c77f72d6047",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 1,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "ML-FINDING-01",
+          "note": "输入只有一个候选及0.74排序分，缺少其他候选或名次；“排在前面”加入了未给出的相对排序，应改为“提出候选”。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01, LOG-02",
+          "note": "保留同步核对、分段检查和复现跟踪，能针对时序及机制不确定性补证。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-016",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "e5928aefb7206480b4187096ee9485c37f025db8d66049391b2933d7d9b6b9fd",
+      "candidate_sha256": "66a0fab106c33ebad04e7bf309d3049e9e63de3a620b35f16bd6531c4a7a8a24",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "优先检查监测指示差异，保留温度、频谱、标定和比较误差的其他解释，不确认监测器失效。"
+        },
+        {
+          "dimension": "affected_components",
+          "field_path": "target.cause_localization.affected_components",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162",
+          "note": "受影响项只列监测指示，未延伸为发射输出通路已坏或整机正常。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-017",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "2dbe0ace4c5d2f455178f8ba371c6a7d4d3ccab175d9d2aa8e80aae5179f754f",
+      "candidate_sha256": "08ed81a2c05b1739839f3b58f15194c7a1d8550998d75ea923c4949951639534",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, LOG-162, LOG-163",
+          "note": "在比较容差范围撤回约3 dB真实载波下降这一具体解释，保留指示异常及整机未知。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "两链同步核查属于新建议，三条材料没有处置记录。应放到后续行动并将处置状态标为未记录。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-018",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "882b6d15bdaa44dff53c5831dbdfb574e555b4f782fb1683ca347731c76a52e4",
+      "candidate_sha256": "a324dd047f817abc88c4f5f57fe4792e594f1f8cdc125bd91e1cf2a6bac302db",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-019-01, LOG-019-02",
+          "note": "保留约4 dB、参考点及复测，但缺整星AIT地面测试工况；补明结论的适用场景，避免泛化到其他运行条件。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-03",
+          "note": "先确认是否已有漏收记录，再按模块隔离、器件身份、失效分析的证据依赖推进。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-019",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "13423befddabffe472e9436236c71663a19ebdae186364b418cccc6abeea3d34",
+      "candidate_sha256": "9d7a8493ff3e7f956cb6226bced869608b7d944e135371cda689a4fec43577c6",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-163",
+          "note": "描述了设备、载波、时窗和基线，但未落实指令要求的同路径比较；应写明活动路径对齐且窗口内无切换。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, ML-E-016-MONITOR, LOG-161",
+          "note": "正文已说明同源，但支持栏仍并列预测与指示摘要而未分辨支持对象，需分别归属监测现象和受反证的ML推断。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-020",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "22099c3a7a3efe2fafa61d425e432e4733e0c2a75da2e52df5a48fedff195be4",
+      "candidate_sha256": "28497be055e219cc9c2a793656844d1f499d349f8a8b30f62bd19202e2b3aca0",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "明确合格命中为零、可信时间缺失及内容阻断，未知构型兼容性未被补猜。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122",
+          "note": "一次重启及后续趋势有日志支持，恢复健康和根因消除保留未知。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-001",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "d6f47474cc809ae5926eb0a09a9875b960dff4acdeb50d40c1391b636ad8e899",
+      "candidate_sha256": "01b23b696fcab3679e1ae2c9cee9d1cca09e001ed4e767ff7d5d0d4420d446f5",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-02",
+          "note": "保留同模式复测、输入驱动与参考平面等可比条件，结论限于整机输出。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-03",
+          "note": "先查可能未收录的记录，再分层隔离，最后视定位结果补物理分析。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-002",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "4a5836a1018f17c301aeed4105a7a53f37f5cfa51ea23c8890fa8b58716ef534",
+      "candidate_sha256": "49694e36ce37097d809ba431d84b5364f6bc6082aebed8129765314714577c0e",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-01",
+          "note": "评估运行约束和保留数据是新增建议，移入 follow_up_actions；LOG-01 与 LOG-02只记录现象。"
+        },
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-01",
+          "note": "把 0.74 解释为排序，并保留滑环候选边界。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-003",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "ccabee66ec66e7af9115a493237d5fb9d92a882e9bee14ae6ce0cef6242778bb",
+      "candidate_sha256": "ec9d3848a12faf8f32d5ed49d76b14ac5bef9322211c4c14e8ddfdd3fb84a872",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-E-001",
+          "note": "指令要求区分上游引用与新增证据，目标也说明该引用无可见材料。"
+        },
+        {
+          "dimension": "affected_components",
+          "field_path": "formal_target.cause_localization.affected_components",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01",
+          "note": "结合 LOG-02。受影响范围落在供电母线和太阳翼驱动，滑环单列为故障源候选。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-004",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "41a6ade4dd919d4f30c272491c306e6a390d3e8be8333999e15f3bbd44a866a3",
+      "candidate_sha256": "6465824b084721f66c905a3a15c215f3ef72b910442bc5a7a4dc3037b30638b4",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "仅用元数据说明两个时间字段为空、硬件兼容性未知及迁移受阻。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122",
+          "note": "记录一次重启，回落仅作操作后的指标变化。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-005",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "cd5e4955595cb284d970f6935e7348152d9a6aa3ddc0c9eed20d4989b102c88f",
+      "candidate_sha256": "a3a64a25a741965adbac4878eb1b2600eef258c912fe8ab05d83a50f26147393",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "针对当前截止时点判断时间资格，保留部分确认和兼容性元数据的原角色。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-121",
+          "note": "结合 ML-FINDING-012。将异常定位到俯仰轴轮，转子与壳体接触仍为候选；未扩大到姿态控制受损。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-006",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "f2a02ddd7177aea3f1e7d6af9f25ac0c9c10c1fcb91639f081db36833e67c808",
+      "candidate_sha256": "05552e187ebedbeeb09c3c1b15acce5c9a3c064147cf8c96c5402c2490413fd7",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-E-016-MONITOR",
+          "note": "结合 LOG-161。标明同源及 ML 未纳入地面对照，0.87 作为合成排序。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-162",
+          "note": "结合 LOG-163。区分归一化单载波结果和比较核验，说明已检查效应不足以掩盖所称降幅。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-007",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "5a49a0bcf61995a6420ab24e30a8574b6bee90a7f5ecd25d1759594a00a87ba2",
+      "candidate_sha256": "0f0c7f7e507081575dc83c7fe306c3c7453e62276562dc0f05324cdef385b643",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-01",
+          "note": "滑环作为待查方向，明确供电侧和驱动侧原因仍待区分。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01",
+          "note": "结合 LOG-02。提议对齐原始电气与驱动时序，再按构型进行分层定位。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-008",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "b8c2dff33c87aa752245631e83c45e51349a634a61c04ca24edc60a273f0b6cd",
+      "candidate_sha256": "516e25c40271fff52a442f902be3566ea2e8600b51d98736b6b17d0dc51535c2",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_status",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-019-04",
+          "note": "日志缺少已执行修复，新增记录核查和隔离计划应仅列入 follow_up_actions；处置状态应用未记录。"
+        },
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-03",
+          "note": "结合 LOG-019-04。询问 Z2/Z6 和 TWT/EPC 的证据充分性，并要求区分材料缺项和试验执行状态。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-009",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "4abe14ad80a9f797b0ee0ec0fa1d172d309b4877f9dccc7e78a1277a43244796",
+      "candidate_sha256": "498c00842f3711363baf583d21e7cd32a2914f6b07e122582b5039fec0d3cac4",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-019-02",
+          "note": "概述了四项可比条件，但漏记校准在有效期内这一整机测量质量限定。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization.candidates[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-019-A",
+          "note": "结合 LOG-019-03。保留上游候选，分别指出模块、芯片和物理机理未获得定位。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-010",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "52d6c242eed64bec1425fca08f3a199eff0344fef63ec741ab325bac1e419b05",
+      "candidate_sha256": "79e158741e5c1cc9ec63d97a465d62029655d0be274d0020ad95e0fd2a8f2b14",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161",
+          "note": "结合 LOG-162、LOG-163。分别交代监测同源、独立接收和可比性核验，反证限于指定载波与窗口。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.uncertainty.reasons[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "机制置信度与约 3 dB 载波下降的反证强度分开表述。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-011",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "35303102a9d4e37c9c347c0f97d3bb1558c323d71fd3d322a3fab22d98af8fb1",
+      "candidate_sha256": "8a7e58de3bce4db1fa3c10247aac5cc94df613b50bed001f9ac1e680dcad4b62",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-019-A",
+          "note": "结合 ML-E-019-A。明确未附的引用不能计为独立证据，历史幅度相似也不能定位。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.evidence_assessment.supporting_refs",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-01",
+          "note": "结合 LOG-019-02。整机损失的直接支持限于两条比较摘要，资料缺失另列。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-012",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "0c68f586609e941bfc3edc8c44ff326a2813094d1ee9909d68422e61057a2b6f",
+      "candidate_sha256": "c905d182b41ff6f17ea1f2e727865b581accf021c5250c4f0fb8d66e257c6236",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-01",
+          "note": "结合 LOG-02。以日志记录顺序叙述两个现象，并保留共同故障尚未建立的限制。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-01",
+          "note": "先补同步时序与反馈，再查滑环、供电接口及驱动并比较解释。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-013",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "a96c959af212eeeeceb46b87e7453413a30824f4cd6a3a89928cc8af1bf44fb4",
+      "candidate_sha256": "5ebffab0d501debf7a631d94a4fdfa6ecc1937d7adcab2a59559d83d16f6747b",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "可信时间与兼容性限制齐全，历史原因、处置与结论仍维持阻断。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions[1]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-012",
+          "note": "单列当前轮的独立机械定位，避免把对拖曳趋势的复核当作接触验证。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-014",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "6100ee09bac1f34664bedc3f1a9bc23da59aecc42be13d7a5f89032382cf3e18",
+      "candidate_sha256": "fac1809f7e0e62d25826ed010e992ae08abdb136fa4a0115487e3103a48cc023",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "零命中、可信时间缺失与兼容性未知得到保留，没有补写受阻结论。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122",
+          "note": "将重启按日志记为已执行，同时保留修复效果未确定。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-015",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "target_sha256": "0b3e3257aebb7095f77f443ff0925f7087f0908ef0c413bc145d18326cefb7b6",
+      "candidate_sha256": "77316f12e868d3232d617181e825210f5d4b716237984fa169988c77f72d6047",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 1,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "ML-FINDING-01",
+          "note": "可见材料仅列一个 ML 候选及其分数，未展示候选间名次；将“排在前面”改为“提出候选”。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-01",
+          "note": "结合 LOG-02。将“发生顺序”限定为日志记录顺序，两个现象的起始先后待同步遥测核验；指令中的“随后”也需同样限定。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-016",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "e5928aefb7206480b4187096ee9485c37f025db8d66049391b2933d7d9b6b9fd",
+      "candidate_sha256": "66a0fab106c33ebad04e7bf309d3049e9e63de3a620b35f16bd6531c4a7a8a24",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-162",
+          "note": "结合 LOG-163。补写 0.2 dB 是经标定、归一化的载波比较结果，并明确核验未发现足以掩盖 3 dB 下降的已检查效应；目前只笼统引用可比性。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161",
+          "note": "结合 LOG-162。可优先查监测差异，保持传感、标定和频谱机制未确认。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-017",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "2dbe0ace4c5d2f455178f8ba371c6a7d4d3ccab175d9d2aa8e80aae5179f754f",
+      "candidate_sha256": "08ed81a2c05b1739839f3b58f15194c7a1d8550998d75ea923c4949951639534",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-162",
+          "note": "结合 LOG-163。补上独立接收经标定及归一化，并注明未发现足以掩盖 3 dB 载波下降的已检查效应。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-163",
+          "note": "LOG-163 仅记录比较核验；同步核查属于新增建议，应列入 follow_up_actions；合成材料未记录补救执行。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-018",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "target_sha256": "882b6d15bdaa44dff53c5831dbdfb574e555b4f782fb1683ca347731c76a52e4",
+      "candidate_sha256": "a324dd047f817abc88c4f5f57fe4792e594f1f8cdc125bd91e1cf2a6bac302db",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization.candidates[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-04",
+          "note": "区分 Z2/Z6 出现在待检验请求与已经完成芯片定位。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-019-03",
+          "note": "先核对遗漏资料，完成整机到模块的隔离后才推进芯片身份和材料验证。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-019",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "13423befddabffe472e9436236c71663a19ebdae186364b418cccc6abeea3d34",
+      "candidate_sha256": "9d7a8493ff3e7f956cb6226bced869608b7d944e135371cda689a4fec43577c6",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-E-016-MONITOR",
+          "note": "结合 LOG-161。同源引用只计一条线索，独立接收与核验降低了同幅下降解释的支持。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.uncertainty.reasons",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-162",
+          "note": "结合 LOG-163。比较容差、机制未知和单载波覆盖范围都得到保留。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REVIEW-ITEM-020",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "target_sha256": "22099c3a7a3efe2fafa61d425e432e4733e0c2a75da2e52df5a48fedff195be4",
+      "candidate_sha256": "28497be055e219cc9c2a793656844d1f499d349f8a8b30f62bd19202e2b3aca0",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "HIST-CASSINI-RWA-DRAG-007",
+          "note": "未把事件族或部分确认标签解释为当前故障原因，明确可迁移命中为零。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-122",
+          "note": "保留重启及回落的观察范围，疗效和根因消除仍待核验。"
+        }
+      ]
+    }
+  ]
+}

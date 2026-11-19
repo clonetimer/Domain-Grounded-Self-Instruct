@@ -1,0 +1,248 @@
+{
+  "schema_version": "dgsi.p5c17.dev_review_and_holdout_feasibility.v0.1",
+  "usage": "COORDINATOR_ONLY_DEV_REVIEW",
+  "not_for_sft": true,
+  "source_collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
+  "source_collection_blob_sha": "f141694748d5425b63b469b5b0b25064e1b402c8",
+  "source_l0_blob_sha": "73f8f00dd6ecaf60cb75b0e1d566537c4e27579f",
+  "provenance": "Computed from frozen REV1 L1 source_fact_refs, model-visible knowledge_evidence and historical source refs/case identities; no source full text copied.",
+  "track": "LITERATURE_DERIVED_SYNTHETIC",
+  "official_splits_assigned": false,
+  "training_authorized": false,
+  "gold_eligible": false,
+  "expert_review_complete": false,
+  "totals": {
+    "candidate_tasks": 21,
+    "primary_source_publications": 7,
+    "model_visible_publication_clusters": 6,
+    "unique_event_families": 9,
+    "real_gold": 0,
+    "expert_accepted": 0
+  },
+  "task_type_counts": {
+    "conflict_reconciliation": 2,
+    "diagnostic_synthesis": 11,
+    "evidence_sufficiency": 5,
+    "handover_summary": 1,
+    "historical_case_reuse": 1,
+    "next_step_recommendation": 1
+  },
+  "clusters": [
+    {
+      "cluster_id": "C01",
+      "visible_source_ids": [
+        "FUSE-SPIE-2002-RWA",
+        "NASA-LLIS-1416"
+      ],
+      "task_ids": [
+        "L1-CASSINI-RWA-DRAG-SYNTH-008",
+        "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+        "L1-CASSINI-RWA-QUALITY-ABSTENTION-SYNTH-021",
+        "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+        "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020"
+      ],
+      "task_type_counts": {
+        "diagnostic_synthesis": 1,
+        "evidence_sufficiency": 2,
+        "historical_case_reuse": 1,
+        "next_step_recommendation": 1
+      },
+      "task_count": 5,
+      "train_count_if_held_out": 16
+    },
+    {
+      "cluster_id": "C02",
+      "visible_source_ids": [
+        "JOURNAL-2026-TWTA-SBAND-POWER-DROP"
+      ],
+      "task_ids": [
+        "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+        "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+        "L1-SPACEBORNE-TWTA-LNA-HYDROGEN-SYNTH-011"
+      ],
+      "task_type_counts": {
+        "diagnostic_synthesis": 1,
+        "evidence_sufficiency": 1,
+        "handover_summary": 1
+      },
+      "task_count": 3,
+      "train_count_if_held_out": 18
+    },
+    {
+      "cluster_id": "C03",
+      "visible_source_ids": [
+        "MITLL-TROPICS-LESSONS-2025"
+      ],
+      "task_ids": [
+        "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+        "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+        "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+        "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+        "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+        "L1-TROPICS-TVAC-SLIPRING-SYNTH-004"
+      ],
+      "task_type_counts": {
+        "conflict_reconciliation": 1,
+        "diagnostic_synthesis": 4,
+        "evidence_sufficiency": 1
+      },
+      "task_count": 6,
+      "train_count_if_held_out": 15
+    },
+    {
+      "cluster_id": "C04",
+      "visible_source_ids": [
+        "NASA-CR-66461"
+      ],
+      "task_ids": [
+        "L1-LUNAR-ORBITER-HELIX-ABSTENTION-SYNTH-018",
+        "L1-LUNAR-ORBITER-HELIX-STARTUP-SYNTH-007",
+        "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+        "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002"
+      ],
+      "task_type_counts": {
+        "conflict_reconciliation": 1,
+        "diagnostic_synthesis": 2,
+        "evidence_sufficiency": 1
+      },
+      "task_count": 4,
+      "train_count_if_held_out": 17
+    },
+    {
+      "cluster_id": "C05",
+      "visible_source_ids": [
+        "NASA-NTRS-20040171604"
+      ],
+      "task_ids": [
+        "L1-SEASAT-SLIPRING-SYNTH-001"
+      ],
+      "task_type_counts": {
+        "diagnostic_synthesis": 1
+      },
+      "task_count": 1,
+      "train_count_if_held_out": 20
+    },
+    {
+      "cluster_id": "C06",
+      "visible_source_ids": [
+        "NASA-TM-100232"
+      ],
+      "task_ids": [
+        "L1-NASA-HYDRAZINE-CATALYST-SYNTH-010",
+        "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009"
+      ],
+      "task_type_counts": {
+        "diagnostic_synthesis": 2
+      },
+      "task_count": 2,
+      "train_count_if_held_out": 19
+    }
+  ],
+  "initial_expert_calibration": {
+    "purpose": "Review prioritization only; not a Gold/admitted subset or random evaluation holdout",
+    "first_pass_task_count": 10,
+    "first_pass_cluster_count": 6,
+    "first_pass_task_type_count": 6,
+    "pending_sci_flags": [
+      "SCI-002",
+      "SCI-009",
+      "SCI-016",
+      "SCI-017"
+    ],
+    "tasks": [
+      {
+        "task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+        "cluster_id": "C05",
+        "task_type": "diagnostic_synthesis",
+        "scientific_finding_pending": false,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-LUNAR-ORBITER-POWER-MONITOR-SYNTH-002",
+        "cluster_id": "C04",
+        "task_type": "diagnostic_synthesis",
+        "scientific_finding_pending": true,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-TROPICS-PATHFINDER-CROSSSHORT-SYNTH-003",
+        "cluster_id": "C03",
+        "task_type": "diagnostic_synthesis",
+        "scientific_finding_pending": false,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+        "cluster_id": "C06",
+        "task_type": "diagnostic_synthesis",
+        "scientific_finding_pending": true,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+        "cluster_id": "C01",
+        "task_type": "historical_case_reuse",
+        "scientific_finding_pending": false,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-CASSINI-RWA-NEXT-STEP-SYNTH-014",
+        "cluster_id": "C01",
+        "task_type": "next_step_recommendation",
+        "scientific_finding_pending": false,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-SPACEBORNE-TWTA-LNA-HANDOVER-SYNTH-015",
+        "cluster_id": "C02",
+        "task_type": "handover_summary",
+        "scientific_finding_pending": false,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+        "cluster_id": "C04",
+        "task_type": "conflict_reconciliation",
+        "scientific_finding_pending": true,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+        "cluster_id": "C03",
+        "task_type": "conflict_reconciliation",
+        "scientific_finding_pending": true,
+        "review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "task_id": "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+        "cluster_id": "C01",
+        "task_type": "evidence_sufficiency",
+        "scientific_finding_pending": false,
+        "review_status": "REVIEW_REQUIRED"
+      }
+    ],
+    "remaining_review_required_task_count": 11
+  },
+  "evaluation_feasibility": {
+    "decision": "NOT_READY_FOR_FORMAL_HOLDOUT",
+    "hypothetical_only": true,
+    "developer_exposure": "Existing REV1 has been used for method development; cannot serve as an untouched final blind holdout",
+    "public_pretraining_limit": "No claim of unseen-to-foundation-model public documents",
+    "singletons": [
+      "historical_case_reuse",
+      "next_step_recommendation",
+      "handover_summary"
+    ],
+    "positive_context_effect": "NOT_EVALUABLE_MISSING_TRUSTWORTHY_VERIFIED_AT_AND_CONFIRMED_COMPATIBLE_HISTORY",
+    "expert_target_metric": "NOT_RUN",
+    "real_gold_metric": "NOT_RUN"
+  },
+  "next_external_requirements": [
+    "Two independent expert decisions bound to packet/input hashes",
+    "Source permission and reuse evidence for each of 7 publications",
+    "Credible available_at and verified_at for actual history retrieval",
+    "Additional genuinely independent unseen sources for singleton task types",
+    "Independent real upstream ML results, logs and spacecraft/mission context for REAL_GOLD",
+    "User authorization before any formal split, export, training or paid model call"
+  ]
+}

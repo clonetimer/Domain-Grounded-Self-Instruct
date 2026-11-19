@@ -1,5 +1,7 @@
 # DGSI Skill operator quick start
 
+For the completed v0.2.0 development workflow, start with [CLOSEOUT_QUICKSTART.md](CLOSEOUT_QUICKSTART.md). The commands below retain the external human-review route for later formal admission.
+
 ## What to prepare
 Use the complete DGSI Skill folder or extracted toolkit. Before processing, confirm source-use rights, de-identify restricted data, keep raw logs/telemetry/reviewer identities in authorized private storage, and freeze source hashes, event-family IDs and analysis cutoff.
 
@@ -9,7 +11,7 @@ Use Python 3.11 or later and install the declared validation dependency:
 python -m pip install -r requirements-validation.txt
 ```
 
-The portable Skill ZIP intentionally does **not** contain the repository's example L0/L1 dataset. This avoids bundling candidate data, source-derived material or private records into the reusable tool. Supply your own authorized collection JSON and matching source-fact JSON from your working directory.
+The v0.2.0 ZIP includes an explicit public SYNTHETIC development demo under `evaluation/closeout_20261119/`. It excludes private user cases and unrestricted data directories. For your own data, supply authorized collection JSON and matching source-fact JSON.
 
 The 2026-11-18 content-corrected cohort requires toolkit **0.2.0-rc.4** for its three task-specific instructions. Pair that cohort with its matching L0 and newly generated A/B forms. Original RC2 forms remain bound to the unchanged 2026-11-17 snapshot; do not transplant their metadata to a new cohort. The full content changes and source limitations are in `docs/P5C2_CONTENT_CORRECTION_2026-11-18.md`.
 
@@ -37,9 +39,9 @@ The preview contains three messages for engineering inspection only. It has no s
 When working in a source checkout, the repository's current review candidate can be used for a smoke test:
 ```bash
 python scripts/create_l1_model_preview.py --collection examples/l1_literature_synthetic_task_packets_c2_content_corrected_2026-11-18.json --source-facts examples/l0_public_literature_fact_cards_c2_content_corrected_2026-11-18.json --output dist/l1-three-message-preview.json
-python -m unittest tests.test_l1_model_projection_preview -v
+python -m unittest discover -s tests -p test_skill_delivery.py -v
 ```
-The example files above are repository fixtures, not contents of the portable Skill ZIP.
+The `examples/` paths above require a repository checkout; the standalone package includes its separate four-case demo fixtures.
 
 ## Generate separate expert review packs
 
@@ -95,7 +97,7 @@ python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-t
 python -m unittest tests.test_portable_toolkit_package_build -v
 ```
 
-Extract to a clean directory and verify every path, byte count and SHA-256 in `PACKAGE_SHA256_MANIFEST.json`. The ZIP contains reusable instructions, schemas, validators, scripts and tests, not the dataset.
+Extract to a clean directory and verify every path, byte count and SHA-256 in `PACKAGE_SHA256_MANIFEST.json`. The ZIP contains reusable instructions, schemas, validators, scripts, tests and an allowlisted public SYNTHETIC development demo. It does not contain private user data or an admitted training dataset.
 
 ## Release states
 Skill package release, curator review, independent expert adjudication, source rights, SFT authorization and actual training are separate states. A successful preview or ZIP build never grants Gold status, SFT export or training permission.

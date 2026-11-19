@@ -1,0 +1,500 @@
+{
+  "schema_version": "dgsi-closeout-shared-cases.v1",
+  "cases": [
+    {
+      "comparison_unit_id": "SOTA-DEV-001",
+      "user": {
+        "case_id": "SYNTHETIC-EVAL-CASE-001",
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "根据给出的上游ML、诊断日志和任务构型，形成当前异常的二次诊断研判。",
+        "input": {
+          "raw_telemetry_included": false,
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.0",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "ADCS / solar_array_slip_ring",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-01",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "solar_array_slip_ring",
+                "result": "SOLAR_ARRAY_SLIPRING_ARC_SHORT",
+                "score": 0.74,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-001"
+                ],
+                "limitations": [
+                  "synthetic ML output, not an actual flight or platform run",
+                  "candidate is not a confirmed root cause"
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate generated for controlled L1 task coverage.",
+            "known_limitations": [
+              "No raw telemetry is supplied to the LLM.",
+              "The ML result and score are synthetic scenario values."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-01",
+              "timestamp": "2026-04-12T08:41:10Z",
+              "log_type": "ALARM",
+              "content": "合成场景：太阳翼供电母线电流短时跌落。",
+              "author_role": "synthetic-event-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-01"
+            },
+            {
+              "log_id": "LOG-02",
+              "timestamp": "2026-04-12T08:42:03Z",
+              "log_type": "EVENT",
+              "content": "合成场景：南太阳翼驱动状态反馈显示调整受阻。",
+              "author_role": "synthetic-event-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-02"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-001",
+            "spacecraft_type": "literature-derived illustrative spacecraft configuration",
+            "configuration": {
+              "interface_scope": "solar_array_slip_ring",
+              "configuration_origin": "synthetic scenario assumption"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "ADCS",
+                "components": [
+                  "solar_array_slip_ring",
+                  "solar_array_power_bus",
+                  "solar_array_drive"
+                ],
+                "configuration_notes": [
+                  "Illustrative configuration only; not asserted as the source mission hardware design."
+                ]
+              },
+              {
+                "subsystem": "EPS",
+                "components": [
+                  "bus_power_interface"
+                ],
+                "configuration_notes": [
+                  "Synthetic interface context for task coverage."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "in-orbit operation",
+            "operating_mode": "solar array tracking",
+            "recent_operations": [
+              "synthetic scenario operation preceding the diagnostic window"
+            ],
+            "environmental_context": [
+              "not supplied by source; held as an explicit scenario assumption"
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, hardware inspection or independent confirmation is provided."
+            ]
+          },
+          "analysis_cutoff": "2026-04-12T09:10:00Z",
+          "knowledge_evidence": [],
+          "historical_cases": [],
+          "history_retrieval": {
+            "status": "NO_HIT",
+            "eligible_hits": 0,
+            "blocked_hits": []
+          }
+        }
+      },
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f"
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-002",
+      "user": {
+        "case_id": "SYNTHETIC-EVAL-CASE-002",
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "task_type": "historical_case_reuse",
+        "instruction": "根据当前反作用轮异常材料及历史检索状态，判断历史经验能否用于当前研判，并给出可支持的定位和下一步。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.2",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "ADCS / FUSE_pitch_axis_reaction_wheel",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-012",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "FUSE_pitch_axis_reaction_wheel",
+                "result": "rotor_housing_local_contact_candidate",
+                "score": 0.76,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-012"
+                ],
+                "limitations": [
+                  "Synthetic ML result, not an actual FUSE model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for a literature-derived history-reuse task.",
+            "known_limitations": [
+              "No raw telemetry is supplied to the LLM.",
+              "The ML result and score are synthetic scenario values."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-121",
+              "timestamp": "2026-04-12T08:21:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：FUSE俯仰轴反作用轮拖曳指标高于健康基线。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG-121"
+            },
+            {
+              "log_id": "LOG-122",
+              "timestamp": "2026-04-12T08:26:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：一次重启后拖曳短时维持高位，随后逐渐回落。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG-122"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-FUSE-CONTEXT-012",
+            "spacecraft_type": "FUSE-derived illustrative spacecraft configuration",
+            "configuration": {
+              "equipment_scope": "FUSE_pitch_axis_reaction_wheel",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "ADCS",
+                "components": [
+                  "FUSE_pitch_axis_reaction_wheel",
+                  "FUSE_ADCS_pitch_axis"
+                ],
+                "configuration_notes": [
+                  "Illustrative FUSE-like wheel configuration; exact mechanical drawings and part numbers are not supplied."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_OPERATION",
+            "operating_mode": "three_axis_attitude_control",
+            "recent_operations": [
+              "synthetic wheel restart event"
+            ],
+            "environmental_context": [
+              "thermal environment is not specified by the public L0 source and is not asserted as a source fact"
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, hardware inspection or actual operation logs supplied."
+            ]
+          },
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z",
+          "knowledge_evidence": [],
+          "historical_cases": [],
+          "history_retrieval": {
+            "status": "BLOCKED_MISSING_TRUSTED_TIME",
+            "eligible_hits": 0,
+            "blocked_hits": [
+              {
+                "source_case_ref": "HIST-CASSINI-RWA-DRAG-007",
+                "event_family": "CASSINI-RWA-LOW-SPEED-2000-12",
+                "outcome_status": "PARTIALLY_CONFIRMED",
+                "historical_equipment_scope": "Cassini_reaction_wheel_assembly",
+                "hardware_compatibility": "UNKNOWN",
+                "source_refs": [
+                  "LIT-CASSINI-RWA-DRAG-007"
+                ],
+                "available_at": null,
+                "verified_at": null,
+                "reason": "原记录available_at仅由LLIS日期合成设定，非可信可用时间；verified_at缺失。摘要、原因与处置内容已在检索端阻断。",
+                "withheld_fields": [
+                  "summary",
+                  "prior_conclusion",
+                  "disposal",
+                  "applicability_text"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c"
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-003",
+      "user": {
+        "case_id": "SYNTHETIC-EVAL-CASE-003",
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "task_type": "conflict_reconciliation",
+        "instruction": "调和上游ML对发射载波功率的判断与独立接收摘要的冲突，给出当前结论及后续建议。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.4",
+              "model_id": "SYNTHETIC-ML-MODEL-016"
+            },
+            "analysis_scope": "COMM / SYNTHETIC-TWTA-016-A / transmitted carrier / 2026-04-13T08:10:00Z to 08:20:00Z",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-016-CARRIER",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "TWTA_RF_output_path",
+                "result": "TRANSMITTED_CARRIER_POWER_DECREASE",
+                "score": 0.87,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-016-MONITOR"
+                ],
+                "limitations": [
+                  "Synthetic ML result, score and IDs; not an executed model run.",
+                  "ML-E-016-MONITOR is the synthetic processed monitor evidence summarized in LOG-161; these are one evidence lineage, not independent confirmations.",
+                  "The synthetic ML finding consumed only the onboard monitor summary. It did not ingest LOG-162 or LOG-163."
+                ]
+              }
+            ],
+            "machine_summary": "合成上游ML把2026-04-13 08:10—08:20 UTC内同一路径约3 dB的监测指示下降解释为同幅度的真实发射载波功率下降，并优先考虑输出通路退化；该推断来自ML-E-016-MONITOR，尚未结合独立接收摘要。",
+            "known_limitations": [
+              "All ML content is synthetic.",
+              "No raw telemetry is supplied to the LLM.",
+              "A monitor indication and transmitted carrier power are different quantities."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-161",
+              "timestamp": "2026-04-13T08:21:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景的上游处理摘要：SYNTHETIC-SC-016的SYNTHETIC-TWTA-016-A在2026-04-13 08:10:00—08:20:00 UTC内，星上功率监测指示相对08:10:00基线下降约3 dB，设备温度同期变化。该摘要对应ML-E-016-MONITOR，仅描述监测通道指示；未独立测得真实发射载波或总RF功率下降。全部数值、窗口和身份均为合成设定。",
+              "author_role": "synthetic-monitor-analysis",
+              "source_ref": "SYNTHETIC-LOG:LOG-161"
+            },
+            {
+              "log_id": "LOG-162",
+              "timestamp": "2026-04-13T08:22:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景的独立地面接收处理摘要：对同一SYNTHETIC-SC-016、SYNTHETIC-TWTA-016-A、同一载波和同一08:10:00—08:20:00 UTC窗口，以08:10:00为基线，经标定并按已知链路因素归一化的接收载波功率变化不超过0.2 dB，未见与约3 dB监测指示下降相应的载波下降。证据来自地面RF接收链，不使用星上功率监测值；仅覆盖该载波，不提供总RF功率或谐波检查结果。全部比较结果均为合成设定。",
+              "author_role": "synthetic-ground-receiver-analysis",
+              "source_ref": "SYNTHETIC-LOG:LOG-162"
+            },
+            {
+              "log_id": "LOG-163",
+              "timestamp": "2026-04-13T08:23:00Z",
+              "log_type": "REVIEW",
+              "content": "合成可比性与质量核验摘要：LOG-161和LOG-162的设备身份、活动发射路径、时间基准、载波及调制模式已对齐；窗口内未切换发射路径。已检查接收机标定、固定增益与饱和状态、星地指向、距离修正和已记录链路变化，未发现足以掩盖3 dB载波下降的已检查效应；该场景声明比较容差为0.2 dB。星上监测通道的频谱响应和温度标定尚未独立验证，残余传播、频谱和归一化误差未全部排除。以上核验及容差均为合成结果，不是本项目实际测量或专家认可。",
+              "author_role": "synthetic-comparison-quality-review",
+              "source_ref": "SYNTHETIC-LOG:LOG-163"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-016",
+            "spacecraft_type": "literature-derived illustrative communication spacecraft",
+            "configuration": {
+              "equipment_scope": "twta_power_monitor",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION",
+              "active_equipment_id": "SYNTHETIC-TWTA-016-A",
+              "transmission_path": "SYNTHETIC-S-BAND-PATH-016-A",
+              "comparison_window_utc": "2026-04-13T08:10:00Z/2026-04-13T08:20:00Z",
+              "baseline_time_utc": "2026-04-13T08:10:00Z",
+              "received_quantity": "one identified carrier; not total RF output",
+              "monitor_spectral_response": "not independently verified in the synthetic input"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "twta_power_monitor",
+                  "twta_power_monitor_indication",
+                  "TWTA_RF_output_path",
+                  "ground_receiver_carrier_measurement_chain"
+                ],
+                "configuration_notes": [
+                  "All hardware identities and scope declarations are synthetic; the ground receiver is an external comparison path.",
+                  "The two measurement paths are independently generated within the scenario, with their comparison checks summarized in LOG-163."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_COMMUNICATION_PASS",
+            "operating_mode": "single_TWTA_path_carrier_transmission",
+            "recent_operations": [
+              "Synthetic continuous transmission during the stated comparison window; no path switch or repair is recorded."
+            ],
+            "environmental_context": [
+              "Synthetic equipment temperature changes during the comparison; no unique temperature-response mechanism is established."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "All current ML, measurement and quality-check summaries are synthetic.",
+              "No raw telemetry is provided.",
+              "The independent receiving summary covers the identified carrier only; no total-RF, harmonic-power or other TWTA-function measurement is included.",
+              "No executed remedial action is recorded."
+            ]
+          },
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-13T08:25:00Z",
+          "knowledge_evidence": [],
+          "historical_cases": [],
+          "history_retrieval": {
+            "status": "NO_HIT",
+            "eligible_hits": 0,
+            "blocked_hits": []
+          }
+        }
+      },
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993"
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-004",
+      "user": {
+        "case_id": "SYNTHETIC-EVAL-CASE-004",
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "task_type": "evidence_sufficiency",
+        "instruction": "判断整机输出损失证据能否支持模块或芯片物理根因，说明现有结论及优先补证事项。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.4",
+              "model_id": "SYNTHETIC-ML-MODEL-019"
+            },
+            "analysis_scope": "COMM / synthetic_s_band_linearized_twta",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-019-A",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "synthetic_lcamp",
+                "result": "LNA_HYDROGEN_POISONING_CANDIDATE_FROM_WHOLE_UNIT_POWER_LOSS",
+                "score": 0.88,
+                "score_semantics": "synthetic ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-019-A"
+                ],
+                "limitations": [
+                  "Synthetic scenario output; not an actual upstream model run.",
+                  "No current module isolation, gas analysis or chip failure-analysis result is supplied.",
+                  "Similar loss magnitude to a historical case is not causal identification."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream candidate is based on whole-unit output loss and similarity to a historical report; internal isolation is unavailable in this input.",
+            "known_limitations": [
+              "All findings and scores are synthetic scenario inputs.",
+              "No raw telemetry is supplied to the LLM.",
+              "Current evidence reaches only the whole-unit output-loss level.",
+              "No module-level or material results are supplied in this packet."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-019-01",
+              "timestamp": "2026-11-17T08:00:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：整星AIT地面测试中，S频段线性化TWTA在规定输出参考点的功率较可比基线下降约4 dB。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-019-01"
+            },
+            {
+              "log_id": "LOG-019-02",
+              "timestamp": "2026-11-17T08:10:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：同一模式下第二次测量重现约4 dB下降；上游核验确认整机输入驱动、测试模式、输出参考平面与比较基线一致，校准在有效期内。这里只完成整机级对照。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-019-02"
+            },
+            {
+              "log_id": "LOG-019-03",
+              "timestamp": "2026-11-17T08:15:00Z",
+              "log_type": "REVIEW",
+              "content": "合成场景：当前包未包含FGM/ALC模式对照、EPC/TWT/LCAMP分层隔离、模块级增益/电流、封装气体、EMMI或换件效果结果。材料清单只列出整机级测量；是否已有未收录的其他试验记录未说明。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-019-03"
+            },
+            {
+              "log_id": "LOG-019-04",
+              "timestamp": "2026-11-17T08:18:00Z",
+              "log_type": "OPERATOR_NOTE",
+              "content": "合成场景：评估请求判断能否确认Z2/Z6内LNA氢中毒并排除TWT/EPC；当前输入未记录已执行修复措施。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-019-04"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-019",
+            "spacecraft_type": "literature-derived illustrative spacecraft configuration",
+            "configuration": {
+              "equipment_scope": "synthetic_s_band_linearized_twta",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION",
+              "illustrative_topology": "S-band linearized TWTA includes LCAMP, EPC and TWT; no current module or chip identity is established."
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "synthetic_s_band_linearized_twta",
+                  "synthetic_s_band_twta_output_path",
+                  "synthetic_lcamp",
+                  "synthetic_twt",
+                  "synthetic_epc"
+                ],
+                "configuration_notes": [
+                  "Illustrative synthetic hardware context; not asserted as the source mission hardware configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_SYSTEM_AIT_TEST",
+            "operating_mode": "whole_unit_output_power_comparison",
+            "recent_operations": [
+              "两次合成整机级功率对照测量已完成。"
+            ],
+            "environmental_context": [
+              "Only the explicit comparison conditions in the synthetic logs are available."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "Current evidence reaches only the whole-unit output-loss level.",
+              "No module-level or material results are supplied in this packet."
+            ]
+          },
+          "analysis_cutoff": "2026-11-17T08:20:00Z",
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "knowledge_evidence": [],
+          "historical_cases": [],
+          "history_retrieval": {
+            "status": "NO_HIT",
+            "eligible_hits": 0,
+            "blocked_hits": []
+          }
+        }
+      },
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43"
+    }
+  ]
+}

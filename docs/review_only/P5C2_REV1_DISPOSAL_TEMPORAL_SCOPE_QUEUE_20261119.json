@@ -1,0 +1,193 @@
+{
+  "schema_version": "dgsi-rev1-disposal-temporal-scientific-review-only.v0.1",
+  "classification": "INTERNAL_REVIEW_ONLY",
+  "not_for_sft": true,
+  "source_pr_head": "74fe21fe4bd5cadaa20b7415dbe5da5973133ee1",
+  "source_path": "examples/l1_literature_synthetic_task_packets_c2_coverage_candidate_2026-11-18_r1.json",
+  "collection_id": "DGSI-L1-LITERATURE-SYNTHETIC-PILOT-C2-COVERAGE-CANDIDATE-REV1-2026-11-18",
+  "collection_projection_sha256": "3927c976af6eb46a8842b68926fd893b021df69b034ae8981dc5ed136278521a",
+  "total_synthetic_candidates": 21,
+  "recorded_action_candidate_count": 5,
+  "not_recorded_action_candidate_count": 16,
+  "review_type": "AI_ASSISTED_PRECHECK_NO_HUMAN_ADMISSION",
+  "not_an_sft_export": true,
+  "new_issue": {
+    "finding_id": "SCI-009-PRECURSOR-AS-DISPOSAL",
+    "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+    "packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+    "observed_risk": "LOG-91 documents a synthetic heat-lamp bake intended for suspected earlier catalyst contamination before the LOG-92 valve rupture and LOG-93 injector blockage. It may be a precursor to the current failure, not a corrective disposition for it.",
+    "proposed_options": [
+      {
+        "id": "A",
+        "meaning": "In distinct REV2 move prior intervention to operational event chronology; set current later injector disposal_status=NOT_RECORDED and disposal_measures=[] while preserving LOG-91 causal evidence."
+      },
+      {
+        "id": "B",
+        "meaning": "Keep RECORDED only with expert-defined full-sequence episode scope and explicit action intent, temporal order and absence of established recovery."
+      },
+      {
+        "id": "C",
+        "meaning": "Hold for evidence/event-boundary rework; no automatic admission."
+      }
+    ],
+    "adjudication_status": "PENDING_INDEPENDENT_EXPERTS",
+    "final_choice": null
+  },
+  "entries": [
+    {
+      "task_id": "L1-TROPICS-TVAC-SLIPRING-SYNTH-004",
+      "packet_sha256": "8de3eec1257e3a75a8a9adb2e3f5851c4662b4190d12dd262afc5fb6ad893f1b",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "action_type": "SYNTHETIC_EXECUTED_SCENARIO_ACTION_NOT_REAL_OPERATION",
+      "disposal_status_snapshot": "RECORDED",
+      "measure_snapshot": [
+        {
+          "measure": "合成场景记录已调整线束走线；调整后CRC错误仍出现，未证明故障已排除。",
+          "measure_type": "EXECUTED",
+          "evidence_refs": [
+            "LOG-42"
+          ]
+        }
+      ],
+      "cited_synthetic_log_extracts": [
+        {
+          "log_id": "LOG-42",
+          "content": "合成场景：线束走线调整后CRC错误仍出现；旋转状态下接触电阻读数随测试环境变化。"
+        }
+      ],
+      "pre_review_role": "CURRENT_ANOMALY_RESPONSE_REPAIR_UNVERIFIED",
+      "review_state": "REVIEW_REQUIRED_NO_DEFECT_ADJUDICATED",
+      "decision": null,
+      "expert_reviewer_tokens": [],
+      "rights_clearance": false
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-B-SYNTH-006",
+      "packet_sha256": "fa8f41330382e7075934275ac75b8f03d9d228246892567c11ea132d252b76c0",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-B"
+      ],
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "action_type": "SYNTHETIC_EXECUTED_SCENARIO_ACTION_NOT_REAL_OPERATION",
+      "disposal_status_snapshot": "RECORDED",
+      "measure_snapshot": [
+        {
+          "measure": "合成场景记录已进行多次通信重试，但链路仍未恢复稳定；重试次数、触发主体及进一步处置未提供。",
+          "measure_type": "EXECUTED",
+          "evidence_refs": [
+            "LOG-62"
+          ]
+        }
+      ],
+      "cited_synthetic_log_extracts": [
+        {
+          "log_id": "LOG-62",
+          "content": "合成场景：多次通信重试后仍无法恢复稳定链路。"
+        }
+      ],
+      "pre_review_role": "CURRENT_ANOMALY_RESPONSE_RETRY_UNSUCCESSFUL",
+      "review_state": "REVIEW_REQUIRED_NO_DEFECT_ADJUDICATED",
+      "decision": null,
+      "expert_reviewer_tokens": [],
+      "rights_clearance": false
+    },
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "action_type": "SYNTHETIC_EXECUTED_SCENARIO_ACTION_NOT_REAL_OPERATION",
+      "disposal_status_snapshot": "RECORDED",
+      "measure_snapshot": [
+        {
+          "measure": "合成日志记录已在真空条件下用热灯烘烤推进器，尝试处理潜在催化床污染；当前输入未记录去污成功或性能恢复。",
+          "measure_type": "EXECUTED",
+          "evidence_refs": [
+            "LOG-91"
+          ]
+        }
+      ],
+      "cited_synthetic_log_extracts": [
+        {
+          "log_id": "LOG-91",
+          "content": "合成场景：在此前长时试验后，使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。"
+        }
+      ],
+      "pre_review_role": "PRIOR_EPISODE_INTERVENTION_POSSIBLE_CURRENT_FAILURE_PRECURSOR",
+      "review_state": "OPEN_HIGH_PRIORITY_TEMPORAL_SCOPE_ADJUDICATION",
+      "decision": null,
+      "expert_reviewer_tokens": [],
+      "rights_clearance": false
+    },
+    {
+      "task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "packet_sha256": "97cd456f22a982b3b4718ac3c0bd1f73bc901569ebd803bc73ed3d5034e1e316",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "event_family": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "action_type": "SYNTHETIC_EXECUTED_SCENARIO_ACTION_NOT_REAL_OPERATION",
+      "disposal_status_snapshot": "RECORDED",
+      "measure_snapshot": [
+        {
+          "measure": "合成场景中已进行一次反作用轮重启；这不是实际FUSE飞行操作记录。",
+          "measure_type": "EXECUTED",
+          "evidence_refs": [
+            "LOG-122"
+          ]
+        }
+      ],
+      "cited_synthetic_log_extracts": [
+        {
+          "log_id": "LOG-122",
+          "content": "合成场景：一次重启后拖曳短时维持高位，随后逐渐回落。"
+        }
+      ],
+      "pre_review_role": "CURRENT_ANOMALY_RESTART_RECOVERY_UNVERIFIED",
+      "review_state": "REVIEW_REQUIRED_NO_DEFECT_ADJUDICATED",
+      "decision": null,
+      "expert_reviewer_tokens": [],
+      "rights_clearance": false
+    },
+    {
+      "task_id": "L1-FUSE-RWA-RECOVERY-ABSTENTION-SYNTH-020",
+      "packet_sha256": "4d0b71ccb0d407e3fc65a2b4ac3b6b7467885968cf98fdfb59e715c929f5fe15",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "event_family": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "action_type": "SYNTHETIC_EXECUTED_SCENARIO_ACTION_NOT_REAL_OPERATION",
+      "disposal_status_snapshot": "RECORDED",
+      "measure_snapshot": [
+        {
+          "measure": "合成场景内已完成一次俯仰轴反作用轮重启。",
+          "measure_type": "EXECUTED",
+          "evidence_refs": [
+            "LOG-020-01"
+          ]
+        }
+      ],
+      "cited_synthetic_log_extracts": [
+        {
+          "log_id": "LOG-020-01",
+          "content": "合成场景：当前俯仰轴反作用轮已完成一次重启；日志只记录动作完成，没有给出修复成功结论。"
+        }
+      ],
+      "pre_review_role": "CURRENT_ANOMALY_RESTART_RECOVERY_UNVERIFIED",
+      "review_state": "REVIEW_REQUIRED_NO_DEFECT_ADJUDICATED",
+      "decision": null,
+      "expert_reviewer_tokens": [],
+      "rights_clearance": false
+    }
+  ],
+  "training_authorized": false,
+  "gold_eligible": false,
+  "formal_split_assigned": false,
+  "rights_cleared": false,
+  "human_review_receipts_present": false
+}

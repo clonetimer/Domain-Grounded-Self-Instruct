@@ -1,0 +1,118 @@
+{
+  "schema_version": "dgsi-closeout-replay-manifest.v1",
+  "classification": "LITERATURE_DERIVED_SYNTHETIC_DEV_ONLY",
+  "recipe_version": "dgsi-closeout-1",
+  "review_kind": "GPT_ADVISORY_NOT_HUMAN_EXPERT",
+  "training_authorized": false,
+  "gold_eligible": false,
+  "files": [
+    {
+      "path": "coordinator/source_bindings.json",
+      "sha256": "9936a0d04a4d498c69210b64757d68f9c322eb9379b50cfd000695446f534556"
+    },
+    {
+      "path": "delivery_revisions.json",
+      "sha256": "3ee86d1b043e320ffd92bdbbf683a1302539a316e4bab23247de35de8c077e95"
+    },
+    {
+      "path": "fixtures/l0_source_facts.json",
+      "sha256": "fe302f6b9510699ed795d1d486929267e87608c08911fdb2093d6a3811d0b4c2"
+    },
+    {
+      "path": "fixtures/l1_collection.json",
+      "sha256": "483c56de58bf21b5dc9ea331b84267a9a33d61063e4cff491dadf36fb9c2fd49"
+    },
+    {
+      "path": "generations/M0.json",
+      "sha256": "da6a69dbb84f5ae4f009fe03599439eea39a62016ade07959987491d30335c71"
+    },
+    {
+      "path": "generations/M1.json",
+      "sha256": "1a443ae8382970c0a77331148665ccbb187d1c39f0713a1be450f466498185eb"
+    },
+    {
+      "path": "generations/M2.json",
+      "sha256": "dbc5d3a542938c93742e50293d551798cc7dddb25217014a0aafbc4fcceff3ac"
+    },
+    {
+      "path": "generations/M3.json",
+      "sha256": "e6223e515529dd8b97a78770597d101fa33902611b77a9c49e2883d23d7920ac"
+    },
+    {
+      "path": "generations/M4.json",
+      "sha256": "4d8d504a440781a42fc2d541ede9d920c3b0098868569f8a9151ab95a5e868bc"
+    },
+    {
+      "path": "gpt_reviews.json",
+      "sha256": "0ee8c0929cc568761ac2c872aa4899b2dce46cdd88c89a25ff555c40c8bb2848"
+    },
+    {
+      "path": "prompts/M0.json",
+      "sha256": "b87247c882591b49eaeb29496287e89a7b9296f8107d26a277968864c5fbb548"
+    },
+    {
+      "path": "prompts/M1.json",
+      "sha256": "882a6e0f8bedfb89664a8df1f615b8fb1db85ee6924543004d5726fe30ed54f2"
+    },
+    {
+      "path": "prompts/M2.json",
+      "sha256": "dc832cd8e40d4ee14bdab3bbb88c06a09719eb991ef4e9556627ed07c1016638"
+    },
+    {
+      "path": "prompts/M3.json",
+      "sha256": "2249ee4c8e383670b0a00cba6d707a160f026a045d56894c0598fc97679dfcf8"
+    },
+    {
+      "path": "prompts/M4.json",
+      "sha256": "2aa27d869f1c582bb73a9d63c0571d63ed22d22c31cd325adc1fc494b55b13f3"
+    },
+    {
+      "path": "protocol.json",
+      "sha256": "40d72d4c233a4855b3961bc6bbcbbc82634c9ae0b3a702ff24790d058982eeeb"
+    },
+    {
+      "path": "review_inputs.json",
+      "sha256": "1576e379c40aa9a8105f263a226accc7b210b073dfbe5e1f3a630001fd0363ee"
+    },
+    {
+      "path": "review_prompt.json",
+      "sha256": "b3c792324c5ef04351fedfb5011abc9d1c167be15b0a7ffa7ef5597176507883"
+    },
+    {
+      "path": "review_summary.json",
+      "sha256": "56df4053d5c4e8fa9290c1adb48d65f4632b8546b5d5fd9a4df471b729db498e"
+    },
+    {
+      "path": "reviews/gpt_review_A.json",
+      "sha256": "230ceb8144e0b4ee372beea966a1f56ddf726ed6e23b5beafdb1308c93b781b2"
+    },
+    {
+      "path": "reviews/gpt_review_B.json",
+      "sha256": "e2b455e4d0a71630bb719707e9dce30ccef994dedc6055e3daafc03d9f547184"
+    },
+    {
+      "path": "reviews/revision_review_A.json",
+      "sha256": "92c05bffdfb8d01ce4f51ba37eb284d72c689f614d85505f90301a62d8233b85"
+    },
+    {
+      "path": "reviews/revision_review_B.json",
+      "sha256": "8f2fadfd54db794cde1b3349c64cd8b71378653700d1aac4d8cb67cabace2fc1"
+    },
+    {
+      "path": "run_receipt.json",
+      "sha256": "b55d1ed13e722f60db2fc6839efdcfdaf19d779110545a9cb08cdb4f1e156bda"
+    },
+    {
+      "path": "shared_cases.json",
+      "sha256": "3be7c5e13fe2a6aefefa682994fb34417e5a1dc2fee98fbf32eac530cc18edd2"
+    },
+    {
+      "path": "target_schema.json",
+      "sha256": "4710df4e9fcbf7d42fcbf3f12ea6f80ce44135c8acae009e3aee1436112243c2"
+    },
+    {
+      "path": "trials.json",
+      "sha256": "fa1bd57e4877b3e03224942bebe9e8ab37ca5e92c93c14e888d8d03fe5d67c1c"
+    }
+  ]
+}

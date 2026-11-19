@@ -2,6 +2,10 @@
 
 Portable production Skill for converting authorized spacecraft simulation and engineering materials into evidence-grounded fault-diagnosis instruction-tuning candidates.
 
+## v0.2.0 reproducible delivery
+
+Start with [the Chinese reproduction and reuse guide](references/CLOSEOUT_QUICKSTART.md). From the extracted toolkit root, install `requirements-validation.txt`, then run `python scripts/run_dgsi_skill.py demo --output local_demo`. This produces twenty recorded three-message development previews, the four DGSI candidates, and the paired GPT review report. Use `prepare` with authorized L0/L1 files for fresh generation requests. No human review is fabricated; formal dataset admission and training stay separate.
+
 ## Contents
 
 - `SKILL.md`: primary portable Skill entry point.
@@ -47,7 +51,7 @@ A standalone engineering subset can be built with `python scripts/package_simula
 4. Start with `INGEST` using Prompt A in `references/AI_HANDOFF_PROMPTS.md`.
 5. Review the source inventory and L0 facts before allowing `GENERATE`.
 6. Run an independent `AUDIT` using Prompt C.
-7. Return only review-queue-ready candidates for human adjudication.
+7. Run independent GPT advisory review when authorized, preserve concrete findings, and return development candidates with their actual review status. Use human adjudication separately when required for formal admission.
 
 ## Current capability boundary
 

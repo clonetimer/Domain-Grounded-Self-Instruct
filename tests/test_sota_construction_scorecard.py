@@ -1,0 +1,240 @@
+from __future__ import annotations
+
+import json
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from dgsi.sota_construction_scorecard import ARMS, DIMENSIONS, ScorecardError, scorecard_file, summarize_construction_trials
+
+
+def trial(arm="M0", group="G1", track="LITERATURE_DERIVED_SYNTHETIC", status="PENDING"):
+    item = {
+        "trial_id": f"{arm}-{group}", "source_group": group, "event_family": group,
+        "comparison_unit_id": f"SLOT-{group}", "requested_task_type": "diagnostic_synthesis",
+        "canonical_scenario_sha256": "a" * 64,
+        "arm": arm, "track": track, "attempts": 1, "accepted_candidates": 1,
+        "generation_tokens": 900, "token_budget": 1000,
+        "critical_failures": [], "review_status": status,
+        "reviewer_tokens": [], "scores": {},
+    }
+    if status == "ADJUDICATED":
+        item.update(reviewer_tokens=["R1", "R2"], scores={d: 2 for d in DIMENSIONS}, review_receipt_sha256="a" * 64)
+    return item
+
+
+def doc(rows):
+    return {"schema_version": "dgsi-sota-construction-scorecard.v1", "purpose": "CONSTRUCTION_ONLY", "trials": rows}
+
+
+class ScorecardTests(unittest.TestCase):
+    def reject(self, code, document):
+        with self.assertRaisesRegex(ScorecardError, "^" + code + "$"):
+            summarize_construction_trials(document)
+
+    def test_empty_returns_not_run(self):
+        r = summarize_construction_trials(doc([]))
+        self.assertEqual(r["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+        self.assertEqual(r["arms"]["M4"]["status"], "NOT_RUN")
+        self.assertFalse(r["training_authorized"])
+
+    def test_five_arms_matched_but_not_human_reviewed(self):
+        r = summarize_construction_trials(doc([trial(a) for a in ARMS]))
+        self.assertTrue(r["source_group_budget_matched"])
+        self.assertEqual(r["comparison_status"], "MATCHED_UNREVIEWED")
+        self.assertIsNone(r["arms"]["M4"]["reviewer_reported_dimension_means"])
+
+    def test_valid_adjudicated_inputs_never_authorize_sft(self):
+        r = summarize_construction_trials(doc([trial(a, status="ADJUDICATED") for a in ARMS]))
+        self.assertEqual(r["comparison_status"], "REVIEWED_COMPARABLE_INPUT")
+        self.assertEqual(r["arms"]["M0"]["reviewer_reported_dimension_means"]["source_fidelity"], 2)
+        self.assertEqual(r["downstream_sft_result"], "NOT_RUN")
+        self.assertFalse(r["gold_authorized"])
+
+    def test_partial_source_and_token_budget_cannot_claim_comparison(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["source_group"] = "OTHER"
+        rows[-1]["event_family"] = "OTHER"
+        rows[-1]["comparison_unit_id"] = "SLOT-OTHER"
+        self.assertFalse(summarize_construction_trials(doc(rows))["source_group_budget_matched"])
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["token_budget"] = 999
+        self.assertFalse(summarize_construction_trials(doc(rows))["source_group_budget_matched"])
+
+    def test_reject_duplicate_and_cross_track_identity(self):
+        self.reject("SOTA_DUPLICATE_TRIAL", doc([trial(), trial()]))
+        real = trial("M1", track="REAL_GOLD")
+        real["gold_admitted"] = True
+        self.reject("SOTA_SOURCE_TRACK_COLLISION", doc([trial(), real]))
+
+    def test_real_gold_must_be_explicitly_admitted(self):
+        self.reject("SOTA_REAL_GOLD_NOT_ADMITTED", doc([trial(track="REAL_GOLD")]))
+
+    def test_critical_failures_cannot_be_accepted(self):
+        r = trial()
+        r["critical_failures"] = ["FABRICATED_ML_OR_LOG"]
+        self.reject("SOTA_CRITICAL_CANDIDATE_ACCEPTED", doc([r]))
+
+    def test_no_fake_independent_reviews_or_partial_rubric(self):
+        r = trial(status="ADJUDICATED")
+        r["reviewer_tokens"] = ["R1", "R1"]
+        self.reject("SOTA_REVIEWERS_NOT_INDEPENDENT", doc([r]))
+        r = trial(status="ADJUDICATED")
+        del r["scores"][DIMENSIONS[0]]
+        self.reject("SOTA_SCORE_DIMENSIONS", doc([r]))
+
+    def test_real_and_synthetic_adjudication_are_stratified(self):
+        rows = [trial(a, status="ADJUDICATED") for a in ARMS]
+        for a in ARMS:
+            r = trial(a, group="REAL-2", track="REAL_GOLD", status="ADJUDICATED")
+            r["gold_admitted"] = True
+            r["scores"]["source_fidelity"] = 0
+            rows.append(r)
+        result = summarize_construction_trials(doc(rows))
+        arm = result["arms"]["M4"]
+        self.assertEqual(arm["by_track"]["REAL_GOLD"]["reviewer_reported_dimension_means"]["source_fidelity"], 0)
+        self.assertEqual(arm["by_track"]["LITERATURE_DERIVED_SYNTHETIC"]["reviewer_reported_dimension_means"]["source_fidelity"], 2)
+        self.assertEqual(result["tracks"]["REAL_GOLD"], 5)
+        self.assertFalse(result["gold_authorized"])
+
+    def test_no_pending_scores(self):
+        r = trial()
+        r["scores"] = {"source_fidelity": 2}
+        self.reject("SOTA_PENDING_HAS_SCORES", doc([r]))
+
+    def test_aggregate_does_not_disclose_reviewers_or_trial_ids(self):
+        r = summarize_construction_trials(doc([trial(a, status="ADJUDICATED") for a in ARMS]))
+        s = json.dumps(r)
+        self.assertNotIn("R1", s)
+        self.assertNotIn("M0-G1", s)
+
+    def test_io_no_clobber(self):
+        with tempfile.TemporaryDirectory() as temp:
+            inp = Path(temp) / "in.json"
+            out = Path(temp) / "out.json"
+            inp.write_text(json.dumps(doc([trial("M4")])), encoding="utf-8")
+            scorecard_file(inp, out)
+            self.assertEqual(json.loads(out.read_text())["arms"]["M4"]["status"], "REVIEW_PENDING")
+            with self.assertRaisesRegex(ScorecardError, "SOTA_OUTPUT_EXISTS"):
+                scorecard_file(inp, out)
+            with self.assertRaisesRegex(ScorecardError, "SOTA_NO_INPUT_OVERWRITE"):
+                scorecard_file(inp, inp)
+
+    def test_event_family_cannot_change_source_group(self):
+        rows = [trial("M0", "G1"), trial("M1", "G2")]
+        rows[-1]["event_family"] = "G1"
+        self.reject("SOTA_EVENT_FAMILY_GROUP_COLLISION", doc(rows))
+
+    def test_matched_budget_total_cannot_hide_per_attempt_shift(self):
+        rows = []
+        for arm in ARMS:
+            for idx, budget in enumerate((400, 600)):
+                r = trial(arm)
+                r["trial_id"] = f"{arm}-{idx}"
+                r["generation_tokens"] = 0
+                r["token_budget"] = budget if arm != "M4" else (300, 700)[idx]
+                rows.append(r)
+        result = summarize_construction_trials(doc(rows))
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_mixed_tracks_never_receive_pooled_expert_mean(self):
+        rows = [trial(a, status="ADJUDICATED") for a in ARMS]
+        for a in ARMS:
+            r = trial(a, group="R", track="REAL_GOLD", status="ADJUDICATED")
+            r["gold_admitted"] = True
+            r["scores"]["source_fidelity"] = 0
+            rows.append(r)
+        result = summarize_construction_trials(doc(rows))
+        self.assertEqual(result["comparison_status"], "REVIEWED_COMPARABLE_INPUT")
+        arm = result["arms"]["M4"]
+        self.assertIsNone(arm["reviewer_reported_dimension_means"])
+        self.assertEqual(arm["by_track"]["REAL_GOLD"]["reviewer_reported_dimension_means"]["source_fidelity"], 0)
+        self.assertEqual(arm["by_track"]["LITERATURE_DERIVED_SYNTHETIC"]["reviewer_reported_dimension_means"]["source_fidelity"], 2)
+
+    def test_pending_review_rejects_stale_receipt_and_wrong_score_shapes(self):
+        r = trial()
+        r["review_receipt_sha256"] = "a" * 64
+        self.reject("SOTA_PENDING_HAS_SCORES", doc([r]))
+        r = trial()
+        r["scores"] = None
+        self.reject("SOTA_PENDING_HAS_SCORES", doc([r]))
+
+    def test_same_event_family_different_input_units_not_comparable(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["comparison_unit_id"] = "SLOT-UNPAIRED"
+        result = summarize_construction_trials(doc(rows))
+        self.assertTrue(result["comparison_units_complete"])
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_same_source_family_different_requested_task_not_comparable(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["requested_task_type"] = "evidence_sufficiency"
+        with self.assertRaisesRegex(ScorecardError, "^SOTA_COMPARISON_UNIT_COLLISION$"):
+            summarize_construction_trials(doc(rows))
+
+    def test_missing_legacy_unit_never_claims_fair_comparison(self):
+        rows = [trial(a) for a in ARMS]
+        for row in rows:
+            del row["comparison_unit_id"]
+            del row["requested_task_type"]
+        result = summarize_construction_trials(doc(rows))
+        self.assertFalse(result["comparison_units_complete"])
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_partial_unit_and_aliased_unit_are_blocked(self):
+        row = trial()
+        del row["requested_task_type"]
+        self.reject("SOTA_COMPARISON_UNIT_INVALID", doc([row]))
+        first = trial("M0", "G1")
+        second = trial("M1", "G2")
+        second["comparison_unit_id"] = first["comparison_unit_id"]
+        self.reject("SOTA_COMPARISON_UNIT_COLLISION", doc([first, second]))
+
+
+    def test_shared_unit_with_different_source_scenario_is_blocked(self):
+        rows = [trial(a) for a in ARMS]
+        rows[-1]["canonical_scenario_sha256"] = "b" * 64
+        self.reject("SOTA_SCENARIO_HASH_COLLISION", doc(rows))
+
+    def test_unfingerprinted_legacy_rows_never_claim_matched_input(self):
+        rows = [trial(a) for a in ARMS]
+        for row in rows:
+            del row["canonical_scenario_sha256"]
+        result = summarize_construction_trials(doc(rows))
+        self.assertTrue(result["comparison_units_complete"])
+        self.assertFalse(result["scenario_fingerprints_complete"])
+        self.assertFalse(result["source_group_budget_matched"])
+        self.assertEqual(result["comparison_status"], "NOT_COMPARABLE_OR_NOT_RUN")
+
+    def test_invalid_or_noncanonical_scenario_digest_is_rejected(self):
+        row = trial()
+        row["canonical_scenario_sha256"] = "A" * 64
+        self.reject("SOTA_SCENARIO_HASH_INVALID", doc([row]))
+        row["canonical_scenario_sha256"] = "z" * 64
+        self.reject("SOTA_SCENARIO_HASH_INVALID", doc([row]))
+        row["canonical_scenario_sha256"] = True
+        self.reject("SOTA_SCENARIO_HASH_INVALID", doc([row]))
+
+    def test_two_independent_scenario_units_preserve_paired_comparability(self):
+        rows = []
+        for arm in ARMS:
+            for group, digest in (("G1", "a" * 64), ("G2", "b" * 64)):
+                row = trial(arm, group)
+                row["canonical_scenario_sha256"] = digest
+                rows.append(row)
+        result = summarize_construction_trials(doc(rows))
+        self.assertTrue(result["source_group_budget_matched"])
+        self.assertTrue(result["scenario_fingerprints_complete"])
+        self.assertEqual(result["arms"]["M4"]["comparison_units"], 2)
+        self.assertNotIn("a" * 64, json.dumps(result))
+        self.assertNotIn("b" * 64, json.dumps(result))
+
+
+if __name__ == "__main__":
+    unittest.main()
