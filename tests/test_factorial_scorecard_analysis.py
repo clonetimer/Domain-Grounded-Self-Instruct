@@ -97,6 +97,14 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         self.assertEqual(report["arm_summary"]["A"]["critical_failure_code_count"], 1)
         self.assertEqual(report["per_dimension_factorial_analysis"]["source_fidelity"]["complete_four_arm_paired_case_count"], 1)
 
+    def test_critical_failure_cannot_be_marked_accepted(self):
+        data = fixture()
+        review = data["cases"][0]["reviews"][0]
+        review["accepted"] = True
+        review["critical_failure_codes"] = ["ROOT_CAUSE_UNSUPPORTED"]
+        with self.assertRaisesRegex(MODULE.ScorecardError, "CRITICAL_FAILURE_CANNOT_BE_ACCEPTED"):
+            MODULE.analyze_scorecard(data, **binding_kwargs())
+
     def test_invalid_output_cannot_be_marked_accepted(self):
         data = fixture()
         review = data["cases"][0]["reviews"][0]
