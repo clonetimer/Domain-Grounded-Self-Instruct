@@ -71,7 +71,14 @@ class InstructionDesignTests(unittest.TestCase):
                 self.assertEqual(recipe['candidate_count'], count)
                 self.assertTrue(recipe['not_for_sft'])
                 self.assertEqual(recipe['recipe_id'], recipe_id)
-                self.assertEqual(recipe['record_contract']['candidates'][0]['operation'], operations)
+                self.assertEqual(
+                    recipe['record_contract']['candidates'][0]['operation'],
+                    'comparability|evidence_roles|bounded_scope|style',
+                )
+                self.assertIn(operations, (
+                    'comparability|evidence_roles|bounded_scope',
+                    'style',
+                ))
 
     def test_tie_uses_original_order_and_never_mutates_input(self):
         resolve = self.api()
