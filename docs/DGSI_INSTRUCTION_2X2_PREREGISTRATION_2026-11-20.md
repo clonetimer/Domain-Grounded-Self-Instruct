@@ -79,6 +79,10 @@ python evaluation/refinement_20261120/validate_factorial_manifest.py path/to/run
 
 The validator requires the four exact arms, identical opaque case IDs and input/schema hashes in every arm, one shared policy hash, three candidates only in selection-enabled arms, at least two independent source-document clusters, and explicit rights/exposure/escrow/freeze gates. It rejects answer/reference/score fields and previously exposed source clusters. A successful validation means comparability metadata passed only; it does not launch generation or authorize model calls.
 
+**Evidence semantics (important):** the five `holdout_gate` booleans are curator attestations, not machine-verifiable proof of rights, historical non-exposure, source-cluster independence, escrow or freeze. A CI PASS only establishes that the manifest is structurally consistent and that the declared flags are true. Before a real run manifest may be populated, every proposed source cluster must have a reviewable evidence record containing (1) exact primary-source URL and document identifier, (2) source-document checksum and page/section locators, (3) explicit rights basis for the intended derivative dataset use, (4) a scoped exposure audit covering repository/PR history, prior development bundles and retrieval sources, and (5) a written event/source-cluster independence rationale. The reviewer must be able to trace each case's `source_cluster_id` to that record. A bare boolean, a GitHub search miss, or a publicly downloadable PDF is not sufficient evidence.
+
+The current source-screen register at `docs/DGSI_NEW_HOLDOUT_SOURCE_SCREEN_2026-11-20.md` admits **zero** clusters. Therefore no populated run manifest may truthfully set all holdout gates to true at present; the synthetic fixtures in unit tests demonstrate validator behavior only and are not candidate data. Until the evidence register contains at least the preregistered minimum of genuinely eligible independent clusters, the experiment remains `NOT_RUN`. This clarification does not alter the case set, rubric, thresholds, weights or prior scores.
+
 
 ## Frozen scorecard analysis
 
