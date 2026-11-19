@@ -104,7 +104,7 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         review["dimension_scores"] = None
         review["accepted"] = True
         with self.assertRaisesRegex(MODULE.ScorecardError, "INVALID_OUTPUT_CANNOT_BE_ACCEPTED"):
-            MODULE.analyze_scorecard(data)
+            MODULE.analyze_scorecard(data, **binding_kwargs())
 
     def test_no_complete_paired_cases_produces_not_estimable(self):
         data = fixture()
@@ -112,7 +112,7 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
             for review in case["reviews"]:
                 review["output_valid"] = False
                 review["dimension_scores"] = None
-        report = MODULE.analyze_scorecard(data)
+        report = MODULE.analyze_scorecard(data, **binding_kwargs())
         self.assertEqual(report["status"], "NOT_ESTIMABLE_NO_COMPLETE_PAIRED_CASES")
         self.assertIsNone(report["factorial_contrasts_on_complete_paired_cases_only"]["interaction"])
         self.assertIsNone(report["factorial_contrasts_equal_weight_per_source_cluster"]["interaction"])
@@ -121,13 +121,13 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         data = fixture()
         data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-c"
         with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PANEL_MUST_BE_TWO_BLINDED_TOKENS"):
-            MODULE.analyze_scorecard(data)
+            MODULE.analyze_scorecard(data, **binding_kwargs())
 
     def test_scorecard_must_bind_to_frozen_manifest_and_rubric(self):
         data = fixture()
         data["manifest_sha256"] = "not-a-hash"
         with self.assertRaisesRegex(MODULE.ScorecardError, "SCORECARD_BINDING_HASH_INVALID"):
-            MODULE.analyze_scorecard(data)
+            MODULE.analyze_scorecard(data, **binding_kwargs())
 
     def test_scorecard_case_ids_and_hashes_must_match_frozen_manifest(self):
         data = fixture()
@@ -151,19 +151,19 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
         data = fixture()
         data["cases"][0]["reviews"][0]["reviewer_token"] = "reviewer-token-b"
         with self.assertRaisesRegex(MODULE.ScorecardError, "REVIEWER_PAIR_MISMATCH_ACROSS_ARMS"):
-            MODULE.analyze_scorecard(data)
+            MODULE.analyze_scorecard(data, **binding_kwargs())
 
     def test_rejects_missing_or_extra_review_rows(self):
         data = fixture()
         data["cases"][0]["reviews"].pop()
         with self.assertRaisesRegex(MODULE.ScorecardError, "TWO_REVIEWERS_PER_ARM_REQUIRED"):
-            MODULE.analyze_scorecard(data)
+            MODULE.analyze_scorecard(data, **binding_kwargs())
 
     def test_rejects_score_range_drift(self):
         data = fixture()
         data["cases"][0]["reviews"][0]["dimension_scores"][DIMS[0]] = 3
         with self.assertRaisesRegex(MODULE.ScorecardError, "DIMENSION_SCORE_INVALID"):
-            MODULE.analyze_scorecard(data)
+            MODULE.analyze_scorecard(data, **binding_kwargs())
 
 
 if __name__ == "__main__":
