@@ -81,6 +81,10 @@ The validator requires the four exact arms, identical opaque case IDs and input/
 
 **Evidence semantics (important):** the five `holdout_gate` booleans are curator attestations, not machine-verifiable proof of rights, historical non-exposure, source-cluster independence, escrow or freeze. A CI PASS only establishes that the manifest is structurally consistent and that the declared flags are true. Before a real run manifest may be populated, every proposed source cluster must have a reviewable evidence record containing (1) exact primary-source URL and document identifier, (2) source-document checksum and page/section locators, (3) explicit rights basis for the intended derivative dataset use, (4) a scoped exposure audit covering repository/PR history, prior development bundles and retrieval sources, and (5) a written event/source-cluster independence rationale. The reviewer must be able to trace each case's `source_cluster_id` to that record. A bare boolean, a GitHub search miss, or a publicly downloadable PDF is not sufficient evidence.
 
+### Independent custodian intake procedure
+
+The operational checklist and role-separation template are maintained in [`docs/DGSI_HOLDOUT_CUSTODIAN_INTAKE_TEMPLATE.md`](DGSI_HOLDOUT_CUSTODIAN_INTAKE_TEMPLATE.md). It defines independent source custody, rights/exposure review, anonymized generator-visible packets, sealed references, and the release sequence. The template is not a source, does not add a case, and does not authorize execution.
+
 ### Machine-enforced source-evidence record
 
 The run manifest must include `source_evidence_records`, exactly one record for every `source_cluster_id` referenced by the frozen cases, with no missing or extra clusters. The fail-closed validator checks these required fields:
