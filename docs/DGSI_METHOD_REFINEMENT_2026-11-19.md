@@ -160,3 +160,42 @@ development rather than relabeling these now-observed cases as fresh holdout.
 - The full-suite and exact-head CI evidence are recorded with the dependent
   draft PR. The continuous automation remains paused; this bounded round ends
   here instead of triggering another score-driven optimization cycle.
+
+
+## Follow-up correction from the two identified review omissions — 2026-11-20
+
+This is an implementation note only. It does not change the frozen four-case results, evaluation set, rubric, reviewer decisions, thresholds, or prior conclusions.
+
+### Changes made
+
+- `src/dgsi/instruction_design.py`: strengthened the shared authoring policy so that a launch/injection-path comparison may be stated as “same launch path, no switch within the window” only when the path identifier, observation-window bounds, and no-switch evidence are explicitly present. Missing path/switch evidence must remain unknown/not recorded; absence of a switch record is not proof that no switch occurred.
+- The same policy now requires ML inference, independent observation/counter-evidence, direct telemetry/log observation, and an upstream reference without its original artifact to be recorded as separate evidence items. Independent observations may support or contradict an ML inference but may not be merged into the same support item or relabelled as the ML output itself.
+- `tests/test_instruction_design.py`: added two regression checks that ensure the shared policy is present in all three optional recipes (`evolve`, `select`, `evolve-select`).
+- `skills/dgsi-simulation-to-sft/references/INSTRUCTION_REFINEMENT.md`: documented the explicit evidence requirements and clarified that missing switch records cannot be treated as proof of continuity.
+- Corrected duplicated step numbering in the instruction procedure.
+
+### What this does and does not establish
+
+- Established: the host-authoring instructions now explicitly encode both previously identified requirements; regression tests check that the shared policy reaches every optional recipe.
+- Not established: that a model will always obey these instructions; that a generated answer will correctly interpret a real launch-path timeline; or that the two omissions have disappeared from output distributions.
+- Not measured: any new generation, blind review, acceptance-rate change, score gain, latency/token cost, or downstream SFT gain. No such experiment was run in this change.
+
+### Verification status
+
+- The new focused tests were committed; exact-head Ubuntu/Windows full-suite and package workflow runs for commit `b8067e7557a84a7f242674c701104d5bdf8ed929` were observed as in progress at the time of this note. They are not marked PASS here.
+- The separate 2×2 manifest guard is not a substitute for these implementation tests.
+- The PR #186 branch remains a Draft and has a mergeability/conflict issue against its release base; dependent PR #189/#191 have not yet been proven to contain this latest strategy commit.
+
+### Outcome ledger
+
+| Measure | Result |
+|---|---:|
+| Explicit policy gaps addressed | 2 |
+| New regression tests | 2 |
+| Evaluation cases changed | 0 |
+| Rubric/threshold changes | 0 |
+| New generated answers / blind reviews | 0 / 0 |
+| New performance evidence | 0 |
+| Downstream SFT evidence | 0 |
+
+This change improves specification coverage and test coverage only. It does not demonstrate model-quality improvement.
