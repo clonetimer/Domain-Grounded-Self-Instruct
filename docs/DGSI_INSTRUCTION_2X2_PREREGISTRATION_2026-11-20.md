@@ -78,3 +78,14 @@ python evaluation/refinement_20261120/validate_factorial_manifest.py path/to/run
 ```
 
 The validator requires the four exact arms, identical opaque case IDs and input/schema hashes in every arm, one shared policy hash, three candidates only in selection-enabled arms, at least two independent source-document clusters, and explicit rights/exposure/escrow/freeze gates. It rejects answer/reference/score fields and previously exposed source clusters. A successful validation means comparability metadata passed only; it does not launch generation or authorize model calls.
+
+
+## Frozen scorecard analysis
+
+After the two blinded reviewers have completed the frozen rubric, store only the reviewer scorecard (not answer text) using `dgsi-factorial-review-scorecard.v1`, then run:
+
+```bash
+python evaluation/refinement_20261120/analyze_factorial_scorecard.py scorecard.json --output analysis-report.json
+```
+
+The analyzer requires two stable blinded reviewer tokens, two reviews per case per arm, the ten fixed rubric dimensions (0–2 each), and explicit output-validity/critical-failure fields. It reports per-arm case-weighted and source-cluster-weighted means, acceptance fractions, invalid outputs, critical failures, reviewer disagreements, and paired 2×2 effects on complete four-arm cases only. Invalid outputs are not assigned invented score penalties; they remain visible in validity counts and are excluded from score contrasts. If no complete paired cases remain, effects are reported as not estimable. The report is descriptive, not a significance or superiority claim.
