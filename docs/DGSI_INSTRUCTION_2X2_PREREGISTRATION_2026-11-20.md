@@ -81,6 +81,21 @@ The validator requires the four exact arms, identical opaque case IDs and input/
 
 **Evidence semantics (important):** the five `holdout_gate` booleans are curator attestations, not machine-verifiable proof of rights, historical non-exposure, source-cluster independence, escrow or freeze. A CI PASS only establishes that the manifest is structurally consistent and that the declared flags are true. Before a real run manifest may be populated, every proposed source cluster must have a reviewable evidence record containing (1) exact primary-source URL and document identifier, (2) source-document checksum and page/section locators, (3) explicit rights basis for the intended derivative dataset use, (4) a scoped exposure audit covering repository/PR history, prior development bundles and retrieval sources, and (5) a written event/source-cluster independence rationale. The reviewer must be able to trace each case's `source_cluster_id` to that record. A bare boolean, a GitHub search miss, or a publicly downloadable PDF is not sufficient evidence.
 
+### Machine-enforced source-evidence record
+
+The run manifest must include `source_evidence_records`, exactly one record for every `source_cluster_id` referenced by the frozen cases, with no missing or extra clusters. The fail-closed validator checks these required fields:
+
+- `primary_source_url` (HTTPS), `source_document_id`, `source_document_sha256`, and one or more page/section `source_locators`;
+- `rights_basis`, `rights_scope`, and a `rights_review_ref` identifying the written rights review for the intended derivative use;
+- `exposure_audit_scope` covering repository/PR history, prior development bundles, and connected retrieval/prior conversations, plus an `exposure_audit_ref`;
+- `independence_rationale`, `review_status`, opaque `reviewer_token`, and ISO `reviewed_at`.
+
+The validator rejects missing records, duplicate/unbound clusters, malformed URLs or hashes, incomplete audit scope, and any review status other than `PASS`. It also reports a SHA-256 digest over the source-evidence record set for traceability.
+
+This is a **structural completeness check only**. It cannot fetch or authenticate cited documents, decide copyright law, verify that an exposure audit was actually exhaustive, or prove that two event clusters are scientifically independent. Those remain independent curator/reviewer judgments backed by the referenced artifacts. Unit-test fixture records use `example.invalid` and explicitly synthetic rights/exposure text; they are not source candidates and must never be copied into a real run manifest.
+
+The current source-screen register still admits **zero** clusters. Therefore no real run manifest can pass the new evidence gate using currently screened candidates. This is an intentional fail-closed outcome, not a reason to relax the requirements.
+
 The current source-screen register at `docs/DGSI_NEW_HOLDOUT_SOURCE_SCREEN_2026-11-20.md` admits **zero** clusters. Therefore no populated run manifest may truthfully set all holdout gates to true at present; the synthetic fixtures in unit tests demonstrate validator behavior only and are not candidate data. Until the evidence register contains at least the preregistered minimum of genuinely eligible independent clusters, the experiment remains `NOT_RUN`. This clarification does not alter the case set, rubric, thresholds, weights or prior scores.
 
 
