@@ -85,6 +85,25 @@ class InstructionDesignTests(unittest.TestCase):
                 else:
                     self.assertIn('生成一条演化指令', recipe['procedure'])
 
+    def test_policy_requires_explicit_same_launch_path_and_no_switch_evidence(self):
+        from dgsi.instruction_design import DGSI_POLICY, authoring_recipe
+        self.assertIn('同一发射路径', DGSI_POLICY)
+        self.assertIn('观测窗口内是否发生路径切换', DGSI_POLICY)
+        self.assertIn('路径标识和窗口内无切换', DGSI_POLICY)
+        self.assertIn('不得推断为未切换', DGSI_POLICY)
+        for recipe_id in ('evolve', 'select', 'evolve-select'):
+            with self.subTest(recipe_id=recipe_id):
+                self.assertEqual(authoring_recipe(recipe_id)['domain_policy'], DGSI_POLICY)
+
+    def test_policy_keeps_ml_inference_and_independent_observation_as_separate_evidence_items(self):
+        from dgsi.instruction_design import DGSI_POLICY, authoring_recipe
+        self.assertIn('ML推断与独立观测必须作为不同证据项分别列出', DGSI_POLICY)
+        self.assertIn('禁止合并成同一支持证据项', DGSI_POLICY)
+        self.assertIn('不得改写为ML输出本身', DGSI_POLICY)
+        for recipe_id in ('evolve', 'select', 'evolve-select'):
+            with self.subTest(recipe_id=recipe_id):
+                self.assertEqual(authoring_recipe(recipe_id)['domain_policy'], DGSI_POLICY)
+
     def test_tie_uses_original_order_and_never_mutates_input(self):
         resolve = self.api()
         user, record = self.fixture()
