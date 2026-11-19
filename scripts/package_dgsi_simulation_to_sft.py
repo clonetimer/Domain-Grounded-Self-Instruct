@@ -6,8 +6,9 @@ Run from the repository root:
     python scripts/package_dgsi_simulation_to_sft.py --output dist/dgsi-simulation-to-sft.zip
 
 Only explicitly allowlisted public Skill, schema, validator and documentation
-files are included. Private run artifacts, telemetry, credentials, local
-review packets and generated candidate data are never collected.
+files are included, plus the explicitly public synthetic closeout demo.
+Private run artifacts, telemetry, credentials and local review packets are
+never collected. Other generated data directories are not scanned.
 """
 from __future__ import annotations
 
@@ -27,6 +28,7 @@ SCHEMAS = (
     "resources/diagnostic_sft.schema.json",
 )
 DOCS = (
+    "docs/DGSI_CLOSEOUT_RESULTS_2026-11-19.md",
     "docs/L1_DUAL_TRACK_AND_HISTORY_CONTEXT.md",
     "docs/L1_SFT_RELEASE_PREFLIGHT.md",
     "docs/P2_BASILISK_RECEIPT_INTAKE.md",
@@ -52,6 +54,9 @@ DOCS = (
 VALIDATOR_FILES = (
     "requirements-validation.txt",
     "src/dgsi",
+    "scripts/run_dgsi_skill.py",
+    "tests/test_skill_delivery.py",
+    "evaluation/closeout_20261119",
     "tests/test_l1_model_projection_preview.py",
     "scripts/create_l1_blind_review_manifest.py",
     "scripts/create_l1_c2_complete_review_kit.py",

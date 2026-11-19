@@ -1,6 +1,6 @@
 {
   "toolkit_id": "dgsi-simulation-to-sft",
-  "version": "0.2.0-rc.4",
+  "version": "0.2.0",
   "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
   "primary_skill": "SKILL.md",
   "supported_source_types": [
@@ -47,8 +47,16 @@
   "diagram_review_import_entrypoint": "scripts/import_diagram_text_review.py",
   "diagram_review_import_scope": "accepted OCR labels become AI_PROPOSED graph nodes only; no ports or edges; local review receipts are not authenticated; no training or Gold authorization",
   "integrated_production_reference": "skills/dgsi-simulation-to-sft/references/P5C2_INTEGRATED_DATASET_PRODUCTION.md",
-  "operator_quickstart": "skills/dgsi-simulation-to-sft/references/OPERATOR_QUICKSTART.md",
+  "operator_quickstart": "skills/dgsi-simulation-to-sft/references/CLOSEOUT_QUICKSTART.md",
   "dataset_and_skill_are_coequal_deliverables": true,
   "current_expert_intake_entrypoint": "scripts/audit_l1_c2_current_expert_intake.py",
-  "current_expert_intake_scope": "current L0/L1-bound A/B handoff structure, completion and existing ten-dimension pair checks; private pending-action queue; no reviewer authentication, expert adjudication, rights clearance or training authorization"
+  "current_expert_intake_scope": "current L0/L1-bound A/B handoff structure, completion and existing ten-dimension pair checks; private pending-action queue; no reviewer authentication, expert adjudication, rights clearance or training authorization",
+  "tooling_status": "RELEASED_REPRODUCIBLE_DEVELOPMENT_WORKFLOW",
+  "data_status": "SYNTHETIC_DEV_ONLY_GPT_REVIEWED",
+  "unified_entrypoint": "scripts/run_dgsi_skill.py",
+  "replay_bundle": "evaluation/closeout_20261119",
+  "review_modes": [
+    "GPT_ADVISORY_NOT_HUMAN_EXPERT",
+    "HUMAN_EXPERT_EXTERNAL_WHEN_AVAILABLE"
+  ]
 }

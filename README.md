@@ -1,5 +1,11 @@
 # Domain-Grounded Self-Instruct
 
+## Reproduce the v0.2.0 development delivery
+
+[中文复现与复用说明](skills/dgsi-simulation-to-sft/references/CLOSEOUT_QUICKSTART.md) · [Closeout evidence](docs/DGSI_CLOSEOUT_RESULTS_2026-11-19.md)
+
+`python scripts/run_dgsi_skill.py demo --output local_demo` replays four public synthetic cases × five construction methods and their two-session GPT reviews. Install `requirements-validation.txt` first. `prepare` creates answer-free requests for new authorized L0/L1 inputs. All included candidates are development-only; actual training and real-Gold admission remain separate.
+
 **Product objective:** build a high-quality spacecraft fault-diagnosis SFT dataset for an LLM that interprets upstream machine-learning diagnosis results together with diagnostic logs, operational context, historical experience and reviewed domain knowledge.
 
 **Responsibility boundary:** upstream ML/statistical methods process raw telemetry and produce anomaly/fault candidates, localization and evidence summaries. The LLM does not re-diagnose raw telemetry in this SFT task. DGSI trains second-stage engineering synthesis, historical-case reuse, conflict reconciliation, evidence sufficiency, uncertainty handling and next-step recommendations.

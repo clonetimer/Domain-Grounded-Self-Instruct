@@ -1,5 +1,7 @@
 # DGSI Skill — user and developer handoff
 
+**2026-11-19 delivery:** use [the v0.2.0 reproduction guide](../skills/dgsi-simulation-to-sft/references/CLOSEOUT_QUICKSTART.md) and the unified `run_dgsi_skill.py` entry. The new package includes actual GPT-generated development candidates and paired GPT reviews.
+
 ## Product identity
 
 - Product: `dgsi-simulation-to-sft`
@@ -43,7 +45,7 @@ $env:PYTHONPATH = 'src'
 python -m unittest discover -s tests -v
 ```
 
-For a portable Skill ZIP, extract it to a new directory and use the packaged operator instructions. The package intentionally excludes example L0/L1 collections; supply matching, authorized files externally. Verify `PACKAGE_SHA256_MANIFEST.json` and `SHA256SUMS.txt` before use.
+For a portable Skill ZIP, extract it to a new directory and use the packaged operator instructions. The v0.2.0 package includes an allowlisted four-case public synthetic demo and its twenty construction candidates. Supply your own matching authorized files for further work. Verify `PACKAGE_SHA256_MANIFEST.json` and `SHA256SUMS.txt` before use.
 
 ## Core operator sequence
 

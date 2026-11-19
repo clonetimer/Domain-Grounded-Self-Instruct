@@ -116,3 +116,8 @@ This protocol does not authorize paid model calls, training jobs or source redis
 ## 7. Decision rule
 
 DGSI is supported as a better construction method only if it improves pre-registered primary metrics over the strongest feasible baseline without increasing critical failures, with transparent cost/yield reporting. A downstream performance claim requires the separate SFT experiment and independent holdout. If gains appear only on synthetic evaluation cases, state that limitation; do not claim real-flight operational improvement.
+
+
+## Executed 2026-11-19 chat-adapted pilot
+
+The [closeout report](DGSI_CLOSEOUT_RESULTS_2026-11-19.md) records a new four-case × five-method run, twenty original candidates and forty method-blinded GPT review records. All raw prompts, inputs, outputs, scores and one separately reviewed delivery correction are shipped. M0–M4 are bounded chat adaptations, not full reproductions of their papers; no downstream SFT or superiority result is claimed. GPT review does not authenticate human experts or source rights.

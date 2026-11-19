@@ -1,0 +1,254 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "disposition",
+    "phenomenon_analysis",
+    "machine_result_interpretation",
+    "cause_localization",
+    "evidence_assessment",
+    "uncertainty",
+    "disposal_status",
+    "disposal_measures",
+    "follow_up_actions"
+  ],
+  "properties": {
+    "disposition": {
+      "enum": [
+        "ACCEPT_MACHINE_FINDING",
+        "ACCEPT_WITH_QUALIFICATION",
+        "REQUEST_ADDITIONAL_ANALYSIS",
+        "CONFLICTING_EVIDENCE",
+        "INSUFFICIENT_CONTEXT",
+        "NO_FAULT_INDICATED"
+      ]
+    },
+    "phenomenon_analysis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "machine_result_interpretation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cause_localization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "candidates",
+        "affected_components",
+        "certainty",
+        "mechanism_summary"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "SUPPORTED",
+            "CANDIDATE_ONLY",
+            "UNRESOLVED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "component",
+              "fault_mode",
+              "supporting_refs",
+              "limitations"
+            ],
+            "properties": {
+              "component": {
+                "type": "string"
+              },
+              "fault_mode": {
+                "type": "string"
+              },
+              "supporting_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "affected_components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "certainty": {
+          "enum": [
+            "CONFIRMED",
+            "MOST_LIKELY",
+            "CANDIDATE",
+            "UNRESOLVED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "mechanism_summary": {
+          "type": "string"
+        }
+      }
+    },
+    "evidence_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supporting_refs",
+        "contradicting_refs",
+        "missing_information"
+      ],
+      "properties": {
+        "supporting_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradicting_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "missing_information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "historical_experience_relevance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_ref",
+          "relevance",
+          "transfer_limitations"
+        ],
+        "properties": {
+          "case_ref": {
+            "type": "string"
+          },
+          "relevance": {
+            "type": "string"
+          },
+          "transfer_limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "reasons"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "LOW",
+            "MODERATE",
+            "HIGH",
+            "UNRESOLVED"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "disposal_status": {
+      "enum": [
+        "RECORDED",
+        "NOT_RECORDED",
+        "RECOMMENDED_ONLY",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "disposal_measures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "measure",
+          "measure_type",
+          "evidence_refs"
+        ],
+        "properties": {
+          "measure": {
+            "type": "string"
+          },
+          "measure_type": {
+            "enum": [
+              "EXECUTED",
+              "PLANNED",
+              "RECOMMENDED"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "follow_up_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action",
+          "rationale",
+          "priority"
+        ],
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "priority": {
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          }
+        }
+      }
+    },
+    "report_text": {
+      "type": "string"
+    }
+  }
+}

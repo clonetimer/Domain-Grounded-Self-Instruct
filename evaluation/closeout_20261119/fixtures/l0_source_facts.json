@@ -1,0 +1,433 @@
+{
+  "schema_version": "dgsi-source-fact-card-collection.v1",
+  "review_basis": "DGSI_word2_文献迁移审校与批注版.docx; DGSI_两份Word审核总意见.md; 2026-11-18 primary-source passage and exact-model-input content review; see p5c2_content_correction_review_2026-11-18.json",
+  "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+  "event_family_policy": "TROPICS payload outcomes are separate episodes under one shared event family.",
+  "publication_metadata_policy": "publication_year and ntrs_accession_year are separate; exact publication_date remains null when not verified.",
+  "cards": [
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-SEASAT-SLIPRING-001",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "SEASAT-SLIPRING-1978",
+      "event_episode_id": "LIT-SEASAT-SLIPRING-001-EPISODE",
+      "source_reference": {
+        "source_id": "NASA-NTRS-20040171604",
+        "source_locator": "NASA NTRS 20040171604, report abstract / summary (not a full-report passage audit)",
+        "source_title": "Report of the Seasat Failure Review Board",
+        "publication_date": null,
+        "publication_year": 1978,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/citations/20040171604",
+        "page_or_section": "NTRS abstract / summary"
+      },
+      "phenomenon_analysis": "SEASAT在轨运行105天后失效，Agena母线电源丢失；调查报告将失效与连接旋转太阳翼和电源分系统的滑环组件发生渐进性短路联系起来。",
+      "cause_localization": {
+        "source_statement": "调查报告认为相邻滑环电刷组件间起弧是最可能原因；触发方式可能包括导线与电刷接触、电刷间接触或污染物跨接相反极性部件。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "太阳翼旋转接口滑环组件内相邻电刷组件之间的电弧/短路路径",
+        "affected_components": [
+          "Agena母线电源",
+          "旋转太阳翼电源连接通路"
+        ],
+        "mechanism_notes": [
+          "报告对起弧触发方式保留多个候选，不能把碎屑认定为唯一触发机制。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "CONDITIONAL_MECHANISM",
+        "rationale": "可用于SADA滑环/电刷风险识别；不能据此确证用户案例的碎屑起弧路径。",
+        "constraints": [
+          "核实电刷极性、滑环几何、绝缘结构及短路时序。",
+          "用户案例须有碎屑、弧光或短路路径直接证据。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [],
+        "quality_flags": [
+          "REAL_FLIGHT_FAILURE_REVIEW",
+          "CAUSE_MOST_LIKELY_NOT_UNIQUE_TRIGGER"
+        ],
+        "curator_prompts": [
+          "可用于SADA滑环短路类比，但SEASAT报告的起弧触发原因存在多个候选；不得替用户案例断言碎屑确证。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-LUNAR-ORBITER-POWER-MONITOR-006",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "LUNAR-ORBITER-III-TWTA-1967",
+      "event_episode_id": "LUNAR-ORBITER-III-POWER-MONITOR-TELEMETRY",
+      "source_reference": {
+        "source_id": "NASA-CR-66461",
+        "source_locator": "NASA CR-66461, Section 3.2.4.4, PDF pp.119–120 (printed pp.111–112); anomaly summary PDF p.173 (printed p.165), TWTA Power Output Variations",
+        "source_title": "Lunar Orbiter III Mission System Performance",
+        "publication_date": null,
+        "publication_year": 1967,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/19670027946/downloads/19670027946.pdf",
+        "page_or_section": "PDF pp.119–120 (printed pp.111–112); summary PDF p.173 (printed p.165)"
+      },
+      "phenomenon_analysis": "TWTA输出功率遥测CE02随设备温度升高而明显上升；后期轨道读数在开机时约11.28 W、关机时约19.93 W，但同一读数期间深空站接收信号强度基本保持不变。报告据此判断真实TWTA输出功率并未显著变化。",
+      "cause_localization": {
+        "source_statement": "报告指出CE02遥测功率指示异常随TWTA温度变化；由于深空站接收信号强度在读数期间基本恒定，报告判断真实TWTA输出功率未显著变化，CE02遥测电路存在故障。报告进一步认为，滤波/监测组件内功率监测二极管的整流特性随温度逐渐偏移，是遥测指示变化的可能原因。",
+        "certainty_in_source": "EXPLICIT_CANDIDATE",
+        "fault_source": "TWTA内部滤波/监测组件的CE02功率遥测测量链（可能涉及温度敏感的二极管整流特性）",
+        "affected_components": [
+          "CE02 TWTA输出功率遥测指示链"
+        ],
+        "mechanism_notes": [
+          "深空站接收信号强度在每次读数期间基本恒定，是报告用于区分真实RF输出变化与遥测指示变化的独立交叉证据。",
+          "二极管整流特性随温度偏移是报告提出的可能机理；报告同时将CE02遥测电路判断为故障所在，不应将二极管作为已拆检确证的唯一故障部件。",
+          "确定性分层：报告依据独立接收信号作出CE02遥测电路异常的判断；二极管温漂仍是提出的机理解释，并未通过拆检确认为唯一原因。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "MEASUREMENT_CHAIN_COUNTEREXAMPLE",
+        "rationale": "作为测量链与真实功率链的鉴别反例。",
+        "constraints": [
+          "先确认用户功率数据来自内部遥测还是独立RF测量。",
+          "需要独立功率计或地面复测。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [],
+        "quality_flags": [
+          "MEASUREMENT_CHAIN_EFFECT",
+          "DSS_RECEIVED_SIGNAL_STABLE",
+          "CE02_TELEMETRY_CIRCUIT_MALFUNCTION",
+          "DIODE_TEMPERATURE_DRIFT_LIKELY"
+        ],
+        "curator_prompts": [
+          "必须保留DSS接收信号基本恒定这一独立证据；它支持真实TWTA输出未显著变化，而异常主要在CE02遥测测量链。",
+          "二极管整流特性温漂是报告认为的可能机理，不应升级为二极管已被独立拆检确证。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-CASSINI-RWA-DRAG-007",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "CASSINI-RWA-LOW-SPEED-2000-12",
+      "event_episode_id": "CASSINI-RWA2-LOW-SPEED-2000-12-15",
+      "source_reference": {
+        "source_id": "NASA-LLIS-1416",
+        "source_locator": "NASA LLIS Lesson 1416, Lesson Date 2004-05-10, Driving Event / Lessons Learned / Recommendations (https://llis.nasa.gov/lesson/1416); contemporaneous chronology: NASA Cassini reports dated 2000-12-20 (https://science.nasa.gov/missions/cassini/significant-event-report-for-week-ending-12202000/) and 2001-01-05 (https://science.nasa.gov/missions/cassini/significant-event-report-for-week-ending-152001/); retrospective date comparison: JPL DESCANSO Article 17, Section 2.5.2 (https://descanso.jpl.nasa.gov/DPSummary/DESCANSO17_Cassini_RevA.pdf). Source date conventions are preserved, not silently harmonized.",
+        "source_title": "Cassini RWA Flight Anomaly Due to Extended Use at Slow Speed (2001)",
+        "publication_date": null,
+        "publication_year": 2004,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": "2004 is the year of the LLIS Lesson Date (2004-05-10), not the anomaly year or a verified public-availability timestamp. The title retains (2001); the event-family chronology is December 2000.",
+        "source_url": "https://llis.nasa.gov/lesson/1416",
+        "page_or_section": "LLIS Driving Event / Lessons Learned / Recommendations; chronology separately attributed to the two NASA task reports and DESCANSO Section 2.5.2"
+      },
+      "phenomenon_analysis": "Cassini反作用轮2在2000年12月中旬出现异常摩擦，触发RWA至RCS自动切换。NASA任务周报将起始时刻记为12月15日约17:00太平洋时间，随后记载12月21日恢复RWA地球指向、12月28日重启C23序列；这些是不同阶段，不能把整个期间都写成持续异常摩擦。",
+      "cause_localization": {
+        "source_statement": "NASA LLIS将长期接近零转速运行后的润滑不足列为过量摩擦的可能原因，并指出零速附近频繁速度振荡可能促成。NASA同期任务报告也使用可能原因措辞；后续DESCANSO以dithering和球轴承润滑不足总结该事件。本卡保留可能原因的确定性，不把回顾性解释写成独立拆检确诊。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "Cassini反作用轮2球轴承润滑不足/润滑剂分布异常，可能由长期近零转速dithering及零速附近频繁振荡促成",
+        "affected_components": [
+          "Cassini反作用轮2轴承/反作用轮组件",
+          "姿态控制模式（RWA自动切换至RCS）",
+          "需要指向控制的科学观测"
+        ],
+        "mechanism_notes": [
+          "事件发生在2000年12月。具体日期保留来源口径：同期NASA任务周报记为12月15日约17:00太平洋时间触发、12月21日恢复RWA地球指向和12月28日重启C23；后续DESCANSO摘要将RWA至RCS区间记为12月16日至22日。部分日差可能与时区或报告口径有关，未补齐时间基准前不强行统一。LLIS的2004-05-10是Lesson Date，标题中的2001不得替代事件年份。 现有event_episode_id中的2000-12-15沿用同期太平洋时间日期标签，不表示UTC日期已统一。",
+          "低速区间内长期驻留和零速附近频繁振荡是文献讨论的风险条件；LLIS另将巡航期绝对零速静止并每三个月exercise的情形描述为benign。该条件化历史经验不是未知轮组的运行许可。",
+          "高转速测试/运行后润滑分布似乎恢复是来源记录的观察，不等于已拆检证实润滑剂物理分布，也不是所有轮组通用的恢复指令。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "提高轮速后润滑剂分布似乎恢复并消除拖曳异常；团队制定避免长期低速运行程序。"
+      ],
+      "migration_assessment": {
+        "tier": "CONDITIONAL_MECHANISM",
+        "rationale": "仅迁移低速区间驻留、近零速频繁dithering、拖曳力矩变化与轴承润滑状态之间的诊断关联；该案例可用于生成检查问题，不可直接迁移Cassini轮速管理命令。",
+        "constraints": [
+          "事件家族为2000年12月；同期NASA任务记录与后续DESCANSO的逐日日期标签分别保留。LLIS的2004-05-10为Lesson Date，标题括号中的2001不替代事件时间。",
+          "必须区分低速区间驻留/频繁过零与绝对零速静止；LLIS对后者的描述有巡航期和每三个月exercise的条件。",
+          "需比较轮型、轴承/润滑结构、允许低速区间、转速历史和热环境。",
+          "高转速后拖曳消退是来源记录的经验观察，不应直接迁移为其他型号的在轨处置指令。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "是否保留2000年12月事件家族，并明确同期任务报告与后续摘要的日级日期口径，避免把模式恢复区间写成摩擦持续区间？",
+          "是否区分低速区间长时间驻留/频繁dithering与绝对零速静止？",
+          "是否保留近零速润滑不足的来源确定性，并避免将高转速恢复措施泛化？"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_EVENT",
+          "EVENT_DATE_2000_12",
+          "LLIS_PUBLICATION_DATE_2004",
+          "LOW_SPEED_DITHERING",
+          "ZERO_SPEED_STATIONARY_DISTINCT",
+          "LUBRICATION_MECHANISM_LIKELY"
+        ],
+        "curator_prompts": [
+          "事件发生于2000年12月。LLIS标题含2001、参考文献列2001年ISA记录，但这些信息不证明事件发生于2001年，也不能据此确定标题括号年份的编写原因。日期按各来源原文保留，待时间基准明确后再统一。",
+          "LLIS区分低速驻留与巡航期绝对零速静止并每三个月exercise的情形；不得把条件化历史描述泛化为其他型号操作建议。",
+          "higher-speed operation后润滑分布似乎恢复属于来源观察，不是适用于未知RWA的通用恢复指令。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-SPACEBORNE-TWTA-HYDROGEN-011",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "event_episode_id": "SPACEBORNE-SBAND-LNA-HYDROGEN",
+      "source_reference": {
+        "source_id": "JOURNAL-2026-TWTA-SBAND-POWER-DROP",
+        "source_locator": "Space Electronic Technology, 2026, 23(2):46–53; DOI 10.3969/j.issn.1674-7135.2026.02.007; published PDF pp.2–7 (printed pp.47–52), Sections 1–5 and Tables 1–4.",
+        "source_title": "某星载S频段线性化行波管放大器输出功率下降问题研究",
+        "publication_date": null,
+        "publication_year": 2026,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": "依据出版终稿：2026年4月，第23卷第2期，页46–53；引用页码同时区分PDF物理页与期刊印刷页。",
+        "source_url": "https://kjdzjs.spacejournal.cn/article/doi/10.3969/j.issn.1674-7135.2026.02.007",
+        "page_or_section": "全文PDF pp.2–7（故障现象、FGM/ALC排查、Z2/Z6模块测试、氢含量/EMMI、氢来源分析及结论）"
+      },
+      "phenomenon_analysis": "某卫星整星AIT转发器噪声测试中，S频段线性化TWTA输出功率较正常值下降约4 dB（噪声功率由约−42 dBm降至−46 dBm）。备份单机输出正常，输入10 dB同轴衰减器测试正常；单机FGM/ALC测试复现功率下降，独立TWT测试正常，异常进一步定位于LCAMP。",
+      "cause_localization": {
+        "source_statement": "故障树和地面排查排除开关、射频电缆、输入衰减器、EPC及TWT本体异常。LCAMP中Z2、Z6两个衰减放大模块的最大增益分别较筛选数据下降约1.5 dB和2.5 dB，+5 V工作电流分别由69 mA降至57 mA、由65 mA降至54 mA，合计约4 dB增益损失。失效分析发现两模块内NC1062C低噪放芯片增益和电流下降；模块内部氢气含量分别为10300 ppm和12000 ppm，超过2000 ppm考核限值，EMMI显示栅条发光明显不均匀。作者据此确定Z2、Z6模块内GaAs低噪放芯片发生氢中毒。",
+        "certainty_in_source": "EXPLICIT_CONFIRMED",
+        "fault_source": "LCAMP的Z2、Z6衰减放大模块内NC1062C GaAs低噪声放大器芯片发生氢中毒",
+        "affected_components": [
+          "LCAMP Z2衰减放大模块",
+          "LCAMP Z6衰减放大模块",
+          "S频段线性化TWTA整机输出功率链路"
+        ],
+        "mechanism_notes": [
+          "Z2与Z6的模块增益下降分别约1.5 dB和2.5 dB，合计约4 dB，与整机输出功率下降量相符；两模块+5 V工作电流同步下降。",
+          "两只故障模块内部氢含量分别为10300 ppm和12000 ppm，高于2000 ppm考核要求；水汽含量检测合格，EMMI显示故障芯片栅条发光不均匀。",
+          "独立TWT测试数据基本保持正常；根因位于LCAMP微波模块内LNA芯片，不是TWT电子枪/螺旋线、EPC或外部电缆/衰减器。",
+          "论文进一步分析氢可能来自金属陶瓷管壳和盖板的材料/制造工艺；这些是氢来源分析，不应与故障定位证据混为一谈。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "将故障Z2、Z6模块更换为氢含量符合要求的另一批次同型号规格产品，并经试验验证后整机恢复正常。"
+      ],
+      "migration_assessment": {
+        "tier": "DIAGNOSTIC_METHOD_ONLY",
+        "rationale": "可迁移分层隔离诊断方法：FGM/ALC模式对照、输入/输出增益测量、TWT独立测试、LCAMP模块级增益与偏置电流对照、封装内部氢含量及EMMI失效分析。",
+        "constraints": [
+          "该案例发生于整星AIT地面转发器性能测试，不是已报告的在轨故障。",
+          "不得仅凭输出功率下降约4 dB就将用户TWTA根因定位为LNA氢中毒。",
+          "需核对用户设备是否采用相同/兼容的LCAMP拓扑、模块型号、NC1062C或等效LNA、封装材料及氢含量控制要求。",
+          "模块替换属于该地面案例已执行并验证的措施，不是对其他型号设备的通用在轨处置指令。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "是否区分整机输出功率下降现象、LCAMP模块增益下降和LNA芯片氢中毒根因？",
+          "是否保留TWT、EPC、开关、电缆和输入衰减器被排除的证据？",
+          "是否将Z2/Z6两模块增益下降和+5 V电流下降的数值对应关系表达准确？",
+          "是否区分氢含量测量/EMMI直接证据与作者对封装制造过程氢来源的进一步分析？"
+        ],
+        "quality_flags": [
+          "GROUND_SYSTEM_AIT_TEST",
+          "LCAMP_Z2_Z6_GAIN_LOSS",
+          "NC1062C_GAAS_LNA_HYDROGEN_POISONING",
+          "TWT_AND_EPC_EXCLUDED",
+          "HYDROGEN_CONTENT_AND_EMMI_EVIDENCE"
+        ],
+        "curator_prompts": [
+          "根因是LCAMP中Z2/Z6模块内NC1062C低噪放芯片氢中毒；不能将输出功率下降泛化为TWT本体故障。",
+          "氢含量10300/12000 ppm、2000 ppm规范限值、EMMI栅条发光不均匀是模块/芯片失效分析证据；管壳制造工艺是氢来源分析。",
+          "故障芯片机理为氢中毒；氢含量数值来自故障模块内部气氛测试，不是芯片本体含氢量。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-FUSE-RWA-KAPTON-001",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "FUSE-RWA-2000-2001",
+      "event_episode_id": "FUSE-PITCH-RWA-2000-08-04",
+      "source_reference": {
+        "source_id": "FUSE-SPIE-2002-RWA",
+        "source_locator": "FUSE SPIE 4854-72, Section 3, PDF physical p.5 (zero-based page index 4): separate 2000 pitch-wheel, 2001 yaw-wheel recovery, and later complete-failure episodes; vendor cause attributions retained.",
+        "source_title": "FUSE In-Orbit Attitude Control with Two Reaction Wheels and No Gyroscopes",
+        "publication_date": null,
+        "publication_year": 2002,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": "2002 SPIE Proceedings paper; exact publication day not asserted.",
+        "source_url": "https://archive.stsci.edu/fuse/papers/spie4854/spie_4854-72.pdf",
+        "page_or_section": "Section 3, Reaction Wheel Failures: Magnetic Torquer Bar Control; PDF physical page 5 (zero-based index 4)"
+      },
+      "phenomenon_analysis": "2000年8月4日，FUSE姿态控制软件因俯仰轴反作用轮拖曳增大而将其关闭。重新启动后，异常拖曳持续数分钟，随后消失。来源还记载2001年2月16日偏航轴轮发生相似停机、恢复后约三天拖曳才消退；2001年11月25日偏航轴轮和12月10日俯仰轴轮则发生无法重启的完全失效。",
+      "cause_localization": {
+        "source_statement": "针对2000年8月4日俯仰轴轮事件，供应商认为壳体内衬Kapton胶带中的小气泡可能局部凸起并接触转子；重新启动后数分钟异常拖曳消失，被归因于接触区域Kapton逐渐磨损。论文另称2001年11月/12月两次完全失效被轮供应商归因于热致壳体变形并与转子接触；这是不同episode的另一种供应商归因。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "FUSE俯仰轴反作用轮组件内壳体Kapton胶带局部起泡并与转子接触（供应商针对2000-08-04事件提出的可能原因）",
+        "affected_components": [
+          "FUSE俯仰轴反作用轮组件",
+          "ADCS俯仰轴控制能力"
+        ],
+        "mechanism_notes": [
+          "本卡的根因候选仅针对2000-08-04俯仰轴轮事件；Kapton气泡/局部接触是供应商提出的可能原因，不是独立拆检确诊。",
+          "2001-02-16偏航轴轮事件与2000年事件表现相似，但属于另一只轮和独立episode，恢复后拖曳约三天才消退。",
+          "2001-11-25偏航轴轮与2001-12-10俯仰轴轮完全失效；供应商将这两次后续失效归因于热致壳体变形。不得把该归因反向并入2000年Kapton气泡事件。",
+          "FUSE同一任务中的相似拖曳/停轮现象对应不同时间、轮组件和可能机理，症状相似不足以证明根因相同。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "重新启动该反作用轮；异常拖曳持续数分钟后消失。"
+      ],
+      "migration_assessment": {
+        "tier": "CONDITIONAL_MECHANISM",
+        "rationale": "可作为反作用轮拖曳异常的历史对照，但不能据此把Cassini低速润滑剂重新分布机理迁移到FUSE，也不能直接复制其他型号的轮速管理措施。",
+        "constraints": [
+          "核实轮组件壳体衬层、转子间隙、材料和热环境后再讨论机理迁移。",
+          "FUSE 2000年俯仰轴事件与2001年其他轮组件失效必须保持不同episode。",
+          "供应商给出的Kapton起泡解释保留为最可能原因，不升级为独立确诊。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "是否只将Kapton气泡候选归于2000-08-04俯仰轴轮episode？",
+          "是否将2001-02-16偏航轴轮恢复事件作为独立episode？",
+          "是否将2001-11-25和2001-12-10完全失效及热致壳体变形归因与2000年Kapton气泡解释分开？"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_EVENT",
+          "VENDOR_LIKELY_CAUSE_NOT_INDEPENDENTLY_CONFIRMED",
+          "2000_PITCH_KAPTON_BUBBLE_EPISODE",
+          "2001_FEB_YAW_SIMILAR_SEPARATE_EPISODE",
+          "2001_NOV_DEC_THERMAL_DISTORTION_FAILURES_SEPARATE"
+        ],
+        "curator_prompts": [
+          "2000-08-04俯仰轮：Kapton气泡是供应商提出的可能原因，重启后数分钟拖曳消退。",
+          "2001-02-16偏航轮：相似停机，但恢复拖曳消退约需三天，是另一只轮的独立episode。",
+          "2001-11-25偏航轮及12-10俯仰轮：完全失效，供应商归因于热致壳体变形；不得与2000年Kapton气泡机制合并。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    }
+  ]
+}
