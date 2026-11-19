@@ -27,6 +27,13 @@
 | NOAA-10 ERBE 扫描仪内部地址译码电路故障 | [NASA-TM-102661, NTRS 19900016012](https://ntrs.nasa.gov/citations/19900016012) | NTRS 标注 Public / Work of US Gov. Public Use Permitted；作者列表含 ST Systems Corp. 合作者，图表/第三方材料待核验 | GitHub 精确检索本轮未命中该文档 ID 或 NOAA-10 ERBE 组合；但本轮协调检索已暴露该来源，完整历史资料包/PR/检索暴露仍未审计 | **仅作开发候选，不准入本轮盲留出**；摘要提供明确仪器异常与测试分析，适合后续证据角色任务，但需全文核查、第三方材料权利审查及独立性审计 |
 | NOAA-13 太阳阵列母线对地短路 / 电池充电故障 | [NASA Lessons Learned #387](https://llis.nasa.gov/lesson/387)；NASA Release 94-157；NASA SP-2012-4012 | NASA Lesson / NASA 历史材料公开可访问；具体报告及附件的再利用边界仍须按原件确认 | **已确认深度暴露**：已进入 resources/sources.json、resources/source_passages.json、EPS seed-curation skill、pressure cases、domain review checklist 等开发资产 | **排除**；不得将该来源重新包装为新留出；保留“surmised/possible”而非确定根因的原始不确定性 |
 
+| ATS-6 姿态控制 / Roll Wheel / Earth Sensor Assembly 异常 | [NASA-RP-1080-VOL-2, NTRS 19820008275](https://ntrs.nasa.gov/citations/19820008275)；[ATS-6 Final Engineering Performance Report PDF](https://ntrs.nasa.gov/api/citations/19820008275/downloads/19820008275.pdf) | NTRS 标注 Public / Work of US Gov. Public Use Permitted；具体页内第三方材料仍需核查 | 本轮公开检索和报告内容已向协调模型暴露；历史仓库/PR/资料包审计尚未完成 | **仅作开发候选，不准入本轮盲留**；报告包含 Roll Wheel drive electronics 诊断、ESA 温度相关异常及若干候选元件，但部分根因仍是候选；同一 ATS-6 报告内多个异常不可拆成多个独立来源簇 |
+| Sentinel-1B CAPS 28V regulated bus anomaly | [ESA Sentinel-1B In-Flight Anomaly Summary Report](https://sentinels.copernicus.eu/documents/247904/4819394/Sentinel-1B%2BIn-Flight%2BAnomaly%2BSummary%2BReport.pdf) | 封面标注 “ESA unclassified - for public release”；本轮未找到明确允许抽取、改写并用于衍生研究数据集/模型训练的许可条款 | 本轮已向协调模型暴露报告及根因摘要；完整历史仓库、PR、资料包审计未完成 | **版权 HOLD，且本轮暴露，不准入盲留**；报告指出主/冗余 CAPS 28V 调节器异常关闭，陶瓷电容修复焊接工艺为 most probable common cause，但独立双故障等其他模式仍未排除；不得把 most probable 改写成确定根因，也不得将 S1A/S1B 关联监测当作两个独立簇 |
+| TDRS 环境诱发异常（ACS control processor / SEU） | [NASA NTRS 19900032665](https://ntrs.nasa.gov/citations/19900032665) | NTRS 标注 Distribution Limits: Public，但 Copyright: Other；无可用下载 | 本轮检索已向协调模型暴露摘要；完整历史暴露审计未完成 | **版权 HOLD，不准入**；摘要称 ACS 控制处理器 checksum errors 最终追溯至高能粒子诱发 RAM SEU；同一论文概述多类异常，不能把一篇综述/会议论文拆成多个独立来源簇 |
+| Voyager 2 scan platform azimuth slew anomaly | [NASA NTRS 19830062955](https://ntrs.nasa.gov/search.jsp?R=19830062955) | NTRS 标注 Distribution Limits: Public，但 Copyright: Other；无可用下载 | 本轮检索已向协调模型暴露摘要；历史仓库/PR/资料包审计未完成 | **版权 HOLD，不准入**；1981 年 Voyager 2 方位轴未完成 slew，Voyager 1 曾有相似事件，但两者不能未经事件/来源独立性审查就视为独立簇 |
+
+**本轮公开文献侦察说明（2026-11-20）：**以上四条均已被本轮协调模型检索/阅读，因此即使某份文件标注 Public Use Permitted，也不能作为本轮生成模型的未暴露确认性留出。ATS-6 可作为最有价值的开发型材料候选；Sentinel-1B 具有较好的证据链与不确定性表达价值，但衍生数据使用权尚未确认。TDRS 与 Voyager 2 的 NTRS 元数据明确显示 Copyright: Other，当前不能据公开可访问性推定可再利用。四条均不增加准入簇数。
+
 ## 统一来源与证据规则
 
 - **历史暴露**包括仓库、PR、历史资料包、既往对话、连接检索源以及本轮协调上下文。仅在 GitHub 默认分支搜索未命中，不足以证明独立。
