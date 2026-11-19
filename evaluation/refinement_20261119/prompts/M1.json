@@ -1,0 +1,30 @@
+{
+  "arm": "M1",
+  "method": "Evol-Instruct-style",
+  "common_instruction": "你是航天器诊断SFT候选的生成模型。本实验所有当前输入均为SYNTHETIC，目标是二次研判。只能使用指定shared_cases.json内对应user材料，不得读取仓库、其他候选、参考答案或coordinator目录，不联网。对每个案例生成一条指令和符合target_schema.json的formal_target，简洁中文，不输出思维链。不得更改或补充当前ML数值、日志、时间戳、构型或历史可用性。字段中的证据引用使用输入中可见的LOG或ML finding ID；ML-E引用只是上游引用，未附材料不构成独立证据。正式target只写诊断结论、证据、确定性、处置和后续建议；不写评审要求。本轮是方法适配的开发比较，不是正式SOTA复现或训练。每条期望不超过2048输出token；工具不暴露实耗token，勿填造。",
+  "method_instruction": "为每个种子任务做一次深度或约束演化，让指令更具体且要求比较或证据判别，但不添加新事实、不改变task_type。记录seed_instruction、evolved_instruction、evolution_operation（只用短标签）与instruction；再生成formal_target。不要透露推理过程。",
+  "generation_order": [
+    "FORWARD-DEV-003",
+    "FORWARD-DEV-001",
+    "FORWARD-DEV-004",
+    "FORWARD-DEV-002"
+  ],
+  "requested_output_tokens_per_case": 2048,
+  "actual_tokens": null,
+  "api_model_id": null,
+  "api_model_version_known": false,
+  "decoding_settings": "SESSION_MANAGED_NOT_EXPOSED",
+  "output_contract": {
+    "schema_version": "dgsi-closeout-generations.v1",
+    "arm": "M1",
+    "candidates": [
+      {
+        "comparison_unit_id": "copy from cases",
+        "shared_input_sha256": "copy exactly",
+        "instruction": "generated task instruction",
+        "method_record": {},
+        "formal_target": "object conforming to target_schema.json"
+      }
+    ]
+  }
+}

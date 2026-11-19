@@ -1,0 +1,103 @@
+{
+  "schema_version": "dgsi-refinement-protocol.v1",
+  "status": "FROZEN_BEFORE_GENERATION",
+  "purpose": "DEV_ONLY_CONSTRUCTION_METHOD_ADAPTATION",
+  "cases": 4,
+  "methods": 6,
+  "planned_candidates": 24,
+  "generator": "GPT-6 Astra Pro (session-declared; exact API ID unavailable)",
+  "generator_context": "fresh session per method, four cases per session; no cross-method candidates",
+  "review_plan": "Two separate GPT review sessions, method labels hidden, frozen input and output hashes bound; conservative adjudication keeps disagreements visible.",
+  "rubric_dimensions": [
+    "source_fidelity",
+    "phenomenon_analysis",
+    "ml_interpretation",
+    "fault_source",
+    "affected_components",
+    "evidence_fidelity",
+    "uncertainty",
+    "disposal_fidelity",
+    "historical_context_transfer",
+    "engineering_actionability"
+  ],
+  "score_scale": {
+    "0": "unsupported/incorrect or materially incomplete",
+    "1": "mostly supported with a material omission",
+    "2": "supported, appropriately scoped and useful"
+  },
+  "critical_failure_codes": [
+    "FABRICATED_SOURCE",
+    "FABRICATED_ML_OR_LOG",
+    "FABRICATED_DISPOSAL",
+    "UNSUPPORTED_CONFIRMED_CAUSE",
+    "HIDDEN_TRUTH_LEAK",
+    "FUTURE_HISTORY_LEAK",
+    "HISTORY_AS_CURRENT_EVIDENCE",
+    "FALSE_EXPERT_OR_RIGHTS_CLAIM"
+  ],
+  "primary_reporting": "Per-case and per-method dimension scores and critical failures. No downstream or population superiority claim.",
+  "budget": {
+    "external_model_api_calls": 0,
+    "planned_output_tokens_per_candidate": 2048,
+    "actual_generation_tokens": null,
+    "exact_token_cap_enforceable": false,
+    "equal_generator_and_case_count": true,
+    "matched_actual_compute_claim": false,
+    "generator_sessions": 6,
+    "independent_review_sessions": 2,
+    "actual_model_calls_observable": "session count only; no exact token telemetry",
+    "per_case_instruction_candidates": {
+      "M1": 1,
+      "M3": 3,
+      "M4": 1,
+      "M5": 1,
+      "M6": 3,
+      "M7": 3
+    }
+  },
+  "training_authorized": false,
+  "gold_eligible": false,
+  "official_splits_assigned": false,
+  "downstream_sft_result": "NOT_RUN",
+  "human_expert_review_count": 0,
+  "method_ids": [
+    "M1",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7"
+  ],
+  "review_binding": "candidate_sha256 binds trial, coordinator arm, comparison unit, frozen input, effective instruction and target; arm label is hidden from reviewers",
+  "frozen_at_utc": "2026-11-19T16:10:50.345170+00:00",
+  "source_revision": "bfa94a343f8567d6419764546b1dc689c277151e",
+  "curated_arm": "M7",
+  "new_generations_per_case_per_arm": 1,
+  "max_feedback_optimization_rounds": 0,
+  "max_semantic_regenerations": 0,
+  "format_repair_policy": "Do not alter generated content; an invalid output stays visible and counts as invalid.",
+  "primary_selection_order": [
+    "fewer critical-failure candidates",
+    "more two-reviewer accepts",
+    "higher mean 10-dimension score"
+  ],
+  "ties": "report all tied arms; never call a tie superiority",
+  "forward_case_counts": {
+    "source_packets": 21,
+    "eligible_packets_after_full_overlap_exclusion": 8,
+    "selected_packets": 4,
+    "primary_event_families": 4,
+    "task_types": 3,
+    "document_source_ids": 2,
+    "connected_document_clusters": 2
+  },
+  "source_cluster_weighted_reporting": true,
+  "original_cases_status": "DEVELOPMENT_USED_FOR_DIAGNOSIS_ONLY",
+  "independence_limit": "4 event families, only 2 connected source-document clusters; no population or p-value claim.",
+  "ablation_limit": "M5/M6/M7 share strengthened DGSI evidence-role/scope policy; comparisons between them isolate recipe components, while comparison to frozen M4 includes that policy refinement.",
+  "history_context_coverage": {
+    "blocked_items": 1,
+    "eligible_history_items": 0
+  },
+  "stopping_rule": "End after all six frozen arms and two GPT reviews, regardless of rank; no tuning on these forward cases."
+}

@@ -1,2 +1,3 @@
 # Keep the frozen byte-level replay hashes stable on Ubuntu and Windows.
 evaluation/closeout_20261119/** text eol=lf
+evaluation/refinement_20261119/** text eol=lf

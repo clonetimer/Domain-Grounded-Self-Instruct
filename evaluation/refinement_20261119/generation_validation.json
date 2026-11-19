@@ -1,0 +1,200 @@
+{
+  "not_for_sft": true,
+  "checks": [
+    {
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": null,
+      "content_changed": false
+    },
+    {
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    },
+    {
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "schema_valid": true,
+      "input_binding_valid": true,
+      "instruction_recipe_valid": true,
+      "content_changed": false
+    }
+  ],
+  "invalid_candidates": 0,
+  "semantic_regenerations": 0,
+  "format_repairs": 0
+}

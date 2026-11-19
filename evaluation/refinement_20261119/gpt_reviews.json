@@ -1,0 +1,1849 @@
+{
+  "schema_version": "dgsi-combined-gpt-reviews.v1",
+  "not_for_sft": true,
+  "sessions": [
+    {
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "model": "gpt-6.2-sol (configured; exact serving revision unavailable)"
+    },
+    {
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "model": "gpt-6.2-sol (configured; exact serving revision unavailable)"
+    }
+  ],
+  "reviews": [
+    {
+      "trial_id": "REFINE-ITEM-001",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "e68923a36c61c3dfa907ba19069b1a6657c1673b7bca1134eb65d59ee8b05612",
+      "candidate_sha256": "fb21186ec4615ba89295007582c39800c249f67cf1a3dac03baf0a8ac00d917f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.cause_localization.candidates[0].limitations[0]",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "input.operational_context.known_constraints",
+          "note": "“未检出阀座碎片”易被读作阴性检查结果；输入未提供独立检查，应写明没有碎片检出或检查记录。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-002",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "88787433e2ba3c3f07a5ce365898746d166ac9cb76f0b1a9ab95243448900e9c",
+      "candidate_sha256": "9df0304763da9a265ccaa3ea33cef6f8fe6d61fd23e6664d57f35482dc9a7290",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.evidence_assessment.missing_information[0]",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-93",
+          "note": "“至流量中断”把近中断写成完全中断；原始数据窗口应以流量接近中断或终止条件触发为界。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-003",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "df9a0f14c7ffde5e21cf2c4c9fb2a8a130c14ca989ae6c8b06757daa8eda6fe5",
+      "candidate_sha256": "4d47e6f8fa0b64c87c113b2c9ab45e4e58a96d1dbd66e0b43f51326e84d76289",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91, LOG-92, LOG-93",
+          "note": "三条记录的先后、供流近中断和仅触发终止条件均保留，未推断已停机。"
+        },
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-009, ML-E-009",
+          "note": "堵塞仅为候选，分数未校准且引用原件缺失；更早催化床问题未被并入该机制。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-004",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "11bcaefad10a246c22fdbe8b10c39964bb896c554d6bb41c558db27db5ebe83b",
+      "candidate_sha256": "f4b35a3dae9cbe37a6145e1550289c4731fdd4619b6df73eaa2530b127c03d45",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-22, LOG-23",
+          "note": "两条日志没有记录处置建议。新提出的传播影响评估和受控隔离检查应移入后续动作，处置状态改为NOT_RECORDED并清空处置项。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-005",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "d3d04f42be06f43c34260ee4f1fa81395b85366d4df6e234a0734cf9e7623790",
+      "candidate_sha256": "8a55ffe4f560f203331e69306f7839eb53da838e317926161cd984177f553631",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21, LOG-22, LOG-23, ML-FINDING-01",
+          "note": "受影响的三个接口与短路候选区分清楚，保留共享供电及通信电子学替代解释。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+          "note": "仅引用检索元数据，说明可信时间和摘要缺失，没有迁移隐藏内容。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-006",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "9cc1450e01c1d1b5cb986f40a4d8410f30ff43b29abc096132e829c489e2d66c",
+      "candidate_sha256": "0dbb9b5dc148e1b15dd91bd542685b97966b264533f907c556f9d54117f958e6",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "ML-FINDING-017-NORMAL, LOG-171, LOG-172, LOG-173",
+          "note": "处置项列的是本次研判新建议，所引日志没有记录该建议。应把处置项用于留存已提供的上游建议及其未执行状态，将本次建议保留在研判或后续动作。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-007",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "b5990438b6c0389a03b84fae4a62b4f2a7935e27a3bbbd0e50bc47d3e1549853",
+      "candidate_sha256": "e61d1029700cefe13544c1883653652565b1571d868672e4dfc1dc4a4dfe23f8",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-005, ML-E-005",
+          "note": "保留未校准排序和候选属性，未把只有编号的上游引用当作独立证据。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "同步采集与分段检查对应旋转相关性及链路其他环节等替代解释。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-008",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "d4d079f0f341aa2ea15da65a9fe49971a4e880cb24d86b818623bc18d5ebee3c",
+      "candidate_sha256": "b9641eb38a78657151b026f7e2e5591e45f55f28f1982359d0830f698678d0ab",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "ML-FINDING-017-NORMAL, LOG-171, LOG-172, LOG-173",
+          "note": "将本次保留两条件结论的意见标成记录处置。应在该处置项注明实际提供的上游关闭建议及其未获采纳状态，把本次研判意见放在结论或后续动作。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-009",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "5a7ec8f061819d8880b05ced14fb216ed4f6b6ff93b283742676d586585a0ace",
+      "candidate_sha256": "f82e5374520701afb0d6b26b523c454c8a791fd8a2562e805645200005018294",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171, LOG-172, ML-E-017-HIGH-HUMIDITY",
+          "note": "高湿证据仅计同一来源，低湿结果反驳全条件推广，两次报告保留各自限定。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-017-NORMAL",
+          "note": "准确保留上游关闭建议及未采纳、未执行的状态，复验列为后续动作。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-010",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "762a9bfc7d9dd87cb1230e6121ab7e612623df5fe8d37df67b64e1b4a50c7ff5",
+      "candidate_sha256": "ee3090f7bc509f1a98532e4078ec9b75ae4abe46907db447633acdaa3580862e",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91, LOG-93",
+          "note": "已执行项限于前期烘烤；停机和隔离状态留作核验。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-009, ML-E-009, LOG-91",
+          "note": "将更早催化床冲蚀限定为上游摘要提及内容，候选与实际热致机制均保持未证实。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-011",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "cf65b7949d11da63c269cd4504bc920615c4c812bc8729208539643a5db0016f",
+      "candidate_sha256": "873d27289dc1a10ea49f2c7bd2a6255c1183f9321d249a870281531f5e8c4de1",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21, LOG-22, LOG-23",
+          "note": "日志可识别异常及受影响接口，工程路径关联仅收窄排查范围。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.uncertainty.reasons[1]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+          "note": "指出缺可信时间及摘要，未从检索编号推断隐藏内容。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-012",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "6b28a4ec63f8c8998d1447a1259b862cd4eb9f4afe69a5e4c66a928181ba576c",
+      "candidate_sha256": "9112292c4e4a04dbe89651329ec05b0f5d7050a62d0a84bd9f1770353ff73444",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.cause_localization.candidates[0].limitations[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52, ML-FINDING-005",
+          "note": "日志只支持现象和相关性，接触故障仍是ML候选；目标明确缺独立确认。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "同步数据、工况与构型核对、接触连续性及分段诊断对应关键证据缺口。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-013",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "06960b95ac98803e5551ac199bb41c8f56fc8480ff7e0f52ca6c1f58634c2814",
+      "candidate_sha256": "ada4c48c9fc61ca640c6a4124e091d92683042c81cc0c3e23c6a5d8d9aa68aaa",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171, LOG-172, ML-E-017-HIGH-HUMIDITY",
+          "note": "低湿报告反驳全条件外推；高湿报告与其ML引用同源，未误判为同工况冲突。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.cause_localization.candidates[0].limitations",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-173",
+          "note": "保留设施、采集链、次序及样件状态的混杂，湿度未被确定为原因。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-014",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "2d14689fe5ab63b4f75239cc5fa6a4dea12bd19f3771660caef107e4c7794420",
+      "candidate_sha256": "360b9666d38e273796d8f1ce3df187bddd147e2494f6a5d3b4eb631cf9675985",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21, LOG-22, LOG-23",
+          "note": "准确引用时序并分别标明异常报告和共用路径工程分析，未建立已证实传播链。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+          "note": "说明截点、状态和硬件适用性均欠可核验依据，拒绝迁移。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-015",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "bb78ae3a10f1c56413972488a97f19b04d2cae199991d76602a6fa2f0aae8e9d",
+      "candidate_sha256": "9ad145f0aba2190e3af03e8fc1f394f677c736c27de5432a6e99115acc00117f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 1,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-93",
+          "note": "机制摘要将供给“接近中断”缩成已中断，与情节字段的准确结论不一致。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[1]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-92, LOG-93",
+          "note": "两条日志没有记录核验停机、检查损伤或保全证据的建议；这些新增动作应仅放在后续动作。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-016",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "b840b085282df6a129ca8b6c1d12db84eae844a2f4f5c6f13cd7cc0b9a57f1da",
+      "candidate_sha256": "118c94d0d4ce314f519b26e21311bbb03a52ed335cf8b963bbb71a5e5383510f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "affected_components",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-92, LOG-93, ML-FINDING-009",
+          "note": "区分阀事件、受影响供给及喷注器路径和碎片候选；未将供流下降写成喷注器本体损伤。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91, LOG-93",
+          "note": "只列烘烤为已执行，终止条件触发后状态待核，未声称修复。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-017",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "679e9875ab74fff605a317c9f7298423506af9b59622e47116fbf25f6ea17996",
+      "candidate_sha256": "03ed405d7a32b740f051136a320d18305b24951079a2dde9a29025bd4cf10fb9",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171, LOG-172, LOG-173",
+          "note": "保留试验时间顺序、同件同通道和限值，以及仅声明匹配的工况边界。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-017-NORMAL",
+          "note": "关闭仅为上游建议，未记录采纳或执行，复验另列。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-018",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "0ce8ad1a6bcb3f7c436356c9326ebf95d3604247f3696c8f11c893581c74dc32",
+      "candidate_sha256": "41cd84b356ccd837f883affb6582b38733a3eff05e89ce96b9d290b55bbaa760",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "日志只记录CRC现象与旋转关联，没有记录数据保全或对照检查建议。两项是新增补证，应移到后续动作并将处置标为NOT_RECORDED。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-019",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "692635f5b0ce0767e5e85bd4500900cf782e2a73ae04032ddae3d2ed55c7e794",
+      "candidate_sha256": "a1b8ae87bfbc96dc07b98151e25c1def3cbaf84947d2a4e9cfd5268e655fe47f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21, LOG-22, LOG-23",
+          "note": "合成日志确认现象和接口，工程关联提示排查路径；未默认同步性及工况可比。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+          "note": "说明检索阻断依据并拒绝迁移，未断言隐藏案例内容或结论。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-020",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "d0cca0882872eedeb37a4ab9ff9a7b03e17ab5090f76c756e6a5aa1be11c252a",
+      "candidate_sha256": "80b783c59633c97e2c9d7277059d316618aa40db003de63c9a9ccb2912e3db12",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52, ML-FINDING-005",
+          "note": "旋转关联支持排查滑环，受影响对象仍为载荷串行链路，其他连接异常或干扰未排除。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "同步数据与分段对照用于验证关联及区分候选根因。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-021",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "e222f09b9a8681dd0c8dc72f5c99b6caff4194961c35e40985cb15bddc563bdb",
+      "candidate_sha256": "9c6091c7aa1da22f2a1c4a319654d863a2569b9af51fb9c1580facd06f0fe886",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.uncertainty.reasons",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171, LOG-172, LOG-173",
+          "note": "准确区分低湿独立反证、高湿条件PASS与可比性核验摘要，未把核验当第三次试验。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-017-NORMAL",
+          "note": "按来源限定上游关闭建议，并准确保留未执行、未放行状态。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-022",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "64558eb210bfcfbcaab870bb8e5168e70be9ee48d4eac53bacc7eddc31d7ffe9",
+      "candidate_sha256": "aa618585e2b82d29bedd57e992fa015ed835a5aa79e55e307eac4031df2054fd",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "保留在轨载荷通信范围与分析截点，只确认日志所载现象及状态相关性。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.evidence_assessment.missing_information",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "明确需补的时间同步、不同旋转状态的模式构型和路径可比性及独立检查。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-023",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "147100547f3af9f6abf61b5e28a44a521357a9937d8d824f1e4cf79553d81584",
+      "candidate_sha256": "c572944c672cde4cbfd3d0aa8122c7258b963497ceb2fc8a74dfb6aa6b348bda",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52",
+          "note": "时间和陈述的场景范围有依据，未假定各时段工况、构型与路径相同。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51, LOG-52, ML-FINDING-005",
+          "note": "滑环仅为候选故障源，未排除收发、布线和干扰，受影响对象限于已观察的串行链路。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-024",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "5d09adbbe2185a6fe2b7f7463d2e3562f19f4b88fd002e1f50ef5e3f860e803c",
+      "candidate_sha256": "d3357787461cd057386d9836268f3a46df3f2c4bb24fbe4dd858dcb2e067ab16",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21, LOG-22, LOG-23",
+          "note": "依次限定现象成立、受影响接口可定位、物理根因仍待确认，并标明LOG-23的工程分析角色。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+          "note": "只引用阻断元数据，保留可信时间、状态和适用性核验限制。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-001",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "e68923a36c61c3dfa907ba19069b1a6657c1673b7bca1134eb65d59ee8b05612",
+      "candidate_sha256": "fb21186ec4615ba89295007582c39800c249f67cf1a3dac03baf0a8ac00d917f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91 / LOG-92 / LOG-93",
+          "note": "要求重建事件序列并区分终止条件与停机记录，符合日志边界。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "machine_diagnosis.machine_summary / LOG-91",
+          "note": "此前冲蚀应标为上游摘要提及的事件；本案日志只记录因疑似污染而烘烤。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91",
+          "note": "仅将已执行的热灯烘烤记为处置，后续核查单列。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-002",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "88787433e2ba3c3f07a5ce365898746d166ac9cb76f0b1a9ab95243448900e9c",
+      "candidate_sha256": "9df0304763da9a265ccaa3ea33cef6f8fe6d61fd23e6664d57f35482dc9a7290",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91 / LOG-92 / LOG-93",
+          "note": "所要求的损伤、堵塞候选及终止状态区分均有明确输入边界。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.evidence_assessment.missing_information[0]",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-93",
+          "note": "补证窗口以流量完全中断为端点，但日志只记录接近中断；应以近中断或终止条件触发为端点。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91",
+          "note": "烘烤目的仅为尝试处理潜在污染，未推定效果。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-003",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "df9a0f14c7ffde5e21cf2c4c9fb2a8a130c14ca989ae6c8b06757daa8eda6fe5",
+      "candidate_sha256": "4d47e6f8fa0b64c87c113b2c9ab45e4e58a96d1dbd66e0b43f51326e84d76289",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 1,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91 / LOG-92 / LOG-93",
+          "note": "要求梳理地面试验顺序，避免将两个阶段合并为已证实机制。"
+        },
+        {
+          "dimension": "source_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "LOG-91 / LOG-92 / LOG-93",
+          "note": "08:10等是日志条目时间；应区分记录时刻与动作实际起止时刻，烘烤开始时间没有单独提供。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "machine_diagnosis.machine_summary / LOG-91",
+          "note": "此前催化床流失只由上游摘要提及，应明确其来源及未独立确认，保留与潜在污染的区别。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-004",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "11bcaefad10a246c22fdbe8b10c39964bb896c554d6bb41c558db27db5ebe83b",
+      "candidate_sha256": "f4b35a3dae9cbe37a6145e1550289c4731fdd4619b6df73eaa2530b127c03d45",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23",
+          "note": "增列共同路径排查层级与可见工程分析吻合，未要求确认物理根因。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_status; formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-22 / LOG-23 / operational_context.maintenance_history",
+          "note": "两日志未提出传播评估或隔离检查。该条是新增建议，应移至后续动作，处置填NOT_RECORDED及空数组。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-005",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "d3d04f42be06f43c34260ee4f1fa81395b85366d4df6e234a0734cf9e7623790",
+      "candidate_sha256": "8a55ffe4f560f203331e69306f7839eb53da838e317926161cd984177f553631",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "history_retrieval.blocked_hits[0].reason",
+          "note": "仅要求拒绝迁移缺可信时间的历史，未补写被阻断内容。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23 / ML-FINDING-01",
+          "note": "分开已报告接口与短路候选，保留供电及通信电子学替代解释。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-006",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "9cc1450e01c1d1b5cb986f40a4d8410f30ff43b29abc096132e829c489e2d66c",
+      "candidate_sha256": "0dbb9b5dc148e1b15dd91bd542685b97966b264533f907c556f9d54117f958e6",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173",
+          "note": "要求保留条件结果并核对测量和样件状态混杂，符合测试材料。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "machine_diagnosis.machine_summary / LOG-171 / LOG-172 / LOG-173",
+          "note": "处置项写入本次新增的保留与暂缓建议。原有建议是上游以高湿PASS替代FAIL并关闭；应将两者分列为原文建议与后续动作。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions[1]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-173",
+          "note": "共用测量链交叉重复、控制次序，直接应对比较缺口。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-007",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "b5990438b6c0389a03b84fae4a62b4f2a7935e27a3bbbd0e50bc47d3e1549853",
+      "candidate_sha256": "e61d1029700cefe13544c1883653652565b1571d868672e4dfc1dc4a4dfe23f8",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "uncertainty",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / ML-E-005 / history_retrieval.status",
+          "note": "要求保留旋转关联与物理根因的界线，未误用未附材料。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-52 / ML-FINDING-005",
+          "note": "滑环保持候选，受影响串行链路独立列出，并保留干扰和其他链路环节解释。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-008",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "d4d079f0f341aa2ea15da65a9fe49971a4e880cb24d86b818623bc18d5ebee3c",
+      "candidate_sha256": "b9641eb38a78657151b026f7e2e5591e45f55f28f1982359d0830f698678d0ab",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173 / ML-E-017-HIGH-HUMIDITY",
+          "note": "要求审查外推、同源性与可比性，符合可见材料。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "machine_diagnosis.machine_summary / LOG-171 / LOG-172 / LOG-173",
+          "note": "处置项主体为本次新增的留置与拒绝建议。应记录上游原建议及未执行，并把本次新增动作列入后续动作。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-009",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "5a7ec8f061819d8880b05ced14fb216ed4f6b6ff93b283742676d586585a0ace",
+      "candidate_sha256": "f82e5374520701afb0d6b26b523c454c8a791fd8a2562e805645200005018294",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / ML-E-017-HIGH-HUMIDITY",
+          "note": "要求保留两次结果的条件边界并核查ML同源和超范围推广。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "machine_diagnosis.machine_summary / operational_context.known_constraints",
+          "note": "准确归因上游关闭建议，并保留未执行、未放行的状态。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-010",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "762a9bfc7d9dd87cb1230e6121ab7e612623df5fe8d37df67b64e1b4a50c7ff5",
+      "candidate_sha256": "ee3090f7bc509f1a98532e4078ec9b75ae4abe46907db447633acdaa3580862e",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "machine_diagnosis.machine_summary / LOG-91",
+          "note": "指令中的更早冲蚀应注明来自上游摘要；LOG-91只支持因潜在污染实施烘烤。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-009 / ML-E-009 / machine_diagnosis.machine_summary",
+          "note": "目标明确将冲蚀归于上游摘要，保留堵塞为候选，并交代引用未附原件。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91 / LOG-93",
+          "note": "已执行烘烤与终止触发后的未确认状态分开。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-011",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "cf65b7949d11da63c269cd4504bc920615c4c812bc8729208539643a5db0016f",
+      "candidate_sha256": "873d27289dc1a10ea49f2c7bd2a6255c1183f9321d249a870281531f5e8c4de1",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23",
+          "note": "三个充分性判断层级对应可见日志，补证与处置记录分开。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.uncertainty.reasons[1]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "history_retrieval.blocked_hits[0] / knowledge_evidence",
+          "note": "说明阻断原因及无可用摘要，未补入历史诊断。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-012",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "6b28a4ec63f8c8998d1447a1259b862cd4eb9f4afe69a5e4c66a928181ba576c",
+      "candidate_sha256": "9112292c4e4a04dbe89651329ec05b0f5d7050a62d0a84bd9f1770353ff73444",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / ML-FINDING-005 / ML-E-005",
+          "note": "明确区分日志、ML推断及只有引用的上游材料。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.evidence_assessment.missing_information",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / operational_context.known_constraints",
+          "note": "列出同步、同构型同模式同路径的对照和接触检查缺口。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-013",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "06960b95ac98803e5551ac199bb41c8f56fc8480ff7e0f52ca6c1f58634c2814",
+      "candidate_sha256": "ada4c48c9fc61ca640c6a4124e091d92683042c81cc0c3e23c6a5d8d9aa68aaa",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173 / ML-E-017-HIGH-HUMIDITY",
+          "note": "同源高湿证据、独立低湿反证及条件不等价的要求准确。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "formal_target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173",
+          "note": "保留条件差异和状态或测量混杂，未确认湿度机制。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-014",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "2d14689fe5ab63b4f75239cc5fa6a4dea12bd19f3771660caef107e4c7794420",
+      "candidate_sha256": "360b9666d38e273796d8f1ce3df187bddd147e2494f6a5d3b4eb631cf9675985",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "analysis_cutoff / history_retrieval.blocked_hits[0]",
+          "note": "要求核验历史时点、状态与硬件，并对缺可信时间做阻断处理。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23",
+          "note": "准确区分接口异常记录和拓扑工程分析，保留跨时段模式及构型缺口。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-015",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "bb78ae3a10f1c56413972488a97f19b04d2cae199991d76602a6fa2f0aae8e9d",
+      "candidate_sha256": "9ad145f0aba2190e3af03e8fc1f394f677c736c27de5432a6e99115acc00117f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 1,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91 / LOG-92 / LOG-93",
+          "note": "要求保留潜在污染、爆裂和终止条件的记录边界。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.cause_localization.mechanism_summary",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-93",
+          "note": "将接近中断简写成后续供给中断，超出日志程度；应保持近中断。"
+        },
+        {
+          "dimension": "affected_components",
+          "field_path": "formal_target.cause_localization.affected_components[2]",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-93 / spacecraft_context.subsystem_context[0].components",
+          "note": "独立列出喷注管作为受影响部件过于具体；日志定位到喷注器供给通道，未单独定位喷注管。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_measures[1]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-92 / LOG-93",
+          "note": "核实停机、隔离及检查是新增建议，日志未记录这些建议，应只列在后续动作。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-016",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "target_sha256": "b840b085282df6a129ca8b6c1d12db84eae844a2f4f5c6f13cd7cc0b9a57f1da",
+      "candidate_sha256": "118c94d0d4ce314f519b26e21311bbb03a52ed335cf8b963bbb71a5e5383510f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "uncertainty",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-91 / LOG-92 / LOG-93 / operational_context",
+          "note": "要求区分日志、候选和缺项，限定合成地面寿命试验。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.machine_result_interpretation",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-009 / ML-E-009 / machine_diagnosis.machine_summary",
+          "note": "明确此前催化床冲刷仅由上游提及，未获日志独立确认，也不计未附引用。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-017",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "679e9875ab74fff605a317c9f7298423506af9b59622e47116fbf25f6ea17996",
+      "candidate_sha256": "03ed405d7a32b740f051136a320d18305b24951079a2dde9a29025bd4cf10fb9",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 1,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "uncertainty",
+          "field_path": "instruction",
+          "finding_code": "OVERSTATEMENT",
+          "evidence_ref": "LOG-173",
+          "note": "将构型历史与已知试验条件差异并列，容易预设构型实际发生变化；输入只说明中间记录不完整，应要求明确这一缺口。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173",
+          "note": "目标将搬运和构型变化作为记录缺口，准确保留两次条件性结果。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-018",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "0ce8ad1a6bcb3f7c436356c9326ebf95d3604247f3696c8f11c893581c74dc32",
+      "candidate_sha256": "41cd84b356ccd837f883affb6582b38733a3eff05e89ce96b9d290b55bbaa760",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 1,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / ML-FINDING-005",
+          "note": "要求区分相关性和滑环候选，并禁止补写未提供的操作等记录。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "formal_target.disposal_status; formal_target.disposal_measures[0]",
+          "finding_code": "ACTION_SCOPE",
+          "evidence_ref": "LOG-51 / LOG-52 / operational_context.maintenance_history",
+          "note": "保留数据与安排对照是新增建议，日志未提供原文处置建议。该项应留在后续动作，处置填NOT_RECORDED及空数组。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-019",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "692635f5b0ce0767e5e85bd4500900cf782e2a73ae04032ddae3d2ed55c7e794",
+      "candidate_sha256": "a1b8ae87bfbc96dc07b98151e25c1def3cbaf84947d2a4e9cfd5268e655fe47f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23 / ML-FINDING-01 / ML-E-003",
+          "note": "明确区分日志观测、工程分析、ML和未附引用。"
+        },
+        {
+          "dimension": "historical_context_transfer",
+          "field_path": "formal_target.historical_experience_relevance[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "history_retrieval.blocked_hits[0]",
+          "note": "仅引用可见阻断ID及缺时结果，不转用摘要或假设硬件适用。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-020",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "d0cca0882872eedeb37a4ab9ff9a7b03e17ab5090f76c756e6a5aa1be11c252a",
+      "candidate_sha256": "80b783c59633c97e2c9d7277059d316618aa40db003de63c9a9ccb2912e3db12",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / ML-FINDING-005",
+          "note": "要求区分CRC、旋转相关及滑环候选，未预设原因。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / operational_context.known_constraints",
+          "note": "先补同步数据验证可重复性，再在允许条件下比较链路分段。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-021",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "target_sha256": "e222f09b9a8681dd0c8dc72f5c99b6caff4194961c35e40985cb15bddc563bdb",
+      "candidate_sha256": "9c6091c7aa1da22f2a1c4a319654d863a2569b9af51fb9c1580facd06f0fe886",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173 / ML-E-017-HIGH-HUMIDITY",
+          "note": "指令明确比较条件与证据角色，要求同源材料不重复计票。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.uncertainty.reasons[0:2]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-171 / LOG-172 / LOG-173",
+          "note": "低湿结果只反驳全条件正常，且可比性审核未被计作第三次性能测试。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-022",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "64558eb210bfcfbcaab870bb8e5168e70be9ee48d4eac53bacc7eddc31d7ffe9",
+      "candidate_sha256": "aa618585e2b82d29bedd57e992fa015ed835a5aa79e55e307eac4031df2054fd",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "ml_interpretation",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-005 / ML-E-005",
+          "note": "对0.68和未附引用的证据边界均与输入吻合。"
+        },
+        {
+          "dimension": "affected_components",
+          "field_path": "formal_target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / ML-FINDING-005",
+          "note": "串行通信链路是已报告受影响对象，滑环仍是候选源。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-023",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "target_sha256": "147100547f3af9f6abf61b5e28a44a521357a9937d8d824f1e4cf79553d81584",
+      "candidate_sha256": "c572944c672cde4cbfd3d0aa8122c7258b963497ceb2fc8a74dfb6aa6b348bda",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / operational_context",
+          "note": "保持在轨工况与缺项边界，未要求推定对照条件相同。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-51 / LOG-52 / spacecraft_context.configuration",
+          "note": "区分日志时间和示意构型，明确模式、路径及旋转参数对照缺失。"
+        }
+      ]
+    },
+    {
+      "trial_id": "REFINE-ITEM-024",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "target_sha256": "5d09adbbe2185a6fe2b7f7463d2e3562f19f4b88fd002e1f50ef5e3f860e803c",
+      "candidate_sha256": "d3357787461cd057386d9836268f3a46df3f2c4bb24fbe4dd858dcb2e067ab16",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-FORWARD-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23 / ML-FINDING-01 / ML-E-003",
+          "note": "对现象、工程分析、ML及未附材料分别限权，保留示意构型范围。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-21 / LOG-22 / LOG-23 / ML-FINDING-01",
+          "note": "先补时序与条件记录，再以隔离、绝缘和硬件检查区分短路候选和替代解释。"
+        }
+      ]
+    }
+  ]
+}

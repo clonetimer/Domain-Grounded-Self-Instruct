@@ -1,0 +1,81 @@
+{
+  "arm": "M6",
+  "method": "DGSI+select",
+  "common_instruction": "你是航天器诊断SFT候选的生成模型。本实验所有当前输入均为SYNTHETIC，目标是二次研判。只能使用指定shared_cases.json内对应user材料，不得读取仓库、其他候选、参考答案或coordinator目录，不联网。对每个案例生成一条指令和符合target_schema.json的formal_target，简洁中文，不输出思维链。不得更改或补充当前ML数值、日志、时间戳、构型或历史可用性。字段中的证据引用使用输入中可见的LOG或ML finding ID；ML-E引用只是上游引用，未附材料不构成独立证据。正式target只写诊断结论、证据、确定性、处置和后续建议；不写评审要求。本轮是方法适配的开发比较，不是正式SOTA复现或训练。每条期望不超过2048输出token；工具不暴露实耗token，勿填造。",
+  "method_instruction": "依据当前可见日志分析现象，解释上游ML候选和未校准分数；分别表达故障源与受影响部件。证据引用区分直接观测、ML推断、独立反证和未附原件的上游引用，不重复计票。保留飞行/地面/AIT适用范围；比较前说明可见的时间、构型、模式和路径可比性，没有记录的条件标为缺失，不能默认成立。历史先检查as-of、状态和硬件适用性，缺可信时间的历史拒绝迁移。处置只写可见材料支持的执行/计划/原文建议；未记录则NOT_RECORDED和[]；新建议放follow_up_actions。保持来源允许的不确定性。先读取冻结user输入，只改写任务指令，禁止更改task_type或任何输入事实。以不同表述风格提出指令，不追加新的任务要求。生成恰好三个不同指令，每条先独立给五项0-2分；事实/范围检查不通过或任一项0分者排除；总分最高者入选，平分取原序号最小者。选定指令后只生成一份formal_target，不生成多份答案择优。评分只评价指令与可见输入的适配，不能读取标准答案、其他方法答案或最终评审。证据不足时明确请求补充材料也是可回答任务，不应强迫唯一根因。生成记录与检查只在method_record保存；正式instruction不含审稿人或评分要求，formal_target只含正式诊断结论。",
+  "authoring_recipe": {
+    "recipe_id": "select",
+    "recipe_version": "1",
+    "not_for_sft": true,
+    "candidate_count": 3,
+    "evolution_enabled": false,
+    "selection_enabled": true,
+    "domain_policy": "依据当前可见日志分析现象，解释上游ML候选和未校准分数；分别表达故障源与受影响部件。证据引用区分直接观测、ML推断、独立反证和未附原件的上游引用，不重复计票。保留飞行/地面/AIT适用范围；比较前说明可见的时间、构型、模式和路径可比性，没有记录的条件标为缺失，不能默认成立。历史先检查as-of、状态和硬件适用性，缺可信时间的历史拒绝迁移。处置只写可见材料支持的执行/计划/原文建议；未记录则NOT_RECORDED和[]；新建议放follow_up_actions。保持来源允许的不确定性。",
+    "procedure": "先读取冻结user输入，只改写任务指令，禁止更改task_type或任何输入事实。以不同表述风格提出指令，不追加新的任务要求。生成恰好三个不同指令，每条先独立给五项0-2分；事实/范围检查不通过或任一项0分者排除；总分最高者入选，平分取原序号最小者。选定指令后只生成一份formal_target，不生成多份答案择优。评分只评价指令与可见输入的适配，不能读取标准答案、其他方法答案或最终评审。证据不足时明确请求补充材料也是可回答任务，不应强迫唯一根因。生成记录与检查只在method_record保存；正式instruction不含审稿人或评分要求，formal_target只含正式诊断结论。",
+    "score_scale": {
+      "0": "不满足或引入不支持内容",
+      "1": "部分满足",
+      "2": "充分满足"
+    },
+    "criteria": [
+      "task_alignment",
+      "clarity",
+      "input_answerability",
+      "evidence_roles",
+      "scope_retention"
+    ],
+    "record_contract": {
+      "recipe_id": "select",
+      "recipe_version": "1",
+      "input_sha256": "copy shared_input_sha256",
+      "not_for_sft": true,
+      "candidates": [
+        {
+          "candidate_id": "I1..I3 in original order",
+          "instruction": "task instruction only",
+          "operation": "comparability|evidence_roles|bounded_scope|style",
+          "scores": {
+            "task_alignment": "integer 0,1,2",
+            "clarity": "integer 0,1,2",
+            "input_answerability": "integer 0,1,2",
+            "evidence_roles": "integer 0,1,2",
+            "scope_retention": "integer 0,1,2"
+          },
+          "grounding_ok": "boolean self-declaration",
+          "scope_ok": "boolean self-declaration"
+        }
+      ],
+      "selected_candidate_id": "computed winner ID"
+    },
+    "limitations": [
+      "GPT instruction scores are not an independently trained Auto-Instruct ranker.",
+      "Binding and score validation do not prove semantic truth.",
+      "Store records at Case.internal_review when attaching to L1; never prompt/target.",
+      "One proposal/selection/answer pass; no optimization against final test scores."
+    ]
+  },
+  "generation_order": [
+    "FORWARD-DEV-003",
+    "FORWARD-DEV-001",
+    "FORWARD-DEV-004",
+    "FORWARD-DEV-002"
+  ],
+  "requested_output_tokens_per_case": 2048,
+  "actual_tokens": null,
+  "api_model_id": null,
+  "api_model_version_known": false,
+  "decoding_settings": "SESSION_MANAGED_NOT_EXPOSED",
+  "output_contract": {
+    "schema_version": "dgsi-closeout-generations.v1",
+    "arm": "M6",
+    "candidates": [
+      {
+        "comparison_unit_id": "copy from cases",
+        "shared_input_sha256": "copy exactly",
+        "instruction": "exact instruction selected by method_record",
+        "method_record": "object matching authoring_recipe.record_contract",
+        "formal_target": "object conforming to target_schema.json"
+      }
+    ]
+  }
+}

@@ -20,12 +20,14 @@ def main(argv=None):
     intake.add_argument('--collection',type=Path,required=True)
     intake.add_argument('--source-facts',type=Path,required=True)
     intake.add_argument('--output',type=Path,required=True)
+    intake.add_argument('--recipe',choices=['baseline','evolve','select','evolve-select'],
+                        default='baseline',help='Optional host-authoring sidecar; never added to SFT messages')
     args=parser.parse_args(argv)
     try:
         if args.output.exists() or args.output.is_symlink():
             raise FileExistsError
         report=(replay(args.bundle,args.output) if args.command=='demo'
-                else prepare(args.collection,args.source_facts,args.output))
+                else prepare(args.collection,args.source_facts,args.output,args.recipe))
     except FileExistsError:
         code='OUTPUT_ALREADY_EXISTS'
     except FileNotFoundError:
