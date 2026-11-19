@@ -112,6 +112,7 @@ class FactorialScorecardAnalysisTests(unittest.TestCase):
             for review in case["reviews"]:
                 review["output_valid"] = False
                 review["dimension_scores"] = None
+                review["accepted"] = False
         report = MODULE.analyze_scorecard(data, **binding_kwargs())
         self.assertEqual(report["status"], "NOT_ESTIMABLE_NO_COMPLETE_PAIRED_CASES")
         self.assertIsNone(report["factorial_contrasts_on_complete_paired_cases_only"]["interaction"])
