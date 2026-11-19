@@ -6,8 +6,11 @@ Invalid outputs remain visible and are never assigned fabricated numeric penalti
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
+
+from validate_factorial_manifest import validate_manifest
 
 DIMENSIONS = (
     "source_fidelity", "phenomenon_analysis", "ml_interpretation",
@@ -31,7 +34,7 @@ def _mean(values):
     return sum(values) / len(values) if values else None
 
 
-def analyze_scorecard(data: dict) -> dict:
+def analyze_scorecard(data: dict, *, manifest_sha256: str | None = None, rubric_sha256: str | None = None, manifest_cases: list | None = None) -> dict:
     if not isinstance(data, dict) or data.get("schema_version") != "dgsi-factorial-review-scorecard.v1":
         raise ScorecardError("SCORECARD_SCHEMA_INVALID")
     if data.get("classification") != "BLINDED_REVIEW_SCORECARD_NOT_FOR_SFT":
@@ -40,7 +43,25 @@ def analyze_scorecard(data: dict) -> dict:
         value = data.get(hash_field)
         if not isinstance(value, str) or len(value) != 64 or any(ch not in "0123456789abcdef" for ch in value):
             raise ScorecardError("SCORECARD_BINDING_HASH_INVALID")
+    if manifest_sha256 is None or rubric_sha256 is None or manifest_cases is None:
+        raise ScorecardError("SCORECARD_BINDING_FILES_REQUIRED")
+    if data["manifest_sha256"] != manifest_sha256 or data["rubric_sha256"] != rubric_sha256:
+        raise ScorecardError("SCORECARD_BINDING_HASH_MISMATCH")
     cases = data.get("cases")
+    expected_by_id = {row["case_id"]: row for row in manifest_cases}
+    if len(expected_by_id) != len(manifest_cases):
+        raise ScorecardError("MANIFEST_CASE_DUPLICATE")
+    scorecard_by_id = {}
+    for row in cases if isinstance(cases, list) else []:
+        if isinstance(row, dict) and isinstance(row.get("case_id"), str):
+            scorecard_by_id[row["case_id"]] = row
+    if set(scorecard_by_id) != set(expected_by_id):
+        raise ScorecardError("SCORECARD_CASE_SET_MISMATCH")
+    for case_id, expected in expected_by_id.items():
+        actual = scorecard_by_id[case_id]
+        if any(actual.get(key) != expected.get(key) for key in
+               ("source_cluster_id", "input_sha256", "target_schema_sha256")):
+            raise ScorecardError("SCORECARD_CASE_BINDING_MISMATCH")
     if not isinstance(cases, list) or not cases:
         raise ScorecardError("CASES_MISSING")
 
@@ -272,11 +293,25 @@ def analyze_scorecard(data: dict) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("scorecard", type=Path)
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--rubric", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
-        data = json.loads(args.scorecard.read_text(encoding="utf-8"))
-        report = analyze_scorecard(data)
+        scorecard_bytes = args.scorecard.read_bytes()
+        manifest_bytes = args.manifest.read_bytes()
+        rubric_bytes = args.rubric.read_bytes()
+        data = json.loads(scorecard_bytes.decode("utf-8"))
+        manifest = json.loads(manifest_bytes.decode("utf-8"))
+        manifest_report = validate_manifest(manifest)
+        if not manifest_report.get("valid"):
+            raise ScorecardError("RUN_MANIFEST_INVALID")
+        report = analyze_scorecard(
+            data,
+            manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+            rubric_sha256=hashlib.sha256(rubric_bytes).hexdigest(),
+            manifest_cases=manifest["cases"],
+        )
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     except (OSError, json.JSONDecodeError, ScorecardError) as exc:
         print(json.dumps({"valid": False, "error": str(exc)}, ensure_ascii=False))
