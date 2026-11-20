@@ -75,7 +75,20 @@ The v6 receipt records zero human expert signatures and a same-model, shared-con
 
 The custodian's reference answers are **not needed before generation** and must remain escrowed. They become relevant only after all eight outputs, effective instructions, method records and raw-output hashes are frozen. Only then may the custodian release the reference answers to the scoring/adjudication stage. They must never enter generator prompts, instruction-candidate scoring, selection or generation logs.
 
-## 6. Current run ledger
+## 6. Isolated-session prompt pack prepared
+
+A prompt pack was prepared from the existing system prompt, base task instruction, shared DGSI policy, the four frozen arm recipes, the released input bytes and the unchanged target schema:
+
+- File: `DGSI_BATCH01_Exploratory_Prompt_Pack_v1.zip`
+- SHA-256: `941f64905664da47bbd45bd265e4dc16d189f50d00831b0b7d2814f50cf3a146`
+- Contains 8 one-run prompt files (A/B/C/D × CASE-002/CASE-004), the exact target schema, a run ledger template and execution instructions.
+- ZIP CRC: PASS; internal SHA-256 entries: 11/11 PASS.
+
+The pack is designed for **eight separate fresh ChatGPT conversations**, one prompt per conversation, to prevent one arm's output entering another arm's context. Do not upload the entire pack into one conversation. Save each raw response unchanged; invalid/blocked outputs remain visible and are not regenerated. The custodian's reference answers remain escrowed until all eight outputs and their hashes are frozen.
+
+This pack is an execution aid, not evidence that any model call has occurred. The current session cannot launch those eight isolated conversations or call a configured external generator; the run remains blocked before generation.
+
+## 7. Current run ledger
 
 | Item | Count/status |
 |---|---:|
