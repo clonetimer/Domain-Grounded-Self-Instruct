@@ -80,7 +80,7 @@ The custodian's reference answers are **not needed before generation** and must 
 A prompt pack was prepared from the existing system prompt, base task instruction, shared DGSI policy, the four frozen arm recipes, the released input bytes and the unchanged target schema:
 
 - File: `DGSI_BATCH01_Exploratory_Prompt_Pack_v1.zip`
-- SHA-256: `941f64905664da47bbd45bd265e4dc16d189f50d00831b0b7d2814f50cf3a146`
+- SHA-256: `db509d57edee6d6aef255e1869c29930e703f57d2ceb626f83219f778a29b56f`
 - Contains 8 one-run prompt files (A/B/C/D × CASE-002/CASE-004), the exact target schema, a run ledger template and execution instructions.
 - ZIP CRC: PASS; internal SHA-256 entries: 11/11 PASS.
 
