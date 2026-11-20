@@ -55,20 +55,72 @@
     }
   ],
   "planned_factorial_arms": [
-    {"arm_id": "A", "evolution_enabled": false, "selection_enabled": false, "candidate_count": 1},
-    {"arm_id": "B", "evolution_enabled": false, "selection_enabled": true, "candidate_count": 3},
-    {"arm_id": "C", "evolution_enabled": true, "selection_enabled": false, "candidate_count": 1},
-    {"arm_id": "D", "evolution_enabled": true, "selection_enabled": true, "candidate_count": 3}
+    {
+      "arm_id": "A",
+      "evolution_enabled": false,
+      "selection_enabled": false,
+      "candidate_count": 1
+    },
+    {
+      "arm_id": "B",
+      "evolution_enabled": false,
+      "selection_enabled": true,
+      "candidate_count": 3
+    },
+    {
+      "arm_id": "C",
+      "evolution_enabled": true,
+      "selection_enabled": false,
+      "candidate_count": 1
+    },
+    {
+      "arm_id": "D",
+      "evolution_enabled": true,
+      "selection_enabled": true,
+      "candidate_count": 3
+    }
   ],
   "planned_generation_rows": [
-    {"arm_id": "A", "case_id": "CASE-002", "status": "NOT_STARTED"},
-    {"arm_id": "A", "case_id": "CASE-004", "status": "NOT_STARTED"},
-    {"arm_id": "B", "case_id": "CASE-002", "status": "NOT_STARTED"},
-    {"arm_id": "B", "case_id": "CASE-004", "status": "NOT_STARTED"},
-    {"arm_id": "C", "case_id": "CASE-002", "status": "NOT_STARTED"},
-    {"arm_id": "C", "case_id": "CASE-004", "status": "NOT_STARTED"},
-    {"arm_id": "D", "case_id": "CASE-002", "status": "NOT_STARTED"},
-    {"arm_id": "D", "case_id": "CASE-004", "status": "NOT_STARTED"}
+    {
+      "arm_id": "A",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "A",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "B",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "B",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "C",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "C",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "D",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "D",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    }
   ],
   "frozen_analysis_contract": {
     "target_schema_path": "evaluation/refinement_20261119/target_schema.json",
@@ -105,20 +157,9 @@
   },
   "pre_generation_blockers": [
     {
-      "code": "BASE_PROMPT_MISMATCH",
-      "detail": "The prior M4 common prompt states all inputs are SYNTHETIC and requires evidence citations to visible LOG or ML finding IDs. Batch v6 contains source-fact excerpts with E01-E03/E01-E05 identifiers, no upstream ML output, no structured diagnostic logs, and no original telemetry. Reusing that prompt verbatim would misclassify the material and impose an incompatible citation namespace.",
-      "evidence": {
-        "prior_prompt_path": "evaluation/refinement_20261119/prompts/M4.json",
-        "prior_prompt_git_blob_sha": "0da6dfe676f4bfce8434d05f84ea0a00815851a2",
-        "prior_prompt_frozen_sha256": "cb3fd18ab7d2638790f8873ca0477e990b13268002c304421e1f555b6f8afd96",
-        "batch_readme_path": "DGSI_Batch01_Developer_20261120_v6/00_README.md"
-      },
-      "required_resolution": "Use an already-approved task instruction compatible with E01-E05 evidence references, or obtain explicit approval for a case-format adapter. Do not silently rewrite the prompt."
-    },
-    {
       "code": "NO_ISOLATED_MODEL_EXECUTION_CONFIG",
-      "detail": "The current execution environment has no OPENAI_API_KEY, DGSI_GENERATOR_MODEL, or DGSI_JUDGE_MODEL configured. The repository's run_skill_blind_eval.py supports a baseline-versus-Skill comparison, not this 2x2 matrix. The current GitHub connector can inspect and write repository files but cannot dispatch a model-generation job.",
-      "required_resolution": "Provide an isolated generator execution route/configuration, or explicitly accept a different execution mode with its context-isolation limitation disclosed. Do not represent a single in-context assistant response as eight independent model calls."
+      "detail": "The current execution environment has no OPENAI_API_KEY, DGSI_GENERATOR_MODEL, or DGSI_JUDGE_MODEL configured. The repository's run_skill_blind_eval.py supports a baseline-versus-Skill comparison, not this four-arm factorial matrix. The GitHub connector available in this session supports repository reads/writes but exposes no workflow-dispatch action. One in-context assistant response containing all eight outputs would not be eight isolated model calls and could create cross-arm context contamination.",
+      "required_resolution": "Provide an isolated generator execution route/configuration for the four arms, or explicitly accept a documented non-isolated in-context pilot that must not be interpreted as a clean factorial comparison."
     },
     {
       "code": "INDEPENDENT_REVIEW_NOT_YET_AVAILABLE",
@@ -138,6 +179,25 @@
     "frozen_output_hashes": 0,
     "blind_reviews": 0,
     "scorecard": "NOT_CREATED",
-    "formal_confirmatory_result": "NOT_RUN"
+    "formal_confirmatory_result": "NOT_RUN",
+    "prompt_contract_frozen": true
+  },
+  "prompt_contract": {
+    "status": "RESOLVED_USING_EXISTING_PROJECT_INSTRUCTION",
+    "system_prompt_source": "examples/diagnostic_context_sft_illustrative.json",
+    "system_prompt_sha256": "88077b2e1a29e8752035fe66200ef8add5e99c623d7d3e24c234c215efa1ab40",
+    "system_prompt_exact": "你是航天器故障研判助手。仅依据提供的机器诊断结果、诊断日志、运行上下文、历史案例和知识证据进行综合研判。不得将未校准分数解释为概率，不得把候选结论写成确诊；区分故障源部件与受影响部件。",
+    "base_task_instruction_source": "examples/diagnostic_context_case_illustrative.json",
+    "base_task_instruction_sha256": "91f288d07b8e713e622e79962b374dd0dea52ad0de4f572ef88ac84011db767d",
+    "base_task_instruction_exact": "结合算法诊断结果、历史诊断记录和当前任务上下文，形成有证据边界的综合研判。",
+    "method_policy_source": "src/dgsi/instruction_design.py",
+    "method_policy_git_blob_sha": "6af06450e06f964296306a939931a72941f8fb93",
+    "method_policy_sha256": "8bfc50f9cbbaa9d9fb2cc9000a96ab488ec2f3b0ccfe179a479df61a5121b98d",
+    "method_policy_shared_across_all_arms": true,
+    "evidence_reference_namespace": "Use only the exact evidence IDs visible in the case input (CASE-002: E01-E03; CASE-004: E01-E05). Do not invent LOG or ML IDs.",
+    "prior_m4_meta_prompt_reused": false,
+    "prior_m4_prompt_exclusion_reason": "It is a development-run meta-prompt that labels all inputs SYNTHETIC and restricts citations to LOG/ML IDs; neither statement matches this material-level source-fact batch. The project task/system instruction above is reused unchanged instead.",
+    "new_task_instruction_added": false,
+    "scoring_or_threshold_changed": false
   }
 }
