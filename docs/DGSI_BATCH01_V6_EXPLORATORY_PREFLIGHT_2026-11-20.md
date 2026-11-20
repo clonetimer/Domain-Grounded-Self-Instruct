@@ -49,17 +49,23 @@ The original confirmatory preregistration at `evaluation/refinement_20261120/fac
 
 ## 4. Pre-generation blockers
 
-### 4.1 The prior M4 prompt is not compatible with Batch 01 verbatim
+### 4.1 Existing task and system instructions are identified
 
-The frozen common instruction in `evaluation/refinement_20261119/prompts/M4.json` states that all current inputs are SYNTHETIC and requires evidence citations to visible LOG or ML finding IDs. Batch 01 is explicitly an anonymized source-fact extract, not a synthetic scenario; its evidence IDs are E01–E03 and E01–E05. It contains no upstream ML result, no structured diagnostic logs, and no original telemetry.
+The batch can reuse the existing project instruction pair without adding a new task instruction:
 
-Reusing the M4 prompt unchanged would misclassify the material and impose an evidence-reference namespace that does not exist in the inputs. Silently changing that prompt would violate the custodian's instruction that this batch adds no new generation instruction. Therefore the exact approved base task instruction for these two inputs must be identified before generation. Either the custodian/project owner supplies the already-approved instruction, or the project explicitly authorizes a narrowly scoped input-format adapter; any such adapter must be documented and applied identically across all four arms.
+- System prompt: `examples/diagnostic_context_sft_illustrative.json`, SHA-256 `88077b2e1a29e8752035fe66200ef8add5e99c623d7d3e24c234c215efa1ab40`.
+- Base task instruction: `examples/diagnostic_context_case_illustrative.json`, SHA-256 `91f288d07b8e713e622e79962b374dd0dea52ad0de4f572ef88ac84011db767d`.
+- Shared evidence/scope policy: `src/dgsi/instruction_design.py`, with the same policy hash across all four arms.
+
+The old M4 common prompt in `evaluation/refinement_20261119/prompts/M4.json` is **not reused**: it is a development-run meta-prompt that labels all inputs SYNTHETIC and restricts citations to LOG/ML IDs. Those details do not match Batch 01. This does not require changing the task instruction or rubric. For Batch 01, citations must use only the evidence identifiers actually visible in each input: CASE-002 `E01–E03`; CASE-004 `E01–E05`. No LOG IDs, ML findings, timestamps, measurements or other missing fields may be invented.
+
+The absence of upstream ML outputs, structured logs, historical cases and raw telemetry is itself part of the input boundary. A valid target must state those absences rather than fabricate them. The ten existing score dimensions remain unchanged.
 
 ### 4.2 No isolated factorial model-execution route is configured here
 
 The current execution environment has no `OPENAI_API_KEY`, `DGSI_GENERATOR_MODEL` or `DGSI_JUDGE_MODEL` configured. The repository's existing `scripts/run_skill_blind_eval.py` is a baseline-versus-Skill evaluator, not a four-arm factorial generator. The GitHub connector available in this session supports repository reads/writes but exposes no workflow-dispatch action for launching a live model run.
 
-A single in-context assistant response containing eight outputs would not constitute eight isolated model calls: later arms could be influenced by earlier generated outputs. It must not be represented as an independent 2×2 run. No model output has been fabricated to fill this gap.
+A single in-context assistant response containing eight outputs would not constitute eight isolated model calls: later arms could be influenced by earlier generated outputs. It must not be represented as an independent 2×2 run. No model output has been fabricated to fill this gap. An isolated generator execution route is still required before the authorized run can start.
 
 ### 4.3 Independent review remains separate from material release
 
