@@ -215,5 +215,15 @@
       "canonical_shared_input_hashing": "UTF-8 JSON, ensure_ascii=false, sort_keys=true, separators=(',',':'), allow_nan=false",
       "evidence_reference_namespace": "Only E01-E03 for CASE-002 and E01-E05 for CASE-004"
     }
+  },
+  "prompt_pack": {
+    "filename": "DGSI_BATCH01_Exploratory_Prompt_Pack_v1.zip",
+    "sha256": "941f64905664da47bbd45bd265e4dc16d189f50d00831b0b7d2814f50cf3a146",
+    "prompt_count": 8,
+    "layout": "one prompt file per arm/case pair; run each in a separate fresh chat",
+    "zip_crc": "PASS",
+    "internal_checksums": "11/11 PASS",
+    "contains_reference_answers": false,
+    "generation_executed": false
   }
 }
