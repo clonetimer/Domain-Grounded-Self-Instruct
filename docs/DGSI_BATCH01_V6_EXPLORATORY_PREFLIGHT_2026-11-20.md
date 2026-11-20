@@ -104,4 +104,4 @@ This pack is an execution aid, not evidence that any model call has occurred. Th
 | Confirmatory preregistration | Unchanged / NOT_RUN |
 | Training / SFT authorization | None |
 
-**Conclusion:** material integrity checks passed and the user's exploratory scope is recorded. The run is not yet executable because the exact compatible base instruction and an isolated model-execution route are not established. No generation, scoring, training, prompt change, rubric change or evaluation-set change has occurred.
+**Conclusion:** material integrity checks passed, the existing compatible task/system instruction pair is identified, and the user's exploratory scope is recorded. The run is not yet executable because this session has no isolated model-execution route; two method-blind reviewers are also not yet assigned. No generation, scoring, training, prompt change, rubric change or evaluation-set change has occurred.
