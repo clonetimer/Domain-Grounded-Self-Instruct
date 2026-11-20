@@ -37,7 +37,9 @@
       "post_baseline_developer_exposure": "NOT_ATTESTED",
       "pretraining_exposure": "UNKNOWN",
       "source_reidentification_risk": "POSSIBLE_NOT_EMPIRICALLY_TESTED",
-      "human_expert_signatures": 0
+      "human_expert_signatures": 0,
+      "task_type": "diagnostic_synthesis",
+      "shared_input_sha256": "717b2ac3163c951ea497369807f796207b13e6867f73af620254ba93e35dfe14"
     },
     {
       "case_id": "CASE-004",
@@ -51,7 +53,9 @@
       "post_baseline_developer_exposure": "NOT_ATTESTED",
       "pretraining_exposure": "UNKNOWN",
       "source_reidentification_risk": "POSSIBLE_NOT_EMPIRICALLY_TESTED",
-      "human_expert_signatures": 0
+      "human_expert_signatures": 0,
+      "task_type": "diagnostic_synthesis",
+      "shared_input_sha256": "542a419c9e2100a3eb8aaea0c5933e929a106f651d2e097b45f07975c7799b6e"
     }
   ],
   "planned_factorial_arms": [
@@ -198,6 +202,18 @@
     "prior_m4_meta_prompt_reused": false,
     "prior_m4_prompt_exclusion_reason": "It is a development-run meta-prompt that labels all inputs SYNTHETIC and restricts citations to LOG/ML IDs; neither statement matches this material-level source-fact batch. The project task/system instruction above is reused unchanged instead.",
     "new_task_instruction_added": false,
-    "scoring_or_threshold_changed": false
+    "scoring_or_threshold_changed": false,
+    "user_payload_contract": {
+      "task_type": "diagnostic_synthesis",
+      "task_type_assignment": "One common project-level task type for both released cases; no source fact is added by this metadata.",
+      "user_object_fields": [
+        "case_id",
+        "task_type",
+        "instruction",
+        "input"
+      ],
+      "canonical_shared_input_hashing": "UTF-8 JSON, ensure_ascii=false, sort_keys=true, separators=(',',':'), allow_nan=false",
+      "evidence_reference_namespace": "Only E01-E03 for CASE-002 and E01-E05 for CASE-004"
+    }
   }
 }
