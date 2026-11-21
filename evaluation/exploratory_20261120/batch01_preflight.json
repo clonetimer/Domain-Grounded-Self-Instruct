@@ -2,7 +2,7 @@
   "schema_version": "dgsi-exploratory-run-preflight.v1",
   "run_id": "DGSI-EXP-2X2-BATCH01-20261120",
   "classification": "EXPLORATORY_NOT_CONFIRMATORY",
-  "status": "BLOCKED_BEFORE_GENERATION",
+  "status": "EXTERNAL_OUTPUTS_FROZEN_AWAITING_BLIND_REVIEW",
   "authorization": {
     "user_authorized": true,
     "authorized_scope": "One-time exploratory 2x2 comparison using CASE-002 and CASE-004 only",
@@ -163,28 +163,36 @@
     {
       "code": "NO_ISOLATED_MODEL_EXECUTION_CONFIG",
       "detail": "The current execution environment has no OPENAI_API_KEY, DGSI_GENERATOR_MODEL, or DGSI_JUDGE_MODEL configured. The repository's run_skill_blind_eval.py supports a baseline-versus-Skill comparison, not this four-arm factorial matrix. The GitHub connector available in this session supports repository reads/writes but exposes no workflow-dispatch action. One in-context assistant response containing all eight outputs would not be eight isolated model calls and could create cross-arm context contamination.",
-      "required_resolution": "Provide an isolated generator execution route/configuration for the four arms, or explicitly accept a documented non-isolated in-context pilot that must not be interpreted as a clean factorial comparison."
+      "required_resolution": "Provide an isolated generator execution route/configuration for the four arms, or explicitly accept a documented non-isolated in-context pilot that must not be interpreted as a clean factorial comparison.",
+      "subsequent_observation": "USER_DELIVERED_EXTERNAL_OUTPUTS; session isolation and actual attempt count cannot be confirmed from ZIP alone. This provenance warning remains open; no local reruns are authorized."
     },
     {
       "code": "INDEPENDENT_REVIEW_NOT_YET_AVAILABLE",
       "detail": "The v6 material receipt records zero human expert signatures and same-model shared-context sequential two-role review. The 2x2 scorecard requires two blinded reviewer tokens per case per arm.",
-      "required_resolution": "Arrange two method-blind reviewers or explicitly classify any model-only scoring as advisory, not independent expert review."
+      "required_resolution": "Arrange two method-blind reviewers or explicitly classify any model-only scoring as advisory, not independent expert review.",
+      "subsequent_observation": "TWO_BLINDED_REVIEWERS_PENDING; no review scores or reference answers received."
     }
   ],
   "reference_answer_handling": {
     "received": false,
     "needed_before_generation": false,
-    "needed_after_all_8_outputs_are_frozen": true,
-    "custodian_instruction": "Keep source identities and reference answers escrowed. Release reference answers only after all four arms for both cases are generated once and raw outputs, instructions, method records and hashes are frozen."
+    "needed_after_all_8_outputs_are_frozen": false,
+    "custodian_instruction": "All eight raw output files are frozen; the custodian may provide reference answers ONLY to the authorized independent blind-review/adjudication stage. Keep answers unavailable to generator prompts and instruction selection. Reviewer panel and output authenticity remain unverified.",
+    "needed_for_independent_scoring_after_freeze": true
   },
   "execution_state": {
     "generation_started": false,
     "generated_outputs": 0,
-    "frozen_output_hashes": 0,
+    "frozen_output_hashes": 8,
     "blind_reviews": 0,
     "scorecard": "NOT_CREATED",
     "formal_confirmatory_result": "NOT_RUN",
-    "prompt_contract_frozen": true
+    "prompt_contract_frozen": true,
+    "external_user_submitted_outputs_received": 8,
+    "external_output_mechanical_pass_count": 8,
+    "generation_started_locally": false,
+    "external_generation_attempts_independently_verified": false,
+    "blind_review_pending": true
   },
   "prompt_contract": {
     "status": "RESOLVED_USING_EXISTING_PROJECT_INSTRUCTION",
@@ -225,5 +233,30 @@
     "internal_checksums": "11/11 PASS",
     "contains_reference_answers": false,
     "generation_executed": false
+  },
+  "external_generation_receipt": {
+    "received_at": "2026-11-21",
+    "source": "USER_UPLOADED_EXTERNAL_OUTPUT_ZIP",
+    "original_zip_sha256": "0a8fbb5b1579041a703a09a09f03c38c91db3951ffa77aa22a16b2b845be9c96",
+    "output_files_received": 8,
+    "exact_arm_case_matrix_complete": true,
+    "json_parse_pass": 8,
+    "target_schema_pass": 8,
+    "instruction_method_record_pass": 8,
+    "evidence_id_integrity_pass": 8,
+    "raw_output_bytes_frozen": 8,
+    "blind_output_projection_verified": 8,
+    "coordinator_mapping_private": true,
+    "independent_generation_sessions_verified": false,
+    "one_attempt_per_prompt_verified": false,
+    "token_usage_observed": false,
+    "user_ledger_tainted_by_stale_sha256": true,
+    "model_metadata_source": "USER_LEDGER_SELF_REPORTED",
+    "model_name_unverified": "gpt-6 sol",
+    "model_date_unverified": "2026-11-21",
+    "blind_review_scorecards_received": 0,
+    "reference_answers_received": false,
+    "scoring_performed": false,
+    "freeze_register_path": "docs/DGSI_BATCH01_V6_OUTPUT_FREEZE_2026-11-21.md"
   }
 }
