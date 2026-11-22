@@ -5,13 +5,25 @@ description: Use when converting spacecraft simulation-platform design documents
 
 # DGSI Simulation-to-SFT Production Skill
 
-**Tooling release: v0.2.0. Data: candidate-generation / SYNTHETIC DEV_ONLY.** This Skill is a portable, provider-neutral production contract. It does not authorize Gold promotion, formal dataset splits, SFT export, or model training.
+**Tooling release: v0.2.1. Data: candidate-generation / SYNTHETIC DEV_ONLY.** This Skill is a portable, provider-neutral production contract. It does not authorize Gold promotion, formal dataset splits, SFT export, or model training.
 
 ## Reproduce or reuse this release
 
 Start with `references/CLOSEOUT_QUICKSTART.md` and `python scripts/run_dgsi_skill.py demo --output local_demo`. The package includes four public synthetic input scenarios, twenty actual method-comparison candidates, and separate GPT reviews. Offline replay does not call a model; fresh generation uses the shipped method prompts in new host-AI sessions. For new authorized L0/L1 inputs, use the same entry point with `prepare`. The coordinator and reference packets never go to the generator.
 
 ## Mission
+
+For optional instruction evolution/selection, read `references/INSTRUCTION_REFINEMENT.md`.
+The supported recipes are `baseline`, `evolve`, `select`, and `evolve-select`;
+the latter three correspond to the two ablations and the combined 2×2 arm.
+The default remains `baseline`. Do not designate a winning recipe from the
+development comparison as universally preferred: report the observed result,
+its sample/source-cluster limits, and any uncertainty. Select or change a recipe
+using development data only. Once a holdout manifest is frozen, do not use its
+scores to choose prompts, recipes, retry behavior, or stopping decisions.
+Keep the authoring policy and method records outside SFT messages; source input
+hashes must stay unchanged. Any later method revision requires a new,
+untouched holdout set and a separately preregistered round.
 
 Convert authorized spacecraft engineering materials into traceable diagnostic training candidates for a second-stage LLM. The LLM interprets:
 - upstream ML/statistical diagnosis results;

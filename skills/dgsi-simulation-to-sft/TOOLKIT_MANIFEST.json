@@ -1,6 +1,6 @@
 {
   "toolkit_id": "dgsi-simulation-to-sft",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "DRAFT_CANDIDATE_GENERATION_ONLY",
   "primary_skill": "SKILL.md",
   "supported_source_types": [
@@ -58,5 +58,12 @@
   "review_modes": [
     "GPT_ADVISORY_NOT_HUMAN_EXPERT",
     "HUMAN_EXPERT_EXTERNAL_WHEN_AVAILABLE"
-  ]
+  ],
+  "instruction_refinement_guide": "references/INSTRUCTION_REFINEMENT.md",
+  "optional_instruction_recipes": [
+    "evolve",
+    "select",
+    "evolve-select"
+  ],
+  "forward_comparison_bundle": "evaluation/refinement_20261119"
 }

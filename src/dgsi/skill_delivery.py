@@ -128,7 +128,12 @@ def _save(directory: Path, files: dict[str, Any]) -> None:
                 stream.write(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
 
 
-def prepare(collection_path: Path, facts_path: Path, output: Path) -> dict:
+def prepare(collection_path: Path, facts_path: Path, output: Path,
+            recipe_id: str = 'baseline') -> dict:
+    from .instruction_design import authoring_recipe, RECIPES
+    if recipe_id not in RECIPES:
+        raise DeliveryError('INSTRUCTION_RECIPE_UNKNOWN')
+    recipe = authoring_recipe(recipe_id) if recipe_id != 'baseline' else None
     collection, facts = load_json(collection_path), load_json(facts_path)
     manifest = build_l1_blind_review_manifest(collection, source_fact_cards=facts['cards'])
     by_task = {r['task_id']: r for r in manifest['review_packets']}
@@ -150,9 +155,13 @@ def prepare(collection_path: Path, facts_path: Path, output: Path) -> dict:
               'human_expert_review_count': 0, 'admitted_sft_records': 0,
               'gold_eligible': False, 'training_authorized': False,
               'scope': 'LITERATURE_DERIVED_SYNTHETIC; host AI performs authoring and review'}
-    _save(output, {'generation_requests.jsonl': requests,
+    files = {'generation_requests.jsonl': requests,
                   'coordinator/bindings.json': {'not_for_sft': True, 'bindings': bindings},
-                  'coordinator/human_review_manifest.json': manifest, 'status.json': report})
+                  'coordinator/human_review_manifest.json': manifest, 'status.json': report}
+    if recipe is not None:
+        files['authoring_recipe.json'] = recipe
+        report['authoring_recipe_id'] = recipe_id
+    _save(output, files)
     return report
 
 
@@ -220,6 +229,43 @@ def summarize_ai_reviews(trials: list[dict], reviews: list[dict]) -> dict:
             'downstream_sft_result': 'NOT_RUN'}
 
 
+def _validate_replay_generations(bundle, listed, trials, cases):
+    """Bind reviewed rows back to raw generations and optional authoring records."""
+    from .instruction_design import resolve_instruction_design
+    cache = {}
+    for row in trials:
+        relative = row.get('generation_file')
+        prompt_path = f"prompts/{row['arm']}.json"
+        if (relative not in listed or prompt_path not in listed
+                or 'method_record' in row):
+            raise DeliveryError('REPLAY_GENERATION_BINDING_INVALID')
+        if relative not in cache:
+            raw = load_json(bundle / relative)
+            by_unit = {c['comparison_unit_id']: c for c in raw['candidates']}
+            if len(by_unit) != len(raw['candidates']) or set(by_unit) != set(cases):
+                raise DeliveryError('REPLAY_GENERATION_BINDING_INVALID')
+            cache[relative] = (raw['arm'], by_unit,
+                               sha256((bundle / relative).read_bytes()).hexdigest())
+        raw_arm, by_unit, checksum = cache[relative]
+        candidate = by_unit[row['comparison_unit_id']]
+        if (raw_arm != row['arm'] or checksum != row.get('generation_file_sha256')
+                or any(candidate.get(k) != row[k] for k in (
+                    'comparison_unit_id', 'shared_input_sha256', 'instruction', 'formal_target'))):
+            raise DeliveryError('REPLAY_GENERATION_BINDING_INVALID')
+        expected = load_json(bundle / prompt_path).get('authoring_recipe')
+        record = candidate.get('method_record')
+        has_recipe = isinstance(record, dict) and 'recipe_id' in record
+        if expected is not None or has_recipe:
+            if expected is not None and (
+                    not isinstance(record, dict)
+                    or record.get('recipe_id') != expected['recipe_id']
+                    or record.get('recipe_version') != expected['recipe_version']):
+                raise DeliveryError('REPLAY_INSTRUCTION_RECIPE_MISMATCH')
+            selected = resolve_instruction_design(cases[row['comparison_unit_id']]['user'], record)
+            if selected != row['instruction']:
+                raise DeliveryError('REPLAY_SELECTED_INSTRUCTION_MISMATCH')
+
+
 def replay(bundle: Path, output: Path) -> dict:
     manifest = load_json(bundle / 'replay_manifest.json')
     listed = set()
@@ -237,12 +283,38 @@ def replay(bundle: Path, output: Path) -> dict:
                 'target_schema.json', 'protocol.json'}
     if not required.issubset(listed):
         raise DeliveryError('REPLAY_BINDING_INCOMPLETE')
+    frozen_paths = set()
+    if 'frozen_input_manifest.json' in listed:
+        frozen = load_json(bundle / 'frozen_input_manifest.json')
+        for entry in frozen['files']:
+            relative = entry['path']
+            if (relative not in listed or relative in frozen_paths
+                    or sha256((bundle / relative).read_bytes()).hexdigest() != entry['sha256']):
+                raise DeliveryError('REPLAY_FROZEN_INPUT_MISMATCH')
+            frozen_paths.add(relative)
     case_rows = load_json(bundle/'shared_cases.json')['cases']
     cases = {r['comparison_unit_id']: r for r in case_rows}
     trials = load_json(bundle/'trials.json')['trials']
     reviews = load_json(bundle/'gpt_reviews.json')['reviews']
     protocol = load_json(bundle/'protocol.json')
+    if (protocol.get('schema_version') == 'dgsi-refinement-protocol.v1'
+            and 'frozen_input_manifest.json' not in listed):
+        raise DeliveryError('REPLAY_BINDING_INCOMPLETE')
+    if protocol.get('schema_version') == 'dgsi-refinement-protocol.v1':
+        frozen_required = {'protocol.json', 'shared_cases.json', 'target_schema.json',
+                           'review_prompt.json', 'coordinator/source_bindings.json',
+                           'coordinator/source_selection.json', 'coordinator/l1_binding_manifest.json',
+                           'fixtures/l1_collection.json', 'fixtures/l0_source_facts.json'}
+        frozen_required.update(f'prompts/{arm}.json' for arm in protocol['method_ids'])
+        if not frozen_required.issubset(frozen_paths):
+            raise DeliveryError('REPLAY_FROZEN_COVERAGE_INCOMPLETE')
+    if (protocol.get('max_semantic_regenerations') == 0
+            and 'delivery_revisions.json' in listed):
+        raise DeliveryError('REPLAY_REVISIONS_FORBIDDEN')
     arms = protocol['method_ids']
+    curated_arm = protocol.get('curated_arm', 'M4')
+    if curated_arm not in arms:
+        raise DeliveryError('REPLAY_CURATED_ARM_INVALID')
     expected = {(unit, arm) for unit in cases for arm in arms}
     actual = [(r['comparison_unit_id'], r['arm']) for r in trials]
     if (not cases or not arms or len(cases) != len(case_rows)
@@ -251,6 +323,7 @@ def replay(bundle: Path, output: Path) -> dict:
             or len(trials) != protocol['planned_candidates']
             or len(actual) != len(set(actual)) or set(actual) != expected):
         raise DeliveryError('REPLAY_MATRIX_INCOMPLETE')
+    _validate_replay_generations(bundle, listed, trials, cases)
     validator = Draft202012Validator(load_json(bundle/'target_schema.json'))
     def preview_row(row):
         case = cases[row['comparison_unit_id']]
@@ -269,7 +342,7 @@ def replay(bundle: Path, output: Path) -> dict:
     previews = [dict(preview_row(row), gpt_review_decision=decisions[row['trial_id']])
                 for row in trials]
     curated = {r['trial_id']: p for r, p in zip(trials, previews)
-               if r['arm'] == 'M4' and decisions[r['trial_id']] == 'AI_CONSENSUS_ACCEPT_DEV_ONLY'}
+               if r['arm'] == curated_arm and decisions[r['trial_id']] == 'AI_CONSENSUS_ACCEPT_DEV_ONLY'}
     revision_report = None
     if 'delivery_revisions.json' in listed:
         revision_bundle = load_json(bundle/'delivery_revisions.json')
@@ -290,16 +363,17 @@ def replay(bundle: Path, output: Path) -> dict:
             preview = dict(preview_row(row), gpt_review_decision=decision['decision'],
                            revision_of=row['revision_of'])
             curated.pop(row['revision_of'], None)
-            if row['arm'] == 'M4' and decision['decision'] == 'AI_CONSENSUS_ACCEPT_DEV_ONLY':
+            if row['arm'] == curated_arm and decision['decision'] == 'AI_CONSENSUS_ACCEPT_DEV_ONLY':
                 curated[row['trial_id']] = preview
     report.update({'decision': 'RECORDED_DEVELOPMENT_RUN_REPLAYED', 'model_calls_this_run': 0,
                    'new_generations_this_run': 0, 'preview_records': len(previews),
                    'case_count': len(cases), 'verified_replay_files': len(listed),
+                   'curated_arm': curated_arm,
                    'curated_dgsi_preview_records': len(curated),
                    'delivery_revision_review': revision_report,
                    'primary_comparison_changed_by_delivery_revisions': False})
     _save(output, {'preview_messages.jsonl': previews,
-                  'dgsi_preview_messages.jsonl': [p for p, r in zip(previews,trials) if r['arm']=='M4'],
+                  'dgsi_preview_messages.jsonl': [p for p, r in zip(previews,trials) if r['arm']==curated_arm],
                   'dgsi_curated_preview_messages.jsonl': sorted(curated.values(),key=lambda p:p['example_id']),
                   'gpt_review_report.json': report,
                   'source_and_generation_manifest.json': manifest})

@@ -1,0 +1,490 @@
+{
+  "schema_version": "dgsi-closeout-shared-cases.v1",
+  "cases": [
+    {
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "user": {
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "case_id": "SYNTHETIC-EVAL-CASE-001",
+        "task_type": "evidence_sufficiency",
+        "instruction": "请依据当前合成输入，分别判断是否足以确认异常现象、定位受影响接口和确认物理根因；列明可支持的结论、不能排除的解释、缺失的关键证据及优先补证动作。历史文献与已否决历史案例仅作CONTEXT，不得作为当前根因的确证；区分已记录处置与建议。",
+        "input": {
+          "raw_telemetry_included": false,
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.0",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / slip_ring_interface",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-01",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "slip_ring_interface",
+                "result": "SLIP_RING_12V_SERIAL_CROSS_SHORT",
+                "score": 0.77,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-003"
+                ],
+                "limitations": [
+                  "synthetic ML output, not an actual flight or platform run",
+                  "candidate is not a confirmed root cause"
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate generated for controlled L1 task coverage.",
+            "known_limitations": [
+              "No raw telemetry is supplied to the LLM.",
+              "The ML result and score are synthetic scenario values."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-21",
+              "timestamp": "2026-04-12T08:30:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：载荷串行链路出现CRC错误。",
+              "author_role": "synthetic-event-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-21"
+            },
+            {
+              "log_id": "LOG-22",
+              "timestamp": "2026-04-12T08:46:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：SADA驱动接口和星敏感器接口先后报告通信异常。",
+              "author_role": "synthetic-event-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-22"
+            },
+            {
+              "log_id": "LOG-23",
+              "timestamp": "2026-04-12T08:50:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成场景：多个接口异常共享旋转接口与12V供电/串行通信路径。",
+              "author_role": "engineer",
+              "source_ref": "SYNTHETIC-LOG:LOG-23"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-003",
+            "spacecraft_type": "literature-derived illustrative spacecraft configuration",
+            "configuration": {
+              "interface_scope": "slip_ring_interface",
+              "configuration_origin": "synthetic scenario assumption"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "slip_ring_interface",
+                  "payload_serial_interface",
+                  "sada_drive_interface",
+                  "star_tracker_interface",
+                  "bus_fpga_io"
+                ],
+                "configuration_notes": [
+                  "Illustrative configuration only; not asserted as the source mission hardware design."
+                ]
+              },
+              {
+                "subsystem": "EPS",
+                "components": [
+                  "bus_power_interface"
+                ],
+                "configuration_notes": [
+                  "Synthetic interface context for task coverage."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "in-orbit operation",
+            "operating_mode": "payload communication",
+            "recent_operations": [
+              "synthetic scenario operation preceding the diagnostic window"
+            ],
+            "environmental_context": [
+              "not supplied by source; held as an explicit scenario assumption"
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, hardware inspection or independent confirmation is provided."
+            ]
+          },
+          "analysis_cutoff": "2026-04-12T09:10:00Z",
+          "knowledge_evidence": [],
+          "historical_cases": [],
+          "history_retrieval": {
+            "status": "BLOCKED",
+            "eligible_hits": 0,
+            "blocked_hits": [
+              {
+                "source_case_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+                "reason": "MISSING_TRUSTED_TIME",
+                "summary_withheld": true
+              }
+            ]
+          }
+        }
+      },
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1"
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "user": {
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "case_id": "SYNTHETIC-EVAL-CASE-002",
+        "task_type": "conflict_reconciliation",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.4",
+              "model_id": "SYNTHETIC-ML-MODEL-017"
+            },
+            "analysis_scope": "COMM / SYNTHETIC-SR-017 / ground rotating-contact qualification disposition",
+            "status": "NORMAL",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-017-NORMAL",
+                "finding_type": "OTHER",
+                "target": "payload_slip_ring",
+                "result": "CONTACT_PATH_NORMAL_ALL_QUALIFICATION_CONDITIONS",
+                "score": 0.89,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-017-HIGH-HUMIDITY"
+                ],
+                "limitations": [
+                  "Synthetic ML output, score and identifiers; no model was executed.",
+                  "ML-E-017-HIGH-HUMIDITY corresponds only to the supplier report summarized in LOG-172; these are one evidence lineage.",
+                  "The synthetic model did not ingest the earlier low-humidity report or the cross-report comparison summary."
+                ]
+              }
+            ],
+            "machine_summary": "合成上游ML依据供应商高湿度测试PASS，判断同一滑环在相关地面资格条件下均正常，并建议用该PASS替代先前FAIL、关闭异常。其输入实际仅覆盖LOG-172所述高湿度测试。",
+            "known_limitations": [
+              "All ML content is synthetic.",
+              "No raw resistance traces or telemetry are supplied to the LLM.",
+              "The ML input contains only the high-humidity supplier report summarized in LOG-172."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-171",
+              "timestamp": "2026-04-14T09:10:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成地面实验室测试摘要：2026-04-14 08:30—09:00 UTC，在空气中相对湿度18%条件下，对序列号SYNTHETIC-SR-017的指定串行接口滑环通道进行旋转接触电阻测试；记录间歇性超出该项目验收限值的读数，报告在该条件下判为FAIL。测试编号SYNTHETIC-TEST-017-LOW，数值、身份、结果及日期全部为合成设定；这不是TVAC或在轨记录。",
+              "author_role": "synthetic-lab-test-analysis",
+              "source_ref": "SYNTHETIC-LOG:LOG-171"
+            },
+            {
+              "log_id": "LOG-172",
+              "timestamp": "2026-04-15T09:40:00Z",
+              "log_type": "ENGINEERING_ANALYSIS",
+              "content": "合成供应商测试摘要：2026-04-15 09:00—09:30 UTC，在空气中相对湿度82%条件下，对同一序列号SYNTHETIC-SR-017的同一指定通道进行旋转接触电阻测试；读数未超过与LOG-171相同的声明验收限值，报告在该条件下判为PASS。测试编号SYNTHETIC-TEST-017-HIGH，对应ML-E-017-HIGH-HUMIDITY。数值、身份、结果及日期全部为合成设定；本记录未包含低湿度复验或全部资格条件的放行结论。",
+              "author_role": "synthetic-supplier-test-analysis",
+              "source_ref": "SYNTHETIC-LOG:LOG-172"
+            },
+            {
+              "log_id": "LOG-173",
+              "timestamp": "2026-04-15T10:30:00Z",
+              "log_type": "REVIEW",
+              "content": "合成报告对应与可比性核验：LOG-171和LOG-172已核对为同一SYNTHETIC-SR-017、同一通道及同一验收限值定义；两报告声明的温度、转速、旋转方向和电负载设定曲线一致。湿度、设施、采集链和先后次序不同；未提供共用测量链的交叉复验、重复性与不确定度核验，也未提供两次测试间完整的搬运、存放及构型变化记录。全部对应及质量信息均为合成设定。",
+              "author_role": "synthetic-test-comparability-review",
+              "source_ref": "SYNTHETIC-LOG:LOG-173"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-GROUND-ARTICLE-017",
+            "spacecraft_type": "illustrative rotating payload contact qualification article",
+            "configuration": {
+              "equipment_scope": "payload_slip_ring",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION",
+              "equipment_serial": "SYNTHETIC-SR-017",
+              "tested_channel_id": "SYNTHETIC-SR-017-SERIAL-CHANNEL",
+              "test_environment": "ground air; not vacuum",
+              "common_acceptance_limit": "same project-defined limit in both reports; absolute value not supplied",
+              "declared_matching_profiles": [
+                "temperature setpoints",
+                "rotation speed",
+                "rotation direction",
+                "electrical load"
+              ],
+              "comparison_limits": [
+                "facility and acquisition chain differ",
+                "test order and inter-test handling not controlled",
+                "common-chain crossover and uncertainty verification missing"
+              ]
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "payload_slip_ring",
+                  "rotating_contact_resistance_measurement_chain",
+                  "payload_slip_ring_contact_resistance_assessment"
+                ],
+                "configuration_notes": [
+                  "All serial numbers, test identities, conditions and matching-profile declarations are synthetic.",
+                  "Current observations concern resistance-test results; no current CRC event, short circuit or in-orbit malfunction is asserted."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_ROTATING_CONTACT_BENCH_QUALIFICATION",
+            "operating_mode": "air_environment_contact_resistance_test_comparison",
+            "recent_operations": [
+              "Synthetic low-humidity laboratory test on 2026-04-14 followed by a high-humidity supplier test on 2026-04-15."
+            ],
+            "environmental_context": [
+              "Synthetic 18% RH and 82% RH tests in air; these humidity tests are not TVAC.",
+              "Reports declare matching temperature, speed, direction and load profiles; actual cross-facility equivalence remains incompletely verified."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "All tests, ML and comparison-quality summaries are synthetic.",
+              "Inter-test handling and configuration history are incomplete; no assumption of unchanged internal state is made.",
+              "No current rework, lubrication, flight action or accepted qualification release is recorded.",
+              "No raw resistance traces are supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-15T12:00:00Z",
+          "history_retrieval": {
+            "status": "NO_HIT",
+            "eligible_hits": 0,
+            "blocked_hits": []
+          }
+        }
+      },
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7"
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "user": {
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "case_id": "SYNTHETIC-EVAL-CASE-003",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "COMM / payload_slip_ring",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-005",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "payload_slip_ring",
+                "result": "ROTARY_CONTACT_INTERMITTENT_CRC",
+                "score": 0.68,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-005"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for literature-derived L1 task coverage.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-51",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：载荷串行链路出现间歇性CRC错误。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-51"
+            },
+            {
+              "log_id": "LOG-52",
+              "timestamp": "2026-04-12T08:17:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：链路错误率在特定旋转状态下升高。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-52"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-005",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "payload_slip_ring",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "COMM",
+                "components": [
+                  "payload_slip_ring",
+                  "payload_serial_communication_link"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "IN_ORBIT_PAYLOAD_OPERATION",
+            "operating_mode": "payload_communication",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z",
+          "history_retrieval": {
+            "status": "NO_HIT",
+            "eligible_hits": 0,
+            "blocked_hits": []
+          }
+        }
+      },
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4"
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "user": {
+        "data_classification": "LITERATURE_DERIVED_SYNTHETIC_NOT_REAL_RECORD",
+        "case_id": "SYNTHETIC-EVAL-CASE-004",
+        "task_type": "diagnostic_synthesis",
+        "instruction": "请结合上游机器诊断结果、诊断日志、航天器/试验构型、任务工况和文献证据，形成现象分析、原因定位、证据评价、不确定性和处置状态。严格区分历史来源事实与当前合成场景，不得将文献处置措施写成当前事件的已执行动作。",
+        "input": {
+          "machine_diagnosis": {
+            "producer": {
+              "method": "SYNTHETIC_SCENARIO_UPSTREAM_ML",
+              "version": "DGSI-LITERATURE-RECIPE-0.1.1",
+              "model_id": "SYNTHETIC-ML-MODEL"
+            },
+            "analysis_scope": "PROP / 22N_hydrazine_thruster_propellant_valve_and_injector",
+            "status": "FAULT_CANDIDATE",
+            "findings": [
+              {
+                "finding_id": "ML-FINDING-009",
+                "finding_type": "ROOT_CAUSE_CANDIDATE",
+                "target": "propellant_valve_seat_and_injector",
+                "result": "TEFLON_VALVE_SEAT_FRAGMENT_INJECTOR_BLOCKAGE_CANDIDATE",
+                "score": 0.84,
+                "score_semantics": "synthetic scenario ranking score; not a calibrated probability",
+                "supporting_evidence_ids": [
+                  "ML-E-009"
+                ],
+                "limitations": [
+                  "Synthetic scenario output, not an actual upstream model run.",
+                  "Candidate only; no independent confirmation."
+                ]
+              }
+            ],
+            "machine_summary": "Synthetic upstream ML candidate for a post-heater valve/injector blockage episode; it does not explain the earlier catalyst-bed washout.",
+            "known_limitations": [
+              "Raw telemetry is not supplied to the LLM.",
+              "All ML findings and scores are synthetic."
+            ]
+          },
+          "diagnostic_logs": [
+            {
+              "log_id": "LOG-91",
+              "timestamp": "2026-04-12T08:10:00Z",
+              "log_type": "OPERATOR_NOTE",
+              "content": "合成场景：在此前长时试验后，使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-91"
+            },
+            {
+              "log_id": "LOG-92",
+              "timestamp": "2026-04-12T08:11:00Z",
+              "log_type": "EVENT",
+              "content": "合成场景：推进剂阀出现异常压力事件并发生爆裂，随后推进剂流量显著下降。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-92"
+            },
+            {
+              "log_id": "LOG-93",
+              "timestamp": "2026-04-12T08:12:00Z",
+              "log_type": "ALARM",
+              "content": "合成场景：喷注器供给通道流量接近中断，试验系统触发终止条件。",
+              "author_role": "synthetic-scenario-generator",
+              "source_ref": "SYNTHETIC-LOG:LOG-93"
+            }
+          ],
+          "spacecraft_context": {
+            "spacecraft_id": "SYNTHETIC-SC-009",
+            "spacecraft_type": "literature-derived illustrative configuration",
+            "configuration": {
+              "equipment_scope": "22N_hydrazine_thruster_injector",
+              "configuration_origin": "SYNTHETIC_ASSUMPTION"
+            },
+            "subsystem_context": [
+              {
+                "subsystem": "PROP",
+                "components": [
+                  "22N_hydrazine_thruster_injector",
+                  "propellant_injector_tube",
+                  "propellant_feed_path"
+                ],
+                "configuration_notes": [
+                  "Illustrative hardware context, not asserted as the source mission's exact configuration."
+                ]
+              }
+            ]
+          },
+          "operational_context": {
+            "mission_phase": "GROUND_LIFE_TEST",
+            "operating_mode": "22N_hydrazine_thruster_hot_fire",
+            "recent_operations": [
+              "Synthetic scenario sequence only."
+            ],
+            "environmental_context": [
+              "No source-backed environment detail is added."
+            ],
+            "maintenance_history": [],
+            "known_constraints": [
+              "No raw telemetry, independent inspection or real operation logs supplied."
+            ]
+          },
+          "historical_cases": [],
+          "knowledge_evidence": [],
+          "raw_telemetry_included": false,
+          "telemetry_reference": null,
+          "analysis_cutoff": "2026-04-12T09:10:00Z",
+          "history_retrieval": {
+            "status": "NO_HIT",
+            "eligible_hits": 0,
+            "blocked_hits": []
+          }
+        }
+      },
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3"
+    }
+  ]
+}

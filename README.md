@@ -1,6 +1,8 @@
 # Domain-Grounded Self-Instruct
 
-## Reproduce the v0.2.0 development delivery
+## Reproduce the development delivery
+
+The **v0.2.1** toolkit adds optional bounded instruction evolution and selection through `prepare --recipe select`. See [the refinement guide](skills/dgsi-simulation-to-sft/references/INSTRUCTION_REFINEMENT.md) and [the frozen forward comparison](docs/DGSI_METHOD_REFINEMENT_2026-11-19.md). The v0.2.0 baseline and its original comparison remain available unchanged.
 
 [中文复现与复用说明](skills/dgsi-simulation-to-sft/references/CLOSEOUT_QUICKSTART.md) · [Closeout evidence](docs/DGSI_CLOSEOUT_RESULTS_2026-11-19.md)
 
@@ -33,7 +35,7 @@ Raw telemetry remains in the upstream ML pipeline. DGSI may retain restricted ar
 
 ## P5-C2 current engineering candidate
 
-The reusable toolkit remains **0.2.0-rc.4**. The current review candidate contains **21 literature-derived synthetic tasks, 9 source event families, 12 bound L0 fact cards and 7 primary source ID groups**. Six additions cover two conflict-reconciliation situations and four explicit justified-abstention situations using existing task types and instructions. The corrected original 15 packets and matching L0 bytes are unchanged. Cassini chronology has three separately listed corroborating sources. These counts describe coverage, not statistically independent incidents. Independent expert adjudications, rights-cleared publications, official dataset splits and authorized SFT rows remain **zero**; training is not authorized.
+The historical **0.2.0-rc.4** review candidate contains **21 literature-derived synthetic tasks, 9 source event families, 12 bound L0 fact cards and 7 primary source ID groups**. Six additions cover two conflict-reconciliation situations and four explicit justified-abstention situations using existing task types and instructions. The corrected original 15 packets and matching L0 bytes are unchanged. Cassini chronology has three separately listed corroborating sources. These counts describe coverage, not statistically independent incidents. Independent expert adjudications, rights-cleared publications, official dataset splits and authorized SFT rows remain **zero**; training is not authorized.
 
 - Start with the [21-task content report and commands](docs/P5C2_COVERAGE_TASKS_2026-11-18.md). The packaged [operator quick start](skills/dgsi-simulation-to-sft/references/OPERATOR_QUICKSTART.md) retains the prior 15-task worked example; the same RC4 commands accept the new external cohort.
 - The [returned preliminary-review response](docs/P5C2_AI_PRE_REVIEW_RESPONSE_2026-11-18.md) reconciles the original 15-task AI advice against the current full inputs and records the seven-source rights research. It preserves the current candidate and pending admission states; proposed AI scores are not expert submissions.

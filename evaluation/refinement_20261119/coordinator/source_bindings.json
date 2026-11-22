@@ -1,0 +1,291 @@
+{
+  "not_for_sft": true,
+  "bindings": [
+    {
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "source_packet_sha256": "a8f3872b94a6ff782680d1d142c32ce146d8f393af3610f52630ce13ce7bd0c4",
+      "source_fact_refs": [
+        "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+      ],
+      "event_family": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "document_clusters": [
+        "DOC-CLUSTER-03"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Derive a bounded diagnostic scenario from one public L0 fact card; synthesize only the ML finding, event-log sequence, illustrative configuration and mission context needed for the task. Preserve the source's certainty and do not reproduce real flight records. The task-type variant changes the requested diagnostic operation while preserving the same source-family boundary and synthetic input provenance.",
+        "recipe_version": "dgsi-literature-recipe-0.1.3",
+        "source_fact_refs": [
+          "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+            ],
+            "assumption": "Synthetic upstream candidate and score; not an actual model run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+            ],
+            "assumption": "Synthetic event sequence and timestamps are scenario constructs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+            ],
+            "assumption": "Hardware/interface configuration is illustrative, not source-mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-PATHFINDER-CROSSSHORT-004"
+            ],
+            "assumption": "Mission phase and operating mode are scenario constructs."
+          },
+          {
+            "field_path": "case.input.historical_cases",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "SYNTHETIC-HISTORY-REVIEW-REF-001"
+            ],
+            "assumption": "A prior rejected-history context is synthetic and used to test non-promotion behavior."
+          }
+        ],
+        "scenario_assumptions": [
+          "All ML findings, scores, log IDs, timestamps, spacecraft IDs and operational details are synthetic scenario values.",
+          "The scenario is designed to test secondary diagnostic synthesis, not raw telemetry detection."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms or samples",
+          "Actual flight-computer or ground-station logs",
+          "An actual upstream ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "not_for_sft": true
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "source_packet_sha256": "1e14342290e190d659a130cc78543ec80cf46ee3b0a7f97d438e3a2e88645cfe",
+      "source_fact_refs": [
+        "LIT-TROPICS-SLIPRING-TVAC-002"
+      ],
+      "event_family": "TROPICS-SLIPRING-QUALIFICATION",
+      "document_clusters": [
+        "DOC-CLUSTER-03"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Construct a new current-evidence comparison grounded in one existing public L0 event family. Synthesize the ML result, independent processed logs, comparison-quality summaries, identifiers, timing and configuration; reconcile scoped current claims without treating historical facts as current diagnostic evidence.",
+        "recipe_version": "dgsi-literature-recipe-0.1.4",
+        "source_fact_refs": [
+          "LIT-TROPICS-SLIPRING-TVAC-002"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "All ML labels, ranking scores, model and finding IDs, evidence aliases, input scope and run IDs are synthetic; no ML execution occurred."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "Every current observation, test outcome, independent comparison, quality-check result, measurement tolerance, timestamp and author/source label is synthetic; these are processed scenario summaries, not actual mission or test records."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "Current spacecraft, equipment and configuration identifiers and all comparison scopes are illustrative scenario assumptions, not the source mission hardware."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-SLIPRING-TVAC-002"
+            ],
+            "assumption": "The operating phase, environmental conditions, comparison windows, test sequence and stated missing checks are synthetic scenario inputs."
+          }
+        ],
+        "scenario_assumptions": [
+          "All current observations, ML findings, scores, quality assessments, numbers, dates and identities are explicitly synthetic; only the separately marked literature passage is historical source information.",
+          "Independent means independent measurement paths or reports within the synthetic scenario, not independently performed physical measurements in this project.",
+          "Historical/source evidence is context only; it does not support or contradict a current physical root cause.",
+          "The 18% and 82% relative humidity values, same serial/channel checks and matched-profile declarations are new synthetic assumptions, not values or complete equivalence established by the historical source."
+        ],
+        "not_simulated": [
+          "Raw telemetry, waveform samples or resistance traces",
+          "Actual upstream ML execution",
+          "Actual spacecraft, receiver or laboratory operation logs",
+          "Physical inspection, completed repair or verified recovery"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "not_for_sft": true
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "source_packet_sha256": "c64ad2b261fb808638a0bbd7e30ac3728c500cfda4c802f27b1f56dba49be1a2",
+      "source_fact_refs": [
+        "LIT-TROPICS-FLIGHT-CRC-003-A"
+      ],
+      "event_family": "TROPICS-SLIPRING-FLIGHT-2023",
+      "document_clusters": [
+        "DOC-CLUSTER-03"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-TROPICS-FLIGHT-CRC-003-A"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-TROPICS-FLIGHT-CRC-003-A"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "not_for_sft": true
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "source_packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+      "source_fact_refs": [
+        "LIT-NASA-HYDRAZINE-INJECTOR-009"
+      ],
+      "event_family": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "document_clusters": [
+        "DOC-CLUSTER-06"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Build a bounded diagnostic synthesis task from one public L0 source fact card; synthesize only the upstream ML candidate, diagnostic log sequence, illustrative equipment configuration and operational context needed for a second-stage diagnosis task.",
+        "recipe_version": "dgsi-literature-recipe-0.1.1",
+        "source_fact_refs": [
+          "LIT-NASA-HYDRAZINE-INJECTOR-009"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run identifier; not an actual ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Synthetic log content, sequence and timestamps; not source flight/test logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Illustrative hardware configuration, not the exact source mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-NASA-HYDRAZINE-INJECTOR-009"
+            ],
+            "assumption": "Mission phase and operating mode are scenario values."
+          }
+        ],
+        "scenario_assumptions": [
+          "All run IDs, scores, timestamps, log IDs, spacecraft identifiers, configuration and operating details are synthetic scenario values.",
+          "No raw telemetry or actual upstream ML execution is represented."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms",
+          "Actual flight-computer or ground-station logs",
+          "Actual ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "not_for_sft": true
+    }
+  ]
+}

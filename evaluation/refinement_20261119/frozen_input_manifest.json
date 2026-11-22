@@ -1,0 +1,71 @@
+{
+  "schema_version": "dgsi-frozen-forward-inputs.v1",
+  "frozen_at_utc": "2026-11-19T16:10:50.345170+00:00",
+  "not_for_sft": true,
+  "files": [
+    {
+      "path": "coordinator/l1_binding_manifest.json",
+      "sha256": "a45ba63a14bced36bc21cbbc35f2769cafa1abcf050137943abee3a8891b03c9"
+    },
+    {
+      "path": "coordinator/original_score_audit.json",
+      "sha256": "bebf9ed8960484fb162ff98a996307b75a523017f157c9ff76fcbba4d9f9a023"
+    },
+    {
+      "path": "coordinator/source_bindings.json",
+      "sha256": "508b75b2f9f48ac946172793b61ce73f75324fce2df837ca3a56facf94efcc3c"
+    },
+    {
+      "path": "coordinator/source_selection.json",
+      "sha256": "5db7ed01d03fb9fff137125277418c639765b3b2332eeef0b84822ab1d6254fd"
+    },
+    {
+      "path": "fixtures/l0_source_facts.json",
+      "sha256": "da3f7922c0c66a1891ca30cb3f2c6feb685e3c6544b89a7c64942cd5d269aa0d"
+    },
+    {
+      "path": "fixtures/l1_collection.json",
+      "sha256": "efdf586232dc89e43fa8d156acbd4fe1bac4133fb3bbfb3b55b7cceaf7f2b82b"
+    },
+    {
+      "path": "prompts/M1.json",
+      "sha256": "51ac9ddaad0910c19bcf11faa146b62b69bf256940d833115b2862d726d2db6b"
+    },
+    {
+      "path": "prompts/M3.json",
+      "sha256": "e31dd5694b84826a2ed730719e444644e7e5caf7ca3538beeb67e4dbcfed6771"
+    },
+    {
+      "path": "prompts/M4.json",
+      "sha256": "cb3fd18ab7d2638790f8873ca0477e990b13268002c304421e1f555b6f8afd96"
+    },
+    {
+      "path": "prompts/M5.json",
+      "sha256": "6b63bef652df2c8dea193a56eecab05fef2a9de6b82c3f79ba09a53d0f21ac4d"
+    },
+    {
+      "path": "prompts/M6.json",
+      "sha256": "2cf7752e30ffa3046bc54a8ffdef2cc3307ff08b1485123682c27a9170c4d3d9"
+    },
+    {
+      "path": "prompts/M7.json",
+      "sha256": "bc0b777f6293d16cbd4258a27a72115f594952d023e8fccf02bb5a7f4df09e12"
+    },
+    {
+      "path": "protocol.json",
+      "sha256": "62de8743c813a3d18470c59c64edfd5e537dc535c89c31a94fa60298840441ff"
+    },
+    {
+      "path": "review_prompt.json",
+      "sha256": "6a3c8625fefea622be6c5d2d9acd243f4bbf5b6a097a5aabc3b04bf05f198f1c"
+    },
+    {
+      "path": "shared_cases.json",
+      "sha256": "ffde05d3b02b3f329f4dad29320e6a68a75a3d935c0264331bf2afaf4a650b5f"
+    },
+    {
+      "path": "target_schema.json",
+      "sha256": "4710df4e9fcbf7d42fcbf3f12ea6f80ce44135c8acae009e3aee1436112243c2"
+    }
+  ]
+}

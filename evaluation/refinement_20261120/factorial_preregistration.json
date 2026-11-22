@@ -1,0 +1,87 @@
+{
+  "schema_version": "dgsi-instruction-2x2-preregistration.v1",
+  "status": "PREREGISTERED_DESIGN_ONLY_NOT_RUN",
+  "classification": "COORDINATOR_ANALYSIS_NOT_FOR_SFT",
+  "policy": "same_strengthened_DGSI_evidence_scope_policy_all_arms",
+  "arms": [
+    {
+      "id": "A",
+      "evolution": false,
+      "selection": false,
+      "role": "same_policy_control"
+    },
+    {
+      "id": "B",
+      "evolution": false,
+      "selection": true,
+      "role": "selection_only_ablation"
+    },
+    {
+      "id": "C",
+      "evolution": true,
+      "selection": false,
+      "role": "evolution_only_ablation"
+    },
+    {
+      "id": "D",
+      "evolution": true,
+      "selection": true,
+      "role": "combined_optional_strategy"
+    }
+  ],
+  "holdout": {
+    "same_case_manifest_all_arms": true,
+    "freeze_case_ids_source_document_clusters_input_hashes_before_generation": true,
+    "require_new_untouched_source_document_clusters": true,
+    "prior_2026_11_19_four_case_bundle_eligible": false,
+    "p5c17_existing_six_model_visible_clusters_eligible": false,
+    "p5c18_public_source_leads_eligible": false,
+    "excluded_development_exposure": [
+      "REV1 six model-visible source clusters C01-C06 documented in PR #183",
+      "SAMPEX NTRS 20080039634, TOMS-EP NTRS 20000033274, Voyager 2 LLIS 284, CloudSat NTRS 20170008193 source leads documented in PR #184"
+    ],
+    "eligibility_gate": [
+      "source-document rights and reuse scope verified",
+      "source publication/event-family independence checked against all development and retrieval exposures",
+      "full source facts and exact input hash frozen before arm generation",
+      "holdout identity and reference answers escrowed from prompt authors and generators",
+      "same manifest and bytes supplied to all four arms"
+    ],
+    "if_insufficient_independent_clusters": "DO_NOT_RUN"
+  },
+  "controls": {
+    "same_visible_input_and_target_schema": true,
+    "same_policy_all_arms": true,
+    "evolution_may_change_only_instruction": true,
+    "selection_candidate_count": 3,
+    "one_formal_target_per_case": true,
+    "blinded_independent_reviewers": 2,
+    "retries": 0,
+    "regeneration": 0,
+    "posthoc_repairs": 0,
+    "telemetry": "RECORD_IF_AVAILABLE_ELSE_NOT_MEASURED"
+  },
+  "metrics": [
+    "rubric_dimension_scores",
+    "total_score",
+    "paired_reviewer_decisions",
+    "reviewer_disagreements",
+    "critical_failure_count_and_type",
+    "invalid_candidate_count",
+    "selected_candidate_id",
+    "token_compute_telemetry_or_NOT_MEASURED",
+    "case_weighted_mean",
+    "source_cluster_weighted_mean"
+  ],
+  "contrasts": {
+    "evolution_main_effect": "mean(C,D)-mean(A,B)",
+    "selection_main_effect": "mean(B,D)-mean(A,C)",
+    "interaction": "(D-C)-(B-A)"
+  },
+  "stopping_rule": "one_preregistered_round_stop_regardless_of_ranking",
+  "training_authorized": false,
+  "gold_eligible": false,
+  "official_splits_assigned": false,
+  "model_calls_authorized": false,
+  "run_started": false
+}
