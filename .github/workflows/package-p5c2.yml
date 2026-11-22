@@ -10,6 +10,7 @@ on:
       - main
       - feat/p5c2-integrated-completion-20261117
       - feat/p5c2-current-expert-intake-main-20261118
+      - feat/dgsi-evolve-select-20261119
 
 permissions:
   contents: read
@@ -29,6 +30,7 @@ jobs:
           PYTHONPATH: src
         run: |
           python -m unittest discover -s tests -p "test_portable_toolkit_package_build.py" -v
+          python -m unittest discover -s tests -p "test_instruction_design.py" -v
           python -m unittest discover -s tests -p "test_l1_c2_complete_review_kit.py" -v
           python -m unittest discover -s tests -p "test_l1_c2_source_rights_queue.py" -v
           python -m unittest discover -s tests -p "test_l1_c2_current_rights_preflight.py" -v

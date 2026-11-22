@@ -1,0 +1,331 @@
+{
+  "schema_version": "dgsi-source-fact-card-collection.v1",
+  "review_basis": "DGSI_word2_文献迁移审校与批注版.docx; DGSI_两份Word审核总意见.md; 2026-11-18 primary-source passage and exact-model-input content review; see p5c2_content_correction_review_2026-11-18.json",
+  "review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+  "event_family_policy": "TROPICS payload outcomes are separate episodes under one shared event family.",
+  "publication_metadata_policy": "publication_year and ntrs_accession_year are separate; exact publication_date remains null when not verified.",
+  "cards": [
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-SLIPRING-TVAC-002",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-SLIPRING-QUALIFICATION",
+      "event_episode_id": "TROPICS-FIRST-FLIGHT-PAYLOAD-TVAC",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, printed pp.4–5 (PDF pages 4–5)",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, printed pp.4–5 (PDF pages 4–5)"
+      },
+      "phenomenon_analysis": "首个飞行载荷在热真空校准期间出现UART CRC错误；线束走线调整后问题仍存在，旋转状态下接触电阻在不同湿度环境中差异明显。",
+      "cause_localization": {
+        "source_statement": "调查认为间断可能发生在滑环，讨论了stick-slip及接触电阻波动。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "TROPICS载荷滑环旋转接触界面",
+        "affected_components": [
+          "载荷UART串行通信链路"
+        ],
+        "mechanism_notes": [
+          "stick-slip为可能机制，不等于已确认的碎屑短路。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": "本卡对应首个飞行载荷TVAC期间的地面资格试验事件。来源随后另行描述对飞行载荷滑环开展的项目级筛选与返工流程；未明确说明该流程逐项作为首个受影响载荷的单机处置执行。此处保留为后续项目级措施，不等同于该episode的单机恢复记录。",
+      "disposal_measures": [
+        "后续项目级飞行载荷滑环筛选与返工流程：选择并润滑合适的电刷与轴件；跑合并在温度范围内监测电阻；拆检碎屑，必要时清洁并重新装配；复测合格后用于飞行载荷。论文称返工后六台飞行载荷在载荷与飞行器测试中未再检测到CRC错误。"
+      ],
+      "migration_assessment": {
+        "tier": "DIAGNOSTIC_METHOD_ONLY",
+        "rationale": "仅迁移接触可靠性与地面资格测试诊断方法。",
+        "constraints": [
+          "不得迁移地面重工、润滑和清洁动作作为在轨处置。",
+          "CRC接触间断与SADA功率短路不是同一现象。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "线束调整未消除CRC，不能写为最终原因。",
+          "湿度和stick-slip解释保留可能性边界。",
+          "请确认是否将后续针对六台飞行载荷的项目级筛选/返工流程保留为关联纠正措施，而不作为首个TVAC受影响载荷的单机处置记录。"
+        ],
+        "quality_flags": [
+          "GROUND_QUALIFICATION_EVENT",
+          "NOT_FLIGHT_FAILURE",
+          "LIKELY_SLIPRING_DISCONTINUITY"
+        ],
+        "curator_prompts": [
+          "地面TVAC/资格试验。CRC接触间断与SADA功率短路不是同一现象；可借鉴鉴别方法，不可迁移为在轨恢复操作。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-FLIGHT-CRC-003-A",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-SLIPRING-FLIGHT-2023",
+      "event_episode_id": "TROPICS-FLIGHT-PAYLOAD-A",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, printed p.5 (PDF page 5)"
+      },
+      "phenomenon_analysis": "2023年7月，TROPICS其中一台载荷出现CRC错误；通过反向旋转载荷获得成功缓解并继续工作。",
+      "cause_localization": {
+        "source_statement": "论文将CRC错误与前述滑环问题联系，但该飞行单元的具体失效机理未完全解决。",
+        "certainty_in_source": "EXPLICIT_CANDIDATE",
+        "fault_source": "TROPICS载荷滑环/旋转接触界面（候选）",
+        "affected_components": [
+          "该载荷串行通信链路"
+        ],
+        "mechanism_notes": [
+          "反向旋转是该台载荷的历史缓解结果，不是根因确证。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": null,
+      "disposal_measures": [
+        "该台载荷通过反向旋转获得缓解并继续工作。"
+      ],
+      "migration_assessment": {
+        "tier": "SPECIFIC_UNIT_ONLY",
+        "rationale": "仅限该台载荷的在轨运控经验。",
+        "constraints": [
+          "与另一台载荷拆分为独立episode。",
+          "反向旋转不能作为SADA或其他卫星通用操作。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "该缓解结果不能单独确认stick-slip或碎屑为根因。"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_OPERATION",
+          "UNIT_A_RECOVERED_AFTER_REVERSE_ROTATION",
+          "ROOT_CAUSE_NOT_FULLY_RESOLVED"
+        ],
+        "curator_prompts": [
+          "单台载荷反向旋转有效，另一台失效。应分别保存事件与效果；处置状态宜为来源已记载措施。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+      "source_class": "PUBLIC_FLIGHT_REPORT",
+      "event_status": "FLIGHT_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "TROPICS-PATHFINDER-SLIPRING-2023",
+      "event_episode_id": "TROPICS-PATHFINDER-SPACECRAFT",
+      "source_reference": {
+        "source_id": "MITLL-TROPICS-LESSONS-2025",
+        "source_locator": "NASA NTRS 20240011771, Section 6, printed p.5 (PDF page 5)",
+        "source_title": "Lessons Learned from the NASA TROPICS CubeSat Constellation Mission",
+        "publication_date": null,
+        "publication_year": 2025,
+        "ntrs_accession_year": null,
+        "publication_metadata_note": null,
+        "source_url": "https://ntrs.nasa.gov/api/citations/20240011771/downloads/IEEEAero_TROPICS_2025_for_approval.pdf",
+        "page_or_section": "Section 6, printed p.5 (PDF page 5)"
+      },
+      "phenomenon_analysis": "Pathfinder在轨运行两年多后先出现少量CRC错误；数周后异常导致SADA驱动、星敏感器和载荷出现功能异常。",
+      "cause_localization": {
+        "source_statement": "作者认为滑环碎屑造成12V母线与串行线短接，比三个独立破坏性SEL事件同时发生更可能。",
+        "certainty_in_source": "EXPLICIT_MOST_LIKELY",
+        "fault_source": "滑环碎屑可能引起12V母线与串行通信线之间跨网短接",
+        "affected_components": [
+          "载荷接口（来源记录功能异常）",
+          "星敏感器接口（来源记录功能异常）",
+          "SADA驱动接口（来源记录功能异常）"
+        ],
+        "mechanism_notes": [
+          "跨网短接是作者比较后提出的较可能解释，尚非直接物证确诊。",
+          "在该假设下，电压瞬变可能损伤载荷LVDS接收器及总线FPGA I/O bank；这是条件性损伤路径，不应写成已独立检查确认的损伤。",
+          "故障源候选为滑环跨网短接；接口功能异常与可能的次生损伤应分别记录。"
+        ]
+      },
+      "disposal_status": "NOT_RECORDED",
+      "disposal_source_note": null,
+      "disposal_measures": [],
+      "migration_assessment": {
+        "tier": "COMMON_CAUSE_ANALYSIS",
+        "rationale": "条件迁移：用于跨分系统共因分析，不回填为用户SADA确诊根因。",
+        "constraints": [
+          "须核对电路拓扑、极性及时间共因关系。",
+          "不能把所有受影响部件写成故障源。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "是否有拆解/碎屑检查或电气短接直接证据？"
+        ],
+        "quality_flags": [
+          "REAL_FLIGHT_ANOMALY",
+          "COMMON_CAUSE_HYPOTHESIS",
+          "AUTHOR_SAYS_MORE_LIKELY_NOT_CERTAIN"
+        ],
+        "curator_prompts": [
+          "12V母线与串行线短接是作者最可能解释，须加可能性限定；可迁移共同原因分析，不可回填为其他SADA确认根因。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    },
+    {
+      "schema_version": "dgsi-source-fact-card.v1",
+      "case_id": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+      "source_class": "PUBLIC_GROUND_TEST_REPORT",
+      "event_status": "GROUND_TEST_EVENT",
+      "knowledge_source_not_event": false,
+      "event_family_id": "NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "event_episode_id": "NASA-22N-INJECTOR-PLUGGING",
+      "source_reference": {
+        "source_id": "NASA-TM-100232",
+        "source_locator": "NASA-TM-100232, report pp.3–5 (PDF pp.4–6), especially Post-Test Disassembly and Analysis and Concluding Remarks; Fig.8 on report p.10 (PDF p.11).",
+        "source_title": "A Life Test of a 22-Newton (5-lbf) Hydrazine Rocket",
+        "publication_date": null,
+        "publication_year": 1987,
+        "ntrs_accession_year": 1988,
+        "publication_metadata_note": "报告年份为1987；NTRS accession identifier对应1988年编目。",
+        "source_url": "https://ntrs.nasa.gov/api/citations/19880002368/downloads/19880002368.pdf",
+        "page_or_section": "报告pp.3–5（PDF pp.4–6）；Fig.8：报告p.10（PDF p.11）"
+      },
+      "phenomenon_analysis": "在NASA Lewis地面寿命试验中，尝试用热灯在真空下烘除潜在催化床污染物时，推进剂阀内残余肼发生自分解，阀门猛烈爆裂；阀座的一部分Teflon材料被射入推进剂喷注器，导致喷注管/燃料供给通道堵塞，试验无法继续。",
+      "cause_localization": {
+        "source_statement": "报告记载，热灯加热使推进剂阀内残余肼自分解，阀门猛烈爆裂，部分Teflon阀座材料被强行射入推进剂喷注器并造成堵塞；拆检发现Teflon材料挤入喷注器小孔并进入分散元件后的燃料供给槽。",
+        "certainty_in_source": "EXPLICIT_CONFIRMED",
+        "fault_source": "推进剂阀Teflon阀座材料在阀内残余肼自分解导致阀门爆裂后被射入喷注器",
+        "affected_components": [
+          "推进剂喷注器小孔",
+          "喷注器分散元件后的燃料供给槽",
+          "推进剂供给通路"
+        ],
+        "mechanism_notes": [
+          "直接堵塞物为阀座Teflon材料；热灯加热导致阀内残余肼自分解和阀门爆裂，是材料进入喷注器的触发链。",
+          "该堵塞是后期热灯烘烤操作引发的独立故障episode；不得将此前长时稳态试验期间的催化床washout/压力振荡归为喷注管堵塞的同一根因。"
+        ]
+      },
+      "disposal_status": "SOURCE_RECORDS_MEASURE",
+      "disposal_source_note": "历史地面试验中的恢复尝试未成功；不是当前合成场景已执行的动作，也不是在轨恢复措施。",
+      "disposal_measures": [
+        "更换爆裂的推进剂阀后仍无法点火；尝试疏通喷注器未成功，后续寿命试验终止并送回拆检。"
+      ],
+      "migration_assessment": {
+        "tier": "NOT_DIRECTLY_TRANSFERABLE",
+        "rationale": "不适合迁移为用户2#推力器直接根因；保留为特定地面试验堵塞反例。",
+        "constraints": [
+          "不得将试验终止写成在轨恢复措施。",
+          "需比较阀门、喷注器结构及推进剂供给路径。"
+        ]
+      },
+      "available_materials": {
+        "upstream_ml_result": false,
+        "diagnostic_logs": false,
+        "spacecraft_context": false,
+        "operational_context": false,
+        "historical_cases": false,
+        "expert_adjudicated_target": false
+      },
+      "missing_materials": [
+        "upstream_ml_result",
+        "diagnostic_logs",
+        "spacecraft_context",
+        "operational_context",
+        "historical_cases",
+        "expert_adjudicated_target"
+      ],
+      "internal_review": {
+        "not_for_sft": true,
+        "reviewer_questions": [
+          "是否清楚区分阀门爆裂与Teflon阀座材料堵塞之间的因果顺序？",
+          "是否将此前催化床washout/压力振荡错误并入喷注管堵塞根因？"
+        ],
+        "quality_flags": [
+          "GROUND_LIFE_TEST",
+          "VALVE_AUTODECOMPOSITION_AND_BURST",
+          "TEFLON_SEAT_EJECTED_INTO_INJECTOR",
+          "DISTINCT_FROM_CATALYST_WASHOUT"
+        ],
+        "curator_prompts": [
+          "热灯烘烤导致阀内残余肼自分解，随后阀门爆裂，Teflon阀座材料进入喷注器。根因链必须按顺序表达。",
+          "前期催化床washout/压力振荡与后期喷注器堵塞是不同episode，不能混成一个故障原因。"
+        ]
+      },
+      "sft_eligible": false,
+      "domain_review_status": "AI_ASSISTED_REVIEW_PENDING_DOMAIN_EXPERT_CONFIRMATION",
+      "domain_review_evidence_sha256": null
+    }
+  ]
+}

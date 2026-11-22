@@ -1,0 +1,114 @@
+# DGSI 2x2 component experiment preregistration
+
+**Status:** PREREGISTERED_DESIGN_ONLY / NOT_RUN  
+**Classification:** coordinator-only; `not_for_sft=true`  
+**Depends on:** PR #187 attribution audit and PR #186 bounded refinement implementation.
+
+## Question
+
+Under one fixed DGSI evidence/scope policy, what are the separate and combined effects of (a) instruction evolution and (b) three-candidate instruction selection?
+
+This design does not claim that the current four-case comparison answers that question. In the current run M4 uses the original policy while M5/M6/M7 use strengthened scope/evidence policy; M5/M6/M7 therefore are practical ablations, not a clean factorial.
+
+## Frozen 2x2 arms
+
+| Arm | Evolution | Three-choice selection | Role |
+|---|---:|---:|---|
+| A | off | off | same-policy DGSI control |
+| B | off | on | selection-only ablation |
+| C | on | off | evolution-only ablation |
+| D | on | on | combined optional strategy |
+
+The two ablations are B and C. D is the combined strategy. Existing CLI recipes remain optional; `baseline` remains the default.
+
+## Holdout and leakage rule
+
+All four arms must use exactly the same case IDs, source-document-cluster membership, visible input bytes, target schema and case order. The case manifest and byte hashes are frozen before generation.
+
+Use new, untouched source-document clusters for this preregistered run. The four cases from the 2026-11-19 comparison and their connected source documents are development-only and are ineligible for this confirmatory run. They may be replayed descriptively, but must not be relabelled as fresh holdout.
+
+No case may be added, removed, replaced, reweighted or reclassified after any generation or review begins. If sufficient independent clusters cannot be sourced, status remains NOT_RUN; do not substitute familiar cases to fill the quota.
+
+## Controls held constant
+
+- Same strengthened DGSI evidence/scope policy in all four arms.
+- Same model family/configuration and fixed generation budget per case, as far as the host environment allows; record actual token/compute telemetry when available. If unavailable, state NOT_MEASURED rather than claiming equal compute.
+- Same source facts, ML-result fields, logs, mission context, history context, target schema and prompt-visible evidence.
+- Evolution may change only the task instruction; it may not add or mutate facts, ML scores, timestamps, logs, equipment configuration, historical records or task type.
+- Selection generates exactly three instruction candidates. Candidate ranking is instruction-only and cannot inspect reference answers, other arms, evaluator outputs or hidden evidence.
+- The no-selection arms generate one instruction. All arms produce exactly one formal target per case.
+- Two independent, method-blind reviewers use the existing frozen rubric. Keep reviewer disagreement; no majority override or score repair.
+- No retries, regeneration, post-hoc editing, candidate dropping, threshold changes or evaluator prompt changes.
+
+## Analysis plan
+
+Report per arm and per case:
+- raw rubric dimensions and total;
+- paired reviewer decisions and disagreements;
+- critical failure count and type;
+- invalid/rejected candidate counts;
+- instruction candidate count and selected candidate ID;
+- token/compute telemetry, or NOT_MEASURED;
+- source-document-cluster weighted mean as well as case-weighted mean.
+
+Report the evolution main effect, selection main effect and interaction contrast descriptively:
+- evolution effect = mean(C,D) - mean(A,B)
+- selection effect = mean(B,D) - mean(A,C)
+- interaction = (D-C) - (B-A)
+
+Do not infer statistical significance unless the prespecified sample size and analysis support it. Do not select a winner by mean score alone if a critical failure occurs. Publish all four arms, all cases, all disagreements and all failures, including zero/negative gains.
+
+## Stop rule
+
+Run one preregistered round and stop regardless of ranking. Do not tune prompts or thresholds on these results. Any later iteration requires a new preregistration and new untouched source-document clusters.
+
+## Current evidence boundary
+
+The existing four-case results remain unchanged: M4 19.750/20 (3/4 paired accepts), M5 19.875 (3/4), M6 20.000 (4/4), M7 19.625 (2/4). All M6/M7 selections chose I1, so selector-specific benefit was not demonstrated. These results are descriptive GPT advisory scores on visible synthetic development material, not human expert clearance, statistical superiority, real-flight transfer or downstream SFT gain.
+
+**No new generation, model calls, evaluation changes, training splits, Gold promotion or fine-tuning are authorized by this preregistration.**
+
+
+## Pre-generation manifest gate
+
+Before any authorized run, prepare a manifest conforming to `dgsi-2x2-run-manifest.v1` and validate it offline:
+
+```bash
+python evaluation/refinement_20261120/validate_factorial_manifest.py path/to/run-manifest.json
+```
+
+The validator requires the four exact arms, identical opaque case IDs and input/schema hashes in every arm, one shared policy hash, three candidates only in selection-enabled arms, at least two independent source-document clusters, and explicit rights/exposure/escrow/freeze gates. It rejects answer/reference/score fields and previously exposed source clusters. A successful validation means comparability metadata passed only; it does not launch generation or authorize model calls.
+
+**Evidence semantics (important):** the five `holdout_gate` booleans are curator attestations, not machine-verifiable proof of rights, historical non-exposure, source-cluster independence, escrow or freeze. A CI PASS only establishes that the manifest is structurally consistent and that the declared flags are true. Before a real run manifest may be populated, every proposed source cluster must have a reviewable evidence record containing (1) exact primary-source URL and document identifier, (2) source-document checksum and page/section locators, (3) explicit rights basis for the intended derivative dataset use, (4) a scoped exposure audit covering repository/PR history, prior development bundles and retrieval sources, and (5) a written event/source-cluster independence rationale. The reviewer must be able to trace each case's `source_cluster_id` to that record. A bare boolean, a GitHub search miss, or a publicly downloadable PDF is not sufficient evidence.
+
+### Independent custodian intake procedure
+
+The operational checklist and role-separation template are maintained in [`docs/DGSI_HOLDOUT_CUSTODIAN_INTAKE_TEMPLATE.md`](DGSI_HOLDOUT_CUSTODIAN_INTAKE_TEMPLATE.md). It defines independent source custody, rights/exposure review, anonymized generator-visible packets, sealed references, and the release sequence. The template is not a source, does not add a case, and does not authorize execution.
+
+### Machine-enforced source-evidence record
+
+The run manifest must include `source_evidence_records`, exactly one record for every `source_cluster_id` referenced by the frozen cases, with no missing or extra clusters. The fail-closed validator checks these required fields:
+
+- `primary_source_url` (HTTPS), `source_document_id`, `source_document_sha256`, and one or more page/section `source_locators`;
+- `rights_basis`, `rights_scope`, and a `rights_review_ref` identifying the written rights review for the intended derivative use;
+- `exposure_audit_scope` covering repository/PR history, prior development bundles, and connected retrieval/prior conversations, plus an `exposure_audit_ref`;
+- `independence_rationale`, `review_status`, opaque `reviewer_token`, and ISO `reviewed_at`.
+
+The validator rejects missing records, duplicate/unbound clusters, malformed URLs or hashes, incomplete audit scope, and any review status other than `PASS`. It also reports a SHA-256 digest over the source-evidence record set for traceability.
+
+This is a **structural completeness check only**. It cannot fetch or authenticate cited documents, decide copyright law, verify that an exposure audit was actually exhaustive, or prove that two event clusters are scientifically independent. Those remain independent curator/reviewer judgments backed by the referenced artifacts. Unit-test fixture records use `example.invalid` and explicitly synthetic rights/exposure text; they are not source candidates and must never be copied into a real run manifest.
+
+The current source-screen register still admits **zero** clusters. Therefore no real run manifest can pass the new evidence gate using currently screened candidates. This is an intentional fail-closed outcome, not a reason to relax the requirements.
+
+The current source-screen register at `docs/DGSI_NEW_HOLDOUT_SOURCE_SCREEN_2026-11-20.md` admits **zero** clusters. Therefore no populated run manifest may truthfully set all holdout gates to true at present; the synthetic fixtures in unit tests demonstrate validator behavior only and are not candidate data. Until the evidence register contains at least the preregistered minimum of genuinely eligible independent clusters, the experiment remains `NOT_RUN`. This clarification does not alter the case set, rubric, thresholds, weights or prior scores.
+
+
+## Frozen scorecard analysis
+
+After the two blinded reviewers have completed the frozen rubric, store only the reviewer scorecard (not answer text) using `dgsi-factorial-review-scorecard.v1`, then run:
+
+```bash
+python evaluation/refinement_20261120/analyze_factorial_scorecard.py scorecard.json --manifest run-manifest.json --rubric frozen-rubric.md --output analysis-report.json
+```
+
+The analyzer reads the actual frozen run-manifest and rubric files, verifies their SHA-256 bindings, validates the run manifest first, and checks exact case membership/source-cluster/input/schema hashes against that manifest. It also requires per-case input/schema hashes, the same two blinded reviewer tokens exactly once in every arm, two reviews per case per arm, the ten fixed rubric dimensions (0–2 each), and explicit output-validity/critical-failure fields. It reports per-arm case-weighted and source-cluster-weighted means and equal-source-cluster factorial contrasts, acceptance fractions, invalid outputs, critical failures, reviewer disagreements, and paired 2×2 effects on complete four-arm cases only. Case-weighted and cluster-weighted contrasts are both reported so repeated episodes from one publication cannot silently dominate the result. Invalid outputs are not assigned invented score penalties; they remain visible in validity counts and are excluded from score contrasts. If no complete paired cases remain, effects are reported as not estimable. The report is descriptive, not a significance or superiority claim.

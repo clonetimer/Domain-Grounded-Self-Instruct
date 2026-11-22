@@ -1,0 +1,558 @@
+{
+  "schema_version": "dgsi-gpt-advisory-summary.v1",
+  "review_kind": "GPT_ADVISORY_NOT_HUMAN_EXPERT",
+  "gpt_reviewed_candidates": 24,
+  "gpt_review_records": 48,
+  "human_expert_review_count": 0,
+  "ai_consensus_accept_count": 14,
+  "disagreement_count": 5,
+  "trials": [
+    {
+      "trial_id": "REFINE-ITEM-001",
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-002",
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 1.5,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": true,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-003",
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 1.5,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": true,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-004",
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-005",
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-006",
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-007",
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-008",
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-009",
+      "arm": "M4",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-010",
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.5,
+      "critical_failures": [],
+      "reviewer_disagreement": true,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-011",
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-012",
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-013",
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-014",
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-015",
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 1.5,
+        "phenomenon_analysis": 1.5,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 1.5,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 17.5,
+      "critical_failures": [],
+      "reviewer_disagreement": true,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-016",
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-017",
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 1.5,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.5,
+      "critical_failures": [],
+      "reviewer_disagreement": true,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-018",
+      "arm": "M1",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 19.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_REVIEW_REQUIRES_REVISION"
+    },
+    {
+      "trial_id": "REFINE-ITEM-019",
+      "arm": "M7",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-020",
+      "arm": "M3",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-021",
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-022",
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-023",
+      "arm": "M6",
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    },
+    {
+      "trial_id": "REFINE-ITEM-024",
+      "arm": "M5",
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "gpt_mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "gpt_score_out_of_20": 20.0,
+      "critical_failures": [],
+      "reviewer_disagreement": false,
+      "decision": "AI_CONSENSUS_ACCEPT_DEV_ONLY"
+    }
+  ],
+  "arms": {
+    "M1": {
+      "candidates": 4,
+      "gpt_mean_score_out_of_20": 18.625,
+      "critical_failure_candidates": 0,
+      "ai_consensus_accept_count": 0
+    },
+    "M3": {
+      "candidates": 4,
+      "gpt_mean_score_out_of_20": 19.5,
+      "critical_failure_candidates": 0,
+      "ai_consensus_accept_count": 2
+    },
+    "M4": {
+      "candidates": 4,
+      "gpt_mean_score_out_of_20": 19.75,
+      "critical_failure_candidates": 0,
+      "ai_consensus_accept_count": 3
+    },
+    "M5": {
+      "candidates": 4,
+      "gpt_mean_score_out_of_20": 19.875,
+      "critical_failure_candidates": 0,
+      "ai_consensus_accept_count": 3
+    },
+    "M6": {
+      "candidates": 4,
+      "gpt_mean_score_out_of_20": 20.0,
+      "critical_failure_candidates": 0,
+      "ai_consensus_accept_count": 4
+    },
+    "M7": {
+      "candidates": 4,
+      "gpt_mean_score_out_of_20": 19.625,
+      "critical_failure_candidates": 0,
+      "ai_consensus_accept_count": 2
+    }
+  },
+  "gold_eligible": false,
+  "training_authorized": false,
+  "admitted_sft_records": 0,
+  "official_splits_assigned": false,
+  "downstream_sft_result": "NOT_RUN"
+}

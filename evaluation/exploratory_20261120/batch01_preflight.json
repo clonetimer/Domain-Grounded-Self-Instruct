@@ -1,0 +1,262 @@
+{
+  "schema_version": "dgsi-exploratory-run-preflight.v1",
+  "run_id": "DGSI-EXP-2X2-BATCH01-20261120",
+  "classification": "EXPLORATORY_NOT_CONFIRMATORY",
+  "status": "EXTERNAL_OUTPUTS_FROZEN_AWAITING_BLIND_REVIEW",
+  "authorization": {
+    "user_authorized": true,
+    "authorized_scope": "One-time exploratory 2x2 comparison using CASE-002 and CASE-004 only",
+    "authorized_at": "2026-11-20",
+    "training_authorized": false,
+    "gold_or_reference_answers_authorized_for_generation": false
+  },
+  "custodian_release": {
+    "batch_id": "DGSI-BATCH01-20261120-v6",
+    "audit_id": "DGSI-CUST-MATERIAL-RELEASE-20261120-008",
+    "release_status": "MATERIAL_RELEASED",
+    "release_scope": "Two anonymized case inputs for closed internal evaluation; not whole-study launch authorization",
+    "batch_zip_sha256": "50d3730693bf95c5ce8e6620ab4cc40fb880040173f9936dd2923043ba725ea9",
+    "jsonl_sha256": "40263337ddb97ea0de10a9f3673a064332135b1e596867731c9ae20825654e74",
+    "checksums_listed": 9,
+    "checksums_verified": 9,
+    "zip_crc": "PASS",
+    "jsonl_rows": 2,
+    "txt_matches_jsonl_input": true
+  },
+  "cases": [
+    {
+      "case_id": "CASE-002",
+      "candidate_id": "CAND-002",
+      "source_cluster_id": "CL-002",
+      "input_path": "model_inputs/CASE-002.txt",
+      "input_sha256": "31358c03020e734833519c3cbef677442c66bab3c0a018f2c7759d00140e95c3",
+      "rights_basis_per_custodian": "CC-BY-4.0",
+      "attribution_record_id": "ATTR-CASE-002",
+      "history_result": "NO MATCH",
+      "history_scope": "PASS_WITH_STATED_COVERAGE",
+      "post_baseline_developer_exposure": "NOT_ATTESTED",
+      "pretraining_exposure": "UNKNOWN",
+      "source_reidentification_risk": "POSSIBLE_NOT_EMPIRICALLY_TESTED",
+      "human_expert_signatures": 0,
+      "task_type": "diagnostic_synthesis",
+      "shared_input_sha256": "717b2ac3163c951ea497369807f796207b13e6867f73af620254ba93e35dfe14"
+    },
+    {
+      "case_id": "CASE-004",
+      "candidate_id": "CAND-004",
+      "source_cluster_id": "CL-004",
+      "input_path": "model_inputs/CASE-004.txt",
+      "input_sha256": "3c1932c30d32d90f63c8b0f2cd30d96f9c012f2439d5ce1232be91fa6f1179f2",
+      "rights_basis_per_custodian": "OFFICIAL_FILE_MARKED_PUBLIC_DOMAIN_US",
+      "history_result": "NO MATCH",
+      "history_scope": "PASS_WITH_STATED_COVERAGE",
+      "post_baseline_developer_exposure": "NOT_ATTESTED",
+      "pretraining_exposure": "UNKNOWN",
+      "source_reidentification_risk": "POSSIBLE_NOT_EMPIRICALLY_TESTED",
+      "human_expert_signatures": 0,
+      "task_type": "diagnostic_synthesis",
+      "shared_input_sha256": "542a419c9e2100a3eb8aaea0c5933e929a106f651d2e097b45f07975c7799b6e"
+    }
+  ],
+  "planned_factorial_arms": [
+    {
+      "arm_id": "A",
+      "evolution_enabled": false,
+      "selection_enabled": false,
+      "candidate_count": 1
+    },
+    {
+      "arm_id": "B",
+      "evolution_enabled": false,
+      "selection_enabled": true,
+      "candidate_count": 3
+    },
+    {
+      "arm_id": "C",
+      "evolution_enabled": true,
+      "selection_enabled": false,
+      "candidate_count": 1
+    },
+    {
+      "arm_id": "D",
+      "evolution_enabled": true,
+      "selection_enabled": true,
+      "candidate_count": 3
+    }
+  ],
+  "planned_generation_rows": [
+    {
+      "arm_id": "A",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "A",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "B",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "B",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "C",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "C",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "D",
+      "case_id": "CASE-002",
+      "status": "NOT_STARTED"
+    },
+    {
+      "arm_id": "D",
+      "case_id": "CASE-004",
+      "status": "NOT_STARTED"
+    }
+  ],
+  "frozen_analysis_contract": {
+    "target_schema_path": "evaluation/refinement_20261119/target_schema.json",
+    "target_schema_sha256": "4710df4e9fcbf7d42fcbf3f12ea6f80ce44135c8acae009e3aee1436112243c2",
+    "score_dimensions": [
+      "source_fidelity",
+      "phenomenon_analysis",
+      "ml_interpretation",
+      "fault_source",
+      "affected_components",
+      "evidence_fidelity",
+      "uncertainty",
+      "disposal_fidelity",
+      "historical_context_transfer",
+      "engineering_actionability"
+    ],
+    "score_range": "0-2 per dimension",
+    "reviewers_required": 2,
+    "review_blinding": true,
+    "retry_budget": 0,
+    "regeneration_budget": 0,
+    "posthoc_repairs": 0,
+    "case_weights_or_rubric_changes": false,
+    "analysis": "Descriptive only; two cases/two clusters do not establish statistical significance or population superiority"
+  },
+  "confirmatory_preregistration": {
+    "path": "evaluation/refinement_20261120/factorial_preregistration.json",
+    "status": "PREREGISTERED_DESIGN_ONLY_NOT_RUN",
+    "file_modified": false,
+    "confirmatory_run_started": false,
+    "confirmatory_model_calls_authorized": false,
+    "confirmatory_training_authorized": false,
+    "note": "This exploratory addendum does not override the untouched-source minimum/DO_NOT_RUN rule for the confirmatory study."
+  },
+  "pre_generation_blockers": [
+    {
+      "code": "NO_ISOLATED_MODEL_EXECUTION_CONFIG",
+      "detail": "The current execution environment has no OPENAI_API_KEY, DGSI_GENERATOR_MODEL, or DGSI_JUDGE_MODEL configured. The repository's run_skill_blind_eval.py supports a baseline-versus-Skill comparison, not this four-arm factorial matrix. The GitHub connector available in this session supports repository reads/writes but exposes no workflow-dispatch action. One in-context assistant response containing all eight outputs would not be eight isolated model calls and could create cross-arm context contamination.",
+      "required_resolution": "Provide an isolated generator execution route/configuration for the four arms, or explicitly accept a documented non-isolated in-context pilot that must not be interpreted as a clean factorial comparison.",
+      "subsequent_observation": "USER_DELIVERED_EXTERNAL_OUTPUTS; session isolation and actual attempt count cannot be confirmed from ZIP alone. This provenance warning remains open; no local reruns are authorized."
+    },
+    {
+      "code": "INDEPENDENT_REVIEW_NOT_YET_AVAILABLE",
+      "detail": "The v6 material receipt records zero human expert signatures and same-model shared-context sequential two-role review. The 2x2 scorecard requires two blinded reviewer tokens per case per arm.",
+      "required_resolution": "Arrange two method-blind reviewers or explicitly classify any model-only scoring as advisory, not independent expert review.",
+      "subsequent_observation": "TWO_BLINDED_REVIEWERS_PENDING; no review scores or reference answers received."
+    }
+  ],
+  "reference_answer_handling": {
+    "received": false,
+    "needed_before_generation": false,
+    "needed_after_all_8_outputs_are_frozen": false,
+    "custodian_instruction": "All eight raw output files are frozen; the custodian may provide reference answers ONLY to the authorized independent blind-review/adjudication stage. Keep answers unavailable to generator prompts and instruction selection. Reviewer panel and output authenticity remain unverified.",
+    "needed_for_independent_scoring_after_freeze": true
+  },
+  "execution_state": {
+    "generation_started": false,
+    "generated_outputs": 0,
+    "frozen_output_hashes": 8,
+    "blind_reviews": 0,
+    "scorecard": "NOT_CREATED",
+    "formal_confirmatory_result": "NOT_RUN",
+    "prompt_contract_frozen": true,
+    "external_user_submitted_outputs_received": 8,
+    "external_output_mechanical_pass_count": 8,
+    "generation_started_locally": false,
+    "external_generation_attempts_independently_verified": false,
+    "blind_review_pending": true
+  },
+  "prompt_contract": {
+    "status": "RESOLVED_USING_EXISTING_PROJECT_INSTRUCTION",
+    "system_prompt_source": "examples/diagnostic_context_sft_illustrative.json",
+    "system_prompt_sha256": "88077b2e1a29e8752035fe66200ef8add5e99c623d7d3e24c234c215efa1ab40",
+    "system_prompt_exact": "你是航天器故障研判助手。仅依据提供的机器诊断结果、诊断日志、运行上下文、历史案例和知识证据进行综合研判。不得将未校准分数解释为概率，不得把候选结论写成确诊；区分故障源部件与受影响部件。",
+    "base_task_instruction_source": "examples/diagnostic_context_case_illustrative.json",
+    "base_task_instruction_sha256": "91f288d07b8e713e622e79962b374dd0dea52ad0de4f572ef88ac84011db767d",
+    "base_task_instruction_exact": "结合算法诊断结果、历史诊断记录和当前任务上下文，形成有证据边界的综合研判。",
+    "method_policy_source": "src/dgsi/instruction_design.py",
+    "method_policy_git_blob_sha": "6af06450e06f964296306a939931a72941f8fb93",
+    "method_policy_sha256": "8bfc50f9cbbaa9d9fb2cc9000a96ab488ec2f3b0ccfe179a479df61a5121b98d",
+    "method_policy_shared_across_all_arms": true,
+    "evidence_reference_namespace": "Use only the exact evidence IDs visible in the case input (CASE-002: E01-E03; CASE-004: E01-E05). Do not invent LOG or ML IDs.",
+    "prior_m4_meta_prompt_reused": false,
+    "prior_m4_prompt_exclusion_reason": "It is a development-run meta-prompt that labels all inputs SYNTHETIC and restricts citations to LOG/ML IDs; neither statement matches this material-level source-fact batch. The project task/system instruction above is reused unchanged instead.",
+    "new_task_instruction_added": false,
+    "scoring_or_threshold_changed": false,
+    "user_payload_contract": {
+      "task_type": "diagnostic_synthesis",
+      "task_type_assignment": "One common project-level task type for both released cases; no source fact is added by this metadata.",
+      "user_object_fields": [
+        "case_id",
+        "task_type",
+        "instruction",
+        "input"
+      ],
+      "canonical_shared_input_hashing": "UTF-8 JSON, ensure_ascii=false, sort_keys=true, separators=(',',':'), allow_nan=false",
+      "evidence_reference_namespace": "Only E01-E03 for CASE-002 and E01-E05 for CASE-004"
+    }
+  },
+  "prompt_pack": {
+    "filename": "DGSI_BATCH01_Exploratory_Prompt_Pack_v1.zip",
+    "sha256": "db509d57edee6d6aef255e1869c29930e703f57d2ceb626f83219f778a29b56f",
+    "prompt_count": 8,
+    "layout": "one prompt file per arm/case pair; run each in a separate fresh chat",
+    "zip_crc": "PASS",
+    "internal_checksums": "11/11 PASS",
+    "contains_reference_answers": false,
+    "generation_executed": false
+  },
+  "external_generation_receipt": {
+    "received_at": "2026-11-21",
+    "source": "USER_UPLOADED_EXTERNAL_OUTPUT_ZIP",
+    "original_zip_sha256": "0a8fbb5b1579041a703a09a09f03c38c91db3951ffa77aa22a16b2b845be9c96",
+    "output_files_received": 8,
+    "exact_arm_case_matrix_complete": true,
+    "json_parse_pass": 8,
+    "target_schema_pass": 8,
+    "instruction_method_record_pass": 8,
+    "evidence_id_integrity_pass": 8,
+    "raw_output_bytes_frozen": 8,
+    "blind_output_projection_verified": 8,
+    "coordinator_mapping_private": true,
+    "independent_generation_sessions_verified": false,
+    "one_attempt_per_prompt_verified": false,
+    "token_usage_observed": false,
+    "user_ledger_tainted_by_stale_sha256": true,
+    "model_metadata_source": "USER_LEDGER_SELF_REPORTED",
+    "model_name_unverified": "gpt-6 sol",
+    "model_date_unverified": "2026-11-21",
+    "blind_review_scorecards_received": 0,
+    "reference_answers_received": false,
+    "scoring_performed": false,
+    "freeze_register_path": "docs/DGSI_BATCH01_V6_OUTPUT_FREEZE_2026-11-21.md"
+  }
+}

@@ -1,0 +1,402 @@
+{
+  "schema_version": "dgsi-closeout-generations.v1",
+  "arm": "M5",
+  "candidates": [
+    {
+      "comparison_unit_id": "FORWARD-DEV-003",
+      "shared_input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+      "instruction": "请完成当前合成案例的diagnostic_synthesis：在在轨载荷通信范围内综合现象、原因候选、确定性和处置。区分LOG-51、LOG-52的日志观测与ML-FINDING-005的推断；未附原件的ML-E-005不作为独立证据，0.68不解释为概率。分别列出受影响链路与候选故障源，说明旋转状态相关性能够支持及不能证明的结论；比较所需的时间、模式、构型和路径条件缺失时明确列出。仅用当前可见材料；历史无可用命中，不作迁移。已记录处置与新增补证建议分别填写，未记录处置填NOT_RECORDED和空数组，按给定schema输出简洁中文。",
+      "method_record": {
+        "recipe_id": "evolve",
+        "recipe_version": "1",
+        "input_sha256": "feafc09cb9520a4c4652a34af3320278f4e0aa112b23d5f44bea11bf628088f4",
+        "not_for_sft": true,
+        "candidates": [
+          {
+            "candidate_id": "I1",
+            "instruction": "请完成当前合成案例的diagnostic_synthesis：在在轨载荷通信范围内综合现象、原因候选、确定性和处置。区分LOG-51、LOG-52的日志观测与ML-FINDING-005的推断；未附原件的ML-E-005不作为独立证据，0.68不解释为概率。分别列出受影响链路与候选故障源，说明旋转状态相关性能够支持及不能证明的结论；比较所需的时间、模式、构型和路径条件缺失时明确列出。仅用当前可见材料；历史无可用命中，不作迁移。已记录处置与新增补证建议分别填写，未记录处置填NOT_RECORDED和空数组，按给定schema输出简洁中文。",
+            "operation": "evidence_roles",
+            "scores": {
+              "task_alignment": 2,
+              "clarity": 2,
+              "input_answerability": 2,
+              "evidence_roles": 2,
+              "scope_retention": 2
+            },
+            "grounding_ok": true,
+            "scope_ok": true
+          }
+        ],
+        "selected_candidate_id": "I1"
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "截至2026-04-12T09:10:00Z，LOG-51记录在轨载荷串行链路间歇性CRC错误，LOG-52记录特定旋转状态下错误率升高。支持异常现象及旋转状态相关性，尚不能确认异常起源于滑环。",
+        "machine_result_interpretation": "ML-FINDING-005提出旋转接触间歇异常候选，与日志方向相容；0.68为未校准的合成排序分数。ML-E-005原件未附，不能作为独立确认。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "payload_slip_ring",
+              "fault_mode": "旋转接触间歇异常候选",
+              "supporting_refs": [
+                "LOG-51",
+                "LOG-52",
+                "ML-FINDING-005"
+              ],
+              "limitations": [
+                "日志支持链路异常及状态相关性，不直接观测接触故障。",
+                "缺少独立检查，不能排除链路其他环节异常。"
+              ]
+            }
+          ],
+          "affected_components": [
+            "payload_serial_communication_link"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "滑环接触变化可能影响串行链路，但当前证据未建立接触变化到CRC错误的因果链；故障源与已观测受影响链路应分开。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "LOG-51",
+            "LOG-52",
+            "ML-FINDING-005"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "CRC与旋转状态的同步原始记录、重复性及异常持续时间。",
+            "不同旋转状态下模式、负载、构型和通信路径是否一致。",
+            "接触、电源、收发端及线缆的独立检查结果。"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "只有合成日志与ML候选，无原始遥测或独立确认。",
+            "历史检索无命中；当前示意构型不代表文献任务的精确硬件。"
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "补充同步CRC、旋转状态和链路工况记录，核对模式、构型与路径可比性。",
+            "rationale": "确认相关性及重复性，区分旋转因素与其他共同变化。",
+            "priority": "HIGH"
+          },
+          {
+            "action": "在适用规程下开展滑环与其他链路环节的分段检查。",
+            "rationale": "获得独立证据，缩小故障源范围。",
+            "priority": "HIGH"
+          }
+        ]
+      }
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-001",
+      "shared_input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+      "instruction": "请完成当前合成案例的evidence_sufficiency：分别判断异常现象、受影响接口定位与物理根因确认的证据是否充分。保留在轨载荷通信及当前示意构型范围；区分LOG-21、LOG-22观测、LOG-23工程分析和ML-FINDING-01候选，未附原件的ML-E-003不重复计票，0.77不是概率。说明共享路径线索的定位边界及不能排除的解释，比较条件缺失不得默认成立。历史因缺可信时间被阻断，不迁移其内容。列明优先补证动作；已记录处置与新建议分开，未记录处置填NOT_RECORDED和空数组，按给定schema输出简洁中文。",
+      "method_record": {
+        "recipe_id": "evolve",
+        "recipe_version": "1",
+        "input_sha256": "082e048cc44b2bf0c8b1176c802a61f43795458eb8b896132a8d5c9b6d5a04a1",
+        "not_for_sft": true,
+        "candidates": [
+          {
+            "candidate_id": "I1",
+            "instruction": "请完成当前合成案例的evidence_sufficiency：分别判断异常现象、受影响接口定位与物理根因确认的证据是否充分。保留在轨载荷通信及当前示意构型范围；区分LOG-21、LOG-22观测、LOG-23工程分析和ML-FINDING-01候选，未附原件的ML-E-003不重复计票，0.77不是概率。说明共享路径线索的定位边界及不能排除的解释，比较条件缺失不得默认成立。历史因缺可信时间被阻断，不迁移其内容。列明优先补证动作；已记录处置与新建议分开，未记录处置填NOT_RECORDED和空数组，按给定schema输出简洁中文。",
+            "operation": "bounded_scope",
+            "scores": {
+              "task_alignment": 2,
+              "clarity": 2,
+              "input_answerability": 2,
+              "evidence_roles": 2,
+              "scope_retention": 2
+            },
+            "grounding_ok": true,
+            "scope_ok": true
+          }
+        ],
+        "selected_candidate_id": "I1"
+      },
+      "formal_target": {
+        "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+        "phenomenon_analysis": "截至2026-04-12T09:10:00Z，LOG-21和LOG-22足以在合成日志层面确认载荷CRC错误及SADA、星敏接口通信异常，并定位已报告受影响接口；不足以确认物理根因。LOG-23提示共享旋转接口与12V供电/串行路径，属于工程分析。",
+        "machine_result_interpretation": "ML-FINDING-01提出滑环12V与串行通路交叉短路候选；0.77为未校准合成排序分数。ML-E-003原件未附，不能增加独立证据权重。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "slip_ring_interface",
+              "fault_mode": "12V供电与串行通路交叉短路候选",
+              "supporting_refs": [
+                "LOG-23",
+                "ML-FINDING-01"
+              ],
+              "limitations": [
+                "共享路径可疑不等于已确认短路。",
+                "没有电气测量、隔离试验或硬件检查。"
+              ]
+            }
+          ],
+          "affected_components": [
+            "payload_serial_interface",
+            "sada_drive_interface",
+            "star_tracker_interface"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "多接口共享路径支持共同故障源的调查方向，但不能排除共享供电异常、串行链路其他环节故障或多个独立异常；这些解释均未确证。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "LOG-21",
+            "LOG-22",
+            "LOG-23",
+            "ML-FINDING-01"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "各接口原始错误、供电与串行电气记录及同步时间线。",
+            "异常窗口内模式、构型与路径变化记录。",
+            "共享路径隔离、绝缘和硬件检查证据。"
+          ]
+        },
+        "historical_experience_relevance": [
+          {
+            "case_ref": "SYNTHETIC-HISTORY-SEL-REJECTED-001",
+            "relevance": "不可评估；检索已阻断且摘要未提供。",
+            "transfer_limitations": [
+              "缺可信时间，无法核验截至当前分析时点的可用性；拒绝迁移。",
+              "历史状态与硬件适用性无可见依据。"
+            ]
+          }
+        ],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "物理根因缺乏独立证据，日志没有排除其他解释。",
+            "适用范围为当前在轨载荷通信合成构型，无原始遥测与可用历史。"
+          ]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {
+            "action": "优先补充各接口同步错误、12V供电与串行信号记录，并核对构型和工况。",
+            "rationale": "确认共同异常时序及共享路径关联。",
+            "priority": "HIGH"
+          },
+          {
+            "action": "按适用规程取得分段隔离、绝缘与硬件检查结果。",
+            "rationale": "区分交叉短路候选与其他供电、链路解释。",
+            "priority": "HIGH"
+          }
+        ]
+      }
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-004",
+      "shared_input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+      "instruction": "请完成当前合成案例的diagnostic_synthesis，限定为地面寿命试验中烘烤后阀异常与喷注器供给受阻事件。区分日志中的先后顺序、ML阀座碎片堵塞候选及未附原件的ML-E-009；0.84不是概率，不能仅由时序确认材料、碎片或热致机制，也不能用该候选解释更早催化床冲蚀。分别指出候选故障源和受影响部件，说明缺失的时间同步、温度、压力、构型和路径证据；无可用历史不作迁移。区分热灯烘烤已执行、终止条件被触发和实际停机是否记录；只把原文支持的动作列为处置，新建议放后续动作，按给定schema输出简洁中文。",
+      "method_record": {
+        "recipe_id": "evolve",
+        "recipe_version": "1",
+        "input_sha256": "305283cea4d216825d15ab87787f66da74bc08110fa56046437f3cf7902c46b3",
+        "not_for_sft": true,
+        "candidates": [
+          {
+            "candidate_id": "I1",
+            "instruction": "请完成当前合成案例的diagnostic_synthesis，限定为地面寿命试验中烘烤后阀异常与喷注器供给受阻事件。区分日志中的先后顺序、ML阀座碎片堵塞候选及未附原件的ML-E-009；0.84不是概率，不能仅由时序确认材料、碎片或热致机制，也不能用该候选解释更早催化床冲蚀。分别指出候选故障源和受影响部件，说明缺失的时间同步、温度、压力、构型和路径证据；无可用历史不作迁移。区分热灯烘烤已执行、终止条件被触发和实际停机是否记录；只把原文支持的动作列为处置，新建议放后续动作，按给定schema输出简洁中文。",
+            "operation": "bounded_scope",
+            "scores": {
+              "task_alignment": 2,
+              "clarity": 2,
+              "input_answerability": 2,
+              "evidence_roles": 2,
+              "scope_retention": 2
+            },
+            "grounding_ok": true,
+            "scope_ok": true
+          }
+        ],
+        "selected_candidate_id": "I1"
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "当前为地面22N肼推进器寿命试验。LOG-91记录真空热灯烘烤以尝试处理潜在催化床污染；随后LOG-92记录阀异常压力、爆裂及流量下降，LOG-93记录喷注器供给近中断并触发终止条件。未记录实际停机完成。",
+        "machine_result_interpretation": "ML-FINDING-009提出特氟龙阀座碎片堵塞喷注器候选，0.84为未校准合成排序分数。ML-E-009原件未附；该候选仅针对烘烤后事件，不解释上游摘要提及的更早催化床冲蚀。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "propellant_valve_seat_and_injector",
+              "fault_mode": "阀座碎片进入喷注器并堵塞的候选",
+              "supporting_refs": [
+                "LOG-92",
+                "LOG-93",
+                "ML-FINDING-009"
+              ],
+              "limitations": [
+                "无碎片、材料或堵塞位置的独立检查。",
+                "事件顺序不能证明烘烤导致爆裂或碎片导致流量下降。"
+              ]
+            }
+          ],
+          "affected_components": [
+            "propellant_valve",
+            "22N_hydrazine_thruster_injector",
+            "propellant_feed_path"
+          ],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "已记录阀损伤及供给下降；阀座碎片堵塞是一种待核验机制，其他阀或供给路径故障尚不能排除。更早催化床问题不能由本段事件反向确认。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "LOG-91",
+            "LOG-92",
+            "LOG-93",
+            "ML-FINDING-009"
+          ],
+          "contradicting_refs": [],
+          "missing_information": [
+            "同步温度、压力、阀指令及流量原始记录。",
+            "阀座实际材料、碎片鉴定、喷注器及供给路径检查。",
+            "烘烤与试验期间构型、模式及路径状态，实际终止和隔离记录。"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "仅有合成日志和候选，无原始遥测或独立检查。",
+            "历史检索无命中；当前地面试验结论不能直接迁移至在轨事件。"
+          ]
+        },
+        "disposal_status": "RECORDED",
+        "disposal_measures": [
+          {
+            "measure": "使用热灯在真空条件下烘烤推进器，尝试处理潜在催化床污染；效果未记录，属于后续阀异常之前的动作。",
+            "measure_type": "EXECUTED",
+            "evidence_refs": [
+              "LOG-91"
+            ]
+          }
+        ],
+        "follow_up_actions": [
+          {
+            "action": "核实试验实际终止及推进剂隔离状态，保全同步压力、温度、阀指令和流量记录。",
+            "rationale": "终止条件触发不等同于实际终止完成，并需重建事件时序。",
+            "priority": "HIGH"
+          },
+          {
+            "action": "按地面试验规程检查阀座、喷注器和供给路径，鉴定残留物并核对构型。",
+            "rationale": "检验碎片堵塞及替代解释，避免将先后顺序当作因果。",
+            "priority": "HIGH"
+          }
+        ]
+      }
+    },
+    {
+      "comparison_unit_id": "FORWARD-DEV-002",
+      "shared_input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+      "instruction": "请完成当前合成案例的conflict_reconciliation，限定于空气环境地面旋转接触资格测试。先核对两报告的时间、同件同通道、限值及声明一致的工况，再列明湿度、设施、采集链、次序和未记录构型变化等可比性限制。分别说明18%RH的FAIL与82%RH的PASS支持的结论，判断是否支持ML全部条件正常及关闭建议；0.89不是概率，LOG-172与ML-E-017-HIGH-HUMIDITY属于同一证据链，LOG-171是独立反证。不得把相关性认作湿度因果或假定内部状态未变，不外推至TVAC或在轨。无可用历史不作迁移；原文建议与已执行处置、新补证建议分开，按给定schema输出简洁中文。",
+      "method_record": {
+        "recipe_id": "evolve",
+        "recipe_version": "1",
+        "input_sha256": "a7453fd4cee4a5fef23808c0f0ec70d5bcc760bd60678b216b5617e545d03ae7",
+        "not_for_sft": true,
+        "candidates": [
+          {
+            "candidate_id": "I1",
+            "instruction": "请完成当前合成案例的conflict_reconciliation，限定于空气环境地面旋转接触资格测试。先核对两报告的时间、同件同通道、限值及声明一致的工况，再列明湿度、设施、采集链、次序和未记录构型变化等可比性限制。分别说明18%RH的FAIL与82%RH的PASS支持的结论，判断是否支持ML全部条件正常及关闭建议；0.89不是概率，LOG-172与ML-E-017-HIGH-HUMIDITY属于同一证据链，LOG-171是独立反证。不得把相关性认作湿度因果或假定内部状态未变，不外推至TVAC或在轨。无可用历史不作迁移；原文建议与已执行处置、新补证建议分开，按给定schema输出简洁中文。",
+            "operation": "comparability",
+            "scores": {
+              "task_alignment": 2,
+              "clarity": 2,
+              "input_answerability": 2,
+              "evidence_roles": 2,
+              "scope_retention": 2
+            },
+            "grounding_ok": true,
+            "scope_ok": true
+          }
+        ],
+        "selected_candidate_id": "I1"
+      },
+      "formal_target": {
+        "disposition": "CONFLICTING_EVIDENCE",
+        "phenomenon_analysis": "LOG-171记录2026-04-14同件同通道在18%RH空气中间歇超限并判FAIL；LOG-172记录次日82%RH下未超相同声明限值并判PASS。LOG-173确认身份、通道、限值及声明温度、转速、方向、电负载一致；湿度、设施、采集链和次序不同，跨设施等效性及中间构型变化未充分核验。两结果各有条件边界。",
+        "machine_result_interpretation": "ML-FINDING-017-NORMAL仅依据LOG-172对应高湿报告，0.89为未校准合成排序分数。ML-E-017-HIGH-HUMIDITY与LOG-172同源，不重复计票。独立的LOG-171反驳全部资格条件正常及以PASS覆盖FAIL的外推；两报告本身不构成同条件矛盾。",
+        "cause_localization": {
+          "status": "UNRESOLVED",
+          "candidates": [
+            {
+              "component": "payload_slip_ring",
+              "fault_mode": "接触电阻随条件或内部状态变化的待查解释",
+              "supporting_refs": [
+                "LOG-171",
+                "LOG-172",
+                "LOG-173"
+              ],
+              "limitations": [
+                "尚不能把差异归因为湿度。",
+                "设施、采集链、次序及搬运存放或构型变化均未排除。"
+              ]
+            }
+          ],
+          "affected_components": [
+            "payload_slip_ring",
+            "payload_slip_ring_contact_resistance_assessment"
+          ],
+          "certainty": "UNRESOLVED",
+          "mechanism_summary": "低湿报告支持指定通道在该次地面测试中不满足验收限值；高湿PASS仅支持对应条件。差异机制未定，不支持全部条件放行，不涉及当前CRC、短路或在轨故障。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": [
+            "LOG-172",
+            "LOG-173"
+          ],
+          "contradicting_refs": [
+            "LOG-171"
+          ],
+          "missing_information": [
+            "原始电阻曲线、具体限值及两设施测量不确定度。",
+            "共用采集链交叉复验、重复性及低湿复验。",
+            "两次试验间完整搬运、存放、维护与构型记录。"
+          ]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": [
+            "已知条件不匹配及测量、状态混杂，根因未定。",
+            "截至2026-04-15T12:00:00Z无可用历史；当前仅为空气环境地面测试，不能外推至TVAC或在轨。"
+          ]
+        },
+        "disposal_status": "RECOMMENDED_ONLY",
+        "disposal_measures": [
+          {
+            "measure": "上游ML建议以高湿PASS替代先前FAIL并关闭异常；当前证据不支持该建议，未记录执行或资格放行。",
+            "measure_type": "RECOMMENDED",
+            "evidence_refs": [
+              "ML-FINDING-017-NORMAL"
+            ]
+          }
+        ],
+        "follow_up_actions": [
+          {
+            "action": "保留低湿FAIL待处理状态，补齐原始报告、采集链校准和中间构型历史。",
+            "rationale": "确认差异来源，建立可比性与测量可信度。",
+            "priority": "HIGH"
+          },
+          {
+            "action": "采用共用测量链开展覆盖低、高湿度的交叉复验，控制次序并核验重复性和不确定度。",
+            "rationale": "区分湿度作用与设施、状态及次序影响，取得资格处置依据。",
+            "priority": "HIGH"
+          }
+        ]
+      }
+    }
+  ]
+}

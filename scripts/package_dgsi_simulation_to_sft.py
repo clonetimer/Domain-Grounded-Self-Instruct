@@ -29,6 +29,7 @@ SCHEMAS = (
 )
 DOCS = (
     "docs/DGSI_CLOSEOUT_RESULTS_2026-11-19.md",
+    "docs/DGSI_METHOD_REFINEMENT_2026-11-19.md",
     "docs/L1_DUAL_TRACK_AND_HISTORY_CONTEXT.md",
     "docs/L1_SFT_RELEASE_PREFLIGHT.md",
     "docs/P2_BASILISK_RECEIPT_INTAKE.md",
@@ -56,7 +57,9 @@ VALIDATOR_FILES = (
     "src/dgsi",
     "scripts/run_dgsi_skill.py",
     "tests/test_skill_delivery.py",
+    "tests/test_instruction_design.py",
     "evaluation/closeout_20261119",
+    "evaluation/refinement_20261119",
     "tests/test_l1_model_projection_preview.py",
     "scripts/create_l1_blind_review_manifest.py",
     "scripts/create_l1_c2_complete_review_kit.py",

@@ -1,0 +1,2086 @@
+{
+  "schema_version": "dgsi-frozen-method-score-audit.v1",
+  "scope": "READ_ONLY_INITIAL_FROZEN_COMPARISON",
+  "bundle_absolute_path": "evaluation/closeout_20261119",
+  "generated_on": "2026-11-19",
+  "all_primary_statistics_exclude_delivery_revisions": true,
+  "verification": {
+    "manifest_files_checked": 27,
+    "all_manifest_hashes_match": true,
+    "raw_review_files_equal_combined_initial_reviews": true,
+    "shared_review_cases_equal_frozen_cases": true,
+    "all_20_trials_match_raw_generations_and_blinded_review_inputs": true,
+    "all_40_review_bindings_valid": true,
+    "independently_recomputed_summary_matches": true,
+    "repo_or_model_output_files_written": false
+  },
+  "formula": {
+    "mean_score_out_of_20": "sum of 4 cases x 2 reviewers x 10 dimension scores / (4 x 2)",
+    "raw_max_points": "4 x 2 x 10 x 2 = 160",
+    "m4": "158 / 8 = 19.75",
+    "m1_and_m3": "159 / 8 = 19.875",
+    "gap": "1 raw point / 8 review records = 0.125 on the 20-point mean; 1/160 = 0.625 percentage points of the full scale",
+    "independence_warning": "80 rubric ratings are repeated dimensions within four cases and two same-model sessions, not 80 independent samples."
+  },
+  "method_summary": [
+    {
+      "arm": "M0",
+      "method": "Self-Instruct-style",
+      "cases": 4,
+      "review_records": 8,
+      "rubric_ratings": 80,
+      "raw_points": 152,
+      "raw_max_points": 160,
+      "mean_score_out_of_20": 19.0,
+      "percentage_of_scale": 95.0,
+      "consensus_accept_count": 1,
+      "reviewer_disagreement_cases": 2,
+      "recommendation_disagreement_cases": 0,
+      "critical_failure_candidates": 0,
+      "reviewers": {
+        "GPT-REVIEW-A-20261119": {
+          "raw_points": 76,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.0,
+          "recommendations": {
+            "REVISE": 3,
+            "ACCEPT": 1
+          }
+        },
+        "GPT-REVIEW-B-20261119": {
+          "raw_points": 76,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.0,
+          "recommendations": {
+            "REVISE": 3,
+            "ACCEPT": 1
+          }
+        }
+      },
+      "dimensions": {
+        "source_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "phenomenon_analysis": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "ml_interpretation": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "fault_source": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "affected_components": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "evidence_fidelity": {
+          "raw_points": 14,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.75
+        },
+        "uncertainty": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "disposal_fidelity": {
+          "raw_points": 10,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.25
+        },
+        "historical_context_transfer": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "engineering_actionability": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        }
+      }
+    },
+    {
+      "arm": "M1",
+      "method": "Evol-Instruct-style",
+      "cases": 4,
+      "review_records": 8,
+      "rubric_ratings": 80,
+      "raw_points": 159,
+      "raw_max_points": 160,
+      "mean_score_out_of_20": 19.875,
+      "percentage_of_scale": 99.375,
+      "consensus_accept_count": 3,
+      "reviewer_disagreement_cases": 1,
+      "recommendation_disagreement_cases": 1,
+      "critical_failure_candidates": 0,
+      "reviewers": {
+        "GPT-REVIEW-A-20261119": {
+          "raw_points": 79,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.75,
+          "recommendations": {
+            "ACCEPT": 3,
+            "REVISE": 1
+          }
+        },
+        "GPT-REVIEW-B-20261119": {
+          "raw_points": 80,
+          "max_points": 80,
+          "mean_score_out_of_20": 20.0,
+          "recommendations": {
+            "ACCEPT": 4
+          }
+        }
+      },
+      "dimensions": {
+        "source_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "phenomenon_analysis": {
+          "raw_points": 15,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.875
+        },
+        "ml_interpretation": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "fault_source": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "affected_components": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "evidence_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "uncertainty": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "disposal_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "historical_context_transfer": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "engineering_actionability": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        }
+      }
+    },
+    {
+      "arm": "M2",
+      "method": "Magpie-style-chat-adaptation",
+      "cases": 4,
+      "review_records": 8,
+      "rubric_ratings": 80,
+      "raw_points": 154,
+      "raw_max_points": 160,
+      "mean_score_out_of_20": 19.25,
+      "percentage_of_scale": 96.25,
+      "consensus_accept_count": 1,
+      "reviewer_disagreement_cases": 3,
+      "recommendation_disagreement_cases": 1,
+      "critical_failure_candidates": 0,
+      "reviewers": {
+        "GPT-REVIEW-A-20261119": {
+          "raw_points": 78,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.5,
+          "recommendations": {
+            "REVISE": 2,
+            "ACCEPT": 2
+          }
+        },
+        "GPT-REVIEW-B-20261119": {
+          "raw_points": 76,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.0,
+          "recommendations": {
+            "REVISE": 3,
+            "ACCEPT": 1
+          }
+        }
+      },
+      "dimensions": {
+        "source_fidelity": {
+          "raw_points": 14,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.75
+        },
+        "phenomenon_analysis": {
+          "raw_points": 14,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.75
+        },
+        "ml_interpretation": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "fault_source": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "affected_components": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "evidence_fidelity": {
+          "raw_points": 14,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.75
+        },
+        "uncertainty": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "disposal_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "historical_context_transfer": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "engineering_actionability": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        }
+      }
+    },
+    {
+      "arm": "M3",
+      "method": "Auto-Instruct-style-self-ranking-adaptation",
+      "cases": 4,
+      "review_records": 8,
+      "rubric_ratings": 80,
+      "raw_points": 159,
+      "raw_max_points": 160,
+      "mean_score_out_of_20": 19.875,
+      "percentage_of_scale": 99.375,
+      "consensus_accept_count": 3,
+      "reviewer_disagreement_cases": 1,
+      "recommendation_disagreement_cases": 1,
+      "critical_failure_candidates": 0,
+      "reviewers": {
+        "GPT-REVIEW-A-20261119": {
+          "raw_points": 79,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.75,
+          "recommendations": {
+            "ACCEPT": 3,
+            "REVISE": 1
+          }
+        },
+        "GPT-REVIEW-B-20261119": {
+          "raw_points": 80,
+          "max_points": 80,
+          "mean_score_out_of_20": 20.0,
+          "recommendations": {
+            "ACCEPT": 4
+          }
+        }
+      },
+      "dimensions": {
+        "source_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "phenomenon_analysis": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "ml_interpretation": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "fault_source": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "affected_components": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "evidence_fidelity": {
+          "raw_points": 15,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.875
+        },
+        "uncertainty": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "disposal_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "historical_context_transfer": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "engineering_actionability": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        }
+      }
+    },
+    {
+      "arm": "M4",
+      "method": "DGSI",
+      "cases": 4,
+      "review_records": 8,
+      "rubric_ratings": 80,
+      "raw_points": 158,
+      "raw_max_points": 160,
+      "mean_score_out_of_20": 19.75,
+      "percentage_of_scale": 98.75,
+      "consensus_accept_count": 3,
+      "reviewer_disagreement_cases": 1,
+      "recommendation_disagreement_cases": 1,
+      "critical_failure_candidates": 0,
+      "reviewers": {
+        "GPT-REVIEW-A-20261119": {
+          "raw_points": 78,
+          "max_points": 80,
+          "mean_score_out_of_20": 19.5,
+          "recommendations": {
+            "ACCEPT": 3,
+            "REVISE": 1
+          }
+        },
+        "GPT-REVIEW-B-20261119": {
+          "raw_points": 80,
+          "max_points": 80,
+          "mean_score_out_of_20": 20.0,
+          "recommendations": {
+            "ACCEPT": 4
+          }
+        }
+      },
+      "dimensions": {
+        "source_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "phenomenon_analysis": {
+          "raw_points": 15,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.875
+        },
+        "ml_interpretation": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "fault_source": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "affected_components": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "evidence_fidelity": {
+          "raw_points": 15,
+          "max_points": 16,
+          "mean_score_out_of_2": 1.875
+        },
+        "uncertainty": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "disposal_fidelity": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "historical_context_transfer": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        },
+        "engineering_actionability": {
+          "raw_points": 16,
+          "max_points": 16,
+          "mean_score_out_of_2": 2.0
+        }
+      }
+    }
+  ],
+  "case_summary": [
+    {
+      "arm": "M0",
+      "method": "Self-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-002",
+      "candidate_sha256": "49694e36ce37097d809ba431d84b5364f6bc6082aebed8129765314714577c0e",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 19,
+        "GPT-REVIEW-B-20261119": 19
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "REVISE"
+      },
+      "score_out_of_20": 19.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M0",
+      "method": "Self-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-004",
+      "candidate_sha256": "6465824b084721f66c905a3a15c215f3ef72b910442bc5a7a4dc3037b30638b4",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M0",
+      "method": "Self-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-017",
+      "candidate_sha256": "08ed81a2c05b1739839f3b58f15194c7a1d8550998d75ea923c4949951639534",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 19,
+        "GPT-REVIEW-B-20261119": 18
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "REVISE"
+      },
+      "score_out_of_20": 18.5,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "evidence_fidelity"
+      ],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M0",
+      "method": "Self-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-008",
+      "candidate_sha256": "516e25c40271fff52a442f902be3566ea2e8600b51d98736b6b17d0dc51535c2",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 18,
+        "GPT-REVIEW-B-20261119": 19
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "REVISE"
+      },
+      "score_out_of_20": 18.5,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 1.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "evidence_fidelity"
+      ],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M1",
+      "method": "Evol-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-012",
+      "candidate_sha256": "c905d182b41ff6f17ea1f2e727865b581accf021c5250c4f0fb8d66e257c6236",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M1",
+      "method": "Evol-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-013",
+      "candidate_sha256": "5ebffab0d501debf7a631d94a4fdfa6ecc1937d7adcab2a59559d83d16f6747b",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M1",
+      "method": "Evol-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-010",
+      "candidate_sha256": "79e158741e5c1cc9ec63d97a465d62029655d0be274d0020ad95e0fd2a8f2b14",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M1",
+      "method": "Evol-Instruct-style",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-018",
+      "candidate_sha256": "a324dd047f817abc88c4f5f57fe4792e594f1f8cdc125bd91e1cf2a6bac302db",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 19,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 19.5,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 1.5,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "phenomenon_analysis"
+      ],
+      "recommendation_disagreement": true,
+      "critical_failures": []
+    },
+    {
+      "arm": "M2",
+      "method": "Magpie-style-chat-adaptation",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-015",
+      "candidate_sha256": "77316f12e868d3232d617181e825210f5d4b716237984fa169988c77f72d6047",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 19,
+        "GPT-REVIEW-B-20261119": 18
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "REVISE"
+      },
+      "score_out_of_20": 18.5,
+      "mean_dimension_scores": {
+        "source_fidelity": 1.0,
+        "phenomenon_analysis": 1.5,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "phenomenon_analysis"
+      ],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M2",
+      "method": "Magpie-style-chat-adaptation",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-014",
+      "candidate_sha256": "fac1809f7e0e62d25826ed010e992ae08abdb136fa4a0115487e3103a48cc023",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M2",
+      "method": "Magpie-style-chat-adaptation",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-016",
+      "candidate_sha256": "66a0fab106c33ebad04e7bf309d3049e9e63de3a620b35f16bd6531c4a7a8a24",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 19
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "REVISE"
+      },
+      "score_out_of_20": 19.5,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "evidence_fidelity"
+      ],
+      "recommendation_disagreement": true,
+      "critical_failures": []
+    },
+    {
+      "arm": "M2",
+      "method": "Magpie-style-chat-adaptation",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-009",
+      "candidate_sha256": "498c00842f3711363baf583d21e7cd32a2914f6b07e122582b5039fec0d3cac4",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 19,
+        "GPT-REVIEW-B-20261119": 19
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "REVISE"
+      },
+      "score_out_of_20": 19.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 1.5,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "phenomenon_analysis",
+        "evidence_fidelity"
+      ],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M3",
+      "method": "Auto-Instruct-style-self-ranking-adaptation",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-007",
+      "candidate_sha256": "0f0c7f7e507081575dc83c7fe306c3c7453e62276562dc0f05324cdef385b643",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M3",
+      "method": "Auto-Instruct-style-self-ranking-adaptation",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-020",
+      "candidate_sha256": "28497be055e219cc9c2a793656844d1f499d349f8a8b30f62bd19202e2b3aca0",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M3",
+      "method": "Auto-Instruct-style-self-ranking-adaptation",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-006",
+      "candidate_sha256": "05552e187ebedbeeb09c3c1b15acce5c9a3c064147cf8c96c5402c2490413fd7",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 19,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 19.5,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "evidence_fidelity"
+      ],
+      "recommendation_disagreement": true,
+      "critical_failures": []
+    },
+    {
+      "arm": "M3",
+      "method": "Auto-Instruct-style-self-ranking-adaptation",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-001",
+      "candidate_sha256": "01b23b696fcab3679e1ae2c9cee9d1cca09e001ed4e767ff7d5d0d4420d446f5",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M4",
+      "method": "DGSI",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-003",
+      "candidate_sha256": "ec9d3848a12faf8f32d5ed49d76b14ac5bef9322211c4c14e8ddfdd3fb84a872",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M4",
+      "method": "DGSI",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-005",
+      "candidate_sha256": "a3a64a25a741965adbac4878eb1b2600eef258c912fe8ab05d83a50f26147393",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    },
+    {
+      "arm": "M4",
+      "method": "DGSI",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-019",
+      "candidate_sha256": "9d7a8493ff3e7f956cb6226bced869608b7d944e135371cda689a4fec43577c6",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 18,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "REVISE",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 19.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 1.5,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 1.5,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": false,
+      "reviewer_disagreement": true,
+      "score_disagreement_dimensions": [
+        "phenomenon_analysis",
+        "evidence_fidelity"
+      ],
+      "recommendation_disagreement": true,
+      "critical_failures": []
+    },
+    {
+      "arm": "M4",
+      "method": "DGSI",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-011",
+      "candidate_sha256": "8a7e58de3bce4db1fa3c10247aac5cc94df613b50bed001f9ac1e680dcad4b62",
+      "reviewer_totals": {
+        "GPT-REVIEW-A-20261119": 20,
+        "GPT-REVIEW-B-20261119": 20
+      },
+      "reviewer_recommendations": {
+        "GPT-REVIEW-A-20261119": "ACCEPT",
+        "GPT-REVIEW-B-20261119": "ACCEPT"
+      },
+      "score_out_of_20": 20.0,
+      "mean_dimension_scores": {
+        "source_fidelity": 2.0,
+        "phenomenon_analysis": 2.0,
+        "ml_interpretation": 2.0,
+        "fault_source": 2.0,
+        "affected_components": 2.0,
+        "evidence_fidelity": 2.0,
+        "uncertainty": 2.0,
+        "disposal_fidelity": 2.0,
+        "historical_context_transfer": 2.0,
+        "engineering_actionability": 2.0
+      },
+      "consensus_accept": true,
+      "reviewer_disagreement": false,
+      "score_disagreement_dimensions": [],
+      "recommendation_disagreement": false,
+      "critical_failures": []
+    }
+  ],
+  "focus_raw_reviews": [
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-012",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-012",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-013",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-013",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-010",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-010",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-018",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 19,
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "deduction_findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-019-01, LOG-019-02",
+          "note": "保留约4 dB、参考点及复测，但缺整星AIT地面测试工况；补明结论的适用场景，避免泛化到其他运行条件。"
+        }
+      ]
+    },
+    {
+      "arm": "M1",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-018",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-007",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-007",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-020",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-020",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-006",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 19,
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "deduction_findings": [
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, ML-E-016-MONITOR, LOG-161",
+          "note": "正文已说明同源，但支持栏仍并列上游推断与监测摘要且未标支持对象。应明确LOG-161支持指示变化，ML条目仅标识受反证的推断。"
+        }
+      ]
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-006",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-001",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M3",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-001",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-003",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-001",
+      "trial_id": "REVIEW-ITEM-003",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-005",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-002",
+      "trial_id": "REVIEW-ITEM-005",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-019",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 1,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 1,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 18,
+      "recommendation": "REVISE",
+      "critical_failures": [],
+      "deduction_findings": [
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "OMISSION",
+          "evidence_ref": "LOG-163",
+          "note": "描述了设备、载波、时窗和基线，但未落实指令要求的同路径比较；应写明活动路径对齐且窗口内无切换。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "EVIDENCE_ROLE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, ML-E-016-MONITOR, LOG-161",
+          "note": "正文已说明同源，但支持栏仍并列预测与指示摘要而未分辨支持对象，需分别归属监测现象和受反证的ML推断。"
+        }
+      ]
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-003",
+      "trial_id": "REVIEW-ITEM-019",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-011",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    },
+    {
+      "arm": "M4",
+      "comparison_unit_id": "SOTA-DEV-004",
+      "trial_id": "REVIEW-ITEM-011",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "total": 20,
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "deduction_findings": []
+    }
+  ],
+  "dgsi_comparisons": [
+    {
+      "comparison": "M4_minus_M1",
+      "raw_point_delta": -1,
+      "mean_score_delta": -0.125,
+      "percentage_point_delta_of_scale": -0.625,
+      "case_mean_deltas": [
+        {
+          "comparison_unit_id": "SOTA-DEV-001",
+          "dgsi_trial_id": "REVIEW-ITEM-003",
+          "comparator_trial_id": "REVIEW-ITEM-012",
+          "dgsi_minus_comparator_mean_score": 0.0,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": 0,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": 0.0,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        },
+        {
+          "comparison_unit_id": "SOTA-DEV-002",
+          "dgsi_trial_id": "REVIEW-ITEM-005",
+          "comparator_trial_id": "REVIEW-ITEM-013",
+          "dgsi_minus_comparator_mean_score": 0.0,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": 0,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": 0.0,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        },
+        {
+          "comparison_unit_id": "SOTA-DEV-003",
+          "dgsi_trial_id": "REVIEW-ITEM-019",
+          "comparator_trial_id": "REVIEW-ITEM-010",
+          "dgsi_minus_comparator_mean_score": -1.0,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": -2,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": -0.5,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": -0.5,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        },
+        {
+          "comparison_unit_id": "SOTA-DEV-004",
+          "dgsi_trial_id": "REVIEW-ITEM-011",
+          "comparator_trial_id": "REVIEW-ITEM-018",
+          "dgsi_minus_comparator_mean_score": 0.5,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": 1,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": 0.5,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        }
+      ],
+      "aggregate_dimension_mean_deltas": {
+        "source_fidelity": 0.0,
+        "phenomenon_analysis": 0.0,
+        "ml_interpretation": 0.0,
+        "fault_source": 0.0,
+        "affected_components": 0.0,
+        "evidence_fidelity": -0.125,
+        "uncertainty": 0.0,
+        "disposal_fidelity": 0.0,
+        "historical_context_transfer": 0.0,
+        "engineering_actionability": 0.0
+      },
+      "case_wins": 1,
+      "case_ties": 2,
+      "case_losses": 1
+    },
+    {
+      "comparison": "M4_minus_M3",
+      "raw_point_delta": -1,
+      "mean_score_delta": -0.125,
+      "percentage_point_delta_of_scale": -0.625,
+      "case_mean_deltas": [
+        {
+          "comparison_unit_id": "SOTA-DEV-001",
+          "dgsi_trial_id": "REVIEW-ITEM-003",
+          "comparator_trial_id": "REVIEW-ITEM-007",
+          "dgsi_minus_comparator_mean_score": 0.0,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": 0,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": 0.0,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        },
+        {
+          "comparison_unit_id": "SOTA-DEV-002",
+          "dgsi_trial_id": "REVIEW-ITEM-005",
+          "comparator_trial_id": "REVIEW-ITEM-020",
+          "dgsi_minus_comparator_mean_score": 0.0,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": 0,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": 0.0,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        },
+        {
+          "comparison_unit_id": "SOTA-DEV-003",
+          "dgsi_trial_id": "REVIEW-ITEM-019",
+          "comparator_trial_id": "REVIEW-ITEM-006",
+          "dgsi_minus_comparator_mean_score": -0.5,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": -1,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": -0.5,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        },
+        {
+          "comparison_unit_id": "SOTA-DEV-004",
+          "dgsi_trial_id": "REVIEW-ITEM-011",
+          "comparator_trial_id": "REVIEW-ITEM-001",
+          "dgsi_minus_comparator_mean_score": 0.0,
+          "reviewer_deltas": {
+            "GPT-REVIEW-A-20261119": 0,
+            "GPT-REVIEW-B-20261119": 0
+          },
+          "dimension_mean_deltas": {
+            "source_fidelity": 0.0,
+            "phenomenon_analysis": 0.0,
+            "ml_interpretation": 0.0,
+            "fault_source": 0.0,
+            "affected_components": 0.0,
+            "evidence_fidelity": 0.0,
+            "uncertainty": 0.0,
+            "disposal_fidelity": 0.0,
+            "historical_context_transfer": 0.0,
+            "engineering_actionability": 0.0
+          }
+        }
+      ],
+      "aggregate_dimension_mean_deltas": {
+        "source_fidelity": 0.0,
+        "phenomenon_analysis": -0.125,
+        "ml_interpretation": 0.0,
+        "fault_source": 0.0,
+        "affected_components": 0.0,
+        "evidence_fidelity": 0.0,
+        "uncertainty": 0.0,
+        "disposal_fidelity": 0.0,
+        "historical_context_transfer": 0.0,
+        "engineering_actionability": 0.0
+      },
+      "case_wins": 0,
+      "case_ties": 3,
+      "case_losses": 1
+    }
+  ],
+  "delivery_revision_exclusion": {
+    "excluded_from_every_primary_statistic": true,
+    "revision_count": 1,
+    "review_records": 2,
+    "trial_ids": [
+      "REVIEW-ITEM-019-R1"
+    ],
+    "parent_ids": [
+      "REVIEW-ITEM-019"
+    ],
+    "review_totals": [
+      20,
+      20
+    ],
+    "review_recommendations": [
+      "ACCEPT",
+      "ACCEPT"
+    ],
+    "note": "Post-review case repair is separate deliverable evidence, not a fresh method-level comparison and not evidence of superiority."
+  },
+  "recommended_small_improvements": [
+    {
+      "id": "G1",
+      "name": "Constraint coverage before finalization",
+      "trigger": "Visible input or generated instruction states comparison or operating conditions.",
+      "rule": "Carry each material condition into the conclusion at the field where it matters; use only visible facts. Check identity, path, switching, mode, reference plane, baseline, time window, calibration and tolerance as applicable; mark unavailable conditions as missing.",
+      "addresses": [
+        "M4/SOTA-DEV-003/reviewer_A/phenomenon_analysis",
+        "M1/SOTA-DEV-004/reviewer_A/phenomenon_analysis"
+      ],
+      "borrow": "One constrained Evol-Instruct-style refinement pass can make required comparisons explicit.",
+      "scope": "Generic input-derived checklist; no hard-coded case IDs, numbers or answer text."
+    },
+    {
+      "id": "G2",
+      "name": "Claim-specific evidence roles and lineage",
+      "trigger": "An evidence list mixes observations, ML inference and independent comparison.",
+      "rule": "Bind every reference to the proposition it supports or contradicts. ML finding IDs may identify a candidate; they are not independent observation evidence. Preserve shared evidence lineage and explicit counterevidence. If the schema is unchanged, express roles in existing explanatory fields and keep supporting_refs limited to evidence for the stated claim.",
+      "addresses": [
+        "M4/SOTA-DEV-003/reviewer_A/evidence_fidelity",
+        "M3/SOTA-DEV-003/reviewer_A/evidence_fidelity"
+      ],
+      "borrow": "Use the explicit evidence comparisons observed in M1; do not copy a competitor answer.",
+      "scope": "Review all cases with the same rule, including cases whose original ratings were 20."
+    },
+    {
+      "id": "G3",
+      "name": "Small candidate-instruction selection, if budget permits",
+      "trigger": "The development protocol explicitly permits multiple proposed instructions.",
+      "rule": "Generate a fixed small number (for example three) of instructions from the same visible input, rank using relevance, clarity, executability plus evidence-role and constraint coverage, select once, then produce one answer. Treat self-ranking as generation, not independent evaluation.",
+      "addresses": [
+        "Instruction specificity and omission prevention; effect remains untested."
+      ],
+      "borrow": "M3 Auto-Instruct-style self-ranking adaptation.",
+      "scope": "Record proposals, ranking, selected index and additional calls/tokens; otherwise no equal-compute claim."
+    },
+    {
+      "id": "G4",
+      "name": "One bounded consistency and repair pass",
+      "trigger": "Generated answer fails a frozen, generic coverage/evidence-role checklist.",
+      "rule": "Check generated instruction against target, preserve evidence boundaries and revise once. Keep original, revised output, hashes and reason separately.",
+      "addresses": [
+        "M4 output did not explicitly fulfill its own same-path comparison instruction."
+      ],
+      "borrow": "General output verification; G1 and G2 are the smallest necessary changes.",
+      "scope": "Predefine iteration count and stopping rule; do not keep querying the scored development set until the method ranks first."
+    }
+  ],
+  "fairness_and_claim_ceilings": [
+    "Four literature-derived synthetic development cases, one generated candidate per arm per case; no unseen test population or repeated generation seeds.",
+    "Two fresh sessions used the same configured reviewer model; they may have correlated errors. In the three leading arms, every score deduction came from reviewer A, while reviewer B scored all 12 candidates 20.",
+    "The 0/1/2 rubric is close to its ceiling: M4 loses two of 160 possible raw points and M1/M3 each lose one. Tiny rank changes do not establish method superiority or expected generalization.",
+    "Equal generator and case count are declared. Actual generation tokens, exact decoding settings and exact serving revision are unavailable; actual compute was not matched. M1 and M3 are style adaptations, not faithful reproductions of the original algorithms.",
+    "Scores assess fidelity to provided synthetic scenario material. They do not establish real physical correctness, source authenticity, causal diagnosis validity or downstream SFT benefit.",
+    "Zero human expert reviews, no downstream fine-tuning, no training authorization, no gold eligibility and no official split assignment.",
+    "The reviewed cases are now development data. Any method changes informed by these reviews must be evaluated on newly frozen, unseen cases; preserve the old comparison unchanged and disclose adaptive selection.",
+    "Method generators and evaluators should not see coordinator source bindings, hidden/reference targets, blocked historical text, other-arm outputs or each other's reviews. Source roles and temporal/history restrictions remain frozen for every arm.",
+    "The separate delivery-only repair has 20/20 from both reviewers but cannot replace the original M4 score in the primary comparison; it received post-review information and an additional repair opportunity."
+  ],
+  "evidence_files": [
+    {
+      "path": "evaluation/closeout_20261119/protocol.json",
+      "sha256": "40d72d4c233a4855b3961bc6bbcbbc82634c9ae0b3a702ff24790d058982eeeb"
+    },
+    {
+      "path": "evaluation/closeout_20261119/shared_cases.json",
+      "sha256": "3be7c5e13fe2a6aefefa682994fb34417e5a1dc2fee98fbf32eac530cc18edd2"
+    },
+    {
+      "path": "evaluation/closeout_20261119/review_prompt.json",
+      "sha256": "b3c792324c5ef04351fedfb5011abc9d1c167be15b0a7ffa7ef5597176507883"
+    },
+    {
+      "path": "evaluation/closeout_20261119/review_inputs.json",
+      "sha256": "1576e379c40aa9a8105f263a226accc7b210b073dfbe5e1f3a630001fd0363ee"
+    },
+    {
+      "path": "evaluation/closeout_20261119/trials.json",
+      "sha256": "fa1bd57e4877b3e03224942bebe9e8ab37ca5e92c93c14e888d8d03fe5d67c1c"
+    },
+    {
+      "path": "evaluation/closeout_20261119/gpt_reviews.json",
+      "sha256": "0ee8c0929cc568761ac2c872aa4899b2dce46cdd88c89a25ff555c40c8bb2848"
+    },
+    {
+      "path": "evaluation/closeout_20261119/review_summary.json",
+      "sha256": "56df4053d5c4e8fa9290c1adb48d65f4632b8546b5d5fd9a4df471b729db498e"
+    },
+    {
+      "path": "evaluation/closeout_20261119/reviews/gpt_review_A.json",
+      "sha256": "230ceb8144e0b4ee372beea966a1f56ddf726ed6e23b5beafdb1308c93b781b2"
+    },
+    {
+      "path": "evaluation/closeout_20261119/reviews/gpt_review_B.json",
+      "sha256": "e2b455e4d0a71630bb719707e9dce30ccef994dedc6055e3daafc03d9f547184"
+    },
+    {
+      "path": "evaluation/closeout_20261119/prompts/M1.json",
+      "sha256": "882a6e0f8bedfb89664a8df1f615b8fb1db85ee6924543004d5726fe30ed54f2"
+    },
+    {
+      "path": "evaluation/closeout_20261119/prompts/M3.json",
+      "sha256": "2249ee4c8e383670b0a00cba6d707a160f026a045d56894c0598fc97679dfcf8"
+    },
+    {
+      "path": "evaluation/closeout_20261119/prompts/M4.json",
+      "sha256": "2aa27d869f1c582bb73a9d63c0571d63ed22d22c31cd325adc1fc494b55b13f3"
+    },
+    {
+      "path": "evaluation/closeout_20261119/generations/M1.json",
+      "sha256": "1a443ae8382970c0a77331148665ccbb187d1c39f0713a1be450f466498185eb"
+    },
+    {
+      "path": "evaluation/closeout_20261119/generations/M3.json",
+      "sha256": "e6223e515529dd8b97a78770597d101fa33902611b77a9c49e2883d23d7920ac"
+    },
+    {
+      "path": "evaluation/closeout_20261119/generations/M4.json",
+      "sha256": "4d8d504a440781a42fc2d541ede9d920c3b0098868569f8a9151ab95a5e868bc"
+    },
+    {
+      "path": "evaluation/closeout_20261119/delivery_revisions.json",
+      "sha256": "3ee86d1b043e320ffd92bdbbf683a1302539a316e4bab23247de35de8c077e95"
+    },
+    {
+      "path": "evaluation/closeout_20261119/run_receipt.json",
+      "sha256": "b55d1ed13e722f60db2fc6839efdcfdaf19d779110545a9cb08cdb4f1e156bda"
+    },
+    {
+      "path": "evaluation/closeout_20261119/replay_manifest.json",
+      "sha256": "60f49bd069e6f7991725d951046ae71de9cac6ad83cc1ae933fa8d04a0440173"
+    }
+  ],
+  "evidence_pointers": {
+    "m4_deductions": "gpt_reviews.json reviews where trial_id=REVIEW-ITEM-019 and reviewer_token=GPT-REVIEW-A-20261119",
+    "m3_deduction": "gpt_reviews.json reviews where trial_id=REVIEW-ITEM-006 and reviewer_token=GPT-REVIEW-A-20261119",
+    "m1_deduction": "gpt_reviews.json reviews where trial_id=REVIEW-ITEM-018 and reviewer_token=GPT-REVIEW-A-20261119",
+    "visible_path_scope": "shared_cases.json cases[comparison_unit_id=SOTA-DEV-003].user.input.diagnostic_logs[log_id=LOG-163]",
+    "m4_original_output": "generations/M4.json candidates[comparison_unit_id=SOTA-DEV-003].formal_target",
+    "blinded_method_mapping": "trials.json trials[trial_id] -> arm and comparison_unit_id; review_inputs.json candidates[trial_id] omits arm",
+    "scoring_implementation": "src/dgsi/skill_delivery.py::summarize_ai_reviews"
+  }
+}

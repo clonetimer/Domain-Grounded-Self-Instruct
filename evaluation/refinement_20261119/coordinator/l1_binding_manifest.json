@@ -1,0 +1,113 @@
+{
+  "schema_version": "dgsi-l1-blind-review-fingerprint-manifest.v1",
+  "track": "LITERATURE_DERIVED_SYNTHETIC",
+  "collection_id": "L1-REFINEMENT-DEV-20261119",
+  "collection_projection_sha256": "5c6b46fcf27eca50f6560d2417ac6fea5fcb0a60cc07de3045853420f6bfcd5d",
+  "packet_count": 4,
+  "event_family_count": 4,
+  "review_packets": [
+    {
+      "task_id": "L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "case_id": "CASE-L1-NASA-HYDRAZINE-INJECTOR-SYNTH-009",
+      "event_family": "LITERATURE-DERIVED:NASA-22N-HYDRAZINE-LIFE-TEST-1987",
+      "task_type": "diagnostic_synthesis",
+      "packet_sha256": "11f8aefda38a3f34501c59d8419b8d5e02bf9a669690d17e45019abff73df77f",
+      "collection_projection_sha256": "5c6b46fcf27eca50f6560d2417ac6fea5fcb0a60cc07de3045853420f6bfcd5d",
+      "source_fact_bindings": [
+        {
+          "source_fact_ref": "LIT-NASA-HYDRAZINE-INJECTOR-009",
+          "public_fact_sha256": "2b87e1e1a62bed25efadb9f710ce998781f0b03263284b3b8e563671860439d8"
+        }
+      ],
+      "source_public_sha256": "a14311d8c9f95a52129bb9c1815032d4d6ab600ba260df3778741217fefc0094",
+      "review_status": "PENDING_TWO_INDEPENDENT_EXPERTS",
+      "reviewer_slots": [
+        "A_UNASSIGNED",
+        "B_UNASSIGNED"
+      ],
+      "adjudication_status": "NOT_STARTED",
+      "rights_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "training_authorized": false,
+      "gold_eligible": false
+    },
+    {
+      "task_id": "L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "case_id": "CASE-L1-TROPICS-FLIGHT-CRC-A-SYNTH-005",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-FLIGHT-2023",
+      "task_type": "diagnostic_synthesis",
+      "packet_sha256": "c64ad2b261fb808638a0bbd7e30ac3728c500cfda4c802f27b1f56dba49be1a2",
+      "collection_projection_sha256": "5c6b46fcf27eca50f6560d2417ac6fea5fcb0a60cc07de3045853420f6bfcd5d",
+      "source_fact_bindings": [
+        {
+          "source_fact_ref": "LIT-TROPICS-FLIGHT-CRC-003-A",
+          "public_fact_sha256": "c08d332585342123fb51bc01f6236621fe2b5e8de595a0d8606d6cf7278b89a1"
+        }
+      ],
+      "source_public_sha256": "0e1b1782f845a06392a6a0ffc152bec7fb70500fa9a1d435865197385195c454",
+      "review_status": "PENDING_TWO_INDEPENDENT_EXPERTS",
+      "reviewer_slots": [
+        "A_UNASSIGNED",
+        "B_UNASSIGNED"
+      ],
+      "adjudication_status": "NOT_STARTED",
+      "rights_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "training_authorized": false,
+      "gold_eligible": false
+    },
+    {
+      "task_id": "L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "case_id": "CASE-L1-TROPICS-PATHFINDER-EVIDENCE-SUFFICIENCY-SYNTH-013",
+      "event_family": "LITERATURE-DERIVED:TROPICS-PATHFINDER-SLIPRING-2023",
+      "task_type": "evidence_sufficiency",
+      "packet_sha256": "a8f3872b94a6ff782680d1d142c32ce146d8f393af3610f52630ce13ce7bd0c4",
+      "collection_projection_sha256": "5c6b46fcf27eca50f6560d2417ac6fea5fcb0a60cc07de3045853420f6bfcd5d",
+      "source_fact_bindings": [
+        {
+          "source_fact_ref": "LIT-TROPICS-PATHFINDER-CROSSSHORT-004",
+          "public_fact_sha256": "ab4a3a6cb73f11f88af2106c86c0dc5ae59e2d1da64feb207c979f8a865bf6fa"
+        }
+      ],
+      "source_public_sha256": "1be586fafebadfb5204f5b5b908962fea1a7e13718e9f907f4d5f4c85ea530ab",
+      "review_status": "PENDING_TWO_INDEPENDENT_EXPERTS",
+      "reviewer_slots": [
+        "A_UNASSIGNED",
+        "B_UNASSIGNED"
+      ],
+      "adjudication_status": "NOT_STARTED",
+      "rights_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "training_authorized": false,
+      "gold_eligible": false
+    },
+    {
+      "task_id": "L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "case_id": "CASE-L1-TROPICS-QUALIFICATION-CONFLICT-SYNTH-017",
+      "event_family": "LITERATURE-DERIVED:TROPICS-SLIPRING-QUALIFICATION",
+      "task_type": "conflict_reconciliation",
+      "packet_sha256": "1e14342290e190d659a130cc78543ec80cf46ee3b0a7f97d438e3a2e88645cfe",
+      "collection_projection_sha256": "5c6b46fcf27eca50f6560d2417ac6fea5fcb0a60cc07de3045853420f6bfcd5d",
+      "source_fact_bindings": [
+        {
+          "source_fact_ref": "LIT-TROPICS-SLIPRING-TVAC-002",
+          "public_fact_sha256": "e852f55129f1ae4cfc5409bdf87de6c6365fabb50cd13b92442e591c525b34e9"
+        }
+      ],
+      "source_public_sha256": "2799b6b2d5b0858751c74e027eee0dd2816a88eaa9a1070eb68445e354266cc1",
+      "review_status": "PENDING_TWO_INDEPENDENT_EXPERTS",
+      "reviewer_slots": [
+        "A_UNASSIGNED",
+        "B_UNASSIGNED"
+      ],
+      "adjudication_status": "NOT_STARTED",
+      "rights_status": "PENDING_INDEPENDENT_SOURCE_RIGHTS_REVIEW",
+      "training_authorized": false,
+      "gold_eligible": false
+    }
+  ],
+  "expert_adjudicated_count": 0,
+  "rights_cleared_event_family_count": 0,
+  "sft_records_emitted": 0,
+  "official_splits_assigned": false,
+  "gold_eligible": false,
+  "training_authorized": false,
+  "decision": "MANIFEST_ONLY_PENDING_EXTERNAL_REVIEW_AND_RIGHTS"
+}
