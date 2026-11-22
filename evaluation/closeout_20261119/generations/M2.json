@@ -1,0 +1,230 @@
+{
+  "schema_version": "dgsi-closeout-generations.v1",
+  "arm": "M2",
+  "candidates": [
+    {
+      "comparison_unit_id": "SOTA-DEV-003",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "instruction": "这组合成材料中，星上读数降了约3 dB，但地面看到的同一载波基本没变。我现在该把异常放在发射输出还是监测指示这一侧？哪些判断已有依据，哪些还需要检查？",
+      "method_record": {
+        "method": "Magpie-style-chat-adaptation",
+        "query_origin": "CHAT_USER_QUERY_EMULATION",
+        "native_magpie_prequery_used": false,
+        "adaptation_note": "基于当前案例在聊天中自拟用户问题并回答，未执行原生Magpie pre-query推断。",
+        "data_classification": "SYNTHETIC",
+        "use_scope": "DEV_ONLY",
+        "requested_output_tokens_per_case": 2048,
+        "actual_tokens": null,
+        "api_model_id": null,
+        "api_model_version_known": false,
+        "decoding_settings": "SESSION_MANAGED_NOT_EXPOSED"
+      },
+      "formal_target": {
+        "disposition": "CONFLICTING_EVIDENCE",
+        "phenomenon_analysis": "合成场景中，同一设备、路径及2026-04-13 08:10—08:20 UTC窗口，星上监测指示相对08:10基线下降约3 dB，而独立地面接收的同一载波功率变化不超过0.2 dB。LOG-163记录了可比性与已检查链路因素核验；两者构成监测指示与载波测量之间的实质差异。",
+        "machine_result_interpretation": "ML-FINDING-016-CARRIER仅使用LOG-161对应的监测摘要，两者属同一证据链。0.87是合成排序分数，不是概率。结合LOG-162、LOG-163，不支持把约3 dB指示下降直接解释为同幅度真实发射载波下降，应降低输出通路退化推断的可信度，优先核查监测指示。该结论只覆盖指定载波与窗口。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "twta_power_monitor",
+              "fault_mode": "监测指示偏差候选，具体机理未定",
+              "supporting_refs": ["LOG-161", "LOG-162", "LOG-163"],
+              "limitations": ["温度同期变化不构成温度致因证明。", "监测通道频谱响应、温度标定及残余比较误差尚未充分核实。"]
+            }
+          ],
+          "affected_components": ["twta_power_monitor_indication"],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "当前支持优先定位监测指示与独立载波测量不一致的问题，不能据此确认具体传感、标定或频谱机理；也不能推定总RF功率、谐波或TWTA全部功能正常。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": ["LOG-161", "LOG-162", "LOG-163"],
+          "contradicting_refs": ["LOG-162", "LOG-163"],
+          "missing_information": ["两条测量路径的原始数据及不确定度明细。", "星上监测通道的独立温度标定和频谱响应验证。", "总RF功率、谐波及其他功能测量。"]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "MODERATE",
+          "reasons": ["地面载波摘要对上游同幅下降判断提供反证，但只有合成处理摘要，没有原始遥测。", "残余传播、频谱和归一化误差未全部排除，监测偏差机理仍不明确。"]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {"action": "核对星上监测原始序列、温度标定及频谱响应。", "rationale": "LOG-161与LOG-163将这些项目留为监测偏差的待核查环节。", "priority": "HIGH"},
+          {"action": "复核地面接收原始数据与误差预算，重复同载波、同路径的同步比较。", "rationale": "巩固LOG-162的反证范围并检查剩余传播和归一化误差。", "priority": "HIGH"},
+          {"action": "如需判断TWTA整体输出状态，另行补充总RF功率及谐波等测量。", "rationale": "当前独立接收摘要仅覆盖一个载波，不能支撑整机无故障结论。", "priority": "MEDIUM"}
+        ]
+      }
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-001",
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "instruction": "太阳翼供电电流短时跌落，随后南翼调整受阻，上游把滑环电弧短路排在前面。就这份合成案例而言，能把滑环故障定下来吗？请说明目前能定位到哪一步，以及应先补什么证据。",
+      "method_record": {
+        "method": "Magpie-style-chat-adaptation",
+        "query_origin": "CHAT_USER_QUERY_EMULATION",
+        "native_magpie_prequery_used": false,
+        "adaptation_note": "基于当前案例在聊天中自拟用户问题并回答，未执行原生Magpie pre-query推断。",
+        "data_classification": "SYNTHETIC",
+        "use_scope": "DEV_ONLY",
+        "requested_output_tokens_per_case": 2048,
+        "actual_tokens": null,
+        "api_model_id": null,
+        "api_model_version_known": false,
+        "decoding_settings": "SESSION_MANAGED_NOT_EXPOSED"
+      },
+      "formal_target": {
+        "disposition": "ACCEPT_WITH_QUALIFICATION",
+        "phenomenon_analysis": "合成日志LOG-01记录太阳翼供电母线电流短时跌落，LOG-02记录南太阳翼驱动调整受阻。两条记录提示供电与驱动相关异常，但不能仅凭发生顺序确定共同根因或因果方向。",
+        "machine_result_interpretation": "保留ML-FINDING-01提出的太阳翼滑环电弧短路作为排查候选。0.74仅为合成排序分数，不代表74%的故障概率。其上游引用未附独立材料；现有日志不能独立证明电弧或短路，不能将候选升级为确认根因。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "solar_array_slip_ring",
+              "fault_mode": "太阳翼滑环电弧短路候选",
+              "supporting_refs": ["ML-FINDING-01", "LOG-01", "LOG-02"],
+              "limitations": ["LOG-01、LOG-02仅提供供电和驱动异常现象，不具有电弧短路的唯一指向性。", "没有滑环独立检查、原始遥测或故障隔离结果。"]
+            }
+          ],
+          "affected_components": ["solar_array_power_bus", "solar_array_drive"],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "可围绕滑环接口及关联供电、驱动通路开展排查；当前不能建立已证实的电弧短路至电流跌落、驱动受阻的完整因果链。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": ["LOG-01", "LOG-02", "ML-FINDING-01"],
+          "contradicting_refs": [],
+          "missing_information": ["事件窗口内原始母线电流、电压、驱动指令和状态反馈。", "滑环接口检查与供电、驱动通路故障隔离资料。", "保护动作记录及可验证的异常先后关系。"]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": ["当前仅有合成ML候选和两条现象日志，缺少独立根因证据。", "历史检索无命中，不能引入历史处置或机理作支持。"]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {"action": "补齐事件窗口的原始遥测、指令、反馈与保护记录并对齐时间。", "rationale": "区分供电异常与驱动受阻的先后关系，检验是否存在共同异常链。", "priority": "HIGH"},
+          {"action": "补充滑环接口及供电、驱动通路的分段核查资料。", "rationale": "检验滑环候选，并区分其他接口或驱动环节异常。", "priority": "HIGH"},
+          {"action": "在后续观测中跟踪异常是否复现及其与驱动动作的关系。", "rationale": "现有两条日志不足以描述持续性或复现条件。", "priority": "MEDIUM"}
+        ]
+      }
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-004",
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "instruction": "整机在两次可比测试里都少了约4 dB，上游因此怀疑LCAMP里的LNA氢中毒。现在可以把问题落实到Z2/Z6并排除TWT、EPC吗？请按现有证据给出判断和补证顺序。",
+      "method_record": {
+        "method": "Magpie-style-chat-adaptation",
+        "query_origin": "CHAT_USER_QUERY_EMULATION",
+        "native_magpie_prequery_used": false,
+        "adaptation_note": "基于当前案例在聊天中自拟用户问题并回答，未执行原生Magpie pre-query推断。",
+        "data_classification": "SYNTHETIC",
+        "use_scope": "DEV_ONLY",
+        "requested_output_tokens_per_case": 2048,
+        "actual_tokens": null,
+        "api_model_id": null,
+        "api_model_version_known": false,
+        "decoding_settings": "SESSION_MANAGED_NOT_EXPOSED"
+      },
+      "formal_target": {
+        "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+        "phenomenon_analysis": "LOG-019-01、LOG-019-02支持合成AIT场景中，S频段线性化TWTA在规定输出参考点存在可重现的约4 dB功率下降。输入驱动、测试模式、参考平面与基线已作整机级一致性核验；该证据支持整机输出损失，尚未定位内部模块。",
+        "machine_result_interpretation": "ML-FINDING-019-A从整机功率损失和历史报告相似性提出LCAMP内LNA氢中毒候选。0.88是排序分数，不是根因概率。当前没有可用历史案例或独立模块、材料证据；相似损失幅度不能识别物理根因，也不能据此排除TWT或EPC。",
+        "cause_localization": {
+          "status": "UNRESOLVED",
+          "candidates": [
+            {
+              "component": "synthetic_lcamp",
+              "fault_mode": "上游提出的LNA氢中毒候选，当前未证实",
+              "supporting_refs": ["ML-FINDING-019-A"],
+              "limitations": ["整机测量不能独立支持LCAMP定位。", "Z2/Z6及具体芯片身份未由当前材料建立。", "未附模块隔离、封装气体或芯片失效分析结果，TWT/EPC仍未排除。"]
+            }
+          ],
+          "affected_components": ["synthetic_s_band_linearized_twta"],
+          "certainty": "UNRESOLVED",
+          "mechanism_summary": "结论止于整机输出功率下降；内部故障模块、芯片及物理机制尚不确定。LOG-019-03说明当前材料缺少相关结果，并不证明这些试验从未开展。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": ["LOG-019-01", "LOG-019-02", "LOG-019-03", "LOG-019-04"],
+          "contradicting_refs": [],
+          "missing_information": ["是否存在尚未收录的分层试验或失效分析记录。", "FGM/ALC模式对照及EPC、TWT、LCAMP分层隔离结果。", "模块级增益、电流与具体模块、芯片身份资料。", "与定位结果对应的封装气体、EMMI及换件对照证据。"]
+        },
+        "historical_experience_relevance": [],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": ["整机输出损失有重复测量支持，但模块及物理根因缺乏直接证据。", "当前包未收录的试验是否已开展不明，不能把材料缺失等同于阴性结果。"]
+        },
+        "disposal_status": "NOT_RECORDED",
+        "disposal_measures": [],
+        "follow_up_actions": [
+          {"action": "先核对试验目录，调取可能遗漏的模式对照、模块隔离与失效分析记录。", "rationale": "LOG-019-03仅界定当前包的内容，可先确认已有证据是否完整。", "priority": "HIGH"},
+          {"action": "依据现有记录缺口补充FGM/ALC对照及EPC、TWT、LCAMP分层隔离，核对模块增益和电流。", "rationale": "从整机异常推进到模块定位，取得支持或排除各模块的直接结果。", "priority": "HIGH"},
+          {"action": "在建立模块与芯片身份后，针对氢中毒假设补充封装气体、EMMI等失效分析，并结合可比换件结果核验。", "rationale": "物理根因需要与已定位对象对应的材料和功能证据，单一整机损失幅度不足。", "priority": "MEDIUM"}
+        ]
+      }
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-002",
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "instruction": "这只合成FUSE俯仰轴反作用轮在重启后拖曳先高后低，我能据此认定转子碰壳吗？检索里那条被阻断的Cassini记录是否还能借用，请把当前判断、已做动作和下一步分清楚。",
+      "method_record": {
+        "method": "Magpie-style-chat-adaptation",
+        "query_origin": "CHAT_USER_QUERY_EMULATION",
+        "native_magpie_prequery_used": false,
+        "adaptation_note": "基于当前案例在聊天中自拟用户问题并回答，未执行原生Magpie pre-query推断。",
+        "data_classification": "SYNTHETIC",
+        "use_scope": "DEV_ONLY",
+        "requested_output_tokens_per_case": 2048,
+        "actual_tokens": null,
+        "api_model_id": null,
+        "api_model_version_known": false,
+        "decoding_settings": "SESSION_MANAGED_NOT_EXPOSED"
+      },
+      "formal_target": {
+        "disposition": "REQUEST_ADDITIONAL_ANALYSIS",
+        "phenomenon_analysis": "LOG-121记录合成FUSE俯仰轴反作用轮拖曳指标高于健康基线；LOG-122记录一次重启后拖曳短时仍高、随后逐渐回落。回落现象不足以证明已恢复健康基线、异常消失或重启修复了故障。",
+        "machine_result_interpretation": "ML-FINDING-012将转子与壳体局部接触列为候选，0.76仅为合成排序分数。日志支持拖曳异常及其变化，不独立证明机械接触；上游引用未附可核查材料。被阻断的Cassini历史条目不能补足当前根因或处置依据。",
+        "cause_localization": {
+          "status": "CANDIDATE_ONLY",
+          "candidates": [
+            {
+              "component": "FUSE_pitch_axis_reaction_wheel",
+              "fault_mode": "转子与壳体局部接触候选",
+              "supporting_refs": ["ML-FINDING-012", "LOG-121", "LOG-122"],
+              "limitations": ["拖曳升高及重启后回落不唯一指向局部接触。", "没有原始遥测、机械检查或独立故障隔离结果。"]
+            }
+          ],
+          "affected_components": ["FUSE_pitch_axis_reaction_wheel"],
+          "certainty": "CANDIDATE",
+          "mechanism_summary": "可定位至俯仰轴反作用轮拖曳异常，局部接触机理尚未确认；不能借助不可用的跨型号历史结论提升确定性。"
+        },
+        "evidence_assessment": {
+          "supporting_refs": ["LOG-121", "LOG-122", "ML-FINDING-012"],
+          "contradicting_refs": [],
+          "missing_information": ["重启前后的原始轮速、电流、拖曳指标及健康基线对照。", "机械接触的独立检查或隔离结果。", "历史来源的可信可用时间、验证时间及硬件兼容性依据。"]
+        },
+        "historical_experience_relevance": [
+          {
+            "case_ref": "HIST-CASSINI-RWA-DRAG-007",
+            "relevance": "仅能识别被阻断条目的元信息；当前不可复用其原因、结论或处置。可用命中数为0。",
+            "transfer_limitations": ["available_at与verified_at均缺失，不能确认其在当前分析截点前可信可用。", "硬件兼容性为UNKNOWN，且与当前FUSE派生构型不同。", "摘要、既有结论、处置及适用性内容均被阻断，PARTIALLY_CONFIRMED标签不能替代这些材料。"]
+          }
+        ],
+        "uncertainty": {
+          "level": "HIGH",
+          "reasons": ["当前现象不足以区分具体拖曳机理，也不能判定重启效果。", "无可用历史案例，且缺少原始测量与独立确认。"]
+        },
+        "disposal_status": "RECORDED",
+        "disposal_measures": [
+          {"measure": "已记录一次反作用轮重启；随后拖曳短时高位再回落，修复效果未确定。", "measure_type": "EXECUTED", "evidence_refs": ["LOG-122"]}
+        ],
+        "follow_up_actions": [
+          {"action": "补齐重启前后原始测量和基线对照，核查拖曳是否持续回落及是否复现。", "rationale": "区分短时变化、健康恢复与根因消除，避免仅凭重启后的先后关系判断效果。", "priority": "HIGH"},
+          {"action": "补充能区分局部机械接触与其他拖曳来源的轮级检查或隔离资料。", "rationale": "检验ML候选，需要当前设备的独立证据。", "priority": "HIGH"},
+          {"action": "如需借鉴历史，先取得满足当前分析截点要求的可信时间与验证资料，再核验硬件兼容性并重新检索。", "rationale": "在检索阻断解除并确认适用性前，不得迁移被屏蔽的结论或处置。", "priority": "MEDIUM"}
+        ]
+      }
+    }
+  ]
+}

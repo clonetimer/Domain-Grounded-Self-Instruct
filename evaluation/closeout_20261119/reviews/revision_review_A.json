@@ -1,0 +1,67 @@
+{
+  "schema_version": "dgsi-gpt-review-session.v1",
+  "reviewer_kind": "GPT",
+  "reviewer_token": "GPT-REVIEW-A-20261119",
+  "model": "gpt-6.2-sol (configured; exact serving revision unavailable)",
+  "reviews": [
+    {
+      "trial_id": "REVIEW-ITEM-019-R1",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "58eb4fa83ca177a9d0284fcd0e5c23e451f07d5953ccbc672c141b640aa9925b",
+      "candidate_sha256": "6b72899e9d17755c52ae3af1b817ce98636f74e75bcc0809be58cb4b813f589f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-A-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "指令要求按可见合成证据对照并分开处置和建议，未预设故障源。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "正确区分约3 dB的星上指示下降和不超过0.2 dB的归一化接收变化，并明示发射路径对齐且窗口内无切换。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "target.evidence_assessment.supporting_refs",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "ML-FINDING-016-CARRIER, ML-E-016-MONITOR, LOG-161, LOG-162, LOG-163",
+          "note": "支持栏仅列指示变化摘要；上游推断及同源引用不另计，独立接收和可比性核验承担反证角色。"
+        },
+        {
+          "dimension": "fault_source",
+          "field_path": "target.cause_localization",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161, LOG-162, LOG-163",
+          "note": "优先核查监测指示偏差，保留温度、频谱及残余误差限制，未确认监测器或输出通路故障。"
+        },
+        {
+          "dimension": "disposal_fidelity",
+          "field_path": "target.follow_up_actions",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "operational_context.known_constraints",
+          "note": "处置栏标为未记录，新取数与校验留在后续行动，符合可见处置范围。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "dgsi-gpt-review-session.v1",
+  "reviewer_kind": "GPT",
+  "reviewer_token": "GPT-REVIEW-B-20261119",
+  "model": "gpt-6.2-sol (configured; exact serving revision unavailable)",
+  "reviews": [
+    {
+      "trial_id": "REVIEW-ITEM-019-R1",
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "target_sha256": "58eb4fa83ca177a9d0284fcd0e5c23e451f07d5953ccbc672c141b640aa9925b",
+      "candidate_sha256": "6b72899e9d17755c52ae3af1b817ce98636f74e75bcc0809be58cb4b813f589f",
+      "reviewer_kind": "GPT",
+      "reviewer_token": "GPT-REVIEW-B-20261119",
+      "scores": {
+        "source_fidelity": 2,
+        "phenomenon_analysis": 2,
+        "ml_interpretation": 2,
+        "fault_source": 2,
+        "affected_components": 2,
+        "evidence_fidelity": 2,
+        "uncertainty": 2,
+        "disposal_fidelity": 2,
+        "historical_context_transfer": 2,
+        "engineering_actionability": 2
+      },
+      "recommendation": "ACCEPT",
+      "critical_failures": [],
+      "findings": [
+        {
+          "dimension": "source_fidelity",
+          "field_path": "instruction",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "指令要求依合成材料核对同设备、路径、载波与时基，并保留候选和处置边界。"
+        },
+        {
+          "dimension": "phenomenon_analysis",
+          "field_path": "formal_target.phenomenon_analysis",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-162",
+          "note": "区分约 3 dB 监测指示下降和经标定、归一化的单载波变化；引入 LOG-163 确认路径与时基对齐、窗口内无路径切换。"
+        },
+        {
+          "dimension": "evidence_fidelity",
+          "field_path": "formal_target.evidence_assessment.supporting_refs",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-161",
+          "note": "支持栏仅用 LOG-161 指向监测指示；ML 为同源推断，独立接收及可比性核验分别承担反证和质量核验。"
+        },
+        {
+          "dimension": "uncertainty",
+          "field_path": "formal_target.uncertainty.reasons",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "将约 3 dB 下降的反证限定在声明容差与核验范围内，保留具体机理与整机状态的不确定性。"
+        },
+        {
+          "dimension": "engineering_actionability",
+          "field_path": "formal_target.follow_up_actions[0]",
+          "finding_code": "NO_MATERIAL_ISSUE",
+          "evidence_ref": "LOG-163",
+          "note": "原始数据、监测标定和残余误差核查作为下一步提出，处置记录保持为空。"
+        }
+      ]
+    }
+  ]
+}

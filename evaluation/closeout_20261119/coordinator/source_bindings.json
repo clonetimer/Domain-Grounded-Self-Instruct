@@ -1,0 +1,333 @@
+{
+  "not_for_sft": true,
+  "source_collection_sha256": "876307d2b7d06929ed40b9a57f03c0c364aab7d31d33d67d08302f5cf2f08b45",
+  "bindings": [
+    {
+      "comparison_unit_id": "SOTA-DEV-001",
+      "source_task_id": "L1-SEASAT-SLIPRING-SYNTH-001",
+      "source_packet_sha256": "5bb1a499c75a11a4d28f2548c353142bbcb708eaf160bc4728b7253f1d98b7e3",
+      "event_family": "LITERATURE-DERIVED:SEASAT-SLIPRING-1978",
+      "source_fact_refs": [
+        "LIT-SEASAT-SLIPRING-001"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Derive a bounded diagnostic scenario from one public L0 fact card; synthesize only the ML finding, event-log sequence, illustrative configuration and mission context needed for the task. Preserve the source's certainty and do not reproduce real flight records.",
+        "recipe_version": "dgsi-literature-recipe-0.1.0",
+        "source_fact_refs": [
+          "LIT-SEASAT-SLIPRING-001"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-SEASAT-SLIPRING-001"
+            ],
+            "assumption": "Synthetic upstream candidate and score; not an actual model run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SEASAT-SLIPRING-001"
+            ],
+            "assumption": "Synthetic event sequence and timestamps are scenario constructs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SEASAT-SLIPRING-001"
+            ],
+            "assumption": "Hardware/interface configuration is illustrative, not source-mission configuration."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SEASAT-SLIPRING-001"
+            ],
+            "assumption": "Mission phase and operating mode are scenario constructs."
+          }
+        ],
+        "scenario_assumptions": [
+          "All ML findings, scores, log IDs, timestamps, spacecraft IDs and operational details are synthetic scenario values.",
+          "The scenario is designed to test secondary diagnostic synthesis, not raw telemetry detection."
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms or samples",
+          "Actual flight-computer or ground-station logs",
+          "An actual upstream ML model execution",
+          "Physical inspection or repair confirmation"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "42b54ff3b4d20451198c5dad61349986a8ed9dde1d88fb9bd13762de8e6e908f",
+      "transform_recipe": "dgsi-closeout-projection-1",
+      "transformations": [
+        "Read-only input projection; source packet is unchanged.",
+        "Use opaque evaluation case ID; source-to-case mapping is coordinator-only.",
+        "Omit current-event literature passages to prevent reference-answer shortcut.",
+        "Block historical content unless both available_at and verified_at have trusted provenance; do not infer missing times.",
+        "Keep upstream result/log/context values and their existing SYNTHETIC designations.",
+        "Keep source-assigned log types; synthetic analysis/quality summaries are explicit scenario evidence, not real operator/expert statements."
+      ],
+      "quarantined_literature_item_count": 1,
+      "quarantined_history_count": 0,
+      "source_rights_status": "NOT_VERIFIED_FOR_FORMAL_TRAINING",
+      "not_for_sft": true
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-002",
+      "source_task_id": "L1-FUSE-RWA-HISTORY-REUSE-SYNTH-012",
+      "source_packet_sha256": "97cd456f22a982b3b4718ac3c0bd1f73bc901569ebd803bc73ed3d5034e1e316",
+      "event_family": "LITERATURE-DERIVED:FUSE-RWA-2000-2001",
+      "source_fact_refs": [
+        "LIT-FUSE-RWA-KAPTON-001"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Construct a FUSE-derived current diagnostic scenario and retrieve the public Cassini RWA drag case as a partially confirmed, hardware-unknown historical contrast. The historical source date is normalized conservatively to end-of-day on the NASA LLIS lesson date.",
+        "recipe_version": "dgsi-literature-recipe-0.1.2",
+        "source_fact_refs": [
+          "LIT-FUSE-RWA-KAPTON-001"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Synthetic candidate, ranking score and run ID; not an actual FUSE ML run."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Synthetic log content and timestamps; not FUSE flight logs."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Illustrative FUSE-like hardware configuration; exact component design is not asserted."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001"
+            ],
+            "assumption": "Mission phase and operating mode are synthetic scenario values."
+          },
+          {
+            "field_path": "case.input.historical_cases",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-FUSE-RWA-KAPTON-001",
+              "LIT-CASSINI-RWA-DRAG-007"
+            ],
+            "assumption": "Cassini L0 source is included as a partially confirmed prior case; hardware compatibility is UNKNOWN. available_at is normalized to 2004-05-10T23:59:59Z using the public NASA LLIS lesson date, not an asserted publication time."
+          }
+        ],
+        "scenario_assumptions": [
+          "All current ML findings, scores, log IDs, timestamps, spacecraft IDs and current configuration details are synthetic.",
+          "Historical Case metadata is a synthetic retrieval snapshot; its summary is bounded by the public Cassini L0 source.",
+          "The historical hit available_at timestamp is a scenario availability assumption based on the LLIS lesson date; it is not an independently verified original publication timestamp."
+        ],
+        "not_simulated": [
+          "Raw telemetry",
+          "Actual FUSE or Cassini ML runs",
+          "Actual flight logs",
+          "Independent expert verification of the synthetic history snapshot",
+          "Mechanical inspection"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "3a3390f13e33153d601490f0be52e0d5a02a51134d6c724a34f205f85676758c",
+      "transform_recipe": "dgsi-closeout-projection-1",
+      "transformations": [
+        "Read-only input projection; source packet is unchanged.",
+        "Use opaque evaluation case ID; source-to-case mapping is coordinator-only.",
+        "Omit current-event literature passages to prevent reference-answer shortcut.",
+        "Block historical content unless both available_at and verified_at have trusted provenance; do not infer missing times.",
+        "Keep upstream result/log/context values and their existing SYNTHETIC designations.",
+        "Keep source-assigned log types; synthetic analysis/quality summaries are explicit scenario evidence, not real operator/expert statements."
+      ],
+      "quarantined_literature_item_count": 2,
+      "quarantined_history_count": 1,
+      "source_rights_status": "NOT_VERIFIED_FOR_FORMAL_TRAINING",
+      "not_for_sft": true
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-003",
+      "source_task_id": "L1-LUNAR-ORBITER-POWER-CONFLICT-SYNTH-016",
+      "source_packet_sha256": "6e30feb4190b10d4db49548e7c5ecd69d41dd4caeec9308e4bbee5298bbb760d",
+      "event_family": "LITERATURE-DERIVED:LUNAR-ORBITER-III-TWTA-1967",
+      "source_fact_refs": [
+        "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Construct a new current-evidence comparison grounded in one existing public L0 event family. Synthesize the ML result, independent processed logs, comparison-quality summaries, identifiers, timing and configuration; reconcile scoped current claims without treating historical facts as current diagnostic evidence.",
+        "recipe_version": "dgsi-literature-recipe-0.1.4",
+        "source_fact_refs": [
+          "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+            ],
+            "assumption": "All ML labels, ranking scores, model and finding IDs, evidence aliases, input scope and run IDs are synthetic; no ML execution occurred."
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+            ],
+            "assumption": "Every current observation, test outcome, independent comparison, quality-check result, measurement tolerance, timestamp and author/source label is synthetic; these are processed scenario summaries, not actual mission or test records."
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+            ],
+            "assumption": "Current spacecraft, equipment and configuration identifiers and all comparison scopes are illustrative scenario assumptions, not the source mission hardware."
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-LUNAR-ORBITER-POWER-MONITOR-006"
+            ],
+            "assumption": "The operating phase, environmental conditions, comparison windows, test sequence and stated missing checks are synthetic scenario inputs."
+          }
+        ],
+        "scenario_assumptions": [
+          "All current observations, ML findings, scores, quality assessments, numbers, dates and identities are explicitly synthetic; only the separately marked literature passage is historical source information.",
+          "Independent means independent measurement paths or reports within the synthetic scenario, not independently performed physical measurements in this project.",
+          "Historical/source evidence is context only; it does not support or contradict a current physical root cause.",
+          "The synthetic monitor drop reverses the sign of the historical temperature-related increase. The reused element is the diagnostic comparison, not a reconstructed historical trace. The 3 dB change and 0.2 dB tolerance are invented scenario values."
+        ],
+        "not_simulated": [
+          "Raw telemetry, waveform samples or resistance traces",
+          "Actual upstream ML execution",
+          "Actual spacecraft, receiver or laboratory operation logs",
+          "Physical inspection, completed repair or verified recovery"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "89b83d8d57d1f8eb6e80f74cc58755a60aa3e369c009321f216b334e3a212993",
+      "transform_recipe": "dgsi-closeout-projection-1",
+      "transformations": [
+        "Read-only input projection; source packet is unchanged.",
+        "Use opaque evaluation case ID; source-to-case mapping is coordinator-only.",
+        "Omit current-event literature passages to prevent reference-answer shortcut.",
+        "Block historical content unless both available_at and verified_at have trusted provenance; do not infer missing times.",
+        "Keep upstream result/log/context values and their existing SYNTHETIC designations.",
+        "Keep source-assigned log types; synthetic analysis/quality summaries are explicit scenario evidence, not real operator/expert statements."
+      ],
+      "quarantined_literature_item_count": 1,
+      "quarantined_history_count": 0,
+      "source_rights_status": "NOT_VERIFIED_FOR_FORMAL_TRAINING",
+      "not_for_sft": true
+    },
+    {
+      "comparison_unit_id": "SOTA-DEV-004",
+      "source_task_id": "L1-SPACEBORNE-TWTA-ISOLATION-ABSTENTION-SYNTH-019",
+      "source_packet_sha256": "4c98577d915597b954bf9ef9ed2c5b3a762fea9ed1a7153b550794f7d3a9ee76",
+      "event_family": "LITERATURE-DERIVED:SPACEBORNE-SBAND-TWTA-GROUND-TEST",
+      "source_fact_refs": [
+        "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+      ],
+      "synthetic_provenance": {
+        "classification": "SYNTHETIC",
+        "generation_recipe": "Construct a new limited-evidence scenario within one existing public L0 event family. Deliberately vary the observation structure, not the historical facts. Teach an explicit justified withholding of an unsupported claim while retaining supported observations and concrete missing summary evidence.",
+        "recipe_version": "dgsi-literature-recipe-0.1.4",
+        "source_fact_refs": [
+          "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+        ],
+        "generated_fields": [
+          {
+            "field_path": "case.input.machine_diagnosis",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "氢中毒候选、0.88排序及所有ML/evidence/run标识均为合成输入，非真实执行。"
+          },
+          {
+            "field_path": "case.input.diagnostic_logs",
+            "origin": "SYNTHETIC_SCENARIO_VALUE",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "两次功率下降、参考条件/校准核验、缺失测试清单及日志时刻均为合成设定。"
+          },
+          {
+            "field_path": "case.input.spacecraft_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "整机和LCAMP/EPC/TWT说明性拓扑不证明当前拥有历史Z2/Z6或NC1062C型号。"
+          },
+          {
+            "field_path": "case.input.operational_context",
+            "origin": "SYNTHETIC_ASSUMPTION",
+            "source_fact_refs": [
+              "LIT-SPACEBORNE-TWTA-HYDROGEN-011"
+            ],
+            "assumption": "地面整星AIT工况、重复测量、截止时间与修复记录缺失为情景设定；没有将地面来源改写为在轨故障。"
+          }
+        ],
+        "scenario_assumptions": [
+          "All current ML outputs, scores, model/run identifiers, evidence identifiers, logs, timestamps, spacecraft IDs, configurations and current verification summaries are synthetic.",
+          "The 2026-11-17 analysis cutoff and all described current windows are synthetic scenario timing, not a source-mission chronology.",
+          "Source context constrains historical mechanisms only; no current independent historical retrieval hit is supplied.",
+          "允许在合成场景内接受经过校核的整机输出功率下降，同时拒绝在尚无分层隔离证据时直接定位LCAMP某模块或GaAs芯片氢中毒。"
+        ],
+        "not_simulated": [
+          "Raw telemetry waveforms or sample streams",
+          "Actual ML execution or inference",
+          "Actual spacecraft operations or ground-test execution",
+          "Physical mechanism confirmation or expert adjudication"
+        ],
+        "expert_review_status": "REVIEW_REQUIRED",
+        "gold_eligible": false,
+        "real_flight_record": false
+      },
+      "shared_input_sha256": "058edcf7e3a2fe8dfd1029d3ad458649f4a1bea1da763c8636ff2b174c791f43",
+      "transform_recipe": "dgsi-closeout-projection-1",
+      "transformations": [
+        "Read-only input projection; source packet is unchanged.",
+        "Use opaque evaluation case ID; source-to-case mapping is coordinator-only.",
+        "Omit current-event literature passages to prevent reference-answer shortcut.",
+        "Block historical content unless both available_at and verified_at have trusted provenance; do not infer missing times.",
+        "Keep upstream result/log/context values and their existing SYNTHETIC designations.",
+        "Keep source-assigned log types; synthetic analysis/quality summaries are explicit scenario evidence, not real operator/expert statements."
+      ],
+      "quarantined_literature_item_count": 1,
+      "quarantined_history_count": 0,
+      "source_rights_status": "NOT_VERIFIED_FOR_FORMAL_TRAINING",
+      "not_for_sft": true
+    }
+  ]
+}

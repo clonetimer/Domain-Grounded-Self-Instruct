@@ -1,0 +1,20 @@
+{
+  "schema_version": "dgsi-closeout-run-receipt.v1",
+  "execution_date_utc": "2026-11-19",
+  "execution_environment": "ChatGPT agent sessions with local files; no external paid model API",
+  "source_revision": "d7e151caee664831d6535cf0359f8686cd6ce532",
+  "generator_sessions": 5,
+  "generation_model": "GPT-6 Astra Pro (session-declared; exact API model ID unavailable)",
+  "review_sessions": 2,
+  "review_model": "gpt-6.2-sol (configured; exact serving revision unavailable)",
+  "initial_candidates": 20,
+  "initial_review_records": 40,
+  "delivery_revision_versions": 1,
+  "delivery_revision_review_records": 2,
+  "actual_generation_tokens": null,
+  "exact_token_cap_enforced": false,
+  "human_expert_review_count": 0,
+  "downstream_fine_tuning_executed": false,
+  "primary_comparison_not_modified_by_revisions": true,
+  "prior_run_note": "PR #159 later added an older 2026-11-18 pilot on a sibling branch. This delivery is a fresh frozen-input run with raw generation and paired GPT review; the older run is not silently counted or overwritten."
+}

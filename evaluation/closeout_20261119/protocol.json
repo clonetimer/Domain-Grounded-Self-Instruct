@@ -1,0 +1,60 @@
+{
+  "schema_version": "dgsi-closeout-comparison-protocol.v1",
+  "status": "FROZEN_BEFORE_GENERATION",
+  "purpose": "DEV_ONLY_CONSTRUCTION_METHOD_ADAPTATION",
+  "cases": 4,
+  "methods": 5,
+  "planned_candidates": 20,
+  "generator": "GPT-6 Astra Pro (session-declared; exact API ID unavailable)",
+  "generator_context": "fresh session per method, four cases per session; no cross-method candidates",
+  "review_plan": "Two separate GPT review sessions, method labels hidden, frozen input and output hashes bound; conservative adjudication keeps disagreements visible.",
+  "rubric_dimensions": [
+    "source_fidelity",
+    "phenomenon_analysis",
+    "ml_interpretation",
+    "fault_source",
+    "affected_components",
+    "evidence_fidelity",
+    "uncertainty",
+    "disposal_fidelity",
+    "historical_context_transfer",
+    "engineering_actionability"
+  ],
+  "score_scale": {
+    "0": "unsupported/incorrect or materially incomplete",
+    "1": "mostly supported with a material omission",
+    "2": "supported, appropriately scoped and useful"
+  },
+  "critical_failure_codes": [
+    "FABRICATED_SOURCE",
+    "FABRICATED_ML_OR_LOG",
+    "FABRICATED_DISPOSAL",
+    "UNSUPPORTED_CONFIRMED_CAUSE",
+    "HIDDEN_TRUTH_LEAK",
+    "FUTURE_HISTORY_LEAK",
+    "HISTORY_AS_CURRENT_EVIDENCE",
+    "FALSE_EXPERT_OR_RIGHTS_CLAIM"
+  ],
+  "primary_reporting": "Per-case and per-method dimension scores and critical failures. No downstream or population superiority claim.",
+  "budget": {
+    "external_model_api_calls": 0,
+    "planned_output_tokens_per_candidate": 2048,
+    "actual_generation_tokens": null,
+    "exact_token_cap_enforceable": false,
+    "equal_generator_and_case_count": true,
+    "matched_actual_compute_claim": false
+  },
+  "training_authorized": false,
+  "gold_eligible": false,
+  "official_splits_assigned": false,
+  "downstream_sft_result": "NOT_RUN",
+  "human_expert_review_count": 0,
+  "method_ids": [
+    "M0",
+    "M1",
+    "M2",
+    "M3",
+    "M4"
+  ],
+  "review_binding": "candidate_sha256 binds trial, coordinator arm, comparison unit, frozen input, effective instruction and target; arm label is hidden from reviewers"
+}
